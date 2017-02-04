@@ -1,0 +1,13 @@
+backend/*/[Bb]in/
+backend/*/[Oo]bj/
+backend/packages
+frontend/app/bower_components
+frontend/node_modules
+frontend/build
+*.user
+*.suo
+backend/TenderLot.REST/XmlDocument.xml
+.idea
+backend/TenderLot.REST/Files/*/*/*.png
+backend/TenderLot.REST/Files/*/*/*.db
+backend/TenderLot.REST/Files/ProductImages/*
