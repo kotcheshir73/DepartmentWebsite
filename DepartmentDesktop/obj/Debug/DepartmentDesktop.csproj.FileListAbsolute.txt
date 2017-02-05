@@ -35,3 +35,43 @@ D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDesktop\bin\Deb
 D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.EducationDirection.EducationDirectionForm.resources
 D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.StudentGroup.StudentGroupControl.resources
 D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.StudentGroup.StudentGroupForm.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentDesktop.exe.config
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.exe
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentDesktop.exe
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentDesktop.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentDAL.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentService.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\EntityFramework.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\EntityFramework.SqlServer.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.Unity.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\HtmlAgilityPack.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentDAL.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\DepartmentService.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\EntityFramework.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\EntityFramework.SqlServer.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.Unity.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\HtmlAgilityPack.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\bin\Debug\HtmlAgilityPack.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.csprojResolveAssemblyReference.cache
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Controllers.ListUsersUC.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Controllers.MakeTicketsUS.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.FormMain.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Properties.Resources.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.EducationDirection.EducationDirectionControl.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.EducationDirection.EducationDirectionForm.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.StudentGroup.StudentGroupControl.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.StudentGroup.StudentGroupForm.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Rules.RuleF.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Users.UserF.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.csproj.GenerateResource.Cache
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.Classroom.ClassroomControl.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.Classroom.ClassroomForm.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Services.Schedule.ScheduleControl.resources

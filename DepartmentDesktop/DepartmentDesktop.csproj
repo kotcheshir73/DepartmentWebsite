@@ -79,10 +79,22 @@
     <Compile Include="Controllers\ListUsersUC.Designer.cs">
       <DependentUpon>ListUsersUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\MakeTicketsUS.cs">
+    <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controllers\MakeTicketsUS.Designer.cs">
+    <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.Designer.cs">
+      <DependentUpon>ClassroomControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Classroom\ClassroomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Classroom\ClassroomForm.Designer.cs">
+      <DependentUpon>ClassroomForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\MakeTicketsUS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\MakeTicketsUS.Designer.cs">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>
     </Compile>
     <Compile Include="FormMain.cs">
@@ -126,6 +138,12 @@
     <Compile Include="Views\Rules\RuleF.Designer.cs">
       <DependentUpon>RuleF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleSemestrControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleSemestrControl.Designer.cs">
+      <DependentUpon>ScheduleSemestrControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Users\UserF.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,7 +153,13 @@
     <EmbeddedResource Include="Controllers\ListUsersUC.resx">
       <DependentUpon>ListUsersUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controllers\MakeTicketsUS.resx">
+    <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomControl.resx">
+      <DependentUpon>ClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomForm.resx">
+      <DependentUpon>ClassroomForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
@@ -165,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Rules\RuleF.resx">
       <DependentUpon>RuleF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemestrControl.resx">
+      <DependentUpon>ScheduleSemestrControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Users\UserF.resx">
       <DependentUpon>UserF.cs</DependentUpon>
@@ -211,6 +238,7 @@
       <Name>DepartmentService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

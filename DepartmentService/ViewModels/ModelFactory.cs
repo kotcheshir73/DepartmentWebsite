@@ -32,14 +32,30 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.EducationDirection.Cipher,
                 GroupName = entity.GroupName,
                 Kurs = entity.Kurs,
-                CountStudents = entity.Students.Count
+                CountStudents = (entity.Students != null) ? entity.Students.Count : 0
             };
         }
 
         public static IEnumerable<StudentGroupViewModel> CreateStudentGroups(
             IEnumerable<StudentGroup> entities)
         {
-            return entities.Select(e => CreateStudentGroupViewModel(e)).OrderByDescending(e => e.Kurs);
+            return entities.Select(e => CreateStudentGroupViewModel(e)).OrderBy(e => e.Kurs).ThenBy(e => e.EducationDirectionId);
+        }
+
+        public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
+        {
+            return new ClassroomViewModel
+            {
+                Id = entity.Id,
+                ClassroomType = entity.ClassroomType.ToString(),
+                Capacity = entity.Capacity
+            };
+        }
+
+        public static IEnumerable<ClassroomViewModel> CreateClassrooms(
+            IEnumerable<Classroom> entities)
+        {
+            return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
         }
     }
 }

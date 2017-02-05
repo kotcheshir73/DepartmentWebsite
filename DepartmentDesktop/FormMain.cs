@@ -26,7 +26,7 @@ namespace DepartmentDesktop
 
         private void MakeTicketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controllers.MakeTicketsUS control = new Controllers.MakeTicketsUS();
+            var control = new Controllers.MakeTicketsUS();
             control.Left = 0;
             control.Top = 25;
             control.Height = Height - 60;
@@ -44,7 +44,7 @@ namespace DepartmentDesktop
 
         private void UsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controllers.ListUsersUC control = new Controllers.ListUsersUC();
+            var control = new Controllers.ListUsersUC();
             control.Left = 0;
             control.Top = 25;
             control.Height = Height - 60;
@@ -70,8 +70,45 @@ namespace DepartmentDesktop
 
         private void educationDirectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Views.EducationalProcess.EducationDirection.EducationDirectionControl control =
-                Container.Resolve<Views.EducationalProcess.EducationDirection.EducationDirectionControl>();
+            var control = Container.Resolve<Views.EducationalProcess.EducationDirection.EducationDirectionControl>();
+            control.Left = 0;
+            control.Top = 25;
+            control.Height = Height - 60;
+            control.Width = Width - 15;
+            control.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top
+                        | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            while (Controls.Count > 1)
+            {
+                Controls.RemoveAt(Controls.Count - 1);
+            }
+            Controls.Add(control);
+            control.LoadData();
+        }
+
+        private void studentGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.EducationalProcess.StudentGroup.StudentGroupControl>();
+            control.Left = 0;
+            control.Top = 25;
+            control.Height = Height - 60;
+            control.Width = Width - 15;
+            control.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top
+                        | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            while (Controls.Count > 1)
+            {
+                Controls.RemoveAt(Controls.Count - 1);
+            }
+            Controls.Add(control);
+            control.LoadData();
+        }
+
+        private void classroomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.EducationalProcess.Classroom.ClassroomControl>();
             control.Left = 0;
             control.Top = 25;
             control.Height = Height - 60;

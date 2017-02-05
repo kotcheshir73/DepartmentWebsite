@@ -1,13 +1,8 @@
 ﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
@@ -33,14 +28,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
         private void StudentGroupForm_Load(object sender, EventArgs e)
         {
+            comboBoxEducationDirection.ValueMember = "Value";
+            comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = _service.GetEducationDirections()
-                .Select(ed => new { ValueMember = ed.Id, DisplayMember = ed.Cipher });
+                .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
             if (_id != 0)
             {
                 var entity = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
                 if (entity == null)
                 {
-                    MessageBox.Show("", "Запись не найдена", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Close();
                 }
                 comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
@@ -90,13 +87,32 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                     }
                     else
                     {
-                        MessageBox.Show("", "При сохранении возникла ошибка: " + res.Errors["error"], MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    var res = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
+                    {
+                        Id = _id,
+                        EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+                        GroupName = textBoxGroupName.Text,
+                        Kurs = Convert.ToInt32(textBoxKurs.Text)
+                    });
+                    if (res.Succeeded)
+                    {
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("", "Заполните все обязательные поля", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

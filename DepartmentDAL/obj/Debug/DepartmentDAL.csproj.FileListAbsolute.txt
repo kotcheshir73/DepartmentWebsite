@@ -11,3 +11,17 @@ D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDAL\obj\Debug\D
 D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.InitialCreate.resources
 D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.csproj.GenerateResource.Cache
 D:\Work\проект\Проект 24\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.UpdateDirectionAndGroup.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\DepartmentDAL.dll.config
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\DepartmentDAL.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\DepartmentDAL.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\EntityFramework.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\EntityFramework.SqlServer.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\EntityFramework.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\bin\Debug\EntityFramework.SqlServer.xml
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.csprojResolveAssemblyReference.cache
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.InitialCreate.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.UpdateDirectionAndGroup.resources
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.csproj.GenerateResource.Cache
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.dll
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.pdb
+d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.UpdateClassroom.resources

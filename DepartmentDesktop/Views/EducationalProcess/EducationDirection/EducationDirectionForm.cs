@@ -31,7 +31,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
                 var entity = _service.GetEducationDirection(new EducationDirectionGetBindingModel { Id = _id });
                 if(entity == null)
                 {
-                    MessageBox.Show("", "Запись не найдена", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Close();
                 }
                 textBoxCipher.Text = entity.Cipher;
@@ -72,13 +72,32 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
                     }
                     else
                     {
-                        MessageBox.Show("", "При сохранении возникла ошибка: " + res.Errors["error"], MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    var res = _service.UpdateEducationDirection(new EducationDirectionRecordBindingModel
+                    {
+                        Id = _id,
+                        Cipher = textBoxCipher.Text,
+                        Description = textBoxDescription.Text,
+                        Title = textBoxTitle.Text
+                    });
+                    if (res.Succeeded)
+                    {
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("", "Заполните все обязательные поля", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

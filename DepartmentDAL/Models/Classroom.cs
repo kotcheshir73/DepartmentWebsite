@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentDAL.Models
@@ -14,5 +15,9 @@ namespace DepartmentDAL.Models
         public ClassroomTypes ClassroomType { get; set; }
 
         public int Capacity { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DateDelete { get; set; }
     }
 }

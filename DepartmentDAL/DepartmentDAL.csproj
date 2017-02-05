@@ -59,6 +59,10 @@
     <Compile Include="Migrations\201702041043018_UpdateDirectionAndGroup.Designer.cs">
       <DependentUpon>201702041043018_UpdateDirectionAndGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702041426125_UpdateClassroom.cs" />
+    <Compile Include="Migrations\201702041426125_UpdateClassroom.Designer.cs">
+      <DependentUpon>201702041426125_UpdateClassroom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702041043018_UpdateDirectionAndGroup.resx">
       <DependentUpon>201702041043018_UpdateDirectionAndGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702041426125_UpdateClassroom.resx">
+      <DependentUpon>201702041426125_UpdateClassroom.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

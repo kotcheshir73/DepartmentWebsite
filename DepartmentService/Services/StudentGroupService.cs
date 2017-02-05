@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity;
 using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
@@ -27,7 +26,7 @@ namespace DepartmentService.Services
         public List<StudentGroupViewModel> GetStudentGroups()
         {
             return ModelFactory.CreateStudentGroups(
-                    _context.StudentGroups
+                    _context.StudentGroups.Include(s => s.EducationDirection)
                         .Where(e => !e.IsDeleted))
                 .ToList();
         }
@@ -39,7 +38,7 @@ namespace DepartmentService.Services
 
         public StudentGroupViewModel GetStudentGroup(StudentGroupGetBindingModel model)
         {
-            var entity = _context.StudentGroups
+            var entity = _context.StudentGroups.Include(s => s.EducationDirection)
                             .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
             if (entity == null)
                 return null;

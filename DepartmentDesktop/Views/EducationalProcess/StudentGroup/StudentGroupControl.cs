@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
@@ -27,7 +20,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             var list = _service.GetStudentGroups();
             if (list == null)
             {
-                MessageBox.Show("Информация", "Список пуст!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             dataGridViewList.DataSource = list;
@@ -80,7 +73,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 }
                 else
                 {
-                    MessageBox.Show("", "При сохранении возникла ошибка: " + res.Errors["error"], MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

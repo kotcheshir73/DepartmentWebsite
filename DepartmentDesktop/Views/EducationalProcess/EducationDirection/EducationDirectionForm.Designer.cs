@@ -41,7 +41,7 @@
             // labelCipher
             // 
             this.labelCipher.AutoSize = true;
-            this.labelCipher.Location = new System.Drawing.Point(27, 21);
+            this.labelCipher.Location = new System.Drawing.Point(12, 9);
             this.labelCipher.Name = "labelCipher";
             this.labelCipher.Size = new System.Drawing.Size(43, 13);
             this.labelCipher.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             // textBoxCipher
             // 
-            this.textBoxCipher.Location = new System.Drawing.Point(114, 18);
+            this.textBoxCipher.Location = new System.Drawing.Point(99, 6);
             this.textBoxCipher.MaxLength = 10;
             this.textBoxCipher.Name = "textBoxCipher";
             this.textBoxCipher.Size = new System.Drawing.Size(100, 20);
@@ -57,16 +57,16 @@
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(114, 62);
-            this.textBoxTitle.MaxLength = 10;
+            this.textBoxTitle.Location = new System.Drawing.Point(99, 32);
+            this.textBoxTitle.MaxLength = 100;
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTitle.Size = new System.Drawing.Size(290, 20);
             this.textBoxTitle.TabIndex = 5;
             // 
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(27, 65);
+            this.labelTitle.Location = new System.Drawing.Point(12, 35);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(64, 13);
             this.labelTitle.TabIndex = 4;
@@ -74,17 +74,17 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(258, 47);
+            this.textBoxDescription.Location = new System.Drawing.Point(99, 58);
             this.textBoxDescription.MaxLength = 10000;
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.Size = new System.Drawing.Size(184, 91);
+            this.textBoxDescription.Size = new System.Drawing.Size(290, 91);
             this.textBoxDescription.TabIndex = 7;
             // 
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(255, 21);
+            this.labelDescription.Location = new System.Drawing.Point(12, 61);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(60, 13);
             this.labelDescription.TabIndex = 6;
@@ -92,7 +92,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(28, 105);
+            this.buttonSave.Location = new System.Drawing.Point(233, 155);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 8;
@@ -102,7 +102,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(149, 105);
+            this.buttonClose.Location = new System.Drawing.Point(314, 155);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 9;
@@ -114,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(477, 155);
+            this.ClientSize = new System.Drawing.Size(401, 184);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxDescription);

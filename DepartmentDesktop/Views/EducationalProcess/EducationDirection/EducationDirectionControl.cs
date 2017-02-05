@@ -27,7 +27,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
             var list = _service.GetEducationDirections();
             if (list == null)
             {
-                MessageBox.Show("Информация", "Список пуст!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             dataGridViewList.DataSource = list;
@@ -77,7 +77,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
                 }
                 else
                 {
-                    MessageBox.Show("", "При сохранении возникла ошибка: " + res.Errors["error"], MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
