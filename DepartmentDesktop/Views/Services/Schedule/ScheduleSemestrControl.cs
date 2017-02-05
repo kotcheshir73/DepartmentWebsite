@@ -7,36 +7,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DepartmentService.IServices;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
     public partial class ScheduleSemestrControl : UserControl
     {
-        public ScheduleSemestrControl()
+        private readonly IScheduleService _service;
+
+        public ScheduleSemestrControl(IScheduleService service)
         {
             InitializeComponent();
+            _service = service;
         }
 
         public void LoadData()
         {
             tabControlSemester.TabPages.Clear();
-            if (_classrooms != null)
-                for (int i = 0; i < _classrooms.Count; i++)
+            var classrooms = _service.GetClassrooms();
+            if (classrooms != null)
+            {
+                for (int i = 0; i < classrooms.Count; i++)
                 {
                     TabPage tabpage = new TabPage();
                     tabpage.AutoScroll = true;
                     tabpage.Location = new System.Drawing.Point(23, 4);
-                    tabpage.Name = "tabPageSemester" + _classrooms[i].Id;
+                    tabpage.Name = "tabPageSemester" + classrooms[i].Id;
                     tabpage.Padding = new System.Windows.Forms.Padding(3);
                     tabpage.Size = new System.Drawing.Size(1140, 611);
                     tabpage.Tag = i.ToString();
-                    tabpage.Text = "Аудитория " + _classrooms[i].Id;
+                    tabpage.Text = "Аудитория " + classrooms[i].Id;
                     tabControlSemester.TabPages.Add(tabpage);
-                    UserControlScheduleSemester control = new UserControlScheduleSemester();
+                    var control = new ScheduleSemestrClassroomControl(_service);
                     control.Dock = DockStyle.Fill;
-                    control.ClassroomID = _classrooms[i].Id;
+                    control.LoadData(classrooms[i].Id);
                     tabControlSemester.TabPages[i].Controls.Add(control);
                 }
+            }
         }
     }
 }

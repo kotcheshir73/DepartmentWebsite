@@ -57,5 +57,51 @@ namespace DepartmentService.ViewModels
         {
             return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
         }
+
+        public static SeasonDatesViewModel CreateSeasonDatesViewModel (SeasonDates entity)
+        {
+            return new SeasonDatesViewModel
+            {
+                Id = entity.Id,
+                DateBeginExamination = entity.DateBeginExamination.ToLongDateString(),
+                DateBeginOffset = entity.DateBeginOffset.ToLongDateString(),
+                DateBeginSemester = entity.DateBeginSemester.ToLongDateString(),
+                DateEndExamination = entity.DateEndExamination.ToLongDateString(),
+                DateEndOffset = entity.DateEndOffset.ToLongDateString(),
+                DateEndSemester = entity.DateEndSemester.ToLongDateString(),
+                DateBeginPractice = entity.DateBeginPractice.HasValue ? entity.DateBeginPractice.Value.ToLongDateString() : "",
+                DateEndPractice = entity.DateEndPractice.HasValue ? entity.DateEndPractice.Value.ToLongDateString() : "",
+                Title = entity.Title
+            };
+        }
+
+        public static IEnumerable<SeasonDatesViewModel> CreateSeasonDaties(
+            IEnumerable<SeasonDates> entities)
+        {
+            return entities.Select(e => CreateSeasonDatesViewModel(e)).OrderBy(e => e.Id);
+        }
+
+        public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
+
+        {
+            return new SemesterRecordViewModel
+            {
+                Id = entity.Id,
+                Day = entity.Day,
+                Week = entity.Week,
+                Lesson = entity.Lesson,
+                ClassroomNumber = entity.ClassroomId,
+                GroupName = entity.StudentGroup.GroupName,
+                LessonDiscipline = entity.LessonDiscipline,
+                LessonTeacher = entity.LessonTeacher,
+                LessonType = entity.LessonType.ToString()
+            };
+        }
+
+        public static IEnumerable<SemesterRecordViewModel> CreateSemesterRecords(
+            IEnumerable<SemesterRecord> entities)
+        {
+            return entities.Select(e => CreateSemesterRecordViewModel(e)).OrderBy(e => e.Id);
+        }
     }
 }

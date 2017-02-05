@@ -25,3 +25,7 @@ d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.csproj.
 d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.dll
 d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.pdb
 d:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.UpdateClassroom.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.AddSeasonDates.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.AddCurrentSettings.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.UpdateSemestrRecord.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDAL\obj\Debug\DepartmentDAL.Migrations.UpdateSemestrRecord1.resources

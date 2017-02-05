@@ -74,4 +74,9 @@ d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop
 d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.csproj.GenerateResource.Cache
 d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.Classroom.ClassroomControl.resources
 d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.Classroom.ClassroomForm.resources
-d:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Services.Schedule.ScheduleControl.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Services.Schedule.ScheduleSemestrControl.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Services.Schedule.ScheduleSemestrClassroomControl.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.SeasonDates.SeasonDatesControl.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.SeasonDates.SeasonDatesForm.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.Services.Schedule.ScheduleConfigControl.resources
+D:\Work\Projects\DepartmentWebsite\DepartmentDesktop\obj\Debug\DepartmentDesktop.Views.EducationalProcess.SeasonDates.SeasonDatesElementControl.resources

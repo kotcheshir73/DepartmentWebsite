@@ -91,6 +91,18 @@
     <Compile Include="Views\EducationalProcess\Classroom\ClassroomForm.Designer.cs">
       <DependentUpon>ClassroomForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.Designer.cs">
+      <DependentUpon>SeasonDatesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesForm.Designer.cs">
+      <DependentUpon>SeasonDatesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\MakeTicketsUS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -138,11 +150,29 @@
     <Compile Include="Views\Rules\RuleF.Designer.cs">
       <DependentUpon>RuleF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConfigControl.Designer.cs">
+      <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleSemestrClassroomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleSemestrClassroomControl.Designer.cs">
+      <DependentUpon>ScheduleSemestrClassroomControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemestrControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemestrControl.Designer.cs">
       <DependentUpon>ScheduleSemestrControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.Designer.cs">
+      <DependentUpon>SeasonDatesElementControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Users\UserF.cs">
       <SubType>Form</SubType>
@@ -158,6 +188,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomForm.resx">
       <DependentUpon>ClassroomForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.resx">
+      <DependentUpon>SeasonDatesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesForm.resx">
+      <DependentUpon>SeasonDatesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>
@@ -190,8 +226,17 @@
     <EmbeddedResource Include="Views\Rules\RuleF.resx">
       <DependentUpon>RuleF.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleConfigControl.resx">
+      <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemestrClassroomControl.resx">
+      <DependentUpon>ScheduleSemestrClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemestrControl.resx">
       <DependentUpon>ScheduleSemestrControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.resx">
+      <DependentUpon>SeasonDatesElementControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Users\UserF.resx">
       <DependentUpon>UserF.cs</DependentUpon>
@@ -238,7 +283,12 @@
       <Name>DepartmentService</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Down.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

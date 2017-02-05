@@ -34,6 +34,8 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISeasonDatesService, SeasonDatesService>(new HierarchicalLifetimeManager());
 
             currentContainer
         .RegisterType<FormMain>()

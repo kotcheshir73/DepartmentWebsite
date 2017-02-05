@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DepartmentDAL.Enums;
 
 namespace DepartmentDAL.Models
 {
@@ -19,11 +15,15 @@ namespace DepartmentDAL.Models
 
         public int Lesson { get; set; }
 
+        public LessonTypes LessonType { get; set; }
+
         public string LessonDiscipline { get; set; }
 
         public string LessonTeacher { get; set; }
 
-        public long StudentGroupId { get; set; }
+        public long? StudentGroupId { get; set; }
+
+        public string LessonGroupName { get; set; }
 
         public string ClassroomId { get; set; }
 

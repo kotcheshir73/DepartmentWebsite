@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
+    <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.Designer.cs">
       <DependentUpon>201702031318461_InitialCreate.cs</DependentUpon>
@@ -63,13 +64,31 @@
     <Compile Include="Migrations\201702041426125_UpdateClassroom.Designer.cs">
       <DependentUpon>201702041426125_UpdateClassroom.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702051418517_AddSeasonDates.cs" />
+    <Compile Include="Migrations\201702051418517_AddSeasonDates.Designer.cs">
+      <DependentUpon>201702051418517_AddSeasonDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702051428115_AddCurrentSettings.cs" />
+    <Compile Include="Migrations\201702051428115_AddCurrentSettings.Designer.cs">
+      <DependentUpon>201702051428115_AddCurrentSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702051742276_UpdateSemestrRecord.cs" />
+    <Compile Include="Migrations\201702051742276_UpdateSemestrRecord.Designer.cs">
+      <DependentUpon>201702051742276_UpdateSemestrRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702052004534_UpdateSemestrRecord1.cs" />
+    <Compile Include="Migrations\201702052004534_UpdateSemestrRecord1.Designer.cs">
+      <DependentUpon>201702052004534_UpdateSemestrRecord1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Classroom.cs" />
+    <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\Lecturer.cs" />
+    <Compile Include="Models\SeasonDates.cs" />
     <Compile Include="Models\SemesterRecord.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Role.cs" />
@@ -92,6 +111,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702041426125_UpdateClassroom.resx">
       <DependentUpon>201702041426125_UpdateClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702051418517_AddSeasonDates.resx">
+      <DependentUpon>201702051418517_AddSeasonDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702051428115_AddCurrentSettings.resx">
+      <DependentUpon>201702051428115_AddCurrentSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702051742276_UpdateSemestrRecord.resx">
+      <DependentUpon>201702051742276_UpdateSemestrRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702052004534_UpdateSemestrRecord1.resx">
+      <DependentUpon>201702052004534_UpdateSemestrRecord1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
