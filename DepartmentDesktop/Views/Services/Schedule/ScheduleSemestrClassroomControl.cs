@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
+using DepartmentService.ViewModels;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
@@ -16,7 +17,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
     {
         private readonly IScheduleService _service;
 
+        private string _classroomID;
+
         private DateTime _selectDate;
+
+        private SeasonDatesViewModel _dates;
 
         public ScheduleSemestrClassroomControl(IScheduleService service)
         {
@@ -29,6 +34,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
         {
             try
             {
+                _classroomID = classroomID;
                 labelTop.Text = classroomID + " аудитория";
                 bool isLoad1Week = true;
                 bool isLoad2Week = true;
@@ -36,14 +42,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 //_data = new Data();
                 //_semester = new ClassSemester();
                 //_consultaion = new ClassConsultation();
-                var dates = _service.GetCurrentDates();
-                if (dates == null)
+                _dates = _service.GetCurrentDates();
+                if (_dates == null)
                     throw new Exception("Невозможно получить даты семестра");
 
                 //Заполняем даты
                 DateTime currentdate = _selectDate;
-                var dateBeginSemester = Convert.ToDateTime(dates.DateBeginSemester);
-                var dateEndSemester = Convert.ToDateTime(dates.DateEndSemester);
+                var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
+                var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
                 if (_selectDate.Date == DateTime.Now.Date)
                 {
                     currentdate = dateBeginSemester.AddDays(((DateTime.Now - dateBeginSemester).Days / 14) * 14);
@@ -146,6 +152,100 @@ namespace DepartmentDesktop.Views.Services.Schedule
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка");
+            }
+        }
+
+        private void buttonPrevWeek_Click(object sender, EventArgs e)
+        {
+            DateTime date = _selectDate;
+            var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
+            if (date.AddDays(-14) >= dateBeginSemester.Date)
+                _selectDate = date.AddDays(-14);
+            LoadData(_classroomID);
+        }
+
+        private void buttonNextWeek_Click(object sender, EventArgs e)
+        {
+            DateTime date = _selectDate;
+            var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
+            if (date.AddDays(14) <= dateEndSemester.Date)
+                    _selectDate = date.AddDays(14);
+            LoadData(_classroomID);
+        }
+
+        private void dataGridView_Resize(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
+            {
+                ((DataGridView)sender).Rows[i].Height = (((DataGridView)sender).Height - 35) / ((DataGridView)sender).Rows.Count;
+            }
+        }
+
+        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == "Delete")
+                try
+                {
+                    if (((DataGridView)sender).SelectedCells.Count > 0)
+                        if (((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
+                            if (((DataGridView)sender).SelectedCells[0].Tag != null)
+                                if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                                    DialogResult.Yes)
+                                {
+                                    if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
+                                    {
+                                        
+                                        //if (!_semester.DelRecord(Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)))
+                                        //    throw new Exception(_semester.Error);
+                                    }
+                                    //else
+                                    //    if (!_consultaion.DelRecord(Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)))
+                                    //    throw new Exception(_consultaion.Error);
+                                    LoadData(_classroomID);
+                                }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                if (((DataGridView)sender).SelectedCells.Count > 0)
+                    if (((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
+                        if (((DataGridView)sender).SelectedCells[0].Tag != null)
+                        {//если в Tag есть данные, то это id записи
+                            if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
+                            {
+                                //FormAddUpd form = new FormAddUpd(0, _classroomID,
+                                //    Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag));
+                                //form.ShowDialog();
+                            }
+                            else
+                            {
+                                //FormAddUpd form = new FormAddUpd(3, _classroomID,
+                                //    Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag));
+                                //form.ShowDialog();
+                            }
+                            LoadData(_classroomID);
+                        }
+                        else
+                        {//иначе пустая ячейка
+                            //string text = ((DataGridView)sender).Rows[((DataGridView)sender).SelectedCells[0].RowIndex].Cells[0].Value.ToString();
+                            //DateTime date = Convert.ToDateTime(text.Split('\n')[1]);
+                            //FormAddUpd form = new FormAddUpd(1, _classroomID, Convert.ToInt32(((DataGridView)sender).Tag),
+                            //    ((DataGridView)sender).SelectedCells[0].RowIndex, date,
+                            //    ((DataGridView)sender).SelectedCells[0].ColumnIndex - 1, null);
+                            //form.ShowDialog();
+                            LoadData(_classroomID);
+                        }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

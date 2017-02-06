@@ -30,7 +30,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             List<string> classrooms = new List<string>();
             foreach (var elem in checkedListBoxClassrooms.CheckedItems)
             {
-                classrooms.Add(elem.ToString()+ "/3");
+                classrooms.Add(elem.ToString());
             }
             if (checkBoxClearSchedule.Checked)
             {

@@ -91,7 +91,7 @@ namespace DepartmentService.ViewModels
                 Week = entity.Week,
                 Lesson = entity.Lesson,
                 ClassroomNumber = entity.ClassroomId,
-                GroupName = entity.StudentGroup.GroupName,
+                GroupName = entity.StudentGroup != null ? entity.StudentGroup.GroupName : entity.LessonGroupName,
                 LessonDiscipline = entity.LessonDiscipline,
                 LessonTeacher = entity.LessonTeacher,
                 LessonType = entity.LessonType.ToString()

@@ -11,6 +11,7 @@ using System.Text;
 using HtmlAgilityPack;
 using DepartmentDAL.Models;
 using DepartmentDAL.Enums;
+using System.Threading;
 
 namespace DepartmentService.Services
 {
@@ -66,7 +67,7 @@ namespace DepartmentService.Services
                 _context.SaveChanges();
                 return ResultService.Success();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ResultService.Error("error", ex.Message, 400);
             }
@@ -84,16 +85,32 @@ namespace DepartmentService.Services
             document.LoadHtml(strHTML);
 
             var nodes = document.DocumentNode.SelectNodes("//table/tr/td");
+            StringBuilder error = new StringBuilder();
             foreach (var node in nodes)
             {
-                if(node.InnerText != "\r\n")
+                if (node.InnerText != "\r\n")
                 {
                     var elem = node.ChildNodes.FirstOrDefault(e => e.Name.ToLower() == "a");
                     if (elem != null)
                     {
-                        ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value, model.Classrooms, node.InnerText.Remove(0, 2));
+                        try
+                        {
+                            ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value, model.Classrooms, (node.InnerText.Replace("\r\n", "").Replace(" ", "")));
+                            Thread.Sleep(100);
+                        }
+                        catch (Exception ex)
+                        {
+                            error.Append(node.InnerText.Replace("\r\n", "").Replace(" ", ""));
+                            error.Append(": ");
+                            error.Append(ex.Message);
+                            error.Append("\r\n");
+                        }
                     }
                 }
+            }
+            if (error.Length > 0)
+            {
+                return ResultService.Error("error", error.ToString(), 400);
             }
             return ResultService.Success();
         }
@@ -114,22 +131,26 @@ namespace DepartmentService.Services
             var pageNodes = document.DocumentNode.SelectNodes("//table/tr/td");
             int week = -1;
             int day = -1;
+            int para = -1;
             foreach (var pageNode in pageNodes)
             {
-                string text = pageNode.InnerText.Remove(0, 2);
+                string text = pageNode.InnerText.Replace("\r\n", "").Replace(" ", "");
                 if (days.Contains(text))
                 {
                     if (days[0].Contains(text))
                     {
                         week++;
+                        day = -1;
                     }
                     day++;
+                    para = -1;
                 }
                 if (week > -1)
                 {
                     var elem = pageNode.ChildNodes.First().NextSibling;
                     if (elem.Name.ToLower() == "font")
                     {
+                        para++;
                         int n = pageNode.InnerText.IndexOf("\r\n");
                         var lesson = pageNode.InnerText.Remove(n, 2).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         if (lesson[0] == "_")
@@ -137,7 +158,9 @@ namespace DepartmentService.Services
                             continue;
                         }
                         var entity = new SemesterRecord();
-
+                        entity.Week = week;
+                        entity.Day = day;
+                        entity.Lesson = para;
                         int i = 1;
                         entity.LessonGroupName = groupName;
                         entity.LessonDiscipline += lesson[0];
@@ -163,12 +186,12 @@ namespace DepartmentService.Services
                                 i++;
                             }
                             var classroom = lesson[i];
-                            if(classrooms.Any(c => classroom.Contains(c)))
+                            if (classrooms.Any(c => classroom.Contains(c)))
                             {
                                 entity.ClassroomId = classrooms.FirstOrDefault(c => classroom.Contains(c));
                             }
                         }
-                        if(entity.ClassroomId == null)
+                        if (entity.ClassroomId == null)
                         {
                             continue;
                         }

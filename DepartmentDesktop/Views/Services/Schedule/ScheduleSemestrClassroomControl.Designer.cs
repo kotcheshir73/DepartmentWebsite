@@ -161,6 +161,7 @@
             this.buttonNextWeek.Size = new System.Drawing.Size(100, 30);
             this.buttonNextWeek.TabIndex = 0;
             this.buttonNextWeek.UseVisualStyleBackColor = true;
+            this.buttonNextWeek.Click += new System.EventHandler(this.buttonNextWeek_Click);
             // 
             // импортВсегоToolStripMenuItem
             // 
@@ -322,6 +323,8 @@
             this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 222);
             this.dataGridViewFirstWeek.TabIndex = 0;
             this.dataGridViewFirstWeek.Tag = "0";
+            this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
             // 
             // ColumnWeek1
             // 
@@ -452,6 +455,8 @@
             this.dataGridViewSecondWeek.Size = new System.Drawing.Size(800, 217);
             this.dataGridViewSecondWeek.TabIndex = 0;
             this.dataGridViewSecondWeek.Tag = "1";
+            this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.dataGridViewSecondWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
             // 
             // ColumnWeek2
             // 
@@ -572,6 +577,7 @@
             this.buttonPrevWeek.Size = new System.Drawing.Size(100, 30);
             this.buttonPrevWeek.TabIndex = 0;
             this.buttonPrevWeek.UseVisualStyleBackColor = true;
+            this.buttonPrevWeek.Click += new System.EventHandler(this.buttonPrevWeek_Click);
             // 
             // ScheduleSemestrClassroomControl
             // 
