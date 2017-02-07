@@ -1,6 +1,6 @@
 ﻿namespace DepartmentDesktop.Views.Services.Schedule
 {
-    partial class ScheduleSemestrControl
+    partial class ScheduleSemesterControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

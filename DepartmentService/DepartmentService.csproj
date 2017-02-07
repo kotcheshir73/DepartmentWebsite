@@ -50,11 +50,13 @@
     <Compile Include="BindingModels\EducationDirectionBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
     <Compile Include="BindingModels\SeasonDatesBindingModels.cs" />
+    <Compile Include="BindingModels\SemesterRecordBindingModels.cs" />
     <Compile Include="BindingModels\StudentGroupBindingModels.cs" />
     <Compile Include="IServices\IClassroomService.cs" />
     <Compile Include="IServices\IEducationDirectionService.cs" />
     <Compile Include="IServices\IScheduleService.cs" />
     <Compile Include="IServices\ISeasonDatesService.cs" />
+    <Compile Include="IServices\ISemesterRecordService.cs" />
     <Compile Include="IServices\IStudentGroupService.cs" />
     <Compile Include="ParsingScheduleHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Services\EducationDirectionService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\SeasonDatesService.cs" />
+    <Compile Include="Services\SemesterRecordService.cs" />
     <Compile Include="Services\StudentGroupService.cs" />
     <Compile Include="ViewModels\ClassroomViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModel.cs" />

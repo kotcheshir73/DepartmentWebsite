@@ -13,7 +13,7 @@ using DepartmentService.ViewModels;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ScheduleSemestrClassroomControl : UserControl
+    public partial class ScheduleSemesterClassroomControl : UserControl
     {
         private readonly IScheduleService _service;
 
@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private SeasonDatesViewModel _dates;
 
-        public ScheduleSemestrClassroomControl(IScheduleService service)
+        public ScheduleSemesterClassroomControl(IScheduleService service)
         {
             InitializeComponent();
             _service = service;

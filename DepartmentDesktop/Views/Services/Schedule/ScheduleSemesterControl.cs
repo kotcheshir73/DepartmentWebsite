@@ -11,11 +11,11 @@ using DepartmentService.IServices;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ScheduleSemestrControl : UserControl
+    public partial class ScheduleSemesterControl : UserControl
     {
         private readonly IScheduleService _service;
 
-        public ScheduleSemestrControl(IScheduleService service)
+        public ScheduleSemesterControl(IScheduleService service)
         {
             InitializeComponent();
             _service = service;
@@ -38,7 +38,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     tabpage.Tag = i.ToString();
                     tabpage.Text = "Аудитория " + classrooms[i].Id;
                     tabControlSemester.TabPages.Add(tabpage);
-                    var control = new ScheduleSemestrClassroomControl(_service);
+                    var control = new ScheduleSemesterClassroomControl(_service);
                     control.Dock = DockStyle.Fill;
                     control.LoadData(classrooms[i].Id);
                     tabControlSemester.TabPages[i].Controls.Add(control);

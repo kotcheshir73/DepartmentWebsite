@@ -156,23 +156,29 @@
     <Compile Include="Views\Services\Schedule\ScheduleConfigControl.Designer.cs">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleSemestrClassroomControl.cs">
+    <Compile Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleSemestrClassroomControl.Designer.cs">
-      <DependentUpon>ScheduleSemestrClassroomControl.cs</DependentUpon>
+    <Compile Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.Designer.cs">
+      <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleSemestrControl.cs">
+    <Compile Include="Views\Services\Schedule\ScheduleSemesterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleSemestrControl.Designer.cs">
-      <DependentUpon>ScheduleSemestrControl.cs</DependentUpon>
+    <Compile Include="Views\Services\Schedule\ScheduleSemesterControl.Designer.cs">
+      <DependentUpon>ScheduleSemesterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.Designer.cs">
       <DependentUpon>SeasonDatesElementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleSemesterRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleSemesterRecordForm.Designer.cs">
+      <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Users\UserF.cs">
       <SubType>Form</SubType>
@@ -229,14 +235,17 @@
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConfigControl.resx">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemestrClassroomControl.resx">
-      <DependentUpon>ScheduleSemestrClassroomControl.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.resx">
+      <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemestrControl.resx">
-      <DependentUpon>ScheduleSemestrControl.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterControl.resx">
+      <DependentUpon>ScheduleSemesterControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.resx">
       <DependentUpon>SeasonDatesElementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterRecordForm.resx">
+      <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Users\UserF.resx">
       <DependentUpon>UserF.cs</DependentUpon>

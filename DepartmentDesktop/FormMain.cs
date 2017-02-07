@@ -91,7 +91,7 @@ namespace DepartmentDesktop
 
         private void scheduleSemestrToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.Schedule.ScheduleSemestrControl>();
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleSemesterControl>();
             ApplyControl(control);
             control.LoadData();
         }
