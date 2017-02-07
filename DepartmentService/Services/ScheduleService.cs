@@ -185,7 +185,7 @@ namespace DepartmentService.Services
                             {
                                 i++;
                             }
-                            var classroom = lesson[i];
+                            var classroom = lesson[i++];
                             if (classrooms.Any(c => classroom.Contains(c)))
                             {
                                 entity.ClassroomId = classrooms.FirstOrDefault(c => classroom.Contains(c));
@@ -198,22 +198,70 @@ namespace DepartmentService.Services
                         entity.LessonType = LessonTypes.Занятие;
                         if (entity.LessonDiscipline.StartsWith("лек."))
                         {
-                            entity.LessonType = LessonTypes.Лекция;
+                            entity.LessonType = LessonTypes.лек;
                             entity.LessonDiscipline = entity.LessonDiscipline.Remove(0, 4);
                         }
                         if (entity.LessonDiscipline.StartsWith("пр."))
                         {
-                            entity.LessonType = LessonTypes.Практика;
+                            entity.LessonType = LessonTypes.пр;
                             entity.LessonDiscipline = entity.LessonDiscipline.Remove(0, 3);
                         }
                         if (entity.LessonDiscipline.StartsWith("лаб."))
                         {
-                            entity.LessonType = LessonTypes.Лабораторная;
+                            entity.LessonType = LessonTypes.лаб;
                             entity.LessonDiscipline = entity.LessonDiscipline.Remove(0, 4);
                         }
 
                         _context.SemesterRecords.Add(entity);
                         _context.SaveChanges();
+
+                        if (i < lesson.Length)
+                        {
+                            var entitySecond = new SemesterRecord();
+                            entitySecond.Week = week;
+                            entitySecond.Day = day;
+                            entitySecond.Lesson = para;
+                            entitySecond.LessonDiscipline = "";
+
+
+                            if (i < lesson.Length - 3)
+                            {
+                                entitySecond.LessonTeacher = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
+                            }
+
+                            if (i < lesson.Length)
+                            {
+                                if (lesson[i] == "-")
+                                {
+                                    i++;
+                                }
+                                var classroom = lesson[i++];
+                                if (classrooms.Any(c => classroom.Contains(c)))
+                                {
+                                    entitySecond.ClassroomId = classrooms.FirstOrDefault(c => classroom.Contains(c));
+                                }
+                                if (entitySecond.ClassroomId == null)
+                                {
+                                    continue;
+                                }
+                                entity.LessonType = LessonTypes.Занятие;
+                                if (entity.LessonDiscipline.StartsWith("лек."))
+                                {
+                                    entitySecond.LessonType = LessonTypes.лек;
+                                }
+                                if (entity.LessonDiscipline.StartsWith("пр."))
+                                {
+                                    entitySecond.LessonType = LessonTypes.пр;
+                                }
+                                if (entity.LessonDiscipline.StartsWith("лаб."))
+                                {
+                                    entitySecond.LessonType = LessonTypes.лаб;
+                                }
+
+                                _context.SemesterRecords.Add(entitySecond);
+                                _context.SaveChanges();
+                            }
+                        }
                     }
                 }
             }
