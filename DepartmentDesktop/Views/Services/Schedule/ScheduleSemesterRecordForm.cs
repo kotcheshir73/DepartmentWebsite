@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentService.IServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
 {
     public partial class ScheduleSemesterRecordForm : Form
     {
-        public ScheduleSemesterRecordForm()
+        private readonly ISemesterRecordService _service;
+
+        public ScheduleSemesterRecordForm(ISemesterRecordService service)
         {
             InitializeComponent();
+            _service = service;
         }
     }
 }
