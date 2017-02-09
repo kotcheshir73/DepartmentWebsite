@@ -222,6 +222,7 @@ namespace DepartmentService.Services
                             entitySecond.Day = day;
                             entitySecond.Lesson = para;
                             entitySecond.LessonDiscipline = "";
+                            entitySecond.LessonGroupName = entity.LessonGroupName;
 
 
                             if (i < lesson.Length - 3)

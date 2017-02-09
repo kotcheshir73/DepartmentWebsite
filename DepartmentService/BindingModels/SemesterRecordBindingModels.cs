@@ -16,7 +16,7 @@ namespace DepartmentService.BindingModels
 
         public int Lesson { get; set; }
 
-        public LessonTypes LessonType { get; set; }
+        public string LessonType { get; set; }
 
         public string LessonDiscipline { get; set; }
 

@@ -51,7 +51,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 Classrooms = classrooms });
             if(result.Succeeded)
             {
-                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

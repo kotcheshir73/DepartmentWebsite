@@ -323,6 +323,7 @@
             this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 222);
             this.dataGridViewFirstWeek.TabIndex = 0;
             this.dataGridViewFirstWeek.Tag = "0";
+            this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
             // 
@@ -455,6 +456,7 @@
             this.dataGridViewSecondWeek.Size = new System.Drawing.Size(800, 217);
             this.dataGridViewSecondWeek.TabIndex = 0;
             this.dataGridViewSecondWeek.Tag = "1";
+            this.dataGridViewSecondWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             this.dataGridViewSecondWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
             // 
@@ -579,14 +581,14 @@
             this.buttonPrevWeek.UseVisualStyleBackColor = true;
             this.buttonPrevWeek.Click += new System.EventHandler(this.buttonPrevWeek_Click);
             // 
-            // ScheduleSemestrClassroomControl
+            // ScheduleSemesterClassroomControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.panelTop);
-            this.Name = "ScheduleSemestrClassroomControl";
+            this.Name = "ScheduleSemesterClassroomControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);

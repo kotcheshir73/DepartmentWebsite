@@ -222,6 +222,7 @@
             this.buttonClose.TabIndex = 18;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
@@ -231,6 +232,7 @@
             this.buttonSave.TabIndex = 17;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // ScheduleSemesterRecordForm
             // 
@@ -258,6 +260,7 @@
             this.Controls.Add(this.labelLessonDiscipline);
             this.Name = "ScheduleSemesterRecordForm";
             this.Text = "Запись семестра";
+            this.Load += new System.EventHandler(this.ScheduleSemesterRecordForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

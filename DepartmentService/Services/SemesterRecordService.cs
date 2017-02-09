@@ -6,6 +6,7 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
+using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
@@ -35,7 +36,7 @@ namespace DepartmentService.Services
                 Week = model.Week,
                 Day = model.Day,
                 Lesson = model.Lesson,
-                LessonType = model.LessonType,
+                LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType),
                 ClassroomId = model.ClassroomId,
                 LessonDiscipline = model.LessonDiscipline,
                 LessonGroupName = model.LessonGroupName,
@@ -56,51 +57,55 @@ namespace DepartmentService.Services
 
         public ResultService UpdateSemesterRecord(SemesterRecordRecordBindingModel model)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var entity = _context.SemesterRecords
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
+                try
                 {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
-                if (model.ApplyToAnalogRecords)
-                {
-                    var entries = _context.SemesterRecords.Where(e =>
-                                    e.LessonDiscipline == entity.LessonDiscipline &&
-                                    e.LessonGroupName == entity.LessonGroupName &&
-                                    e.LessonTeacher == entity.LessonTeacher &&
-                                    e.LessonType == entity.LessonType);
-                    foreach(var entr in entries)
+                    var entity = _context.SemesterRecords
+                                    .FirstOrDefault(e => e.Id == model.Id);
+                    if (entity == null)
                     {
-                        entr.Lesson = model.Lesson;
-                        entr.LessonType = model.LessonType;
-                        entr.ClassroomId = model.ClassroomId;
-                        entr.LessonDiscipline = model.LessonDiscipline;
-                        entr.LessonGroupName = model.LessonGroupName;
-                        entr.LessonTeacher = model.LessonTeacher;
-                        entr.StudentGroupId = model.StudentGroupId;
-                        _context.Entry(entr).State = System.Data.Entity.EntityState.Modified;
+                        return ResultService.Error("entity", "not_found", 404);
                     }
+                    if (model.ApplyToAnalogRecords)
+                    {
+                        var entries = _context.SemesterRecords.Where(e =>
+                                        e.LessonDiscipline == entity.LessonDiscipline &&
+                                        e.LessonGroupName == entity.LessonGroupName &&
+                                        e.LessonTeacher == entity.LessonTeacher &&
+                                        e.LessonType == entity.LessonType);
+                        foreach (var entr in entries)
+                        {
+                            entr.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
+                            entr.ClassroomId = model.ClassroomId;
+                            entr.LessonDiscipline = model.LessonDiscipline;
+                            entr.LessonGroupName = model.LessonGroupName;
+                            entr.LessonTeacher = model.LessonTeacher;
+                            entr.StudentGroupId = model.StudentGroupId;
+                            _context.Entry(entr).State = System.Data.Entity.EntityState.Modified;
+                            _context.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        entity.Lesson = model.Lesson;
+                        entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
+                        entity.ClassroomId = model.ClassroomId;
+                        entity.LessonDiscipline = model.LessonDiscipline;
+                        entity.LessonGroupName = model.LessonGroupName;
+                        entity.LessonTeacher = model.LessonTeacher;
+                        entity.StudentGroupId = model.StudentGroupId;
+                        _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+                        _context.SaveChanges();
+                    }
+                    transaction.Commit();
+                    return ResultService.Success();
                 }
-                else
+                catch (Exception ex)
                 {
-                    entity.Lesson = model.Lesson;
-                    entity.LessonType = model.LessonType;
-                    entity.ClassroomId = model.ClassroomId;
-                    entity.LessonDiscipline = model.LessonDiscipline;
-                    entity.LessonGroupName = model.LessonGroupName;
-                    entity.LessonTeacher = model.LessonTeacher;
-                    entity.StudentGroupId = model.StudentGroupId;
-                    _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+                    transaction.Rollback();
+                    return ResultService.Error("error", ex.Message, 400);
                 }
-
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
             }
         }
 

@@ -17,16 +17,19 @@ namespace DepartmentDesktop.Views.Services.Schedule
     {
         private readonly IScheduleService _service;
 
+        private readonly ISemesterRecordService _serviceSR;
+
         private string _classroomID;
 
         private DateTime _selectDate;
 
         private SeasonDatesViewModel _dates;
 
-        public ScheduleSemesterClassroomControl(IScheduleService service)
+        public ScheduleSemesterClassroomControl(IScheduleService service, ISemesterRecordService serviceSR)
         {
             InitializeComponent();
             _service = service;
+            _serviceSR = serviceSR;
             _selectDate = DateTime.Now;
         }
 
@@ -39,8 +42,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 bool isLoad1Week = true;
                 bool isLoad2Week = true;
 
-                //_data = new Data();
-                //_semester = new ClassSemester();
                 //_consultaion = new ClassConsultation();
                 _dates = _service.GetCurrentDates();
                 if (_dates == null)
@@ -92,7 +93,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 }
                 if (isLoad1Week || isLoad2Week)
                 {//если можно загрузить хотя бы одну неделю
-                    var list = _service.GetSemesterRecords(new ClassroomGetBindingModel {  Id = classroomID });
+                    var list = _service.GetSemesterRecords(new ClassroomGetBindingModel { Id = classroomID });
                     if (list == null)
                         throw new Exception("Невозможно получить список занятий в семестре");
                     foreach (var record in list)
@@ -151,7 +152,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка");
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -169,7 +170,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             DateTime date = _selectDate;
             var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
             if (date.AddDays(14) <= dateEndSemester.Date)
-                    _selectDate = date.AddDays(14);
+                _selectDate = date.AddDays(14);
             LoadData(_classroomID);
         }
 
@@ -194,9 +195,24 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                 {
                                     if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
                                     {
-                                        
-                                        //if (!_semester.DelRecord(Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)))
-                                        //    throw new Exception(_semester.Error);
+                                        var res = _serviceSR.DeleteSemesterRecord(
+                                            new SemesterRecordGetBindingModel
+                                            {
+                                                Id =
+                                            Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                            });
+                                        if (!res.Succeeded)
+                                        {
+                                            StringBuilder error = new StringBuilder();
+                                            foreach (var er in res.Errors)
+                                            {
+                                                error.Append(er.Key);
+                                                error.Append(": ");
+                                                error.Append(er.Value);
+                                                error.Append("\r\n");
+                                            }
+                                            throw new Exception(error.ToString());
+                                        }
                                     }
                                     //else
                                     //    if (!_consultaion.DelRecord(Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)))
@@ -206,7 +222,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
         }
 
@@ -220,9 +236,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {//если в Tag есть данные, то это id записи
                             if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
                             {
-                                //FormAddUpd form = new FormAddUpd(0, _classroomID,
-                                //    Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag));
-                                //form.ShowDialog();
+                                ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR,
+                                    Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                                form.ShowDialog();
                             }
                             else
                             {
