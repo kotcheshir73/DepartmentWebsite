@@ -1,11 +1,18 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
+using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
     public interface ISemesterRecordService
     {
+        /// <summary>
+        /// Получение списка аудиторий
+        /// </summary>
+        /// <returns></returns>
+        List<ClassroomViewModel> GetClassrooms();
+
         /// <summary>
         /// Получения записи о паре
         /// </summary>

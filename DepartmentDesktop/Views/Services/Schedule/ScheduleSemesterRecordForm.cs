@@ -39,6 +39,23 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 comboBoxLessonType.Items.Add(elem.ToString());
             }
             comboBoxLessonType.SelectedIndex = -1;
+
+            //comboBoxLecturer.ValueMember = "Value";
+            //comboBoxLecturer.DisplayMember = "Display";
+            //comboBoxLecturer.DataSource = _service.GetEducationDirections()
+            //    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+
+            //comboBoxGroup.ValueMember = "Value";
+            //comboBoxGroup.DisplayMember = "Display";
+            //comboBoxGroup.DataSource = _service.GetEducationDirections()
+            //    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+
+            comboBoxClassroom.ValueMember = "Value";
+            comboBoxClassroom.DisplayMember = "Display";
+            comboBoxClassroom.DataSource = _service.GetClassrooms()
+                .Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
+            comboBoxClassroom.SelectedItem = null;
+
             if (_id != 0)
             {
                 var entity = _service.GetSemesterRecord(new SemesterRecordGetBindingModel { Id = _id });
@@ -48,13 +65,18 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     Close();
                 }
                 textBoxLessonDiscipline.Text = entity.LessonDiscipline;
-                textBoxLessonGroupName.Text = entity.GroupName;
-                textBoxLessonTeacher.Text = entity.LessonTeacher;
-                textBoxClassroomId.Text = entity.ClassroomNumber;
+                textBoxLessonGroup.Text = entity.LessonGroup;
+                textBoxLessonLecturer.Text = entity.LessonLecturer;
+                textBoxClassroom.Text = entity.LessonClassroom;
                 comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType);
+
                 comboBoxWeek.SelectedIndex = entity.Week;
                 comboBoxDay.SelectedIndex = entity.Day;
                 comboBoxLesson.SelectedIndex = entity.Lesson;
+
+                comboBoxClassroom.SelectedValue = entity.ClassroomId;
+
+                panelDateTime.Enabled = false;
             }
         }
 
@@ -64,15 +86,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxLessonGroupName.Text))
+            if (string.IsNullOrEmpty(textBoxLessonGroup.Text))
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxLessonTeacher.Text))
+            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text))
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxClassroomId.Text))
+            if (string.IsNullOrEmpty(textBoxClassroom.Text))
             {
                 return false;
             }
@@ -107,11 +129,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
-                        ClassroomId = textBoxClassroomId.Text,
+
                         LessonDiscipline = textBoxLessonDiscipline.Text,
-                        LessonGroupName = textBoxLessonGroupName.Text,
-                        LessonTeacher = textBoxLessonTeacher.Text,
-                        ApplyToAnalogRecords = checkBoxApplyToAnalogRecords.Checked
+                        LessonLecturer = textBoxLessonLecturer.Text,
+                        LessonGroup = textBoxLessonGroup.Text,
+                        LessonClassroom = textBoxClassroom.Text,
+                        
+                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
                     });
                     if (res.Succeeded)
                     {
@@ -132,11 +156,20 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
-                        ClassroomId = textBoxClassroomId.Text,
+
                         LessonDiscipline = textBoxLessonDiscipline.Text,
-                        LessonGroupName = textBoxLessonGroupName.Text,
-                        LessonTeacher = textBoxLessonTeacher.Text,
-                        ApplyToAnalogRecords = checkBoxApplyToAnalogRecords.Checked
+                        LessonLecturer = textBoxLessonLecturer.Text,
+                        LessonGroup = textBoxLessonGroup.Text,
+                        LessonClassroom = textBoxClassroom.Text,
+
+                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+
+                        ApplyToAnalogRecordsByTextData = radioButtonApplyToTextData.Checked,
+                        ApplyToAnalogRecordsByDiscipline = checkBoxApplyToAnalogRecordsByDisipline.Checked,
+                        ApplyToAnalogRecordsByLecturer = checkBoxApplyToAnalogRecordsByLecturer.Checked,
+                        ApplyToAnalogRecordsByGroup = checkBoxApplyToAnalogRecordsByGroup.Checked,
+                        ApplyToAnalogRecordsByClassroom = checkBoxApplyToAnalogRecordsByClassroom.Checked,
+                        ApplyToAnalogRecordsByLessonType = checkBoxApplyToAnalogRecordsByLessonType.Checked
                     });
                     if (res.Succeeded)
                     {

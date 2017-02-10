@@ -34,7 +34,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
             if (checkBoxClearSchedule.Checked)
             {
-                if(MessageBox.Show("Отчистить расписание?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if(MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     foreach(var elem in classrooms)
                     {
@@ -57,6 +57,73 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", result.Errors["error"]), "",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonClearClassrooms_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = new List<string>();
+            foreach (var elem in checkedListBoxClassrooms.CheckedItems)
+            {
+                classrooms.Add(elem.ToString());
+            }
+            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var elem in classrooms)
+                {
+                    var res = _service.ClearSemesterRecords(new ClassroomGetBindingModel { Id = elem });
+                    if (!res.Succeeded)
+                    {
+                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, res.Errors["error"]), "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void buttonExportHTML_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = new List<string>();
+            foreach (var elem in checkedListBoxClassrooms.CheckedItems)
+            {
+                classrooms.Add(elem.ToString());
+            }
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if(dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _service.ExportHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
+                if(result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", result.Errors["error"]), "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonExportExcel_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = new List<string>();
+            foreach (var elem in checkedListBoxClassrooms.CheckedItems)
+            {
+                classrooms.Add(elem.ToString());
+            }
+            SaveFileDialog dialog = new SaveFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _service.ExportExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", result.Errors["error"]), "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

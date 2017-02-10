@@ -80,6 +80,18 @@
     <Compile Include="Migrations\201702052004534_UpdateSemestrRecord1.Designer.cs">
       <DependentUpon>201702052004534_UpdateSemestrRecord1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702091307561_UpdateSemesterRecord.cs" />
+    <Compile Include="Migrations\201702091307561_UpdateSemesterRecord.Designer.cs">
+      <DependentUpon>201702091307561_UpdateSemesterRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702091355505_UpdateSemesterRecord1.cs" />
+    <Compile Include="Migrations\201702091355505_UpdateSemesterRecord1.Designer.cs">
+      <DependentUpon>201702091355505_UpdateSemesterRecord1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702091700011_UpdateSemesterRecord2.cs" />
+    <Compile Include="Migrations\201702091700011_UpdateSemesterRecord2.Designer.cs">
+      <DependentUpon>201702091700011_UpdateSemesterRecord2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -123,6 +135,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702052004534_UpdateSemestrRecord1.resx">
       <DependentUpon>201702052004534_UpdateSemestrRecord1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702091307561_UpdateSemesterRecord.resx">
+      <DependentUpon>201702091307561_UpdateSemesterRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702091355505_UpdateSemesterRecord1.resx">
+      <DependentUpon>201702091355505_UpdateSemesterRecord1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702091700011_UpdateSemesterRecord2.resx">
+      <DependentUpon>201702091700011_UpdateSemesterRecord2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

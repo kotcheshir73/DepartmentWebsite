@@ -39,5 +39,19 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService ClearSemesterRecords(ClassroomGetBindingModel model);
+
+        /// <summary>
+        /// Выгрузка данных в Excel
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ExportExcel(ExportToExcelClassroomsBindingModel model);
+
+        /// <summary>
+        /// Выгрузка данных в html
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ExportHTML(ExportToHTMLClassroomsBindingModel model);
     }
 }

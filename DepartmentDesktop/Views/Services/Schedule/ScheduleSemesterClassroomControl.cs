@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
+using System.Text.RegularExpressions;
+using DepartmentDAL.Enums;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
@@ -98,18 +100,55 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         throw new Exception("Невозможно получить список занятий в семестре");
                     foreach (var record in list)
                     {
+                        var lessonLecturer = record.LecturerId.HasValue ? record.Lecturer : record.LessonLecturer;
+                        var lessonGroup = record.StudentGroupId.HasValue ? record.StudentGroup : record.LessonGroup;
+                        if(record.IsStreaming)
+                        {
+                            var recs = list.Where(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
+                                                    r.LessonClassroom == record.LessonClassroom && r.IsStreaming);
+                            StringBuilder sb = new StringBuilder();
+                            foreach(var rec in recs)
+                            {
+                                sb.Append((rec.StudentGroupId.HasValue ? rec.StudentGroup : rec.LessonGroup) + ";");
+                            }
+                            lessonGroup = sb.Remove(sb.Length - 1, 1).ToString();
+                        }
                         if (record.Week == 0 && isLoad1Week)
                         {
+                            if(record.IsStreaming)
+                            {
+                                dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.FloralWhite;
+                            }
+                            if(record.LessonType == LessonTypes.нд.ToString())
+                            {
+                                dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.YellowGreen;
+                            }
+                            if (record.LessonType == LessonTypes.удл.ToString())
+                            {
+                                dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.Gray;
+                            }
                             dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
-                                record.LessonDiscipline + " " + record.LessonType + Environment.NewLine +
-                                record.LessonTeacher + Environment.NewLine + record.GroupName;
+                                record.LessonType + " " + record.LessonDiscipline + Environment.NewLine +
+                                lessonLecturer + Environment.NewLine + lessonGroup;
                             dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
                         }
                         if (record.Week == 1 && isLoad2Week)
                         {
+                            if (record.IsStreaming)
+                            {
+                                dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.FloralWhite;
+                            }
+                            if (record.LessonType == LessonTypes.нд.ToString())
+                            {
+                                dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.YellowGreen;
+                            }
+                            if (record.LessonType == LessonTypes.удл.ToString())
+                            {
+                                dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.Gray;
+                            }
                             dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
-                                record.LessonDiscipline + " " + record.LessonType + Environment.NewLine +
-                                record.LessonTeacher + Environment.NewLine + record.GroupName;
+                                record.LessonType + " " + record.LessonDiscipline + Environment.NewLine +
+                                lessonLecturer + Environment.NewLine + lessonGroup;
                             dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
                         }
                     }
@@ -240,12 +279,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                     Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
                                 form.ShowDialog();
                             }
-                            else
-                            {
-                                //FormAddUpd form = new FormAddUpd(3, _classroomID,
-                                //    Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag));
-                                //form.ShowDialog();
-                            }
                             LoadData(_classroomID);
                         }
                         else
@@ -263,6 +296,17 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void toolStripButtonAdd_Click(object sender, EventArgs e)
+        {
+            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR);
+            form.ShowDialog();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            LoadData(_classroomID);
         }
     }
 }

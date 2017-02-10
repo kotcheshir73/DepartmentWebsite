@@ -58,7 +58,7 @@ namespace DepartmentService.ViewModels
             return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
         }
 
-        public static SeasonDatesViewModel CreateSeasonDatesViewModel (SeasonDates entity)
+        public static SeasonDatesViewModel CreateSeasonDatesViewModel(SeasonDates entity)
         {
             return new SeasonDatesViewModel
             {
@@ -82,7 +82,6 @@ namespace DepartmentService.ViewModels
         }
 
         public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
-
         {
             return new SemesterRecordViewModel
             {
@@ -90,11 +89,18 @@ namespace DepartmentService.ViewModels
                 Day = entity.Day,
                 Week = entity.Week,
                 Lesson = entity.Lesson,
-                ClassroomNumber = entity.ClassroomId,
-                GroupName = entity.StudentGroup != null ? entity.StudentGroup.GroupName : entity.LessonGroupName,
+                IsStreaming = entity.IsStreaming,
+                LessonClassroom = entity.LessonClassroom,
+                LessonGroup = entity.LessonGroup,
                 LessonDiscipline = entity.LessonDiscipline,
-                LessonTeacher = entity.LessonTeacher,
-                LessonType = entity.LessonType.ToString()
+                LessonLecturer = entity.LessonLecturer,
+                LessonType = entity.LessonType.ToString(),
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+                LecturerId = entity.LecturerId,
+                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                StudentGroupId = entity.StudentGroupId,
+                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
             };
         }
 

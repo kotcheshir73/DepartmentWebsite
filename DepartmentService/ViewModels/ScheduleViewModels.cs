@@ -12,12 +12,28 @@
 
         public string LessonType { get; set; }
 
+        public bool IsStreaming { get; set; }
+
         public string LessonDiscipline { get; set; }
 
-        public string LessonTeacher { get; set; }
+        public string LessonLecturer { get; set; }
 
-        public string GroupName { get; set; }
+        public string LessonGroup { get; set; }
 
-        public string ClassroomNumber { get; set; }
+        public string LessonClassroom { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public string Classroom { get; set; }
+
+        public long? LecturerId { get; set; }
+
+        public string Lecturer { get; set; }
+
+        public string Discipline { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public string StudentGroup { get; set; }
     }
 }

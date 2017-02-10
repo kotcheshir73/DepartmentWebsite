@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace DepartmentDAL.Models
 {
@@ -65,5 +66,23 @@ namespace DepartmentDAL.Models
         [Display(Name = "Фото")]
         [Required]
         public byte[] Photo { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder(LastName);
+            if(!string.IsNullOrEmpty(FirstName))
+            {
+                result.Append(" ");
+                result.Append(FirstName[0]);
+                result.Append(".");
+            }
+            if (!string.IsNullOrEmpty(Patronymic))
+            {
+                result.Append(" ");
+                result.Append(Patronymic[0]);
+                result.Append(".");
+            }
+            return result.ToString();
+        }
     }
 }
