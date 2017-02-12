@@ -103,6 +103,18 @@
     <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesForm.Designer.cs">
       <DependentUpon>SeasonDatesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonControl.Designer.cs">
+      <DependentUpon>StreamingLessonControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.Designer.cs">
+      <DependentUpon>StreamingLessonForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\MakeTicketsUS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -200,6 +212,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesForm.resx">
       <DependentUpon>SeasonDatesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\StreamingLesson\StreamingLessonControl.resx">
+      <DependentUpon>StreamingLessonControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.resx">
+      <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>

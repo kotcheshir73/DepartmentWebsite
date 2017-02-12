@@ -9,6 +9,8 @@ namespace DepartmentDAL.Models
     {
         public long Id { get; set; }
 
+        public long SeasonDatesId { get; set; }
+
         public int Week { get; set; }
 
         public int Day { get; set; }
@@ -35,6 +37,8 @@ namespace DepartmentDAL.Models
         public long? StudentGroupId { get; set; }
 
         public long? LecturerId { get; set; }
+
+        public virtual SeasonDates SeasonDates { get; set; }
 
         public virtual Classroom Classroom { get; set; }
 

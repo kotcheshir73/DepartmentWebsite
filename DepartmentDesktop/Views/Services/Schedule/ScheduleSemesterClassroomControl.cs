@@ -95,61 +95,48 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 }
                 if (isLoad1Week || isLoad2Week)
                 {//если можно загрузить хотя бы одну неделю
-                    var list = _service.GetSemesterRecords(new ClassroomGetBindingModel { Id = classroomID });
+                    var list = _service.GetScheduleSemester(new ScheduleSemesterBindingModel { ClassroomId = classroomID });
                     if (list == null)
                         throw new Exception("Невозможно получить список занятий в семестре");
-                    foreach (var record in list)
+                    for(int r = 0; r < list.Count; ++r)
                     {
-                        var lessonLecturer = record.LecturerId.HasValue ? record.Lecturer : record.LessonLecturer;
-                        var lessonGroup = record.StudentGroupId.HasValue ? record.StudentGroup : record.LessonGroup;
-                        if(record.IsStreaming)
+                        if (list[r].Week == 0 && isLoad1Week)
                         {
-                            var recs = list.Where(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
-                                                    r.LessonClassroom == record.LessonClassroom && r.IsStreaming);
-                            StringBuilder sb = new StringBuilder();
-                            foreach(var rec in recs)
+                            if(list[r].IsStreaming)
                             {
-                                sb.Append((rec.StudentGroupId.HasValue ? rec.StudentGroup : rec.LessonGroup) + ";");
+                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                             }
-                            lessonGroup = sb.Remove(sb.Length - 1, 1).ToString();
+                            if(list[r].LessonType == LessonTypes.нд.ToString())
+                            {
+                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
+                            }
+                            if (list[r].LessonType == LessonTypes.удл.ToString())
+                            {
+                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
+                            }
+                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value =
+                                list[r].LessonType + " " + list[r].LessonDiscipline + Environment.NewLine +
+                                list[r].LessonLecturer + Environment.NewLine + list[r].LessonGroup;
+                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                         }
-                        if (record.Week == 0 && isLoad1Week)
+                        if (list[r].Week == 1 && isLoad2Week)
                         {
-                            if(record.IsStreaming)
+                            if (list[r].IsStreaming)
                             {
-                                dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.FloralWhite;
+                                dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                             }
-                            if(record.LessonType == LessonTypes.нд.ToString())
+                            if (list[r].LessonType == LessonTypes.нд.ToString())
                             {
-                                dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.YellowGreen;
+                                dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
                             }
-                            if (record.LessonType == LessonTypes.удл.ToString())
+                            if (list[r].LessonType == LessonTypes.удл.ToString())
                             {
-                                dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.Gray;
+                                dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
                             }
-                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
-                                record.LessonType + " " + record.LessonDiscipline + Environment.NewLine +
-                                lessonLecturer + Environment.NewLine + lessonGroup;
-                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
-                        }
-                        if (record.Week == 1 && isLoad2Week)
-                        {
-                            if (record.IsStreaming)
-                            {
-                                dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.FloralWhite;
-                            }
-                            if (record.LessonType == LessonTypes.нд.ToString())
-                            {
-                                dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.YellowGreen;
-                            }
-                            if (record.LessonType == LessonTypes.удл.ToString())
-                            {
-                                dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = Color.Gray;
-                            }
-                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
-                                record.LessonType + " " + record.LessonDiscipline + Environment.NewLine +
-                                lessonLecturer + Environment.NewLine + lessonGroup;
-                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value =
+                                list[r].LessonType + " " + list[r].LessonDiscipline + Environment.NewLine +
+                                list[r].LessonLecturer + Environment.NewLine + list[r].LessonGroup;
+                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                         }
                     }
                     var dateFinish = (isLoad2Week) ? _selectDate.AddDays(14) : _selectDate.AddDays(7);

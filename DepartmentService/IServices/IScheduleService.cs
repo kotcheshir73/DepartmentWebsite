@@ -14,10 +14,23 @@ namespace DepartmentService.IServices
         List<ClassroomViewModel> GetClassrooms();
 
         /// <summary>
+        /// Получение списка дат семестра
+        /// </summary>
+        /// <returns></returns>
+        List<SeasonDatesViewModel> GetSeasonDaties();
+
+        /// <summary>
         /// Получить даты по текущему семестру
         /// </summary>
         /// <returns></returns>
         SeasonDatesViewModel GetCurrentDates();
+
+        /// <summary>
+        /// Измненение текущих настроек
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
 
         /// <summary>
         /// Получение занятий в семестре по аудитории
@@ -25,6 +38,13 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         List<SemesterRecordViewModel> GetSemesterRecords(ClassroomGetBindingModel model);
+
+        /// <summary>
+        /// Получение расписания занятий в семестре
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleSemesterBindingModel model);
 
         /// <summary>
         /// Загрузка арсписания по аудиториям

@@ -1,6 +1,8 @@
 ﻿using DepartmentDAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace DepartmentService.ViewModels
 {
@@ -108,6 +110,22 @@ namespace DepartmentService.ViewModels
             IEnumerable<SemesterRecord> entities)
         {
             return entities.Select(e => CreateSemesterRecordViewModel(e)).OrderBy(e => e.Id);
+        }
+        
+        public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
+        {
+            return new StreamingLessonViewModel
+            {
+                Id = entity.Id,
+                IncomingGroups = entity.IncomingGroups,
+                StreamName = entity.StreamName
+            };
+        }
+
+        public static IEnumerable<StreamingLessonViewModel> CreateStreamingLessons(
+            IEnumerable<StreamingLesson> entities)
+        {
+            return entities.Select(e => CreateStreamingLessonViewModel(e)).OrderBy(e => e.Id);
         }
     }
 }

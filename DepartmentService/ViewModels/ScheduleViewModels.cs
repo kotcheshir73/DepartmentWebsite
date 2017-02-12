@@ -1,5 +1,28 @@
 ﻿namespace DepartmentService.ViewModels
 {
+    public class SemesterRecordShortViewModel
+    {
+        public long Id { get; set; }
+
+        public int Week { get; set; }
+
+        public int Day { get; set; }
+
+        public int Lesson { get; set; }
+
+        public string LessonType { get; set; }
+
+        public bool IsStreaming { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+    }
+
     public class SemesterRecordViewModel
     {
         public long Id { get; set; }

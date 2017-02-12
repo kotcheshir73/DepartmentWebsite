@@ -102,5 +102,12 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void streamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.EducationalProcess.StreamingLesson.StreamingLessonControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
     }
 }

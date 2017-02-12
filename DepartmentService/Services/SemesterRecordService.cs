@@ -39,6 +39,12 @@ namespace DepartmentService.Services
 
         public ResultService CreateSemesterRecord(SemesterRecordRecordBindingModel model)
         {
+            var entry = _context.SemesterRecords.FirstOrDefault(sr => sr.Week == model.Week && sr.Day == model.Day && sr.Lesson == model.Lesson &&
+                                                                            sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл);
+            if(entry != null)
+            {
+                return ResultService.Error("exsist_item", "На эту пару уже стоит занятие", 401);
+            }
             var entity = new SemesterRecord
             {
                 Id = model.Id,

@@ -92,6 +92,14 @@
     <Compile Include="Migrations\201702091700011_UpdateSemesterRecord2.Designer.cs">
       <DependentUpon>201702091700011_UpdateSemesterRecord2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702121245517_AddStreamingLesson.cs" />
+    <Compile Include="Migrations\201702121245517_AddStreamingLesson.Designer.cs">
+      <DependentUpon>201702121245517_AddStreamingLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702121259478_UpdateSemesterRecord3.cs" />
+    <Compile Include="Migrations\201702121259478_UpdateSemesterRecord3.Designer.cs">
+      <DependentUpon>201702121259478_UpdateSemesterRecord3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -104,6 +112,7 @@
     <Compile Include="Models\SemesterRecord.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\StreamingLesson.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentGroup.cs" />
     <Compile Include="Models\User.cs" />
@@ -144,6 +153,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702091700011_UpdateSemesterRecord2.resx">
       <DependentUpon>201702091700011_UpdateSemesterRecord2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121245517_AddStreamingLesson.resx">
+      <DependentUpon>201702121245517_AddStreamingLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121259478_UpdateSemesterRecord3.resx">
+      <DependentUpon>201702121259478_UpdateSemesterRecord3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

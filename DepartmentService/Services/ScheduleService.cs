@@ -27,16 +27,25 @@ namespace DepartmentService.Services
 
         private readonly ISeasonDatesService _serviceSD;
 
-        public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, ISeasonDatesService serviceSD)
+        private readonly IStreamingLessonService _serviceSL;
+
+        public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, ISeasonDatesService serviceSD,
+            IStreamingLessonService serviceSL)
         {
             _context = context;
             _serviceC = serviceC;
             _serviceSD = serviceSD;
+            _serviceSL = serviceSL;
         }
 
         public List<ClassroomViewModel> GetClassrooms()
         {
             return _serviceC.GetClassrooms();
+        }
+
+        public List<SeasonDatesViewModel> GetSeasonDaties()
+        {
+            return _serviceSD.GetSeasonDaties();
         }
 
         public SeasonDatesViewModel GetCurrentDates()
@@ -56,11 +65,103 @@ namespace DepartmentService.Services
             }
         }
 
+        public ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model)
+        {
+            try
+            {
+                var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
+                if (currentSetting == null)
+                {
+                    return null;
+                }
+
+                currentSetting.Value = model.Title;
+                _context.Entry(currentSetting).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
         public List<SemesterRecordViewModel> GetSemesterRecords(ClassroomGetBindingModel model)
         {
             var records = _context.SemesterRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
                 Where(sr => sr.ClassroomId == model.Id);
             return ModelFactory.CreateSemesterRecords(records).ToList();
+        }
+
+        public List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleSemesterBindingModel model)
+        {
+            var currentDates = GetCurrentDates();
+            if (currentDates == null)
+            {
+                throw new Exception("Выставьте учебный период");
+            }
+            var records = _context.SemesterRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
+                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id).ToList();
+            List<SemesterRecordShortViewModel> result = new List<SemesterRecordShortViewModel>();
+            for (int i = 0; i < records.Count; ++i)
+            {
+                string groups = GetLessonGroup(records[i]);
+                if (records[i].IsStreaming)
+                {//если потоковая пара
+                    var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
+                                            rec.LessonClassroom == records[i].LessonClassroom && rec.IsStreaming).ToList();
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var rec in recs)
+                    {
+                        sb.Append(rec.LessonGroup + ";");
+                        if (records[i] != rec)
+                        {
+                            records.Remove(rec);
+                        }
+                    }
+                    groups = sb.Remove(sb.Length - 1, 1).ToString();
+                    //пытаемся найти запись о потоковом занятии
+                    var streamingLesson = _context.StreamingLessons.FirstOrDefault(sl => sl.IncomingGroups == groups);
+                    if (streamingLesson != null)
+                    {
+                        groups = streamingLesson.StreamName;
+                    }
+                    else
+                    {
+                        _serviceSL.CreateStreamingLesson(new StreamingLessonRecordBindingModel
+                        {
+                            IncomingGroups = groups,
+                            StreamName = ""
+                        });
+                    }
+                }
+                if (records[i].LessonType == LessonTypes.удл)
+                {//не выводим занятие, если оно удаленное и в эту пару поставили пару
+                    var recordExists = records.Exists(r => r.Week == records[i].Week && r.Day == records[i].Day && r.Lesson == records[i].Lesson &&
+                                                    r.LessonType != LessonTypes.удл);
+                    if (recordExists)
+                    {
+                        records.Remove(records[i--]);
+                        continue;
+                    }
+                }
+                result.Add(new SemesterRecordShortViewModel
+                {
+                    Id = records[i].Id,
+                    Week = records[i].Week,
+                    Day = records[i].Day,
+                    Lesson = records[i].Lesson,
+                    LessonType = records[i].LessonType.ToString(),
+                    IsStreaming = records[i].IsStreaming,
+                    LessonLecturer = GetLessonLecturer(records[i]),
+                    LessonDiscipline = GetLessonDiscipline(records[i]),
+                    LessonGroup = groups,
+                    LessonClassroom = GetLessonClassroom(records[i])
+                });
+            }
+
+            return result.OrderBy(e => e.Id).ToList();
         }
 
         public ResultService ClearSemesterRecords(ClassroomGetBindingModel model)
@@ -80,6 +181,11 @@ namespace DepartmentService.Services
 
         public ResultService LoadScheduleHTMLForClassrooms(LoadHTMLForClassroomsBindingModel model)
         {
+            var currentDates = GetCurrentDates();
+            if (currentDates == null)
+            {
+                return ResultService.Error("currentDates_not_found", "Выставьте учебный период", 404);
+            }
             WebClient web = new WebClient();
             web.Encoding = UTF8Encoding.Default;
 
@@ -101,7 +207,7 @@ namespace DepartmentService.Services
                         try
                         {
                             var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value, model.Classrooms,
-                                                        (node.InnerText.Replace("\r\n", "").Replace(" ", "")));
+                                                        (node.InnerText.Replace("\r\n", "").Replace(" ", "")), model.StopWords, currentDates);
                             if (!string.IsNullOrEmpty(res))
                             {
                                 error.Append(res);
@@ -148,7 +254,7 @@ namespace DepartmentService.Services
                 {
                     var excelworksheet = (Worksheet)excelsheets.get_Item(r);//Получаем ссылку на лист
                     excelworksheet.Cells.Clear();
-                    excelworksheet.Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/'})[0];
+                    excelworksheet.Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0];
                     excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
                     excelworksheet.PageSetup.RightMargin = 0;
                     excelworksheet.PageSetup.LeftMargin = 0;
@@ -206,7 +312,10 @@ namespace DepartmentService.Services
                     #endregion
                     #region тело
 
-                    var list = GetSemesterRecords(new ClassroomGetBindingModel { Id = model.Classrooms[r - 1] });
+                    var list = GetScheduleSemester(new ScheduleSemesterBindingModel
+                    {
+                        ClassroomId = model.Classrooms[r - 1]
+                    });
                     for (int i = 0; i < list.Count; i++)
                     {
                         if (list[i].Week == 0)
@@ -219,21 +328,8 @@ namespace DepartmentService.Services
                             excelcells = excelworksheet.get_Range(simbols[list[i].Lesson] + (list[i].Day + 11),
                                 simbols[list[i].Lesson] + (list[i].Day + 11));
                         }
-                        var lessonLecturer = list[i].LecturerId.HasValue ? list[i].Lecturer : list[i].LessonLecturer;
-                        var lessonGroup = list[i].StudentGroupId.HasValue ? list[i].StudentGroup : list[i].LessonGroup;
-                        if (list[i].IsStreaming)
-                        {
-                            var recs = list.Where(sr => sr.Week == list[i].Week && sr.Day == list[i].Day && sr.Lesson == list[i].Lesson &&
-                                                    sr.LessonClassroom == list[i].LessonClassroom && sr.IsStreaming);
-                            StringBuilder sb = new StringBuilder();
-                            foreach (var rec in recs)
-                            {
-                                sb.Append((rec.StudentGroupId.HasValue ? rec.StudentGroup : rec.LessonGroup) + ";");
-                            }
-                            lessonGroup = sb.Remove(sb.Length - 1, 1).ToString();
-                        }
                         excelcells.Value2 = list[i].LessonType + " " + list[i].LessonDiscipline + Environment.NewLine +
-                                lessonLecturer + Environment.NewLine + lessonGroup;
+                                list[i].LessonLecturer + Environment.NewLine + list[i].LessonGroup;
                     }
                     #endregion
                     #region аудитория
@@ -274,10 +370,15 @@ namespace DepartmentService.Services
                     var writer = new StreamWriter(new FileStream(model.FilePath + "\\" + model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt",
                         FileMode.Create));
                     var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
-                    var list = GetSemesterRecords(new ClassroomGetBindingModel { Id = model.Classrooms[i] });
+                    var list = GetScheduleSemester(new ScheduleSemesterBindingModel
+                    {
+                        ClassroomId = model.Classrooms[i]
+                    }
+                    );
                     #region тело
                     for (int j = 0; j < 2; j++)
                     {
+                        writer.WriteLine(string.Format("<p class=\"rteright\">Дата обновления: {0} </ p >", DateTime.Now.ToShortDateString()));
                         writer.WriteLine("<table align='center' border='1' cellpadding='1' cellspacing='1'>\r\n\t<tbody>");
                         writer.WriteLine("\t\t<tr>");
                         writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
@@ -331,23 +432,10 @@ namespace DepartmentService.Services
                                 if (list.Exists(rec => rec.Week == j && rec.Day == k && rec.Lesson == r))
                                 {
                                     var record = list.Find(rec => rec.Week == j && rec.Day == k && rec.Lesson == r);
-                                    var lessonLecturer = record.LecturerId.HasValue ? record.Lecturer : record.LessonLecturer;
-                                    var lessonGroup = record.StudentGroupId.HasValue ? record.StudentGroup : record.LessonGroup;
-                                    if (record.IsStreaming)
-                                    {
-                                        var recs = list.Where(sr => sr.Week == record.Week && sr.Day == record.Day && sr.Lesson == record.Lesson &&
-                                                                sr.LessonClassroom == record.LessonClassroom && sr.IsStreaming);
-                                        StringBuilder sb = new StringBuilder();
-                                        foreach (var rec in recs)
-                                        {
-                                            sb.Append((rec.StudentGroupId.HasValue ? rec.StudentGroup : rec.LessonGroup) + ";");
-                                        }
-                                        lessonGroup = sb.Remove(sb.Length - 1, 1).ToString();
-                                    }
                                     writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>" + record.LessonType + " " +
                                         record.LessonDiscipline + "<br />");
-                                    writer.WriteLine("\t\t\t\t" + lessonLecturer + "<br />");
-                                    writer.WriteLine("\t\t\t\t" + lessonGroup + "</span></td>");
+                                    writer.WriteLine("\t\t\t\t" + record.LessonLecturer + "<br />");
+                                    writer.WriteLine("\t\t\t\t" + record.LessonGroup + "</span></td>");
                                 }
                                 else
                                 {
@@ -374,7 +462,7 @@ namespace DepartmentService.Services
         /// </summary>
         /// <param name="schedulrUrl"></param>
         /// <param name="classrooms"></param>
-        private string ParsingPage(string schedulrUrl, List<string> classrooms, string groupName)
+        private string ParsingPage(string schedulrUrl, List<string> classrooms, string groupName, string[] stopWords, SeasonDatesViewModel currentDates)
         {
             string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
             WebClient web = new WebClient();
@@ -422,87 +510,17 @@ namespace DepartmentService.Services
                                 entityFirst.Week = week;
                                 entityFirst.Day = day;
                                 entityFirst.Lesson = para;
+                                entityFirst.SeasonDatesId = currentDates.Id;
 
                                 entitySecond.Week = week;
                                 entitySecond.Day = day;
                                 entitySecond.Lesson = para;
+                                entitySecond.SeasonDatesId = currentDates.Id;
 
-                                AnalisString(pageNode.InnerText, classrooms, groupName, entityFirst, entitySecond);
+                                AnalisString(pageNode.InnerText, classrooms, groupName, stopWords, entityFirst, entitySecond);
 
-                                if (entitySecond.ClassroomId != null)
-                                {
-                                    var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == entitySecond.Week &&
-                                                            r.Day == entitySecond.Day && r.Lesson == entitySecond.Lesson &&
-                                                            r.ClassroomId == entitySecond.ClassroomId);
-                                    if (exsistRecord != null)
-                                    {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
-                                        if (exsistRecord.LessonDiscipline == entitySecond.LessonDiscipline &&
-                                            exsistRecord.LessonLecturer == entitySecond.LessonLecturer &&
-                                            exsistRecord.LessonType == entitySecond.LessonType)
-                                        {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
-                                            entitySecond.IsStreaming = true;
-                                            exsistRecord.IsStreaming = true;
-
-                                            _context.Entry(exsistRecord).State = System.Data.Entity.EntityState.Modified;
-                                            _context.SemesterRecords.Add(entitySecond);
-                                            _context.SaveChanges();
-                                        }
-                                        else if (exsistRecord.LessonType == LessonTypes.удл)
-                                        {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-                                            _context.SemesterRecords.Remove(exsistRecord);
-                                            _context.SemesterRecords.Add(entitySecond);
-                                            _context.SaveChanges();
-                                        }
-                                        else
-                                        {
-                                            error.Append(string.Format("Конфликт: {0} {1} {2}: {3} - {4}\r\n", week, day, para,
-                                                exsistRecord.LessonGroup, entitySecond.LessonGroup));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        _context.SemesterRecords.Add(entitySecond);
-                                        _context.SaveChanges();
-                                    }
-                                }
-
-                                if (entityFirst.ClassroomId != null)
-                                {
-                                    var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == entityFirst.Week &&
-                                                            r.Day == entityFirst.Day && r.Lesson == entityFirst.Lesson &&
-                                                            r.ClassroomId == entityFirst.ClassroomId);
-                                    if (exsistRecord != null)
-                                    {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
-                                        if (exsistRecord.LessonDiscipline == entityFirst.LessonDiscipline &&
-                                            exsistRecord.LessonLecturer == entityFirst.LessonLecturer &&
-                                            exsistRecord.LessonType == entityFirst.LessonType)
-                                        {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
-                                            entityFirst.IsStreaming = true;
-                                            exsistRecord.IsStreaming = true;
-
-                                            _context.Entry(exsistRecord).State = System.Data.Entity.EntityState.Modified;
-                                            _context.SemesterRecords.Add(entityFirst);
-                                            _context.SaveChanges();
-                                        }
-                                        else if (exsistRecord.LessonType == LessonTypes.удл)
-                                        {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-                                            _context.SemesterRecords.Remove(exsistRecord);
-                                            _context.SemesterRecords.Add(entityFirst);
-                                            _context.SaveChanges();
-                                        }
-                                        else
-                                        {
-                                            error.Append(string.Format("Конфликт: {0} {1} {2}: {3} - {4}\r\n", week, day, para,
-                                                exsistRecord.LessonGroup, entityFirst.LessonGroup));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        _context.SemesterRecords.Add(entityFirst);
-                                        _context.SaveChanges();
-                                    }
-                                }
-
+                                CheckNewSemesterRecord(entityFirst, error);
+                                CheckNewSemesterRecord(entitySecond, error);
                             }
                         }
                     }
@@ -517,10 +535,16 @@ namespace DepartmentService.Services
             return error.ToString();
         }
 
-        private void AnalisString(string text, List<string> classrooms, string groupName, SemesterRecord recordFirst, SemesterRecord recordSecond)
+        private void AnalisString(string text, List<string> classrooms, string groupName, string[] stopWords,
+            SemesterRecord recordFirst, SemesterRecord recordSecond)
         {
+            text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "");
             var lesson = text.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             recordFirst.LessonGroup = groupName;
+            if (groupName == "ИСЭпбд-31")
+            {
+                int c = 0;
+            }
             recordFirst.LessonDiscipline += lesson[0];
             if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
             {
@@ -531,29 +555,59 @@ namespace DepartmentService.Services
                 }
             }
             int i = 1;
-            for (; i < lesson.Length - 3; ++i)
+            for (; i < lesson.Length - 1; ++i)
             {
-                if (lesson[i].ToUpper() == lesson[i] &&
+                if (i < lesson.Length - 3 && lesson[i].ToUpper() == lesson[i] &&
                     lesson[i + 1].Length == 1 && lesson[i + 1].ToUpper() == lesson[i + 1] &&
                     lesson[i + 2].Length == 1 && lesson[i + 2].ToUpper() == lesson[i + 2])
                 {//Шаблон для преподавателя "ФАМИЛИЯ И О"
                     break;
                 }
+                if (stopWords.Contains(lesson[i].ToUpper()))
+                {
+                    break;
+                }
                 recordFirst.LessonDiscipline += lesson[i] + " ";
             }
-            recordFirst.LessonDiscipline = Regex.Replace(recordFirst.LessonDiscipline, @"(\-?)(\s?)\d(\s?)п/г", "");
 
             if (i < lesson.Length - 3)
             {
-                recordFirst.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
-
-                //var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName.ToUpper() == lesson[i - 3] &&
-                //                        ((l.FirstName.Length > 0 && l.FirstName[0] == lesson[i - 2][0]) || l.FirstName.Length == 0) &&
-                //                        ((l.Patronymic.Length > 0 && l.Patronymic[0] == lesson[i - 1][0]) || l.Patronymic.Length == 0));
-                //if (lecturer != null)
-                //{
-                //    recordFirst.LecturerId = lecturer.Id;
-                //}
+                if (stopWords.Contains(lesson[i].ToUpper()))
+                {
+                    recordFirst.LessonLecturer = lesson[i++];
+                }
+                else
+                {
+                    recordFirst.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
+                }
+            }
+            else if (stopWords.Contains(lesson[i].ToUpper()))
+            {
+                recordFirst.LessonLecturer = lesson[i++];
+            }
+            if (!string.IsNullOrEmpty(recordFirst.LessonLecturer))
+            {
+                string searchName = recordFirst.LessonLecturer[0] + recordFirst.LessonLecturer.Split(' ')[0].Substring(1).ToLower();
+                if (recordFirst.LessonLecturer.Split(' ').Length > 1)
+                {
+                    string firstName = recordFirst.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    string patronumic = recordFirst.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                    var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName &&
+                                            ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
+                                            ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+                    if (lecturer != null)
+                    {
+                        recordFirst.LecturerId = lecturer.Id;
+                    }
+                }
+                else
+                {
+                    var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName);
+                    if (lecturer != null)
+                    {
+                        recordFirst.LecturerId = lecturer.Id;
+                    }
+                }
             }
 
             if (i < lesson.Length)
@@ -600,15 +654,42 @@ namespace DepartmentService.Services
 
                 if (i < lesson.Length - 3)
                 {
-                    recordSecond.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
-
-                    //var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName.ToUpper() == lesson[i - 3] &&
-                    //                        ((l.FirstName.Length > 0 && l.FirstName[0] == lesson[i - 2][0]) || l.FirstName.Length == 0) &&
-                    //                        ((l.Patronymic.Length > 0 && l.Patronymic[0] == lesson[i - 1][0]) || l.Patronymic.Length == 0));
-                    //if (lecturer != null)
-                    //{
-                    //    recordSecond.LecturerId = lecturer.Id;
-                    //}
+                    if (stopWords.Contains(lesson[i].ToUpper()))
+                    {
+                        recordSecond.LessonLecturer = lesson[i++];
+                    }
+                    else
+                    {
+                        recordSecond.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
+                    }
+                }
+                else if (stopWords.Contains(lesson[i].ToUpper()))
+                {
+                    recordSecond.LessonLecturer = lesson[i++];
+                }
+                if (!string.IsNullOrEmpty(recordSecond.LessonLecturer))
+                {
+                    string searchName = recordSecond.LessonLecturer[0] + recordSecond.LessonLecturer.Split(' ')[0].Substring(1).ToLower();
+                    if (recordSecond.LessonLecturer.Split(' ').Length > 1)
+                    {
+                        string firstName = recordSecond.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                        string patronumic = recordSecond.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                        var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName &&
+                                                ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
+                                                ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+                        if (lecturer != null)
+                        {
+                            recordSecond.LecturerId = lecturer.Id;
+                        }
+                    }
+                    else
+                    {
+                        var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName);
+                        if (lecturer != null)
+                        {
+                            recordSecond.LecturerId = lecturer.Id;
+                        }
+                    }
                 }
 
                 if (i < lesson.Length)
@@ -640,6 +721,131 @@ namespace DepartmentService.Services
             }
         }
 
+        /// <summary>
+        /// Проверяем, добавляемую пару на конфликты
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="error"></param>
+        private void CheckNewSemesterRecord(SemesterRecord record, StringBuilder error)
+        {
+            if (record.ClassroomId != null)
+            {
+                var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
+                                        r.Day == record.Day && r.Lesson == record.Lesson &&
+                                        r.ClassroomId == record.ClassroomId);
+                if (exsistRecord != null)
+                {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
+                    if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
+                        exsistRecord.LessonLecturer == record.LessonLecturer &&
+                        exsistRecord.LessonType == record.LessonType)
+                    {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
+                        record.IsStreaming = true;
+                        exsistRecord.IsStreaming = true;
 
+                        _context.Entry(exsistRecord).State = System.Data.Entity.EntityState.Modified;
+                        _context.SemesterRecords.Add(record);
+                        _context.SaveChanges();
+                    }
+                    else if (exsistRecord.LessonType == LessonTypes.удл)
+                    {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
+                        _context.SemesterRecords.Remove(exsistRecord);
+                        _context.SemesterRecords.Add(record);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        error.Append(string.Format("Конфликт: {0} {1} {2}: {3} - {4}\r\n", record.Week, record.Day, record.Lesson,
+                            exsistRecord.LessonGroup, record.LessonGroup));
+                    }
+                }
+                else
+                {
+                    _context.SemesterRecords.Add(record);
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        private string GetLessonLecturer(SemesterRecord entity)
+        {
+            string str = entity.LecturerId.HasValue ? entity.Lecturer.ToString() : entity.LessonLecturer;
+            if (!entity.LecturerId.HasValue)
+            {
+                if (string.IsNullOrEmpty(str))
+                {
+                    str = "";
+                }
+                else
+                {
+                    var strs = str.Split(' ');
+                    if (strs.Length == 1)
+                    {
+                        str = string.Format("{0}{1}", strs[0][0], strs[0].Substring(1).ToLower());
+                    }
+                    else if (strs.Length == 2)
+                    {
+                        str = string.Format("{0}{1} {2}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1]);
+                    }
+                    else if (strs.Length == 3)
+                    {
+                        str = string.Format("{0}{1} {2} {3}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1], strs[2]);
+                    }
+                }
+            }
+            return str;
+        }
+
+        private string GetLessonDiscipline(SemesterRecord entity)
+        {
+            string str = entity.LessonDiscipline;
+
+            if (str.Length > 10)
+            {
+                var strs = str.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < strs.Length; ++i)
+                {
+                    if (strs.Length == 1)
+                    {
+                        sb.Append(string.Format("{0}.", strs[0].Substring(0, 8)));
+                    }
+                    else if (strs[i].Length == 1)
+                    {
+                        sb.Append(strs[i]);
+                    }
+                    else if (strs[i].ToUpper() == strs[i])
+                    {
+                        sb.Append(strs[i].ToUpper());
+                    }
+                    else
+                    {
+                        sb.Append(strs[i][0].ToString().ToUpper());
+                        for (int j = 1; j < strs[i].Length; ++j)
+                        {
+                            if (strs[i][j] == '-')
+                            {
+                                continue;
+                            }
+                            if (strs[i][j].ToString().ToUpper() == strs[i][j].ToString())
+                            {
+                                sb.Append(strs[i][j].ToString().ToUpper());
+                            }
+                        }
+                    }
+                }
+                str = sb.ToString();
+            }
+            return str;
+        }
+
+        private string GetLessonGroup(SemesterRecord entity)
+        {
+            return entity.StudentGroupId.HasValue ? entity.StudentGroup.GroupName : entity.LessonGroup;
+        }
+
+        private string GetLessonClassroom(SemesterRecord entity)
+        {
+            return string.IsNullOrEmpty(entity.ClassroomId) ? entity.LessonClassroom : entity.ClassroomId;
+        }
     }
 }
