@@ -33,13 +33,6 @@ namespace DepartmentService.IServices
         ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
 
         /// <summary>
-        /// Получение занятий в семестре по аудитории
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        List<SemesterRecordViewModel> GetSemesterRecords(ClassroomGetBindingModel model);
-
-        /// <summary>
         /// Получение расписания занятий в семестре
         /// </summary>
         /// <param name="model"></param>
@@ -47,11 +40,24 @@ namespace DepartmentService.IServices
         List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleSemesterBindingModel model);
 
         /// <summary>
+        /// Получение расписания консультаций
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<ConsultationRecordShortViewModel> GetScheduleConsultation(ScheduleConsultationBindingModel model);
+
+        /// <summary>
         /// Загрузка арсписания по аудиториям
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService LoadScheduleHTMLForClassrooms(LoadHTMLForClassroomsBindingModel model);
+
+        /// <summary>
+        /// Проверка расписания на предмет записей без названия дисциплины или с неизвестным типом занятия
+        /// </summary>
+        /// <returns></returns>
+        ResultService CheckSemesterRecordsIfNotComplite();
 
         /// <summary>
         /// Отчистка записей по аудиториям

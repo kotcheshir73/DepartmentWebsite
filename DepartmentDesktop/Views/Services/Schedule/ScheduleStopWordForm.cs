@@ -4,64 +4,54 @@ using DepartmentService.IServices;
 using System;
 using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.EducationalProcess.Classroom
+namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ClassroomForm : Form
+    public partial class ScheduleStopWordForm : Form
     {
-        private readonly IClassroomService _service;
+        private readonly IScheduleStopWordService _service;
 
-        private string _id;
+        private long _id;
 
-        public ClassroomForm(IClassroomService service)
+        public ScheduleStopWordForm(IScheduleStopWordService service)
         {
             InitializeComponent();
             _service = service;
         }
 
-        public ClassroomForm(IClassroomService service, string id)
+        public ScheduleStopWordForm(IScheduleStopWordService service, long id)
         {
             InitializeComponent();
             _service = service;
             _id = id;
         }
 
-        private void ClassroomForm_Load(object sender, EventArgs e)
+        private void ScheduleStopWordForm_Load(object sender, EventArgs e)
         {
-            foreach (var elem in Enum.GetValues(typeof(ClassroomTypes)))
+            foreach (var elem in Enum.GetValues(typeof(ScheduleStopWordTypes)))
             {
-                comboBoxTypeClassroom.Items.Add(elem);
+                comboBoxStopWordType.Items.Add(elem);
             }
-            comboBoxTypeClassroom.SelectedIndex = 0;
-            if (!string.IsNullOrEmpty(_id))
+            comboBoxStopWordType.SelectedIndex = 0;
+            if (_id != 0)
             {
-                var entity = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id });
+                var entity = _service.GetScheduleStopWord(new ScheduleStopWordGetBindingModel { Id = _id });
                 if (entity == null)
                 {
                     MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Close();
                 }
-                comboBoxTypeClassroom.SelectedValue = entity.ClassroomType;
-                textBoxClassroom.Text = _id;
-                textBoxCapacity.Text = entity.Capacity.ToString();
+                comboBoxStopWordType.SelectedValue = entity.StopWordType;
+                textBoxStopWord.Text = entity.StopWord;
             }
         }
 
         private bool CheckFill()
         {
-            if (string.IsNullOrEmpty(comboBoxTypeClassroom.Text))
+            if (string.IsNullOrEmpty(comboBoxStopWordType.Text))
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxClassroom.Text))
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(textBoxCapacity.Text))
-            {
-                return false;
-            }
-            int capacity = 0;
-            if (!int.TryParse(textBoxCapacity.Text, out capacity))
+            if (string.IsNullOrEmpty(textBoxStopWord.Text))
             {
                 return false;
             }
@@ -72,13 +62,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
         {
             if (CheckFill())
             {
-                if (string.IsNullOrEmpty(_id))
+                if (_id == 0)
                 {
-                    var res = _service.CreateClassroom(new ClassroomRecordBindingModel
+                    var res = _service.CreateScheduleStopWord(new ScheduleStopWordRecordBindingModel
                     {
-                        Id = textBoxClassroom.Text,
-                        ClassroomType = comboBoxTypeClassroom.Text,
-                        Capacity = Convert.ToInt32(textBoxCapacity.Text)
+                        StopWord = textBoxStopWord.Text,
+                        StopWordType = comboBoxStopWordType.Text
                     });
                     if (res.Succeeded)
                     {
@@ -92,11 +81,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                 }
                 else
                 {
-                    var res = _service.UpdateClassroom(new ClassroomRecordBindingModel
+                    var res = _service.UpdateScheduleStopWord(new ScheduleStopWordRecordBindingModel
                     {
-                        Id = textBoxClassroom.Text,
-                        ClassroomType = comboBoxTypeClassroom.Text,
-                        Capacity = Convert.ToInt32(textBoxCapacity.Text)
+                        Id = _id,
+                        StopWord = textBoxStopWord.Text,
+                        StopWordType = comboBoxStopWordType.Text
                     });
                     if (res.Succeeded)
                     {

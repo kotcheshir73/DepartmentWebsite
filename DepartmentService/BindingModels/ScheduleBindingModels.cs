@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DepartmentService.BindingModels
 {
@@ -6,14 +7,20 @@ namespace DepartmentService.BindingModels
     {
         public string ClassroomId { get; set; }
     }
+    public class ScheduleConsultationBindingModel
+    {
+        public string ClassroomId { get; set; }
+
+        public DateTime? DateBegin { get; set; }
+
+        public DateTime? DateEnd { get; set; }
+    }
 
     public class LoadHTMLForClassroomsBindingModel
     {
         public string ScheduleUrl { get; set; }
 
         public List<string> Classrooms { get; set; }
-
-        public string[] StopWords { get; set; }
     }
 
     public class ExportToExcelClassroomsBindingModel
@@ -32,5 +39,84 @@ namespace DepartmentService.BindingModels
         public List<string> Classrooms { get; set; }
 
         public long SeasonDatesId { get; set; }
+    }
+
+    public class SemesterRecordGetBindingModel
+    {
+        public long Id { get; set; }
+    }
+
+    public class SemesterRecordRecordBindingModel
+    {
+        public long Id { get; set; }
+
+        public int Week { get; set; }
+
+        public int Day { get; set; }
+
+        public int Lesson { get; set; }
+
+        public bool IsStreaming { get; set; }
+
+        public string LessonType { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public long? LecturerId { get; set; }
+
+        /// <summary>
+        /// Применять выборку по текстовым данным или по данным из БД (аудитория, дисциплина, преподаватель, группа)
+        /// </summary>
+        public bool ApplyToAnalogRecordsByTextData { get; set; }
+
+        public bool ApplyToAnalogRecordsByDiscipline { get; set; }
+
+        public bool ApplyToAnalogRecordsByGroup { get; set; }
+
+        public bool ApplyToAnalogRecordsByLecturer { get; set; }
+
+        public bool ApplyToAnalogRecordsByClassroom { get; set; }
+
+        public bool ApplyToAnalogRecordsByLessonType { get; set; }
+    }
+
+    public class ConsultationRecordGetBindingModel
+    {
+        public long Id { get; set; }
+
+        public DateTime DateBegin { get; set; }
+
+        public DateTime DateEnd { get; set; }
+    }
+
+    public class ConsultationRecordRecordBindingModel
+    {
+        public long Id { get; set; }
+
+        public DateTime DateConsultation { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public long? LecturerId { get; set; }
     }
 }

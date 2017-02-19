@@ -17,10 +17,13 @@ namespace DepartmentService.Services
 
         private readonly IClassroomService _serviceC;
 
-        public SemesterRecordService(DepartmentDbContext context, IClassroomService serviceC)
+        private readonly ISeasonDatesService _serviceSD;
+
+        public SemesterRecordService(DepartmentDbContext context, IClassroomService serviceC, ISeasonDatesService serviceSD)
         {
             _context = context;
             _serviceC = serviceC;
+            _serviceSD = serviceSD;
         }
 
         public List<ClassroomViewModel> GetClassrooms()
@@ -39,8 +42,21 @@ namespace DepartmentService.Services
 
         public ResultService CreateSemesterRecord(SemesterRecordRecordBindingModel model)
         {
+            var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
+            if (currentSetting == null)
+            {
+                return ResultService.Error("error", "currentSetting not found", 404);
+            }
+            var seasonDate = _context.SeasonDates.FirstOrDefault(sd => sd.Title == currentSetting.Value);
+            if (seasonDate == null)
+            {
+                return ResultService.Error("error", "seasonDate not found", 404);
+            }
+
             var entry = _context.SemesterRecords.FirstOrDefault(sr => sr.Week == model.Week && sr.Day == model.Day && sr.Lesson == model.Lesson &&
-                                                                            sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл);
+                                                                            sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл &&
+                                                                            sr.SeasonDatesId == seasonDate.Id);
+
             if(entry != null)
             {
                 return ResultService.Error("exsist_item", "На эту пару уже стоит занятие", 401);
@@ -51,6 +67,7 @@ namespace DepartmentService.Services
                 Week = model.Week,
                 Day = model.Day,
                 Lesson = model.Lesson,
+                SeasonDatesId = seasonDate.Id,
 
                 LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType),
                 LessonDiscipline = model.LessonDiscipline,

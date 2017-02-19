@@ -17,6 +17,7 @@ namespace DepartmentDAL.Context
 
         public virtual DbSet<Access> Access { set; get; }
         public virtual DbSet<Classroom> Classrooms { set; get; }
+        public virtual DbSet<ConsultationRecord> ConsultationRecords { set; get; }
         public virtual DbSet<CurrentSettings> CurrentSettings { set; get; }
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
@@ -25,6 +26,7 @@ namespace DepartmentDAL.Context
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
         public virtual DbSet<Role> Roles { set; get; }
+        public virtual DbSet<ScheduleStopWord> ScheduleStopWords { get; set; }
         public virtual DbSet<Student> Students { set; get; }
         public virtual DbSet<StudentGroup> StudentGroups { set; get; }
         public virtual DbSet<User> Users { set; get; }

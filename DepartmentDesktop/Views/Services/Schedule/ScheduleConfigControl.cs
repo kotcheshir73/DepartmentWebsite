@@ -12,10 +12,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
     {
         private readonly IScheduleService _service;
 
-        public ScheduleConfigControl(IScheduleService service)
+        private readonly IScheduleStopWordService _serviceSW;
+
+        public ScheduleConfigControl(IScheduleService service, IScheduleStopWordService serviceSW)
         {
             InitializeComponent();
             _service = service;
+            _serviceSW = serviceSW;
         }
 
         public void LoadData()
@@ -73,7 +76,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
                     if (result.Succeeded)
                     {
-                        MessageBox.Show("Отчистка прошла успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Отчистка аудитории прошла успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
@@ -86,6 +89,25 @@ namespace DepartmentDesktop.Views.Services.Schedule
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        private void checkRecordsIfNotComplite()
+        {
+            var result = _service.CheckSemesterRecordsIfNotComplite();
+            if (result.Succeeded)
+            {
+                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                StringBuilder strRes = new StringBuilder();
+                foreach (var err in result.Errors)
+                {
+                    strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                }
+                MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", strRes), "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -110,13 +132,19 @@ namespace DepartmentDesktop.Views.Services.Schedule
             var result = _service.LoadScheduleHTMLForClassrooms(new LoadHTMLForClassroomsBindingModel
             {
                 ScheduleUrl = textBoxLinkToHtml.Text,
-                Classrooms = classrooms,
-                StopWords = textBoxStopWords.Lines
+                Classrooms = classrooms
             });
 
             if (result.Succeeded)
             {
-                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (checkBoxCheckIfNotComplite.Checked)
+                {
+                    checkRecordsIfNotComplite();
+                }
+                else
+                {
+                    MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {
@@ -247,6 +275,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                 }
             }
+        }
+
+        private void buttonCheckRecordsIfNotComplite_Click(object sender, EventArgs e)
+        {
+            checkRecordsIfNotComplite();
         }
     }
 }

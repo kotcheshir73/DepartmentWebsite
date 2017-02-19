@@ -1,6 +1,6 @@
-﻿namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
+﻿namespace DepartmentDesktop.Views.Services.Schedule
 {
-    partial class StreamingLessonControl
+    partial class ScheduleConsultationClassroomControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -123,13 +123,13 @@
             this.dataGridViewList.Size = new System.Drawing.Size(800, 475);
             this.dataGridViewList.TabIndex = 1;
             // 
-            // StreamingLessonControl
+            // ScheduleConsultationClassroomControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridViewList);
             this.Controls.Add(this.toolStripMenu);
-            this.Name = "StreamingLessonControl";
+            this.Name = "ScheduleConsultationClassroomControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();

@@ -109,5 +109,12 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void scheduleStopWordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleStopWordControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
     }
 }

@@ -36,7 +36,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +65,7 @@
             this.toolStripSeparator2,
             this.toolStripButtonDel,
             this.toolStripSeparator3,
-            this.toolStripButton1});
+            this.toolStripButtonRef});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -114,14 +114,14 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton1
+            // toolStripButtonRef
             // 
-            this.toolStripButton1.Image = global::DepartmentDesktop.Properties.Resources.Ref;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(81, 22);
-            this.toolStripButton1.Text = "Обновить";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButtonRef.Image = global::DepartmentDesktop.Properties.Resources.Ref;
+            this.toolStripButtonRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRef.Name = "toolStripButtonRef";
+            this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
+            this.toolStripButtonRef.Text = "Обновить";
+            this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
             // 
             // SeasonDatesControl
             // 
@@ -149,6 +149,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButtonDel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRef;
     }
 }

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
@@ -79,22 +72,28 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
         private void toolStripButtonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewList.SelectedRows.Count == 1)
+            if (dataGridViewList.SelectedRows.Count > 0)
             {
-                long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-                var res = _service.DeleteSeasonDates(new SeasonDatesGetBindingModel { Id = id });
-                if (res.Succeeded)
+                if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    LoadData();
-                }
-                else
-                {
-                    MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
+                    {
+                        long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
+                        var res = _service.DeleteSeasonDates(new SeasonDatesGetBindingModel { Id = id });
+                        if (res.Succeeded)
+                        {
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void toolStripButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }

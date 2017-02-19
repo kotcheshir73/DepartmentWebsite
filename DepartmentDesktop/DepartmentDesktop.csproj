@@ -168,6 +168,24 @@
     <Compile Include="Views\Services\Schedule\ScheduleConfigControl.Designer.cs">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConsultationClassroomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConsultationClassroomControl.Designer.cs">
+      <DependentUpon>ScheduleConsultationClassroomControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConsultationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConsultationControl.Designer.cs">
+      <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConsultationRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleConsultationRecordForm.Designer.cs">
+      <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -191,6 +209,18 @@
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemesterRecordForm.Designer.cs">
       <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleStopWordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleStopWordControl.Designer.cs">
+      <DependentUpon>ScheduleStopWordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleStopWordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleStopWordForm.Designer.cs">
+      <DependentUpon>ScheduleStopWordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Users\UserF.cs">
       <SubType>Form</SubType>
@@ -253,6 +283,15 @@
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConfigControl.resx">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationClassroomControl.resx">
+      <DependentUpon>ScheduleConsultationClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationControl.resx">
+      <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationRecordForm.resx">
+      <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.resx">
       <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -264,6 +303,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterRecordForm.resx">
       <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleStopWordControl.resx">
+      <DependentUpon>ScheduleStopWordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleStopWordForm.resx">
+      <DependentUpon>ScheduleStopWordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Users\UserF.resx">
       <DependentUpon>UserF.cs</DependentUpon>

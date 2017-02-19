@@ -52,6 +52,7 @@
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
+    <Compile Include="Enums\ScheduleStopWordTypes.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.Designer.cs">
       <DependentUpon>201702031318461_InitialCreate.cs</DependentUpon>
@@ -100,14 +101,24 @@
     <Compile Include="Migrations\201702121259478_UpdateSemesterRecord3.Designer.cs">
       <DependentUpon>201702121259478_UpdateSemesterRecord3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702191000094_AddTableScheduleStopWords.cs" />
+    <Compile Include="Migrations\201702191000094_AddTableScheduleStopWords.Designer.cs">
+      <DependentUpon>201702191000094_AddTableScheduleStopWords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702191307345_AddTableConsultationRecord.cs" />
+    <Compile Include="Migrations\201702191307345_AddTableConsultationRecord.Designer.cs">
+      <DependentUpon>201702191307345_AddTableConsultationRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Classroom.cs" />
+    <Compile Include="Models\ConsultationRecord.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\Lecturer.cs" />
+    <Compile Include="Models\ScheduleStopWord.cs" />
     <Compile Include="Models\SeasonDates.cs" />
     <Compile Include="Models\SemesterRecord.cs" />
     <Compile Include="Models\Message.cs" />
@@ -159,6 +170,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702121259478_UpdateSemesterRecord3.resx">
       <DependentUpon>201702121259478_UpdateSemesterRecord3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702191000094_AddTableScheduleStopWords.resx">
+      <DependentUpon>201702191000094_AddTableScheduleStopWords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702191307345_AddTableConsultationRecord.resx">
+      <DependentUpon>201702191307345_AddTableConsultationRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

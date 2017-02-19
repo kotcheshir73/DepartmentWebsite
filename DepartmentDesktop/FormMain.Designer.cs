@@ -42,6 +42,7 @@
             this.classroomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seasonDatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.streamingLessonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +78,8 @@
             // 
             this.ScheduleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scheduleSemestrToolStripMenuItem,
-            this.scheduleConfigToolStripMenuItem});
+            this.scheduleConfigToolStripMenuItem,
+            this.scheduleStopWordsToolStripMenuItem});
             this.ScheduleToolStripMenuItem.Name = "ScheduleToolStripMenuItem";
             this.ScheduleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ScheduleToolStripMenuItem.Text = "Расписание";
@@ -86,14 +88,14 @@
             // scheduleSemestrToolStripMenuItem
             // 
             this.scheduleSemestrToolStripMenuItem.Name = "scheduleSemestrToolStripMenuItem";
-            this.scheduleSemestrToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.scheduleSemestrToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.scheduleSemestrToolStripMenuItem.Text = "Семестр";
             this.scheduleSemestrToolStripMenuItem.Click += new System.EventHandler(this.scheduleSemestrToolStripMenuItem_Click);
             // 
             // scheduleConfigToolStripMenuItem
             // 
             this.scheduleConfigToolStripMenuItem.Name = "scheduleConfigToolStripMenuItem";
-            this.scheduleConfigToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.scheduleConfigToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.scheduleConfigToolStripMenuItem.Text = "Настройки";
             this.scheduleConfigToolStripMenuItem.Click += new System.EventHandler(this.scheduleConfigToolStripMenuItem_Click);
             // 
@@ -159,6 +161,13 @@
             this.streamingLessonsToolStripMenuItem.Text = "Потоки";
             this.streamingLessonsToolStripMenuItem.Click += new System.EventHandler(this.streamingLessonsToolStripMenuItem_Click);
             // 
+            // scheduleStopWordsToolStripMenuItem
+            // 
+            this.scheduleStopWordsToolStripMenuItem.Name = "scheduleStopWordsToolStripMenuItem";
+            this.scheduleStopWordsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.scheduleStopWordsToolStripMenuItem.Text = "Стоп-слова";
+            this.scheduleStopWordsToolStripMenuItem.Click += new System.EventHandler(this.scheduleStopWordsToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,6 +202,7 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleConfigToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem seasonDatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem streamingLessonsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scheduleStopWordsToolStripMenuItem;
     }
 }
 

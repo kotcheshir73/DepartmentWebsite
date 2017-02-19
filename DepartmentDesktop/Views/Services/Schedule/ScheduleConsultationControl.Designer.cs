@@ -1,6 +1,6 @@
 ﻿namespace DepartmentDesktop.Views.Services.Schedule
 {
-    partial class ScheduleSemesterControl
+    partial class ScheduleConsultationControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -44,12 +44,12 @@
             this.tabControlSemester.Size = new System.Drawing.Size(800, 500);
             this.tabControlSemester.TabIndex = 0;
             // 
-            // ScheduleSemesterControl
+            // ScheduleConsultationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControlSemester);
-            this.Name = "ScheduleSemesterControl";
+            this.Name = "ScheduleConsultationControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.ResumeLayout(false);
 

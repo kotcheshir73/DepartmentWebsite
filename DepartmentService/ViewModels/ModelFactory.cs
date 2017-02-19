@@ -111,7 +111,32 @@ namespace DepartmentService.ViewModels
         {
             return entities.Select(e => CreateSemesterRecordViewModel(e)).OrderBy(e => e.Id);
         }
-        
+
+        public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
+        {
+            return new ConsultationRecordViewModel
+            {
+                Id = entity.Id,
+                DateConsultation = entity.DateConsultation,
+                LessonClassroom = entity.LessonClassroom,
+                LessonGroup = entity.LessonGroup,
+                LessonDiscipline = entity.LessonDiscipline,
+                LessonLecturer = entity.LessonLecturer,
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+                LecturerId = entity.LecturerId,
+                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                StudentGroupId = entity.StudentGroupId,
+                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+            };
+        }
+
+        public static IEnumerable<ConsultationRecordViewModel> CreateConsultationRecords(
+            IEnumerable<ConsultationRecord> entities)
+        {
+            return entities.Select(e => CreateConsultationRecordViewModel(e)).OrderBy(e => e.Id);
+        }
+
         public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
         {
             return new StreamingLessonViewModel
@@ -126,6 +151,22 @@ namespace DepartmentService.ViewModels
             IEnumerable<StreamingLesson> entities)
         {
             return entities.Select(e => CreateStreamingLessonViewModel(e)).OrderBy(e => e.Id);
+        }
+
+        public static ScheduleStopWordViewModel CreateScheduleStopWordViewModel(ScheduleStopWord entity)
+        {
+            return new ScheduleStopWordViewModel
+            {
+                Id = entity.Id,
+                StopWord = entity.StopWord,
+                StopWordType = entity.StopWordType.ToString()
+            };
+        }
+
+        public static IEnumerable<ScheduleStopWordViewModel> CreateScheduleStopWords(
+            IEnumerable<ScheduleStopWord> entities)
+        {
+            return entities.Select(e => CreateScheduleStopWordViewModel(e)).OrderBy(e => e.StopWordType);
         }
     }
 }

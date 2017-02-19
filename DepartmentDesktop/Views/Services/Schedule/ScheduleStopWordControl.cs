@@ -3,13 +3,13 @@ using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
 
-namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
+namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class StreamingLessonControl : UserControl
+    public partial class ScheduleStopWordControl : UserControl
     {
-        private readonly IStreamingLessonService _service;
+        private readonly IScheduleStopWordService _service;
 
-        public StreamingLessonControl(IStreamingLessonService service)
+        public ScheduleStopWordControl(IScheduleStopWordService service)
         {
             InitializeComponent();
             _service = service;
@@ -17,7 +17,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 
         public void LoadData()
         {
-            var list = _service.GetStreamingLessons();
+            var list = _service.GetScheduleStopWords();
             if (list == null)
             {
                 MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -27,16 +27,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
             if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].Visible = false;
-                dataGridViewList.Columns[1].HeaderText = "Список групп";
-                dataGridViewList.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridViewList.Columns[2].HeaderText = "Описание";
-                dataGridViewList.Columns[2].Width = 150;
+                dataGridViewList.Columns[1].HeaderText = "Стоп-слово";
+                dataGridViewList.Columns[1].Width = 100;
+                dataGridViewList.Columns[2].HeaderText = "Тип";
+                dataGridViewList.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            var form = new StreamingLessonForm(_service);
+            var form = new ScheduleStopWordForm(_service);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -48,7 +48,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
             if (dataGridViewList.SelectedRows.Count == 1)
             {
                 long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-                var form = new StreamingLessonForm(_service, id);
+                var form = new ScheduleStopWordForm(_service, id);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -65,7 +65,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
                     for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
                     {
                         long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-                        var res = _service.DeleteStreamingLesson(new StreamingLessonGetBindingModel { Id = id });
+                        var res = _service.DeleteScheduleStopWord(new ScheduleStopWordGetBindingModel { Id = id });
                         if (res.Succeeded)
                         {
                             LoadData();

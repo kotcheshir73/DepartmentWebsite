@@ -59,22 +59,28 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
         private void toolStripButtonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewList.SelectedRows.Count == 1)
+            if (dataGridViewList.SelectedRows.Count > 0)
             {
-                string id = Convert.ToString(dataGridViewList.SelectedRows[0].Cells[0].Value);
-                var res = _service.DeleteClassroom(new ClassroomGetBindingModel { Id = id });
-                if (res.Succeeded)
+                if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    LoadData();
-                }
-                else
-                {
-                    MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
+                    {
+                        string id = Convert.ToString(dataGridViewList.SelectedRows[i].Cells[0].Value);
+                        var res = _service.DeleteClassroom(new ClassroomGetBindingModel { Id = id });
+                        if (res.Succeeded)
+                        {
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void toolStripButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }

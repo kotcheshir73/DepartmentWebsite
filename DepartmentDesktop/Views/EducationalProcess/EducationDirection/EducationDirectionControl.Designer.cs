@@ -33,10 +33,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonUpd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.dataGridViewList = new System.Windows.Forms.DataGridView();
             this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
+            this.dataGridViewList = new System.Windows.Forms.DataGridView();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.SuspendLayout();
@@ -50,7 +50,7 @@
             this.toolStripSeparator2,
             this.toolStripButtonDel,
             this.toolStripSeparator3,
-            this.toolStripButton1});
+            this.toolStripButtonRef});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -85,21 +85,6 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // dataGridViewList
-            // 
-            this.dataGridViewList.AllowUserToAddRows = false;
-            this.dataGridViewList.AllowUserToDeleteRows = false;
-            this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewList.Location = new System.Drawing.Point(0, 25);
-            this.dataGridViewList.Name = "dataGridViewList";
-            this.dataGridViewList.ReadOnly = true;
-            this.dataGridViewList.RowHeadersVisible = false;
-            this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewList.Size = new System.Drawing.Size(800, 475);
-            this.dataGridViewList.TabIndex = 1;
-            // 
             // toolStripButtonDel
             // 
             this.toolStripButtonDel.Image = global::DepartmentDesktop.Properties.Resources.Del;
@@ -114,14 +99,29 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton1
+            // toolStripButtonRef
             // 
-            this.toolStripButton1.Image = global::DepartmentDesktop.Properties.Resources.Ref;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(81, 22);
-            this.toolStripButton1.Text = "Обновить";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButtonRef.Image = global::DepartmentDesktop.Properties.Resources.Ref;
+            this.toolStripButtonRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRef.Name = "toolStripButtonRef";
+            this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
+            this.toolStripButtonRef.Text = "Обновить";
+            this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
+            // 
+            // dataGridViewList
+            // 
+            this.dataGridViewList.AllowUserToAddRows = false;
+            this.dataGridViewList.AllowUserToDeleteRows = false;
+            this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewList.Location = new System.Drawing.Point(0, 25);
+            this.dataGridViewList.Name = "dataGridViewList";
+            this.dataGridViewList.ReadOnly = true;
+            this.dataGridViewList.RowHeadersVisible = false;
+            this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewList.Size = new System.Drawing.Size(800, 475);
+            this.dataGridViewList.TabIndex = 1;
             // 
             // EducationDirectionControl
             // 
@@ -149,6 +149,6 @@
         private System.Windows.Forms.DataGridView dataGridViewList;
         private System.Windows.Forms.ToolStripButton toolStripButtonDel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRef;
     }
 }

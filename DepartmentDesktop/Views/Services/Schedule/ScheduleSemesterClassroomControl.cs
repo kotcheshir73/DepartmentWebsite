@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Text.RegularExpressions;
 using DepartmentDAL.Enums;
 
 namespace DepartmentDesktop.Views.Services.Schedule
@@ -291,7 +285,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             form.ShowDialog();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void toolStripButtonRef_Click(object sender, EventArgs e)
         {
             LoadData(_classroomID);
         }
