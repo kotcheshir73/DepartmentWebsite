@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
+using System.Text;
 
 namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 {
@@ -67,14 +68,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
                     for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
                     {
                         long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-                        var res = _service.DeleteEducationDirection(new EducationDirectionGetBindingModel { Id = id });
-                        if (res.Succeeded)
+                        var result = _service.DeleteEducationDirection(new EducationDirectionGetBindingModel { Id = id });
+                        if (result.Succeeded)
                         {
                             LoadData();
                         }
                         else
                         {
-                            MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            StringBuilder strRes = new StringBuilder();
+                            foreach (var err in result.Errors)
+                            {
+                                strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                            }
+                            MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

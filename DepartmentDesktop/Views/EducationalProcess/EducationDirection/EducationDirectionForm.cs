@@ -1,6 +1,8 @@
-﻿using DepartmentService.BindingModels;
+﻿using DepartmentDAL;
+using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
@@ -57,42 +59,39 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
         {
             if(CheckFill())
             {
-                if(_id == 0)
+                ResultService result;
+                if (_id == 0)
                 {
-                    var res = _service.CreateEducationDirection(new EducationDirectionRecordBindingModel
+                    result = _service.CreateEducationDirection(new EducationDirectionRecordBindingModel
                     {
                         Cipher = textBoxCipher.Text,
                         Description = textBoxDescription.Text,
                         Title = textBoxTitle.Text
                     });
-                    if(res.Succeeded)
-                    {
-                        DialogResult = DialogResult.OK;
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
                 }
                 else
                 {
-                    var res = _service.UpdateEducationDirection(new EducationDirectionRecordBindingModel
+                    result = _service.UpdateEducationDirection(new EducationDirectionRecordBindingModel
                     {
                         Id = _id,
                         Cipher = textBoxCipher.Text,
                         Description = textBoxDescription.Text,
                         Title = textBoxTitle.Text
                     });
-                    if (res.Succeeded)
+                }
+                if (result.Succeeded)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
                     {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
                     }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else

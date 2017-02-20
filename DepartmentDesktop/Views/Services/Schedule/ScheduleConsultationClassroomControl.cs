@@ -63,12 +63,24 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-
+            var form = new ScheduleConsultationRecordForm(_serviceCR);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadData(_classroomID);
+            }
         }
 
         private void toolStripButtonUpd_Click(object sender, EventArgs e)
         {
-
+            if (dataGridViewList.SelectedRows.Count == 1)
+            {
+                long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
+                var form = new ScheduleConsultationRecordForm(_serviceCR, id);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData(_classroomID);
+                }
+            }
         }
 
         private void toolStripButtonDel_Click(object sender, EventArgs e)
@@ -80,14 +92,19 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
                     {
                         long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-                        var res = _serviceCR.DeleteConsultationRecord(new ConsultationRecordGetBindingModel { Id = id });
-                        if (res.Succeeded)
+                        var result = _serviceCR.DeleteConsultationRecord(new ConsultationRecordGetBindingModel { Id = id });
+                        if (result.Succeeded)
                         {
                             LoadData(_classroomID);
                         }
                         else
                         {
-                            MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            StringBuilder strRes = new StringBuilder();
+                            foreach (var err in result.Errors)
+                            {
+                                strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                            }
+                            MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

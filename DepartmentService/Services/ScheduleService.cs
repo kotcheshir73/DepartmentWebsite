@@ -172,8 +172,13 @@ namespace DepartmentService.Services
             {
                 throw new Exception("Выставьте учебный период");
             }
-            var records = _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
-                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id).ToList();
+            var records = model.DateBegin.HasValue ?
+                                                    _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
+                                                                        Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id &&
+                                                                        sr.DateConsultation >= model.DateBegin.Value && sr.DateConsultation <= model.DateEnd.Value).ToList()
+                                                                         :
+                                                    _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
+                                                                         Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id).ToList();
             List<ConsultationRecordShortViewModel> result = new List<ConsultationRecordShortViewModel>();
             for (int i = 0; i < records.Count; ++i)
             {
@@ -189,18 +194,18 @@ namespace DepartmentService.Services
                     lesson = 7;
                     DateTime[] lessons = new DateTime[]
                     {
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 8, 0, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 9, 40, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 11, 30, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 13, 10, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 14, 50, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 16, 30, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 18, 10, 0),
-                    new DateTime(records[i].DateConsultation.Day, records[i].DateConsultation.Month, records[i].DateConsultation.Year, 19, 50, 0)
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 8, 0, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 9, 40, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 11, 30, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 13, 10, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 14, 50, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 16, 30, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 18, 10, 0),
+                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 19, 50, 0)
                     };
                     for (int j = 0; j < lessons.Length - j; ++i)
                     {
-                        if (lessons[j] > records[i].DateConsultation && lessons[j + 1] < records[i].DateConsultation)
+                        if (lessons[j] >= records[i].DateConsultation && lessons[j + 1] > records[i].DateConsultation)
                         {
                             lesson = j;
                             break;

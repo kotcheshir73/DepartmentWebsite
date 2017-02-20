@@ -9,11 +9,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private readonly ISemesterRecordService _serviceSR;
 
-        public ScheduleSemesterControl(IScheduleService service, ISemesterRecordService serviceSR)
+        private readonly IConsultationRecordService _serviceCR;
+
+        public ScheduleSemesterControl(IScheduleService service, ISemesterRecordService serviceSR,
+            IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _service = service;
             _serviceSR = serviceSR;
+            _serviceCR = serviceCR;
         }
 
         public void LoadData()
@@ -33,7 +37,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     tabpage.Tag = i.ToString();
                     tabpage.Text = "Аудитория " + classrooms[i].Id;
                     tabControlSemester.TabPages.Add(tabpage);
-                    var control = new ScheduleSemesterClassroomControl(_service, _serviceSR);
+                    var control = new ScheduleSemesterClassroomControl(_service, _serviceSR, _serviceCR);
                     control.Dock = DockStyle.Fill;
                     control.LoadData(classrooms[i].Id);
                     tabControlSemester.TabPages[i].Controls.Add(control);

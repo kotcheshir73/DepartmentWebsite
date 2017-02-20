@@ -1,9 +1,11 @@
-﻿using DepartmentDAL.Enums;
+﻿using DepartmentDAL;
+using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule
@@ -50,6 +52,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             comboBoxClassroom.DataSource = _service.GetClassrooms()
                 .Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
             comboBoxClassroom.SelectedItem = null;
+            textBoxClassroom.Text = string.Empty;
 
             if (_id != 0)
             {
@@ -72,6 +75,30 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 comboBoxClassroom.SelectedValue = entity.ClassroomId;
 
                 panelDateTime.Enabled = false;
+            }
+        }
+
+        private void comboBoxLecturer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text) && comboBoxLecturer.SelectedIndex > -1)
+            {
+                textBoxLessonLecturer.Text = comboBoxLecturer.Text;
+            }
+        }
+
+        private void comboBoxGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxGroup.SelectedIndex > -1)
+            {
+                textBoxLessonGroup.Text = comboBoxGroup.Text;
+            }
+        }
+
+        private void comboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxClassroom.Text) && comboBoxClassroom.SelectedIndex > -1)
+            {
+                textBoxClassroom.Text = comboBoxClassroom.Text;
             }
         }
 
@@ -116,9 +143,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
         {
             if (CheckFill())
             {
+                ResultService result;
                 if (_id == 0)
                 {
-                    var res = _service.CreateSemesterRecord(new SemesterRecordRecordBindingModel
+                    result = _service.CreateSemesterRecord(new SemesterRecordRecordBindingModel
                     {
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
@@ -132,19 +160,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         
                         ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
                     });
-                    if (res.Succeeded)
-                    {
-                        DialogResult = DialogResult.OK;
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
                 }
                 else
                 {
-                    var res = _service.UpdateSemesterRecord(new SemesterRecordRecordBindingModel
+                    result = _service.UpdateSemesterRecord(new SemesterRecordRecordBindingModel
                     {
                         Id = _id,
                         Week = comboBoxWeek.SelectedIndex,
@@ -166,15 +185,20 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         ApplyToAnalogRecordsByClassroom = checkBoxApplyToAnalogRecordsByClassroom.Checked,
                         ApplyToAnalogRecordsByLessonType = checkBoxApplyToAnalogRecordsByLessonType.Checked
                     });
-                    if (res.Succeeded)
+                }
+                if (result.Succeeded)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
                     {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
                     }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else

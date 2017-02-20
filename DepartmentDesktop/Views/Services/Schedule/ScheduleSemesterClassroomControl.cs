@@ -6,6 +6,7 @@ using DepartmentService.IServices;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Enums;
+using DepartmentDAL;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
@@ -15,17 +16,23 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private readonly ISemesterRecordService _serviceSR;
 
+        private readonly IConsultationRecordService _serviceCR;
+
         private string _classroomID;
 
         private DateTime _selectDate;
 
         private SeasonDatesViewModel _dates;
 
-        public ScheduleSemesterClassroomControl(IScheduleService service, ISemesterRecordService serviceSR)
+        private Color _consultationColor = Color.Green;
+
+        public ScheduleSemesterClassroomControl(IScheduleService service, ISemesterRecordService serviceSR,
+            IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _service = service;
             _serviceSR = serviceSR;
+            _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
         }
 
@@ -92,15 +99,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     var list = _service.GetScheduleSemester(new ScheduleSemesterBindingModel { ClassroomId = classroomID });
                     if (list == null)
                         throw new Exception("Невозможно получить список занятий в семестре");
-                    for(int r = 0; r < list.Count; ++r)
+                    for (int r = 0; r < list.Count; ++r)
                     {
                         if (list[r].Week == 0 && isLoad1Week)
                         {
-                            if(list[r].IsStreaming)
+                            if (list[r].IsStreaming)
                             {
                                 dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                             }
-                            if(list[r].LessonType == LessonTypes.нд.ToString())
+                            if (list[r].LessonType == LessonTypes.нд.ToString())
                             {
                                 dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
                             }
@@ -134,32 +141,28 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         }
                     }
                     var dateFinish = (isLoad2Week) ? _selectDate.AddDays(14) : _selectDate.AddDays(7);
-                    //var consults = _consultaion.getListByClassroomFromSemester(_classroomID, _selectDate, dateFinish);
-                    //if (consults == null)
-                    //    throw new Exception(_consultaion.Error);
-                    //foreach (var record in consults)
-                    //{
-                    //    if ((record.DateConsult.Date - _selectDate.Date).Days > 0 &&
-                    //        (record.DateConsult.Date - _selectDate.Date).Days <= 5 && isLoad1Week)
-                    //    {
-                    //        dataGridViewFirstWeek.Rows[(record.DateConsult.Date - _selectDate.Date).Days].Cells[record.Lesson.Value + 1].Value =
-                    //            record.Discipline.DisciplineShortName + " конс." + Environment.NewLine +
-                    //            record.Teacher.TeacherShortName + Environment.NewLine + record.Group.GroupName;
-                    //        dataGridViewFirstWeek.Rows[(record.DateConsult.Date - _selectDate.Date).Days].Cells[record.Lesson.Value + 1].Style.BackColor =
-                    //            Color.Green;
-                    //        dataGridViewFirstWeek.Rows[(record.DateConsult.Date - _selectDate.Date).Days].Cells[record.Lesson.Value + 1].Tag = record.Id;
-                    //    }
-                    //    if ((record.DateConsult.Date - _selectDate.Date).Days - 7 > 0 &&
-                    //        (record.DateConsult.Date - _selectDate.Date).Days - 7 <= 5 && isLoad2Week)
-                    //    {
-                    //        dataGridViewSecondWeek.Rows[(record.DateConsult.Date - _selectDate.Date).Days - 7].Cells[record.Lesson.Value + 1].Value =
-                    //            record.Discipline.DisciplineShortName + " конс." + Environment.NewLine +
-                    //            record.Teacher.TeacherShortName + Environment.NewLine + record.Group.GroupName;
-                    //        dataGridViewSecondWeek.Rows[(record.DateConsult.Date - _selectDate.Date).Days - 7].Cells[record.Lesson.Value + 1].Style.BackColor
-                    //            = Color.Green;
-                    //        dataGridViewSecondWeek.Rows[(record.DateConsult.Date - _selectDate.Date).Days - 7].Cells[record.Lesson.Value + 1].Tag = record.Id;
-                    //    }
-                    //}
+                    var consults = _service.GetScheduleConsultation(new ScheduleConsultationBindingModel { DateBegin = _selectDate, DateEnd = dateFinish, ClassroomId = _classroomID });
+                    if (consults == null)
+                        throw new Exception("Невозможно получить список консультаций в семестре");
+                    foreach (var record in consults)
+                    {
+                        if (record.Week == 0 && isLoad1Week)
+                        {
+                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
+                                record.LessonDiscipline + " конс." + Environment.NewLine +
+                                record.LessonLecturer + Environment.NewLine + record.LessonGroup;
+                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
+                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                        }
+                        if (record.Week == 1 && isLoad2Week)
+                        {
+                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
+                                record.LessonDiscipline + " конс." + Environment.NewLine +
+                                record.LessonLecturer + Environment.NewLine + record.LessonGroup;
+                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
+                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                        }
+                    }
                 }
                 for (int i = 0; i < dataGridViewFirstWeek.Rows.Count; i++)
                 {
@@ -213,30 +216,32 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                 if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                                     DialogResult.Yes)
                                 {
-                                    if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
+                                    ResultService result;
+                                    if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                                     {
-                                        var res = _serviceSR.DeleteSemesterRecord(
+                                        result = _serviceSR.DeleteSemesterRecord(
                                             new SemesterRecordGetBindingModel
                                             {
-                                                Id =
-                                            Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                                Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
                                             });
-                                        if (!res.Succeeded)
-                                        {
-                                            StringBuilder error = new StringBuilder();
-                                            foreach (var er in res.Errors)
-                                            {
-                                                error.Append(er.Key);
-                                                error.Append(": ");
-                                                error.Append(er.Value);
-                                                error.Append("\r\n");
-                                            }
-                                            throw new Exception(error.ToString());
-                                        }
                                     }
-                                    //else
-                                    //    if (!_consultaion.DelRecord(Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)))
-                                    //    throw new Exception(_consultaion.Error);
+                                    else
+                                    {
+                                        result = _serviceCR.DeleteConsultationRecord(
+                                            new ConsultationRecordGetBindingModel
+                                            {
+                                                Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                            });
+                                    }
+                                    if (!result.Succeeded)
+                                    {
+                                        StringBuilder strRes = new StringBuilder();
+                                        foreach (var err in result.Errors)
+                                        {
+                                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                                        }
+                                        throw new Exception(strRes.ToString());
+                                    }
                                     LoadData(_classroomID);
                                 }
                 }

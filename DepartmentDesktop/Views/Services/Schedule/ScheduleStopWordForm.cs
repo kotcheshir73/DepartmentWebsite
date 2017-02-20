@@ -1,7 +1,9 @@
-﻿using DepartmentDAL.Enums;
+﻿using DepartmentDAL;
+using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule
@@ -62,40 +64,37 @@ namespace DepartmentDesktop.Views.Services.Schedule
         {
             if (CheckFill())
             {
+                ResultService result;
                 if (_id == 0)
                 {
-                    var res = _service.CreateScheduleStopWord(new ScheduleStopWordRecordBindingModel
+                    result = _service.CreateScheduleStopWord(new ScheduleStopWordRecordBindingModel
                     {
                         StopWord = textBoxStopWord.Text,
                         StopWordType = comboBoxStopWordType.Text
                     });
-                    if (res.Succeeded)
-                    {
-                        DialogResult = DialogResult.OK;
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
                 }
                 else
                 {
-                    var res = _service.UpdateScheduleStopWord(new ScheduleStopWordRecordBindingModel
+                    result = _service.UpdateScheduleStopWord(new ScheduleStopWordRecordBindingModel
                     {
                         Id = _id,
                         StopWord = textBoxStopWord.Text,
                         StopWordType = comboBoxStopWordType.Text
                     });
-                    if (res.Succeeded)
+                }
+                if (result.Succeeded)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
                     {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
                     }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else

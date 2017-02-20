@@ -58,18 +58,18 @@ namespace DepartmentService.Services
                 int lesson = 7;
                 DateTime[] lessons = new DateTime[]
                 {
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 8, 0, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 9, 40, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 11, 30, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 13, 10, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 14, 50, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 16, 30, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 18, 10, 0),
-                    new DateTime(model.DateConsultation.Day, model.DateConsultation.Month, model.DateConsultation.Year, 19, 50, 0)
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 8, 0, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 9, 40, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 11, 30, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 13, 10, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 14, 50, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 16, 30, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 18, 10, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 19, 50, 0)
                 };
                 for (int i = 0; i < lessons.Length - 1; ++i)
                 {
-                    if (lessons[i] > model.DateConsultation && lessons[i + 1] < model.DateConsultation)
+                    if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
                     {
                         lesson = i;
                         break;

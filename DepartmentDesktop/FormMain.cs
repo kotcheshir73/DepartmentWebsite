@@ -116,5 +116,12 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void scheduleConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleConsultationControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
     }
 }

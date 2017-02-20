@@ -56,10 +56,10 @@
             this.panelBaseData = new System.Windows.Forms.Panel();
             this.panelDateTime = new System.Windows.Forms.Panel();
             this.panelApply = new System.Windows.Forms.Panel();
-            this.checkBoxApplyToAnalogRecordsByLecturer = new System.Windows.Forms.CheckBox();
-            this.checkBoxApplyToAnalogRecordsByGroup = new System.Windows.Forms.CheckBox();
-            this.checkBoxApplyToAnalogRecordsByClassroom = new System.Windows.Forms.CheckBox();
             this.checkBoxApplyToAnalogRecordsByLessonType = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplyToAnalogRecordsByClassroom = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplyToAnalogRecordsByGroup = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplyToAnalogRecordsByLecturer = new System.Windows.Forms.CheckBox();
             this.panelTextData.SuspendLayout();
             this.panelBaseData.SuspendLayout();
             this.panelDateTime.SuspendLayout();
@@ -69,7 +69,7 @@
             // labelClassroom
             // 
             this.labelClassroom.AutoSize = true;
-            this.labelClassroom.Location = new System.Drawing.Point(12, 129);
+            this.labelClassroom.Location = new System.Drawing.Point(12, 137);
             this.labelClassroom.Name = "labelClassroom";
             this.labelClassroom.Size = new System.Drawing.Size(60, 13);
             this.labelClassroom.TabIndex = 5;
@@ -152,7 +152,7 @@
             // labelLessonType
             // 
             this.labelLessonType.AutoSize = true;
-            this.labelLessonType.Location = new System.Drawing.Point(12, 155);
+            this.labelLessonType.Location = new System.Drawing.Point(12, 163);
             this.labelLessonType.Name = "labelLessonType";
             this.labelLessonType.Size = new System.Drawing.Size(70, 13);
             this.labelLessonType.TabIndex = 6;
@@ -161,7 +161,7 @@
             // labelLessonGroup
             // 
             this.labelLessonGroup.AutoSize = true;
-            this.labelLessonGroup.Location = new System.Drawing.Point(12, 103);
+            this.labelLessonGroup.Location = new System.Drawing.Point(12, 111);
             this.labelLessonGroup.Name = "labelLessonGroup";
             this.labelLessonGroup.Size = new System.Drawing.Size(42, 13);
             this.labelLessonGroup.TabIndex = 4;
@@ -170,7 +170,7 @@
             // labelLessonLecturer
             // 
             this.labelLessonLecturer.AutoSize = true;
-            this.labelLessonLecturer.Location = new System.Drawing.Point(12, 77);
+            this.labelLessonLecturer.Location = new System.Drawing.Point(12, 85);
             this.labelLessonLecturer.Name = "labelLessonLecturer";
             this.labelLessonLecturer.Size = new System.Drawing.Size(86, 13);
             this.labelLessonLecturer.TabIndex = 3;
@@ -179,7 +179,7 @@
             // labelLessonDiscipline
             // 
             this.labelLessonDiscipline.AutoSize = true;
-            this.labelLessonDiscipline.Location = new System.Drawing.Point(12, 51);
+            this.labelLessonDiscipline.Location = new System.Drawing.Point(12, 59);
             this.labelLessonDiscipline.Name = "labelLessonDiscipline";
             this.labelLessonDiscipline.Size = new System.Drawing.Size(52, 13);
             this.labelLessonDiscipline.TabIndex = 2;
@@ -233,7 +233,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(415, 358);
+            this.buttonClose.Location = new System.Drawing.Point(415, 366);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 12;
@@ -243,7 +243,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(334, 358);
+            this.buttonSave.Location = new System.Drawing.Point(334, 366);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 11;
@@ -259,6 +259,7 @@
             this.comboBoxLecturer.Name = "comboBoxLecturer";
             this.comboBoxLecturer.Size = new System.Drawing.Size(180, 21);
             this.comboBoxLecturer.TabIndex = 2;
+            this.comboBoxLecturer.SelectedIndexChanged += new System.EventHandler(this.comboBoxLecturer_SelectedIndexChanged);
             // 
             // comboBoxGroup
             // 
@@ -268,6 +269,7 @@
             this.comboBoxGroup.Name = "comboBoxGroup";
             this.comboBoxGroup.Size = new System.Drawing.Size(180, 21);
             this.comboBoxGroup.TabIndex = 3;
+            this.comboBoxGroup.SelectedIndexChanged += new System.EventHandler(this.comboBoxGroup_SelectedIndexChanged);
             // 
             // comboBoxClassroom
             // 
@@ -277,12 +279,13 @@
             this.comboBoxClassroom.Name = "comboBoxClassroom";
             this.comboBoxClassroom.Size = new System.Drawing.Size(180, 21);
             this.comboBoxClassroom.TabIndex = 4;
+            this.comboBoxClassroom.SelectedIndexChanged += new System.EventHandler(this.comboBoxClassroom_SelectedIndexChanged);
             // 
             // radioButtonApplyToTextData
             // 
             this.radioButtonApplyToTextData.AutoSize = true;
             this.radioButtonApplyToTextData.Checked = true;
-            this.radioButtonApplyToTextData.Location = new System.Drawing.Point(104, 4);
+            this.radioButtonApplyToTextData.Location = new System.Drawing.Point(104, 12);
             this.radioButtonApplyToTextData.Name = "radioButtonApplyToTextData";
             this.radioButtonApplyToTextData.Size = new System.Drawing.Size(153, 30);
             this.radioButtonApplyToTextData.TabIndex = 0;
@@ -293,7 +296,7 @@
             // radioButtonApplyToBaseData
             // 
             this.radioButtonApplyToBaseData.AutoSize = true;
-            this.radioButtonApplyToBaseData.Location = new System.Drawing.Point(301, 4);
+            this.radioButtonApplyToBaseData.Location = new System.Drawing.Point(301, 12);
             this.radioButtonApplyToBaseData.Name = "radioButtonApplyToBaseData";
             this.radioButtonApplyToBaseData.Size = new System.Drawing.Size(153, 30);
             this.radioButtonApplyToBaseData.TabIndex = 1;
@@ -308,7 +311,7 @@
             this.panelTextData.Controls.Add(this.comboBoxLessonType);
             this.panelTextData.Controls.Add(this.textBoxLessonGroup);
             this.panelTextData.Controls.Add(this.textBoxClassroom);
-            this.panelTextData.Location = new System.Drawing.Point(104, 40);
+            this.panelTextData.Location = new System.Drawing.Point(104, 48);
             this.panelTextData.Name = "panelTextData";
             this.panelTextData.Size = new System.Drawing.Size(190, 136);
             this.panelTextData.TabIndex = 7;
@@ -319,7 +322,7 @@
             this.panelBaseData.Controls.Add(this.comboBoxLecturer);
             this.panelBaseData.Controls.Add(this.comboBoxClassroom);
             this.panelBaseData.Controls.Add(this.comboBoxGroup);
-            this.panelBaseData.Location = new System.Drawing.Point(300, 40);
+            this.panelBaseData.Location = new System.Drawing.Point(300, 48);
             this.panelBaseData.Name = "panelBaseData";
             this.panelBaseData.Size = new System.Drawing.Size(190, 136);
             this.panelBaseData.TabIndex = 8;
@@ -333,7 +336,7 @@
             this.panelDateTime.Controls.Add(this.labelLesson);
             this.panelDateTime.Controls.Add(this.comboBoxLesson);
             this.panelDateTime.Controls.Add(this.comboBoxDay);
-            this.panelDateTime.Location = new System.Drawing.Point(104, 182);
+            this.panelDateTime.Location = new System.Drawing.Point(104, 190);
             this.panelDateTime.Name = "panelDateTime";
             this.panelDateTime.Size = new System.Drawing.Size(386, 38);
             this.panelDateTime.TabIndex = 9;
@@ -346,40 +349,10 @@
             this.panelApply.Controls.Add(this.checkBoxApplyToAnalogRecordsByGroup);
             this.panelApply.Controls.Add(this.checkBoxApplyToAnalogRecordsByLecturer);
             this.panelApply.Controls.Add(this.checkBoxApplyToAnalogRecordsByDisipline);
-            this.panelApply.Location = new System.Drawing.Point(104, 226);
+            this.panelApply.Location = new System.Drawing.Point(104, 234);
             this.panelApply.Name = "panelApply";
             this.panelApply.Size = new System.Drawing.Size(386, 126);
             this.panelApply.TabIndex = 10;
-            // 
-            // checkBoxApplyToAnalogRecordsByLecturer
-            // 
-            this.checkBoxApplyToAnalogRecordsByLecturer.AutoSize = true;
-            this.checkBoxApplyToAnalogRecordsByLecturer.Location = new System.Drawing.Point(12, 30);
-            this.checkBoxApplyToAnalogRecordsByLecturer.Name = "checkBoxApplyToAnalogRecordsByLecturer";
-            this.checkBoxApplyToAnalogRecordsByLecturer.Size = new System.Drawing.Size(313, 17);
-            this.checkBoxApplyToAnalogRecordsByLecturer.TabIndex = 1;
-            this.checkBoxApplyToAnalogRecordsByLecturer.Text = "Применить к аналогичным записям по преподавателям";
-            this.checkBoxApplyToAnalogRecordsByLecturer.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxApplyToAnalogRecordsByGroup
-            // 
-            this.checkBoxApplyToAnalogRecordsByGroup.AutoSize = true;
-            this.checkBoxApplyToAnalogRecordsByGroup.Location = new System.Drawing.Point(12, 53);
-            this.checkBoxApplyToAnalogRecordsByGroup.Name = "checkBoxApplyToAnalogRecordsByGroup";
-            this.checkBoxApplyToAnalogRecordsByGroup.Size = new System.Drawing.Size(270, 17);
-            this.checkBoxApplyToAnalogRecordsByGroup.TabIndex = 2;
-            this.checkBoxApplyToAnalogRecordsByGroup.Text = "Применить к аналогичным записям по группам";
-            this.checkBoxApplyToAnalogRecordsByGroup.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxApplyToAnalogRecordsByClassroom
-            // 
-            this.checkBoxApplyToAnalogRecordsByClassroom.AutoSize = true;
-            this.checkBoxApplyToAnalogRecordsByClassroom.Location = new System.Drawing.Point(12, 76);
-            this.checkBoxApplyToAnalogRecordsByClassroom.Name = "checkBoxApplyToAnalogRecordsByClassroom";
-            this.checkBoxApplyToAnalogRecordsByClassroom.Size = new System.Drawing.Size(288, 17);
-            this.checkBoxApplyToAnalogRecordsByClassroom.TabIndex = 3;
-            this.checkBoxApplyToAnalogRecordsByClassroom.Text = "Применить к аналогичным записям по аудиториям";
-            this.checkBoxApplyToAnalogRecordsByClassroom.UseVisualStyleBackColor = true;
             // 
             // checkBoxApplyToAnalogRecordsByLessonType
             // 
@@ -391,11 +364,41 @@
             this.checkBoxApplyToAnalogRecordsByLessonType.Text = "Применить к аналогичным записям по типам занятий";
             this.checkBoxApplyToAnalogRecordsByLessonType.UseVisualStyleBackColor = true;
             // 
+            // checkBoxApplyToAnalogRecordsByClassroom
+            // 
+            this.checkBoxApplyToAnalogRecordsByClassroom.AutoSize = true;
+            this.checkBoxApplyToAnalogRecordsByClassroom.Location = new System.Drawing.Point(12, 76);
+            this.checkBoxApplyToAnalogRecordsByClassroom.Name = "checkBoxApplyToAnalogRecordsByClassroom";
+            this.checkBoxApplyToAnalogRecordsByClassroom.Size = new System.Drawing.Size(288, 17);
+            this.checkBoxApplyToAnalogRecordsByClassroom.TabIndex = 3;
+            this.checkBoxApplyToAnalogRecordsByClassroom.Text = "Применить к аналогичным записям по аудиториям";
+            this.checkBoxApplyToAnalogRecordsByClassroom.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxApplyToAnalogRecordsByGroup
+            // 
+            this.checkBoxApplyToAnalogRecordsByGroup.AutoSize = true;
+            this.checkBoxApplyToAnalogRecordsByGroup.Location = new System.Drawing.Point(12, 53);
+            this.checkBoxApplyToAnalogRecordsByGroup.Name = "checkBoxApplyToAnalogRecordsByGroup";
+            this.checkBoxApplyToAnalogRecordsByGroup.Size = new System.Drawing.Size(270, 17);
+            this.checkBoxApplyToAnalogRecordsByGroup.TabIndex = 2;
+            this.checkBoxApplyToAnalogRecordsByGroup.Text = "Применить к аналогичным записям по группам";
+            this.checkBoxApplyToAnalogRecordsByGroup.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxApplyToAnalogRecordsByLecturer
+            // 
+            this.checkBoxApplyToAnalogRecordsByLecturer.AutoSize = true;
+            this.checkBoxApplyToAnalogRecordsByLecturer.Location = new System.Drawing.Point(12, 30);
+            this.checkBoxApplyToAnalogRecordsByLecturer.Name = "checkBoxApplyToAnalogRecordsByLecturer";
+            this.checkBoxApplyToAnalogRecordsByLecturer.Size = new System.Drawing.Size(313, 17);
+            this.checkBoxApplyToAnalogRecordsByLecturer.TabIndex = 1;
+            this.checkBoxApplyToAnalogRecordsByLecturer.Text = "Применить к аналогичным записям по преподавателям";
+            this.checkBoxApplyToAnalogRecordsByLecturer.UseVisualStyleBackColor = true;
+            // 
             // ScheduleSemesterRecordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 386);
+            this.ClientSize = new System.Drawing.Size(495, 392);
             this.Controls.Add(this.panelApply);
             this.Controls.Add(this.labelLessonType);
             this.Controls.Add(this.panelDateTime);

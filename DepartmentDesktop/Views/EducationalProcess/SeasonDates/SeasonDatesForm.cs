@@ -1,6 +1,8 @@
-﻿using DepartmentService.BindingModels;
+﻿using DepartmentDAL;
+using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
@@ -81,6 +83,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
         {
             if (CheckFill())
             {
+                ResultService result;
                 DateTime? dateBeginPractic = null;
                 if (checkBoxDateBeginPractic.Checked)
                 {
@@ -93,7 +96,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
                 }
                 if (_id == 0)
                 {
-                    var res = _service.CreateSeasonDates(new SeasonDatesRecordBindingModel
+                    result = _service.CreateSeasonDates(new SeasonDatesRecordBindingModel
                     {
                         Title = textBoxTitle.Text,
                         DateBeginExamination = dateTimePickerDateBeginExamination.Value,
@@ -105,19 +108,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
                         DateBeginPractice = dateBeginPractic,
                         DateEndPractice = dateEndPractic
                     });
-                    if (res.Succeeded)
-                    {
-                        DialogResult = DialogResult.OK;
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
                 }
                 else
                 {
-                    var res = _service.UpdateSeasonDates(new SeasonDatesRecordBindingModel
+                    result = _service.UpdateSeasonDates(new SeasonDatesRecordBindingModel
                     {
                         Id = _id,
                         Title = textBoxTitle.Text,
@@ -130,15 +124,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
                         DateBeginPractice = dateBeginPractic,
                         DateEndPractice = dateEndPractic
                     });
-                    if (res.Succeeded)
+                }
+                if (result.Succeeded)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
                     {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
                     }
-                    else
-                    {
-                        MessageBox.Show("При сохранении возникла ошибка: " + res.Errors["error"], "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
