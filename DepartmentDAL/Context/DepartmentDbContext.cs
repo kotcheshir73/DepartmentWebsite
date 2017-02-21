@@ -22,6 +22,7 @@ namespace DepartmentDAL.Context
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
         public virtual DbSet<Message> Messages { set; get; }
+        public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }

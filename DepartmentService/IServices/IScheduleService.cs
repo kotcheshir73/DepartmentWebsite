@@ -47,6 +47,13 @@ namespace DepartmentService.IServices
         List<ConsultationRecordShortViewModel> GetScheduleConsultation(ScheduleConsultationBindingModel model);
 
         /// <summary>
+        /// Получение расписания зачетов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<OffsetRecordShortViewModel> GetScheduleOffset(ScheduleOffsetBindingModel model);
+
+        /// <summary>
         /// Загрузка арсписания по аудиториям
         /// </summary>
         /// <param name="model"></param>

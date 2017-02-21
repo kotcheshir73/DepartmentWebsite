@@ -137,6 +137,34 @@ namespace DepartmentService.ViewModels
             return entities.Select(e => CreateConsultationRecordViewModel(e)).OrderBy(e => e.Id);
         }
 
+        public static OffsetRecordViewModel CreateOffsetRecordViewModel(OffsetRecord entity)
+        {
+            return new OffsetRecordViewModel
+            {
+                Id = entity.Id,
+                Day = entity.Day,
+                Week = entity.Week,
+                Lesson = entity.Lesson,
+                IsStreaming = entity.IsStreaming,
+                LessonClassroom = entity.LessonClassroom,
+                LessonGroup = entity.LessonGroup,
+                LessonDiscipline = entity.LessonDiscipline,
+                LessonLecturer = entity.LessonLecturer,
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+                LecturerId = entity.LecturerId,
+                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                StudentGroupId = entity.StudentGroupId,
+                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+            };
+        }
+
+        public static IEnumerable<OffsetRecordViewModel> CreateOffsetRecords(
+            IEnumerable<OffsetRecord> entities)
+        {
+            return entities.Select(e => CreateOffsetRecordViewModel(e)).OrderBy(e => e.Id);
+        }
+
         public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
         {
             return new StreamingLessonViewModel

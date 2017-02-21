@@ -186,6 +186,24 @@
     <Compile Include="Views\Services\Schedule\ScheduleConsultationRecordForm.Designer.cs">
       <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.Designer.cs">
+      <DependentUpon>ScheduleOffsetClassroomControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleOffsetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleOffsetControl.Designer.cs">
+      <DependentUpon>ScheduleOffsetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleOffsetRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleOffsetRecordForm.Designer.cs">
+      <DependentUpon>ScheduleOffsetRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -291,6 +309,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationRecordForm.resx">
       <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.resx">
+      <DependentUpon>ScheduleOffsetClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetControl.resx">
+      <DependentUpon>ScheduleOffsetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetRecordForm.resx">
+      <DependentUpon>ScheduleOffsetRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.resx">
       <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>

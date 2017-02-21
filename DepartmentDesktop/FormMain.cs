@@ -89,6 +89,13 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
+        private void streamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.EducationalProcess.StreamingLesson.StreamingLessonControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         private void scheduleSemestrToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleSemesterControl>();
@@ -96,16 +103,16 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
-        private void scheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        private void scheduleOffsetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.Schedule.ScheduleConfigControl>();
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleOffsetControl>();
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void streamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void scheduleConsultationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.EducationalProcess.StreamingLesson.StreamingLessonControl>();
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleConsultationControl>();
             ApplyControl(control);
             control.LoadData();
         }
@@ -117,9 +124,9 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
-        private void scheduleConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void scheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.Schedule.ScheduleConsultationControl>();
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleConfigControl>();
             ApplyControl(control);
             control.LoadData();
         }

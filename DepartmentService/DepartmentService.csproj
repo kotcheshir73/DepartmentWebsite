@@ -53,13 +53,13 @@
     <Compile Include="BindingModels\ClassroomBindingModels.cs" />
     <Compile Include="BindingModels\EducationDirectionBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
-    <Compile Include="BindingModels\ScheduleStopWordBindingModels.cs" />
     <Compile Include="BindingModels\SeasonDatesBindingModels.cs" />
     <Compile Include="BindingModels\StreamingLessonBindingModels.cs" />
     <Compile Include="BindingModels\StudentGroupBindingModels.cs" />
     <Compile Include="IServices\IClassroomService.cs" />
     <Compile Include="IServices\IConsultationRecordService.cs" />
     <Compile Include="IServices\IEducationDirectionService.cs" />
+    <Compile Include="IServices\IOffsetRecordService.cs" />
     <Compile Include="IServices\IScheduleService.cs" />
     <Compile Include="IServices\IScheduleStopWordService.cs" />
     <Compile Include="IServices\ISeasonDatesService.cs" />
@@ -71,6 +71,7 @@
     <Compile Include="Services\ClassroomService.cs" />
     <Compile Include="Services\ConsultationRecordService.cs" />
     <Compile Include="Services\EducationDirectionService.cs" />
+    <Compile Include="Services\OffsetRecordService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\ScheduleStopWordService.cs" />
     <Compile Include="Services\SeasonDatesService.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="ViewModels\ClassroomViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModel.cs" />
     <Compile Include="ViewModels\ModelFactory.cs" />
-    <Compile Include="ViewModels\ScheduleStopWordViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModels.cs" />
     <Compile Include="ViewModels\SeasonDatesViewModel.cs" />
     <Compile Include="ViewModels\StreamingLessonViewModel.cs" />

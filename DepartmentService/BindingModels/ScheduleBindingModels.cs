@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
@@ -7,6 +8,7 @@ namespace DepartmentService.BindingModels
     {
         public string ClassroomId { get; set; }
     }
+
     public class ScheduleConsultationBindingModel
     {
         public string ClassroomId { get; set; }
@@ -14,6 +16,11 @@ namespace DepartmentService.BindingModels
         public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
+    }
+
+    public class ScheduleOffsetBindingModel
+    {
+        public string ClassroomId { get; set; }
     }
 
     public class LoadHTMLForClassroomsBindingModel
@@ -39,6 +46,22 @@ namespace DepartmentService.BindingModels
         public List<string> Classrooms { get; set; }
 
         public long SeasonDatesId { get; set; }
+    }
+
+    public class ScheduleStopWordGetBindingModel
+    {
+        public long Id { get; set; }
+    }
+
+    public class ScheduleStopWordRecordBindingModel
+    {
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string StopWord { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string StopWordType { get; set; }
     }
 
     public class SemesterRecordGetBindingModel
@@ -104,6 +127,38 @@ namespace DepartmentService.BindingModels
         public long Id { get; set; }
 
         public DateTime DateConsultation { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public long? LecturerId { get; set; }
+    }
+
+    public class OffsetRecordGetBindingModel
+    {
+        public long Id { get; set; }
+    }
+
+    public class OffsetRecordRecordBindingModel
+    {
+        public long Id { get; set; }
+
+        public int Week { get; set; }
+
+        public int Day { get; set; }
+
+        public int Lesson { get; set; }
+
+        public bool IsStreaming { get; set; }
 
         public string LessonDiscipline { get; set; }
 

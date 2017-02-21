@@ -1,19 +1,15 @@
-﻿using DepartmentDAL.Enums;
-
-namespace DepartmentDAL.Models
+﻿namespace DepartmentDAL.Models
 {
     /// <summary>
-    /// Класс, описывающий занятие в семестре
+    /// Класс, описывающий зачет на зачетной неделе
     /// </summary>
-    public class SemesterRecord : ScheduleRecord
+    public class OffsetRecord : ScheduleRecord
     {
         public int Week { get; set; }
 
         public int Day { get; set; }
 
         public int Lesson { get; set; }
-
-        public LessonTypes LessonType { get; set; }
 
         /// <summary>
         /// Является ли пара потоковой

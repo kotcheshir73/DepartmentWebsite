@@ -3,18 +3,17 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using DepartmentService.IServices;
-using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using DepartmentDAL.Enums;
+using DepartmentService.BindingModels;
 using DepartmentDAL;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ScheduleSemesterClassroomControl : UserControl
+    public partial class ScheduleOffsetClassroomControl : UserControl
     {
         private readonly IScheduleService _service;
 
-        private readonly ISemesterRecordService _serviceSR;
+        private readonly IOffsetRecordService _serviceOR;
 
         private readonly IConsultationRecordService _serviceCR;
 
@@ -26,12 +25,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private Color _consultationColor = Color.Green;
 
-        public ScheduleSemesterClassroomControl(IScheduleService service, ISemesterRecordService serviceSR,
+        public ScheduleOffsetClassroomControl(IScheduleService service, IOffsetRecordService serviceOR,
             IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _service = service;
-            _serviceSR = serviceSR;
+            _serviceOR = serviceOR;
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
         }
@@ -42,18 +41,18 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 _classroomID = classroomID;
                 labelTop.Text = classroomID + " аудитория";
-
+                
                 _dates = _service.GetCurrentDates();
                 if (_dates == null)
                     throw new Exception("Невозможно получить даты семестра");
 
                 //Заполняем даты
                 DateTime currentdate = _selectDate;
-                var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
-                var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
+                var dateBeginOffset = Convert.ToDateTime(_dates.DateBeginOffset);
+                var dateEndOffset = Convert.ToDateTime(_dates.DateEndOffset);
                 if (_selectDate.Date == DateTime.Now.Date)
                 {
-                    currentdate = dateBeginSemester.AddDays(((DateTime.Now - dateBeginSemester).Days / 14) * 14);
+                    currentdate = dateBeginOffset.AddDays(((DateTime.Now - dateBeginOffset).Days / 14) * 14);
                     _selectDate = currentdate;
                 }
 
@@ -76,9 +75,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
                     currentdate = currentdate.AddDays(1);
                 }
-                var list = _service.GetScheduleSemester(new ScheduleSemesterBindingModel { ClassroomId = classroomID });
+                var list = _service.GetScheduleOffset(new ScheduleOffsetBindingModel { ClassroomId = classroomID });
                 if (list == null)
-                    throw new Exception("Невозможно получить список занятий в семестре");
+                    throw new Exception("Невозможно получить список зачетов в семестре");
                 for (int r = 0; r < list.Count; ++r)
                 {
                     if (list[r].Week == 0)
@@ -87,16 +86,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {
                             dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                         }
-                        if (list[r].LessonType == LessonTypes.нд.ToString())
-                        {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
-                        }
-                        if (list[r].LessonType == LessonTypes.удл.ToString())
-                        {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
-                        }
                         dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value =
-                            list[r].LessonType + " " + list[r].LessonDiscipline + Environment.NewLine +
+                            list[r].LessonDiscipline + Environment.NewLine +
                             list[r].LessonLecturer + Environment.NewLine + list[r].LessonGroup;
                         dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
@@ -106,22 +97,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {
                             dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                         }
-                        if (list[r].LessonType == LessonTypes.нд.ToString())
-                        {
-                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
-                        }
-                        if (list[r].LessonType == LessonTypes.удл.ToString())
-                        {
-                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
-                        }
                         dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value =
-                            list[r].LessonType + " " + list[r].LessonDiscipline + Environment.NewLine +
+                            list[r].LessonDiscipline + Environment.NewLine +
                             list[r].LessonLecturer + Environment.NewLine + list[r].LessonGroup;
                         dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                 }
-                var dateFinish = _selectDate.AddDays(14);
-                var consults = _service.GetScheduleConsultation(new ScheduleConsultationBindingModel { DateBegin = _selectDate, DateEnd = dateFinish, ClassroomId = _classroomID });
+                var consults = _service.GetScheduleConsultation(new ScheduleConsultationBindingModel { DateBegin = _selectDate, DateEnd = dateEndOffset, ClassroomId = _classroomID });
                 if (consults == null)
                     throw new Exception("Невозможно получить список консультаций в семестре");
                 foreach (var record in consults)
@@ -158,24 +140,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
         }
 
-        private void buttonPrevWeek_Click(object sender, EventArgs e)
-        {
-            DateTime date = _selectDate;
-            var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
-            if (date.AddDays(-14) >= dateBeginSemester.Date)
-                _selectDate = date.AddDays(-14);
-            LoadData(_classroomID);
-        }
-
-        private void buttonNextWeek_Click(object sender, EventArgs e)
-        {
-            DateTime date = _selectDate;
-            var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
-            if (date.AddDays(14) <= dateEndSemester.Date)
-                _selectDate = date.AddDays(14);
-            LoadData(_classroomID);
-        }
-
         private void dataGridView_Resize(object sender, EventArgs e)
         {
             for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
@@ -198,8 +162,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                     ResultService result;
                                     if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                                     {
-                                        result = _serviceSR.DeleteSemesterRecord(
-                                            new SemesterRecordGetBindingModel
+                                        result = _serviceOR.DeleteOffsetRecord(
+                                            new OffsetRecordGetBindingModel
                                             {
                                                 Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
                                             });
@@ -240,7 +204,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {//если в Tag есть данные, то это id записи
                             if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
                             {
-                                ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR,
+                                ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR,
                                     Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
                                 form.ShowDialog();
                             }
@@ -265,7 +229,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR);
+            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR);
             form.ShowDialog();
         }
 

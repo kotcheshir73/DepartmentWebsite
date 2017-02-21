@@ -85,7 +85,7 @@
             this.comboBoxWeek.Location = new System.Drawing.Point(60, 8);
             this.comboBoxWeek.Name = "comboBoxWeek";
             this.comboBoxWeek.Size = new System.Drawing.Size(45, 21);
-            this.comboBoxWeek.TabIndex = 11;
+            this.comboBoxWeek.TabIndex = 1;
             // 
             // labelWeek
             // 
@@ -93,7 +93,7 @@
             this.labelWeek.Location = new System.Drawing.Point(9, 11);
             this.labelWeek.Name = "labelWeek";
             this.labelWeek.Size = new System.Drawing.Size(45, 13);
-            this.labelWeek.TabIndex = 10;
+            this.labelWeek.TabIndex = 0;
             this.labelWeek.Text = "Неделя";
             // 
             // comboBoxDay
@@ -111,7 +111,7 @@
             this.comboBoxDay.Location = new System.Drawing.Point(167, 8);
             this.comboBoxDay.Name = "comboBoxDay";
             this.comboBoxDay.Size = new System.Drawing.Size(45, 21);
-            this.comboBoxDay.TabIndex = 13;
+            this.comboBoxDay.TabIndex = 3;
             // 
             // comboBoxLesson
             // 
@@ -129,7 +129,7 @@
             this.comboBoxLesson.Location = new System.Drawing.Point(283, 8);
             this.comboBoxLesson.Name = "comboBoxLesson";
             this.comboBoxLesson.Size = new System.Drawing.Size(45, 21);
-            this.comboBoxLesson.TabIndex = 15;
+            this.comboBoxLesson.TabIndex = 5;
             // 
             // labelLesson
             // 
@@ -137,7 +137,7 @@
             this.labelLesson.Location = new System.Drawing.Point(244, 11);
             this.labelLesson.Name = "labelLesson";
             this.labelLesson.Size = new System.Drawing.Size(33, 13);
-            this.labelLesson.TabIndex = 14;
+            this.labelLesson.TabIndex = 4;
             this.labelLesson.Text = "Пара";
             // 
             // labelDay
@@ -146,7 +146,7 @@
             this.labelDay.Location = new System.Drawing.Point(127, 11);
             this.labelDay.Name = "labelDay";
             this.labelDay.Size = new System.Drawing.Size(34, 13);
-            this.labelDay.TabIndex = 12;
+            this.labelDay.TabIndex = 2;
             this.labelDay.Text = "День";
             // 
             // labelLessonType
@@ -190,28 +190,28 @@
             this.textBoxLessonDiscipline.Location = new System.Drawing.Point(3, 6);
             this.textBoxLessonDiscipline.Name = "textBoxLessonDiscipline";
             this.textBoxLessonDiscipline.Size = new System.Drawing.Size(180, 20);
-            this.textBoxLessonDiscipline.TabIndex = 1;
+            this.textBoxLessonDiscipline.TabIndex = 0;
             // 
             // textBoxLessonLecturer
             // 
             this.textBoxLessonLecturer.Location = new System.Drawing.Point(3, 32);
             this.textBoxLessonLecturer.Name = "textBoxLessonLecturer";
             this.textBoxLessonLecturer.Size = new System.Drawing.Size(180, 20);
-            this.textBoxLessonLecturer.TabIndex = 2;
+            this.textBoxLessonLecturer.TabIndex = 1;
             // 
             // textBoxLessonGroup
             // 
             this.textBoxLessonGroup.Location = new System.Drawing.Point(3, 58);
             this.textBoxLessonGroup.Name = "textBoxLessonGroup";
             this.textBoxLessonGroup.Size = new System.Drawing.Size(180, 20);
-            this.textBoxLessonGroup.TabIndex = 3;
+            this.textBoxLessonGroup.TabIndex = 2;
             // 
             // textBoxClassroom
             // 
             this.textBoxClassroom.Location = new System.Drawing.Point(3, 84);
             this.textBoxClassroom.Name = "textBoxClassroom";
             this.textBoxClassroom.Size = new System.Drawing.Size(180, 20);
-            this.textBoxClassroom.TabIndex = 4;
+            this.textBoxClassroom.TabIndex = 3;
             // 
             // comboBoxLessonType
             // 
@@ -219,7 +219,7 @@
             this.comboBoxLessonType.Location = new System.Drawing.Point(3, 110);
             this.comboBoxLessonType.Name = "comboBoxLessonType";
             this.comboBoxLessonType.Size = new System.Drawing.Size(94, 21);
-            this.comboBoxLessonType.TabIndex = 9;
+            this.comboBoxLessonType.TabIndex = 4;
             // 
             // checkBoxApplyToAnalogRecordsByDisipline
             // 
@@ -258,7 +258,7 @@
             this.comboBoxLecturer.Location = new System.Drawing.Point(3, 34);
             this.comboBoxLecturer.Name = "comboBoxLecturer";
             this.comboBoxLecturer.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxLecturer.TabIndex = 2;
+            this.comboBoxLecturer.TabIndex = 1;
             this.comboBoxLecturer.SelectedIndexChanged += new System.EventHandler(this.comboBoxLecturer_SelectedIndexChanged);
             // 
             // comboBoxStudentGroup
@@ -268,7 +268,7 @@
             this.comboBoxStudentGroup.Location = new System.Drawing.Point(3, 60);
             this.comboBoxStudentGroup.Name = "comboBoxStudentGroup";
             this.comboBoxStudentGroup.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxStudentGroup.TabIndex = 3;
+            this.comboBoxStudentGroup.TabIndex = 2;
             this.comboBoxStudentGroup.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentGroup_SelectedIndexChanged);
             // 
             // comboBoxClassroom
@@ -278,7 +278,7 @@
             this.comboBoxClassroom.Location = new System.Drawing.Point(3, 86);
             this.comboBoxClassroom.Name = "comboBoxClassroom";
             this.comboBoxClassroom.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxClassroom.TabIndex = 4;
+            this.comboBoxClassroom.TabIndex = 3;
             this.comboBoxClassroom.SelectedIndexChanged += new System.EventHandler(this.comboBoxClassroom_SelectedIndexChanged);
             // 
             // radioButtonApplyToTextData
@@ -398,7 +398,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 392);
+            this.ClientSize = new System.Drawing.Size(494, 392);
             this.Controls.Add(this.panelApply);
             this.Controls.Add(this.labelLessonType);
             this.Controls.Add(this.panelDateTime);
@@ -413,6 +413,7 @@
             this.Controls.Add(this.labelLessonLecturer);
             this.Controls.Add(this.labelLessonDiscipline);
             this.Name = "ScheduleSemesterRecordForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Запись семестра";
             this.Load += new System.EventHandler(this.ScheduleSemesterRecordForm_Load);
             this.panelTextData.ResumeLayout(false);

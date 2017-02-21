@@ -109,6 +109,14 @@
     <Compile Include="Migrations\201702191307345_AddTableConsultationRecord.Designer.cs">
       <DependentUpon>201702191307345_AddTableConsultationRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702211543196_AddTableOffsetRecords.cs" />
+    <Compile Include="Migrations\201702211543196_AddTableOffsetRecords.Designer.cs">
+      <DependentUpon>201702211543196_AddTableOffsetRecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702211753070_UpdateConsultationRecord.cs" />
+    <Compile Include="Migrations\201702211753070_UpdateConsultationRecord.Designer.cs">
+      <DependentUpon>201702211753070_UpdateConsultationRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -118,6 +126,8 @@
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\Lecturer.cs" />
+    <Compile Include="Models\OffsetRecord.cs" />
+    <Compile Include="Models\ScheduleRecord.cs" />
     <Compile Include="Models\ScheduleStopWord.cs" />
     <Compile Include="Models\SeasonDates.cs" />
     <Compile Include="Models\SemesterRecord.cs" />
@@ -176,6 +186,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702191307345_AddTableConsultationRecord.resx">
       <DependentUpon>201702191307345_AddTableConsultationRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211543196_AddTableOffsetRecords.resx">
+      <DependentUpon>201702211543196_AddTableOffsetRecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211753070_UpdateConsultationRecord.resx">
+      <DependentUpon>201702211753070_UpdateConsultationRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

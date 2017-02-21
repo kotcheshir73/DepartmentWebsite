@@ -229,6 +229,65 @@ namespace DepartmentService.Services
             return result.OrderBy(e => e.Id).ToList();
         }
 
+        public List<OffsetRecordShortViewModel> GetScheduleOffset(ScheduleOffsetBindingModel model)
+        {
+            var currentDates = GetCurrentDates();
+            if (currentDates == null)
+            {
+                throw new Exception("Выставьте учебный период");
+            }
+            var records = _context.OffsetRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
+                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id).ToList();
+            List<OffsetRecordShortViewModel> result = new List<OffsetRecordShortViewModel>();
+            for (int i = 0; i < records.Count; ++i)
+            {
+                string groups = GetLessonGroup(records[i]);
+                if (records[i].IsStreaming)
+                {//если потоковый зачет
+                    var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
+                                            rec.LessonClassroom == records[i].LessonClassroom && rec.IsStreaming).ToList();
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var rec in recs)
+                    {
+                        sb.Append(rec.LessonGroup + ";");
+                        if (records[i] != rec)
+                        {
+                            records.Remove(rec);
+                        }
+                    }
+                    groups = sb.Remove(sb.Length - 1, 1).ToString();
+                    //пытаемся найти запись о потоковом занятии
+                    var streamingLesson = _context.StreamingLessons.FirstOrDefault(sl => sl.IncomingGroups == groups);
+                    if (streamingLesson != null)
+                    {
+                        groups = streamingLesson.StreamName;
+                    }
+                    else
+                    {
+                        _serviceSL.CreateStreamingLesson(new StreamingLessonRecordBindingModel
+                        {
+                            IncomingGroups = groups,
+                            StreamName = ""
+                        });
+                    }
+                }
+                result.Add(new OffsetRecordShortViewModel
+                {
+                    Id = records[i].Id,
+                    Week = records[i].Week,
+                    Day = records[i].Day,
+                    Lesson = records[i].Lesson,
+                    IsStreaming = records[i].IsStreaming,
+                    LessonLecturer = GetLessonLecturer(records[i]),
+                    LessonDiscipline = GetLessonDiscipline(records[i]),
+                    LessonGroup = groups,
+                    LessonClassroom = GetLessonClassroom(records[i])
+                });
+            }
+
+            return result.OrderBy(e => e.Id).ToList();
+        }
+
         public ResultService ClearSemesterRecords(ClassroomGetBindingModel model)
         {
             try
@@ -946,7 +1005,7 @@ namespace DepartmentService.Services
             return ResultService.Error("error", "classroom not found", 404);
         }
 
-        private string GetLessonLecturer(SemesterRecord entity)
+        private string GetLessonLecturer(ScheduleRecord entity)
         {
             string str = entity.LecturerId.HasValue ? entity.Lecturer.ToString() : entity.LessonLecturer;
             if (!entity.LecturerId.HasValue)
@@ -975,36 +1034,7 @@ namespace DepartmentService.Services
             return str;
         }
 
-        private string GetLessonLecturer(ConsultationRecord entity)
-        {
-            string str = entity.LecturerId.HasValue ? entity.Lecturer.ToString() : entity.LessonLecturer;
-            if (!entity.LecturerId.HasValue)
-            {
-                if (string.IsNullOrEmpty(str))
-                {
-                    str = "";
-                }
-                else
-                {
-                    var strs = str.Split(' ');
-                    if (strs.Length == 1)
-                    {
-                        str = string.Format("{0}{1}", strs[0][0], strs[0].Substring(1).ToLower());
-                    }
-                    else if (strs.Length == 2)
-                    {
-                        str = string.Format("{0}{1} {2}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1]);
-                    }
-                    else if (strs.Length == 3)
-                    {
-                        str = string.Format("{0}{1} {2} {3}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1], strs[2]);
-                    }
-                }
-            }
-            return str;
-        }
-
-        private string GetLessonDiscipline(SemesterRecord entity)
+        private string GetLessonDiscipline(ScheduleRecord entity)
         {
             string str = entity.LessonDiscipline;
 
@@ -1047,65 +1077,12 @@ namespace DepartmentService.Services
             return str;
         }
 
-        private string GetLessonDiscipline(ConsultationRecord entity)
-        {
-            string str = entity.LessonDiscipline;
-
-            if (str.Length > 10)
-            {
-                var strs = str.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < strs.Length; ++i)
-                {
-                    if (strs.Length == 1)
-                    {
-                        sb.Append(string.Format("{0}.", strs[0].Substring(0, 8)));
-                    }
-                    else if (strs[i].Length == 1)
-                    {
-                        sb.Append(strs[i]);
-                    }
-                    else if (strs[i].ToUpper() == strs[i])
-                    {
-                        sb.Append(strs[i].ToUpper());
-                    }
-                    else
-                    {
-                        sb.Append(strs[i][0].ToString().ToUpper());
-                        for (int j = 1; j < strs[i].Length; ++j)
-                        {
-                            if (strs[i][j] == '-')
-                            {
-                                continue;
-                            }
-                            if (strs[i][j].ToString().ToUpper() == strs[i][j].ToString())
-                            {
-                                sb.Append(strs[i][j].ToString().ToUpper());
-                            }
-                        }
-                    }
-                }
-                str = sb.ToString();
-            }
-            return str;
-        }
-
-        private string GetLessonGroup(SemesterRecord entity)
+        private string GetLessonGroup(ScheduleRecord entity)
         {
             return entity.StudentGroupId.HasValue ? entity.StudentGroup.GroupName : entity.LessonGroup;
         }
 
-        private string GetLessonGroup(ConsultationRecord entity)
-        {
-            return entity.StudentGroupId.HasValue ? entity.StudentGroup.GroupName : entity.LessonGroup;
-        }
-
-        private string GetLessonClassroom(SemesterRecord entity)
-        {
-            return string.IsNullOrEmpty(entity.ClassroomId) ? entity.LessonClassroom : entity.ClassroomId;
-        }
-
-        private string GetLessonClassroom(ConsultationRecord entity)
+        private string GetLessonClassroom(ScheduleRecord entity)
         {
             return string.IsNullOrEmpty(entity.ClassroomId) ? entity.LessonClassroom : entity.ClassroomId;
         }
