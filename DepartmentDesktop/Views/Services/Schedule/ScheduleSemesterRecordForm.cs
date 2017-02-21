@@ -42,10 +42,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
             //comboBoxLecturer.DataSource = _service.GetEducationDirections()
             //    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
-            //comboBoxGroup.ValueMember = "Value";
-            //comboBoxGroup.DisplayMember = "Display";
-            //comboBoxGroup.DataSource = _service.GetEducationDirections()
-            //    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+            comboBoxStudentGroup.ValueMember = "Value";
+            comboBoxStudentGroup.DisplayMember = "Display";
+            comboBoxStudentGroup.DataSource = _service.GetStudentGroups()
+                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+            comboBoxStudentGroup.SelectedItem = null;
+            textBoxLessonGroup.Text = string.Empty;
 
             comboBoxClassroom.ValueMember = "Value";
             comboBoxClassroom.DisplayMember = "Display";
@@ -73,6 +75,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 comboBoxLesson.SelectedIndex = entity.Lesson;
 
                 comboBoxClassroom.SelectedValue = entity.ClassroomId;
+                comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
 
                 panelDateTime.Enabled = false;
             }
@@ -86,11 +89,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
         }
 
-        private void comboBoxGroup_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxStudentGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxGroup.SelectedIndex > -1)
+            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxStudentGroup.SelectedIndex > -1)
             {
-                textBoxLessonGroup.Text = comboBoxGroup.Text;
+                textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
             }
         }
 

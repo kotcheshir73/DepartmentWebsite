@@ -17,15 +17,23 @@ namespace DepartmentService.Services
 
         private readonly IClassroomService _serviceC;
 
-        public ConsultationRecordService(DepartmentDbContext context, IClassroomService serviceC)
+        private readonly IStudentGroupService _serviceG;
+
+        public ConsultationRecordService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG)
         {
             _context = context;
             _serviceC = serviceC;
+            _serviceG = serviceG;
         }
 
         public List<ClassroomViewModel> GetClassrooms()
         {
             return _serviceC.GetClassrooms();
+        }
+
+        public List<StudentGroupViewModel> GetStudentGroups()
+        {
+            return _serviceG.GetStudentGroups();
         }
 
         public ConsultationRecordViewModel GetConsultationRecord(ConsultationRecordGetBindingModel model)

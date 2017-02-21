@@ -17,18 +17,26 @@ namespace DepartmentService.Services
 
         private readonly IClassroomService _serviceC;
 
+        private readonly IStudentGroupService _serviceG;
+
         private readonly ISeasonDatesService _serviceSD;
 
-        public SemesterRecordService(DepartmentDbContext context, IClassroomService serviceC, ISeasonDatesService serviceSD)
+        public SemesterRecordService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ISeasonDatesService serviceSD)
         {
             _context = context;
             _serviceC = serviceC;
+            _serviceG = serviceG;
             _serviceSD = serviceSD;
         }
 
         public List<ClassroomViewModel> GetClassrooms()
         {
             return _serviceC.GetClassrooms();
+        }
+
+        public List<StudentGroupViewModel> GetStudentGroups()
+        {
+            return _serviceG.GetStudentGroups();
         }
 
         public SemesterRecordViewModel GetSemesterRecord(SemesterRecordGetBindingModel model)

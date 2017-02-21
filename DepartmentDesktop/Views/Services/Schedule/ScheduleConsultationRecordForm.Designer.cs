@@ -32,7 +32,7 @@
             this.panelBaseData = new System.Windows.Forms.Panel();
             this.comboBoxLecturer = new System.Windows.Forms.ComboBox();
             this.comboBoxClassroom = new System.Windows.Forms.ComboBox();
-            this.comboBoxGroup = new System.Windows.Forms.ComboBox();
+            this.comboBoxStudentGroup = new System.Windows.Forms.ComboBox();
             this.panelTextData = new System.Windows.Forms.Panel();
             this.textBoxLessonDiscipline = new System.Windows.Forms.TextBox();
             this.textBoxLessonLecturer = new System.Windows.Forms.TextBox();
@@ -66,7 +66,7 @@
             this.panelBaseData.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelBaseData.Controls.Add(this.comboBoxLecturer);
             this.panelBaseData.Controls.Add(this.comboBoxClassroom);
-            this.panelBaseData.Controls.Add(this.comboBoxGroup);
+            this.panelBaseData.Controls.Add(this.comboBoxStudentGroup);
             this.panelBaseData.Location = new System.Drawing.Point(300, 48);
             this.panelBaseData.Name = "panelBaseData";
             this.panelBaseData.Size = new System.Drawing.Size(190, 115);
@@ -92,15 +92,15 @@
             this.comboBoxClassroom.TabIndex = 3;
             this.comboBoxClassroom.SelectedIndexChanged += new System.EventHandler(this.comboBoxClassroom_SelectedIndexChanged);
             // 
-            // comboBoxGroup
+            // comboBoxStudentGroup
             // 
-            this.comboBoxGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxGroup.FormattingEnabled = true;
-            this.comboBoxGroup.Location = new System.Drawing.Point(3, 60);
-            this.comboBoxGroup.Name = "comboBoxGroup";
-            this.comboBoxGroup.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxGroup.TabIndex = 2;
-            this.comboBoxGroup.SelectedIndexChanged += new System.EventHandler(this.comboBoxGroup_SelectedIndexChanged);
+            this.comboBoxStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStudentGroup.FormattingEnabled = true;
+            this.comboBoxStudentGroup.Location = new System.Drawing.Point(3, 60);
+            this.comboBoxStudentGroup.Name = "comboBoxStudentGroup";
+            this.comboBoxStudentGroup.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxStudentGroup.TabIndex = 2;
+            this.comboBoxStudentGroup.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentGroup_SelectedIndexChanged);
             // 
             // panelTextData
             // 
@@ -261,7 +261,7 @@
         private System.Windows.Forms.Panel panelBaseData;
         private System.Windows.Forms.ComboBox comboBoxLecturer;
         private System.Windows.Forms.ComboBox comboBoxClassroom;
-        private System.Windows.Forms.ComboBox comboBoxGroup;
+        private System.Windows.Forms.ComboBox comboBoxStudentGroup;
         private System.Windows.Forms.Panel panelTextData;
         private System.Windows.Forms.TextBox textBoxLessonDiscipline;
         private System.Windows.Forms.TextBox textBoxLessonLecturer;

@@ -14,6 +14,12 @@ namespace DepartmentService.IServices
         List<ClassroomViewModel> GetClassrooms();
 
         /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <returns></returns>
+        List<StudentGroupViewModel> GetStudentGroups();
+
+        /// <summary>
         /// Получения записи о консультации
         /// </summary>
         /// <param name="model">Идентификатор аудитории</param>
