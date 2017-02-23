@@ -35,10 +35,13 @@ namespace DepartmentService.Services
 
         private readonly IOffsetRecordService _serviceOR;
 
+        private readonly IExaminationRecordService _serviceER;
+
         private readonly IConsultationRecordService _serviceCR;
 
         public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ISeasonDatesService serviceSD,
-            IStreamingLessonService serviceSL, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
+            IStreamingLessonService serviceSL, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER, 
+            IConsultationRecordService serviceCR)
         {
             _context = context;
             _serviceC = serviceC;
@@ -47,6 +50,7 @@ namespace DepartmentService.Services
             _serviceSL = serviceSL;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
+            _serviceER = serviceER;
             _serviceCR = serviceCR;
         }
 
@@ -797,6 +801,7 @@ namespace DepartmentService.Services
                         if (excelcell.Value2 != null)
                         {
                             DateTime dateOffset = Convert.ToDateTime(excelcell.Value2);
+
                             int week = (dateOffset - Convert.ToDateTime(currentDates.DateBeginOffset)).Days < 7 ? 0 : 1;
                             int day = (dateOffset - Convert.ToDateTime(currentDates.DateBeginOffset)).Days + week * 7;
                             int lesson = Convert.ToInt32(excelcell.get_Offset(0, 5).Value2) - 1;
@@ -847,7 +852,8 @@ namespace DepartmentService.Services
                             {
                                 studentGroupId = group.Id;
                             }
-                            _serviceOR.CreateOffsetRecord(new OffsetRecordRecordBindingModel
+
+                            var result = _serviceOR.CreateOffsetRecord(new OffsetRecordRecordBindingModel
                             {
                                 Week = week,
                                 Day = day,
@@ -860,6 +866,91 @@ namespace DepartmentService.Services
                                 LecturerId = lecturerId,
                                 StudentGroupId = studentGroupId
                             });
+                            if(!result.Succeeded)
+                            {
+                                excel.Quit();
+                                return result;
+                            }
+                            excelcell = excelcell.get_Offset(1, 0);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    excel.Quit();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
+        public ResultService ImportExcel(ImportToExaminationFromExcel model)
+        {
+            try
+            {
+                var currentDates = GetCurrentDates();
+                if (currentDates == null)
+                {
+                    throw new Exception("Выставьте учебный период");
+                }
+                var excel = new Application();
+                try
+                {
+                    var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+                    var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
+                    var excelcell = excelworksheet.get_Range("A2", "A2");
+
+                    while (true)
+                    {
+                        if (excelcell.Value2 != null)
+                        {
+                            DateTime dateConsult = Convert.ToDateTime(excelcell.Value2);
+                            DateTime dateExam = Convert.ToDateTime(excelcell.get_Offset(0, 1).Value2);
+
+                            string studentGroupName = excelcell.get_Offset(0, 1).Value2;
+                            string disciplineName = excelcell.get_Offset(0, 2).Value2;
+                            string lecturerName = excelcell.get_Offset(0, 3).Value2;
+                            string classroomId = excelcell.get_Offset(0, 4).Value2;
+
+                            var classroom = _context.Classrooms.FirstOrDefault(c => c.Id.Contains(classroomId));
+
+                            var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName.Contains(lecturerName));
+
+                            var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
+
+                            Nullable<long> lecturerId = null;
+                            if (lecturer != null)
+                            {
+                                lecturerId = lecturer.Id;
+                            }
+                            Nullable<long> studentGroupId = null;
+                            if (group != null)
+                            {
+                                studentGroupId = group.Id;
+                            }
+
+                            var result = _serviceER.CreateExaminationRecord(new ExaminationRecordRecordBindingModel
+                            {
+                                DateConsultation = dateConsult,
+                                DateExamination = dateExam,
+                                LessonClassroom = classroomId,
+                                LessonDiscipline = disciplineName,
+                                LessonGroup = studentGroupName,
+                                LessonLecturer = lecturerName,
+                                ClassroomId = classroom != null ? classroom.Id : string.Empty,
+                                LecturerId = lecturerId,
+                                StudentGroupId = studentGroupId
+                            });
+                            if (!result.Succeeded)
+                            {
+                                excel.Quit();
+                                return result;
+                            }
                             excelcell = excelcell.get_Offset(1, 0);
                         }
                     }

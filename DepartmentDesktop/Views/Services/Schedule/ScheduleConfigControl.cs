@@ -401,5 +401,28 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 }
             }
         }
+
+        private void buttonImportExaminationFromExcel_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _service.ImportExcel(new ImportToExaminationFromExcel { FileName = dialog.FileName });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
+                    {
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                    }
+                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

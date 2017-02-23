@@ -81,6 +81,13 @@ namespace DepartmentService.IServices
         ResultService ImportExcel(ImportToOffsetFromExcel model);
 
         /// <summary>
+        /// Импорт экзаменов из excel-файла
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ImportExcel(ImportToExaminationFromExcel model);
+
+        /// <summary>
         /// Проверка расписания на предмет записей без названия дисциплины или с неизвестным типом занятия
         /// </summary>
         /// <returns></returns>

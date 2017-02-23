@@ -52,6 +52,7 @@
             this.buttonClearOffsetRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearExaminationRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearConsultationRecordClassrooms = new System.Windows.Forms.Button();
+            this.buttonImportExaminationFromExcel = new System.Windows.Forms.Button();
             this.groupBoxLoadHTMLScheduleForClassrooms.SuspendLayout();
             this.groupBoxClassrooms.SuspendLayout();
             this.groupBoxClearClassrooms.SuspendLayout();
@@ -256,6 +257,7 @@
             // 
             // groupBoxImport
             // 
+            this.groupBoxImport.Controls.Add(this.buttonImportExaminationFromExcel);
             this.groupBoxImport.Controls.Add(this.buttonImportOffsetFromExcel);
             this.groupBoxImport.Location = new System.Drawing.Point(683, 0);
             this.groupBoxImport.Name = "groupBoxImport";
@@ -266,7 +268,7 @@
             // 
             // buttonImportOffsetFromExcel
             // 
-            this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(21, 28);
+            this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(20, 30);
             this.buttonImportOffsetFromExcel.Name = "buttonImportOffsetFromExcel";
             this.buttonImportOffsetFromExcel.Size = new System.Drawing.Size(150, 30);
             this.buttonImportOffsetFromExcel.TabIndex = 0;
@@ -303,6 +305,16 @@
             this.buttonClearConsultationRecordClassrooms.Text = "Отчистить консультации";
             this.buttonClearConsultationRecordClassrooms.UseVisualStyleBackColor = true;
             this.buttonClearConsultationRecordClassrooms.Click += new System.EventHandler(this.buttonClearConsultationRecordClassrooms_Click);
+            // 
+            // buttonImportExaminationFromExcel
+            // 
+            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(20, 70);
+            this.buttonImportExaminationFromExcel.Name = "buttonImportExaminationFromExcel";
+            this.buttonImportExaminationFromExcel.Size = new System.Drawing.Size(150, 30);
+            this.buttonImportExaminationFromExcel.TabIndex = 1;
+            this.buttonImportExaminationFromExcel.Text = "Экзамены из Excel";
+            this.buttonImportExaminationFromExcel.UseVisualStyleBackColor = true;
+            this.buttonImportExaminationFromExcel.Click += new System.EventHandler(this.buttonImportExaminationFromExcel_Click);
             // 
             // ScheduleConfigControl
             // 
@@ -356,5 +368,6 @@
         private System.Windows.Forms.Button buttonClearOffsetRecordClassrooms;
         private System.Windows.Forms.Button buttonClearExaminationRecordClassrooms;
         private System.Windows.Forms.Button buttonClearConsultationRecordClassrooms;
+        private System.Windows.Forms.Button buttonImportExaminationFromExcel;
     }
 }

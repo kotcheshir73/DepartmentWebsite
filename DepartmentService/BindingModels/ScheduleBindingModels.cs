@@ -43,6 +43,11 @@ namespace DepartmentService.BindingModels
         public string FileName { get; set; }
     }
 
+    public class ImportToExaminationFromExcel
+    {
+        public string FileName { get; set; }
+    }
+
     public class ScheduleStopWordGetBindingModel
     {
         public long Id { get; set; }
