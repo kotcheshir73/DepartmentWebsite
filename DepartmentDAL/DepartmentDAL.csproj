@@ -117,6 +117,10 @@
     <Compile Include="Migrations\201702211753070_UpdateConsultationRecord.Designer.cs">
       <DependentUpon>201702211753070_UpdateConsultationRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702211908460_AddTableExaminationRecord.cs" />
+    <Compile Include="Migrations\201702211908460_AddTableExaminationRecord.Designer.cs">
+      <DependentUpon>201702211908460_AddTableExaminationRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -125,6 +129,7 @@
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\EducationDirection.cs" />
+    <Compile Include="Models\ExaminationRecord.cs" />
     <Compile Include="Models\Lecturer.cs" />
     <Compile Include="Models\OffsetRecord.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
@@ -192,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702211753070_UpdateConsultationRecord.resx">
       <DependentUpon>201702211753070_UpdateConsultationRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702211908460_AddTableExaminationRecord.resx">
+      <DependentUpon>201702211908460_AddTableExaminationRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

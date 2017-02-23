@@ -4,23 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
-    public class ScheduleSemesterBindingModel
-    {
-        public string ClassroomId { get; set; }
-    }
-
-    public class ScheduleConsultationBindingModel
+    public class ScheduleBindingModel
     {
         public string ClassroomId { get; set; }
 
         public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
-    }
-
-    public class ScheduleOffsetBindingModel
-    {
-        public string ClassroomId { get; set; }
     }
 
     public class LoadHTMLForClassroomsBindingModel
@@ -173,5 +163,33 @@ namespace DepartmentService.BindingModels
         public long? StudentGroupId { get; set; }
 
         public long? LecturerId { get; set; }
+    }
+
+    public class ExaminationRecordGetBindingModel
+    {
+        public long Id { get; set; }
+    }
+
+    public class ExaminationRecordRecordBindingModel
+    {
+        public long Id { get; set; }
+
+        public DateTime DateConsultation { get; set; }
+
+        public DateTime DateExamination { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public long? LecturerId { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public string ClassroomId { get; set; }
     }
 }

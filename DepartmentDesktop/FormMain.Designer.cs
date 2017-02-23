@@ -33,6 +33,7 @@
             this.MakeTicketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleSemestrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleConsultationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +45,7 @@
             this.classroomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seasonDatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.streamingLessonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scheduleOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleExaminationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,6 +82,7 @@
             this.ScheduleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scheduleSemestrToolStripMenuItem,
             this.scheduleOffsetToolStripMenuItem,
+            this.scheduleExaminationToolStripMenuItem,
             this.scheduleConsultationToolStripMenuItem,
             this.scheduleConfigToolStripMenuItem,
             this.scheduleStopWordsToolStripMenuItem});
@@ -95,6 +97,13 @@
             this.scheduleSemestrToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleSemestrToolStripMenuItem.Text = "Семестр";
             this.scheduleSemestrToolStripMenuItem.Click += new System.EventHandler(this.scheduleSemestrToolStripMenuItem_Click);
+            // 
+            // scheduleOffsetToolStripMenuItem
+            // 
+            this.scheduleOffsetToolStripMenuItem.Name = "scheduleOffsetToolStripMenuItem";
+            this.scheduleOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleOffsetToolStripMenuItem.Text = "Зачетная неделя";
+            this.scheduleOffsetToolStripMenuItem.Click += new System.EventHandler(this.scheduleOffsetToolStripMenuItem_Click);
             // 
             // scheduleConsultationToolStripMenuItem
             // 
@@ -179,12 +188,12 @@
             this.streamingLessonsToolStripMenuItem.Text = "Потоки";
             this.streamingLessonsToolStripMenuItem.Click += new System.EventHandler(this.streamingLessonsToolStripMenuItem_Click);
             // 
-            // scheduleOffsetToolStripMenuItem
+            // scheduleExaminationToolStripMenuItem
             // 
-            this.scheduleOffsetToolStripMenuItem.Name = "scheduleOffsetToolStripMenuItem";
-            this.scheduleOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.scheduleOffsetToolStripMenuItem.Text = "Зачетная неделя";
-            this.scheduleOffsetToolStripMenuItem.Click += new System.EventHandler(this.scheduleOffsetToolStripMenuItem_Click);
+            this.scheduleExaminationToolStripMenuItem.Name = "scheduleExaminationToolStripMenuItem";
+            this.scheduleExaminationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleExaminationToolStripMenuItem.Text = "Экзамены";
+            this.scheduleExaminationToolStripMenuItem.Click += new System.EventHandler(this.scheduleExaminationToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -223,6 +232,7 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleStopWordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleConsultationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleOffsetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scheduleExaminationToolStripMenuItem;
     }
 }
 

@@ -13,18 +13,22 @@ namespace DepartmentDesktop.Views.Services.Schedule
     {
         private readonly IConsultationRecordService _service;
 
+        private readonly IScheduleService _serviceS;
+
         private long _id = 0;
 
-        public ScheduleConsultationRecordForm(IConsultationRecordService service)
+        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS)
         {
             InitializeComponent();
             _service = service;
+            _serviceS = serviceS;
         }
 
-        public ScheduleConsultationRecordForm(IConsultationRecordService service, long id)
+        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS, long id)
         {
             InitializeComponent();
             _service = service;
+            _serviceS = serviceS;
             _id = id;
         }
 
@@ -37,14 +41,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
             comboBoxStudentGroup.ValueMember = "Value";
             comboBoxStudentGroup.DisplayMember = "Display";
-            comboBoxStudentGroup.DataSource = _service.GetStudentGroups()
+            comboBoxStudentGroup.DataSource = _serviceS.GetStudentGroups()
                 .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
             textBoxLessonGroup.Text = string.Empty;
 
             comboBoxClassroom.ValueMember = "Value";
             comboBoxClassroom.DisplayMember = "Display";
-            comboBoxClassroom.DataSource = _service.GetClassrooms()
+            comboBoxClassroom.DataSource = _serviceS.GetClassrooms()
                 .Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
             comboBoxClassroom.SelectedItem = null;
             textBoxClassroom.Text = string.Empty;

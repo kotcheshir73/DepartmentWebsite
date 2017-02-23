@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DepartmentService.ViewModels;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
 
@@ -21,8 +14,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private string _classroomID;
 
-        private SeasonDatesViewModel _dates;
-
         public ScheduleConsultationClassroomControl(IScheduleService service, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
@@ -32,7 +23,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         public void LoadData(string classroomID)
         {
-            var list = _service.GetScheduleConsultation(new ScheduleConsultationBindingModel { ClassroomId = classroomID });
+            _classroomID = classroomID;
+            var list = _service.GetScheduleConsultation(new ScheduleBindingModel { ClassroomId = classroomID });
             if (list == null)
             {
                 MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -63,7 +55,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            var form = new ScheduleConsultationRecordForm(_serviceCR);
+            var form = new ScheduleConsultationRecordForm(_serviceCR, _service);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData(_classroomID);
@@ -75,7 +67,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             if (dataGridViewList.SelectedRows.Count == 1)
             {
                 long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-                var form = new ScheduleConsultationRecordForm(_serviceCR, id);
+                var form = new ScheduleConsultationRecordForm(_serviceCR, _service, id);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData(_classroomID);

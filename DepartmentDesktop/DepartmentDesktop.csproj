@@ -186,6 +186,24 @@
     <Compile Include="Views\Services\Schedule\ScheduleConsultationRecordForm.Designer.cs">
       <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleExaminationClassroomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleExaminationClassroomControl.Designer.cs">
+      <DependentUpon>ScheduleExaminationClassroomControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleExaminationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleExaminationControl.Designer.cs">
+      <DependentUpon>ScheduleExaminationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleExaminationRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\ScheduleExaminationRecordForm.Designer.cs">
+      <DependentUpon>ScheduleExaminationRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -309,6 +327,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationRecordForm.resx">
       <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleExaminationClassroomControl.resx">
+      <DependentUpon>ScheduleExaminationClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleExaminationControl.resx">
+      <DependentUpon>ScheduleExaminationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\ScheduleExaminationRecordForm.resx">
+      <DependentUpon>ScheduleExaminationRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.resx">
       <DependentUpon>ScheduleOffsetClassroomControl.cs</DependentUpon>

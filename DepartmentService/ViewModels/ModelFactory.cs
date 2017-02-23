@@ -1,8 +1,6 @@
 ﻿using DepartmentDAL.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DepartmentService.ViewModels
 {
@@ -163,6 +161,32 @@ namespace DepartmentService.ViewModels
             IEnumerable<OffsetRecord> entities)
         {
             return entities.Select(e => CreateOffsetRecordViewModel(e)).OrderBy(e => e.Id);
+        }
+        
+        public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
+        {
+            return new ExaminationRecordViewModel
+            {
+                Id = entity.Id,
+                DateConsultation = entity.DateConsultation,
+                DateExamination = entity.DateExamination,
+                LessonClassroom = entity.LessonClassroom,
+                LessonGroup = entity.LessonGroup,
+                LessonDiscipline = entity.LessonDiscipline,
+                LessonLecturer = entity.LessonLecturer,
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+                LecturerId = entity.LecturerId,
+                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                StudentGroupId = entity.StudentGroupId,
+                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+            };
+        }
+
+        public static IEnumerable<ExaminationRecordViewModel> CreateExaminationRecords(
+            IEnumerable<ExaminationRecord> entities)
+        {
+            return entities.Select(e => CreateExaminationRecordViewModel(e)).OrderBy(e => e.Id);
         }
 
         public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)

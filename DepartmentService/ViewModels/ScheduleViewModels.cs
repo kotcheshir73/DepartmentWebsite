@@ -81,7 +81,7 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public string DateConsultation { get; set; }
+        public DateTime DateConsultation { get; set; }
 
         public string LessonDiscipline { get; set; }
 
@@ -153,6 +153,56 @@ namespace DepartmentService.ViewModels
         public int Lesson { get; set; }
 
         public bool IsStreaming { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public string Classroom { get; set; }
+
+        public long? LecturerId { get; set; }
+
+        public string Lecturer { get; set; }
+
+        public string Discipline { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public string StudentGroup { get; set; }
+    }
+
+    public class ExaminationRecordShortViewModel
+    {
+        public long Id { get; set; }
+
+        public DateTime DateConsultation { get; set; }
+
+        public DateTime DateExamination { get; set; }
+
+        public string LessonType { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+    }
+
+    public class ExaminationRecordViewModel
+    {
+        public long Id { get; set; }
+
+        public DateTime DateConsultation { get; set; }
+
+        public DateTime DateExamination { get; set; }
 
         public string LessonDiscipline { get; set; }
 

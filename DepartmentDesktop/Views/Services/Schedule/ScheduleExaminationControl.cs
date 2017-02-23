@@ -3,16 +3,20 @@ using DepartmentService.IServices;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ScheduleConsultationControl : UserControl
+    public partial class ScheduleExaminationControl : UserControl
     {
         private readonly IScheduleService _service;
 
+        private readonly IExaminationRecordService _serviceER;
+
         private readonly IConsultationRecordService _serviceCR;
 
-        public ScheduleConsultationControl(IScheduleService service, IConsultationRecordService serviceCR)
+        public ScheduleExaminationControl(IScheduleService service, IExaminationRecordService serviceER,
+            IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _service = service;
+            _serviceER = serviceER;
             _serviceCR = serviceCR;
         }
 
@@ -33,7 +37,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     tabpage.Tag = i.ToString();
                     tabpage.Text = "Аудитория " + classrooms[i].Id;
                     tabControlSemester.TabPages.Add(tabpage);
-                    var control = new ScheduleConsultationClassroomControl(_service, _serviceCR);
+                    var control = new ScheduleExaminationClassroomControl(_service, _serviceER, _serviceCR);
                     control.Dock = DockStyle.Fill;
                     control.LoadData(classrooms[i].Id);
                     tabControlSemester.TabPages[i].Controls.Add(control);

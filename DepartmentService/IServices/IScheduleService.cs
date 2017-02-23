@@ -14,6 +14,12 @@ namespace DepartmentService.IServices
         List<ClassroomViewModel> GetClassrooms();
 
         /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <returns></returns>
+        List<StudentGroupViewModel> GetStudentGroups();
+
+        /// <summary>
         /// Получение списка дат семестра
         /// </summary>
         /// <returns></returns>
@@ -37,21 +43,28 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleSemesterBindingModel model);
+        List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleBindingModel model);
 
         /// <summary>
         /// Получение расписания консультаций
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        List<ConsultationRecordShortViewModel> GetScheduleConsultation(ScheduleConsultationBindingModel model);
+        List<ConsultationRecordShortViewModel> GetScheduleConsultation(ScheduleBindingModel model);
 
         /// <summary>
         /// Получение расписания зачетов
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        List<OffsetRecordShortViewModel> GetScheduleOffset(ScheduleOffsetBindingModel model);
+        List<OffsetRecordShortViewModel> GetScheduleOffset(ScheduleBindingModel model);
+
+        /// <summary>
+        /// Получение расписания экзаменов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<ExaminationRecordShortViewModel> GetScheduleExamination(ScheduleBindingModel model);
 
         /// <summary>
         /// Загрузка арсписания по аудиториям

@@ -25,13 +25,15 @@ namespace DepartmentService.Services
 
         private readonly IClassroomService _serviceC;
 
+        private readonly IStudentGroupService _serviceG;
+
         private readonly ISeasonDatesService _serviceSD;
 
         private readonly IStreamingLessonService _serviceSL;
 
         private readonly ISemesterRecordService _serviceSR;
 
-        public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, ISeasonDatesService serviceSD,
+        public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ISeasonDatesService serviceSD,
             IStreamingLessonService serviceSL, ISemesterRecordService serviceSR)
         {
             _context = context;
@@ -39,11 +41,17 @@ namespace DepartmentService.Services
             _serviceSD = serviceSD;
             _serviceSL = serviceSL;
             _serviceSR = serviceSR;
+            _serviceG = serviceG;
         }
 
         public List<ClassroomViewModel> GetClassrooms()
         {
             return _serviceC.GetClassrooms();
+        }
+
+        public List<StudentGroupViewModel> GetStudentGroups()
+        {
+            return _serviceG.GetStudentGroups();
         }
 
         public List<SeasonDatesViewModel> GetSeasonDaties()
@@ -90,7 +98,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleSemesterBindingModel model)
+        public List<SemesterRecordShortViewModel> GetScheduleSemester(ScheduleBindingModel model)
         {
             var currentDates = GetCurrentDates();
             if (currentDates == null)
@@ -160,7 +168,7 @@ namespace DepartmentService.Services
             return result.OrderBy(e => e.Id).ToList();
         }
 
-        public List<ConsultationRecordShortViewModel> GetScheduleConsultation(ScheduleConsultationBindingModel model)
+        public List<ConsultationRecordShortViewModel> GetScheduleConsultation(ScheduleBindingModel model)
         {
             var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
             if (currentSetting == null)
@@ -218,7 +226,7 @@ namespace DepartmentService.Services
                     Week = week,
                     Day = day,
                     Lesson = lesson,
-                    DateConsultation = string.Format("{0} {1}", records[i].DateConsultation.ToShortDateString(), records[i].DateConsultation.ToShortTimeString()),
+                    DateConsultation = records[i].DateConsultation,
                     LessonLecturer = GetLessonLecturer(records[i]),
                     LessonDiscipline = GetLessonDiscipline(records[i]),
                     LessonGroup = groups,
@@ -229,7 +237,7 @@ namespace DepartmentService.Services
             return result.OrderBy(e => e.Id).ToList();
         }
 
-        public List<OffsetRecordShortViewModel> GetScheduleOffset(ScheduleOffsetBindingModel model)
+        public List<OffsetRecordShortViewModel> GetScheduleOffset(ScheduleBindingModel model)
         {
             var currentDates = GetCurrentDates();
             if (currentDates == null)
@@ -281,6 +289,33 @@ namespace DepartmentService.Services
                     LessonLecturer = GetLessonLecturer(records[i]),
                     LessonDiscipline = GetLessonDiscipline(records[i]),
                     LessonGroup = groups,
+                    LessonClassroom = GetLessonClassroom(records[i])
+                });
+            }
+
+            return result.OrderBy(e => e.Id).ToList();
+        }
+
+        public List<ExaminationRecordShortViewModel> GetScheduleExamination(ScheduleBindingModel model)
+        {
+            var currentDates = GetCurrentDates();
+            if (currentDates == null)
+            {
+                throw new Exception("Выставьте учебный период");
+            }
+            var records = _context.ExaminationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
+                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id).ToList();
+            List<ExaminationRecordShortViewModel> result = new List<ExaminationRecordShortViewModel>();
+            for (int i = 0; i < records.Count; ++i)
+            {
+                result.Add(new ExaminationRecordShortViewModel
+                {
+                    Id = records[i].Id,
+                    DateConsultation = records[i].DateConsultation,
+                    DateExamination = records[i].DateExamination,
+                    LessonLecturer = GetLessonLecturer(records[i]),
+                    LessonDiscipline = GetLessonDiscipline(records[i]),
+                    LessonGroup = GetLessonGroup(records[i]),
                     LessonClassroom = GetLessonClassroom(records[i])
                 });
             }
@@ -559,7 +594,7 @@ namespace DepartmentService.Services
                     #endregion
                     #region тело
 
-                    var list = GetScheduleSemester(new ScheduleSemesterBindingModel
+                    var list = GetScheduleSemester(new ScheduleBindingModel
                     {
                         ClassroomId = model.Classrooms[r - 1]
                     });
@@ -617,7 +652,7 @@ namespace DepartmentService.Services
                     var writer = new StreamWriter(new FileStream(model.FilePath + "\\" + model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt",
                         FileMode.Create));
                     var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
-                    var list = GetScheduleSemester(new ScheduleSemesterBindingModel
+                    var list = GetScheduleSemester(new ScheduleBindingModel
                     {
                         ClassroomId = model.Classrooms[i]
                     }

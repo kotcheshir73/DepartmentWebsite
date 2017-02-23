@@ -2,29 +2,33 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ScheduleOffsetRecordForm : Form
+    public partial class ScheduleExaminationRecordForm : Form
     {
-        private readonly IOffsetRecordService _service;
+        private readonly IExaminationRecordService _service;
 
         private readonly IScheduleService _serviceS;
 
         private long _id = 0;
 
-        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleService serviceS)
+        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleService serviceS)
         {
             InitializeComponent();
             _service = service;
             _serviceS = serviceS;
         }
 
-        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleService serviceS, long id)
+        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleService serviceS, long id)
         {
             InitializeComponent();
             _service = service;
@@ -32,7 +36,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             _id = id;
         }
 
-        private void ScheduleOffsetRecordForm_Load(object sender, EventArgs e)
+        private void ScheduleExaminationRecordForm_Load(object sender, EventArgs e)
         {
             //comboBoxLecturer.ValueMember = "Value";
             //comboBoxLecturer.DisplayMember = "Display";
@@ -55,7 +59,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
             if (_id != 0)
             {
-                var entity = _service.GetOffsetRecord(new OffsetRecordGetBindingModel { Id = _id });
+                var entity = _service.GetExaminationRecord(new ExaminationRecordGetBindingModel { Id = _id });
                 if (entity == null)
                 {
                     MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -66,14 +70,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
                 textBoxClassroom.Text = entity.LessonClassroom;
 
-                comboBoxWeek.SelectedIndex = entity.Week;
-                comboBoxDay.SelectedIndex = entity.Day;
-                comboBoxLesson.SelectedIndex = entity.Lesson;
+                dateTimePickerDateConsultation.Value = entity.DateConsultation;
+                dateTimePickerDateExamination.Value = entity.DateExamination;
 
                 comboBoxClassroom.SelectedValue = entity.ClassroomId;
                 comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
 
-                panelDateTime.Enabled = false;
+                dateTimePickerDateConsultation.Enabled = false;
+                dateTimePickerDateExamination.Enabled = false;
             }
         }
 
@@ -119,18 +123,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 return false;
             }
-            if (comboBoxWeek.SelectedIndex == -1)
-            {
-                return false;
-            }
-            if (comboBoxDay.SelectedIndex == -1)
-            {
-                return false;
-            }
-            if (comboBoxLesson.SelectedIndex == -1)
-            {
-                return false;
-            }
             return true;
         }
 
@@ -141,11 +133,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 ResultService result;
                 if (_id == 0)
                 {
-                    result = _service.CreateOffsetRecord(new OffsetRecordRecordBindingModel
+                    result = _service.CreateExaminationRecord(new ExaminationRecordRecordBindingModel
                     {
-                        Week = comboBoxWeek.SelectedIndex,
-                        Day = comboBoxDay.SelectedIndex,
-                        Lesson = comboBoxLesson.SelectedIndex,
+                        DateConsultation = dateTimePickerDateConsultation.Value,
+                        DateExamination = dateTimePickerDateExamination.Value,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
@@ -157,12 +148,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 }
                 else
                 {
-                    result = _service.UpdateOffsetRecord(new OffsetRecordRecordBindingModel
+                    result = _service.UpdateExaminationRecord(new ExaminationRecordRecordBindingModel
                     {
                         Id = _id,
-                        Week = comboBoxWeek.SelectedIndex,
-                        Day = comboBoxDay.SelectedIndex,
-                        Lesson = comboBoxLesson.SelectedIndex,
+                        DateConsultation = dateTimePickerDateConsultation.Value,
+                        DateExamination = dateTimePickerDateExamination.Value,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,

@@ -75,20 +75,20 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
                     currentdate = currentdate.AddDays(1);
                 }
-                var list = _service.GetScheduleOffset(new ScheduleOffsetBindingModel { ClassroomId = classroomID });
+                var list = _service.GetScheduleOffset(new ScheduleBindingModel { ClassroomId = classroomID });
                 if (list == null)
                     throw new Exception("Невозможно получить список зачетов в семестре");
                 for (int r = 0; r < list.Count; ++r)
                 {
+                    string text = string.Format("{0}{1}{2}{1}{3}", list[r].LessonDiscipline, Environment.NewLine,
+                                list[r].LessonLecturer, list[r].LessonGroup);
                     if (list[r].Week == 0)
                     {
                         if (list[r].IsStreaming)
                         {
                             dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                         }
-                        dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value =
-                            list[r].LessonDiscipline + Environment.NewLine +
-                            list[r].LessonLecturer + Environment.NewLine + list[r].LessonGroup;
+                        dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
                         dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                     if (list[r].Week == 1)
@@ -97,30 +97,26 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {
                             dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                         }
-                        dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value =
-                            list[r].LessonDiscipline + Environment.NewLine +
-                            list[r].LessonLecturer + Environment.NewLine + list[r].LessonGroup;
+                        dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
                         dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                 }
-                var consults = _service.GetScheduleConsultation(new ScheduleConsultationBindingModel { DateBegin = _selectDate, DateEnd = dateEndOffset, ClassroomId = _classroomID });
+                var consults = _service.GetScheduleConsultation(new ScheduleBindingModel { DateBegin = _selectDate, DateEnd = dateEndOffset, ClassroomId = _classroomID });
                 if (consults == null)
                     throw new Exception("Невозможно получить список консультаций в семестре");
                 foreach (var record in consults)
                 {
+                    string text = string.Format("{0} конс.{1}{2}{1}{3}", record.LessonDiscipline, Environment.NewLine,
+                                record.LessonLecturer, record.LessonGroup);
                     if (record.Week == 0)
                     {
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
-                            record.LessonDiscipline + " конс." + Environment.NewLine +
-                            record.LessonLecturer + Environment.NewLine + record.LessonGroup;
+                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = text;
                         dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
                         dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
                     }
                     if (record.Week == 1)
                     {
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value =
-                            record.LessonDiscipline + " конс." + Environment.NewLine +
-                            record.LessonLecturer + Environment.NewLine + record.LessonGroup;
+                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = text;
                         dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
                         dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
                     }
@@ -204,7 +200,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {//если в Tag есть данные, то это id записи
                             if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
                             {
-                                ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR,
+                                ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
                                     Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
                                 form.ShowDialog();
                             }
@@ -229,7 +225,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR);
+            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service);
             form.ShowDialog();
         }
 

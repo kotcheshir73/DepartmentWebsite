@@ -1,24 +1,11 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
     public interface IConsultationRecordService
     {
-        /// <summary>
-        /// Получение списка аудиторий
-        /// </summary>
-        /// <returns></returns>
-        List<ClassroomViewModel> GetClassrooms();
-
-        /// <summary>
-        /// Получение списка групп
-        /// </summary>
-        /// <returns></returns>
-        List<StudentGroupViewModel> GetStudentGroups();
-
         /// <summary>
         /// Получения записи о консультации
         /// </summary>

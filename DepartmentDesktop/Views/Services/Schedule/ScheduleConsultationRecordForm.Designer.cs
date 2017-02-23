@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButtonApplyToBaseData = new System.Windows.Forms.RadioButton();
             this.panelBaseData = new System.Windows.Forms.Panel();
             this.comboBoxLecturer = new System.Windows.Forms.ComboBox();
             this.comboBoxClassroom = new System.Windows.Forms.ComboBox();
@@ -38,7 +37,6 @@
             this.textBoxLessonLecturer = new System.Windows.Forms.TextBox();
             this.textBoxLessonGroup = new System.Windows.Forms.TextBox();
             this.textBoxClassroom = new System.Windows.Forms.TextBox();
-            this.radioButtonApplyToTextData = new System.Windows.Forms.RadioButton();
             this.labelClassroom = new System.Windows.Forms.Label();
             this.labelLessonGroup = new System.Windows.Forms.Label();
             this.labelLessonLecturer = new System.Windows.Forms.Label();
@@ -47,19 +45,11 @@
             this.dateTimePickerDateConsultation = new System.Windows.Forms.DateTimePicker();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.panelDateTime = new System.Windows.Forms.Panel();
             this.panelBaseData.SuspendLayout();
             this.panelTextData.SuspendLayout();
+            this.panelDateTime.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // radioButtonApplyToBaseData
-            // 
-            this.radioButtonApplyToBaseData.AutoSize = true;
-            this.radioButtonApplyToBaseData.Location = new System.Drawing.Point(301, 12);
-            this.radioButtonApplyToBaseData.Name = "radioButtonApplyToBaseData";
-            this.radioButtonApplyToBaseData.Size = new System.Drawing.Size(153, 30);
-            this.radioButtonApplyToBaseData.TabIndex = 1;
-            this.radioButtonApplyToBaseData.Text = "Применить изменений к \r\nбазовым данным";
-            this.radioButtonApplyToBaseData.UseVisualStyleBackColor = true;
             // 
             // panelBaseData
             // 
@@ -67,10 +57,10 @@
             this.panelBaseData.Controls.Add(this.comboBoxLecturer);
             this.panelBaseData.Controls.Add(this.comboBoxClassroom);
             this.panelBaseData.Controls.Add(this.comboBoxStudentGroup);
-            this.panelBaseData.Location = new System.Drawing.Point(300, 48);
+            this.panelBaseData.Location = new System.Drawing.Point(300, 12);
             this.panelBaseData.Name = "panelBaseData";
             this.panelBaseData.Size = new System.Drawing.Size(190, 115);
-            this.panelBaseData.TabIndex = 7;
+            this.panelBaseData.TabIndex = 5;
             // 
             // comboBoxLecturer
             // 
@@ -109,10 +99,10 @@
             this.panelTextData.Controls.Add(this.textBoxLessonLecturer);
             this.panelTextData.Controls.Add(this.textBoxLessonGroup);
             this.panelTextData.Controls.Add(this.textBoxClassroom);
-            this.panelTextData.Location = new System.Drawing.Point(104, 48);
+            this.panelTextData.Location = new System.Drawing.Point(104, 12);
             this.panelTextData.Name = "panelTextData";
             this.panelTextData.Size = new System.Drawing.Size(190, 115);
-            this.panelTextData.TabIndex = 6;
+            this.panelTextData.TabIndex = 4;
             // 
             // textBoxLessonDiscipline
             // 
@@ -142,105 +132,100 @@
             this.textBoxClassroom.Size = new System.Drawing.Size(180, 20);
             this.textBoxClassroom.TabIndex = 3;
             // 
-            // radioButtonApplyToTextData
-            // 
-            this.radioButtonApplyToTextData.AutoSize = true;
-            this.radioButtonApplyToTextData.Checked = true;
-            this.radioButtonApplyToTextData.Location = new System.Drawing.Point(104, 12);
-            this.radioButtonApplyToTextData.Name = "radioButtonApplyToTextData";
-            this.radioButtonApplyToTextData.Size = new System.Drawing.Size(153, 30);
-            this.radioButtonApplyToTextData.TabIndex = 0;
-            this.radioButtonApplyToTextData.TabStop = true;
-            this.radioButtonApplyToTextData.Text = "Применить изменений к \r\nтекстовым данным";
-            this.radioButtonApplyToTextData.UseVisualStyleBackColor = true;
-            // 
             // labelClassroom
             // 
             this.labelClassroom.AutoSize = true;
-            this.labelClassroom.Location = new System.Drawing.Point(12, 137);
+            this.labelClassroom.Location = new System.Drawing.Point(12, 101);
             this.labelClassroom.Name = "labelClassroom";
             this.labelClassroom.Size = new System.Drawing.Size(60, 13);
-            this.labelClassroom.TabIndex = 5;
+            this.labelClassroom.TabIndex = 3;
             this.labelClassroom.Text = "Аудитория";
             // 
             // labelLessonGroup
             // 
             this.labelLessonGroup.AutoSize = true;
-            this.labelLessonGroup.Location = new System.Drawing.Point(12, 111);
+            this.labelLessonGroup.Location = new System.Drawing.Point(12, 75);
             this.labelLessonGroup.Name = "labelLessonGroup";
             this.labelLessonGroup.Size = new System.Drawing.Size(42, 13);
-            this.labelLessonGroup.TabIndex = 4;
+            this.labelLessonGroup.TabIndex = 2;
             this.labelLessonGroup.Text = "Группа";
             // 
             // labelLessonLecturer
             // 
             this.labelLessonLecturer.AutoSize = true;
-            this.labelLessonLecturer.Location = new System.Drawing.Point(12, 85);
+            this.labelLessonLecturer.Location = new System.Drawing.Point(12, 49);
             this.labelLessonLecturer.Name = "labelLessonLecturer";
             this.labelLessonLecturer.Size = new System.Drawing.Size(86, 13);
-            this.labelLessonLecturer.TabIndex = 3;
+            this.labelLessonLecturer.TabIndex = 1;
             this.labelLessonLecturer.Text = "Преподаватель";
             // 
             // labelLessonDiscipline
             // 
             this.labelLessonDiscipline.AutoSize = true;
-            this.labelLessonDiscipline.Location = new System.Drawing.Point(12, 59);
+            this.labelLessonDiscipline.Location = new System.Drawing.Point(12, 23);
             this.labelLessonDiscipline.Name = "labelLessonDiscipline";
             this.labelLessonDiscipline.Size = new System.Drawing.Size(52, 13);
-            this.labelLessonDiscipline.TabIndex = 2;
+            this.labelLessonDiscipline.TabIndex = 0;
             this.labelLessonDiscipline.Text = "Предмет";
             // 
             // labelDateConsultation
             // 
             this.labelDateConsultation.AutoSize = true;
-            this.labelDateConsultation.Location = new System.Drawing.Point(12, 175);
+            this.labelDateConsultation.Location = new System.Drawing.Point(11, 10);
             this.labelDateConsultation.Name = "labelDateConsultation";
             this.labelDateConsultation.Size = new System.Drawing.Size(109, 13);
-            this.labelDateConsultation.TabIndex = 8;
+            this.labelDateConsultation.TabIndex = 0;
             this.labelDateConsultation.Text = "Дата консультации:";
             // 
             // dateTimePickerDateConsultation
             // 
             this.dateTimePickerDateConsultation.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this.dateTimePickerDateConsultation.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerDateConsultation.Location = new System.Drawing.Point(141, 169);
+            this.dateTimePickerDateConsultation.Location = new System.Drawing.Point(140, 6);
             this.dateTimePickerDateConsultation.Name = "dateTimePickerDateConsultation";
             this.dateTimePickerDateConsultation.Size = new System.Drawing.Size(148, 20);
-            this.dateTimePickerDateConsultation.TabIndex = 9;
+            this.dateTimePickerDateConsultation.TabIndex = 1;
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(415, 189);
+            this.buttonClose.Location = new System.Drawing.Point(415, 177);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 14;
+            this.buttonClose.TabIndex = 8;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(334, 189);
+            this.buttonSave.Location = new System.Drawing.Point(334, 177);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 13;
+            this.buttonSave.TabIndex = 7;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // panelDateTime
+            // 
+            this.panelDateTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelDateTime.Controls.Add(this.labelDateConsultation);
+            this.panelDateTime.Controls.Add(this.dateTimePickerDateConsultation);
+            this.panelDateTime.Location = new System.Drawing.Point(104, 133);
+            this.panelDateTime.Name = "panelDateTime";
+            this.panelDateTime.Size = new System.Drawing.Size(386, 38);
+            this.panelDateTime.TabIndex = 6;
             // 
             // ScheduleConsultationRecordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 224);
+            this.ClientSize = new System.Drawing.Size(494, 207);
+            this.Controls.Add(this.panelDateTime);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.dateTimePickerDateConsultation);
-            this.Controls.Add(this.labelDateConsultation);
-            this.Controls.Add(this.radioButtonApplyToBaseData);
             this.Controls.Add(this.panelBaseData);
             this.Controls.Add(this.panelTextData);
-            this.Controls.Add(this.radioButtonApplyToTextData);
             this.Controls.Add(this.labelClassroom);
             this.Controls.Add(this.labelLessonGroup);
             this.Controls.Add(this.labelLessonLecturer);
@@ -252,13 +237,14 @@
             this.panelBaseData.ResumeLayout(false);
             this.panelTextData.ResumeLayout(false);
             this.panelTextData.PerformLayout();
+            this.panelDateTime.ResumeLayout(false);
+            this.panelDateTime.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.RadioButton radioButtonApplyToBaseData;
         private System.Windows.Forms.Panel panelBaseData;
         private System.Windows.Forms.ComboBox comboBoxLecturer;
         private System.Windows.Forms.ComboBox comboBoxClassroom;
@@ -268,7 +254,6 @@
         private System.Windows.Forms.TextBox textBoxLessonLecturer;
         private System.Windows.Forms.TextBox textBoxLessonGroup;
         private System.Windows.Forms.TextBox textBoxClassroom;
-        private System.Windows.Forms.RadioButton radioButtonApplyToTextData;
         private System.Windows.Forms.Label labelClassroom;
         private System.Windows.Forms.Label labelLessonGroup;
         private System.Windows.Forms.Label labelLessonLecturer;
@@ -277,5 +262,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerDateConsultation;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Panel panelDateTime;
     }
 }
