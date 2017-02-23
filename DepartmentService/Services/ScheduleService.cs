@@ -33,17 +33,20 @@ namespace DepartmentService.Services
 
         private readonly ISemesterRecordService _serviceSR;
 
+        private readonly IOffsetRecordService _serviceOR;
+
         private readonly IConsultationRecordService _serviceCR;
 
         public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ISeasonDatesService serviceSD,
-            IStreamingLessonService serviceSL, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR)
+            IStreamingLessonService serviceSL, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
         {
             _context = context;
             _serviceC = serviceC;
+            _serviceG = serviceG;
             _serviceSD = serviceSD;
             _serviceSL = serviceSL;
             _serviceSR = serviceSR;
-            _serviceG = serviceG;
+            _serviceOR = serviceOR;
             _serviceCR = serviceCR;
         }
 
@@ -771,110 +774,107 @@ namespace DepartmentService.Services
             }
         }
 
-        //public ResultService ImportExcel(ImportToOffsetFromExcel model)
-        //{
-        //    try
-        //    {
-        //        //var data = new Data();
-        //        //var dateStart = _db.Dates.SingleOrDefault(rec => rec.DateBeginOffset.Month == DateTime.Now.Month);
-        //        //if (dateStart == null)
-        //        //    throw new Exception("Не определена дата начала зачетов");
-        //        //var excel = new Microsoft.Office.Interop.Excel.Application();
-        //        //try
-        //        //{
-        //        //    var workbook = excel.Workbooks.Open(fileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+        public ResultService ImportExcel(ImportToOffsetFromExcel model)
+        {
+            try
+            {
+                var currentDates = GetCurrentDates();
+                if (currentDates == null)
+                {
+                    throw new Exception("Выставьте учебный период");
+                }
+                var excel = new Application();
+                try
+                {
+                    var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
-        //        //    var excelworksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
-        //        //    var excelcell = excelworksheet.get_Range("A2", "A2");
+                    var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
+                    var excelcell = excelworksheet.get_Range("A2", "A2");
 
-        //        //    while (true)
-        //        //    {
-        //        //        if (excelcell.Value2 != null)
-        //        //        {
-        //        //            DateTime dateOffset = Convert.ToDateTime(excelcell.Value2);
-        //        //            string groupName = excelcell.get_Offset(0, 1).Value2;
-        //        //            string disciplineName = excelcell.get_Offset(0, 2).Value2;
-        //        //            string teacherName = excelcell.get_Offset(0, 3).Value2;
-        //        //            int audNumber = Convert.ToInt32(excelcell.get_Offset(0, 4).Value2);
-        //        //            int numberLesson = Convert.ToInt32(excelcell.get_Offset(0, 5).Value2) - 1;
+                    while (true)
+                    {
+                        if (excelcell.Value2 != null)
+                        {
+                            DateTime dateOffset = Convert.ToDateTime(excelcell.Value2);
+                            int week = (dateOffset - Convert.ToDateTime(currentDates.DateBeginOffset)).Days < 7 ? 0 : 1;
+                            int day = (dateOffset - Convert.ToDateTime(currentDates.DateBeginOffset)).Days + week * 7;
+                            int lesson = Convert.ToInt32(excelcell.get_Offset(0, 5).Value2) - 1;
+                            string studentGroupName = excelcell.get_Offset(0, 1).Value2;
+                            string disciplineName = excelcell.get_Offset(0, 2).Value2;
+                            string lecturerName = excelcell.get_Offset(0, 3).Value2;
+                            string classroomId = excelcell.get_Offset(0, 4).Value2;
 
-        //        //            int classroomID = 0;
-        //        //            var classroom = _db.Classrooms.FirstOrDefault(rec => rec.Id == audNumber);
-        //        //            if (classroom != null)
-        //        //                classroomID = classroom.Id;
-        //        //            else
-        //        //            {
-        //        //                excelcell = excelcell.get_Offset(1, 0);
-        //        //                continue;
-        //        //            }
+                            var classroom = _context.Classrooms.FirstOrDefault(c => c.Id.Contains(classroomId));
 
-        //        //            int techID = 0;
-        //        //            var teacher = _db.Teachers.FirstOrDefault(rec => rec.TeacherFullName.Contains(teacherName));
-        //        //            if (teacher != null)
-        //        //                techID = teacher.Id;
-        //        //            else
-        //        //            {
-        //        //                excelcell = excelcell.get_Offset(1, 0);
-        //        //                continue;
-        //        //            }
+                            var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName.Contains(lecturerName));
 
-        //        //            int groupID = 0;
-        //        //            var group = _db.Groups.SingleOrDefault(rec => rec.GroupName.Contains(groupName));
-        //        //            if (group != null)
-        //        //                groupID = group.Id;
-        //        //            else
-        //        //            {
-        //        //                excelcell = excelcell.get_Offset(1, 0);
-        //        //                continue;
-        //        //            }
+                            var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
 
-        //        //            int discID = 0;
-        //        //            var disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineShortName == disciplineName);
-        //        //            if (disc != null)
-        //        //            {
-        //        //                discID = disc.Id;
-        //        //            }
-        //        //            else
-        //        //            {
-        //        //                disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineFullName == disciplineName);
-        //        //                if (disc != null)
-        //        //                {
-        //        //                    discID = disc.Id;
-        //        //                }
-        //        //                else
-        //        //                {
-        //        //                    disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineOtherName == disciplineName);
-        //        //                    if (disc != null)
-        //        //                    {
-        //        //                        discID = disc.Id;
-        //        //                    }
-        //        //                    else
-        //        //                    {
-        //        //                        excelcell = excelcell.get_Offset(1, 0);
-        //        //                        continue;
-        //        //                    }
-        //        //                }
-        //        //            }
-        //        //            int week = (dateOffset - dateStart.DateBeginOffset).Days < 7 ? 0 : 1;
-        //        //            int day = (dateOffset - dateStart.DateBeginOffset).Days + week * 7;
-        //        //            if (!AddRecord(week, day, numberLesson, classroomID, discID, techID, groupID))
-        //        //                throw new Exception(_error);
-        //        //            excelcell = excelcell.get_Offset(1, 0);
-        //        //        }
-        //        //    }
-        //        //}
-        //        //catch (Exception ex)
-        //        //{
-        //        //    excel.Quit();
-        //        //    throw new Exception(ex.Message);
-        //        //}
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _error = ex.Message;
-        //        return false;
-        //    }
-        //}
+                            //var disc = _context.d.Disciplines.SingleOrDefault(rec => rec.DisciplineShortName == disciplineName);
+                            //if (disc != null)
+                            //{
+                            //    discID = disc.Id;
+                            //}
+                            //else
+                            //{
+                            //    disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineFullName == disciplineName);
+                            //    if (disc != null)
+                            //    {
+                            //        discID = disc.Id;
+                            //    }
+                            //    else
+                            //    {
+                            //        disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineOtherName == disciplineName);
+                            //        if (disc != null)
+                            //        {
+                            //            discID = disc.Id;
+                            //        }
+                            //        else
+                            //        {
+                            //            excelcell = excelcell.get_Offset(1, 0);
+                            //            continue;
+                            //        }
+                            //    }
+                            //}
+                            Nullable<long> lecturerId = null;
+                            if(lecturer != null)
+                            {
+                                lecturerId = lecturer.Id;
+                            }
+                            Nullable<long> studentGroupId = null;
+                            if (group != null)
+                            {
+                                studentGroupId = group.Id;
+                            }
+                            _serviceOR.CreateOffsetRecord(new OffsetRecordRecordBindingModel
+                            {
+                                Week = week,
+                                Day = day,
+                                Lesson = lesson,
+                                LessonClassroom = classroomId,
+                                LessonDiscipline = disciplineName,
+                                LessonGroup = studentGroupName,
+                                LessonLecturer = lecturerName,
+                                ClassroomId = classroom != null ? classroom.Id : string.Empty,
+                                LecturerId = lecturerId,
+                                StudentGroupId = studentGroupId
+                            });
+                            excelcell = excelcell.get_Offset(1, 0);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    excel.Quit();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
 
         /// <summary>
         /// 

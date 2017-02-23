@@ -159,8 +159,6 @@ namespace DepartmentService.BindingModels
 
         public int Lesson { get; set; }
 
-        public bool IsStreaming { get; set; }
-
         public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }

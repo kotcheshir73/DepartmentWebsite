@@ -74,6 +74,13 @@ namespace DepartmentService.IServices
         ResultService LoadScheduleHTMLForClassrooms(LoadHTMLForClassroomsBindingModel model);
 
         /// <summary>
+        /// Импорт зачетов из excel-файла
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ImportExcel(ImportToOffsetFromExcel model);
+
+        /// <summary>
         /// Проверка расписания на предмет записей без названия дисциплины или с неизвестным типом занятия
         /// </summary>
         /// <returns></returns>
