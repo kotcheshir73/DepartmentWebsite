@@ -80,11 +80,32 @@ namespace DepartmentService.IServices
         ResultService CheckSemesterRecordsIfNotComplite();
 
         /// <summary>
-        /// Отчистка записей по аудиториям
+        /// Отчистка пар семестра по аудиториям
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService ClearSemesterRecords(ClassroomGetBindingModel model);
+
+        /// <summary>
+        /// Отчистка зачетов по аудиториям
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ClearOffsetRecords(ClassroomGetBindingModel model);
+
+        /// <summary>
+        /// Отчистка экзаменов по аудиториям
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ClearExaminationRecords(ClassroomGetBindingModel model);
+
+        /// <summary>
+        /// Отчистка консультаций по аудиториям
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ClearConsultationRecords(ClassroomGetBindingModel model);
 
         /// <summary>
         /// Выгрузка данных в Excel

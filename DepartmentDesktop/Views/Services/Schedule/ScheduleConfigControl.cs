@@ -74,11 +74,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 {
                     var result = _service.ClearSemesterRecords(new ClassroomGetBindingModel { Id = elem });
 
-                    if (result.Succeeded)
-                    {
-                        MessageBox.Show("Отчистка аудитории прошла успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
+                    if (!result.Succeeded)
                     {
                         StringBuilder strRes = new StringBuilder();
                         foreach (var err in result.Errors)
@@ -163,7 +159,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonClearClassrooms_Click(object sender, EventArgs e)
+        private void buttonClearSemesterRecordClassrooms_Click(object sender, EventArgs e)
         {
             List<string> classrooms = getListOfClassrooms();
             if (classrooms == null)
@@ -171,7 +167,108 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 return;
             }
 
-            cleaningClassrooms(classrooms);
+            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var elem in classrooms)
+                {
+                    var result = _service.ClearSemesterRecords(new ClassroomGetBindingModel { Id = elem });
+
+                    if (!result.Succeeded)
+                    {
+                        StringBuilder strRes = new StringBuilder();
+                        foreach (var err in result.Errors)
+                        {
+                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                        }
+                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void buttonClearOffsetRecordClassrooms_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = getListOfClassrooms();
+            if (classrooms == null)
+            {
+                return;
+            }
+
+            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var elem in classrooms)
+                {
+                    var result = _service.ClearOffsetRecords(new ClassroomGetBindingModel { Id = elem });
+
+                    if (!result.Succeeded)
+                    {
+                        StringBuilder strRes = new StringBuilder();
+                        foreach (var err in result.Errors)
+                        {
+                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                        }
+                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void buttonClearExaminationRecordClassrooms_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = getListOfClassrooms();
+            if (classrooms == null)
+            {
+                return;
+            }
+
+            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var elem in classrooms)
+                {
+                    var result = _service.ClearExaminationRecords(new ClassroomGetBindingModel { Id = elem });
+
+                    if (!result.Succeeded)
+                    {
+                        StringBuilder strRes = new StringBuilder();
+                        foreach (var err in result.Errors)
+                        {
+                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                        }
+                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void buttonClearConsultationRecordClassrooms_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = getListOfClassrooms();
+            if (classrooms == null)
+            {
+                return;
+            }
+
+            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var elem in classrooms)
+                {
+                    var result = _service.ClearConsultationRecords(new ClassroomGetBindingModel { Id = elem });
+
+                    if (!result.Succeeded)
+                    {
+                        StringBuilder strRes = new StringBuilder();
+                        foreach (var err in result.Errors)
+                        {
+                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                        }
+                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -280,6 +377,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
         private void buttonCheckRecordsIfNotComplite_Click(object sender, EventArgs e)
         {
             checkRecordsIfNotComplite();
+        }
+
+        private void buttonImportOffsetFromExcel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

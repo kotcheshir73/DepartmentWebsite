@@ -38,6 +38,11 @@ namespace DepartmentService.BindingModels
         public long SeasonDatesId { get; set; }
     }
 
+    public class ImportToOffsetFromExcel
+    {
+        public string FileName { get; set; }
+    }
+
     public class ScheduleStopWordGetBindingModel
     {
         public long Id { get; set; }

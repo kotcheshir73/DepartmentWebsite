@@ -325,6 +325,51 @@ namespace DepartmentService.Services
             }
         }
 
+        public ResultService ClearOffsetRecords(ClassroomGetBindingModel model)
+        {
+            try
+            {
+                var records = _context.OffsetRecords.Where(sr => sr.ClassroomId == model.Id);
+                _context.OffsetRecords.RemoveRange(records);
+                _context.SaveChanges();
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
+        public ResultService ClearExaminationRecords(ClassroomGetBindingModel model)
+        {
+            try
+            {
+                var records = _context.ExaminationRecords.Where(sr => sr.ClassroomId == model.Id);
+                _context.ExaminationRecords.RemoveRange(records);
+                _context.SaveChanges();
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
+        public ResultService ClearConsultationRecords(ClassroomGetBindingModel model)
+        {
+            try
+            {
+                var records = _context.ConsultationRecords.Where(sr => sr.ClassroomId == model.Id);
+                _context.ConsultationRecords.RemoveRange(records);
+                _context.SaveChanges();
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
         public ResultService LoadScheduleHTMLForClassrooms(LoadHTMLForClassroomsBindingModel model)
         {
             var currentDates = GetCurrentDates();
@@ -725,6 +770,111 @@ namespace DepartmentService.Services
                 return ResultService.Error("error", ex.Message, 400);
             }
         }
+
+        //public ResultService ImportExcel(ImportToOffsetFromExcel model)
+        //{
+        //    try
+        //    {
+        //        //var data = new Data();
+        //        //var dateStart = _db.Dates.SingleOrDefault(rec => rec.DateBeginOffset.Month == DateTime.Now.Month);
+        //        //if (dateStart == null)
+        //        //    throw new Exception("Не определена дата начала зачетов");
+        //        //var excel = new Microsoft.Office.Interop.Excel.Application();
+        //        //try
+        //        //{
+        //        //    var workbook = excel.Workbooks.Open(fileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+        //        //    var excelworksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
+        //        //    var excelcell = excelworksheet.get_Range("A2", "A2");
+
+        //        //    while (true)
+        //        //    {
+        //        //        if (excelcell.Value2 != null)
+        //        //        {
+        //        //            DateTime dateOffset = Convert.ToDateTime(excelcell.Value2);
+        //        //            string groupName = excelcell.get_Offset(0, 1).Value2;
+        //        //            string disciplineName = excelcell.get_Offset(0, 2).Value2;
+        //        //            string teacherName = excelcell.get_Offset(0, 3).Value2;
+        //        //            int audNumber = Convert.ToInt32(excelcell.get_Offset(0, 4).Value2);
+        //        //            int numberLesson = Convert.ToInt32(excelcell.get_Offset(0, 5).Value2) - 1;
+
+        //        //            int classroomID = 0;
+        //        //            var classroom = _db.Classrooms.FirstOrDefault(rec => rec.Id == audNumber);
+        //        //            if (classroom != null)
+        //        //                classroomID = classroom.Id;
+        //        //            else
+        //        //            {
+        //        //                excelcell = excelcell.get_Offset(1, 0);
+        //        //                continue;
+        //        //            }
+
+        //        //            int techID = 0;
+        //        //            var teacher = _db.Teachers.FirstOrDefault(rec => rec.TeacherFullName.Contains(teacherName));
+        //        //            if (teacher != null)
+        //        //                techID = teacher.Id;
+        //        //            else
+        //        //            {
+        //        //                excelcell = excelcell.get_Offset(1, 0);
+        //        //                continue;
+        //        //            }
+
+        //        //            int groupID = 0;
+        //        //            var group = _db.Groups.SingleOrDefault(rec => rec.GroupName.Contains(groupName));
+        //        //            if (group != null)
+        //        //                groupID = group.Id;
+        //        //            else
+        //        //            {
+        //        //                excelcell = excelcell.get_Offset(1, 0);
+        //        //                continue;
+        //        //            }
+
+        //        //            int discID = 0;
+        //        //            var disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineShortName == disciplineName);
+        //        //            if (disc != null)
+        //        //            {
+        //        //                discID = disc.Id;
+        //        //            }
+        //        //            else
+        //        //            {
+        //        //                disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineFullName == disciplineName);
+        //        //                if (disc != null)
+        //        //                {
+        //        //                    discID = disc.Id;
+        //        //                }
+        //        //                else
+        //        //                {
+        //        //                    disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineOtherName == disciplineName);
+        //        //                    if (disc != null)
+        //        //                    {
+        //        //                        discID = disc.Id;
+        //        //                    }
+        //        //                    else
+        //        //                    {
+        //        //                        excelcell = excelcell.get_Offset(1, 0);
+        //        //                        continue;
+        //        //                    }
+        //        //                }
+        //        //            }
+        //        //            int week = (dateOffset - dateStart.DateBeginOffset).Days < 7 ? 0 : 1;
+        //        //            int day = (dateOffset - dateStart.DateBeginOffset).Days + week * 7;
+        //        //            if (!AddRecord(week, day, numberLesson, classroomID, discID, techID, groupID))
+        //        //                throw new Exception(_error);
+        //        //            excelcell = excelcell.get_Offset(1, 0);
+        //        //        }
+        //        //    }
+        //        //}
+        //        //catch (Exception ex)
+        //        //{
+        //        //    excel.Quit();
+        //        //    throw new Exception(ex.Message);
+        //        //}
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _error = ex.Message;
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// 
