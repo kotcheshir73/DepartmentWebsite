@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ColumnWeek1Lesson6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek1Lesson4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek1Lesson3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,9 +66,6 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panelTop = new System.Windows.Forms.Panel();
             this.labelTop = new System.Windows.Forms.Label();
-            this.buttonPrevWeek = new System.Windows.Forms.Button();
-            this.panelBottom = new System.Windows.Forms.Panel();
-            this.buttonNextWeek = new System.Windows.Forms.Button();
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,7 +73,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).BeginInit();
             this.contextMenuStripExamination.SuspendLayout();
             this.panelTop.SuspendLayout();
-            this.panelBottom.SuspendLayout();
             this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,8 +95,8 @@
             // ColumnWeek1Lesson3
             // 
             this.ColumnWeek1Lesson3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson3.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson3.DefaultCellStyle = dataGridViewCellStyle1;
             this.ColumnWeek1Lesson3.HeaderText = "Консультация";
             this.ColumnWeek1Lesson3.Name = "ColumnWeek1Lesson3";
             this.ColumnWeek1Lesson3.ReadOnly = true;
@@ -117,8 +113,8 @@
             // ColumnWeek1Lesson1
             // 
             this.ColumnWeek1Lesson1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson1.DefaultCellStyle = dataGridViewCellStyle2;
             this.ColumnWeek1Lesson1.HeaderText = "Экзамен 8:00";
             this.ColumnWeek1Lesson1.Name = "ColumnWeek1Lesson1";
             this.ColumnWeek1Lesson1.ReadOnly = true;
@@ -139,14 +135,14 @@
             this.dataGridViewFirstWeek.AllowUserToResizeColumns = false;
             this.dataGridViewFirstWeek.AllowUserToResizeRows = false;
             this.dataGridViewFirstWeek.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewFirstWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewFirstWeek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewFirstWeek.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnWeek1,
@@ -162,21 +158,21 @@
             this.dataGridViewFirstWeek.MultiSelect = false;
             this.dataGridViewFirstWeek.Name = "dataGridViewFirstWeek";
             this.dataGridViewFirstWeek.ReadOnly = true;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewFirstWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridViewFirstWeek.RowHeadersVisible = false;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewFirstWeek.RowTemplate.Height = 45;
             this.dataGridViewFirstWeek.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 415);
+            this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 445);
             this.dataGridViewFirstWeek.TabIndex = 2;
             this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
@@ -185,8 +181,8 @@
             // ColumnWeek1Lesson5
             // 
             this.ColumnWeek1Lesson5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson5.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson5.DefaultCellStyle = dataGridViewCellStyle4;
             this.ColumnWeek1Lesson5.HeaderText = "Консультация 16:00";
             this.ColumnWeek1Lesson5.Name = "ColumnWeek1Lesson5";
             this.ColumnWeek1Lesson5.ReadOnly = true;
@@ -336,7 +332,6 @@
             // panelTop
             // 
             this.panelTop.Controls.Add(this.labelTop);
-            this.panelTop.Controls.Add(this.buttonPrevWeek);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 25);
             this.panelTop.Name = "panelTop";
@@ -348,46 +343,12 @@
             this.labelTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelTop.Location = new System.Drawing.Point(100, 0);
+            this.labelTop.Location = new System.Drawing.Point(0, 0);
             this.labelTop.Name = "labelTop";
-            this.labelTop.Size = new System.Drawing.Size(700, 30);
+            this.labelTop.Size = new System.Drawing.Size(800, 30);
             this.labelTop.TabIndex = 1;
             this.labelTop.Text = "Text";
             this.labelTop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buttonPrevWeek
-            // 
-            this.buttonPrevWeek.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonPrevWeek.Enabled = false;
-            this.buttonPrevWeek.Image = global::DepartmentDesktop.Properties.Resources.Up;
-            this.buttonPrevWeek.Location = new System.Drawing.Point(0, 0);
-            this.buttonPrevWeek.Name = "buttonPrevWeek";
-            this.buttonPrevWeek.Size = new System.Drawing.Size(100, 30);
-            this.buttonPrevWeek.TabIndex = 0;
-            this.buttonPrevWeek.UseVisualStyleBackColor = true;
-            this.buttonPrevWeek.Click += new System.EventHandler(this.buttonPrevWeek_Click);
-            // 
-            // panelBottom
-            // 
-            this.panelBottom.Controls.Add(this.buttonNextWeek);
-            this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 470);
-            this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(800, 30);
-            this.panelBottom.TabIndex = 3;
-            // 
-            // buttonNextWeek
-            // 
-            this.buttonNextWeek.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonNextWeek.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonNextWeek.Enabled = false;
-            this.buttonNextWeek.Image = global::DepartmentDesktop.Properties.Resources.Down;
-            this.buttonNextWeek.Location = new System.Drawing.Point(0, 0);
-            this.buttonNextWeek.Name = "buttonNextWeek";
-            this.buttonNextWeek.Size = new System.Drawing.Size(100, 30);
-            this.buttonNextWeek.TabIndex = 0;
-            this.buttonNextWeek.UseVisualStyleBackColor = true;
-            this.buttonNextWeek.Click += new System.EventHandler(this.buttonNextWeek_Click);
             // 
             // toolStripMenu
             // 
@@ -431,13 +392,11 @@
             this.Controls.Add(this.dataGridViewFirstWeek);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.toolStripMenu);
-            this.Controls.Add(this.panelBottom);
             this.Name = "ScheduleExaminationClassroomControl";
             this.Size = new System.Drawing.Size(800, 500);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).EndInit();
             this.contextMenuStripExamination.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
-            this.panelBottom.ResumeLayout(false);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -478,9 +437,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelTop;
-        private System.Windows.Forms.Button buttonPrevWeek;
-        private System.Windows.Forms.Panel panelBottom;
-        private System.Windows.Forms.Button buttonNextWeek;
         private System.Windows.Forms.ToolStrip toolStripMenu;
         private System.Windows.Forms.ToolStripButton toolStripButtonAdd;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

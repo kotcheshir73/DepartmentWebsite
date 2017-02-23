@@ -40,11 +40,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
             try
             {
                 _classroomID = classroomID;
-                labelTop.Text = classroomID + " аудитория";
                 
                 _dates = _service.GetCurrentDates();
                 if (_dates == null)
                     throw new Exception("Невозможно получить даты семестра");
+
+                labelTop.Text = string.Format("{0} аудитория. {1}", _classroomID, _dates.Title);
 
                 //Заполняем даты
                 DateTime currentdate = _selectDate;

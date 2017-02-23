@@ -6,6 +6,7 @@ using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using DepartmentService.BindingModels;
 using DepartmentDAL;
+using System.Globalization;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
@@ -40,11 +41,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
             try
             {
                 _classroomID = classroomID;
-                labelTop.Text = _classroomID + " аудитория";
 
                 _dates = _service.GetCurrentDates();
                 if (_dates == null)
                     throw new Exception("Невозможно получить даты семестра");
+
+                labelTop.Text = string.Format("{0} аудитория. {1}", _classroomID, _dates.Title);
 
                 DateTime currentdate = _selectDate;
                 var dateBeginExamination = Convert.ToDateTime(_dates.DateBeginExamination);
@@ -55,14 +57,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     currentdate = dateBeginExamination;
                     _selectDate = currentdate;
                 }
-                var days = (dateBeginExamination - dateEndExamination).Days;
+                var days = (dateEndExamination - dateBeginExamination).Days;
                 dataGridViewFirstWeek.Rows.Clear();
                 for (int j = 0; j < days; j++)
                 {
                     dataGridViewFirstWeek.Rows.Add();//добавляем строки
                     dataGridViewFirstWeek.Rows[j].Height = 45;
-                    dataGridViewFirstWeek.Rows[j].Cells[0].Value = currentdate.ToShortDateString() + Environment.NewLine +
-                        currentdate.DayOfWeek;//в первый столбец записываем день недели
+                    dataGridViewFirstWeek.Rows[j].Cells[0].Value = string.Format("{0}{1}{2}", currentdate.ToShortDateString(), Environment.NewLine, 
+                       CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek));
                     if (currentdate.Date == DateTime.Now.Date)
                         for (int i = 0; i < 7; i++)
                             dataGridViewFirstWeek.Rows[j].Cells[i].Style.BackColor = Color.Aqua;
@@ -126,24 +128,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 MessageBox.Show(ex.Message, "Ошибка");
             }
-        }
-
-        private void buttonPrevWeek_Click(object sender, EventArgs e)
-        {
-            string text = dataGridViewFirstWeek.Rows[0].Cells[0].Value.ToString();
-            DateTime date = Convert.ToDateTime(text);
-            if (date.AddDays(-14) >= Convert.ToDateTime(_dates.DateBeginExamination).Date)
-                _selectDate = date.AddDays(-14);
-            LoadData(_classroomID);
-        }
-
-        private void buttonNextWeek_Click(object sender, EventArgs e)
-        {
-            string text = dataGridViewFirstWeek.Rows[0].Cells[0].Value.ToString();
-            DateTime date = Convert.ToDateTime(text);
-            if (date.AddDays(14) <= Convert.ToDateTime(_dates.DateEndExamination).Date)
-                _selectDate = date.AddDays(14);
-            LoadData(_classroomID);
         }
 
         private void dataGridView_Resize(object sender, EventArgs e)
