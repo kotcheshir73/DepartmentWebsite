@@ -121,6 +121,10 @@
     <Compile Include="Migrations\201702211908460_AddTableExaminationRecord.Designer.cs">
       <DependentUpon>201702211908460_AddTableExaminationRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702231655085_DelIsStreamingInConsultation.cs" />
+    <Compile Include="Migrations\201702231655085_DelIsStreamingInConsultation.Designer.cs">
+      <DependentUpon>201702231655085_DelIsStreamingInConsultation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -200,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702211908460_AddTableExaminationRecord.resx">
       <DependentUpon>201702211908460_AddTableExaminationRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702231655085_DelIsStreamingInConsultation.resx">
+      <DependentUpon>201702231655085_DelIsStreamingInConsultation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

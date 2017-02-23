@@ -7,11 +7,6 @@ namespace DepartmentDAL.Models
     /// </summary>
     public class ConsultationRecord : ScheduleRecord
     {
-        /// <summary>
-        /// Является ли пара потоковой
-        /// </summary>
-        public bool IsStreaming { get; set; }
-
         public DateTime DateConsultation { get; set; }
     }
 }

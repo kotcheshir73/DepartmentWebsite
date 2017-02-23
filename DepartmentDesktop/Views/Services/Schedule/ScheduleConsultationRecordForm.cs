@@ -38,7 +38,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             //comboBoxLecturer.DisplayMember = "Display";
             //comboBoxLecturer.DataSource = _service.GetEducationDirections()
             //    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
-
+            
             comboBoxStudentGroup.ValueMember = "Value";
             comboBoxStudentGroup.DisplayMember = "Display";
             comboBoxStudentGroup.DataSource = _serviceS.GetStudentGroups()
@@ -90,6 +90,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
             }
         }
+        
 
         private void comboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
         {
