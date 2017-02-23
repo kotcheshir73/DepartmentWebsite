@@ -33,8 +33,10 @@ namespace DepartmentService.Services
 
         private readonly ISemesterRecordService _serviceSR;
 
+        private readonly IConsultationRecordService _serviceCR;
+
         public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ISeasonDatesService serviceSD,
-            IStreamingLessonService serviceSL, ISemesterRecordService serviceSR)
+            IStreamingLessonService serviceSL, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR)
         {
             _context = context;
             _serviceC = serviceC;
@@ -42,6 +44,7 @@ namespace DepartmentService.Services
             _serviceSL = serviceSL;
             _serviceSR = serviceSR;
             _serviceG = serviceG;
+            _serviceCR = serviceCR;
         }
 
         public List<ClassroomViewModel> GetClassrooms()
@@ -187,51 +190,35 @@ namespace DepartmentService.Services
                                                                          :
                                                     _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
                                                                          Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id).ToList();
+
+            ResultService resultCheck;
+            ConsultationRecordRecordBindingModel record;
             List<ConsultationRecordShortViewModel> result = new List<ConsultationRecordShortViewModel>();
             for (int i = 0; i < records.Count; ++i)
             {
-                int day = -1;
-                int week = -1;
-                int lesson = -1;
-                string groups = GetLessonGroup(records[i]);
-                if (seasonDate.DateBeginSemester < records[i].DateConsultation && seasonDate.DateEndSemester > records[i].DateConsultation)
-                {//консультация назначается в семестре, определяем неделю, день и пару
-                    day = ((int)(records[i].DateConsultation - seasonDate.DateBeginSemester).TotalDays % 14);
-                    week = day < 8 ? 0 : 1;
-                    day = day % 7;
-                    lesson = 7;
-                    DateTime[] lessons = new DateTime[]
-                    {
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 8, 0, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 9, 40, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 11, 30, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 13, 10, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 14, 50, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 16, 30, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 18, 10, 0),
-                    new DateTime(records[i].DateConsultation.Year, records[i].DateConsultation.Month, records[i].DateConsultation.Day, 19, 50, 0)
-                    };
-                    for (int j = 0; j < lessons.Length - j; ++i)
-                    {
-                        if (lessons[j] >= records[i].DateConsultation && lessons[j + 1] > records[i].DateConsultation)
-                        {
-                            lesson = j;
-                            break;
-                        }
-                    }
-                }
-                result.Add(new ConsultationRecordShortViewModel
+                record = new ConsultationRecordRecordBindingModel
                 {
-                    Id = records[i].Id,
-                    Week = week,
-                    Day = day,
-                    Lesson = lesson,
-                    DateConsultation = records[i].DateConsultation,
-                    LessonLecturer = GetLessonLecturer(records[i]),
-                    LessonDiscipline = GetLessonDiscipline(records[i]),
-                    LessonGroup = groups,
-                    LessonClassroom = GetLessonClassroom(records[i])
-                });
+                    ClassroomId = model.ClassroomId,
+                    DateConsultation = records[i].DateConsultation
+                };
+                resultCheck = _serviceCR.CheckCreateConsultation(record, seasonDate);
+
+                if (resultCheck.Succeeded)
+                {
+                    string groups = GetLessonGroup(records[i]);
+                    result.Add(new ConsultationRecordShortViewModel
+                    {
+                        Id = records[i].Id,
+                        Week = record.Week.Value,
+                        Day = record.Day.Value,
+                        Lesson = record.Lesson.Value,
+                        DateConsultation = records[i].DateConsultation,
+                        LessonLecturer = GetLessonLecturer(records[i]),
+                        LessonDiscipline = GetLessonDiscipline(records[i]),
+                        LessonGroup = groups,
+                        LessonClassroom = GetLessonClassroom(records[i])
+                    });
+                }
             }
 
             return result.OrderBy(e => e.Id).ToList();

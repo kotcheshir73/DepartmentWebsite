@@ -40,39 +40,12 @@ namespace DepartmentService.Services
             {
                 return ResultService.Error("error", "seasonDate not found", 404);
             }
-
-            if (seasonDate.DateBeginSemester < model.DateConsultation && seasonDate.DateEndSemester > model.DateConsultation)
-            {//консультация назначается в семестре, определяем неделю, день и пару
-                int day = ((int)(model.DateConsultation - seasonDate.DateBeginSemester).TotalDays % 14);
-                int week = day < 8 ? 0 : 1;
-                day = day % 7;
-                int lesson = 7;
-                DateTime[] lessons = new DateTime[]
-                {
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 8, 0, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 9, 40, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 11, 30, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 13, 10, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 14, 50, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 16, 30, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 18, 10, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 19, 50, 0)
-                };
-                for (int i = 0; i < lessons.Length - 1; ++i)
-                {
-                    if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
-                    {
-                        lesson = i;
-                        break;
-                    }
-                }
-                var entry = _context.SemesterRecords.FirstOrDefault(sr => sr.Week == week && sr.Day == day && sr.Lesson == lesson &&
-                                                                           sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл);
-                if (entry != null)
-                {
-                    return ResultService.Error("exsist_item", "На эту пару уже стоит занятие", 401);
-                }
+            var result = CheckCreateConsultation(model, seasonDate);
+            if(!result.Succeeded)
+            {
+                return result;
             }
+
             var entity = new ConsultationRecord
             {
                 Id = model.Id,
@@ -147,6 +120,104 @@ namespace DepartmentService.Services
             {
                 return ResultService.Error("error", ex.Message, 400);
             }
+        }
+
+        public ResultService CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDates seasonDate)
+        {
+            DateTime[] lessons;
+            if (seasonDate.DateBeginSemester < model.DateConsultation && seasonDate.DateEndSemester > model.DateConsultation)
+            {//консультация назначается в семестре, определяем неделю, день и пару
+                int day = ((int)(model.DateConsultation - seasonDate.DateBeginSemester).TotalDays % 14);
+                int week = day < 8 ? 0 : 1;
+                day = day % 7;
+                int lesson = 7;
+                lessons = new DateTime[]
+                {
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 8, 0, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 9, 40, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 11, 30, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 13, 10, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 14, 50, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 16, 30, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 18, 10, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 19, 50, 0)
+                };
+                for (int i = 0; i < lessons.Length - 1; ++i)
+                {
+                    if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
+                    {
+                        lesson = i;
+                        break;
+                    }
+                }
+                var entry = _context.SemesterRecords.FirstOrDefault(sr => sr.Week == week && sr.Day == day && sr.Lesson == lesson &&
+                                                                           sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл);
+                if (entry != null)
+                {
+                    return ResultService.Error("exsist_item", "На эту пару уже стоит занятие", 401);
+                }
+                model.Week = week;
+                model.Day = day;
+                model.Lesson = lesson;
+            }
+            if (seasonDate.DateBeginOffset < model.DateConsultation && seasonDate.DateEndOffset > model.DateConsultation)
+            {//консультация ставится на зачетной неделе
+                int day = ((int)(model.DateConsultation - seasonDate.DateBeginOffset).TotalDays % 14);
+                int week = day < 8 ? 0 : 1;
+                day = day % 7;
+                int lesson = 7;
+                lessons = new DateTime[]
+                {
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 8, 0, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 9, 40, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 11, 30, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 13, 10, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 14, 50, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 16, 30, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 18, 10, 0),
+                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 19, 50, 0)
+                };
+                for (int i = 0; i < lessons.Length - 1; ++i)
+                {
+                    if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
+                    {
+                        lesson = i;
+                        break;
+                    }
+                }
+                var entry = _context.OffsetRecords.FirstOrDefault(sr => sr.Week == week && sr.Day == day && sr.Lesson == lesson &&
+                                                                           sr.ClassroomId == model.ClassroomId);
+                if (entry != null)
+                {
+                    return ResultService.Error("exsist_item", "На эту пару уже стоит зачет", 401);
+                }
+                model.Week = week;
+                model.Day = day;
+                model.Lesson = lesson;
+            }
+
+            if (seasonDate.DateBeginExamination < model.DateConsultation && seasonDate.DateEndExamination > model.DateConsultation)
+            {//консультация назначается в сессию
+                var entry = _context.ExaminationRecords.FirstOrDefault(sr =>
+                                     ((sr.DateExamination.Year == model.DateConsultation.Year && sr.DateExamination.Month == model.DateConsultation.Month &&
+                                     sr.DateExamination.Day == model.DateConsultation.Day &&
+                                     (sr.DateExamination.Hour >= model.DateConsultation.Hour && sr.DateExamination.Hour + 3 < model.DateConsultation.Hour))
+                                     //попадает на момент проведения экзамена (3 часа на экзамен)
+                                     ||
+                                     (sr.DateConsultation.Year == model.DateConsultation.Year && sr.DateConsultation.Month == model.DateConsultation.Month &&
+                                     sr.DateConsultation.Day == model.DateConsultation.Day &&
+                                     (sr.DateConsultation.Hour >= model.DateConsultation.Hour && sr.DateConsultation.Hour + 1 < model.DateConsultation.Hour)))
+                                     //попадает на момент проведения консультации (1  на консультацию)
+                                     && sr.ClassroomId == model.ClassroomId);
+                if (entry != null)
+                {
+                    return ResultService.Error("exsist_item", "На эту пару уже стоит экзамен/консультация", 401);
+                }
+                model.Week = 0;
+                model.Day = 0;
+                model.Lesson = 0;
+            }
+            return ResultService.Success();
         }
     }
 }

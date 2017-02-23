@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL;
+using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 
@@ -33,5 +34,13 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService DeleteConsultationRecord(ConsultationRecordGetBindingModel model);
+
+        /// <summary>
+        /// Проверка что на выбранную дату можно ставить консультацию
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="seasonDate"></param>
+        /// <returns></returns>
+        ResultService CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDates seasonDate);
     }
 }

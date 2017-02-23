@@ -116,6 +116,12 @@ namespace DepartmentService.BindingModels
     {
         public long Id { get; set; }
 
+        public int? Week { get; set; }
+
+        public int? Day { get; set; }
+
+        public int? Lesson { get; set; }
+
         public DateTime DateConsultation { get; set; }
 
         public string LessonDiscipline { get; set; }
