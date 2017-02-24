@@ -420,6 +420,35 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
         }
 
+        private void buttonExportExaminationRecordExcel_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = getListOfClassrooms();
+            if (classrooms == null)
+            {
+                return;
+            }
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _service.ExportExaminationRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
+                    {
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                    }
+                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         /// <summary>
         /// Экспорт в html
         /// </summary>
@@ -466,6 +495,35 @@ namespace DepartmentDesktop.Views.Services.Schedule
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _service.ExportOffsetRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
+                    {
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                    }
+                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonExportExaminationRecordHTML_Click(object sender, EventArgs e)
+        {
+            List<string> classrooms = getListOfClassrooms();
+            if (classrooms == null)
+            {
+                return;
+            }
+
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _service.ExportExaminationRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);

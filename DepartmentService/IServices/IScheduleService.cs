@@ -136,6 +136,13 @@ namespace DepartmentService.IServices
         ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model);
 
         /// <summary>
+        /// Выгрузка данных в Excel
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model);
+
+        /// <summary>
         /// Выгрузка данных в html
         /// </summary>
         /// <param name="model"></param>
@@ -148,5 +155,12 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService ExportOffsetRecordHTML(ExportToHTMLClassroomsBindingModel model);
+
+        /// <summary>
+        /// Выгрузка данных в html
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ExportExaminationRecordHTML(ExportToHTMLClassroomsBindingModel model);
     }
 }

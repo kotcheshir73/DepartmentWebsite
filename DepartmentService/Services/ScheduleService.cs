@@ -561,7 +561,7 @@ namespace DepartmentService.Services
             try
             {
                 var excel = new Application();
-                if (File.Exists(Path.GetDirectoryName(model.FileName)))
+                if (File.Exists(model.FileName))
                 {
                     excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                         Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
@@ -693,7 +693,7 @@ namespace DepartmentService.Services
                 }
                 else
                 {
-                    excel.SheetsInNewWorkbook = 5;
+                    excel.SheetsInNewWorkbook = model.Classrooms.Count;
                     excel.Workbooks.Add(Type.Missing);
                     excel.Workbooks[1].SaveAs(model.FileName, XlFileFormat.xlExcel8, Type.Missing, Type.Missing, false, false,
                         XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
@@ -801,16 +801,155 @@ namespace DepartmentService.Services
             }
         }
 
+        public ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model)
+        {
+            try
+            {
+                var excel = new Application();
+
+                // var _dates = (new Data()).getDates();
+
+                //  var currentdate = _dates[index].DateBeginExamination;
+                //  var days = (_dates[index].DateFinishExamination - _dates[index].DateBeginExamination).Days;
+
+                if (File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Examination.xls"))
+                {
+                    excel.Workbooks.Open(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
+                        "\\Examination.xls", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing);
+                }
+                else
+                {
+                    excel.SheetsInNewWorkbook = model.Classrooms.Count;
+                    excel.Workbooks.Add(Type.Missing);
+                    excel.Workbooks[1].SaveAs(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
+                        "\\Examination.xls", XlFileFormat.xlExcel8, Type.Missing, Type.Missing, false, false,
+                        XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                }
+                Sheets excelsheets = excel.Workbooks[1].Worksheets;
+                for (int r = 1; r <= model.Classrooms.Count; ++r)
+                {
+                    var excelworksheet = (Worksheet)excelsheets.get_Item(r);//Получаем ссылку на лист
+                    excelworksheet.Cells.Clear();
+                    excelworksheet.Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0];
+                    excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
+                    excelworksheet.PageSetup.RightMargin = 0;
+                    excelworksheet.PageSetup.LeftMargin = 0;
+                    excelworksheet.PageSetup.TopMargin = 0;
+                    excelworksheet.PageSetup.BottomMargin = 0;
+                    excelworksheet.PageSetup.CenterHorizontally = true;
+                    excelworksheet.PageSetup.CenterVertically = true;
+                    #region шапка
+                    //Range excelcells = excelworksheet.get_Range("A2", "G" + (2 + days));
+                    //excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
+                    //excelcells.Borders.Weight = XlBorderWeight.xlThin;
+                    //excelcells.HorizontalAlignment = Constants.xlCenter;
+                    //excelcells.VerticalAlignment = Constants.xlCenter;
+                    //excelcells.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlMedium,
+                    //                        XlColorIndex.xlColorIndexAutomatic, 1);//обводим границы дня
+                    //excelcells.Font.Name = "Times New Roman";
+                    //excelcells.Font.Size = 8;
+                    //var simbols = new[] { "B", "C", "D", "E", "F", "G" };
+                    //var texts = new[] { "Экзамен с 8:00", "Экзамен с 12:00", "Консультация", "Консультация",
+                    //        "Консультация с 16:00", "Консультация с 17:00" };
+
+                    //for (int i = 0; i < days; i++)
+                    //{
+                    //    excelcells = excelworksheet.get_Range("A" + (3 + i), "A" + (3 + i));
+                    //    excelcells.ColumnWidth = 8;
+                    //    excelcells.RowHeight = 40;
+                    //    excelcells.Formula = "DD.MM.YYYY";
+                    //    excelcells.Value2 = currentdate.ToShortDateString();
+                    //    currentdate = currentdate.AddDays(1);
+                    //}
+                    //for (int i = 0; i < simbols.Length; i++)
+                    //{
+                    //    excelcells = excelworksheet.get_Range(simbols[i] + (2), simbols[i] + (2));
+                    //    excelcells.ColumnWidth = 20;
+                    //    excelcells.RowHeight = 30;
+                    //    excelcells.Value2 = texts[i];
+                    //}
+                    #endregion
+                    #region тело
+
+                    //currentdate = _dates[index].DateBeginExamination;
+                    //var list = getListByClassroom(classrooms[r - 1].Id);
+                    //for (int i = 0; i < list.Count; i++)
+                    //{
+                    //    if ((list[i].DayConsult - currentdate).Days > -1 && (list[i].DayConsult - currentdate).Days <= days)
+                    //    {
+                    //        if (list[i].DayConsult.Hour == 16)
+                    //        {
+                    //            excelcells = excelworksheet.get_Range("F" + ((list[i].DayConsult - currentdate).Days + 3),
+                    //                "F" + ((list[i].DayConsult - currentdate).Days + 3));
+                    //            excelcells.Value2 = list[i].Discipline.DisciplineShortName
+                    //                + Environment.NewLine +
+                    //                list[i].Teacher.TeacherShortName + Environment.NewLine + list[i].Group.GroupName;
+                    //        }
+                    //        else if (list[i].DayConsult.Hour == 17)
+                    //        {
+                    //            excelcells = excelworksheet.get_Range("G" + ((list[i].DayConsult - currentdate).Days + 3),
+                    //                "G" + ((list[i].DayConsult - currentdate).Days + 3));
+                    //            excelcells.Value2 = list[i].Discipline.DisciplineShortName
+                    //                + Environment.NewLine +
+                    //                list[i].Teacher.TeacherShortName + Environment.NewLine + list[i].Group.GroupName;
+                    //        }
+                    //    }
+                    //    if ((list[i].DayExam - currentdate).Days > -1 && (list[i].DayExam - currentdate).Days <= days)
+                    //    {
+                    //        if (list[i].DayExam.Hour == 8)
+                    //        {
+                    //            excelcells = excelworksheet.get_Range("B" + ((list[i].DayExam - currentdate).Days + 3),
+                    //                "B" + ((list[i].DayExam - currentdate).Days + 3));
+                    //            excelcells.Value2 = list[i].Discipline.DisciplineShortName
+                    //                + Environment.NewLine +
+                    //                list[i].Teacher.TeacherShortName + Environment.NewLine + list[i].Group.GroupName;
+                    //        }
+                    //        else if (list[i].DayExam.Hour == 12)
+                    //        {
+                    //            excelcells = excelworksheet.get_Range("C" + ((list[i].DayExam - currentdate).Days + 3),
+                    //                "C" + ((list[i].DayExam - currentdate).Days + 3));
+                    //            excelcells.Value2 = list[i].Discipline.DisciplineShortName
+                    //                + Environment.NewLine +
+                    //                list[i].Teacher.TeacherShortName + Environment.NewLine + list[i].Group.GroupName;
+                    //        }
+                    //    }
+                    //}
+                    #endregion
+                    #region аудитория
+                    //excelcells = excelworksheet.get_Range("A1", "G1");
+                    //excelcells.Merge(Type.Missing);
+                    //excelcells.Font.Bold = true;
+                    //excelcells.Value2 = classrooms[r - 1].Id;
+                    //excelcells.RowHeight = 25;
+                    //excelcells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                    //excelcells.VerticalAlignment = XlVAlign.xlVAlignCenter;
+                    //excelcells.Font.Name = "Times New Roman";
+                    //excelcells.Font.Size = 14;
+                    #endregion
+                }
+
+                excel.Workbooks[1].Save();
+                excel.Quit();
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
         public ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
             try
             {
                 for (int i = 0; i < model.Classrooms.Count; ++i)
                 {
-                    if (File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\" +
+                    if (File.Exists(model.FilePath + "\\" +
                         model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt"))
                     {
-                        File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\" +
+                        File.Delete(model.FilePath + "\\" +
                             model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt");
                     }
                     var writer = new StreamWriter(new FileStream(model.FilePath + "\\" + model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt",
@@ -908,13 +1047,13 @@ namespace DepartmentService.Services
             {
                 for (int i = 0; i < model.Classrooms.Count; ++i)
                 {
-                    if (File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\" +
+                    if (File.Exists(model.FilePath + "\\" +
                     model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_off.txt"))
                     {
-                        File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\" +
+                        File.Delete(model.FilePath + "\\" +
                         model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_off.txt");
                     }
-                    var writer = new StreamWriter(new FileStream(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\" +
+                    var writer = new StreamWriter(new FileStream(model.FilePath + "\\" +
                         model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_off.txt", FileMode.Create));
                     var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
                     var list = GetScheduleOffset(new ScheduleBindingModel
@@ -991,6 +1130,145 @@ namespace DepartmentService.Services
                         }
                         writer.WriteLine("\t</tbody>\r\n</table>\r\n<p>&nbsp;</p>");
                     }
+                    #endregion
+                    writer.Close();
+                }
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
+        }
+
+        public ResultService ExportExaminationRecordHTML(ExportToHTMLClassroomsBindingModel model)
+        {
+            try
+            {
+                for (int i = 0; i < model.Classrooms.Count; ++i)
+                {
+                    if (File.Exists(model.FilePath + "\\" +
+                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_exa.txt"))
+                    {
+                        File.Delete(model.FilePath + "\\" +
+                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_exa.txt");
+                    }
+                    var writer = new StreamWriter(new FileStream(model.FilePath + "\\" +
+                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_exa.txt", FileMode.Create));
+
+                    #region тело
+                    writer.WriteLine("<table align='center' border='1' cellpadding='1' cellspacing='1'>\r\n\t<tbody>");
+                    writer.WriteLine("\t\t<tr>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t<span style='color:#ffffff;'>Сессия</span></td>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>Экзамен<br />");
+                    writer.WriteLine("\t\t\t\t<span style='font-size:10px;'>08:00</span></span></td>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>Экзамен<br />");
+                    writer.WriteLine("\t\t\t\t<span style='font-size:10px;'>12:00</span></span></td>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>Консультация<br />");
+                    writer.WriteLine("\t\t\t\t<span style='font-size:10px;'> </span></span></td>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>Консультация<br />");
+                    writer.WriteLine("\t\t\t\t<span style='font-size:10px;'> </span></span></td>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>Консультация<br />");
+                    writer.WriteLine("\t\t\t\t<span style='font-size:10px;'>16:00</span></span></td>");
+                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>Консультация<br />");
+                    writer.WriteLine("\t\t\t\t<span style='font-size:10px;'>17:00</span></span></td>\r\n\t\t</tr>");
+                    //var _dates = (new Data()).getDates();
+                    //var currentdate = _dates[index].DateBeginExamination;
+                    //var days = (_dates[index].DateFinishExamination - _dates[index].DateBeginExamination).Days;
+
+                   // var list = getListByClassroom(classroomID);
+                  //  for (int k = 0; k < days; k++)
+                    //{
+                    //    writer.WriteLine("\t\t<tr style='height: 40px'>");
+                    //    writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(153, 0, 0)'>");
+                    //    //writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>" + currentdate.ToShortDateString() + "</span></td>");
+                    //    for (int r = 0; r < 6; r++)
+                    //    {
+                    //        if (r % 2 != 0)
+                    //        {
+                    //            writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
+                    //        }
+                    //        else
+                    //        {
+                    //            writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
+                    //        }
+                    //        switch (r)
+                    //        {
+                    //            case 0:
+                    //                if (list.Exists(rec => rec.DayExam.Date == currentdate.Date && rec.DayExam.Hour == 8))
+                    //                {
+                    //                    var record = list.Find(rec => rec.DayExam.Date == currentdate.Date && rec.DayExam.Hour == 8);
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>" +
+                    //                        record.Discipline.DisciplineShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Teacher.TeacherShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Group.GroupName + "</span></td>");
+                    //                }
+                    //                else
+                    //                {
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                    //                }
+                    //                break;
+                    //            case 1:
+                    //                if (list.Exists(rec => rec.DayExam.Date == currentdate.Date && rec.DayExam.Hour == 12))
+                    //                {
+                    //                    var record = list.Find(rec => rec.DayExam.Date == currentdate.Date && rec.DayExam.Hour == 12);
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>" +
+                    //                        record.Discipline.DisciplineShortName + " зач." + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Teacher.TeacherShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Group.GroupName + "</span></td>");
+                    //                }
+                    //                else
+                    //                {
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                    //                }
+                    //                break;
+                    //            case 2:
+                    //                writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                    //                break;
+                    //            case 3:
+                    //                writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                    //                break;
+                    //            case 4:
+                    //                if (list.Exists(rec => rec.DayConsult.Date == currentdate.Date && rec.DayConsult.Hour == 16))
+                    //                {
+                    //                    var record = list.Find(rec => rec.DayConsult.Date == currentdate.Date && rec.DayConsult.Hour == 16);
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>" +
+                    //                        record.Discipline.DisciplineShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Teacher.TeacherShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Group.GroupName + "</span></td>");
+                    //                }
+                    //                else
+                    //                {
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                    //                }
+                    //                break;
+                    //            case 5:
+                    //                if (list.Exists(rec => rec.DayConsult.Date == currentdate.Date && rec.DayConsult.Hour == 17))
+                    //                {
+                    //                    var record = list.Find(rec => rec.DayConsult.Date == currentdate.Date && rec.DayConsult.Hour == 17);
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>" +
+                    //                        record.Discipline.DisciplineShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Teacher.TeacherShortName + "<br />");
+                    //                    writer.WriteLine("\t\t\t\t" + record.Group.GroupName + "</span></td>");
+                    //                }
+                    //                else
+                    //                {
+                    //                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                    //                }
+                    //                break;
+                    //        }
+                    //    }
+                    //    writer.WriteLine("\t\t</tr>");
+                    //    currentdate = currentdate.AddDays(1);
+                    //}
+                    writer.WriteLine("\t</tbody>\r\n</table>\r\n<p>&nbsp;</p>");
                     #endregion
                     writer.Close();
                 }
