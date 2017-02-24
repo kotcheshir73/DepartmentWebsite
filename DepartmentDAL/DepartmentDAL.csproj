@@ -129,6 +129,10 @@
     <Compile Include="Migrations\201702241213462_AddTableScheduleLessonTimes.Designer.cs">
       <DependentUpon>201702241213462_AddTableScheduleLessonTimes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702241441007_DelIsStreamingInOffsetRecord.cs" />
+    <Compile Include="Migrations\201702241441007_DelIsStreamingInOffsetRecord.Designer.cs">
+      <DependentUpon>201702241441007_DelIsStreamingInOffsetRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -215,6 +219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702241213462_AddTableScheduleLessonTimes.resx">
       <DependentUpon>201702241213462_AddTableScheduleLessonTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702241441007_DelIsStreamingInOffsetRecord.resx">
+      <DependentUpon>201702241441007_DelIsStreamingInOffsetRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

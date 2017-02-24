@@ -85,19 +85,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                 list[r].LessonLecturer, list[r].LessonGroup);
                     if (list[r].Week == 0)
                     {
-                        if (list[r].IsStreaming)
-                        {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
-                        }
                         dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
                         dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                     if (list[r].Week == 1)
                     {
-                        if (list[r].IsStreaming)
-                        {
-                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
-                        }
                         dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
                         dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }

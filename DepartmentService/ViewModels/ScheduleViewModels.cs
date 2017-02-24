@@ -146,8 +146,6 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public bool IsStreaming { get; set; }
-
         public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }
@@ -166,8 +164,6 @@ namespace DepartmentService.ViewModels
         public int Day { get; set; }
 
         public int Lesson { get; set; }
-
-        public bool IsStreaming { get; set; }
 
         public string LessonDiscipline { get; set; }
 

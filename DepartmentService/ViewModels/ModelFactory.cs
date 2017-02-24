@@ -116,7 +116,6 @@ namespace DepartmentService.ViewModels
                 Day = entity.Day,
                 Week = entity.Week,
                 Lesson = entity.Lesson,
-                IsStreaming = entity.IsStreaming,
                 LessonClassroom = entity.LessonClassroom,
                 LessonGroup = entity.LessonGroup,
                 LessonDiscipline = entity.LessonDiscipline,

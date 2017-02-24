@@ -10,10 +10,5 @@
         public int Day { get; set; }
 
         public int Lesson { get; set; }
-
-        /// <summary>
-        /// Является ли пара потоковой
-        /// </summary>
-        public bool IsStreaming { get; set; }
     }
 }
