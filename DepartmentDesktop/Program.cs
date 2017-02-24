@@ -42,6 +42,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IScheduleStopWordService, ScheduleStopWordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
 
             currentContainer
         .RegisterType<FormMain>()

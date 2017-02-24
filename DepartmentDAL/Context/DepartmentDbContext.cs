@@ -28,6 +28,7 @@ namespace DepartmentDAL.Context
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
         public virtual DbSet<Role> Roles { set; get; }
+        public virtual DbSet<ScheduleLessonTime> ScheduleLessonTimes { set; get; }
         public virtual DbSet<ScheduleStopWord> ScheduleStopWords { get; set; }
         public virtual DbSet<Student> Students { set; get; }
         public virtual DbSet<StudentGroup> StudentGroups { set; get; }

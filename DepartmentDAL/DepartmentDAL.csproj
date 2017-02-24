@@ -125,6 +125,10 @@
     <Compile Include="Migrations\201702231655085_DelIsStreamingInConsultation.Designer.cs">
       <DependentUpon>201702231655085_DelIsStreamingInConsultation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702241213462_AddTableScheduleLessonTimes.cs" />
+    <Compile Include="Migrations\201702241213462_AddTableScheduleLessonTimes.Designer.cs">
+      <DependentUpon>201702241213462_AddTableScheduleLessonTimes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -135,6 +139,7 @@
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\ExaminationRecord.cs" />
     <Compile Include="Models\Lecturer.cs" />
+    <Compile Include="Models\ScheduleLessonTime.cs" />
     <Compile Include="Models\OffsetRecord.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
     <Compile Include="Models\ScheduleStopWord.cs" />
@@ -207,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702231655085_DelIsStreamingInConsultation.resx">
       <DependentUpon>201702231655085_DelIsStreamingInConsultation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702241213462_AddTableScheduleLessonTimes.resx">
+      <DependentUpon>201702241213462_AddTableScheduleLessonTimes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

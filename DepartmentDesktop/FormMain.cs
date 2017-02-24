@@ -124,6 +124,13 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
+        private void scheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleConfigControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         private void scheduleStopWordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleStopWordControl>();
@@ -131,9 +138,9 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
-        private void scheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        private void scheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.Schedule.ScheduleConfigControl>();
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleLessonTimeControl>();
             ApplyControl(control);
             control.LoadData();
         }

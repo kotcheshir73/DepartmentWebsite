@@ -34,6 +34,7 @@
             this.ScheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleSemestrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleExaminationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleConsultationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +46,8 @@
             this.classroomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seasonDatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.streamingLessonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scheduleExaminationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,8 +86,10 @@
             this.scheduleOffsetToolStripMenuItem,
             this.scheduleExaminationToolStripMenuItem,
             this.scheduleConsultationToolStripMenuItem,
+            this.toolStripSeparator1,
             this.scheduleConfigToolStripMenuItem,
-            this.scheduleStopWordsToolStripMenuItem});
+            this.scheduleStopWordsToolStripMenuItem,
+            this.scheduleLessonTimeToolStripMenuItem});
             this.ScheduleToolStripMenuItem.Name = "ScheduleToolStripMenuItem";
             this.ScheduleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ScheduleToolStripMenuItem.Text = "Расписание";
@@ -94,35 +98,42 @@
             // scheduleSemestrToolStripMenuItem
             // 
             this.scheduleSemestrToolStripMenuItem.Name = "scheduleSemestrToolStripMenuItem";
-            this.scheduleSemestrToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleSemestrToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.scheduleSemestrToolStripMenuItem.Text = "Семестр";
             this.scheduleSemestrToolStripMenuItem.Click += new System.EventHandler(this.scheduleSemestrToolStripMenuItem_Click);
             // 
             // scheduleOffsetToolStripMenuItem
             // 
             this.scheduleOffsetToolStripMenuItem.Name = "scheduleOffsetToolStripMenuItem";
-            this.scheduleOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleOffsetToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.scheduleOffsetToolStripMenuItem.Text = "Зачетная неделя";
             this.scheduleOffsetToolStripMenuItem.Click += new System.EventHandler(this.scheduleOffsetToolStripMenuItem_Click);
+            // 
+            // scheduleExaminationToolStripMenuItem
+            // 
+            this.scheduleExaminationToolStripMenuItem.Name = "scheduleExaminationToolStripMenuItem";
+            this.scheduleExaminationToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.scheduleExaminationToolStripMenuItem.Text = "Экзамены";
+            this.scheduleExaminationToolStripMenuItem.Click += new System.EventHandler(this.scheduleExaminationToolStripMenuItem_Click);
             // 
             // scheduleConsultationToolStripMenuItem
             // 
             this.scheduleConsultationToolStripMenuItem.Name = "scheduleConsultationToolStripMenuItem";
-            this.scheduleConsultationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleConsultationToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.scheduleConsultationToolStripMenuItem.Text = "Консультации";
             this.scheduleConsultationToolStripMenuItem.Click += new System.EventHandler(this.scheduleConsultationToolStripMenuItem_Click);
             // 
             // scheduleConfigToolStripMenuItem
             // 
             this.scheduleConfigToolStripMenuItem.Name = "scheduleConfigToolStripMenuItem";
-            this.scheduleConfigToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleConfigToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.scheduleConfigToolStripMenuItem.Text = "Настройки";
             this.scheduleConfigToolStripMenuItem.Click += new System.EventHandler(this.scheduleConfigToolStripMenuItem_Click);
             // 
             // scheduleStopWordsToolStripMenuItem
             // 
             this.scheduleStopWordsToolStripMenuItem.Name = "scheduleStopWordsToolStripMenuItem";
-            this.scheduleStopWordsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleStopWordsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.scheduleStopWordsToolStripMenuItem.Text = "Стоп-слова";
             this.scheduleStopWordsToolStripMenuItem.Click += new System.EventHandler(this.scheduleStopWordsToolStripMenuItem_Click);
             // 
@@ -188,12 +199,17 @@
             this.streamingLessonsToolStripMenuItem.Text = "Потоки";
             this.streamingLessonsToolStripMenuItem.Click += new System.EventHandler(this.streamingLessonsToolStripMenuItem_Click);
             // 
-            // scheduleExaminationToolStripMenuItem
+            // scheduleLessonTimeToolStripMenuItem
             // 
-            this.scheduleExaminationToolStripMenuItem.Name = "scheduleExaminationToolStripMenuItem";
-            this.scheduleExaminationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.scheduleExaminationToolStripMenuItem.Text = "Экзамены";
-            this.scheduleExaminationToolStripMenuItem.Click += new System.EventHandler(this.scheduleExaminationToolStripMenuItem_Click);
+            this.scheduleLessonTimeToolStripMenuItem.Name = "scheduleLessonTimeToolStripMenuItem";
+            this.scheduleLessonTimeToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
+            this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.scheduleLessonTimeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
             // 
             // FormMain
             // 
@@ -233,6 +249,8 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleConsultationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleOffsetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleExaminationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scheduleLessonTimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

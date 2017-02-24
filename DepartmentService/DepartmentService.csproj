@@ -60,6 +60,7 @@
     <Compile Include="IServices\IConsultationRecordService.cs" />
     <Compile Include="IServices\IEducationDirectionService.cs" />
     <Compile Include="IServices\IExaminationRecordService.cs" />
+    <Compile Include="IServices\IScheduleLessonTimeService.cs" />
     <Compile Include="IServices\IOffsetRecordService.cs" />
     <Compile Include="IServices\IScheduleService.cs" />
     <Compile Include="IServices\IScheduleStopWordService.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Services\ConsultationRecordService.cs" />
     <Compile Include="Services\EducationDirectionService.cs" />
     <Compile Include="Services\ExaminationRecordService.cs" />
+    <Compile Include="Services\ScheduleLessonTimeService.cs" />
     <Compile Include="Services\OffsetRecordService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\ScheduleStopWordService.cs" />
