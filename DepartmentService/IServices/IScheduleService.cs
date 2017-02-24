@@ -126,13 +126,27 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ExportExcel(ExportToExcelClassroomsBindingModel model);
+        ResultService ExportSemesterRecordExcel(ExportToExcelClassroomsBindingModel model);
+
+        /// <summary>
+        /// Выгрузка данных в Excel
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model);
 
         /// <summary>
         /// Выгрузка данных в html
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ExportHTML(ExportToHTMLClassroomsBindingModel model);
+        ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model);
+
+        /// <summary>
+        /// Выгрузка данных в html
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ExportOffsetRecordHTML(ExportToHTMLClassroomsBindingModel model);
     }
 }

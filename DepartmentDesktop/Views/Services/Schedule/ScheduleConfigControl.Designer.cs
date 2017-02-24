@@ -37,10 +37,13 @@
             this.checkedListBoxClassrooms = new System.Windows.Forms.CheckedListBox();
             this.groupBoxClassrooms = new System.Windows.Forms.GroupBox();
             this.groupBoxClearClassrooms = new System.Windows.Forms.GroupBox();
+            this.buttonClearConsultationRecordClassrooms = new System.Windows.Forms.Button();
+            this.buttonClearExaminationRecordClassrooms = new System.Windows.Forms.Button();
+            this.buttonClearOffsetRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearSemesterRecordClassrooms = new System.Windows.Forms.Button();
             this.groupBoxExport = new System.Windows.Forms.GroupBox();
-            this.buttonExportExcel = new System.Windows.Forms.Button();
-            this.buttonExportHTML = new System.Windows.Forms.Button();
+            this.buttonExportSemesterRecordExcel = new System.Windows.Forms.Button();
+            this.buttonExportSemesterRecordHTML = new System.Windows.Forms.Button();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.buttonSeasonDatesSave = new System.Windows.Forms.Button();
             this.comboBoxSeasonDates = new System.Windows.Forms.ComboBox();
@@ -48,11 +51,10 @@
             this.groupBoxCheckRecordsIfNotComplite = new System.Windows.Forms.GroupBox();
             this.buttonCheckRecordsIfNotComplite = new System.Windows.Forms.Button();
             this.groupBoxImport = new System.Windows.Forms.GroupBox();
-            this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
-            this.buttonClearOffsetRecordClassrooms = new System.Windows.Forms.Button();
-            this.buttonClearExaminationRecordClassrooms = new System.Windows.Forms.Button();
-            this.buttonClearConsultationRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonImportExaminationFromExcel = new System.Windows.Forms.Button();
+            this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
+            this.buttonExportOffsetRecordExcel = new System.Windows.Forms.Button();
+            this.buttonExportOffsetRecordHTML = new System.Windows.Forms.Button();
             this.groupBoxLoadHTMLScheduleForClassrooms.SuspendLayout();
             this.groupBoxClassrooms.SuspendLayout();
             this.groupBoxClearClassrooms.SuspendLayout();
@@ -154,6 +156,36 @@
             this.groupBoxClearClassrooms.TabStop = false;
             this.groupBoxClearClassrooms.Text = "Отчистка аудиторий";
             // 
+            // buttonClearConsultationRecordClassrooms
+            // 
+            this.buttonClearConsultationRecordClassrooms.Location = new System.Drawing.Point(25, 150);
+            this.buttonClearConsultationRecordClassrooms.Name = "buttonClearConsultationRecordClassrooms";
+            this.buttonClearConsultationRecordClassrooms.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearConsultationRecordClassrooms.TabIndex = 3;
+            this.buttonClearConsultationRecordClassrooms.Text = "Отчистить консультации";
+            this.buttonClearConsultationRecordClassrooms.UseVisualStyleBackColor = true;
+            this.buttonClearConsultationRecordClassrooms.Click += new System.EventHandler(this.buttonClearConsultationRecordClassrooms_Click);
+            // 
+            // buttonClearExaminationRecordClassrooms
+            // 
+            this.buttonClearExaminationRecordClassrooms.Location = new System.Drawing.Point(25, 110);
+            this.buttonClearExaminationRecordClassrooms.Name = "buttonClearExaminationRecordClassrooms";
+            this.buttonClearExaminationRecordClassrooms.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearExaminationRecordClassrooms.TabIndex = 2;
+            this.buttonClearExaminationRecordClassrooms.Text = "Отчистить экзамены";
+            this.buttonClearExaminationRecordClassrooms.UseVisualStyleBackColor = true;
+            this.buttonClearExaminationRecordClassrooms.Click += new System.EventHandler(this.buttonClearExaminationRecordClassrooms_Click);
+            // 
+            // buttonClearOffsetRecordClassrooms
+            // 
+            this.buttonClearOffsetRecordClassrooms.Location = new System.Drawing.Point(25, 70);
+            this.buttonClearOffsetRecordClassrooms.Name = "buttonClearOffsetRecordClassrooms";
+            this.buttonClearOffsetRecordClassrooms.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearOffsetRecordClassrooms.TabIndex = 1;
+            this.buttonClearOffsetRecordClassrooms.Text = "Отчистить зачеты";
+            this.buttonClearOffsetRecordClassrooms.UseVisualStyleBackColor = true;
+            this.buttonClearOffsetRecordClassrooms.Click += new System.EventHandler(this.buttonClearOffsetRecordClassrooms_Click);
+            // 
             // buttonClearSemesterRecordClassrooms
             // 
             this.buttonClearSemesterRecordClassrooms.Location = new System.Drawing.Point(25, 30);
@@ -166,34 +198,36 @@
             // 
             // groupBoxExport
             // 
-            this.groupBoxExport.Controls.Add(this.buttonExportExcel);
-            this.groupBoxExport.Controls.Add(this.buttonExportHTML);
-            this.groupBoxExport.Location = new System.Drawing.Point(538, 343);
+            this.groupBoxExport.Controls.Add(this.buttonExportOffsetRecordHTML);
+            this.groupBoxExport.Controls.Add(this.buttonExportOffsetRecordExcel);
+            this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordExcel);
+            this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordHTML);
+            this.groupBoxExport.Location = new System.Drawing.Point(683, 156);
             this.groupBoxExport.Name = "groupBoxExport";
-            this.groupBoxExport.Size = new System.Drawing.Size(130, 123);
+            this.groupBoxExport.Size = new System.Drawing.Size(200, 324);
             this.groupBoxExport.TabIndex = 3;
             this.groupBoxExport.TabStop = false;
             this.groupBoxExport.Text = "Экспорт";
             // 
-            // buttonExportExcel
+            // buttonExportSemesterRecordExcel
             // 
-            this.buttonExportExcel.Location = new System.Drawing.Point(27, 77);
-            this.buttonExportExcel.Name = "buttonExportExcel";
-            this.buttonExportExcel.Size = new System.Drawing.Size(75, 23);
-            this.buttonExportExcel.TabIndex = 1;
-            this.buttonExportExcel.Text = "Excel";
-            this.buttonExportExcel.UseVisualStyleBackColor = true;
-            this.buttonExportExcel.Click += new System.EventHandler(this.buttonExportExcel_Click);
+            this.buttonExportSemesterRecordExcel.Location = new System.Drawing.Point(20, 30);
+            this.buttonExportSemesterRecordExcel.Name = "buttonExportSemesterRecordExcel";
+            this.buttonExportSemesterRecordExcel.Size = new System.Drawing.Size(150, 30);
+            this.buttonExportSemesterRecordExcel.TabIndex = 0;
+            this.buttonExportSemesterRecordExcel.Text = "Семестр в Excel";
+            this.buttonExportSemesterRecordExcel.UseVisualStyleBackColor = true;
+            this.buttonExportSemesterRecordExcel.Click += new System.EventHandler(this.buttonExportSemesterRecordExcel_Click);
             // 
-            // buttonExportHTML
+            // buttonExportSemesterRecordHTML
             // 
-            this.buttonExportHTML.Location = new System.Drawing.Point(27, 36);
-            this.buttonExportHTML.Name = "buttonExportHTML";
-            this.buttonExportHTML.Size = new System.Drawing.Size(75, 23);
-            this.buttonExportHTML.TabIndex = 0;
-            this.buttonExportHTML.Text = "HTML";
-            this.buttonExportHTML.UseVisualStyleBackColor = true;
-            this.buttonExportHTML.Click += new System.EventHandler(this.buttonExportHTML_Click);
+            this.buttonExportSemesterRecordHTML.Location = new System.Drawing.Point(20, 144);
+            this.buttonExportSemesterRecordHTML.Name = "buttonExportSemesterRecordHTML";
+            this.buttonExportSemesterRecordHTML.Size = new System.Drawing.Size(150, 30);
+            this.buttonExportSemesterRecordHTML.TabIndex = 3;
+            this.buttonExportSemesterRecordHTML.Text = "Семестр в HTML";
+            this.buttonExportSemesterRecordHTML.UseVisualStyleBackColor = true;
+            this.buttonExportSemesterRecordHTML.Click += new System.EventHandler(this.buttonExportSemesterRecordHTML_Click);
             // 
             // groupBoxSettings
             // 
@@ -266,6 +300,16 @@
             this.groupBoxImport.TabStop = false;
             this.groupBoxImport.Text = "Импорт";
             // 
+            // buttonImportExaminationFromExcel
+            // 
+            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(20, 70);
+            this.buttonImportExaminationFromExcel.Name = "buttonImportExaminationFromExcel";
+            this.buttonImportExaminationFromExcel.Size = new System.Drawing.Size(150, 30);
+            this.buttonImportExaminationFromExcel.TabIndex = 1;
+            this.buttonImportExaminationFromExcel.Text = "Экзамены из Excel";
+            this.buttonImportExaminationFromExcel.UseVisualStyleBackColor = true;
+            this.buttonImportExaminationFromExcel.Click += new System.EventHandler(this.buttonImportExaminationFromExcel_Click);
+            // 
             // buttonImportOffsetFromExcel
             // 
             this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(20, 30);
@@ -276,45 +320,25 @@
             this.buttonImportOffsetFromExcel.UseVisualStyleBackColor = true;
             this.buttonImportOffsetFromExcel.Click += new System.EventHandler(this.buttonImportOffsetFromExcel_Click);
             // 
-            // buttonClearOffsetRecordClassrooms
+            // buttonExportOffsetRecordExcel
             // 
-            this.buttonClearOffsetRecordClassrooms.Location = new System.Drawing.Point(25, 70);
-            this.buttonClearOffsetRecordClassrooms.Name = "buttonClearOffsetRecordClassrooms";
-            this.buttonClearOffsetRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearOffsetRecordClassrooms.TabIndex = 1;
-            this.buttonClearOffsetRecordClassrooms.Text = "Отчистить зачеты";
-            this.buttonClearOffsetRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearOffsetRecordClassrooms.Click += new System.EventHandler(this.buttonClearOffsetRecordClassrooms_Click);
+            this.buttonExportOffsetRecordExcel.Location = new System.Drawing.Point(20, 70);
+            this.buttonExportOffsetRecordExcel.Name = "buttonExportOffsetRecordExcel";
+            this.buttonExportOffsetRecordExcel.Size = new System.Drawing.Size(150, 30);
+            this.buttonExportOffsetRecordExcel.TabIndex = 1;
+            this.buttonExportOffsetRecordExcel.Text = "Зачеты в Excel";
+            this.buttonExportOffsetRecordExcel.UseVisualStyleBackColor = true;
+            this.buttonExportOffsetRecordExcel.Click += new System.EventHandler(this.buttonExportOffsetRecordExcel_Click);
             // 
-            // buttonClearExaminationRecordClassrooms
+            // buttonExportOffsetRecordHTML
             // 
-            this.buttonClearExaminationRecordClassrooms.Location = new System.Drawing.Point(25, 110);
-            this.buttonClearExaminationRecordClassrooms.Name = "buttonClearExaminationRecordClassrooms";
-            this.buttonClearExaminationRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearExaminationRecordClassrooms.TabIndex = 2;
-            this.buttonClearExaminationRecordClassrooms.Text = "Отчистить экзамены";
-            this.buttonClearExaminationRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearExaminationRecordClassrooms.Click += new System.EventHandler(this.buttonClearExaminationRecordClassrooms_Click);
-            // 
-            // buttonClearConsultationRecordClassrooms
-            // 
-            this.buttonClearConsultationRecordClassrooms.Location = new System.Drawing.Point(25, 150);
-            this.buttonClearConsultationRecordClassrooms.Name = "buttonClearConsultationRecordClassrooms";
-            this.buttonClearConsultationRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearConsultationRecordClassrooms.TabIndex = 3;
-            this.buttonClearConsultationRecordClassrooms.Text = "Отчистить консультации";
-            this.buttonClearConsultationRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearConsultationRecordClassrooms.Click += new System.EventHandler(this.buttonClearConsultationRecordClassrooms_Click);
-            // 
-            // buttonImportExaminationFromExcel
-            // 
-            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(20, 70);
-            this.buttonImportExaminationFromExcel.Name = "buttonImportExaminationFromExcel";
-            this.buttonImportExaminationFromExcel.Size = new System.Drawing.Size(150, 30);
-            this.buttonImportExaminationFromExcel.TabIndex = 1;
-            this.buttonImportExaminationFromExcel.Text = "Экзамены из Excel";
-            this.buttonImportExaminationFromExcel.UseVisualStyleBackColor = true;
-            this.buttonImportExaminationFromExcel.Click += new System.EventHandler(this.buttonImportExaminationFromExcel_Click);
+            this.buttonExportOffsetRecordHTML.Location = new System.Drawing.Point(20, 191);
+            this.buttonExportOffsetRecordHTML.Name = "buttonExportOffsetRecordHTML";
+            this.buttonExportOffsetRecordHTML.Size = new System.Drawing.Size(150, 30);
+            this.buttonExportOffsetRecordHTML.TabIndex = 4;
+            this.buttonExportOffsetRecordHTML.Text = "Зачеты в HTML";
+            this.buttonExportOffsetRecordHTML.UseVisualStyleBackColor = true;
+            this.buttonExportOffsetRecordHTML.Click += new System.EventHandler(this.buttonExportOffsetRecordHTML_Click);
             // 
             // ScheduleConfigControl
             // 
@@ -352,8 +376,8 @@
         private System.Windows.Forms.GroupBox groupBoxClearClassrooms;
         private System.Windows.Forms.Button buttonClearSemesterRecordClassrooms;
         private System.Windows.Forms.GroupBox groupBoxExport;
-        private System.Windows.Forms.Button buttonExportExcel;
-        private System.Windows.Forms.Button buttonExportHTML;
+        private System.Windows.Forms.Button buttonExportSemesterRecordExcel;
+        private System.Windows.Forms.Button buttonExportSemesterRecordHTML;
         private System.Windows.Forms.Label labelLinkToHtml;
         private System.Windows.Forms.TextBox textBoxLinkToHtml;
         private System.Windows.Forms.GroupBox groupBoxSettings;
@@ -369,5 +393,7 @@
         private System.Windows.Forms.Button buttonClearExaminationRecordClassrooms;
         private System.Windows.Forms.Button buttonClearConsultationRecordClassrooms;
         private System.Windows.Forms.Button buttonImportExaminationFromExcel;
+        private System.Windows.Forms.Button buttonExportOffsetRecordExcel;
+        private System.Windows.Forms.Button buttonExportOffsetRecordHTML;
     }
 }
