@@ -26,6 +26,13 @@ namespace DepartmentService.IServices
         List<SeasonDatesViewModel> GetSeasonDaties();
 
         /// <summary>
+        /// Получение списка временных интервалов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+
+        /// <summary>
         /// Получить даты по текущему семестру
         /// </summary>
         /// <returns></returns>

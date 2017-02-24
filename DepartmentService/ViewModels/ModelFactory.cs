@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -201,9 +202,12 @@ namespace DepartmentService.ViewModels
 
         public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
         {
+            string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
+                entity.DateEndLesson.ToShortTimeString());
             return new ScheduleLessonTimeViewModel
             {
                 Id = entity.Id,
+                Text = text,
                 Title = entity.Title,
                 TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
                 TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),

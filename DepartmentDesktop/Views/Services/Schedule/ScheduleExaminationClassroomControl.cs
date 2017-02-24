@@ -34,6 +34,16 @@ namespace DepartmentDesktop.Views.Services.Schedule
             _serviceER = serviceER;
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
+
+            var lessons = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+            lessons.AddRange(_service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" }));
+            if (lessons != null)
+            {
+                for (int i = 0; i < lessons.Count; ++i)
+                {
+                    dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+                }
+            }
         }
 
         public void LoadData(string classroomID)
@@ -76,18 +86,16 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     throw new Exception("Невозможно получить список занятий в семестре");
                 foreach (var record in list)
                 {
-                    string text = string.Format("{0}{1}{2}{1}{3}", record.LessonDiscipline, Environment.NewLine,
-                                record.LessonLecturer, record.LessonGroup);
                     if ((record.DateConsultation - currentdate).Days > -1 && (record.DateConsultation - currentdate).Days <= days)
                     {
                         if (record.DateConsultation.Hour == 16)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateConsultation - currentdate).Days].Cells[5].Value = text;
+                            dataGridViewFirstWeek.Rows[(record.DateConsultation - currentdate).Days].Cells[5].Value = record.Text;
                             dataGridViewFirstWeek.Rows[(record.DateConsultation - currentdate).Days].Cells[5].Tag = record.Id;
                         }
                         else if (record.DateConsultation.Hour == 17)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateConsultation - currentdate).Days].Cells[6].Value = text;
+                            dataGridViewFirstWeek.Rows[(record.DateConsultation - currentdate).Days].Cells[6].Value = record.Text;
                             dataGridViewFirstWeek.Rows[(record.DateConsultation - currentdate).Days].Cells[6].Tag = record.Id;
                         }
                     }
@@ -95,12 +103,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     {
                         if (record.DateExamination.Hour == 8)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateExamination - currentdate).Days].Cells[1].Value = text;
+                            dataGridViewFirstWeek.Rows[(record.DateExamination - currentdate).Days].Cells[1].Value = record.Text;
                             dataGridViewFirstWeek.Rows[(record.DateExamination - currentdate).Days].Cells[1].Tag = record.Id;
                         }
                         else if (record.DateExamination.Hour == 12)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateExamination - currentdate).Days].Cells[2].Value = text;
+                            dataGridViewFirstWeek.Rows[(record.DateExamination - currentdate).Days].Cells[2].Value = record.Text;
                             dataGridViewFirstWeek.Rows[(record.DateExamination - currentdate).Days].Cells[2].Tag = record.Id;
                         }
                     }
@@ -115,12 +123,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     throw new Exception("Невозможно получить список консультаций в семестре");
                 foreach (var record in consults)
                 {
-                    string text = string.Format("{0} конс.{1}{2}{1}{3}", record.LessonDiscipline, Environment.NewLine,
-                                record.LessonLecturer, record.LessonGroup);
                     if ((record.DateConsultation.Date - currentdate.Date).Days <= days)
                     {
-                        dataGridViewFirstWeek.Rows[(record.DateConsultation.Date - currentdate.Date).Days].Cells[3].Value = text;
-                        dataGridViewFirstWeek.Rows[(record.DateConsultation.Date - currentdate.Date).Days].Cells[3].Tag = record.Id;
+                        dataGridViewFirstWeek.Rows[(record.DateConsultation.Date - currentdate.Date).Days].Cells[record.Lesson].Value = record.Text;
+                        dataGridViewFirstWeek.Rows[(record.DateConsultation.Date - currentdate.Date).Days].Cells[record.Lesson].Tag = record.Id;
                     }
                 }
             }

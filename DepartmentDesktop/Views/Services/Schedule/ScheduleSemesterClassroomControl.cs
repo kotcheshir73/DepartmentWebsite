@@ -34,6 +34,16 @@ namespace DepartmentDesktop.Views.Services.Schedule
             _serviceSR = serviceSR;
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
+
+            var lessons = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            if(lessons != null)
+            {
+                for(int i = 0; i < lessons.Count; ++i)
+                {
+                    dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+                    dataGridViewSecondWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+                }
+            }
         }
 
         public void LoadData(string classroomID)
@@ -82,8 +92,6 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     throw new Exception("Невозможно получить список занятий в семестре");
                 for (int r = 0; r < list.Count; ++r)
                 {
-                    string text = string.Format("{0} {1}{2}{3}{2}{4}", list[r].LessonType, list[r].LessonDiscipline, Environment.NewLine,
-                                list[r].LessonLecturer, list[r].LessonGroup);
                     if (list[r].Week == 0)
                     {
                         if (list[r].IsStreaming)
@@ -98,7 +106,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {
                             dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
                         }
-                        dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
+                        dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = list[r].Text;
                         dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                     if (list[r].Week == 1)
@@ -115,7 +123,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         {
                             dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
                         }
-                        dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
+                        dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = list[r].Text;
                         dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                 }
@@ -125,17 +133,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     throw new Exception("Невозможно получить список консультаций в семестре");
                 foreach (var record in consults)
                 {
-                    string text = string.Format("{0} конс.{1}{2}{1}{3}", record.LessonDiscipline, Environment.NewLine,
-                                record.LessonLecturer, record.LessonGroup);
                     if (record.Week == 0)
                     {
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = text;
+                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
                         dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
                         dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
                     }
                     if (record.Week == 1)
                     {
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = text;
+                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
                         dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
                         dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
                     }

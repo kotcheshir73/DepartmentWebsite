@@ -6,6 +6,8 @@ namespace DepartmentService.ViewModels
     {
         public long Id { get; set; }
 
+        public string Text { get; set; }
+
         public string Title { get; set; }
 
         public string TimeBeginLesson { get; set; }
@@ -47,6 +49,14 @@ namespace DepartmentService.ViewModels
         public string LessonGroup { get; set; }
 
         public string LessonClassroom { get; set; }
+
+        public string Text
+        {
+            get
+            {
+                return string.Format("{0} {1}{2}{3}{2}{4}", LessonType, LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+            }
+        }
     }
 
     public class SemesterRecordViewModel
@@ -62,56 +72,6 @@ namespace DepartmentService.ViewModels
         public string LessonType { get; set; }
 
         public bool IsStreaming { get; set; }
-
-        public string LessonDiscipline { get; set; }
-
-        public string LessonLecturer { get; set; }
-
-        public string LessonGroup { get; set; }
-
-        public string LessonClassroom { get; set; }
-
-        public string ClassroomId { get; set; }
-
-        public string Classroom { get; set; }
-
-        public long? LecturerId { get; set; }
-
-        public string Lecturer { get; set; }
-
-        public string Discipline { get; set; }
-
-        public long? StudentGroupId { get; set; }
-
-        public string StudentGroup { get; set; }
-    }
-
-    public class ConsultationRecordShortViewModel
-    {
-        public long Id { get; set; }
-
-        public int Week { get; set; }
-
-        public int Day { get; set; }
-
-        public int Lesson { get; set; }
-
-        public DateTime DateConsultation { get; set; }
-
-        public string LessonDiscipline { get; set; }
-
-        public string LessonLecturer { get; set; }
-
-        public string LessonGroup { get; set; }
-
-        public string LessonClassroom { get; set; }
-    }
-
-    public class ConsultationRecordViewModel
-    {
-        public long Id { get; set; }
-
-        public DateTime DateConsultation { get; set; }
 
         public string LessonDiscipline { get; set; }
 
@@ -153,6 +113,14 @@ namespace DepartmentService.ViewModels
         public string LessonGroup { get; set; }
 
         public string LessonClassroom { get; set; }
+
+        public string Text
+        {
+            get
+            {
+                return string.Format("{0}{1}{2}{1}{3}", LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+            }
+        }
     }
 
     public class OffsetRecordViewModel
@@ -196,8 +164,6 @@ namespace DepartmentService.ViewModels
 
         public DateTime DateExamination { get; set; }
 
-        public string LessonType { get; set; }
-
         public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }
@@ -205,6 +171,14 @@ namespace DepartmentService.ViewModels
         public string LessonGroup { get; set; }
 
         public string LessonClassroom { get; set; }
+
+        public string Text
+        {
+            get
+            {
+                return string.Format("{0}{1}{2}{1}{3}", LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+            }
+        }
     }
 
     public class ExaminationRecordViewModel
@@ -214,6 +188,64 @@ namespace DepartmentService.ViewModels
         public DateTime DateConsultation { get; set; }
 
         public DateTime DateExamination { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public string Classroom { get; set; }
+
+        public long? LecturerId { get; set; }
+
+        public string Lecturer { get; set; }
+
+        public string Discipline { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public string StudentGroup { get; set; }
+    }
+
+    public class ConsultationRecordShortViewModel
+    {
+        public long Id { get; set; }
+
+        public int Week { get; set; }
+
+        public int Day { get; set; }
+
+        public int Lesson { get; set; }
+
+        public DateTime DateConsultation { get; set; }
+
+        public string LessonDiscipline { get; set; }
+
+        public string LessonLecturer { get; set; }
+
+        public string LessonGroup { get; set; }
+
+        public string LessonClassroom { get; set; }
+
+        public string Text
+        {
+            get
+            {
+                return string.Format("{0} конс.{1}{2}{1}{3}", LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+            }
+        }
+    }
+
+    public class ConsultationRecordViewModel
+    {
+        public long Id { get; set; }
+
+        public DateTime DateConsultation { get; set; }
 
         public string LessonDiscipline { get; set; }
 

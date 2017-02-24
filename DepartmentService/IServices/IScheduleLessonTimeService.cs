@@ -10,13 +10,14 @@ namespace DepartmentService.IServices
         /// <summary>
         /// Получение списка временных интервалов
         /// </summary>
+        /// <param name="model"></param>
         /// <returns></returns>
-        List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes();
+        List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
 
         /// <summary>
         /// Получения временного интервала
         /// </summary>
-        /// <param name="model">Идентификатор стоп-слова</param>
+        /// <param name="model"></param>
         /// <returns></returns>
         ScheduleLessonTimeViewModel GetScheduleLessonTime(ScheduleLessonTimeGetBindingModel model);
 

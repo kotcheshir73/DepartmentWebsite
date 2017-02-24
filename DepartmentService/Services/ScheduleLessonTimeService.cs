@@ -19,11 +19,20 @@ namespace DepartmentService.Services
             _context = context;
         }
 
-        public List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes()
+        public List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model)
         {
-            return ModelFactory.CreateScheduleLessonTimes(
-                    _context.ScheduleLessonTimes)
-                .ToList();
+            if (string.IsNullOrEmpty(model.Title))
+            {
+                return ModelFactory.CreateScheduleLessonTimes(
+                        _context.ScheduleLessonTimes)
+                    .ToList();
+            }
+            else
+            {
+                return ModelFactory.CreateScheduleLessonTimes(
+                        _context.ScheduleLessonTimes.Where(slt => slt.Title.Contains(model.Title)))
+                    .ToList();
+            }
         }
 
         public ScheduleLessonTimeViewModel GetScheduleLessonTime(ScheduleLessonTimeGetBindingModel model)
@@ -65,6 +74,7 @@ namespace DepartmentService.Services
                 {
                     return ResultService.Error("entity", "not_found", 404);
                 }
+                entity.Title = model.Title;
                 entity.DateBeginLesson = model.DateBeginLesson;
                 entity.DateEndLesson = model.DateEndLesson;
 

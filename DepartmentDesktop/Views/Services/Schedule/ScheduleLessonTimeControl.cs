@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
@@ -24,7 +18,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         public void LoadData()
         {
-            var list = _service.GetScheduleLessonTimes();
+            var list = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel());
             if (list == null)
             {
                 MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -34,14 +28,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
             if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].Visible = false;
-                dataGridViewList.Columns[1].HeaderText = "Название";
-                dataGridViewList.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridViewList.Columns[2].HeaderText = "Дата начала";
-                dataGridViewList.Columns[2].Width = 100;
-                dataGridViewList.Columns[3].HeaderText = "Дата окончания";
-                dataGridViewList.Columns[3].Width = 100;
-                dataGridViewList.Columns[4].Visible = false;
+                dataGridViewList.Columns[1].Visible = false;
+                dataGridViewList.Columns[2].HeaderText = "Название";
+                dataGridViewList.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewList.Columns[3].HeaderText = "Дата начала";
+                dataGridViewList.Columns[3].Width = 200;
+                dataGridViewList.Columns[4].HeaderText = "Дата окончания";
+                dataGridViewList.Columns[4].Width = 200;
                 dataGridViewList.Columns[5].Visible = false;
+                dataGridViewList.Columns[6].Visible = false;
             }
         }
 
