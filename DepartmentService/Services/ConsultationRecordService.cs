@@ -14,9 +14,12 @@ namespace DepartmentService.Services
     {
         private readonly DepartmentDbContext _context;
 
-        public ConsultationRecordService(DepartmentDbContext context)
+        private readonly IScheduleLessonTimeService _serviceSLT;
+
+        public ConsultationRecordService(DepartmentDbContext context, IScheduleLessonTimeService serviceSLT)
         {
             _context = context;
+            _serviceSLT = serviceSLT;
         }
 
         public ConsultationRecordViewModel GetConsultationRecord(ConsultationRecordGetBindingModel model)
@@ -131,17 +134,14 @@ namespace DepartmentService.Services
                 int week = day < 8 ? 0 : 1;
                 day = day % 7;
                 int lesson = 7;
-                lessons = new DateTime[]
+                var times = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                lessons = new DateTime[times.Count];
+                for(int i = 0; i < times.Count; ++i)
                 {
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 8, 0, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 9, 40, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 11, 30, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 13, 10, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 14, 50, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 16, 30, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 18, 10, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 19, 50, 0)
-                };
+                    lessons[i] = new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day,
+                        times[i].DateBeginLesson.Hour, times[i].DateBeginLesson.Minute, 0);
+                }
+
                 for (int i = 0; i < lessons.Length - 1; ++i)
                 {
                     if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
@@ -166,17 +166,14 @@ namespace DepartmentService.Services
                 int week = day < 8 ? 0 : 1;
                 day = day % 7;
                 int lesson = 7;
-                lessons = new DateTime[]
+                var times = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                lessons = new DateTime[times.Count];
+                for (int i = 0; i < times.Count; ++i)
                 {
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 8, 0, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 9, 40, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 11, 30, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 13, 10, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 14, 50, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 16, 30, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 18, 10, 0),
-                    new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day, 19, 50, 0)
-                };
+                    lessons[i] = new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day,
+                        times[i].DateBeginLesson.Hour, times[i].DateBeginLesson.Minute, 0);
+                }
+
                 for (int i = 0; i < lessons.Length - 1; ++i)
                 {
                     if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
@@ -198,6 +195,25 @@ namespace DepartmentService.Services
 
             if (seasonDate.DateBeginExamination < model.DateConsultation && seasonDate.DateEndExamination > model.DateConsultation)
             {//консультация назначается в сессию
+                int day = ((int)(model.DateConsultation - seasonDate.DateBeginExamination).TotalDays);
+                int lesson = 2;
+                var times = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+                times.AddRange(_serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" }));
+                lessons = new DateTime[times.Count];
+                for (int i = 0; i < times.Count; ++i)
+                {
+                    lessons[i] = new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day,
+                        times[i].DateBeginLesson.Hour, times[i].DateBeginLesson.Minute, 0);
+                }
+                for (int i = 0; i < lessons.Length - 1; ++i)
+                {
+                    if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
+                    {
+                        lesson = i;
+                        break;
+                    }
+                }
+
                 var entry = _context.ExaminationRecords.FirstOrDefault(sr =>
                                      ((sr.DateExamination.Year == model.DateConsultation.Year && sr.DateExamination.Month == model.DateConsultation.Month &&
                                      sr.DateExamination.Day == model.DateConsultation.Day &&
@@ -214,8 +230,8 @@ namespace DepartmentService.Services
                     return ResultService.Error("exsist_item", "На эту пару уже стоит экзамен/консультация", 401);
                 }
                 model.Week = 0;
-                model.Day = 0;
-                model.Lesson = 0;
+                model.Day = day;
+                model.Lesson = lesson;
             }
             return ResultService.Success();
         }

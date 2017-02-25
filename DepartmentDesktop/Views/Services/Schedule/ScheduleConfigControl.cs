@@ -26,7 +26,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             var classrooms = _service.GetClassrooms();
             foreach (var elem in classrooms)
             {
-                checkedListBoxClassrooms.Items.Add(elem.Id);
+                checkedListBoxClassrooms.Items.Add(elem.Id, true);
             }
             comboBoxSeasonDates.ValueMember = "Value";
             comboBoxSeasonDates.DisplayMember = "Display";
