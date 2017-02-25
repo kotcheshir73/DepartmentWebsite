@@ -13,5 +13,17 @@
         public int Kurs { get; set; }
 
         public int CountStudents { get; set; }
+
+        public int Capacity { get; set; }
+
+        public int SubgroupsCount { get; set; }
+
+        public long? StewardId { get; set; }
+
+        public long? CuratorId { get; set; }
+
+        public string Steward { get; set; }
+
+        public string Curator { get; set; }
     }
 }

@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.excelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.hTMLToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -287,14 +287,14 @@
             this.dataGridViewFirstWeek.AllowUserToResizeColumns = false;
             this.dataGridViewFirstWeek.AllowUserToResizeRows = false;
             this.dataGridViewFirstWeek.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewFirstWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewFirstWeek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewFirstWeek.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnWeek1,
@@ -311,22 +311,22 @@
             this.dataGridViewFirstWeek.MultiSelect = false;
             this.dataGridViewFirstWeek.Name = "dataGridViewFirstWeek";
             this.dataGridViewFirstWeek.ReadOnly = true;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewFirstWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewFirstWeek.RowHeadersVisible = false;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewFirstWeek.RowTemplate.Height = 45;
             this.dataGridViewFirstWeek.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 209);
-            this.dataGridViewFirstWeek.TabIndex = 0;
+            this.dataGridViewFirstWeek.TabIndex = 2;
             this.dataGridViewFirstWeek.Tag = "0";
             this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
@@ -342,8 +342,8 @@
             // ColumnWeek1Lesson1
             // 
             this.ColumnWeek1Lesson1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson1.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson1.DefaultCellStyle = dataGridViewCellStyle2;
             this.ColumnWeek1Lesson1.HeaderText = "1 пара\n08:00-09:30";
             this.ColumnWeek1Lesson1.Name = "ColumnWeek1Lesson1";
             this.ColumnWeek1Lesson1.ReadOnly = true;
@@ -360,8 +360,8 @@
             // ColumnWeek1Lesson3
             // 
             this.ColumnWeek1Lesson3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson3.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson3.DefaultCellStyle = dataGridViewCellStyle3;
             this.ColumnWeek1Lesson3.HeaderText = "3 пара\n11:30-13:00";
             this.ColumnWeek1Lesson3.Name = "ColumnWeek1Lesson3";
             this.ColumnWeek1Lesson3.ReadOnly = true;
@@ -378,8 +378,8 @@
             // ColumnWeek1Lesson5
             // 
             this.ColumnWeek1Lesson5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson5.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson5.DefaultCellStyle = dataGridViewCellStyle4;
             this.ColumnWeek1Lesson5.HeaderText = "5 пара\n14:50-16:20";
             this.ColumnWeek1Lesson5.Name = "ColumnWeek1Lesson5";
             this.ColumnWeek1Lesson5.ReadOnly = true;
@@ -396,8 +396,8 @@
             // ColumnWeek1Lesson7
             // 
             this.ColumnWeek1Lesson7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson7.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek1Lesson7.DefaultCellStyle = dataGridViewCellStyle5;
             this.ColumnWeek1Lesson7.HeaderText = "7 пара\n18:10-19:40";
             this.ColumnWeek1Lesson7.Name = "ColumnWeek1Lesson7";
             this.ColumnWeek1Lesson7.ReadOnly = true;
@@ -419,14 +419,14 @@
             this.dataGridViewSecondWeek.AllowUserToResizeColumns = false;
             this.dataGridViewSecondWeek.AllowUserToResizeRows = false;
             this.dataGridViewSecondWeek.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewSecondWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewSecondWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewSecondWeek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewSecondWeek.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnWeek2,
@@ -444,22 +444,22 @@
             this.dataGridViewSecondWeek.MultiSelect = false;
             this.dataGridViewSecondWeek.Name = "dataGridViewSecondWeek";
             this.dataGridViewSecondWeek.ReadOnly = true;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewSecondWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewSecondWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridViewSecondWeek.RowHeadersVisible = false;
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewSecondWeek.RowsDefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewSecondWeek.RowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dataGridViewSecondWeek.RowTemplate.Height = 45;
             this.dataGridViewSecondWeek.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridViewSecondWeek.Size = new System.Drawing.Size(800, 205);
-            this.dataGridViewSecondWeek.TabIndex = 0;
+            this.dataGridViewSecondWeek.TabIndex = 3;
             this.dataGridViewSecondWeek.Tag = "1";
             this.dataGridViewSecondWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
@@ -475,8 +475,8 @@
             // ColumnWeek2Lesson1
             // 
             this.ColumnWeek2Lesson1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle23.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek2Lesson1.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek2Lesson1.DefaultCellStyle = dataGridViewCellStyle9;
             this.ColumnWeek2Lesson1.HeaderText = "1 пара\n08:00-09:30";
             this.ColumnWeek2Lesson1.Name = "ColumnWeek2Lesson1";
             this.ColumnWeek2Lesson1.ReadOnly = true;
@@ -493,8 +493,8 @@
             // ColumnWeek2Lesson3
             // 
             this.ColumnWeek2Lesson3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle24.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek2Lesson3.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek2Lesson3.DefaultCellStyle = dataGridViewCellStyle10;
             this.ColumnWeek2Lesson3.HeaderText = "3 пара\n11:30-13:00";
             this.ColumnWeek2Lesson3.Name = "ColumnWeek2Lesson3";
             this.ColumnWeek2Lesson3.ReadOnly = true;
@@ -511,8 +511,8 @@
             // ColumnWeek2Lesson5
             // 
             this.ColumnWeek2Lesson5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle25.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek2Lesson5.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek2Lesson5.DefaultCellStyle = dataGridViewCellStyle11;
             this.ColumnWeek2Lesson5.HeaderText = "5 пара\n14:50-16:20";
             this.ColumnWeek2Lesson5.Name = "ColumnWeek2Lesson5";
             this.ColumnWeek2Lesson5.ReadOnly = true;
@@ -529,8 +529,8 @@
             // ColumnWeek2Lesson7
             // 
             this.ColumnWeek2Lesson7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle26.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek2Lesson7.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnWeek2Lesson7.DefaultCellStyle = dataGridViewCellStyle12;
             this.ColumnWeek2Lesson7.HeaderText = "7 пара\n18:10-19:40";
             this.ColumnWeek2Lesson7.Name = "ColumnWeek2Lesson7";
             this.ColumnWeek2Lesson7.ReadOnly = true;
@@ -551,7 +551,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 470);
             this.panelBottom.Name = "panelBottom";
             this.panelBottom.Size = new System.Drawing.Size(800, 30);
-            this.panelBottom.TabIndex = 5;
+            this.panelBottom.TabIndex = 4;
             // 
             // labelTop
             // 
@@ -573,7 +573,7 @@
             this.panelTop.Location = new System.Drawing.Point(0, 25);
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(800, 30);
-            this.panelTop.TabIndex = 3;
+            this.panelTop.TabIndex = 1;
             // 
             // buttonPrevWeek
             // 

@@ -34,6 +34,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = _service.GetEducationDirections()
                 .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+
+
             if (_id != 0)
             {
                 var entity = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
@@ -45,6 +47,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
                 textBoxGroupName.Text = entity.GroupName;
                 textBoxKurs.Text = entity.Kurs.ToString();
+                textBoxCapacity.Text = entity.Capacity.ToString();
+                textBoxSubgroupsCount.Text = entity.SubgroupsCount.ToString();
             }
         }
 

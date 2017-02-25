@@ -30,13 +30,23 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 dataGridViewList.Columns[0].Visible = false;
                 dataGridViewList.Columns[1].Visible = false;
                 dataGridViewList.Columns[2].HeaderText = "Шифр";
-                dataGridViewList.Columns[2].Width = 150;
+                dataGridViewList.Columns[2].Width = 100;
                 dataGridViewList.Columns[3].HeaderText = "Группа";
-                dataGridViewList.Columns[3].Width = 150;
+                dataGridViewList.Columns[3].Width = 100;
                 dataGridViewList.Columns[4].HeaderText = "Курс";
                 dataGridViewList.Columns[4].Width = 150;
                 dataGridViewList.Columns[5].HeaderText = "Количество студентов";
-                dataGridViewList.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewList.Columns[5].Width = 150;
+                dataGridViewList.Columns[6].HeaderText = "План по студентам";
+                dataGridViewList.Columns[6].Width = 150;
+                dataGridViewList.Columns[7].HeaderText = "Количество подгрупп";
+                dataGridViewList.Columns[7].Width = 150;
+                dataGridViewList.Columns[8].Visible = false;
+                dataGridViewList.Columns[9].Visible = false;
+                dataGridViewList.Columns[10].HeaderText = "Староста";
+                dataGridViewList.Columns[10].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewList.Columns[11].HeaderText = "Куратор";
+                dataGridViewList.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
 

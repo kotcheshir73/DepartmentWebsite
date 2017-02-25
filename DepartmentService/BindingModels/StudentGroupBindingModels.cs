@@ -17,5 +17,13 @@ namespace DepartmentService.BindingModels
         public string GroupName { get; set; }
         
         public int Kurs { get; set; }
+
+        public int Capacity { get; set; }
+
+        public int SubgroupsCount { get; set; }
+
+        public long? StewardId { get; set; }
+
+        public long? CuratorId { get; set; }
     }
 }
