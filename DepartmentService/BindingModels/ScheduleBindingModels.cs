@@ -8,6 +8,8 @@ namespace DepartmentService.BindingModels
     {
         public string ClassroomId { get; set; }
 
+        public string GroupName { get; set; }
+
         public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
@@ -18,6 +20,8 @@ namespace DepartmentService.BindingModels
         public string ScheduleUrl { get; set; }
 
         public List<string> Classrooms { get; set; }
+
+        public List<string> StudentGroups { get; set; }
     }
 
     public class ExportToExcelClassroomsBindingModel

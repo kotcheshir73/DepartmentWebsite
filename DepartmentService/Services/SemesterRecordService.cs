@@ -42,7 +42,9 @@ namespace DepartmentService.Services
             }
 
             var entry = _context.SemesterRecords.FirstOrDefault(sr => sr.Week == model.Week && sr.Day == model.Day && sr.Lesson == model.Lesson &&
-                                                                            sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл &&
+                                                                            (sr.ClassroomId == model.ClassroomId && model.ClassroomId != null) &&
+                                                                            (sr.StudentGroupId == model.StudentGroupId && model.StudentGroupId != null) &&
+                                                                            sr.LessonType != LessonTypes.удл &&
                                                                             sr.SeasonDatesId == seasonDate.Id);
 
             if(entry != null)

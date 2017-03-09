@@ -168,10 +168,10 @@
     <Compile Include="Views\Services\Schedule\ScheduleConfigControl.Designer.cs">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleConsultationClassroomControl.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleConsultationClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleConsultationClassroomControl.Designer.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleConsultationClassroomControl.Designer.cs">
       <DependentUpon>ScheduleConsultationClassroomControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleConsultationControl.cs">
@@ -186,10 +186,10 @@
     <Compile Include="Views\Services\Schedule\ScheduleConsultationRecordForm.Designer.cs">
       <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleExaminationClassroomControl.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleExaminationClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleExaminationClassroomControl.Designer.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleExaminationClassroomControl.Designer.cs">
       <DependentUpon>ScheduleExaminationClassroomControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleExaminationControl.cs">
@@ -216,10 +216,10 @@
     <Compile Include="Views\Services\Schedule\ScheduleLessonTimeForm.Designer.cs">
       <DependentUpon>ScheduleLessonTimeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleOffsetClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.Designer.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleOffsetClassroomControl.Designer.cs">
       <DependentUpon>ScheduleOffsetClassroomControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleOffsetControl.cs">
@@ -234,10 +234,10 @@
     <Compile Include="Views\Services\Schedule\ScheduleOffsetRecordForm.Designer.cs">
       <DependentUpon>ScheduleOffsetRecordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleSemesterClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.Designer.cs">
+    <Compile Include="Views\Services\Schedule\Classrooms\ScheduleSemesterClassroomControl.Designer.cs">
       <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemesterControl.cs">
@@ -257,6 +257,12 @@
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemesterRecordForm.Designer.cs">
       <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleSemesterStudentGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleSemesterStudentGroupControl.Designer.cs">
+      <DependentUpon>ScheduleSemesterStudentGroupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleStopWordControl.cs">
       <SubType>UserControl</SubType>
@@ -331,7 +337,7 @@
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConfigControl.resx">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationClassroomControl.resx">
+    <EmbeddedResource Include="Views\Services\Schedule\Classrooms\ScheduleConsultationClassroomControl.resx">
       <DependentUpon>ScheduleConsultationClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationControl.resx">
@@ -340,7 +346,7 @@
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConsultationRecordForm.resx">
       <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\Schedule\ScheduleExaminationClassroomControl.resx">
+    <EmbeddedResource Include="Views\Services\Schedule\Classrooms\ScheduleExaminationClassroomControl.resx">
       <DependentUpon>ScheduleExaminationClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleExaminationControl.resx">
@@ -355,7 +361,7 @@
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleLessonTimeForm.resx">
       <DependentUpon>ScheduleLessonTimeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetClassroomControl.resx">
+    <EmbeddedResource Include="Views\Services\Schedule\Classrooms\ScheduleOffsetClassroomControl.resx">
       <DependentUpon>ScheduleOffsetClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetControl.resx">
@@ -364,7 +370,7 @@
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleOffsetRecordForm.resx">
       <DependentUpon>ScheduleOffsetRecordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterClassroomControl.resx">
+    <EmbeddedResource Include="Views\Services\Schedule\Classrooms\ScheduleSemesterClassroomControl.resx">
       <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterControl.resx">
@@ -375,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterRecordForm.resx">
       <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\StudentGroups\ScheduleSemesterStudentGroupControl.resx">
+      <DependentUpon>ScheduleSemesterStudentGroupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleStopWordControl.resx">
       <DependentUpon>ScheduleStopWordControl.cs</DependentUpon>

@@ -28,6 +28,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 checkedListBoxClassrooms.Items.Add(elem.Id, true);
             }
+            var studentGroups = _service.GetStudentGroups();
+            foreach (var elem in studentGroups)
+            {
+                checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
+            }
             comboBoxSeasonDates.ValueMember = "Value";
             comboBoxSeasonDates.DisplayMember = "Display";
             comboBoxSeasonDates.DataSource = _service.GetSeasonDaties()
@@ -60,6 +65,25 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 return null;
             }
             return classrooms;
+        }
+
+        /// <summary>
+        /// Получение списка выбраных групп
+        /// </summary>
+        /// <returns></returns>
+        private List<string> getListOfStudentGroups()
+        {
+            List<string> studentGroups = new List<string>();
+            foreach (var elem in checkedListBoxStudentGroups.CheckedItems)
+            {
+                studentGroups.Add(elem.ToString());
+            }
+            if (studentGroups.Count == 0)
+            {
+                MessageBox.Show("Список групп пуст!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+            }
+            return studentGroups;
         }
 
         /// <summary>
@@ -114,8 +138,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
         /// <param name="e"></param>
         private void buttonMakeLoadHTMLScheduleForClassrooms_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            var classrooms = getListOfClassrooms();
             if (classrooms == null)
+            {
+                return;
+            }
+            var studentGroups = getListOfStudentGroups();
+            if (studentGroups == null)
             {
                 return;
             }
@@ -128,7 +157,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
             var result = _service.LoadScheduleHTMLForClassrooms(new LoadHTMLForClassroomsBindingModel
             {
                 ScheduleUrl = textBoxLinkToHtml.Text,
-                Classrooms = classrooms
+                Classrooms = classrooms,
+                StudentGroups = studentGroups
             });
 
             if (result.Succeeded)

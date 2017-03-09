@@ -125,13 +125,21 @@ namespace DepartmentService.Services
             {
                 throw new Exception("Выставьте учебный период");
             }
-            var records = _context.SemesterRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
-                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id).ToList();
+            var selectedRecords = _context.SemesterRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).AsQueryable();
+            if (!string.IsNullOrEmpty(model.ClassroomId))
+            {
+                selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id);
+            }
+            if (!string.IsNullOrEmpty(model.GroupName))
+            {
+                selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
+            }
+            var records = selectedRecords.ToList();
             List<SemesterRecordShortViewModel> result = new List<SemesterRecordShortViewModel>();
             for (int i = 0; i < records.Count; ++i)
             {
                 string groups = GetLessonGroup(records[i]);
-                if (records[i].IsStreaming)
+                if (records[i].IsStreaming && !string.IsNullOrEmpty(model.ClassroomId))
                 {//если потоковая пара
                     var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
                                             rec.LessonClassroom == records[i].LessonClassroom && rec.IsStreaming).ToList();
@@ -255,14 +263,34 @@ namespace DepartmentService.Services
             {
                 throw new Exception("Выставьте учебный период");
             }
-            var records = model.DateBegin.HasValue ?
-                                                    _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
-                                                                        Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id &&
-                                                                        sr.DateConsultation >= model.DateBegin.Value && sr.DateConsultation <= model.DateEnd.Value).ToList()
-                                                                         :
-                                                    _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
-                                                                         Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id).ToList();
+            var selectedRecords = _context.ConsultationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).AsQueryable();
 
+            if(model.DateBegin.HasValue)
+            {
+                if (!string.IsNullOrEmpty(model.ClassroomId))
+                {
+                    selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id &&
+                                                       sr.DateConsultation >= model.DateBegin.Value && sr.DateConsultation <= model.DateEnd.Value);
+                }
+                if (!string.IsNullOrEmpty(model.GroupName))
+                {
+                    selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == seasonDate.Id &&
+                                                       sr.DateConsultation >= model.DateBegin.Value && sr.DateConsultation <= model.DateEnd.Value);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.ClassroomId))
+                {
+                    selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id);
+                }
+                if (!string.IsNullOrEmpty(model.GroupName))
+                {
+                    selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == seasonDate.Id);
+                }
+            }
+
+            var records = selectedRecords.ToList();
             ResultService resultCheck;
             ConsultationRecordRecordBindingModel record;
             List<ConsultationRecordShortViewModel> result = new List<ConsultationRecordShortViewModel>();
@@ -388,7 +416,7 @@ namespace DepartmentService.Services
                     {
                         try
                         {
-                            var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value, model.Classrooms,
+                            var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value, 
                                                         (node.InnerText.Replace("\r\n", "").Replace(" ", "")), stopWords, currentDates);
                             if (!string.IsNullOrEmpty(res))
                             {
@@ -1396,7 +1424,8 @@ namespace DepartmentService.Services
         /// </summary>
         /// <param name="schedulrUrl"></param>
         /// <param name="classrooms"></param>
-        private string ParsingPage(string schedulrUrl, List<string> classrooms, string groupName, List<ScheduleStopWord> stopWords, SeasonDatesViewModel currentDates)
+        private string ParsingPage(string schedulrUrl, string groupName, List<ScheduleStopWord> stopWords, 
+            SeasonDatesViewModel currentDates)
         {
             string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
             WebClient web = new WebClient();
@@ -1442,6 +1471,7 @@ namespace DepartmentService.Services
                             entityFirst.Week = week;
                             entityFirst.Day = day;
                             entityFirst.Lesson = para;
+                            entityFirst.LessonGroup = groupName;
                             //entityFirst.SeasonDatesId = currentDates.Id;
 
                             entitySecond.Week = week;
@@ -1449,7 +1479,7 @@ namespace DepartmentService.Services
                             entitySecond.Lesson = para;
                             // entitySecond.SeasonDatesId = currentDates.Id;
 
-                            AnalisString(pageNode.InnerText, classrooms, groupName, stopWords, entityFirst, entitySecond);
+                            AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
 
                             CheckNewSemesterRecordForConflictAndSave(entityFirst, error);
                             CheckNewSemesterRecordForConflictAndSave(entitySecond, error);
@@ -1464,21 +1494,24 @@ namespace DepartmentService.Services
             return error.ToString();
         }
 
-        private void AnalisString(string text, List<string> classrooms, string groupName, List<ScheduleStopWord> stopWords,
+        private void AnalisString(string text, List<ScheduleStopWord> stopWords,
             SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
         {
             text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "");
             var lesson = text.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            recordFirst.LessonGroup = groupName;
-            recordFirst.LessonDiscipline += lesson[0];
+            //определяем группу
             if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
             {
-                var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup);
+                var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
                 if (group != null)
                 {
                     recordFirst.StudentGroupId = group.Id;
+                    if (group.Id == 1)
+                    { int c = 0; }
                 }
             }
+            //определяем дисциплину
+            recordFirst.LessonDiscipline += lesson[0];
             int i = 1;
             for (; i < lesson.Length - 1; ++i)
             {
@@ -1488,13 +1521,13 @@ namespace DepartmentService.Services
                 {//Шаблон для преподавателя "ФАМИЛИЯ И О"
                     break;
                 }
-                if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
+                if (stopWords.FirstOrDefault(sw => sw.StopWord == lesson[i].ToUpper() && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
                 {
                     break;
                 }
                 recordFirst.LessonDiscipline += lesson[i] + " ";
             }
-
+            //определяем преподавателя
             if (i < lesson.Length - 3)
             {
                 if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
@@ -1534,7 +1567,7 @@ namespace DepartmentService.Services
                     }
                 }
             }
-
+            //определяем аудиторию
             if (i < lesson.Length)
             {
                 if (lesson[i] == "-")
@@ -1543,12 +1576,13 @@ namespace DepartmentService.Services
                 }
                 recordFirst.LessonClassroom = lesson[i++];
 
-                if (classrooms.Any(c => recordFirst.LessonClassroom.Contains(c)))
+                var classroom = _context.Classrooms.FirstOrDefault(c => recordFirst.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
+                if (classroom != null)
                 {
-                    recordFirst.ClassroomId = classrooms.FirstOrDefault(c => recordFirst.LessonClassroom.Contains(c));
+                    recordFirst.ClassroomId = classroom.Id;
                 }
             }
-
+            //определяем тип занятия
             recordFirst.LessonType = LessonTypes.нд.ToString();
             if (recordFirst.LessonDiscipline.StartsWith("лек."))
             {
@@ -1566,17 +1600,18 @@ namespace DepartmentService.Services
                 recordFirst.LessonDiscipline = recordFirst.LessonDiscipline.Remove(0, 4);
             }
 
-
+            //если еще остались элементы, значит есть вторая пара
             if (i < lesson.Length)
             {
-
+                //дисциплина будет пустой
                 recordSecond.LessonDiscipline = "";
+                //определяем группу
                 recordSecond.LessonGroup = recordFirst.LessonGroup;
                 if (recordFirst.StudentGroupId != null)
                 {
                     recordSecond.StudentGroupId = recordFirst.StudentGroupId;
                 }
-
+                //определяем преподавателя
                 if (i < lesson.Length - 3)
                 {
                     if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
@@ -1616,7 +1651,7 @@ namespace DepartmentService.Services
                         }
                     }
                 }
-
+                //определяем аудиторию
                 if (i < lesson.Length)
                 {
                     if (lesson[i] == "-")
@@ -1624,11 +1659,13 @@ namespace DepartmentService.Services
                         i++;
                     }
                     recordSecond.LessonClassroom = lesson[i++];
-                    if (classrooms.Any(c => recordSecond.LessonClassroom.Contains(c)))
-                    {
-                        recordSecond.ClassroomId = classrooms.FirstOrDefault(c => recordSecond.LessonClassroom.Contains(c));
-                    }
 
+                    var classroom = _context.Classrooms.FirstOrDefault(c => recordSecond.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
+                    if (classroom != null)
+                    {
+                        recordSecond.ClassroomId = classroom.Id;
+                    }
+                    //определяем тип занятия
                     recordSecond.LessonType = LessonTypes.нд.ToString();
                     if (recordFirst.LessonDiscipline.StartsWith("лек."))
                     {
@@ -1653,43 +1690,74 @@ namespace DepartmentService.Services
         /// <param name="error"></param>
         private ResultService CheckNewSemesterRecordForConflictAndSave(SemesterRecordRecordBindingModel record, StringBuilder error)
         {
-            if (record.ClassroomId != null)
-            {
-                var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-                                        r.Day == record.Day && r.Lesson == record.Lesson &&
-                                        r.ClassroomId == record.ClassroomId);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
-                    if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
-                        exsistRecord.LessonLecturer == record.LessonLecturer &&
-                        exsistRecord.LessonType.ToString() == record.LessonType)
-                    {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
-                        record.IsStreaming = true;
-                        exsistRecord.IsStreaming = true;
+            //ищем занятие другой группы в этой аудитории
+            var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
+                                    r.Day == record.Day && r.Lesson == record.Lesson &&
+                                    r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
+            if (exsistRecord != null)
+            {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
+                if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
+                    exsistRecord.LessonLecturer == record.LessonLecturer &&
+                    exsistRecord.LessonType.ToString() == record.LessonType)
+                {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
+                    record.IsStreaming = true;
+                    exsistRecord.IsStreaming = true;
 
-                        return _serviceSR.CreateSemesterRecord(record);
-                    }
-                    else if (exsistRecord.LessonType == LessonTypes.удл)
-                    {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-                        var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
-                        if (!result.Succeeded)
-                        {
-                            return result;
-                        }
-                        return _serviceSR.CreateSemesterRecord(record);
-                    }
-                    else
+                    _context.Entry(exsistRecord).State = EntityState.Modified;
+                    _context.SaveChanges();
+
+                    return _serviceSR.CreateSemesterRecord(record);
+                }
+                else if (exsistRecord.LessonType == LessonTypes.удл)
+                {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
+                    var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
+                    if (!result.Succeeded)
                     {
-                        error.Append(string.Format("Конфликт: {0} {1} {2}: {3} - {4}\r\n", record.Week, record.Day, record.Lesson,
-                            exsistRecord.LessonGroup, record.LessonGroup));
+                        return result;
                     }
+                    return _serviceSR.CreateSemesterRecord(record);
                 }
                 else
                 {
-                    return _serviceSR.CreateSemesterRecord(record);
+                    error.Append(string.Format("Конфликт (аудитории):\r\nдата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n", record.Week, record.Day, record.Lesson,
+                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom));
                 }
             }
-            return ResultService.Error("error", "classroom not found", 404);
+
+            //ищем занятие этой группы в другой аудитории
+            exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
+                                          r.Day == record.Day && r.Lesson == record.Lesson &&
+                                          r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
+            if (exsistRecord != null)
+            {//если на этой неделе в этот день этой парой у этой группы уже есть занятие
+                if (exsistRecord.LessonType.ToString() == record.LessonType || 
+                                    exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд.ToString())
+                {//если совпадает тип занятия (или у одного из занятий неизвестен тип), но аудитории разные, то это лабораторные по подгруппам
+                    return _serviceSR.CreateSemesterRecord(record);
+                }
+                else if (exsistRecord.LessonType == LessonTypes.удл)
+                {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
+                    var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
+                    if (!result.Succeeded)
+                    {
+                        return result;
+                    }
+                    return _serviceSR.CreateSemesterRecord(record);
+                }
+                else
+                {
+                    error.Append(string.Format("Конфликт (группы):\r\nдата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n", record.Week, record.Day, record.Lesson,
+                        exsistRecord.LessonClassroom, record.LessonClassroom, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                }
+            }
+            if (record.StudentGroupId != null || record.ClassroomId != null || record.LecturerId != null)
+            {
+                return _serviceSR.CreateSemesterRecord(record);
+            }
+            else
+            {
+                return ResultService.Error("error", "classroom not found", 404);
+            }
         }
         #endregion
 
