@@ -146,7 +146,7 @@ namespace DepartmentDesktop
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleOffsetControl>();
             ApplyControl(control);
-            control.LoadData();
+            control.LoadData(0);
         }
         /// <summary>
         /// Расписание аудиторий на экзаменационную сессию
@@ -175,6 +175,13 @@ namespace DepartmentDesktop
         private void scheduleStudentGroupSemesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleSemesterControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+
+        private void scheduleStudentGroupOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleOffsetControl>();
             ApplyControl(control);
             control.LoadData(1);
         }

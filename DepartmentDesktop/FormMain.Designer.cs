@@ -51,6 +51,7 @@
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleStudentGroupOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,7 +161,8 @@
             // scheduleStudentGroupToolStripMenuItem
             // 
             this.scheduleStudentGroupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scheduleStudentGroupSemesterToolStripMenuItem});
+            this.scheduleStudentGroupSemesterToolStripMenuItem,
+            this.scheduleStudentGroupOffsetToolStripMenuItem});
             this.scheduleStudentGroupToolStripMenuItem.Name = "scheduleStudentGroupToolStripMenuItem";
             this.scheduleStudentGroupToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.scheduleStudentGroupToolStripMenuItem.Text = "Группы";
@@ -168,7 +170,7 @@
             // scheduleStudentGroupSemesterToolStripMenuItem
             // 
             this.scheduleStudentGroupSemesterToolStripMenuItem.Name = "scheduleStudentGroupSemesterToolStripMenuItem";
-            this.scheduleStudentGroupSemesterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.scheduleStudentGroupSemesterToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleStudentGroupSemesterToolStripMenuItem.Text = "Семестр";
             this.scheduleStudentGroupSemesterToolStripMenuItem.Click += new System.EventHandler(this.scheduleStudentGroupSemesterToolStripMenuItem_Click);
             // 
@@ -237,6 +239,13 @@
             this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
             this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.scheduleLessonTimeToolStripMenuItem_Click);
             // 
+            // scheduleStudentGroupOffsetToolStripMenuItem
+            // 
+            this.scheduleStudentGroupOffsetToolStripMenuItem.Name = "scheduleStudentGroupOffsetToolStripMenuItem";
+            this.scheduleStudentGroupOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleStudentGroupOffsetToolStripMenuItem.Text = "Зачетная неделя";
+            this.scheduleStudentGroupOffsetToolStripMenuItem.Click += new System.EventHandler(this.scheduleStudentGroupOffsetToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,6 +289,7 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleClassroomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupSemesterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupOffsetToolStripMenuItem;
     }
 }
 

@@ -203,8 +203,16 @@ namespace DepartmentService.Services
             {
                 throw new Exception("Выставьте учебный период");
             }
-            var records = _context.OffsetRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
-                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id).ToList();
+            var selectedRecords = _context.OffsetRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).AsQueryable();
+            if (!string.IsNullOrEmpty(model.ClassroomId))
+            {
+                selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id);
+            }
+            if (!string.IsNullOrEmpty(model.GroupName))
+            {
+                selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
+            }
+            var records = selectedRecords.ToList();
             List<OffsetRecordShortViewModel> result = new List<OffsetRecordShortViewModel>();
             for (int i = 0; i < records.Count; ++i)
             {
@@ -231,8 +239,16 @@ namespace DepartmentService.Services
             {
                 throw new Exception("Выставьте учебный период");
             }
-            var records = _context.ExaminationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).
-                Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id).ToList();
+            var selectedRecords = _context.ExaminationRecords.Include(sr => sr.Lecturer).Include(sr => sr.Classroom).Include(sr => sr.StudentGroup).AsQueryable();
+            if (!string.IsNullOrEmpty(model.ClassroomId))
+            {
+                selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id);
+            }
+            if (!string.IsNullOrEmpty(model.GroupName))
+            {
+                selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
+            }
+            var records = selectedRecords.ToList();
             List<ExaminationRecordShortViewModel> result = new List<ExaminationRecordShortViewModel>();
             for (int i = 0; i < records.Count; ++i)
             {

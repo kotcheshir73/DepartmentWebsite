@@ -240,6 +240,12 @@
     <Compile Include="Views\Services\Schedule\Classrooms\ScheduleSemesterClassroomControl.Designer.cs">
       <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleOffsetStudentGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleOffsetStudentGroupControl.Designer.cs">
+      <DependentUpon>ScheduleOffsetStudentGroupControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleSemesterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -372,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\Classrooms\ScheduleSemesterClassroomControl.resx">
       <DependentUpon>ScheduleSemesterClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\StudentGroups\ScheduleOffsetStudentGroupControl.resx">
+      <DependentUpon>ScheduleOffsetStudentGroupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleSemesterControl.resx">
       <DependentUpon>ScheduleSemesterControl.cs</DependentUpon>
