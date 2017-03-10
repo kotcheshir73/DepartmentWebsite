@@ -58,6 +58,7 @@ namespace DepartmentService.Services
                 Day = model.Day,
                 Lesson = model.Lesson,
                 SeasonDatesId = seasonDate.Id,
+                IsStreaming = model.IsStreaming,
 
                 LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType),
                 LessonDiscipline = model.LessonDiscipline,
