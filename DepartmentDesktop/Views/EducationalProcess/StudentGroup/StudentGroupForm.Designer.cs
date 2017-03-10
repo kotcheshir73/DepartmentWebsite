@@ -47,7 +47,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageMainData = new System.Windows.Forms.TabPage();
             this.tabPageStudents = new System.Windows.Forms.TabPage();
-            this.tabPageSchedule = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageMainData.SuspendLayout();
             this.SuspendLayout();
@@ -201,7 +200,6 @@
             // 
             this.tabControl.Controls.Add(this.tabPageMainData);
             this.tabControl.Controls.Add(this.tabPageStudents);
-            this.tabControl.Controls.Add(this.tabPageSchedule);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
@@ -245,16 +243,6 @@
             this.tabPageStudents.Text = "Студенты";
             this.tabPageStudents.UseVisualStyleBackColor = true;
             // 
-            // tabPageSchedule
-            // 
-            this.tabPageSchedule.Location = new System.Drawing.Point(4, 22);
-            this.tabPageSchedule.Name = "tabPageSchedule";
-            this.tabPageSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSchedule.Size = new System.Drawing.Size(876, 446);
-            this.tabPageSchedule.TabIndex = 2;
-            this.tabPageSchedule.Text = "Расписание";
-            this.tabPageSchedule.UseVisualStyleBackColor = true;
-            // 
             // StudentGroupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,6 +281,5 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageMainData;
         private System.Windows.Forms.TabPage tabPageStudents;
-        private System.Windows.Forms.TabPage tabPageSchedule;
     }
 }
