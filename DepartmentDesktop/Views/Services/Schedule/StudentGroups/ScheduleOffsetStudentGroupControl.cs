@@ -68,7 +68,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 var dateEndOffset = Convert.ToDateTime(_dates.DateEndOffset);
                 if (_selectDate.Date == DateTime.Now.Date)
                 {
-                    currentdate = dateBeginOffset.AddDays(((DateTime.Now - dateBeginOffset).Days / 14) * 14);
+                    currentdate = dateBeginOffset;
                     _selectDate = currentdate;
                 }
 
