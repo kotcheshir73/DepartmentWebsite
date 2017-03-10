@@ -47,7 +47,7 @@ namespace DepartmentService.Services
                                                                             sr.LessonType != LessonTypes.удл &&
                                                                             sr.SeasonDatesId == seasonDate.Id);
 
-            if(entry != null)
+            if (entry != null)
             {
                 return ResultService.Error("exsist_item", "На эту пару уже стоит занятие", 401);
             }
@@ -168,7 +168,7 @@ namespace DepartmentService.Services
                             {
                                 record.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
                             }
-                            if(model.ApplyToAnalogRecordsByTextData && model.ApplyToAnalogRecordsByClassroom)
+                            if (model.ApplyToAnalogRecordsByTextData && model.ApplyToAnalogRecordsByClassroom)
                             {
                                 record.LessonClassroom = model.LessonClassroom;
                             }
@@ -211,7 +211,10 @@ namespace DepartmentService.Services
                         entity.LessonGroup = model.LessonGroup;
                         entity.LessonLecturer = model.LessonLecturer;
                         entity.LessonClassroom = model.LessonClassroom;
-                        entity.ClassroomId = model.ClassroomId;
+                        if (!string.IsNullOrEmpty(model.ClassroomId))
+                        {
+                            entity.ClassroomId = model.ClassroomId;
+                        }
                         entity.LecturerId = model.LecturerId;
                         entity.StudentGroupId = model.StudentGroupId;
                         _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;

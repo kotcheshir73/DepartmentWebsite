@@ -93,7 +93,10 @@ namespace DepartmentService.Services
                     entity.LessonGroup = model.LessonGroup;
                     entity.LessonLecturer = model.LessonLecturer;
                     entity.LessonClassroom = model.LessonClassroom;
-                    entity.ClassroomId = model.ClassroomId;
+                    if (!string.IsNullOrEmpty(model.ClassroomId))
+                    {
+                        entity.ClassroomId = model.ClassroomId;
+                    }
                     entity.LecturerId = model.LecturerId;
                     entity.StudentGroupId = model.StudentGroupId;
                     _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
