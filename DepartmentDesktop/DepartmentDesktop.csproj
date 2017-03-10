@@ -204,6 +204,12 @@
     <Compile Include="Views\Services\Schedule\ScheduleExaminationRecordForm.Designer.cs">
       <DependentUpon>ScheduleExaminationRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleExaminationStudentGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleExaminationStudentGroupControl.Designer.cs">
+      <DependentUpon>ScheduleExaminationStudentGroupControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleLessonTimeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -360,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleExaminationRecordForm.resx">
       <DependentUpon>ScheduleExaminationRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\StudentGroups\ScheduleExaminationStudentGroupControl.resx">
+      <DependentUpon>ScheduleExaminationStudentGroupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleLessonTimeControl.resx">
       <DependentUpon>ScheduleLessonTimeControl.cs</DependentUpon>

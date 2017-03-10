@@ -157,7 +157,7 @@ namespace DepartmentDesktop
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleExaminationControl>();
             ApplyControl(control);
-            control.LoadData();
+            control.LoadData(0);
         }
         /// <summary>
         /// Расписание аудиторий по консультациям
@@ -182,6 +182,13 @@ namespace DepartmentDesktop
         private void scheduleStudentGroupOffsetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleOffsetControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+
+        private void scheduleStudentGroupExaminationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleExaminationControl>();
             ApplyControl(control);
             control.LoadData(1);
         }
