@@ -474,10 +474,10 @@ namespace DepartmentService.Services
                         if (string.IsNullOrEmpty(record.LessonDiscipline))
                         {//если нет названия дисциплины
                             var searchMatches = _context.SemesterRecords.FirstOrDefault(sr =>
-                                                    (sr.LessonGroup == record.LessonGroup || sr.StudentGroupId == record.StudentGroupId) &&
-                                                    (sr.LessonLecturer == record.LessonLecturer || sr.LecturerId == record.LecturerId) &&
-                                                    (sr.LessonClassroom == record.LessonClassroom || sr.ClassroomId == record.ClassroomId) &&
-                                                    !sr.IsStreaming && sr.Id != record.Id);
+        (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
+        (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) &&
+        (sr.LessonClassroom == record.LessonClassroom || (sr.ClassroomId == record.ClassroomId && !string.IsNullOrEmpty(sr.ClassroomId))) &&
+        !sr.IsStreaming && sr.Id != record.Id);
                             if (searchMatches != null)
                             {
                                 record.LessonDiscipline = searchMatches.LessonDiscipline;
@@ -490,9 +490,9 @@ namespace DepartmentService.Services
                             else
                             {//если в этой аудитории нет такой пары, то ищем по другим аудиториям
                                 searchMatches = _context.SemesterRecords.FirstOrDefault(sr =>
-                                                       (sr.LessonGroup == record.LessonGroup || sr.StudentGroupId == record.StudentGroupId) &&
-                                                       (sr.LessonLecturer == record.LessonLecturer || sr.LecturerId == record.LecturerId) &&
-                                                       !sr.IsStreaming && sr.Id != record.Id);
+        (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
+        (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) &&
+        !sr.IsStreaming && sr.Id != record.Id);
                                 if (searchMatches != null)
                                 {
                                     record.LessonDiscipline = searchMatches.LessonDiscipline;
@@ -1497,7 +1497,7 @@ namespace DepartmentService.Services
 
                             AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
 
-                            var result = CheckNewSemesterRecordForConflictAndSave(entityFirst, error);
+                            var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
                             if(!result.Succeeded)
                             {
                                 foreach (var err in result.Errors)
@@ -1505,7 +1505,7 @@ namespace DepartmentService.Services
                                     error.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
                                 }
                             }
-                            result = CheckNewSemesterRecordForConflictAndSave(entitySecond, error);
+                            result = CheckNewSemesterRecordForConflictAndSave(entitySecond);
                             if (!result.Succeeded)
                             {
                                 foreach (var err in result.Errors)
@@ -1696,19 +1696,7 @@ namespace DepartmentService.Services
                         recordSecond.ClassroomId = classroom.Id;
                     }
                     //определяем тип занятия
-                    recordSecond.LessonType = LessonTypes.нд.ToString();
-                    if (recordFirst.LessonDiscipline.StartsWith("лек."))
-                    {
-                        recordSecond.LessonType = LessonTypes.лек.ToString();
-                    }
-                    if (recordFirst.LessonDiscipline.StartsWith("пр."))
-                    {
-                        recordSecond.LessonType = LessonTypes.пр.ToString();
-                    }
-                    if (recordFirst.LessonDiscipline.StartsWith("лаб."))
-                    {
-                        recordSecond.LessonType = LessonTypes.лаб.ToString();
-                    }
+                    recordSecond.LessonType = recordFirst.LessonType;
                 }
             }
         }
@@ -1718,7 +1706,7 @@ namespace DepartmentService.Services
         /// </summary>
         /// <param name="record"></param>
         /// <param name="error"></param>
-        private ResultService CheckNewSemesterRecordForConflictAndSave(SemesterRecordRecordBindingModel record, StringBuilder error)
+        private ResultService CheckNewSemesterRecordForConflictAndSave(SemesterRecordRecordBindingModel record)
         {
             //ищем занятие другой группы в этой аудитории
             var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
@@ -1749,8 +1737,9 @@ namespace DepartmentService.Services
                 }
                 else
                 {
-                    error.Append(string.Format("Конфликт (аудитории):\r\nдата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n", record.Week, record.Day, record.Lesson,
-                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom));
+                    return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                        record.Week, record.Day, record.Lesson,
+                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), 400);
                 }
             }
 
@@ -1776,8 +1765,9 @@ namespace DepartmentService.Services
                 }
                 else
                 {
-                    error.Append(string.Format("Конфликт (группы):\r\nдата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n", record.Week, record.Day, record.Lesson,
-                        exsistRecord.LessonClassroom, record.LessonClassroom, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                    return ResultService.Error("Конфликт (группы):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                        record.Week, record.Day, record.Lesson,
+                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup), 400);
                 }
             }
             if (record.StudentGroupId != null || record.ClassroomId != null || record.LecturerId != null)
@@ -1786,7 +1776,7 @@ namespace DepartmentService.Services
             }
             else
             {
-                return ResultService.Error("error", "classroom not found", 404);
+                return ResultService.Success();
             }
         }
         #endregion
