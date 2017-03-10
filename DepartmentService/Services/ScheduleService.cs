@@ -1497,8 +1497,22 @@ namespace DepartmentService.Services
 
                             AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
 
-                            CheckNewSemesterRecordForConflictAndSave(entityFirst, error);
-                            CheckNewSemesterRecordForConflictAndSave(entitySecond, error);
+                            var result = CheckNewSemesterRecordForConflictAndSave(entityFirst, error);
+                            if(!result.Succeeded)
+                            {
+                                foreach (var err in result.Errors)
+                                {
+                                    error.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                                }
+                            }
+                            result = CheckNewSemesterRecordForConflictAndSave(entitySecond, error);
+                            if (!result.Succeeded)
+                            {
+                                foreach (var err in result.Errors)
+                                {
+                                    error.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                                }
+                            }
                         }
                     }
                 }
