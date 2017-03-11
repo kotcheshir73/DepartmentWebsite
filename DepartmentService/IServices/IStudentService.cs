@@ -15,6 +15,12 @@ namespace DepartmentService.IServices
         List<StudentViewModel> GetStudents(StudentGetBindingModel model);
 
         /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <returns></returns>
+        List<StudentGroupViewModel> GetStudentGroups();
+
+        /// <summary>
         /// Получения студента
         /// </summary>
         /// <param name="model">Идентификатор студента</param>

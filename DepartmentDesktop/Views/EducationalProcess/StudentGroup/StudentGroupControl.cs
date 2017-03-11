@@ -10,10 +10,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
     {
         private readonly IStudentGroupService _service;
 
-        public StudentGroupControl(IStudentGroupService service)
+        private readonly IStudentService _serviceS;
+
+        public StudentGroupControl(IStudentGroupService service, IStudentService serviceS)
         {
             InitializeComponent();
             _service = service;
+            _serviceS = serviceS;
         }
 
         public void LoadData()
@@ -52,7 +55,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            var form = new StudentGroupForm(_service);
+            var form = new StudentGroupForm(_service, _serviceS);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -64,7 +67,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             if (dataGridViewList.SelectedRows.Count == 1)
             {
                 long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-                var form = new StudentGroupForm(_service, id);
+                var form = new StudentGroupForm(_service, _serviceS, id);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();

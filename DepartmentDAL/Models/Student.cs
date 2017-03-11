@@ -38,7 +38,6 @@ namespace DepartmentDAL.Models
         public string Patronymic { get; set; }
 
         [Display(Name = "О себе")]
-        [Required]
         public string Description { get; set; }
 
         [Display(Name = "Фото")]

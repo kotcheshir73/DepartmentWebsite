@@ -7,6 +7,8 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
+using System.Text;
+using System.Data.Entity.Validation;
 
 namespace DepartmentService.Services
 {
@@ -14,9 +16,12 @@ namespace DepartmentService.Services
     {
         private readonly DepartmentDbContext _context;
 
-        public StudentService(DepartmentDbContext context)
+        private readonly IStudentGroupService _serviceSG;
+
+        public StudentService(DepartmentDbContext context, IStudentGroupService serviceSG)
         {
             _context = context;
+            _serviceSG = serviceSG;
         }
 
         public List<StudentViewModel> GetStudents(StudentGetBindingModel model)
@@ -34,6 +39,11 @@ namespace DepartmentService.Services
                 .ToList();
         }
 
+        public List<StudentGroupViewModel> GetStudentGroups()
+        {
+            return _serviceSG.GetStudentGroups();
+        }
+
         public StudentViewModel GetStudent(StudentGetBindingModel model)
         {
             var entity = _context.Students
@@ -47,6 +57,7 @@ namespace DepartmentService.Services
         {
             var entity = new Student
             {
+                NumberOfBook = model.NumberOfBook,
                 StudentGroupId = model.StudentGroupId,
                 LastName = model.LastName,
                 FirstName = model.FirstName,
@@ -54,13 +65,27 @@ namespace DepartmentService.Services
                 Description = model.Description,
                 Photo = model.Photo,
                 DateCreate = DateTime.Now,
-                IsDeleted = false,
+                IsDeleted = false
             };
             try
             {
                 _context.Students.Add(entity);
                 _context.SaveChanges();
                 return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sr = new StringBuilder();
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    sr.AppendFormat("ValidationErrors:\r\n");
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        sr.AppendFormat("- Свойство: \"{0}\", Ошибка: \"{1}\"\r\n",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                return ResultService.Error("error", sr.ToString(), 400);
             }
             catch (Exception ex)
             {
@@ -88,6 +113,20 @@ namespace DepartmentService.Services
                 _context.SaveChanges();
                 return ResultService.Success();
             }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sr = new StringBuilder();
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    sr.AppendFormat("ValidationErrors:\r\n");
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        sr.AppendFormat("- Свойство: \"{0}\", Ошибка: \"{1}\"\r\n",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                return ResultService.Error("error", sr.ToString(), 400);
+            }
             catch (Exception ex)
             {
                 return ResultService.Error("error", ex.Message, 400);
@@ -110,6 +149,20 @@ namespace DepartmentService.Services
                 _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
                 return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sr = new StringBuilder();
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    sr.AppendFormat("ValidationErrors:\r\n");
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        sr.AppendFormat("- Свойство: \"{0}\", Ошибка: \"{1}\"\r\n",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                return ResultService.Error("error", sr.ToString(), 400);
             }
             catch (Exception ex)
             {

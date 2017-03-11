@@ -35,7 +35,7 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.EducationDirection.Cipher,
                 GroupName = entity.GroupName,
                 Kurs = entity.Kurs,
-                CountStudents = (entity.Students != null) ? entity.Students.Count : 0
+                CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0
             };
         }
 
@@ -68,7 +68,8 @@ namespace DepartmentService.ViewModels
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,
                 Description = entity.Description,
-                Photo = Image.FromStream(new MemoryStream(entity.Photo))
+                Photo = Image.FromStream(new MemoryStream(entity.Photo)),
+                StudentGroupId = entity.StudentGroupId
             };
         }
 

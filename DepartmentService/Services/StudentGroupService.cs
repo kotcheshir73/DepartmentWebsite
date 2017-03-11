@@ -26,7 +26,7 @@ namespace DepartmentService.Services
         public List<StudentGroupViewModel> GetStudentGroups()
         {
             return ModelFactory.CreateStudentGroups(
-                    _context.StudentGroups.Include(s => s.EducationDirection)
+                    _context.StudentGroups.Include(s => s.EducationDirection).Include(s => s.Students)
                         .Where(e => !e.IsDeleted))
                 .ToList();
         }

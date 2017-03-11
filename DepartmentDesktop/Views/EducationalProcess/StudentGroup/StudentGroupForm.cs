@@ -12,19 +12,23 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
     public partial class StudentGroupForm : Form
     {
         private readonly IStudentGroupService _service;
+    
+        private readonly IStudentService _serviceS;
 
         private long _id = 0;
 
-        public StudentGroupForm(IStudentGroupService service)
+        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS)
         {
             InitializeComponent();
             _service = service;
+            _serviceS = serviceS;
         }
 
-        public StudentGroupForm(IStudentGroupService service, long id)
+        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, long id)
         {
             InitializeComponent();
             _service = service;
+            _serviceS = serviceS;
             _id = id;
         }
 
@@ -35,9 +39,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DataSource = _service.GetEducationDirections()
                 .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
+            var control = new StudentGroupStudentsControl(_serviceS);
+            control.Left = 0;
+            control.Top = 0;
+            control.Height = Height - 60;
+            control.Width = Width - 15;
+            control.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top
+                        | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            tabPageStudents.Controls.Add(control);
 
             if (_id != 0)
             {
+                control.LoadData(_id);
                 var entity = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
                 if (entity == null)
                 {
