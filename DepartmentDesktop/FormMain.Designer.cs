@@ -43,6 +43,7 @@
             this.scheduleStudentGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleStudentGroupSemesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleStudentGroupOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleStudentGroupExaminationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleClassroomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleClassroomSemesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleClassroomOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +53,7 @@
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scheduleStudentGroupExaminationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleStudentGroupConsultationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,7 +165,8 @@
             this.scheduleStudentGroupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scheduleStudentGroupSemesterToolStripMenuItem,
             this.scheduleStudentGroupOffsetToolStripMenuItem,
-            this.scheduleStudentGroupExaminationToolStripMenuItem});
+            this.scheduleStudentGroupExaminationToolStripMenuItem,
+            this.scheduleStudentGroupConsultationToolStripMenuItem});
             this.scheduleStudentGroupToolStripMenuItem.Name = "scheduleStudentGroupToolStripMenuItem";
             this.scheduleStudentGroupToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.scheduleStudentGroupToolStripMenuItem.Text = "Группы";
@@ -182,6 +184,13 @@
             this.scheduleStudentGroupOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleStudentGroupOffsetToolStripMenuItem.Text = "Зачетная неделя";
             this.scheduleStudentGroupOffsetToolStripMenuItem.Click += new System.EventHandler(this.scheduleStudentGroupOffsetToolStripMenuItem_Click);
+            // 
+            // scheduleStudentGroupExaminationToolStripMenuItem
+            // 
+            this.scheduleStudentGroupExaminationToolStripMenuItem.Name = "scheduleStudentGroupExaminationToolStripMenuItem";
+            this.scheduleStudentGroupExaminationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleStudentGroupExaminationToolStripMenuItem.Text = "Экзамены";
+            this.scheduleStudentGroupExaminationToolStripMenuItem.Click += new System.EventHandler(this.scheduleStudentGroupExaminationToolStripMenuItem_Click);
             // 
             // scheduleClassroomToolStripMenuItem
             // 
@@ -248,12 +257,12 @@
             this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
             this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.scheduleLessonTimeToolStripMenuItem_Click);
             // 
-            // scheduleStudentGroupExaminationToolStripMenuItem
+            // scheduleStudentGroupConsultationToolStripMenuItem
             // 
-            this.scheduleStudentGroupExaminationToolStripMenuItem.Name = "scheduleStudentGroupExaminationToolStripMenuItem";
-            this.scheduleStudentGroupExaminationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.scheduleStudentGroupExaminationToolStripMenuItem.Text = "Экзамены";
-            this.scheduleStudentGroupExaminationToolStripMenuItem.Click += new System.EventHandler(this.scheduleStudentGroupExaminationToolStripMenuItem_Click);
+            this.scheduleStudentGroupConsultationToolStripMenuItem.Name = "scheduleStudentGroupConsultationToolStripMenuItem";
+            this.scheduleStudentGroupConsultationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.scheduleStudentGroupConsultationToolStripMenuItem.Text = "Консультации";
+            this.scheduleStudentGroupConsultationToolStripMenuItem.Click += new System.EventHandler(this.scheduleStudentGroupConsultationToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -300,6 +309,7 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupSemesterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupOffsetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupExaminationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scheduleStudentGroupConsultationToolStripMenuItem;
     }
 }
 

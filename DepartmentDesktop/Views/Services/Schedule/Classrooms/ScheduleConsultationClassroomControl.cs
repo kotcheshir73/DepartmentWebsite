@@ -24,7 +24,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
         public void LoadData(string classroomID)
         {
             _classroomID = classroomID;
-            var list = _service.GetScheduleConsultation(new ScheduleBindingModel { ClassroomId = classroomID });
+            var list = _service.GetScheduleConsultation(new ScheduleBindingModel { ClassroomId = _classroomID });
             if (list == null)
             {
                 MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -47,9 +47,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 dataGridViewList.Columns[6].HeaderText = "Преподаватель";
                 dataGridViewList.Columns[6].Width = 150;
                 dataGridViewList.Columns[7].HeaderText = "Группа";
-                dataGridViewList.Columns[7].Width = 50;
+                dataGridViewList.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridViewList.Columns[8].HeaderText = "Аудитория";
-                dataGridViewList.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewList.Columns[8].Visible = false;
             }
         }
 

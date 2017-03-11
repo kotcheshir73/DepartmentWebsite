@@ -22,6 +22,7 @@ namespace DepartmentDesktop
         public FormMain()
         {
             InitializeComponent();
+            
         }
 
         private void ApplyControl(Control control)
@@ -168,10 +169,11 @@ namespace DepartmentDesktop
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleConsultationControl>();
             ApplyControl(control);
-            control.LoadData();
+            control.LoadData(0);
         }
         #endregion
 
+        #region Расписание - группы
         private void scheduleStudentGroupSemesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.Services.Schedule.ScheduleSemesterControl>();
@@ -192,5 +194,13 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData(1);
         }
+
+        private void scheduleStudentGroupConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Schedule.ScheduleConsultationControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+        #endregion
     }
 }
