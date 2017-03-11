@@ -149,6 +149,10 @@
     <Compile Include="Migrations\201703111628237_UpdateStudentNotRequiredDesceription.Designer.cs">
       <DependentUpon>201703111628237_UpdateStudentNotRequiredDesceription.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.cs" />
+    <Compile Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.Designer.cs">
+      <DependentUpon>201703111950214_UpdateStudentNotRequiredPhoto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -250,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703111628237_UpdateStudentNotRequiredDesceription.resx">
       <DependentUpon>201703111628237_UpdateStudentNotRequiredDesceription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.resx">
+      <DependentUpon>201703111950214_UpdateStudentNotRequiredPhoto.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

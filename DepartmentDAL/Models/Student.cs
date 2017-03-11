@@ -41,7 +41,6 @@ namespace DepartmentDAL.Models
         public string Description { get; set; }
 
         [Display(Name = "Фото")]
-        [Required]
         public byte[] Photo { get; set; }
         
         public virtual StudentGroup StudentGroup { get; set; }
