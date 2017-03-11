@@ -4,14 +4,15 @@ namespace DepartmentService.BindingModels
 {
     public class StudentGetBindingModel
     {
-        public long Id { get; set; }
+        public string NumberOfBook { get; set; }
 
         public long? StudentGroupId { get; set; }
     }
 
     public class StudentRecordBindingModel
     {
-        public long Id { get; set; }
+        [Required(ErrorMessage = "required")]
+        public string NumberOfBook { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string FirstName { get; set; }

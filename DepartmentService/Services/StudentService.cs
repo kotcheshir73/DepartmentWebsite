@@ -37,7 +37,7 @@ namespace DepartmentService.Services
         public StudentViewModel GetStudent(StudentGetBindingModel model)
         {
             var entity = _context.Students
-                            .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                            .FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
             if (entity == null)
                 return null;
             return ModelFactory.CreateStudentViewModel(entity);
@@ -73,7 +73,7 @@ namespace DepartmentService.Services
             try
             {
                 var entity = _context.Students
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                                .FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService.Error("entity", "not_found", 404);
@@ -99,7 +99,7 @@ namespace DepartmentService.Services
             try
             {
                 var entity = _context.Students
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                                .FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService.Error("entity", "not_found", 404);

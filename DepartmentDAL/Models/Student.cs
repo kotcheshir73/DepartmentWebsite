@@ -1,9 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentDAL.Models
 {
-    public class Student : BaseEntity
+    public class Student
     {
+        [Key]
+        [MaxLength(10)]
+        [Required]
+        public string NumberOfBook { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Дата создания")]
+        public DateTime DateCreate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Дата удаления")]
+        public DateTime? DateDelete { get; set; }
+
+        [Display(Name = "Удален")]
+        public bool IsDeleted { get; set; }
+
         public long StudentGroupId { get; set; }
 
         [Display(Name = "Имя")]

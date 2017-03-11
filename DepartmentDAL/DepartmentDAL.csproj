@@ -141,6 +141,10 @@
     <Compile Include="Migrations\201703111226491_UpdateStudentNotRequiredPatronumic.Designer.cs">
       <DependentUpon>201703111226491_UpdateStudentNotRequiredPatronumic.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703111316213_UpdateStudentTable.cs" />
+    <Compile Include="Migrations\201703111316213_UpdateStudentTable.Designer.cs">
+      <DependentUpon>201703111316213_UpdateStudentTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -236,6 +240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703111226491_UpdateStudentNotRequiredPatronumic.resx">
       <DependentUpon>201703111226491_UpdateStudentNotRequiredPatronumic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703111316213_UpdateStudentTable.resx">
+      <DependentUpon>201703111316213_UpdateStudentTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

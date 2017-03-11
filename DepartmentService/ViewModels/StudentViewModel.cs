@@ -4,7 +4,7 @@ namespace DepartmentService.ViewModels
 {
     public class StudentViewModel
     {
-        public long Id { get; set; }
+        public string NumberOfBook { get; set; }
         
         public string FirstName { get; set; }
         

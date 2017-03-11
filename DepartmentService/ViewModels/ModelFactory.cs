@@ -63,7 +63,7 @@ namespace DepartmentService.ViewModels
         {
             return new StudentViewModel
             {
-                Id = entity.Id,
+                NumberOfBook = entity.NumberOfBook,
                 LastName = entity.LastName,
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,
@@ -74,7 +74,7 @@ namespace DepartmentService.ViewModels
 
         public static IEnumerable<StudentViewModel> CreateStudents(IEnumerable<Student> entities)
         {
-            return entities.Select(e => CreateStudentViewModel(e)).OrderBy(e => e.Id);
+            return entities.Select(e => CreateStudentViewModel(e)).OrderBy(e => e.NumberOfBook);
         }
 
 
