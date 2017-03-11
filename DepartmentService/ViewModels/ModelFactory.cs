@@ -1,6 +1,8 @@
 ﻿using DepartmentDAL.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 
 namespace DepartmentService.ViewModels
@@ -55,6 +57,24 @@ namespace DepartmentService.ViewModels
         public static IEnumerable<ClassroomViewModel> CreateClassrooms(IEnumerable<Classroom> entities)
         {
             return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
+        }
+
+        public static StudentViewModel CreateStudentViewModel(Student entity)
+        {
+            return new StudentViewModel
+            {
+                Id = entity.Id,
+                LastName = entity.LastName,
+                FirstName = entity.FirstName,
+                Patronymic = entity.Patronymic,
+                Description = entity.Description,
+                Photo = Image.FromStream(new MemoryStream(entity.Photo))
+            };
+        }
+
+        public static IEnumerable<StudentViewModel> CreateStudents(IEnumerable<Student> entities)
+        {
+            return entities.Select(e => CreateStudentViewModel(e)).OrderBy(e => e.Id);
         }
 
 

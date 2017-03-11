@@ -18,7 +18,6 @@ namespace DepartmentDAL.Models
 
         [Display(Name = "Отчество")]
         [MaxLength(30)]
-        [Required]
         public string Patronymic { get; set; }
 
         [Display(Name = "О себе")]
