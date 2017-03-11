@@ -9,6 +9,8 @@ using DepartmentDAL.Context;
 using DepartmentDAL.Models;
 using System.Text;
 using System.Data.Entity.Validation;
+using Microsoft.Office.Interop.Word;
+using System.IO;
 
 namespace DepartmentService.Services
 {
@@ -51,6 +53,62 @@ namespace DepartmentService.Services
             if (entity == null)
                 return null;
             return ModelFactory.CreateStudentViewModel(entity);
+        }
+
+        public ResultService LoadStudentsFromFile(StudentLoadDocBindingModel model)
+        {
+            var word = new Application();
+            try
+            {
+                if (File.Exists(model.FileName))
+                {
+                    Document document = word.Documents.Open(model.FileName, Type.Missing,
+                            true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                    var table = document.Tables[1];
+
+                    for (int i = 2; i < table.Rows.Count; ++i)
+                    {
+                        StudentRecordBindingModel createModel = new StudentRecordBindingModel
+                        {
+                            NumberOfBook = table.Cell(i, 2).Range.Text.Replace("\r\a", ""),
+                            LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
+                            FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
+                            Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
+                            Description = table.Cell(i, 6).Range.Text.Replace("\r\a", "") + " " + table.Cell(i, 7).Range.Text.Replace("\r\a", ""),
+                            StudentGroupId = model.Id
+                        };
+                        if(string.IsNullOrEmpty(createModel.NumberOfBook))
+                        {
+                            break;
+                        }
+                        if (!string.IsNullOrEmpty(createModel.LastName) && createModel.LastName.Length > 1)
+                        {
+                            createModel.LastName = createModel.LastName[0] + createModel.LastName.Substring(1).ToLower();
+                        }
+                        if (!string.IsNullOrEmpty(createModel.FirstName) && createModel.FirstName.Length > 1)
+                        {
+                            createModel.FirstName = createModel.FirstName[0] + createModel.FirstName.Substring(1).ToLower();
+                        }
+                        if (!string.IsNullOrEmpty(createModel.Patronymic) && createModel.Patronymic.Length > 1)
+                        {
+                            createModel.Patronymic = createModel.Patronymic[0] + createModel.Patronymic.Substring(1).ToLower();
+                        }
+                        var result = CreateStudent(createModel);
+                        if (!result.Succeeded)
+                        {
+                            document.Close();
+                            return result;
+                        }
+                    }
+                    document.Close();
+                }
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error("error", ex.Message, 400);
+            }
         }
 
         public ResultService CreateStudent(StudentRecordBindingModel model)

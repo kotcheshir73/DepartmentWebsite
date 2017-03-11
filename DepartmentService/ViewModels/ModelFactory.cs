@@ -68,7 +68,7 @@ namespace DepartmentService.ViewModels
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,
                 Description = entity.Description,
-                Photo = Image.FromStream(new MemoryStream(entity.Photo)),
+                Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
                 StudentGroupId = entity.StudentGroupId
             };
         }

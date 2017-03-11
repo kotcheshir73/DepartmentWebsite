@@ -28,6 +28,13 @@ namespace DepartmentService.IServices
         StudentViewModel GetStudent(StudentGetBindingModel model);
 
         /// <summary>
+        /// Загрузка списка студентов из файла
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService LoadStudentsFromFile(StudentLoadDocBindingModel model);
+
+        /// <summary>
         /// Создание новой студента
         /// </summary>
         /// <param name="model"></param>

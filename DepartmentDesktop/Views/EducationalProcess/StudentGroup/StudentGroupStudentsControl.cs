@@ -100,5 +100,28 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
         {
             LoadData(_studentGroupId);
         }
+
+        private void loadListOfStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "doc|*.doc|docx|*.docx";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _service.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _studentGroupId, FileName = dialog.FileName });
+                if (result.Succeeded)
+                {
+                    LoadData(_studentGroupId);
+                }
+                else
+                {
+                    StringBuilder strRes = new StringBuilder();
+                    foreach (var err in result.Errors)
+                    {
+                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                    }
+                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

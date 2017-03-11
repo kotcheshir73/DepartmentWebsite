@@ -9,6 +9,13 @@ namespace DepartmentService.BindingModels
         public long? StudentGroupId { get; set; }
     }
 
+    public class StudentLoadDocBindingModel
+    {
+        public long Id { get; set; }
+
+        public string FileName { get; set; }
+    }
+
     public class StudentRecordBindingModel
     {
         [Required(ErrorMessage = "required")]

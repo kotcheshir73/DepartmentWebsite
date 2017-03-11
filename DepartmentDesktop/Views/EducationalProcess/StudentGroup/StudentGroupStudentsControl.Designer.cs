@@ -40,6 +40,7 @@
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.loadListOfStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
@@ -136,11 +137,20 @@
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadListOfStudentsToolStripMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(71, 22);
             this.toolStripDropDownButton1.Text = "Действия";
+            // 
+            // loadListOfStudentsToolStripMenuItem
+            // 
+            this.loadListOfStudentsToolStripMenuItem.Name = "loadListOfStudentsToolStripMenuItem";
+            this.loadListOfStudentsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.loadListOfStudentsToolStripMenuItem.Text = "Загрузить список";
+            this.loadListOfStudentsToolStripMenuItem.Click += new System.EventHandler(this.loadListOfStudentsToolStripMenuItem_Click);
             // 
             // StudentGroupStudentsControl
             // 
@@ -171,5 +181,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem loadListOfStudentsToolStripMenuItem;
     }
 }
