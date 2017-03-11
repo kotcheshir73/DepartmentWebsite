@@ -78,8 +78,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 comboBoxDay.SelectedIndex = entity.Day;
                 comboBoxLesson.SelectedIndex = entity.Lesson;
 
-                comboBoxClassroom.SelectedValue = entity.ClassroomId;
-                comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+                if (!string.IsNullOrEmpty(entity.ClassroomId))
+                {
+                    comboBoxClassroom.SelectedValue = entity.ClassroomId;
+                }
+                if (entity.StudentGroupId.HasValue)
+                {
+                    comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+                }
 
                 panelDateTime.Enabled = false;
             }
