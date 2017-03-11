@@ -2,13 +2,9 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule
@@ -73,8 +69,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
                 dateTimePickerDateExamination.Value = entity.DateExamination;
 
-                comboBoxClassroom.SelectedValue = entity.ClassroomId;
-                comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+                if (!string.IsNullOrEmpty(entity.ClassroomId))
+                {
+                    comboBoxClassroom.SelectedValue = entity.ClassroomId;
+                }
+                if (entity.StudentGroupId.HasValue)
+                {
+                    comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+                }
 
                 dateTimePickerDateConsultation.Enabled = false;
                 dateTimePickerDateExamination.Enabled = false;

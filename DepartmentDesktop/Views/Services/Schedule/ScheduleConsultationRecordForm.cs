@@ -68,8 +68,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
 
-                comboBoxClassroom.SelectedValue = entity.ClassroomId;
-                comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+                if (!string.IsNullOrEmpty(entity.ClassroomId))
+                {
+                    comboBoxClassroom.SelectedValue = entity.ClassroomId;
+                }
+                if (entity.StudentGroupId.HasValue)
+                {
+                    comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+                }
 
                 dateTimePickerDateConsultation.Enabled = false;
             }
