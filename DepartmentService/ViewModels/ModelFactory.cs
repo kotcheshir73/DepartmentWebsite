@@ -78,6 +78,22 @@ namespace DepartmentService.ViewModels
             return entities.Select(e => CreateStudentViewModel(e)).OrderBy(e => e.NumberOfBook);
         }
 
+        public static StudentHistoryViewModel CreateStudentHistoryViewModel(StudentHistory entity)
+        {
+            return new StudentHistoryViewModel
+            {
+                Id = entity.Id,
+                NumberOfBook = entity.StudentId,
+                DateCreate = entity.DateCreate.ToLongDateString(),
+                TextMessage = entity.TextMessage
+            };
+        }
+
+        public static IEnumerable<StudentHistoryViewModel> CreateStudentHistorys(IEnumerable<StudentHistory> entities)
+        {
+            return entities.Select(e => CreateStudentHistoryViewModel(e)).OrderBy(e => e.DateCreate);
+        }
+
 
         public static SeasonDatesViewModel CreateSeasonDatesViewModel(SeasonDates entity)
         {
@@ -155,7 +171,7 @@ namespace DepartmentService.ViewModels
         {
             return entities.Select(e => CreateOffsetRecordViewModel(e)).OrderBy(e => e.Id);
         }
-        
+
         public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
         {
             return new ExaminationRecordViewModel

@@ -32,8 +32,9 @@ namespace DepartmentService.Services
             {
                 return ModelFactory.CreateStudents(
                     _context.Students
-                        .Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted))
-                .ToList();
+                        .Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted)
+                        )
+                .OrderBy(s => s.LastName).ToList();
             }
             return ModelFactory.CreateStudents(
                     _context.Students
@@ -64,7 +65,7 @@ namespace DepartmentService.Services
                 {
                     Document document = word.Documents.Open(model.FileName, Type.Missing,
                             true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);                    
                     var table = document.Tables[1];
 
                     for (int i = 2; i < table.Rows.Count; ++i)

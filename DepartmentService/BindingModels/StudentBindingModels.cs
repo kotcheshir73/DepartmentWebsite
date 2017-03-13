@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
@@ -7,6 +8,13 @@ namespace DepartmentService.BindingModels
         public string NumberOfBook { get; set; }
 
         public long? StudentGroupId { get; set; }
+    }
+
+    public class StudentHistoryGetBindingModel
+    {
+        public string NumberOfBook { get; set; }
+
+        public long? Id { get; set; }
     }
 
     public class StudentLoadDocBindingModel
@@ -26,13 +34,28 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string LastName { get; set; }
-        
+
         public string Patronymic { get; set; }
 
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "required")]
+        public string StudentStatus { get; set; }
+
         public long StudentGroupId { get; set; }
 
         public byte[] Photo { get; set; }
+    }
+    public class StudentHistoryRecordBindingModel
+    {
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string NumberOfBook { get; set; }
+
+        public DateTime DateCreate { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string TextMessage { get; set; }
     }
 }

@@ -32,6 +32,7 @@ namespace DepartmentDAL.Context
         public virtual DbSet<ScheduleStopWord> ScheduleStopWords { get; set; }
         public virtual DbSet<Student> Students { set; get; }
         public virtual DbSet<StudentGroup> StudentGroups { set; get; }
+        public virtual DbSet<StudentHistory> StudentHistorys { set; get; }
         public virtual DbSet<User> Users { set; get; }
     }
 }

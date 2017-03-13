@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DepartmentDAL.Enums;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DepartmentDAL.Models
 {
@@ -37,12 +40,17 @@ namespace DepartmentDAL.Models
         [MaxLength(30)]
         public string Patronymic { get; set; }
 
+        public StudentState StudentState { get; set; }
+
         [Display(Name = "О себе")]
         public string Description { get; set; }
 
         [Display(Name = "Фото")]
         public byte[] Photo { get; set; }
-        
+
         public virtual StudentGroup StudentGroup { get; set; }
+
+        [ForeignKey("StudentId")]
+        public virtual List<StudentHistory> StudentHistory { get; set; }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Enums\ClassroomTypes.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
+    <Compile Include="Enums\StudentState.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.Designer.cs">
       <DependentUpon>201702031318461_InitialCreate.cs</DependentUpon>
@@ -153,6 +154,14 @@
     <Compile Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.Designer.cs">
       <DependentUpon>201703111950214_UpdateStudentNotRequiredPhoto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703131712440_AddStudentHistory.cs" />
+    <Compile Include="Migrations\201703131712440_AddStudentHistory.Designer.cs">
+      <DependentUpon>201703131712440_AddStudentHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703131716025_AddStudentStateToStudent.cs" />
+    <Compile Include="Migrations\201703131716025_AddStudentStateToStudent.Designer.cs">
+      <DependentUpon>201703131716025_AddStudentStateToStudent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -174,6 +183,7 @@
     <Compile Include="Models\StreamingLesson.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentGroup.cs" />
+    <Compile Include="Models\StudentHistory.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultService.cs" />
@@ -257,6 +267,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.resx">
       <DependentUpon>201703111950214_UpdateStudentNotRequiredPhoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703131712440_AddStudentHistory.resx">
+      <DependentUpon>201703131712440_AddStudentHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703131716025_AddStudentStateToStudent.resx">
+      <DependentUpon>201703131716025_AddStudentStateToStudent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
