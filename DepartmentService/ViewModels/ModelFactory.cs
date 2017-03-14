@@ -35,7 +35,10 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.EducationDirection.Cipher,
                 GroupName = entity.GroupName,
                 Kurs = entity.Kurs,
-                CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0
+                CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
+				StewardId = entity.StewardId,
+				Steward = string.IsNullOrEmpty(entity.StewardId) ? string.Empty : 
+							string.Format("{0} {1} {2}", entity.Steward.LastName, entity.Steward.FirstName, entity.Steward.Patronymic)
             };
         }
 

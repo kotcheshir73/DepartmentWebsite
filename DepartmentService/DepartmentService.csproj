@@ -74,6 +74,7 @@
     <Compile Include="IServices\ISemesterRecordService.cs" />
     <Compile Include="IServices\IStreamingLessonService.cs" />
     <Compile Include="IServices\IStudentGroupService.cs" />
+    <Compile Include="IServices\IStudentHistoryService.cs" />
     <Compile Include="IServices\IStudentService.cs" />
     <Compile Include="ParsingScheduleHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Services\SemesterRecordService.cs" />
     <Compile Include="Services\StreamingLessonService.cs" />
     <Compile Include="Services\StudentGroupService.cs" />
+    <Compile Include="Services\StudentHistoryService.cs" />
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="ViewModels\ClassroomViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModel.cs" />

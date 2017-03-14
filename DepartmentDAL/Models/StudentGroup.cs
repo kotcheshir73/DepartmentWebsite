@@ -27,7 +27,7 @@ namespace DepartmentDAL.Models
         /// </summary>
         public int SubgroupsCount { get; set; }
 
-        public long? StewardId { get; set; }
+        public string StewardId { get; set; }
 
         public long? CuratorId { get; set; }
 
@@ -41,9 +41,10 @@ namespace DepartmentDAL.Models
         /// </summary>
         public Lecturer Curator { get; set; }
 
-        /// <summary>
-        /// Староста группы
-        /// </summary>
-        public Student Steward { get; set; }
+		/// <summary>
+		/// Староста группы
+		/// </summary>
+		[ForeignKey("StewardId")]
+		public Student Steward { get; set; }
     }
 }

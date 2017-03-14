@@ -162,6 +162,10 @@
     <Compile Include="Migrations\201703131716025_AddStudentStateToStudent.Designer.cs">
       <DependentUpon>201703131716025_AddStudentStateToStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703141712300_UpdateStudent.cs" />
+    <Compile Include="Migrations\201703141712300_UpdateStudent.Designer.cs">
+      <DependentUpon>201703141712300_UpdateStudent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
@@ -273,6 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703131716025_AddStudentStateToStudent.resx">
       <DependentUpon>201703131716025_AddStudentStateToStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703141712300_UpdateStudent.resx">
+      <DependentUpon>201703141712300_UpdateStudent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

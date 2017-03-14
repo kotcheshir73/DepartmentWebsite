@@ -38,7 +38,7 @@ namespace DepartmentService.Services
 
         public StudentGroupViewModel GetStudentGroup(StudentGroupGetBindingModel model)
         {
-            var entity = _context.StudentGroups.Include(s => s.EducationDirection)
+            var entity = _context.StudentGroups.Include(s => s.EducationDirection).Include(s => s.Steward)
                             .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
             if (entity == null)
                 return null;
@@ -79,6 +79,10 @@ namespace DepartmentService.Services
                 }
                 entity.GroupName = model.GroupName;
                 entity.Kurs = model.Kurs;
+				if(!string.IsNullOrEmpty(model.StewardId))
+				{
+					entity.StewardId = model.StewardId;
+				}
 
                 _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();

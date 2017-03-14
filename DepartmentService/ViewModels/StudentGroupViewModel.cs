@@ -18,7 +18,7 @@
 
         public int SubgroupsCount { get; set; }
 
-        public long? StewardId { get; set; }
+        public string StewardId { get; set; }
 
         public long? CuratorId { get; set; }
 

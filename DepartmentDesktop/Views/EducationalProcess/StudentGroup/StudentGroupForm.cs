@@ -39,7 +39,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DataSource = _service.GetEducationDirections()
                 .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
-            var control = new StudentGroupStudentsControl(_serviceS);
+			var control = new StudentGroupStudentsControl(_serviceS);
             control.Left = 0;
             control.Top = 0;
             control.Height = Height - 60;
@@ -51,8 +51,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             tabPageStudents.Controls.Add(control);
 
             if (_id != 0)
-            {
-                control.LoadData(_id);
+			{
+				comboBoxSteward.ValueMember = "Value";
+				comboBoxSteward.DisplayMember = "Display";
+				comboBoxSteward.DataSource = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id })
+					.Select(s => new { Value = s.NumberOfBook, Display = string.Format("{0} {1}", s.LastName, s.FirstName) }).ToList();
+				comboBoxSteward.SelectedItem = null;
+
+				control.LoadData(_id);
                 var entity = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
                 if (entity == null)
                 {
@@ -64,6 +70,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 textBoxKurs.Text = entity.Kurs.ToString();
                 textBoxCapacity.Text = entity.Capacity.ToString();
                 textBoxSubgroupsCount.Text = entity.SubgroupsCount.ToString();
+				if(!string.IsNullOrEmpty(entity.StewardId))
+				{
+					comboBoxSteward.SelectedValue = entity.StewardId;
+				}
             }
         }
 
@@ -105,13 +115,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 }
                 else
                 {
-                    result = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
-                    {
-                        Id = _id,
-                        EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
-                        GroupName = textBoxGroupName.Text,
-                        Kurs = Convert.ToInt32(textBoxKurs.Text)
-                    });
+					string StewardId = string.Empty;
+					if(comboBoxSteward.SelectedValue != null)
+					{
+						StewardId = comboBoxSteward.SelectedValue.ToString();
+					}
+					result = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
+					{
+						Id = _id,
+						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						GroupName = textBoxGroupName.Text,
+						Kurs = Convert.ToInt32(textBoxKurs.Text),
+						StewardId = StewardId
+					});
                 }
                 if (result.Succeeded)
                 {
