@@ -32,11 +32,12 @@
 			this.dataGridViewList = new System.Windows.Forms.DataGridView();
 			this.toolStripMenu = new System.Windows.Forms.ToolStrip();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.toolStripButtonUpd = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
+			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.enrollmentStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.transferStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
 			this.toolStripMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -75,30 +76,10 @@
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStripButtonRef
-			// 
-			this.toolStripButtonRef.Image = global::DepartmentDesktop.Properties.Resources.Ref;
-			this.toolStripButtonRef.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonRef.Name = "toolStripButtonRef";
-			this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
-			this.toolStripButtonRef.Text = "Обновить";
-			this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
-			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
 			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripDropDownButton1
-			// 
-			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enrollmentStudentsToolStripMenuItem});
-			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-			this.toolStripDropDownButton1.Size = new System.Drawing.Size(71, 22);
-			this.toolStripDropDownButton1.Text = "Действия";
 			// 
 			// toolStripButtonUpd
 			// 
@@ -109,12 +90,40 @@
 			this.toolStripButtonUpd.Text = "Изменить";
 			this.toolStripButtonUpd.Click += new System.EventHandler(this.toolStripButtonUpd_Click);
 			// 
+			// toolStripButtonRef
+			// 
+			this.toolStripButtonRef.Image = global::DepartmentDesktop.Properties.Resources.Ref;
+			this.toolStripButtonRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonRef.Name = "toolStripButtonRef";
+			this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
+			this.toolStripButtonRef.Text = "Обновить";
+			this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
+			// 
+			// toolStripDropDownButton1
+			// 
+			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enrollmentStudentsToolStripMenuItem,
+            this.transferStudentsToolStripMenuItem});
+			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+			this.toolStripDropDownButton1.Size = new System.Drawing.Size(71, 22);
+			this.toolStripDropDownButton1.Text = "Действия";
+			// 
 			// enrollmentStudentsToolStripMenuItem
 			// 
 			this.enrollmentStudentsToolStripMenuItem.Name = "enrollmentStudentsToolStripMenuItem";
 			this.enrollmentStudentsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
 			this.enrollmentStudentsToolStripMenuItem.Text = "Зачислить студентов";
 			this.enrollmentStudentsToolStripMenuItem.Click += new System.EventHandler(this.enrollmentStudentsToolStripMenuItem_Click);
+			// 
+			// transferStudentsToolStripMenuItem
+			// 
+			this.transferStudentsToolStripMenuItem.Name = "transferStudentsToolStripMenuItem";
+			this.transferStudentsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+			this.transferStudentsToolStripMenuItem.Text = "Перевести студентов";
+			this.transferStudentsToolStripMenuItem.Click += new System.EventHandler(this.transferStudentsToolStripMenuItem_Click);
 			// 
 			// StudentGroupStudentsControl
 			// 
@@ -142,5 +151,6 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
 		private System.Windows.Forms.ToolStripButton toolStripButtonUpd;
 		private System.Windows.Forms.ToolStripMenuItem enrollmentStudentsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem transferStudentsToolStripMenuItem;
 	}
 }

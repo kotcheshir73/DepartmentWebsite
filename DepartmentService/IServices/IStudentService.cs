@@ -39,14 +39,21 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService EnrollmentStudent(StudentEnrollmentBindingModel model);
+        ResultService EnrollmentStudents(StudentEnrollmentBindingModel model);
 
-        /// <summary>
-        /// Изменение студента
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService UpdateStudent(StudentRecordBindingModel model);
+		/// <summary>
+		/// Перевод студентов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService TransferToNextYearStudents(StudentTransferBindingModel model);
+
+		/// <summary>
+		/// Изменение студента
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService UpdateStudent(StudentRecordBindingModel model);
 
         /// <summary>
         /// Удаление студента

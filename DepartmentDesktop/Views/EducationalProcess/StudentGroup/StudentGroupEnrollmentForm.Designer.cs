@@ -92,7 +92,7 @@
             this.ColumnDescription});
 			this.dataGridViewStudents.Location = new System.Drawing.Point(0, 32);
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
-			this.dataGridViewStudents.Size = new System.Drawing.Size(733, 360);
+			this.dataGridViewStudents.Size = new System.Drawing.Size(734, 358);
 			this.dataGridViewStudents.TabIndex = 4;
 			// 
 			// ColumnNumberOfBook
@@ -162,7 +162,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(733, 434);
+			this.ClientSize = new System.Drawing.Size(734, 432);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.buttonLoadFromFile);
@@ -172,6 +172,7 @@
 			this.Controls.Add(this.textBoxOrderNumber);
 			this.Controls.Add(this.labelOrderNumber);
 			this.Name = "StudentGroupEnrollmentForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Зачисление студентов";
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
 			this.ResumeLayout(false);

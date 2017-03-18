@@ -99,5 +99,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				LoadData(_studentGroupId);
 			}
 		}
+
+		private void transferStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var form = new StudentGroupTransferForm(_service, _serviceS, _studentGroupId);
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				LoadData(_studentGroupId);
+			}
+		}
 	}
 }

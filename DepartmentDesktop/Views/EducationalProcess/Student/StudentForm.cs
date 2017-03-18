@@ -111,20 +111,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
             if (CheckFill())
             {
                 ResultService result;
-                if (string.IsNullOrEmpty(_id))
-                {
-                    result = _service.CreateStudent(new StudentRecordBindingModel
-                    {
-                        NumberOfBook = textBoxNumberOfBook.Text,
-                        LastName = textBoxLastName.Text,
-                        FirstName = textBoxFirstName.Text,
-                        Patronymic = textBoxPatronymic.Text,
-                        Description = textBoxDescription.Text,
-                        Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[])),
-                        StudentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue)
-                    });
-                }
-                else
+                if (!string.IsNullOrEmpty(_id))
                 {
                     result = _service.UpdateStudent(new StudentRecordBindingModel
                     {
@@ -135,15 +122,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
                         Description = textBoxDescription.Text,
                         Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
                     });
-                }
-                if (result.Succeeded)
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
-				{
-					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+					if (result.Succeeded)
+					{
+						DialogResult = DialogResult.OK;
+						Close();
+					}
+					else
+					{
+						Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+					}
 				}
             }
             else

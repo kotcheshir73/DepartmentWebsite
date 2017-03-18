@@ -57,7 +57,21 @@ namespace DepartmentService.BindingModels
 		public List<StudentRecordBindingModel> StudentList { get; set; }
 	}
 
-    public class StudentHistoryRecordBindingModel
+	public class StudentTransferBindingModel
+	{
+		public long NewStudentGroupId { get; set; }
+
+		public long OldStudentGroupId { get; set; }
+
+		public List<StudentRecordBindingModel> StudentList { get; set; }
+
+		public DateTime TransferDate { get; set; }
+
+		public string TransferReason { get; set; }
+	}
+
+
+	public class StudentHistoryRecordBindingModel
     {
         public long Id { get; set; }
 

@@ -76,7 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				};
 				list.Add(model);
 			}
-			var result = _serviceS.EnrollmentStudent(new StudentEnrollmentBindingModel
+			var result = _serviceS.EnrollmentStudents(new StudentEnrollmentBindingModel
 			{
 				OrderNumber = textBoxOrderNumber.Text,
 				OrderDate = dateTimePickerEnrollmentDate.Value,
