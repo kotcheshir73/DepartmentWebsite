@@ -3,7 +3,6 @@ using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule
@@ -36,13 +35,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
             comboBoxStopWordType.SelectedIndex = 0;
             if (_id != 0)
             {
-                var entity = _service.GetScheduleStopWord(new ScheduleStopWordGetBindingModel { Id = _id });
-                if (entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                }
-                comboBoxStopWordType.SelectedValue = entity.StopWordType;
+                var result = _service.GetScheduleStopWord(new ScheduleStopWordGetBindingModel { Id = _id });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
+				}
+				var entity = result.Result;
+
+				comboBoxStopWordType.SelectedValue = entity.StopWordType;
                 textBoxStopWord.Text = entity.StopWord;
             }
         }
@@ -88,14 +89,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     Close();
                 }
                 else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+				}
             }
             else
             {

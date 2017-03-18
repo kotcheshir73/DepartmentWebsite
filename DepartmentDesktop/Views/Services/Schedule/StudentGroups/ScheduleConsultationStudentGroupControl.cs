@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
@@ -24,14 +23,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
         public void LoadData(string groupName)
         {
             _groupName = groupName;
-            var list = _service.GetScheduleConsultation(new ScheduleBindingModel { GroupName = _groupName });
-            if (list == null)
-            {
-                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            dataGridViewList.DataSource = list;
-            if (dataGridViewList.Columns.Count > 0)
+            var result = _service.GetScheduleConsultation(new ScheduleBindingModel { GroupName = _groupName });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
+			}
+			dataGridViewList.DataSource = result.Result;
+			if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].Visible = false;
                 dataGridViewList.Columns[1].HeaderText = "Неделя";

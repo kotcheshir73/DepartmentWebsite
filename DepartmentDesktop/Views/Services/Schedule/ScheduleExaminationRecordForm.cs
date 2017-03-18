@@ -33,35 +33,51 @@ namespace DepartmentDesktop.Views.Services.Schedule
         }
 
         private void ScheduleExaminationRecordForm_Load(object sender, EventArgs e)
-        {
-            //comboBoxLecturer.ValueMember = "Value";
-            //comboBoxLecturer.DisplayMember = "Display";
-            //comboBoxLecturer.DataSource = _service.GetEducationDirections()
-            //    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+		{
+			var resultSG = _serviceS.GetStudentGroups();
+			if (!resultSG.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
+				return;
+			}
 
-            comboBoxStudentGroup.ValueMember = "Value";
-            comboBoxStudentGroup.DisplayMember = "Display";
-            comboBoxStudentGroup.DataSource = _serviceS.GetStudentGroups()
-                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
-            comboBoxStudentGroup.SelectedItem = null;
-            textBoxLessonGroup.Text = string.Empty;
+			var resultS = _serviceS.GetClassrooms();
+			if (!resultS.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
+				return;
+			}
 
-            comboBoxClassroom.ValueMember = "Value";
-            comboBoxClassroom.DisplayMember = "Display";
-            comboBoxClassroom.DataSource = _serviceS.GetClassrooms()
-                .Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
-            comboBoxClassroom.SelectedItem = null;
-            textBoxClassroom.Text = string.Empty;
+			//comboBoxLecturer.ValueMember = "Value";
+			//comboBoxLecturer.DisplayMember = "Display";
+			//comboBoxLecturer.DataSource = _service.GetEducationDirections()
+			//    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
-            if (_id != 0)
+			comboBoxStudentGroup.ValueMember = "Value";
+			comboBoxStudentGroup.DisplayMember = "Display";
+			comboBoxStudentGroup.DataSource = resultSG.Result
+				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+			comboBoxStudentGroup.SelectedItem = null;
+			textBoxLessonGroup.Text = string.Empty;
+
+			comboBoxClassroom.ValueMember = "Value";
+			comboBoxClassroom.DisplayMember = "Display";
+			comboBoxClassroom.DataSource = resultS.Result
+				.Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
+			comboBoxClassroom.SelectedItem = null;
+			textBoxClassroom.Text = string.Empty;
+
+			if (_id != 0)
             {
-                var entity = _service.GetExaminationRecord(new ExaminationRecordGetBindingModel { Id = _id });
-                if (entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                }
-                textBoxLessonDiscipline.Text = entity.LessonDiscipline;
+                var result = _service.GetExaminationRecord(new ExaminationRecordGetBindingModel { Id = _id });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
+				}
+				var entity = result.Result;
+
+				textBoxLessonDiscipline.Text = entity.LessonDiscipline;
                 textBoxLessonGroup.Text = entity.LessonGroup;
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
                 textBoxClassroom.Text = entity.LessonClassroom;
@@ -170,14 +186,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     Close();
                 }
                 else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+				}
             }
             else
             {

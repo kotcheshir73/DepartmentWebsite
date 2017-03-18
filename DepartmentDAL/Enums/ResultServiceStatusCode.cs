@@ -17,6 +17,10 @@
 		/// <summary>
 		/// Не найдено
 		/// </summary>
-		NotFound = 404
+		NotFound = 404,
+		/// <summary>
+		/// Не найден файл
+		/// </summary>
+		FileNotFound = 405
 	}
 }

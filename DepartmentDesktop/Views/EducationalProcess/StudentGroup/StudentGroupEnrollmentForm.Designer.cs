@@ -40,6 +40,8 @@
 			this.ColumnFormOfTraninig = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.buttonLoadFromFile = new System.Windows.Forms.Button();
+			this.buttonClose = new System.Windows.Forms.Button();
+			this.buttonSave = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -136,11 +138,33 @@
 			this.buttonLoadFromFile.UseVisualStyleBackColor = true;
 			this.buttonLoadFromFile.Click += new System.EventHandler(this.buttonLoadFromFile_Click);
 			// 
+			// buttonClose
+			// 
+			this.buttonClose.Location = new System.Drawing.Point(646, 399);
+			this.buttonClose.Name = "buttonClose";
+			this.buttonClose.Size = new System.Drawing.Size(75, 25);
+			this.buttonClose.TabIndex = 7;
+			this.buttonClose.Text = "Закрыть";
+			this.buttonClose.UseVisualStyleBackColor = true;
+			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+			// 
+			// buttonSave
+			// 
+			this.buttonSave.Location = new System.Drawing.Point(565, 399);
+			this.buttonSave.Name = "buttonSave";
+			this.buttonSave.Size = new System.Drawing.Size(75, 25);
+			this.buttonSave.TabIndex = 6;
+			this.buttonSave.Text = "Сохранить";
+			this.buttonSave.UseVisualStyleBackColor = true;
+			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+			// 
 			// StudentGroupEnrollmentForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(733, 434);
+			this.Controls.Add(this.buttonClose);
+			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.buttonLoadFromFile);
 			this.Controls.Add(this.dataGridViewStudents);
 			this.Controls.Add(this.dateTimePickerEnrollmentDate);
@@ -169,5 +193,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFormOfTraninig;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDescription;
 		private System.Windows.Forms.Button buttonLoadFromFile;
+		private System.Windows.Forms.Button buttonClose;
+		private System.Windows.Forms.Button buttonSave;
 	}
 }

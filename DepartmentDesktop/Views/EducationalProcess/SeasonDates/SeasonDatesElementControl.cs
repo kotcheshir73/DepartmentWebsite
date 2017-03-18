@@ -21,7 +21,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
             var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Title = groupBox.Text });
 			if (!result.Succeeded)
 			{
-				Program.PrintMessage("При загрузке возникла ошибка: ", result.Errors);
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			var entity = result.Result;

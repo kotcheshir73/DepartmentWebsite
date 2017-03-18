@@ -7,7 +7,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
-using System.Text;
 using System.Data.Entity.Validation;
 using Microsoft.Office.Interop.Word;
 using System.IO;
@@ -85,7 +84,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService LoadStudentsFromFile(StudentLoadDocBindingModel model)
+		public ResultService<List<StudentViewModel>> LoadStudentsFromFile(StudentLoadDocBindingModel model)
 		{
 			var word = new Application();
 			if (File.Exists(model.FileName))
@@ -95,96 +94,83 @@ namespace DepartmentService.Services
 						Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 				var table = document.Tables[1];
 
-				using (var transaction = _context.Database.BeginTransaction())
+				try
 				{
-					try
+					var list = new List<StudentViewModel>();
+					for (int i = 2; i < table.Rows.Count; ++i)
 					{
-						for (int i = 2; i < table.Rows.Count; ++i)
+						var studentModel = new StudentViewModel
 						{
-							var entity = new Student
-							{
-								NumberOfBook = table.Cell(i, 2).Range.Text.Replace("\r\a", ""),
-								StudentGroupId = model.Id,
-								LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
-								FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
-								Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
-								Description = string.Format("{0}  {1}", table.Cell(i, 6).Range.Text.Replace("\r\a", ""),
-								table.Cell(i, 7).Range.Text.Replace("\r\a", "")),
-								DateCreate = DateTime.Now,
-								IsDeleted = false
-							};
-							if (string.IsNullOrEmpty(entity.NumberOfBook))
-							{
-								break;
-							}
-							if (!string.IsNullOrEmpty(entity.LastName) && entity.LastName.Length > 1)
-							{
-								entity.LastName = entity.LastName[0] + entity.LastName.Substring(1).ToLower();
-							}
-							if (!string.IsNullOrEmpty(entity.FirstName) && entity.FirstName.Length > 1)
-							{
-								entity.FirstName = entity.FirstName[0] + entity.FirstName.Substring(1).ToLower();
-							}
-							if (!string.IsNullOrEmpty(entity.Patronymic) && entity.Patronymic.Length > 1)
-							{
-								entity.Patronymic = entity.Patronymic[0] + entity.Patronymic.Substring(1).ToLower();
-							}
-							_context.Students.Add(entity);
-							_context.SaveChanges();
-
-							var entityHistory = new StudentHistory
-							{
-								StudentId = entity.NumberOfBook,
-								DateCreate = DateTime.Now,
-								TextMessage = string.Format("Студент зачислен в группу {0}", entity.StudentGroup.GroupName)
-							};
-							_context.StudentHistorys.Add(entityHistory);
-							_context.SaveChanges();
+							NumberOfBook = table.Cell(i, 2).Range.Text.Replace("\r\a", ""),
+							StudentGroupId = model.Id,
+							LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
+							FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
+							Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
+							Description = string.Format("{0}  {1}", table.Cell(i, 6).Range.Text.Replace("\r\a", ""),
+							table.Cell(i, 7).Range.Text.Replace("\r\a", ""))
+						};
+						if (string.IsNullOrEmpty(studentModel.NumberOfBook))
+						{
+							break;
 						}
-						transaction.Commit();
+						if (!string.IsNullOrEmpty(studentModel.LastName) && studentModel.LastName.Length > 1)
+						{
+							studentModel.LastName = studentModel.LastName[0] + studentModel.LastName.Substring(1).ToLower();
+						}
+						if (!string.IsNullOrEmpty(studentModel.FirstName) && studentModel.FirstName.Length > 1)
+						{
+							studentModel.FirstName = studentModel.FirstName[0] + studentModel.FirstName.Substring(1).ToLower();
+						}
+						if (!string.IsNullOrEmpty(studentModel.Patronymic) && studentModel.Patronymic.Length > 1)
+						{
+							studentModel.Patronymic = studentModel.Patronymic[0] + studentModel.Patronymic.Substring(1).ToLower();
+						}
+						list.Add(studentModel);
 					}
-					catch (Exception ex)
-					{
-						transaction.Rollback();
-						document.Close();
-						return ResultService.Error(ex, ResultServiceStatusCode.Error);
-					}
+					document.Close();
+					return ResultService<List<StudentViewModel>>.Success(list);
 				}
-				document.Close();
+				catch (Exception ex)
+				{
+					document.Close();
+					return ResultService<List<StudentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+				}
 			}
-			return ResultService.Success();
+			return ResultService<List<StudentViewModel>>.Error("Error:", "File not found", ResultServiceStatusCode.FileNotFound);
 		}
 
-		public ResultService CreateStudent(StudentRecordBindingModel model)
+		public ResultService EnrollmentStudent(StudentEnrollmentBindingModel model)
 		{
 			using (var transaction = _context.Database.BeginTransaction())
 			{
 				try
 				{
-					var entity = new Student
+					for (int i = 0; i < model.StudentList.Count; ++i)
 					{
-						NumberOfBook = model.NumberOfBook,
-						StudentGroupId = model.StudentGroupId,
-						LastName = model.LastName,
-						FirstName = model.FirstName,
-						Patronymic = model.Patronymic,
-						Description = model.Description,
-						Photo = model.Photo,
-						DateCreate = DateTime.Now,
-						IsDeleted = false
-					};
-					_context.Students.Add(entity);
-					_context.SaveChanges();
+						var entity = new Student
+						{
+							NumberOfBook = model.StudentList[i].NumberOfBook,
+							StudentGroupId = model.StudentList[i].StudentGroupId,
+							LastName = model.StudentList[i].LastName,
+							FirstName = model.StudentList[i].FirstName,
+							Patronymic = model.StudentList[i].Patronymic,
+							Description = model.StudentList[i].Description,
+							DateCreate = DateTime.Now,
+							IsDeleted = false
+						};
+						_context.Students.Add(entity);
+						_context.SaveChanges();
 
-					var entityHistory = new StudentHistory
-					{
-						StudentId = entity.NumberOfBook,
-						DateCreate = DateTime.Now,
-						TextMessage = string.Format("Студент зачислен в группу {0}", entity.StudentGroup.GroupName)
-					};
-					_context.StudentHistorys.Add(entityHistory);
-					_context.SaveChanges();
-
+						var entityHistory = new StudentHistory
+						{
+							StudentId = entity.NumberOfBook,
+							DateCreate = DateTime.Now,
+							TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroup.GroupName,
+							model.OrderNumber, model.OrderDate.ToShortDateString())
+						};
+						_context.StudentHistorys.Add(entityHistory);
+						_context.SaveChanges();
+					}
 					transaction.Commit();
 					return ResultService.Success();
 				}

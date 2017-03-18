@@ -26,8 +26,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
             switch (type)
             {
                 case 0://расписание по аудиториям
-                    var classrooms = _service.GetClassrooms();
-                    if (classrooms != null)
+					var resultClassrooms = _service.GetClassrooms();
+					if (!resultClassrooms.Succeeded)
+					{
+						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);
+						return;
+					}
+					var classrooms = resultClassrooms.Result;
+					if (classrooms != null)
                     {
                         for (int i = 0; i < classrooms.Count; i++)
                         {
@@ -48,8 +54,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                     break;
                 case 1:
-                    var studentGroups = _service.GetStudentGroups();
-                    if (studentGroups != null)
+					var resultStudentGroups = _service.GetStudentGroups();
+					if (!resultStudentGroups.Succeeded)
+					{
+						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
+						return;
+					}
+					var studentGroups = resultStudentGroups.Result;
+					if (studentGroups != null)
                     {
                         for (int i = 0; i < studentGroups.Count; i++)
                         {

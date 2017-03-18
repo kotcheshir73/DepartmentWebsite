@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
@@ -46,6 +47,16 @@ namespace DepartmentService.BindingModels
 
         public byte[] Photo { get; set; }
     }
+
+	public class StudentEnrollmentBindingModel
+	{
+		public string OrderNumber { get; set; }
+
+		public DateTime OrderDate { get; set; }
+
+		public List<StudentRecordBindingModel> StudentList { get; set; }
+	}
+
     public class StudentHistoryRecordBindingModel
     {
         public long Id { get; set; }

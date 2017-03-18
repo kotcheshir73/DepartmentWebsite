@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
@@ -18,14 +17,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         public void LoadData()
         {
-            var list = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel());
-            if (list == null)
-            {
-                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            dataGridViewList.DataSource = list;
-            if (dataGridViewList.Columns.Count > 0)
+            var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel());
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
+			}
+			dataGridViewList.DataSource = result.Result;
+			if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].Visible = false;
                 dataGridViewList.Columns[1].Visible = false;
@@ -77,13 +76,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                             LoadData();
                         }
                         else
-                        {
-                            StringBuilder strRes = new StringBuilder();
-                            foreach (var err in result.Errors)
-                            {
-                                strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                            }
-                        }
+						{
+							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+						}
                     }
                 }
             }

@@ -45,7 +45,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DataSource = resultED.Result
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
-			var control = new StudentGroupStudentsControl(_serviceS);
+			var control = new StudentGroupStudentsControl(_service, _serviceS);
             control.Left = 0;
             control.Top = 0;
             control.Height = Height - 60;

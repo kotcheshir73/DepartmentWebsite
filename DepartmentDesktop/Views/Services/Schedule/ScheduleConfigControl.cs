@@ -23,24 +23,50 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         public void LoadData()
         {
-            var classrooms = _service.GetClassrooms();
-            foreach (var elem in classrooms)
+            var resultC = _service.GetClassrooms();
+			if (!resultC.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);
+				return;
+			}
+			var classrooms = resultC.Result;
+			foreach (var elem in classrooms)
             {
                 checkedListBoxClassrooms.Items.Add(elem.Id, true);
             }
-            var studentGroups = _service.GetStudentGroups();
-            foreach (var elem in studentGroups)
+
+            var resultSG = _service.GetStudentGroups();
+			if (!resultSG.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
+				return;
+			}
+			var studentGroups = resultSG.Result;
+			foreach (var elem in studentGroups)
             {
                 checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
             }
-            comboBoxSeasonDates.ValueMember = "Value";
+
+			var resultSD = _service.GetSeasonDaties();
+			if (!resultSD.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
+				return;
+			}
+			comboBoxSeasonDates.ValueMember = "Value";
             comboBoxSeasonDates.DisplayMember = "Display";
-            comboBoxSeasonDates.DataSource = _service.GetSeasonDaties()
-                .Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
-            var record = _service.GetCurrentDates();
-            if (record != null)
+            comboBoxSeasonDates.DataSource = resultSD.Result
+				.Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
+
+			var resultCD = _service.GetCurrentDates();
+			if (!resultCD.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
+			}
+			var _dates = resultCD.Result;
+            if (_dates != null)
             {
-                comboBoxSeasonDates.SelectedValue = record.Id;
+                comboBoxSeasonDates.SelectedValue = _dates.Id;
             }
             else
             {

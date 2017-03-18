@@ -8,20 +8,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
     public partial class StudentGroupStudentsControl : UserControl
     {
-        private readonly IStudentService _service;
+        private readonly IStudentGroupService _service;
 
-        private long _studentGroupId;
+		private readonly IStudentService _serviceS;
 
-        public StudentGroupStudentsControl(IStudentService service)
+		private long _studentGroupId;
+
+        public StudentGroupStudentsControl(IStudentGroupService service, IStudentService serviceS)
         {
             InitializeComponent();
             _service = service;
-        }
+			_serviceS = serviceS;
+
+		}
 
         public void LoadData(long studentGroupId)
         {
             _studentGroupId = studentGroupId;
-            var result = _service.GetStudents(new StudentGetBindingModel { StudentGroupId = studentGroupId });
+            var result = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = studentGroupId });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -46,52 +50,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             }
         }
 
-        private void toolStripButtonAdd_Click(object sender, EventArgs e)
-        {
-            var form = new Student.StudentForm(_service);
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                LoadData(_studentGroupId);
-            }
-        }
-
         private void toolStripButtonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridViewList.SelectedRows.Count == 1)
             {
                 string id = dataGridViewList.SelectedRows[0].Cells[0].Value.ToString();
-                var form = new Student.StudentForm(_service, id);
+                var form = new Student.StudentForm(_serviceS, id);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData(_studentGroupId);
-                }
-            }
-        }
-
-        private void toolStripButtonDel_Click(object sender, EventArgs e)
-        {
-            if (dataGridViewList.SelectedRows.Count > 0)
-            {
-                if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
-                    {
-                        string id = dataGridViewList.SelectedRows[0].Cells[0].Value.ToString();
-                        var result = _service.DeleteStudent(new StudentGetBindingModel { NumberOfBook = id });
-                        if (result.Succeeded)
-                        {
-                            LoadData(_studentGroupId);
-                        }
-                        else
-                        {
-                            StringBuilder strRes = new StringBuilder();
-                            foreach (var err in result.Errors)
-                            {
-                                strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                            }
-                            MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
                 }
             }
         }
@@ -107,7 +74,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             dialog.Filter = "doc|*.doc|docx|*.docx";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _studentGroupId, FileName = dialog.FileName });
+                var result = _serviceS.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _studentGroupId, FileName = dialog.FileName });
                 if (result.Succeeded)
                 {
                     LoadData(_studentGroupId);
@@ -123,5 +90,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 }
             }
         }
-    }
+
+		private void enrollmentStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var form = new StudentGroupEnrollmentForm(_service, _serviceS, _studentGroupId);
+			if(form.ShowDialog() == DialogResult.OK)
+			{
+				LoadData(_studentGroupId);
+			}
+		}
+	}
 }

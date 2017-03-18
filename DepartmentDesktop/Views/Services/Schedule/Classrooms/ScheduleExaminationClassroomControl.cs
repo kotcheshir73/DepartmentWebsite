@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
@@ -35,8 +34,18 @@ namespace DepartmentDesktop.Views.Services.Schedule
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
 
-            var lessons = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-            lessons.AddRange(_service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" }));
+			var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+			if(!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+			}
+			var lessons = result.Result;
+			result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+			}
+			lessons.AddRange(result.Result);
             if (lessons != null)
             {
                 for (int i = 0; i < lessons.Count; ++i)
@@ -52,9 +61,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 _classroomID = classroomID;
 
-                _dates = _service.GetCurrentDates();
-                if (_dates == null)
-                    throw new Exception("Невозможно получить даты семестра");
+				var resultCD = _service.GetCurrentDates();
+				if(!resultCD.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
+				}
+				_dates = resultCD.Result;
 
                 labelTop.Text = string.Format("{0} аудитория. {1}", _classroomID, _dates.Title);
 
@@ -81,9 +93,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     currentdate = currentdate.AddDays(1);
                 }
                 currentdate = dateBeginExamination;
-                var list = _service.GetScheduleExamination(new ScheduleBindingModel { ClassroomId = _classroomID });
-                if (list == null)
-                    throw new Exception("Невозможно получить список занятий в семестре");
+                var result = _service.GetScheduleExamination(new ScheduleBindingModel { ClassroomId = _classroomID });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
+				}
+				var list = result.Result;
                 foreach (var record in list)
                 {
                     if ((record.DateConsultation - dateBeginExamination).Days > -1 && (record.DateConsultation - dateBeginExamination).Days <= days)
@@ -113,15 +128,18 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         }
                     }
                 }
-                var consults = _service.GetScheduleConsultation(new ScheduleBindingModel
+                var resultConsults = _service.GetScheduleConsultation(new ScheduleBindingModel
                 {
                     DateBegin = dateBeginExamination,
                     DateEnd = dateEndExamination,
                     ClassroomId = _classroomID
                 });
-                if (consults == null)
-                    throw new Exception("Невозможно получить список консультаций в семестре");
-                foreach (var record in consults)
+				if (!resultConsults.Succeeded)
+				{
+					Program.PrintErrorMessage("Невозможно получить список консультаций в семестре: ", resultConsults.Errors);
+				}
+				var consults = resultConsults.Result;
+				foreach (var record in consults)
                 {
                     if (record.Day <= days)
                     {
@@ -172,14 +190,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                             });
                                     }
                                     if (!result.Succeeded)
-                                    {
-                                        StringBuilder strRes = new StringBuilder();
-                                        foreach (var err in result.Errors)
-                                        {
-                                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                                        }
-                                        throw new Exception(strRes.ToString());
-                                    }
+									{
+										Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+									}
                                     LoadData(_classroomID);
                                 }
                 }
