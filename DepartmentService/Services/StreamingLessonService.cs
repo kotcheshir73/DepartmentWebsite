@@ -7,101 +7,145 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
+using System.Data.Entity.Validation;
+using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
-    public class StreamingLessonService : IStreamingLessonService
-    {
-        private readonly DepartmentDbContext _context;
+	public class StreamingLessonService : IStreamingLessonService
+	{
+		private readonly DepartmentDbContext _context;
 
-        public StreamingLessonService(DepartmentDbContext context)
-        {
-            _context = context;
-        }
+		public StreamingLessonService(DepartmentDbContext context)
+		{
+			_context = context;
+		}
 
-        public List<StreamingLessonViewModel> GetStreamingLessons()
-        {
-            return ModelFactory.CreateStreamingLessons(
-                    _context.StreamingLessons
-                        .Where(e => !e.IsDeleted))
-                .ToList();
-        }
+		public ResultService<List<StreamingLessonViewModel>> GetStreamingLessons()
+		{
+			try
+			{
+				return ResultService<List<StreamingLessonViewModel>>.Success(
+					ModelFactory.CreateStreamingLessons(_context.StreamingLessons
+							.Where(e => !e.IsDeleted))
+					.ToList());
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<List<StreamingLessonViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<List<StreamingLessonViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+		}
 
-        public StreamingLessonViewModel GetStreamingLesson(StreamingLessonGetBindingModel model)
-        {
-            var entity = _context.StreamingLessons
-                            .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-            if (entity == null)
-                return null;
-            return ModelFactory.CreateStreamingLessonViewModel(entity);
-        }
+		public ResultService<StreamingLessonViewModel> GetStreamingLesson(StreamingLessonGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.StreamingLessons
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
+					return ResultService<StreamingLessonViewModel>.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
 
-        public ResultService CreateStreamingLesson(StreamingLessonRecordBindingModel model)
-        {
-            var entity = new StreamingLesson
-            {
-                Id = model.Id,
-                IncomingGroups = model.IncomingGroups,
-                DateCreate = DateTime.Now,
-                IsDeleted = false,
-                StreamName = model.StreamName
-            };
-            try
-            {
-                _context.StreamingLessons.Add(entity);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+				return ResultService<StreamingLessonViewModel>.Success(
+					ModelFactory.CreateStreamingLessonViewModel(entity));
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<StreamingLessonViewModel>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<StreamingLessonViewModel>.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ResultService UpdateStreamingLesson(StreamingLessonRecordBindingModel model)
-        {
-            try
-            {
-                var entity = _context.StreamingLessons
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
-                entity.IncomingGroups = model.IncomingGroups;
-                entity.StreamName = model.StreamName;
+		public ResultService CreateStreamingLesson(StreamingLessonRecordBindingModel model)
+		{
+			var entity = new StreamingLesson
+			{
+				Id = model.Id,
+				IncomingGroups = model.IncomingGroups,
+				DateCreate = DateTime.Now,
+				IsDeleted = false,
+				StreamName = model.StreamName
+			};
+			try
+			{
+				_context.StreamingLessons.Add(entity);
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-                _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+		public ResultService UpdateStreamingLesson(StreamingLessonRecordBindingModel model)
+		{
+			try
+			{
+				var entity = _context.StreamingLessons
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.IncomingGroups = model.IncomingGroups;
+				entity.StreamName = model.StreamName;
 
-        public ResultService DeleteStreamingLesson(StreamingLessonGetBindingModel model)
-        {
-            try
-            {
-                var entity = _context.StreamingLessons
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
-                entity.IsDeleted = true;
-                entity.DateDelete = DateTime.Now;
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-                _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
-    }
+		public ResultService DeleteStreamingLesson(StreamingLessonGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.StreamingLessons
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.IsDeleted = true;
+				entity.DateDelete = DateTime.Now;
+
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
+	}
 }

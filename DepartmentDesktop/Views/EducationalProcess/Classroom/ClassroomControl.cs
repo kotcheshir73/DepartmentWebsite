@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
-using System.Text;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 {
@@ -18,13 +17,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
         public void LoadData()
         {
-            var list = _service.GetClassrooms();
-            if (list == null)
-            {
-                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+            var result = _service.GetClassrooms();
+            if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
             }
-            dataGridViewList.DataSource = list;
+            dataGridViewList.DataSource = result.Result;
             if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].HeaderText = "Аудитория";
@@ -73,13 +72,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                             LoadData();
                         }
                         else
-                        {
-                            StringBuilder strRes = new StringBuilder();
-                            foreach (var err in result.Errors)
-                            {
-                                strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                            }
-                            MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						{
+							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
                         }
                     }
                 }

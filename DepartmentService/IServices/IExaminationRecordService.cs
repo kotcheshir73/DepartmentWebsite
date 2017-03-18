@@ -6,12 +6,12 @@ namespace DepartmentService.IServices
 {
     public interface IExaminationRecordService
     {
-        /// <summary>
-        /// Получения записи о паре
-        /// </summary>
-        /// <param name="model">Идентификатор аудитории</param>
-        /// <returns></returns>
-        ExaminationRecordViewModel GetExaminationRecord(ExaminationRecordGetBindingModel model);
+		/// <summary>
+		/// Получения записи о паре
+		/// </summary>
+		/// <param name="model">Идентификатор аудитории</param>
+		/// <returns></returns>
+		ResultService<ExaminationRecordViewModel> GetExaminationRecord(ExaminationRecordGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи о паре

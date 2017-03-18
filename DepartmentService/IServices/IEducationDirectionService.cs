@@ -7,18 +7,18 @@ namespace DepartmentService.IServices
 {
     public interface IEducationDirectionService
     {
-        /// <summary>
-        /// Получение списка направлений
-        /// </summary>
-        /// <returns></returns>
-        List<EducationDirectionViewModel> GetEducationDirections();
+		/// <summary>
+		/// Получение списка направлений
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<EducationDirectionViewModel>> GetEducationDirections();
 
-        /// <summary>
-        /// Получения направления
-        /// </summary>
-        /// <param name="model">Идентификатор направления</param>
-        /// <returns></returns>
-        EducationDirectionViewModel GetEducationDirection(EducationDirectionGetBindingModel model);
+		/// <summary>
+		/// Получения направления
+		/// </summary>
+		/// <param name="model">Идентификатор направления</param>
+		/// <returns></returns>
+		ResultService<EducationDirectionViewModel> GetEducationDirection(EducationDirectionGetBindingModel model);
 
         /// <summary>
         /// Создание нового направления

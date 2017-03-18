@@ -11,6 +11,7 @@ using System.Text;
 using System.Data.Entity.Validation;
 using Microsoft.Office.Interop.Word;
 using System.IO;
+using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
@@ -26,34 +27,62 @@ namespace DepartmentService.Services
 			_serviceSG = serviceSG;
 		}
 
-		public List<StudentViewModel> GetStudents(StudentGetBindingModel model)
+		public ResultService<List<StudentViewModel>> GetStudents(StudentGetBindingModel model)
 		{
-			if (model.StudentGroupId.HasValue)
+			try
 			{
-				return ModelFactory.CreateStudents(
-					_context.Students
-						.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted)
-						)
-				.OrderBy(s => s.LastName).ToList();
+				if (model.StudentGroupId.HasValue)
+				{
+					return ResultService<List<StudentViewModel>>.Success(
+						ModelFactory.CreateStudents(_context.Students
+							.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted)
+							)
+					.OrderBy(s => s.LastName).ToList());
+				}
+				return ResultService<List<StudentViewModel>>.Success(
+					ModelFactory.CreateStudents(_context.Students
+							.Where(e => !e.IsDeleted))
+					.ToList());
 			}
-			return ModelFactory.CreateStudents(
-					_context.Students
-						.Where(e => !e.IsDeleted))
-				.ToList();
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<List<StudentViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<List<StudentViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
 		}
 
-		public List<StudentGroupViewModel> GetStudentGroups()
+		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
 		{
 			return _serviceSG.GetStudentGroups();
 		}
 
-		public StudentViewModel GetStudent(StudentGetBindingModel model)
+		public ResultService<StudentViewModel> GetStudent(StudentGetBindingModel model)
 		{
-			var entity = _context.Students
-							.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
-			if (entity == null)
-				return null;
-			return ModelFactory.CreateStudentViewModel(entity);
+			try
+			{
+				var entity = _context.Students
+								.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
+				if (entity == null)
+					return ResultService<StudentViewModel>.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+
+				return ResultService<StudentViewModel>.Success(
+					ModelFactory.CreateStudentViewModel(entity));
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<StudentViewModel>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<StudentViewModel>.Error(ex, ResultServiceStatusCode.Error);
+			}
 		}
 
 		public ResultService LoadStudentsFromFile(StudentLoadDocBindingModel model)
@@ -118,7 +147,7 @@ namespace DepartmentService.Services
 					{
 						transaction.Rollback();
 						document.Close();
-						return ResultService.Error("error", ex.Message, 400);
+						return ResultService.Error(ex, ResultServiceStatusCode.Error);
 					}
 				}
 				document.Close();
@@ -161,23 +190,11 @@ namespace DepartmentService.Services
 				}
 				catch (DbEntityValidationException ex)
 				{
-					transaction.Rollback();
-					StringBuilder sr = new StringBuilder();
-					foreach (var eve in ex.EntityValidationErrors)
-					{
-						sr.AppendFormat("ValidationErrors:\r\n");
-						foreach (var ve in eve.ValidationErrors)
-						{
-							sr.AppendFormat("- Свойство: \"{0}\", Ошибка: \"{1}\"\r\n",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-					return ResultService.Error("error", sr.ToString(), 400);
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
 				}
 				catch (Exception ex)
 				{
-					transaction.Rollback();
-					return ResultService.Error("error", ex.Message, 400);
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
 				}
 			}
 		}
@@ -190,7 +207,8 @@ namespace DepartmentService.Services
 								.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("entity", "not_found", 404);
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
 				}
 				entity.LastName = model.LastName;
 				entity.FirstName = model.FirstName;
@@ -204,21 +222,11 @@ namespace DepartmentService.Services
 			}
 			catch (DbEntityValidationException ex)
 			{
-				StringBuilder sr = new StringBuilder();
-				foreach (var eve in ex.EntityValidationErrors)
-				{
-					sr.AppendFormat("ValidationErrors:\r\n");
-					foreach (var ve in eve.ValidationErrors)
-					{
-						sr.AppendFormat("- Свойство: \"{0}\", Ошибка: \"{1}\"\r\n",
-							ve.PropertyName, ve.ErrorMessage);
-					}
-				}
-				return ResultService.Error("error", sr.ToString(), 400);
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService.Error("error", ex.Message, 400);
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -230,7 +238,8 @@ namespace DepartmentService.Services
 								.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("entity", "not_found", 404);
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
@@ -241,21 +250,11 @@ namespace DepartmentService.Services
 			}
 			catch (DbEntityValidationException ex)
 			{
-				StringBuilder sr = new StringBuilder();
-				foreach (var eve in ex.EntityValidationErrors)
-				{
-					sr.AppendFormat("ValidationErrors:\r\n");
-					foreach (var ve in eve.ValidationErrors)
-					{
-						sr.AppendFormat("- Свойство: \"{0}\", Ошибка: \"{1}\"\r\n",
-							ve.PropertyName, ve.ErrorMessage);
-					}
-				}
-				return ResultService.Error("error", sr.ToString(), 400);
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService.Error("error", ex.Message, 400);
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 	}

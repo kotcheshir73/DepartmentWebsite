@@ -7,12 +7,12 @@ namespace DepartmentService.IServices
 {
     public interface IConsultationRecordService
     {
-        /// <summary>
-        /// Получения записи о консультации
-        /// </summary>
-        /// <param name="model">Идентификатор аудитории</param>
-        /// <returns></returns>
-        ConsultationRecordViewModel GetConsultationRecord(ConsultationRecordGetBindingModel model);
+		/// <summary>
+		/// Получения записи о консультации
+		/// </summary>
+		/// <param name="model">Идентификатор аудитории</param>
+		/// <returns></returns>
+		ResultService<ConsultationRecordViewModel> GetConsultationRecord(ConsultationRecordGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи о консультации
@@ -41,6 +41,6 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <param name="seasonDate"></param>
         /// <returns></returns>
-        ResultService CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDates seasonDate);
+        ResultService CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDatesViewModel seasonDate);
     }
 }

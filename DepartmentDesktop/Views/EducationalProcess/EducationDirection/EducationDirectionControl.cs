@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
-using System.Text;
 
 namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 {
@@ -18,14 +17,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 
         public void LoadData()
         {
-            var list = _service.GetEducationDirections();
-            if (list == null)
-            {
-                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            dataGridViewList.DataSource = list;
-            if (dataGridViewList.Columns.Count > 0)
+            var result = _service.GetEducationDirections();
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
+			}
+			dataGridViewList.DataSource = result.Result;
+			if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].Visible = false;
                 dataGridViewList.Columns[1].HeaderText = "Шифр";
@@ -74,14 +73,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
                             LoadData();
                         }
                         else
-                        {
-                            StringBuilder strRes = new StringBuilder();
-                            foreach (var err in result.Errors)
-                            {
-                                strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                            }
-                            MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+						{
+							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+						}
                     }
                 }
             }

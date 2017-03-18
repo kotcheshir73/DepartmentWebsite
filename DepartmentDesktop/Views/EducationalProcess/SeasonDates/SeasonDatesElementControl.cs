@@ -18,12 +18,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
         public void LoadData()
         {
-            var entity = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Title = groupBox.Text });
-            if(entity == null)
-            {
-                return;
-            }
-            dateTimePickerDateBeginExamination.Value = Convert.ToDateTime(entity.DateBeginExamination);
+            var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Title = groupBox.Text });
+			if (!result.Succeeded)
+			{
+				Program.PrintMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
+			}
+			var entity = result.Result;
+			dateTimePickerDateBeginExamination.Value = Convert.ToDateTime(entity.DateBeginExamination);
             dateTimePickerDateBeginOffset.Value = Convert.ToDateTime(entity.DateBeginOffset);
             dateTimePickerDateBeginSemester.Value = Convert.ToDateTime(entity.DateBeginSemester);
             dateTimePickerDateEndExamination.Value = Convert.ToDateTime(entity.DateEndExamination);

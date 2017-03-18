@@ -7,19 +7,19 @@ namespace DepartmentService.IServices
 {
     public interface IScheduleLessonTimeService
     {
-        /// <summary>
-        /// Получение списка временных интервалов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+		/// <summary>
+		/// Получение списка временных интервалов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
 
-        /// <summary>
-        /// Получения временного интервала
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ScheduleLessonTimeViewModel GetScheduleLessonTime(ScheduleLessonTimeGetBindingModel model);
+		/// <summary>
+		/// Получения временного интервала
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<ScheduleLessonTimeViewModel> GetScheduleLessonTime(ScheduleLessonTimeGetBindingModel model);
 
         /// <summary>
         /// Создание нового временного интервала

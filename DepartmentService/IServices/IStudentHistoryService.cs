@@ -7,19 +7,19 @@ namespace DepartmentService.IServices
 {
     public interface IStudentHistoryService
     {
-        /// <summary>
-        /// Получение списка историй студентов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        List<StudentHistoryViewModel> GetStudentHistorys(StudentHistoryGetBindingModel model);
+		/// <summary>
+		/// Получение списка историй студентов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<List<StudentHistoryViewModel>> GetStudentHistorys(StudentHistoryGetBindingModel model);
 
-        /// <summary>
-        /// Получения записи по историям студентов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        StudentHistoryViewModel GetStudentHistory(StudentHistoryGetBindingModel model);
+		/// <summary>
+		/// Получения записи по историям студентов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<StudentHistoryViewModel> GetStudentHistory(StudentHistoryGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи по историям студентов

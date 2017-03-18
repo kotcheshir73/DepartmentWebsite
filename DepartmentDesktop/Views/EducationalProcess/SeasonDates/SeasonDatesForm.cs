@@ -2,7 +2,6 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
@@ -30,13 +29,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
         {
             if (_id != 0)
             {
-                var entity = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id });
-                if (entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                }
-                textBoxTitle.Text = entity.Title;
+                var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
+				}
+				var entity = result.Result;
+
+				textBoxTitle.Text = entity.Title;
                 dateTimePickerDateBeginExamination.Value = Convert.ToDateTime(entity.DateBeginExamination);
                 dateTimePickerDateBeginOffset.Value = Convert.ToDateTime(entity.DateBeginOffset);
                 dateTimePickerDateBeginSemester.Value = Convert.ToDateTime(entity.DateBeginSemester);
@@ -131,14 +132,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
                     Close();
                 }
                 else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+				}
             }
             else
             {

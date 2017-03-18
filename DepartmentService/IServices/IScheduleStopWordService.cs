@@ -7,18 +7,18 @@ namespace DepartmentService.IServices
 {
     public interface IScheduleStopWordService
     {
-        /// <summary>
-        /// Получение списка стоп-слов
-        /// </summary>
-        /// <returns></returns>
-        List<ScheduleStopWordViewModel> GetScheduleStopWords();
+		/// <summary>
+		/// Получение списка стоп-слов
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<ScheduleStopWordViewModel>> GetScheduleStopWords();
 
-        /// <summary>
-        /// Получения стоп-слова
-        /// </summary>
-        /// <param name="model">Идентификатор стоп-слова</param>
-        /// <returns></returns>
-        ScheduleStopWordViewModel GetScheduleStopWord(ScheduleStopWordGetBindingModel model);
+		/// <summary>
+		/// Получения стоп-слова
+		/// </summary>
+		/// <param name="model">Идентификатор стоп-слова</param>
+		/// <returns></returns>
+		ResultService<ScheduleStopWordViewModel> GetScheduleStopWord(ScheduleStopWordGetBindingModel model);
 
         /// <summary>
         /// Создание нового стоп-слова

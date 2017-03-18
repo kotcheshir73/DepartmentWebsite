@@ -5,7 +5,6 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Student
@@ -31,21 +30,30 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 
         private void StudentForm_Load(object sender, EventArgs e)
         {
-            comboBoxStudentGroup.ValueMember = "Value";
+			var resultSG = _service.GetStudentGroups();
+			if (!resultSG.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
+				return;
+			}
+
+			comboBoxStudentGroup.ValueMember = "Value";
             comboBoxStudentGroup.DisplayMember = "Display";
-            comboBoxStudentGroup.DataSource = _service.GetStudentGroups()
-                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+            comboBoxStudentGroup.DataSource = resultSG.Result
+				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
 
             if (!string.IsNullOrEmpty(_id))
             {
-                var entity = _service.GetStudent(new StudentGetBindingModel { NumberOfBook = _id });
-                if (entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                }
-                textBoxNumberOfBook.Text = _id;
+                var result = _service.GetStudent(new StudentGetBindingModel { NumberOfBook = _id });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
+				}
+				var entity = result.Result;
+
+				textBoxNumberOfBook.Text = _id;
                 textBoxNumberOfBook.Enabled = false;
                 textBoxLastName.Text = entity.LastName;
                 textBoxFirstName.Text = entity.FirstName;
@@ -134,14 +142,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
                     Close();
                 }
                 else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+				}
             }
             else
             {

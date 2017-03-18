@@ -7,25 +7,25 @@ namespace DepartmentService.IServices
 {
     public interface IStudentService
     {
-        /// <summary>
-        /// Получение списка студентов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        List<StudentViewModel> GetStudents(StudentGetBindingModel model);
+		/// <summary>
+		/// Получение списка студентов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<List<StudentViewModel>> GetStudents(StudentGetBindingModel model);
 
-        /// <summary>
-        /// Получение списка групп
-        /// </summary>
-        /// <returns></returns>
-        List<StudentGroupViewModel> GetStudentGroups();
+		/// <summary>
+		/// Получение списка групп
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<StudentGroupViewModel>> GetStudentGroups();
 
-        /// <summary>
-        /// Получения студента
-        /// </summary>
-        /// <param name="model">Идентификатор студента</param>
-        /// <returns></returns>
-        StudentViewModel GetStudent(StudentGetBindingModel model);
+		/// <summary>
+		/// Получения студента
+		/// </summary>
+		/// <param name="model">Идентификатор студента</param>
+		/// <returns></returns>
+		ResultService<StudentViewModel> GetStudent(StudentGetBindingModel model);
 
         /// <summary>
         /// Загрузка списка студентов из файла

@@ -7,106 +7,151 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
+using System.Data.Entity.Validation;
+using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
-    public class ScheduleLessonTimeService : IScheduleLessonTimeService
-    {
-        private readonly DepartmentDbContext _context;
+	public class ScheduleLessonTimeService : IScheduleLessonTimeService
+	{
+		private readonly DepartmentDbContext _context;
 
-        public ScheduleLessonTimeService(DepartmentDbContext context)
-        {
-            _context = context;
-        }
+		public ScheduleLessonTimeService(DepartmentDbContext context)
+		{
+			_context = context;
+		}
 
-        public List<ScheduleLessonTimeViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model)
-        {
-            if (string.IsNullOrEmpty(model.Title))
-            {
-                return ModelFactory.CreateScheduleLessonTimes(
-                        _context.ScheduleLessonTimes)
-                    .ToList();
-            }
-            else
-            {
-                return ModelFactory.CreateScheduleLessonTimes(
-                        _context.ScheduleLessonTimes.Where(slt => slt.Title.Contains(model.Title)))
-                    .ToList();
-            }
-        }
+		public ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(model.Title))
+				{
+					return ResultService<List<ScheduleLessonTimeViewModel>>.Success(
+						ModelFactory.CreateScheduleLessonTimes(_context.ScheduleLessonTimes)
+						.ToList());
+				}
+				else
+				{
+					return ResultService<List<ScheduleLessonTimeViewModel>>.Success(
+						ModelFactory.CreateScheduleLessonTimes(_context.ScheduleLessonTimes
+							.Where(slt => slt.Title.Contains(model.Title)))
+						.ToList());
+				}
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<List<ScheduleLessonTimeViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<List<ScheduleLessonTimeViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ScheduleLessonTimeViewModel GetScheduleLessonTime(ScheduleLessonTimeGetBindingModel model)
-        {
-            var entity = string.IsNullOrEmpty(model.Title) ? _context.ScheduleLessonTimes.FirstOrDefault(e => e.Id == model.Id) : 
-                                                            _context.ScheduleLessonTimes.FirstOrDefault(e => e.Title == model.Title);
-            if (entity == null)
-                return null;
-            return ModelFactory.CreateScheduleLessonTimeViewModel(entity);
-        }
+		public ResultService<ScheduleLessonTimeViewModel> GetScheduleLessonTime(ScheduleLessonTimeGetBindingModel model)
+		{
+			try
+			{
+				var entity = string.IsNullOrEmpty(model.Title) ? _context.ScheduleLessonTimes.FirstOrDefault(e => e.Id == model.Id) :
+																_context.ScheduleLessonTimes.FirstOrDefault(e => e.Title == model.Title);
+				if (entity == null)
+					return ResultService<ScheduleLessonTimeViewModel>.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
 
-        public ResultService CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model)
-        {
-            var entity = new ScheduleLessonTime
-            {
-                Title = model.Title,
-                DateBeginLesson = model.DateBeginLesson,
-                DateEndLesson = model.DateEndLesson
-            };
-            try
-            {
-                _context.ScheduleLessonTimes.Add(entity);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+				return ResultService<ScheduleLessonTimeViewModel>.Success(
+					ModelFactory.CreateScheduleLessonTimeViewModel(entity));
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<ScheduleLessonTimeViewModel>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<ScheduleLessonTimeViewModel>.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ResultService UpdateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model)
-        {
-            try
-            {
-                var entity = _context.ScheduleLessonTimes
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
-                entity.Title = model.Title;
-                entity.DateBeginLesson = model.DateBeginLesson;
-                entity.DateEndLesson = model.DateEndLesson;
+		public ResultService CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model)
+		{
+			var entity = new ScheduleLessonTime
+			{
+				Title = model.Title,
+				DateBeginLesson = model.DateBeginLesson,
+				DateEndLesson = model.DateEndLesson
+			};
+			try
+			{
+				_context.ScheduleLessonTimes.Add(entity);
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-                _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+		public ResultService UpdateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model)
+		{
+			try
+			{
+				var entity = _context.ScheduleLessonTimes
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.Title = model.Title;
+				entity.DateBeginLesson = model.DateBeginLesson;
+				entity.DateEndLesson = model.DateEndLesson;
 
-        public ResultService DeleteScheduleLessonTime(ScheduleLessonTimeGetBindingModel model)
-        {
-            try
-            {
-                var entity = _context.ScheduleLessonTimes
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-                _context.ScheduleLessonTimes.Remove(entity);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
-    }
+		public ResultService DeleteScheduleLessonTime(ScheduleLessonTimeGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.ScheduleLessonTimes
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+
+				_context.ScheduleLessonTimes.Remove(entity);
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
+	}
 }

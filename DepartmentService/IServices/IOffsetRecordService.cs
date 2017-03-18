@@ -6,12 +6,12 @@ namespace DepartmentService.IServices
 {
     public interface IOffsetRecordService
     {
-        /// <summary>
-        /// Получения записи о зачете
-        /// </summary>
-        /// <param name="model">Идентификатор аудитории</param>
-        /// <returns></returns>
-        OffsetRecordViewModel GetOffsetRecord(OffsetRecordGetBindingModel model);
+		/// <summary>
+		/// Получения записи о зачете
+		/// </summary>
+		/// <param name="model">Идентификатор аудитории</param>
+		/// <returns></returns>
+		ResultService<OffsetRecordViewModel> GetOffsetRecord(OffsetRecordGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи о зачете

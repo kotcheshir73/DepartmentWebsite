@@ -2,7 +2,6 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
@@ -30,13 +29,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
         {
             if(_id != 0)
             {
-                var entity = _service.GetEducationDirection(new EducationDirectionGetBindingModel { Id = _id });
-                if(entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                }
-                textBoxCipher.Text = entity.Cipher;
+                var result = _service.GetEducationDirection(new EducationDirectionGetBindingModel { Id = _id });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
+				}
+				var entity = result.Result;
+				textBoxCipher.Text = entity.Cipher;
                 textBoxTitle.Text = entity.Title;
                 textBoxDescription.Text = entity.Description;
             }
@@ -86,13 +86,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
                 }
                 else
                 {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+				}
             }
             else
             {

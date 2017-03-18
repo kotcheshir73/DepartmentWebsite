@@ -11,18 +11,18 @@ namespace DepartmentService.IServices
 {
     public interface ISeasonDatesService
     {
-        /// <summary>
-        /// Получение списка дат семестра
-        /// </summary>
-        /// <returns></returns>
-        List<SeasonDatesViewModel> GetSeasonDaties();
+		/// <summary>
+		/// Получение списка дат семестра
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<SeasonDatesViewModel>> GetSeasonDaties();
 
-        /// <summary>
-        /// Получить запись по датам семестра
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        SeasonDatesViewModel GetSeasonDates(SeasonDatesGetBindingModel model);
+		/// <summary>
+		/// Получить запись по датам семестра
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<SeasonDatesViewModel> GetSeasonDates(SeasonDatesGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи по датам семестра

@@ -3,7 +3,6 @@ using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Classroom
@@ -36,13 +35,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
             comboBoxTypeClassroom.SelectedIndex = 0;
             if (!string.IsNullOrEmpty(_id))
             {
-                var entity = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id });
-                if (entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
+				var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id });
+                if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
                 }
-                comboBoxTypeClassroom.SelectedValue = entity.ClassroomType;
+				var entity = result.Result;
+
+				comboBoxTypeClassroom.SelectedValue = entity.ClassroomType;
                 textBoxClassroom.Text = _id;
                 textBoxCapacity.Text = entity.Capacity.ToString();
             }
@@ -99,13 +100,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                     Close();
                 }
                 else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 }
             }
             else

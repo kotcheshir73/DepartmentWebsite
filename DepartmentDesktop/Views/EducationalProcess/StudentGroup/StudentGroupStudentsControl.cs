@@ -21,14 +21,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
         public void LoadData(long studentGroupId)
         {
             _studentGroupId = studentGroupId;
-            var list = _service.GetStudents(new StudentGetBindingModel { StudentGroupId = studentGroupId });
-            if (list == null)
-            {
-                MessageBox.Show("Список пуст!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            dataGridViewList.DataSource = list;
-            if (dataGridViewList.Columns.Count > 0)
+            var result = _service.GetStudents(new StudentGetBindingModel { StudentGroupId = studentGroupId });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
+			}
+			dataGridViewList.DataSource = result.Result;
+			if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].HeaderText = "Номер зачетки";
                 dataGridViewList.Columns[0].Width = 150;

@@ -1,4 +1,5 @@
-﻿using DepartmentDAL.Context;
+﻿using DepartmentDAL;
+using DepartmentDAL.Context;
 using DepartmentService.IServices;
 using DepartmentService.Services;
 using Microsoft.Practices.Unity;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -50,5 +52,16 @@ namespace DepartmentDesktop
         .RegisterInstance<IUnityContainer>(currentContainer);
             return currentContainer;
         }
+
+		public static void PrintErrorMessage(string text, Dictionary<string, string> result)
+		{
+			StringBuilder strRes = new StringBuilder();
+			foreach (var err in result)
+			{
+				strRes.Append(string.Format("{0}: {1}\r\n", err.Key, err.Value));
+			}
+			MessageBox.Show(text + strRes.ToString(), "",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
     }
 }

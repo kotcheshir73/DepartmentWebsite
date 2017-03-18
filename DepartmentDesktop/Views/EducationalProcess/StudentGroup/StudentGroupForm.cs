@@ -4,7 +4,6 @@ using DepartmentService.IServices;
 using System;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
@@ -33,11 +32,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
         }
 
         private void StudentGroupForm_Load(object sender, EventArgs e)
-        {
-            comboBoxEducationDirection.ValueMember = "Value";
+		{
+			var resultED = _service.GetEducationDirections();
+			if (!resultED.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке направлений возникла ошибка: ", resultED.Errors);
+				return;
+			}
+
+			comboBoxEducationDirection.ValueMember = "Value";
             comboBoxEducationDirection.DisplayMember = "Display";
-            comboBoxEducationDirection.DataSource = _service.GetEducationDirections()
-                .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+            comboBoxEducationDirection.DataSource = resultED.Result
+				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
 			var control = new StudentGroupStudentsControl(_serviceS);
             control.Left = 0;
@@ -52,20 +58,29 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
             if (_id != 0)
 			{
+				var resultS = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id });
+				if (!resultS.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке студентов возникла ошибка: ", resultS.Errors);
+					return;
+				}
+
 				comboBoxSteward.ValueMember = "Value";
 				comboBoxSteward.DisplayMember = "Display";
-				comboBoxSteward.DataSource = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id })
+				comboBoxSteward.DataSource = resultS.Result
 					.Select(s => new { Value = s.NumberOfBook, Display = string.Format("{0} {1}", s.LastName, s.FirstName) }).ToList();
 				comboBoxSteward.SelectedItem = null;
 
 				control.LoadData(_id);
-                var entity = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
-                if (entity == null)
-                {
-                    MessageBox.Show("Запись не найдена", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                }
-                comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
+                var result = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
+				if (!result.Succeeded)
+				{
+					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+					Close();
+				}
+				var entity = result.Result;
+
+				comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
                 textBoxGroupName.Text = entity.GroupName;
                 textBoxKurs.Text = entity.Kurs.ToString();
                 textBoxCapacity.Text = entity.Capacity.ToString();
@@ -135,14 +150,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                     Close();
                 }
                 else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show("При сохранении возникла ошибка: " + strRes.ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+				}
             }
             else
             {

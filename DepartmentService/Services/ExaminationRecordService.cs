@@ -6,124 +6,157 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
+using System.Data.Entity.Validation;
+using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
-    public class ExaminationRecordService : IExaminationRecordService
-    {
-        private readonly DepartmentDbContext _context;
+	public class ExaminationRecordService : IExaminationRecordService
+	{
+		private readonly DepartmentDbContext _context;
 
-        public ExaminationRecordService(DepartmentDbContext context)
-        {
-            _context = context;
-        }
+		public ExaminationRecordService(DepartmentDbContext context)
+		{
+			_context = context;
+		}
 
-        public ExaminationRecordViewModel GetExaminationRecord(ExaminationRecordGetBindingModel model)
-        {
-            var entity = _context.ExaminationRecords
-                            .FirstOrDefault(e => e.Id == model.Id);
-            if (entity == null)
-                return null;
-            return ModelFactory.CreateExaminationRecordViewModel(entity);
-        }
+		public ResultService<ExaminationRecordViewModel> GetExaminationRecord(ExaminationRecordGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.ExaminationRecords
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+					return ResultService<ExaminationRecordViewModel>.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				return ResultService<ExaminationRecordViewModel>.Success(
+					ModelFactory.CreateExaminationRecordViewModel(entity));
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<ExaminationRecordViewModel>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<ExaminationRecordViewModel>.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ResultService CreateExaminationRecord(ExaminationRecordRecordBindingModel model)
-        {
-            var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
-            if (currentSetting == null)
-            {
-                return ResultService.Error("error", "currentSetting not found", 404);
-            }
-            var seasonDate = _context.SeasonDates.FirstOrDefault(sd => sd.Title == currentSetting.Value);
-            if (seasonDate == null)
-            {
-                return ResultService.Error("error", "seasonDate not found", 404);
-            }
+		public ResultService CreateExaminationRecord(ExaminationRecordRecordBindingModel model)
+		{
+			var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
+			if (currentSetting == null)
+			{
+				return ResultService.Error("Error:", "CurrentSetting not found",
+					ResultServiceStatusCode.NotFound);
+			}
+			var seasonDate = _context.SeasonDates.FirstOrDefault(sd => sd.Title == currentSetting.Value);
+			if (seasonDate == null)
+			{
+				return ResultService.Error("Error:", "SeasonDate not found",
+					ResultServiceStatusCode.NotFound);
+			}
 
-            var entry = _context.ExaminationRecords.FirstOrDefault(sr => sr.DateConsultation == model.DateConsultation && sr.DateExamination == model.DateExamination &&
-                                                                            sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id);
+			var entry = _context.ExaminationRecords.FirstOrDefault(sr => sr.DateConsultation == model.DateConsultation && sr.DateExamination == model.DateExamination &&
+																			sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id);
 
-            if (entry != null)
-            {
-                return ResultService.Error("exsist_item", "На эту пару уже стоит занятие", 401);
-            }
-            var entity = new ExaminationRecord
-            {
-                Id = model.Id,
-                DateConsultation = model.DateConsultation,
-                DateExamination = model.DateExamination,
-                SeasonDatesId = seasonDate.Id,
+			if (entry != null)
+			{
+				return ResultService.Error("Error:", "Exsist ExaminationRecord",
+					ResultServiceStatusCode.ExsistItem);
+			}
+			var entity = new ExaminationRecord
+			{
+				Id = model.Id,
+				DateConsultation = model.DateConsultation,
+				DateExamination = model.DateExamination,
+				SeasonDatesId = seasonDate.Id,
 
-                LessonDiscipline = model.LessonDiscipline,
-                LessonLecturer = model.LessonLecturer,
-                LessonGroup = model.LessonGroup,
-                LessonClassroom = model.LessonClassroom,
+				LessonDiscipline = model.LessonDiscipline,
+				LessonLecturer = model.LessonLecturer,
+				LessonGroup = model.LessonGroup,
+				LessonClassroom = model.LessonClassroom,
 
-                ClassroomId = model.ClassroomId,
-                LecturerId = model.LecturerId,
-                StudentGroupId = model.StudentGroupId
-            };
-            try
-            {
-                _context.ExaminationRecords.Add(entity);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+				ClassroomId = model.ClassroomId,
+				LecturerId = model.LecturerId,
+				StudentGroupId = model.StudentGroupId
+			};
+			try
+			{
+				_context.ExaminationRecords.Add(entity);
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ResultService UpdateExaminationRecord(ExaminationRecordRecordBindingModel model)
-        {
-            try
-            {
-                var entity = _context.ExaminationRecords
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
-                entity.LessonDiscipline = model.LessonDiscipline;
-                entity.LessonGroup = model.LessonGroup;
-                entity.LessonLecturer = model.LessonLecturer;
-                entity.LessonClassroom = model.LessonClassroom;
-                if (!string.IsNullOrEmpty(model.ClassroomId))
-                {
-                    entity.ClassroomId = model.ClassroomId;
-                }
-                entity.LecturerId = model.LecturerId;
-                entity.StudentGroupId = model.StudentGroupId;
-                _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+		public ResultService UpdateExaminationRecord(ExaminationRecordRecordBindingModel model)
+		{
+			try
+			{
+				var entity = _context.ExaminationRecords
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.LessonDiscipline = model.LessonDiscipline;
+				entity.LessonGroup = model.LessonGroup;
+				entity.LessonLecturer = model.LessonLecturer;
+				entity.LessonClassroom = model.LessonClassroom;
+				if (!string.IsNullOrEmpty(model.ClassroomId))
+				{
+					entity.ClassroomId = model.ClassroomId;
+				}
+				entity.LecturerId = model.LecturerId;
+				entity.StudentGroupId = model.StudentGroupId;
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ResultService DeleteExaminationRecord(ExaminationRecordGetBindingModel model)
-        {
-            try
-            {
-                var entity = _context.ExaminationRecords
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
+		public ResultService DeleteExaminationRecord(ExaminationRecordGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.ExaminationRecords
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
 
-                _context.ExaminationRecords.Remove(entity);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
-    }
+				_context.ExaminationRecords.Remove(entity);
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
+	}
 }

@@ -7,104 +7,148 @@ using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using DepartmentDAL.Context;
 using DepartmentDAL.Models;
+using System.Data.Entity.Validation;
+using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
-    public class StudentHistoryService : IStudentHistoryService
-    {
-        private readonly DepartmentDbContext _context;
+	public class StudentHistoryService : IStudentHistoryService
+	{
+		private readonly DepartmentDbContext _context;
 
-        public StudentHistoryService(DepartmentDbContext context)
-        {
-            _context = context;
-        }
+		public StudentHistoryService(DepartmentDbContext context)
+		{
+			_context = context;
+		}
 
-        public List<StudentHistoryViewModel> GetStudentHistorys(StudentHistoryGetBindingModel model)
-        {
-            if (!string.IsNullOrEmpty(model.NumberOfBook))
-            {
-                return ModelFactory.CreateStudentHistorys(
-                                    _context.StudentHistorys
-                                       .Where(sh => sh.StudentId == model.NumberOfBook))
-                                .ToList();
-            }
-            return ModelFactory.CreateStudentHistorys(
-                    _context.StudentHistorys)
-                .ToList();
-        }
+		public ResultService<List<StudentHistoryViewModel>> GetStudentHistorys(StudentHistoryGetBindingModel model)
+		{
+			try
+			{
+				if (!string.IsNullOrEmpty(model.NumberOfBook))
+				{
+					return ResultService<List<StudentHistoryViewModel>>.Success(
+						ModelFactory.CreateStudentHistorys(_context.StudentHistorys
+										   .Where(sh => sh.StudentId == model.NumberOfBook))
+									.ToList());
+				}
+				return ResultService<List<StudentHistoryViewModel>>.Success(
+					ModelFactory.CreateStudentHistorys(_context.StudentHistorys)
+					.ToList());
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<List<StudentHistoryViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<List<StudentHistoryViewModel>>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+		}
 
-        public StudentHistoryViewModel GetStudentHistory(StudentHistoryGetBindingModel model)
-        {
-            var entity = _context.StudentHistorys
-                            .FirstOrDefault(e => e.Id == model.Id);
-            if (entity == null)
-                return null;
-            return ModelFactory.CreateStudentHistoryViewModel(entity);
-        }
+		public ResultService<StudentHistoryViewModel> GetStudentHistory(StudentHistoryGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.StudentHistorys
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+					return ResultService<StudentHistoryViewModel>.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
 
-        public ResultService CreateStudentHistory(StudentHistoryRecordBindingModel model)
-        {
-            var entity = new StudentHistory
-            {
-                StudentId = model.NumberOfBook,
-                DateCreate = model.DateCreate,
-                TextMessage = model.TextMessage
-            };
-            try
-            {
-                _context.StudentHistorys.Add(entity);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+				return ResultService<StudentHistoryViewModel>.Success(
+					ModelFactory.CreateStudentHistoryViewModel(entity));
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<StudentHistoryViewModel>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<StudentHistoryViewModel>.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-        public ResultService UpdateStudentHistory(StudentHistoryRecordBindingModel model)
-        {
-            try
-            {
-                var entity = _context.StudentHistorys
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
-                entity.DateCreate = model.DateCreate;
-                entity.TextMessage = model.TextMessage;
+		public ResultService CreateStudentHistory(StudentHistoryRecordBindingModel model)
+		{
+			var entity = new StudentHistory
+			{
+				StudentId = model.NumberOfBook,
+				DateCreate = model.DateCreate,
+				TextMessage = model.TextMessage
+			};
+			try
+			{
+				_context.StudentHistorys.Add(entity);
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-                _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
+		public ResultService UpdateStudentHistory(StudentHistoryRecordBindingModel model)
+		{
+			try
+			{
+				var entity = _context.StudentHistorys
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.DateCreate = model.DateCreate;
+				entity.TextMessage = model.TextMessage;
 
-        public ResultService DeleteStudentHistory(StudentHistoryGetBindingModel model)
-        {
-            try
-            {
-                var entity = _context.StudentHistorys
-                                .FirstOrDefault(e => e.Id == model.Id);
-                if (entity == null)
-                {
-                    return ResultService.Error("entity", "not_found", 404);
-                }
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
 
-                _context.StudentHistorys.Remove(entity);
+		public ResultService DeleteStudentHistory(StudentHistoryGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.StudentHistorys
+								.FirstOrDefault(e => e.Id == model.Id);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
 
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error("error", ex.Message, 400);
-            }
-        }
-    }
+				_context.StudentHistorys.Remove(entity);
+
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
+	}
 }

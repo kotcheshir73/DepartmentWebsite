@@ -52,6 +52,7 @@
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
+    <Compile Include="Enums\ResultServiceStatusCode.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
     <Compile Include="Enums\StudentState.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.cs" />

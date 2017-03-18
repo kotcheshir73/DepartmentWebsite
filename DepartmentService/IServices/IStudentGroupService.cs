@@ -7,24 +7,24 @@ namespace DepartmentService.IServices
 {
     public interface IStudentGroupService
     {
-        /// <summary>
-        /// Получение списка групп
-        /// </summary>
-        /// <returns></returns>
-        List<StudentGroupViewModel> GetStudentGroups();
+		/// <summary>
+		/// Получение списка групп
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<StudentGroupViewModel>> GetStudentGroups();
 
-        /// <summary>
-        /// Получение списка направлений
-        /// </summary>
-        /// <returns></returns>
-        List<EducationDirectionViewModel> GetEducationDirections();
+		/// <summary>
+		/// Получение списка направлений
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<EducationDirectionViewModel>> GetEducationDirections();
 
-        /// <summary>
-        /// Получения группы
-        /// </summary>
-        /// <param name="model">Идентификатор группы</param>
-        /// <returns></returns>
-        StudentGroupViewModel GetStudentGroup(StudentGroupGetBindingModel model);
+		/// <summary>
+		/// Получения группы
+		/// </summary>
+		/// <param name="model">Идентификатор группы</param>
+		/// <returns></returns>
+		ResultService<StudentGroupViewModel> GetStudentGroup(StudentGroupGetBindingModel model);
 
         /// <summary>
         /// Создание новой группы

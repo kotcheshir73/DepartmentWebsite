@@ -7,18 +7,18 @@ namespace DepartmentService.IServices
 {
     public interface IStreamingLessonService
     {
-        /// <summary>
-        /// Получение списка потоковых занятий
-        /// </summary>
-        /// <returns></returns>
-        List<StreamingLessonViewModel> GetStreamingLessons();
+		/// <summary>
+		/// Получение списка потоковых занятий
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<StreamingLessonViewModel>> GetStreamingLessons();
 
-        /// <summary>
-        /// Получения потока
-        /// </summary>
-        /// <param name="model">Идентификатор аудитории</param>
-        /// <returns></returns>
-        StreamingLessonViewModel GetStreamingLesson(StreamingLessonGetBindingModel model);
+		/// <summary>
+		/// Получения потока
+		/// </summary>
+		/// <param name="model">Идентификатор аудитории</param>
+		/// <returns></returns>
+		ResultService<StreamingLessonViewModel> GetStreamingLesson(StreamingLessonGetBindingModel model);
 
         /// <summary>
         /// Создание нового потока

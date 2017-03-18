@@ -6,12 +6,12 @@ namespace DepartmentService.IServices
 {
     public interface ISemesterRecordService
     {
-        /// <summary>
-        /// Получения записи о паре
-        /// </summary>
-        /// <param name="model">Идентификатор аудитории</param>
-        /// <returns></returns>
-        SemesterRecordViewModel GetSemesterRecord(SemesterRecordGetBindingModel model);
+		/// <summary>
+		/// Получения записи о паре
+		/// </summary>
+		/// <param name="model">Идентификатор аудитории</param>
+		/// <returns></returns>
+		ResultService<SemesterRecordViewModel> GetSemesterRecord(SemesterRecordGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи о паре
