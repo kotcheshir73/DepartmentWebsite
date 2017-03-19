@@ -95,7 +95,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var result = _serviceS.TransferToNextYearStudents(new StudentTransferBindingModel
+			var result = _serviceS.TransferStudents(new StudentTransferBindingModel
 			{
 				TransferDate = dateTimePickerTransferDate.Value,
 				TransferReason = textBoxTransferReason.Text,
@@ -112,6 +112,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			{
 				Program.PrintErrorMessage("Ошибка при сохранении спсика: ", result.Errors);
 			}
+		}
+
+		private void buttonClose_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.Cancel;
+			Close();
 		}
 	}
 }

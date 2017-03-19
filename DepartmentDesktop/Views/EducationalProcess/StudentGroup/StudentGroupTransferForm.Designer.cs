@@ -29,6 +29,11 @@
 		private void InitializeComponent()
 		{
 			this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
+			this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.ColumnNumberOfBook = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnPatronymic = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dateTimePickerTransferDate = new System.Windows.Forms.DateTimePicker();
 			this.textBoxTransferReason = new System.Windows.Forms.TextBox();
 			this.labelTransferReason = new System.Windows.Forms.Label();
@@ -36,11 +41,6 @@
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.labelNewStudentGroup = new System.Windows.Forms.Label();
 			this.comboBoxNewStudentGroup = new System.Windows.Forms.ComboBox();
-			this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.ColumnNumberOfBook = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnPatronymic = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
 			this.SuspendLayout();
@@ -49,6 +49,7 @@
 			// 
 			this.dataGridViewStudents.AllowUserToAddRows = false;
 			this.dataGridViewStudents.AllowUserToDeleteRows = false;
+			this.dataGridViewStudents.AllowUserToResizeRows = false;
 			this.dataGridViewStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -64,66 +65,6 @@
 			this.dataGridViewStudents.RowHeadersVisible = false;
 			this.dataGridViewStudents.Size = new System.Drawing.Size(734, 331);
 			this.dataGridViewStudents.TabIndex = 6;
-			// 
-			// dateTimePickerTransferDate
-			// 
-			this.dateTimePickerTransferDate.Location = new System.Drawing.Point(581, 7);
-			this.dateTimePickerTransferDate.Name = "dateTimePickerTransferDate";
-			this.dateTimePickerTransferDate.Size = new System.Drawing.Size(141, 20);
-			this.dateTimePickerTransferDate.TabIndex = 2;
-			// 
-			// textBoxTransferReason
-			// 
-			this.textBoxTransferReason.Location = new System.Drawing.Point(81, 7);
-			this.textBoxTransferReason.Name = "textBoxTransferReason";
-			this.textBoxTransferReason.Size = new System.Drawing.Size(494, 20);
-			this.textBoxTransferReason.TabIndex = 1;
-			// 
-			// labelTransferReason
-			// 
-			this.labelTransferReason.AutoSize = true;
-			this.labelTransferReason.Location = new System.Drawing.Point(12, 10);
-			this.labelTransferReason.Name = "labelTransferReason";
-			this.labelTransferReason.Size = new System.Drawing.Size(63, 13);
-			this.labelTransferReason.TabIndex = 0;
-			this.labelTransferReason.Text = "Основание";
-			// 
-			// buttonClose
-			// 
-			this.buttonClose.Location = new System.Drawing.Point(646, 400);
-			this.buttonClose.Name = "buttonClose";
-			this.buttonClose.Size = new System.Drawing.Size(75, 25);
-			this.buttonClose.TabIndex = 8;
-			this.buttonClose.Text = "Закрыть";
-			this.buttonClose.UseVisualStyleBackColor = true;
-			// 
-			// buttonSave
-			// 
-			this.buttonSave.Location = new System.Drawing.Point(565, 400);
-			this.buttonSave.Name = "buttonSave";
-			this.buttonSave.Size = new System.Drawing.Size(75, 25);
-			this.buttonSave.TabIndex = 7;
-			this.buttonSave.Text = "Сохранить";
-			this.buttonSave.UseVisualStyleBackColor = true;
-			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-			// 
-			// labelNewStudentGroup
-			// 
-			this.labelNewStudentGroup.AutoSize = true;
-			this.labelNewStudentGroup.Location = new System.Drawing.Point(136, 36);
-			this.labelNewStudentGroup.Name = "labelNewStudentGroup";
-			this.labelNewStudentGroup.Size = new System.Drawing.Size(189, 13);
-			this.labelNewStudentGroup.TabIndex = 4;
-			this.labelNewStudentGroup.Text = "Группа, куда переводятся студенты";
-			// 
-			// comboBoxNewStudentGroup
-			// 
-			this.comboBoxNewStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxNewStudentGroup.FormattingEnabled = true;
-			this.comboBoxNewStudentGroup.Location = new System.Drawing.Point(331, 33);
-			this.comboBoxNewStudentGroup.Name = "comboBoxNewStudentGroup";
-			this.comboBoxNewStudentGroup.Size = new System.Drawing.Size(130, 21);
-			this.comboBoxNewStudentGroup.TabIndex = 5;
 			// 
 			// ColumnSelect
 			// 
@@ -158,6 +99,67 @@
 			this.ColumnPatronymic.HeaderText = "Отчество";
 			this.ColumnPatronymic.Name = "ColumnPatronymic";
 			this.ColumnPatronymic.ReadOnly = true;
+			// 
+			// dateTimePickerTransferDate
+			// 
+			this.dateTimePickerTransferDate.Location = new System.Drawing.Point(581, 7);
+			this.dateTimePickerTransferDate.Name = "dateTimePickerTransferDate";
+			this.dateTimePickerTransferDate.Size = new System.Drawing.Size(141, 20);
+			this.dateTimePickerTransferDate.TabIndex = 2;
+			// 
+			// textBoxTransferReason
+			// 
+			this.textBoxTransferReason.Location = new System.Drawing.Point(81, 7);
+			this.textBoxTransferReason.Name = "textBoxTransferReason";
+			this.textBoxTransferReason.Size = new System.Drawing.Size(494, 20);
+			this.textBoxTransferReason.TabIndex = 1;
+			// 
+			// labelTransferReason
+			// 
+			this.labelTransferReason.AutoSize = true;
+			this.labelTransferReason.Location = new System.Drawing.Point(12, 10);
+			this.labelTransferReason.Name = "labelTransferReason";
+			this.labelTransferReason.Size = new System.Drawing.Size(63, 13);
+			this.labelTransferReason.TabIndex = 0;
+			this.labelTransferReason.Text = "Основание";
+			// 
+			// buttonClose
+			// 
+			this.buttonClose.Location = new System.Drawing.Point(646, 400);
+			this.buttonClose.Name = "buttonClose";
+			this.buttonClose.Size = new System.Drawing.Size(75, 25);
+			this.buttonClose.TabIndex = 8;
+			this.buttonClose.Text = "Закрыть";
+			this.buttonClose.UseVisualStyleBackColor = true;
+			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+			// 
+			// buttonSave
+			// 
+			this.buttonSave.Location = new System.Drawing.Point(565, 400);
+			this.buttonSave.Name = "buttonSave";
+			this.buttonSave.Size = new System.Drawing.Size(75, 25);
+			this.buttonSave.TabIndex = 7;
+			this.buttonSave.Text = "Сохранить";
+			this.buttonSave.UseVisualStyleBackColor = true;
+			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+			// 
+			// labelNewStudentGroup
+			// 
+			this.labelNewStudentGroup.AutoSize = true;
+			this.labelNewStudentGroup.Location = new System.Drawing.Point(136, 36);
+			this.labelNewStudentGroup.Name = "labelNewStudentGroup";
+			this.labelNewStudentGroup.Size = new System.Drawing.Size(189, 13);
+			this.labelNewStudentGroup.TabIndex = 4;
+			this.labelNewStudentGroup.Text = "Группа, куда переводятся студенты";
+			// 
+			// comboBoxNewStudentGroup
+			// 
+			this.comboBoxNewStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxNewStudentGroup.FormattingEnabled = true;
+			this.comboBoxNewStudentGroup.Location = new System.Drawing.Point(331, 33);
+			this.comboBoxNewStudentGroup.Name = "comboBoxNewStudentGroup";
+			this.comboBoxNewStudentGroup.Size = new System.Drawing.Size(130, 21);
+			this.comboBoxNewStudentGroup.TabIndex = 5;
 			// 
 			// checkBoxSelectAll
 			// 

@@ -108,5 +108,23 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				LoadData(_studentGroupId);
 			}
 		}
+
+		private void deductionStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var form = new StudentGroupDeductionForm(_service, _serviceS, _studentGroupId);
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				LoadData(_studentGroupId);
+			}
+		}
+
+		private void toAcademStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var form = new StudentGroupToAcademForm(_service, _serviceS, _studentGroupId);
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				LoadData(_studentGroupId);
+			}
+		}
 	}
 }

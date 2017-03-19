@@ -31,13 +31,15 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentGroupStudentsControl));
 			this.dataGridViewList = new System.Windows.Forms.DataGridView();
 			this.toolStripMenu = new System.Windows.Forms.ToolStrip();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonUpd = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.enrollmentStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.transferStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.deductionStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toAcademStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
 			this.toolStripMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -46,6 +48,7 @@
 			// 
 			this.dataGridViewList.AllowUserToAddRows = false;
 			this.dataGridViewList.AllowUserToDeleteRows = false;
+			this.dataGridViewList.AllowUserToResizeRows = false;
 			this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
 			this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -71,16 +74,6 @@
 			this.toolStripMenu.TabIndex = 0;
 			this.toolStripMenu.Text = "Действия";
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-			// 
 			// toolStripButtonUpd
 			// 
 			this.toolStripButtonUpd.Image = global::DepartmentDesktop.Properties.Resources.Upd;
@@ -89,6 +82,11 @@
 			this.toolStripButtonUpd.Size = new System.Drawing.Size(81, 22);
 			this.toolStripButtonUpd.Text = "Изменить";
 			this.toolStripButtonUpd.Click += new System.EventHandler(this.toolStripButtonUpd_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// toolStripButtonRef
 			// 
@@ -99,12 +97,19 @@
 			this.toolStripButtonRef.Text = "Обновить";
 			this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+			// 
 			// toolStripDropDownButton1
 			// 
 			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enrollmentStudentsToolStripMenuItem,
-            this.transferStudentsToolStripMenuItem});
+            this.transferStudentsToolStripMenuItem,
+            this.deductionStudentsToolStripMenuItem,
+            this.toAcademStudentsToolStripMenuItem});
 			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
 			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -114,16 +119,30 @@
 			// enrollmentStudentsToolStripMenuItem
 			// 
 			this.enrollmentStudentsToolStripMenuItem.Name = "enrollmentStudentsToolStripMenuItem";
-			this.enrollmentStudentsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+			this.enrollmentStudentsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.enrollmentStudentsToolStripMenuItem.Text = "Зачислить студентов";
 			this.enrollmentStudentsToolStripMenuItem.Click += new System.EventHandler(this.enrollmentStudentsToolStripMenuItem_Click);
 			// 
 			// transferStudentsToolStripMenuItem
 			// 
 			this.transferStudentsToolStripMenuItem.Name = "transferStudentsToolStripMenuItem";
-			this.transferStudentsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+			this.transferStudentsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.transferStudentsToolStripMenuItem.Text = "Перевести студентов";
 			this.transferStudentsToolStripMenuItem.Click += new System.EventHandler(this.transferStudentsToolStripMenuItem_Click);
+			// 
+			// deductionStudentsToolStripMenuItem
+			// 
+			this.deductionStudentsToolStripMenuItem.Name = "deductionStudentsToolStripMenuItem";
+			this.deductionStudentsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.deductionStudentsToolStripMenuItem.Text = "Отчислить студентов";
+			this.deductionStudentsToolStripMenuItem.Click += new System.EventHandler(this.deductionStudentsToolStripMenuItem_Click);
+			// 
+			// toAcademStudentsToolStripMenuItem
+			// 
+			this.toAcademStudentsToolStripMenuItem.Name = "toAcademStudentsToolStripMenuItem";
+			this.toAcademStudentsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.toAcademStudentsToolStripMenuItem.Text = "Перевести в академ";
+			this.toAcademStudentsToolStripMenuItem.Click += new System.EventHandler(this.toAcademStudentsToolStripMenuItem_Click);
 			// 
 			// StudentGroupStudentsControl
 			// 
@@ -152,5 +171,7 @@
 		private System.Windows.Forms.ToolStripButton toolStripButtonUpd;
 		private System.Windows.Forms.ToolStripMenuItem enrollmentStudentsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem transferStudentsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deductionStudentsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toAcademStudentsToolStripMenuItem;
 	}
 }
