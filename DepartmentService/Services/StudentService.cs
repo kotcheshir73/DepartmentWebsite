@@ -30,17 +30,26 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				var query = _context.Students.AsQueryable();
 				if (model.StudentGroupId.HasValue)
 				{
+					query = query.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted);
 					return ResultService<List<StudentViewModel>>.Success(
-						ModelFactory.CreateStudents(_context.Students
+						ModelFactory.CreateStudents(query
 							.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted)
 							)
 					.OrderBy(s => s.LastName).ToList());
 				}
+				if(model.StudentStatus.HasValue)
+				{
+					query = query.Where(e => e.StudentState == model.StudentStatus.Value && !e.IsDeleted);
+				}
+				if(model.PageNumber.HasValue)
+				{
+					query = query.Skip(model.PageSize * model.PageNumber.Value).Take(model.PageSize);
+				}
 				return ResultService<List<StudentViewModel>>.Success(
-					ModelFactory.CreateStudents(_context.Students
-							.Where(e => !e.IsDeleted))
+					ModelFactory.CreateStudents(query)
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
@@ -145,6 +154,11 @@ namespace DepartmentService.Services
 			{
 				try
 				{
+					if (model.StudentList.Count <= 0)
+					{
+						return ResultService.Error("Error:", "Students not found",
+							ResultServiceStatusCode.NotFound);
+					}
 					for (int i = 0; i < model.StudentList.Count; ++i)
 					{
 						var entity = new Student
@@ -185,7 +199,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService TransferToNextYearStudents(StudentTransferBindingModel model)
+		public ResultService TransferStudents(StudentTransferBindingModel model)
 		{
 			using (var transaction = _context.Database.BeginTransaction())
 			{
@@ -205,7 +219,7 @@ namespace DepartmentService.Services
 					}
 					var oldGroup = _context.StudentGroups
 						.FirstOrDefault(st => st.Id == model.OldStudentGroupId);
-					if (newGroup == null)
+					if (oldGroup == null)
 					{
 						return ResultService.Error("Error:", "OldStudentGroup not found",
 							ResultServiceStatusCode.NotFound);
@@ -238,6 +252,132 @@ namespace DepartmentService.Services
 							DateCreate = DateTime.Now,
 							TextMessage = string.Format("Студент переведен в группу {0} на основании: {1} {2}", entity.StudentGroup.GroupName,
 								model.TransferReason, model.TransferDate.ToShortDateString())
+						};
+						_context.StudentHistorys.Add(entityHistory);
+						_context.SaveChanges();
+					}
+					transaction.Commit();
+					return ResultService.Success();
+				}
+				catch (DbEntityValidationException ex)
+				{
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+				catch (Exception ex)
+				{
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+			}
+		}
+
+		public ResultService DeductionStudents(StudentDeductionBindingModel model)
+		{
+			using (var transaction = _context.Database.BeginTransaction())
+			{
+				try
+				{
+					if (model.StudentList.Count <= 0)
+					{
+						return ResultService.Error("Error:", "Students not found",
+							ResultServiceStatusCode.NotFound);
+					}
+					var oldGroup = _context.StudentGroups
+						.FirstOrDefault(st => st.Id == model.StudentGroupId);
+					if (oldGroup == null)
+					{
+						return ResultService.Error("Error:", "OldStudentGroup not found",
+							ResultServiceStatusCode.NotFound);
+					}
+					for (int i = 0; i < model.StudentList.Count; ++i)
+					{
+						string numberofBook = model.StudentList[i].NumberOfBook;
+						var entity = _context.Students
+								.FirstOrDefault(e => e.NumberOfBook == numberofBook && !e.IsDeleted);
+						if (entity == null)
+						{
+							return ResultService.Error("Error:", "Student not found",
+								ResultServiceStatusCode.NotFound);
+						}
+						entity.StudentState = StudentState.Завершил;
+						entity.StudentGroup = null;
+						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+						_context.SaveChanges();
+						if (oldGroup.StewardId == numberofBook)
+						{
+							oldGroup.Steward = null;
+							_context.Entry(oldGroup).State = System.Data.Entity.EntityState.Modified;
+							_context.SaveChanges();
+						}
+
+						var entityHistory = new StudentHistory
+						{
+							StudentId = entity.NumberOfBook,
+							DateCreate = DateTime.Now,
+							TextMessage = string.Format("Студент отчислен на основании: {0}. Приказ №{1} от {2}",
+								model.DeductionReason, model.DeductionOrderNumber, model.DeductionDate.ToShortDateString())
+						};
+						_context.StudentHistorys.Add(entityHistory);
+						_context.SaveChanges();
+					}
+					transaction.Commit();
+					return ResultService.Success();
+				}
+				catch (DbEntityValidationException ex)
+				{
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+				catch (Exception ex)
+				{
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+			}
+		}
+
+		public ResultService ToAcademStudents(StudentToAcademBindingModel model)
+		{
+			using (var transaction = _context.Database.BeginTransaction())
+			{
+				try
+				{
+					if (model.StudentList.Count <= 0)
+					{
+						return ResultService.Error("Error:", "Students not found",
+							ResultServiceStatusCode.NotFound);
+					}
+					var oldGroup = _context.StudentGroups
+						.FirstOrDefault(st => st.Id == model.StudentGroupId);
+					if (oldGroup == null)
+					{
+						return ResultService.Error("Error:", "OldStudentGroup not found",
+							ResultServiceStatusCode.NotFound);
+					}
+					for (int i = 0; i < model.StudentList.Count; ++i)
+					{
+						string numberofBook = model.StudentList[i].NumberOfBook;
+						var entity = _context.Students
+								.FirstOrDefault(e => e.NumberOfBook == numberofBook && !e.IsDeleted);
+						if (entity == null)
+						{
+							return ResultService.Error("Error:", "Student not found",
+								ResultServiceStatusCode.NotFound);
+						}
+						entity.StudentState = StudentState.Академ;
+						entity.StudentGroup = null;
+						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+						_context.SaveChanges();
+						if (oldGroup.StewardId == numberofBook)
+						{
+							oldGroup.Steward = null;
+							_context.Entry(oldGroup).State = System.Data.Entity.EntityState.Modified;
+							_context.SaveChanges();
+						}
+
+						var entityHistory = new StudentHistory
+						{
+							StudentId = entity.NumberOfBook,
+							DateCreate = DateTime.Now,
+							TextMessage = string.Format("Студент ушел в академ на основании: {0}. Приказ №{1} от {2}",
+								model.ToAcademReason, model.ToAcademOrderNumber, model.ToAcademDate.ToShortDateString())
 						};
 						_context.StudentHistorys.Add(entityHistory);
 						_context.SaveChanges();

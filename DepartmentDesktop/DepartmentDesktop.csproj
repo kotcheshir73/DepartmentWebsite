@@ -115,6 +115,12 @@
     <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.Designer.cs">
       <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.Designer.cs">
+      <DependentUpon>StudentGroupDeductionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupEnrollmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,12 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupStudentsControl.Designer.cs">
       <DependentUpon>StudentGroupStudentsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupToAcademForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupToAcademForm.Designer.cs">
+      <DependentUpon>StudentGroupToAcademForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.cs">
       <SubType>Form</SubType>
@@ -345,11 +357,17 @@
     <EmbeddedResource Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.resx">
       <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.resx">
+      <DependentUpon>StudentGroupDeductionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupEnrollmentForm.resx">
       <DependentUpon>StudentGroupEnrollmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupStudentsControl.resx">
       <DependentUpon>StudentGroupStudentsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupToAcademForm.resx">
+      <DependentUpon>StudentGroupToAcademForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.resx">
       <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>

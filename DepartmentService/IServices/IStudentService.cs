@@ -46,7 +46,21 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService TransferToNextYearStudents(StudentTransferBindingModel model);
+		ResultService TransferStudents(StudentTransferBindingModel model);
+
+		/// <summary>
+		/// Отчисление студентов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService DeductionStudents(StudentDeductionBindingModel model);
+
+		/// <summary>
+		/// Уход студентов в академ
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ToAcademStudents(StudentToAcademBindingModel model);
 
 		/// <summary>
 		/// Изменение студента

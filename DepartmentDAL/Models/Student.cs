@@ -24,7 +24,7 @@ namespace DepartmentDAL.Models
         [Display(Name = "Удален")]
         public bool IsDeleted { get; set; }
 
-        public long StudentGroupId { get; set; }
+        public long? StudentGroupId { get; set; }
 
         [Display(Name = "Имя")]
         [MaxLength(20)]

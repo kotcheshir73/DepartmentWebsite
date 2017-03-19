@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentDAL.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,6 +10,14 @@ namespace DepartmentService.BindingModels
         public string NumberOfBook { get; set; }
 
         public long? StudentGroupId { get; set; }
+
+		public StudentState? StudentStatus { get; set; }
+
+		public int? PageNumber { get; set; }
+
+		public int PageSize { get; set; }
+
+		public int CountRecords { get; set; }
     }
 
     public class StudentHistoryGetBindingModel
@@ -70,6 +79,31 @@ namespace DepartmentService.BindingModels
 		public string TransferReason { get; set; }
 	}
 
+	public class StudentDeductionBindingModel
+	{
+		public List<StudentRecordBindingModel> StudentList { get; set; }
+
+		public long StudentGroupId { get; set; }
+
+		public DateTime DeductionDate { get; set; }
+
+		public string DeductionReason { get; set; }
+
+		public string DeductionOrderNumber { get; set; }
+	}
+
+	public class StudentToAcademBindingModel
+	{
+		public List<StudentRecordBindingModel> StudentList { get; set; }
+
+		public long StudentGroupId { get; set; }
+
+		public DateTime ToAcademDate { get; set; }
+
+		public string ToAcademReason { get; set; }
+
+		public string ToAcademOrderNumber { get; set; }
+	}
 
 	public class StudentHistoryRecordBindingModel
     {

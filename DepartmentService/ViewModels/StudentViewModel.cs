@@ -14,7 +14,7 @@ namespace DepartmentService.ViewModels
 
         public Image Photo { get; set; }
 
-        public long StudentGroupId { get; set; }
+        public long? StudentGroupId { get; set; }
 
         public string StudentGroup { get; set; }
 
