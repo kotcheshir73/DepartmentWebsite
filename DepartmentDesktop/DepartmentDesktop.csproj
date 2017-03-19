@@ -145,6 +145,12 @@
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.Designer.cs">
       <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\Student\StudentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Student\StudentControl.Designer.cs">
+      <DependentUpon>StudentControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\Student\StudentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -371,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.resx">
       <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\Student\StudentControl.resx">
+      <DependentUpon>StudentControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Student\StudentForm.resx">
       <DependentUpon>StudentForm.cs</DependentUpon>

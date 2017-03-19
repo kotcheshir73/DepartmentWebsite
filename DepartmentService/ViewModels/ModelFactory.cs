@@ -72,13 +72,14 @@ namespace DepartmentService.ViewModels
                 Patronymic = entity.Patronymic,
                 Description = entity.Description,
                 Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
-                StudentGroupId = entity.StudentGroupId
+                StudentGroupId = entity.StudentGroupId,
+				StudentGroup = entity.StudentGroup.GroupName
             };
         }
 
         public static IEnumerable<StudentViewModel> CreateStudents(IEnumerable<Student> entities)
         {
-            return entities.Select(e => CreateStudentViewModel(e)).OrderBy(e => e.NumberOfBook);
+            return entities.Select(e => CreateStudentViewModel(e));
         }
 
         public static StudentHistoryViewModel CreateStudentHistoryViewModel(StudentHistory entity)

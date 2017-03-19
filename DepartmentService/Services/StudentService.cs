@@ -11,6 +11,7 @@ using System.Data.Entity.Validation;
 using Microsoft.Office.Interop.Word;
 using System.IO;
 using DepartmentDAL.Enums;
+using System.Data.Entity;
 
 namespace DepartmentService.Services
 {
@@ -30,15 +31,10 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				var query = _context.Students.AsQueryable();
+				var query = _context.Students.Include(s => s.StudentGroup).AsQueryable();
 				if (model.StudentGroupId.HasValue)
 				{
 					query = query.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted);
-					return ResultService<List<StudentViewModel>>.Success(
-						ModelFactory.CreateStudents(query
-							.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted)
-							)
-					.OrderBy(s => s.LastName).ToList());
 				}
 				if(model.StudentStatus.HasValue)
 				{
@@ -46,6 +42,7 @@ namespace DepartmentService.Services
 				}
 				if(model.PageNumber.HasValue)
 				{
+					query = query.OrderBy(e => e.StudentGroupId).ThenBy(s => s.LastName);
 					query = query.Skip(model.PageSize * model.PageNumber.Value).Take(model.PageSize);
 				}
 				return ResultService<List<StudentViewModel>>.Success(

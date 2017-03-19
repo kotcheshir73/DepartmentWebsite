@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using DepartmentService;
 using Microsoft.Practices.Unity;
+using DepartmentDAL.Enums;
 
 namespace DepartmentDesktop
 {
@@ -201,6 +202,34 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData(1);
         }
-        #endregion
-    }
+		#endregion
+
+		private void studentsStudentToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Учится);
+		}
+
+		private void studentsGraduateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Завершил);
+		}
+
+		private void studentsAcademToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Академ);
+		}
+
+		private void studentsDeductionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Отчислен);
+		}
+	}
 }
