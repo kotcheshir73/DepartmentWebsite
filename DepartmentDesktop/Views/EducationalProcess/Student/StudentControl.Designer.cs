@@ -28,17 +28,21 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentControl));
 			this.toolStripMenu = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonUpd = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
 			this.dataGridViewList = new System.Windows.Forms.DataGridView();
 			this.panelDown = new System.Windows.Forms.Panel();
+			this.labelFromCountPages = new System.Windows.Forms.Label();
 			this.buttonNext = new System.Windows.Forms.Button();
 			this.textBoxPageNumber = new System.Windows.Forms.TextBox();
 			this.buttonPrev = new System.Windows.Forms.Button();
 			this.labelPage = new System.Windows.Forms.Label();
-			this.labelFromCountPages = new System.Windows.Forms.Label();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripDropDownButtonMoves = new System.Windows.Forms.ToolStripDropDownButton();
+			this.восстановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
 			this.panelDown.SuspendLayout();
@@ -49,7 +53,9 @@
 			this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonUpd,
             this.toolStripSeparator2,
-            this.toolStripButtonRef});
+            this.toolStripButtonRef,
+            this.toolStripSeparator1,
+            this.toolStripDropDownButtonMoves});
 			this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
 			this.toolStripMenu.Name = "toolStripMenu";
 			this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -106,6 +112,15 @@
 			this.panelDown.Size = new System.Drawing.Size(800, 25);
 			this.panelDown.TabIndex = 4;
 			// 
+			// labelFromCountPages
+			// 
+			this.labelFromCountPages.AutoSize = true;
+			this.labelFromCountPages.Location = new System.Drawing.Point(156, 6);
+			this.labelFromCountPages.Name = "labelFromCountPages";
+			this.labelFromCountPages.Size = new System.Drawing.Size(28, 13);
+			this.labelFromCountPages.TabIndex = 4;
+			this.labelFromCountPages.Text = "из 0";
+			// 
 			// buttonNext
 			// 
 			this.buttonNext.Location = new System.Drawing.Point(200, 0);
@@ -143,14 +158,28 @@
 			this.labelPage.TabIndex = 1;
 			this.labelPage.Text = "Страница";
 			// 
-			// labelFromCountPages
+			// toolStripSeparator1
 			// 
-			this.labelFromCountPages.AutoSize = true;
-			this.labelFromCountPages.Location = new System.Drawing.Point(156, 6);
-			this.labelFromCountPages.Name = "labelFromCountPages";
-			this.labelFromCountPages.Size = new System.Drawing.Size(28, 13);
-			this.labelFromCountPages.TabIndex = 4;
-			this.labelFromCountPages.Text = "из 0";
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripDropDownButtonMoves
+			// 
+			this.toolStripDropDownButtonMoves.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButtonMoves.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.восстановитьToolStripMenuItem});
+			this.toolStripDropDownButtonMoves.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMoves.Image")));
+			this.toolStripDropDownButtonMoves.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButtonMoves.Name = "toolStripDropDownButtonMoves";
+			this.toolStripDropDownButtonMoves.Size = new System.Drawing.Size(71, 22);
+			this.toolStripDropDownButtonMoves.Text = "Действия";
+			this.toolStripDropDownButtonMoves.ToolTipText = "Действия";
+			// 
+			// восстановитьToolStripMenuItem
+			// 
+			this.восстановитьToolStripMenuItem.Name = "восстановитьToolStripMenuItem";
+			this.восстановитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.восстановитьToolStripMenuItem.Text = "Восстановить";
 			// 
 			// StudentControl
 			// 
@@ -183,5 +212,8 @@
 		private System.Windows.Forms.Button buttonNext;
 		private System.Windows.Forms.TextBox textBoxPageNumber;
 		private System.Windows.Forms.Label labelFromCountPages;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMoves;
+		private System.Windows.Forms.ToolStripMenuItem восстановитьToolStripMenuItem;
 	}
 }
