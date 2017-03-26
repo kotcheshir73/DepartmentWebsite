@@ -27,36 +27,45 @@ namespace DepartmentService.Services
 			_serviceSG = serviceSG;
 		}
 
-		public ResultService<List<StudentViewModel>> GetStudents(StudentGetBindingModel model)
+		public ResultService<StudentPageViewModel> GetStudents(StudentGetBindingModel model)
 		{
 			try
 			{
+				int count = 0;
 				var query = _context.Students.Include(s => s.StudentGroup).AsQueryable();
 				if (model.StudentGroupId.HasValue)
 				{
 					query = query.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted);
 				}
-				if(model.StudentStatus.HasValue)
+				if (model.StudentStatus.HasValue)
 				{
 					query = query.Where(e => e.StudentState == model.StudentStatus.Value && !e.IsDeleted);
 				}
-				if(model.PageNumber.HasValue)
+				if (model.PageNumber.HasValue)
 				{
 					query = query.OrderBy(e => e.StudentGroupId).ThenBy(s => s.LastName);
+					count = query.Count();
+					count = count / model.PageSize + (count % model.PageSize == 0 ? 0 : 1);
 					query = query.Skip(model.PageSize * model.PageNumber.Value).Take(model.PageSize);
 				}
-				return ResultService<List<StudentViewModel>>.Success(
-					ModelFactory.CreateStudents(query)
-					.ToList());
+				var result = new StudentPageViewModel
+				{
+					MaxCount = count,
+					List = ModelFactory.CreateStudents(query)
+					.ToList()
+				};
+
+				return ResultService<StudentPageViewModel>.Success(
+					result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<StudentViewModel>>.Error(ex,
+				return ResultService<StudentPageViewModel>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<StudentViewModel>>.Error(ex,
+				return ResultService<StudentPageViewModel>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 		}
@@ -209,7 +218,7 @@ namespace DepartmentService.Services
 						return ResultService.Error("Error:", "NewStudentGroup not found",
 							ResultServiceStatusCode.NotFound);
 					}
-					if(model.StudentList.Count <= 0)
+					if (model.StudentList.Count <= 0)
 					{
 						return ResultService.Error("Error:", "Students not found",
 							ResultServiceStatusCode.NotFound);
@@ -234,7 +243,7 @@ namespace DepartmentService.Services
 						entity.StudentGroup = newGroup;
 						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 						_context.SaveChanges();
-						if(oldGroup.StewardId == numberofBook)
+						if (oldGroup.StewardId == numberofBook)
 						{
 							oldGroup.Steward = null;
 							newGroup.Steward = entity;

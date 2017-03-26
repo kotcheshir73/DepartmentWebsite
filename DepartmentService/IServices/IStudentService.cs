@@ -12,7 +12,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<StudentViewModel>> GetStudents(StudentGetBindingModel model);
+		ResultService<StudentPageViewModel> GetStudents(StudentGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка групп

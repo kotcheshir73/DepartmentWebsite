@@ -34,10 +34,11 @@
 			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
 			this.dataGridViewList = new System.Windows.Forms.DataGridView();
 			this.panelDown = new System.Windows.Forms.Panel();
-			this.labelPage = new System.Windows.Forms.Label();
-			this.buttonPrev = new System.Windows.Forms.Button();
-			this.textBoxPageNumber = new System.Windows.Forms.TextBox();
 			this.buttonNext = new System.Windows.Forms.Button();
+			this.textBoxPageNumber = new System.Windows.Forms.TextBox();
+			this.buttonPrev = new System.Windows.Forms.Button();
+			this.labelPage = new System.Windows.Forms.Label();
+			this.labelFromCountPages = new System.Windows.Forms.Label();
 			this.toolStripMenu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
 			this.panelDown.SuspendLayout();
@@ -94,6 +95,7 @@
 			// 
 			// panelDown
 			// 
+			this.panelDown.Controls.Add(this.labelFromCountPages);
 			this.panelDown.Controls.Add(this.buttonNext);
 			this.panelDown.Controls.Add(this.textBoxPageNumber);
 			this.panelDown.Controls.Add(this.buttonPrev);
@@ -104,14 +106,23 @@
 			this.panelDown.Size = new System.Drawing.Size(800, 25);
 			this.panelDown.TabIndex = 4;
 			// 
-			// labelPage
+			// buttonNext
 			// 
-			this.labelPage.AutoSize = true;
-			this.labelPage.Location = new System.Drawing.Point(39, 6);
-			this.labelPage.Name = "labelPage";
-			this.labelPage.Size = new System.Drawing.Size(55, 13);
-			this.labelPage.TabIndex = 1;
-			this.labelPage.Text = "Страница";
+			this.buttonNext.Location = new System.Drawing.Point(200, 0);
+			this.buttonNext.Name = "buttonNext";
+			this.buttonNext.Size = new System.Drawing.Size(30, 25);
+			this.buttonNext.TabIndex = 3;
+			this.buttonNext.Text = ">>";
+			this.buttonNext.UseVisualStyleBackColor = true;
+			this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+			// 
+			// textBoxPageNumber
+			// 
+			this.textBoxPageNumber.Location = new System.Drawing.Point(100, 3);
+			this.textBoxPageNumber.Name = "textBoxPageNumber";
+			this.textBoxPageNumber.Size = new System.Drawing.Size(50, 20);
+			this.textBoxPageNumber.TabIndex = 2;
+			this.textBoxPageNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxPageNumber_KeyDown);
 			// 
 			// buttonPrev
 			// 
@@ -121,22 +132,25 @@
 			this.buttonPrev.TabIndex = 0;
 			this.buttonPrev.Text = "<<";
 			this.buttonPrev.UseVisualStyleBackColor = true;
+			this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
 			// 
-			// textBoxPageNumber
+			// labelPage
 			// 
-			this.textBoxPageNumber.Location = new System.Drawing.Point(100, 3);
-			this.textBoxPageNumber.Name = "textBoxPageNumber";
-			this.textBoxPageNumber.Size = new System.Drawing.Size(50, 20);
-			this.textBoxPageNumber.TabIndex = 2;
+			this.labelPage.AutoSize = true;
+			this.labelPage.Location = new System.Drawing.Point(39, 6);
+			this.labelPage.Name = "labelPage";
+			this.labelPage.Size = new System.Drawing.Size(55, 13);
+			this.labelPage.TabIndex = 1;
+			this.labelPage.Text = "Страница";
 			// 
-			// buttonNext
+			// labelFromCountPages
 			// 
-			this.buttonNext.Location = new System.Drawing.Point(156, 0);
-			this.buttonNext.Name = "buttonNext";
-			this.buttonNext.Size = new System.Drawing.Size(30, 25);
-			this.buttonNext.TabIndex = 3;
-			this.buttonNext.Text = ">>";
-			this.buttonNext.UseVisualStyleBackColor = true;
+			this.labelFromCountPages.AutoSize = true;
+			this.labelFromCountPages.Location = new System.Drawing.Point(156, 6);
+			this.labelFromCountPages.Name = "labelFromCountPages";
+			this.labelFromCountPages.Size = new System.Drawing.Size(28, 13);
+			this.labelFromCountPages.TabIndex = 4;
+			this.labelFromCountPages.Text = "из 0";
 			// 
 			// StudentControl
 			// 
@@ -168,5 +182,6 @@
 		private System.Windows.Forms.Label labelPage;
 		private System.Windows.Forms.Button buttonNext;
 		private System.Windows.Forms.TextBox textBoxPageNumber;
+		private System.Windows.Forms.Label labelFromCountPages;
 	}
 }

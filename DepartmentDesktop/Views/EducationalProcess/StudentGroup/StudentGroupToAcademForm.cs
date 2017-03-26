@@ -36,7 +36,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			var list = result.Result;
+			var list = result.Result.List;
 			for (int i = 0; i < list.Count; ++i)
 			{
 				dataGridViewStudents.Rows.Add();
