@@ -200,13 +200,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
             else
             {
-                StringBuilder strRes = new StringBuilder();
-                foreach (var err in result.Errors)
-                {
-                    strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                }
-                MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", strRes), "",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.PrintErrorMessage("Не удалось обновить расписание", result.Errors);
             }
         }
 

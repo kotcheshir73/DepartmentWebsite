@@ -98,6 +98,8 @@ namespace DepartmentService.BindingModels
     {
         public long Id { get; set; }
 
+		public long? SeasonDatesId { get; set; }
+
         public int Week { get; set; }
 
         public int Day { get; set; }

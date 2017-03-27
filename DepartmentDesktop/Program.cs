@@ -55,13 +55,8 @@ namespace DepartmentDesktop
 
 		public static void PrintErrorMessage(string text, Dictionary<string, string> result)
 		{
-			StringBuilder strRes = new StringBuilder();
-			foreach (var err in result)
-			{
-				strRes.Append(string.Format("{0}: {1}\r\n", err.Key, err.Value));
-			}
-			MessageBox.Show(text + strRes.ToString(), "",
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			FormError form = new FormError();
+			form.LoadData(text, result);
 		}
     }
 }
