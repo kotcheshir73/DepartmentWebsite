@@ -526,7 +526,7 @@ namespace DepartmentService.Services
 			document.LoadHtml(strHTML);
 
 			var nodes = document.DocumentNode.SelectNodes("//table/tr/td");
-			StringBuilder error = new StringBuilder();
+			var resError = new ResultService();
 
 			var stopWords = _context.ScheduleStopWords.ToList();
 			foreach (var node in nodes)
@@ -540,28 +540,24 @@ namespace DepartmentService.Services
 						{
 							var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value,
 														(node.InnerText.Replace("\r\n", "").Replace(" ", "")), stopWords, currentDates);
-							if (!string.IsNullOrEmpty(res))
+							if (!res.Succeeded)
 							{
-								error.Append(res);
+								foreach(var err in res.Errors)
+								{
+									resError.AddError(err.Key, err.Value);
+								}
 							}
 							Thread.Sleep(100);
 						}
 						catch (Exception ex)
 						{
-							error.Append(node.InnerText.Replace("\r\n", "").Replace(" ", ""));
-							error.Append(": ");
-							error.Append(ex.Message);
-							error.Append("\r\n");
+							resError.AddError(ex);
 						}
 					}
 				}
 			}
-			if (error.Length > 0)
-			{
-				return ResultService.Error("Errors:", error.ToString(), ResultServiceStatusCode.Error);
-			}
 
-			return ResultService.Success();
+			return resError;
 		}
 
 		public ResultService CheckSemesterRecordsIfNotComplite()
@@ -1632,7 +1628,7 @@ namespace DepartmentService.Services
 		/// </summary>
 		/// <param name="schedulrUrl"></param>
 		/// <param name="classrooms"></param>
-		private string ParsingPage(string schedulrUrl, string groupName, List<ScheduleStopWord> stopWords,
+		private ResultService ParsingPage(string schedulrUrl, string groupName, List<ScheduleStopWord> stopWords,
 			SeasonDatesViewModel currentDates)
 		{
 			string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
@@ -1645,7 +1641,7 @@ namespace DepartmentService.Services
 			int week = -1;
 			int day = -1;
 			int para = -1;
-			StringBuilder error = new StringBuilder();
+			var resError = new ResultService();
 			try
 			{
 				foreach (var pageNode in pageNodes)
@@ -1680,12 +1676,12 @@ namespace DepartmentService.Services
 							entityFirst.Day = day;
 							entityFirst.Lesson = para;
 							entityFirst.LessonGroup = groupName;
-							//entityFirst.SeasonDatesId = currentDates.Id;
+							entityFirst.SeasonDatesId = currentDates.Id;
 
 							entitySecond.Week = week;
 							entitySecond.Day = day;
 							entitySecond.Lesson = para;
-							// entitySecond.SeasonDatesId = currentDates.Id;
+							entitySecond.SeasonDatesId = currentDates.Id;
 
 							AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
 
@@ -1694,7 +1690,7 @@ namespace DepartmentService.Services
 							{
 								foreach (var err in result.Errors)
 								{
-									error.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+									resError.AddError(err.Key, err.Value);
 								}
 							}
 							result = CheckNewSemesterRecordForConflictAndSave(entitySecond);
@@ -1702,7 +1698,7 @@ namespace DepartmentService.Services
 							{
 								foreach (var err in result.Errors)
 								{
-									error.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+									resError.AddError(err.Key, err.Value);
 								}
 							}
 						}
@@ -1713,7 +1709,7 @@ namespace DepartmentService.Services
 			{
 				throw;
 			}
-			return error.ToString();
+			return resError;
 		}
 
 		private void AnalisString(string text, List<ScheduleStopWord> stopWords,
@@ -1900,7 +1896,7 @@ namespace DepartmentService.Services
 		{
 			//ищем занятие другой группы в этой аудитории
 			var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-									r.Day == record.Day && r.Lesson == record.Lesson &&
+									r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
 									r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
 			if (exsistRecord != null)
 			{//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
@@ -1935,7 +1931,7 @@ namespace DepartmentService.Services
 
 			//ищем занятие этой группы в другой аудитории
 			exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-										  r.Day == record.Day && r.Lesson == record.Lesson &&
+										  r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
 										  r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
 			if (exsistRecord != null)
 			{//если на этой неделе в этот день этой парой у этой группы уже есть занятие

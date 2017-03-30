@@ -35,7 +35,7 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+			this.toolStripDropDownButtonMoves = new System.Windows.Forms.ToolStripDropDownButton();
 			this.enrollmentStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.transferStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deductionStudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +67,7 @@
             this.toolStripSeparator2,
             this.toolStripButtonRef,
             this.toolStripSeparator4,
-            this.toolStripDropDownButton1});
+            this.toolStripDropDownButtonMoves});
 			this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
 			this.toolStripMenu.Name = "toolStripMenu";
 			this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -102,19 +102,19 @@
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
 			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStripDropDownButton1
+			// toolStripDropDownButtonMoves
 			// 
-			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripDropDownButtonMoves.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButtonMoves.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enrollmentStudentsToolStripMenuItem,
             this.transferStudentsToolStripMenuItem,
             this.deductionStudentsToolStripMenuItem,
             this.toAcademStudentsToolStripMenuItem});
-			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-			this.toolStripDropDownButton1.Size = new System.Drawing.Size(71, 22);
-			this.toolStripDropDownButton1.Text = "Действия";
+			this.toolStripDropDownButtonMoves.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMoves.Image")));
+			this.toolStripDropDownButtonMoves.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButtonMoves.Name = "toolStripDropDownButtonMoves";
+			this.toolStripDropDownButtonMoves.Size = new System.Drawing.Size(71, 22);
+			this.toolStripDropDownButtonMoves.Text = "Действия";
 			// 
 			// enrollmentStudentsToolStripMenuItem
 			// 
@@ -167,7 +167,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMoves;
 		private System.Windows.Forms.ToolStripButton toolStripButtonUpd;
 		private System.Windows.Forms.ToolStripMenuItem enrollmentStudentsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem transferStudentsToolStripMenuItem;

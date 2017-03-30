@@ -80,6 +80,12 @@
     <Compile Include="Controllers\ListUsersUC.Designer.cs">
       <DependentUpon>ListUsersUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormError.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormError.Designer.cs">
+      <DependentUpon>FormError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -345,6 +351,9 @@
     </Compile>
     <EmbeddedResource Include="Controllers\ListUsersUC.resx">
       <DependentUpon>ListUsersUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormError.resx">
+      <DependentUpon>FormError.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomControl.resx">
       <DependentUpon>ClassroomControl.cs</DependentUpon>

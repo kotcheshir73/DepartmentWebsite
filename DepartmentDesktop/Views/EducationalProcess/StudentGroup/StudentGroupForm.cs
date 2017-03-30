@@ -67,7 +67,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 				comboBoxSteward.ValueMember = "Value";
 				comboBoxSteward.DisplayMember = "Display";
-				comboBoxSteward.DataSource = resultS.Result
+				comboBoxSteward.DataSource = resultS.Result.List
 					.Select(s => new { Value = s.NumberOfBook, Display = string.Format("{0} {1}", s.LastName, s.FirstName) }).ToList();
 				comboBoxSteward.SelectedItem = null;
 

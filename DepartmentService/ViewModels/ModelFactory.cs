@@ -73,7 +73,7 @@ namespace DepartmentService.ViewModels
                 Description = entity.Description,
                 Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
                 StudentGroupId = entity.StudentGroupId,
-				StudentGroup = entity.StudentGroup.GroupName
+				StudentGroup = (entity.StudentGroup != null) ? entity.StudentGroup.GroupName : string.Empty
             };
         }
 

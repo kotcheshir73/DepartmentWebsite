@@ -1,7 +1,15 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace DepartmentService.ViewModels
 {
+	public class StudentPageViewModel
+	{
+		public int MaxCount { get; set; }
+
+		public List<StudentViewModel> List { get; set; }
+	}
+
     public class StudentViewModel
     {
         public string NumberOfBook { get; set; }

@@ -22,7 +22,30 @@ namespace DepartmentDAL
 
 		public void AddError(string key, string value)
 		{
-			Errors.Add(key, value);
+			if (Errors.ContainsKey(key))
+			{
+				Errors[key] += "\r\n-----\r\n";
+				Errors[key] += value;
+			}
+			else
+			{
+				Errors.Add(key, value);
+			}
+			if (Succeeded)
+				Succeeded = false;
+		}
+
+		public void AddError(Exception error)
+		{
+			if (Errors.ContainsKey("Общая ошибка"))
+			{
+				Errors["Общая ошибка"] += "\r\n-----\r\n";
+				Errors["Общая ошибка"] += error.Message;
+			}
+			else
+			{
+				Errors.Add("Общая ошибка", error.Message);
+			}
 			if (Succeeded)
 				Succeeded = false;
 		}
