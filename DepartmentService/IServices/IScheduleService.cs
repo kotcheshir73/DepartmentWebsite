@@ -107,12 +107,19 @@ namespace DepartmentService.IServices
         /// <returns></returns>
         ResultService ClearSemesterRecords(ClassroomGetBindingModel model);
 
-        /// <summary>
-        /// Отчистка зачетов по аудиториям
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ClearOffsetRecords(ClassroomGetBindingModel model);
+		/// <summary>
+		/// Отчистка пар семестра по группам
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearSemesterRecords(StudentGroupGetBindingModel model);
+
+		/// <summary>
+		/// Отчистка зачетов по аудиториям
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearOffsetRecords(ClassroomGetBindingModel model);
 
         /// <summary>
         /// Отчистка экзаменов по аудиториям

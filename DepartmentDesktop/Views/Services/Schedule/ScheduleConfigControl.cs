@@ -136,9 +136,35 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                 }
             }
-        }
+		}
 
-        private void checkRecordsIfNotComplite()
+		/// <summary>
+		/// Отчистка аудиторий от пар
+		/// </summary>
+		/// <param name="classrooms"></param>
+		private void cleaningStudentGroups(List<string> studentGroups)
+		{
+			if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				foreach (var elem in studentGroups)
+				{
+					var result = _service.ClearSemesterRecords(new StudentGroupGetBindingModel { GroupName = elem });
+
+					if (!result.Succeeded)
+					{
+						StringBuilder strRes = new StringBuilder();
+						foreach (var err in result.Errors)
+						{
+							strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+						}
+						MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+				}
+			}
+		}
+
+		private void checkRecordsIfNotComplite()
         {
             var result = _service.CheckSemesterRecordsIfNotComplite();
             if (result.Succeeded)
@@ -165,12 +191,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
         private void buttonMakeLoadHTMLScheduleForClassrooms_Click(object sender, EventArgs e)
         {
             var classrooms = getListOfClassrooms();
-            if (classrooms == null)
-            {
-                return;
-            }
             var studentGroups = getListOfStudentGroups();
-            if (studentGroups == null)
+            if (classrooms == null && studentGroups == null)
             {
                 return;
             }
@@ -178,6 +200,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             if (checkBoxClearSchedule.Checked)
             {
                 cleaningClassrooms(classrooms);
+				cleaningStudentGroups(studentGroups);
             }
 
             var result = _service.LoadScheduleHTMLForClassrooms(new LoadHTMLForClassroomsBindingModel
@@ -235,7 +258,31 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                 }
             }
-        }
+
+			List<string> studentGroups = getListOfStudentGroups();
+			if (studentGroups == null)
+			{
+				return;
+			}
+			if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				foreach (var elem in studentGroups)
+				{
+					var result = _service.ClearSemesterRecords(new StudentGroupGetBindingModel { GroupName = elem });
+
+					if (!result.Succeeded)
+					{
+						StringBuilder strRes = new StringBuilder();
+						foreach (var err in result.Errors)
+						{
+							strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+						}
+						MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+				}
+			}
+		}
 
         private void buttonClearOffsetRecordClassrooms_Click(object sender, EventArgs e)
         {

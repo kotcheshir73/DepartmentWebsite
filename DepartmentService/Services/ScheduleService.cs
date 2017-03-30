@@ -357,14 +357,14 @@ namespace DepartmentService.Services
 					{
 						selectedRecords = selectedRecords
 							.Where(sr => sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == currentDates.Id &&
-										sr.DateConsultation >= model.DateBegin.Value && 
+										sr.DateConsultation >= model.DateBegin.Value &&
 										sr.DateConsultation <= model.DateEnd.Value);
 					}
 					if (!string.IsNullOrEmpty(model.GroupName))
 					{
 						selectedRecords = selectedRecords
 							.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id &&
-										sr.DateConsultation >= model.DateBegin.Value && 
+										sr.DateConsultation >= model.DateBegin.Value &&
 										sr.DateConsultation <= model.DateEnd.Value);
 					}
 				}
@@ -437,6 +437,28 @@ namespace DepartmentService.Services
 				var records = _context.SemesterRecords.Where(sr => sr.ClassroomId == model.Id);
 				_context.SemesterRecords.RemoveRange(records);
 				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
+
+		public ResultService ClearSemesterRecords(StudentGroupGetBindingModel model)
+		{
+			try
+			{
+				if (!string.IsNullOrEmpty(model.GroupName))
+				{
+					var records = _context.SemesterRecords.Include(sr => sr.StudentGroup).Where(sr => sr.StudentGroup != null && sr.StudentGroup.GroupName == model.GroupName);
+					_context.SemesterRecords.RemoveRange(records);
+					_context.SaveChanges();
+				}
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -542,7 +564,7 @@ namespace DepartmentService.Services
 														(node.InnerText.Replace("\r\n", "").Replace(" ", "")), stopWords, currentDates);
 							if (!res.Succeeded)
 							{
-								foreach(var err in res.Errors)
+								foreach (var err in res.Errors)
 								{
 									resError.AddError(err.Key, err.Value);
 								}

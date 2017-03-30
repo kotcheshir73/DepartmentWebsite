@@ -5,7 +5,9 @@ namespace DepartmentService.BindingModels
     public class StudentGroupGetBindingModel
     {
         public long Id { get; set; }
-    }
+
+		public string GroupName { get; set; }
+	}
 
     public class StudentGroupRecordBindingModel
     {
