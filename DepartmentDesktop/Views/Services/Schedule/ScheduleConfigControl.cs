@@ -228,57 +228,55 @@ namespace DepartmentDesktop.Views.Services.Schedule
         }
 
         /// <summary>
-        /// Отчистка аудиторий
+        /// Отчистка расписания
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonClearSemesterRecordClassrooms_Click(object sender, EventArgs e)
         {
             List<string> classrooms = getListOfClassrooms();
-            if (classrooms == null)
-            {
-                return;
-            }
+            if (classrooms != null)
+			{
+				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearSemesterRecords(new ClassroomGetBindingModel { Id = elem });
 
-            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                foreach (var elem in classrooms)
-                {
-                    var result = _service.ClearSemesterRecords(new ClassroomGetBindingModel { Id = elem });
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
 
-                    if (!result.Succeeded)
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
 
 			List<string> studentGroups = getListOfStudentGroups();
-			if (studentGroups == null)
+			if (studentGroups != null)
 			{
-				return;
-			}
-			if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-			{
-				foreach (var elem in studentGroups)
+				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
-					var result = _service.ClearSemesterRecords(new StudentGroupGetBindingModel { GroupName = elem });
-
-					if (!result.Succeeded)
+					foreach (var elem in studentGroups)
 					{
-						StringBuilder strRes = new StringBuilder();
-						foreach (var err in result.Errors)
+						var result = _service.ClearSemesterRecords(new StudentGroupGetBindingModel { GroupName = elem });
+
+						if (!result.Succeeded)
 						{
-							strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
-						MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
-							MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}
 				}
 			}
@@ -287,86 +285,150 @@ namespace DepartmentDesktop.Views.Services.Schedule
         private void buttonClearOffsetRecordClassrooms_Click(object sender, EventArgs e)
         {
             List<string> classrooms = getListOfClassrooms();
-            if (classrooms == null)
-            {
-                return;
-            }
+            if (classrooms != null)
+			{
+				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearOffsetRecords(new ClassroomGetBindingModel { Id = elem });
 
-            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                foreach (var elem in classrooms)
-                {
-                    var result = _service.ClearOffsetRecords(new ClassroomGetBindingModel { Id = elem });
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
 
-                    if (!result.Succeeded)
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
+			List<string> studentGroups = getListOfStudentGroups();
+			if (studentGroups != null)
+			{
+				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearOffsetRecords(new StudentGroupGetBindingModel { GroupName = elem });
+
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+		}
 
         private void buttonClearExaminationRecordClassrooms_Click(object sender, EventArgs e)
         {
             List<string> classrooms = getListOfClassrooms();
-            if (classrooms == null)
+            if (classrooms != null)
             {
-                return;
-            }
+				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearExaminationRecords(new ClassroomGetBindingModel { Id = elem });
 
-            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                foreach (var elem in classrooms)
-                {
-                    var result = _service.ClearExaminationRecords(new ClassroomGetBindingModel { Id = elem });
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+			
+			List<string> studentGroups = getListOfStudentGroups();
+			if (studentGroups != null)
+			{
+				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearExaminationRecords(new StudentGroupGetBindingModel { GroupName = elem });
 
-                    if (!result.Succeeded)
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+		}
 
         private void buttonClearConsultationRecordClassrooms_Click(object sender, EventArgs e)
         {
             List<string> classrooms = getListOfClassrooms();
-            if (classrooms == null)
-            {
-                return;
-            }
+            if (classrooms != null)
+			{
 
-            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                foreach (var elem in classrooms)
-                {
-                    var result = _service.ClearConsultationRecords(new ClassroomGetBindingModel { Id = elem });
+				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearConsultationRecords(new ClassroomGetBindingModel { Id = elem });
 
-                    if (!result.Succeeded)
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+
+			List<string> studentGroups = getListOfStudentGroups();
+			if (studentGroups != null)
+			{
+				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					foreach (var elem in classrooms)
+					{
+						var result = _service.ClearConsultationRecords(new StudentGroupGetBindingModel { GroupName = elem });
+
+						if (!result.Succeeded)
+						{
+							StringBuilder strRes = new StringBuilder();
+							foreach (var err in result.Errors)
+							{
+								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+							}
+							MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+		}
 
         /// <summary>
         /// Сохранение настроек

@@ -121,26 +121,47 @@ namespace DepartmentService.IServices
 		/// <returns></returns>
 		ResultService ClearOffsetRecords(ClassroomGetBindingModel model);
 
-        /// <summary>
-        /// Отчистка экзаменов по аудиториям
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ClearExaminationRecords(ClassroomGetBindingModel model);
+		/// <summary>
+		/// Отчистка зачетов по группам
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearOffsetRecords(StudentGroupGetBindingModel model);
 
-        /// <summary>
-        /// Отчистка консультаций по аудиториям
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ClearConsultationRecords(ClassroomGetBindingModel model);
+		/// <summary>
+		/// Отчистка экзаменов по аудиториям
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearExaminationRecords(ClassroomGetBindingModel model);
 
-        /// <summary>
-        /// Выгрузка данных в Excel
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ExportSemesterRecordExcel(ExportToExcelClassroomsBindingModel model);
+		/// <summary>
+		/// Отчистка экзаменов по группам
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearExaminationRecords(StudentGroupGetBindingModel model);
+
+		/// <summary>
+		/// Отчистка консультаций по аудиториям
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearConsultationRecords(ClassroomGetBindingModel model);
+
+		/// <summary>
+		/// Отчистка консультаций по группам
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ClearConsultationRecords(StudentGroupGetBindingModel model);
+
+		/// <summary>
+		/// Выгрузка данных в Excel
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService ExportSemesterRecordExcel(ExportToExcelClassroomsBindingModel model);
 
         /// <summary>
         /// Выгрузка данных в Excel
