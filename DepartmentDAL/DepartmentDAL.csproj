@@ -172,6 +172,8 @@
       <DependentUpon>201703190642289_UpdateStudentNullStudentGroup.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AcademicPlan.cs" />
+    <Compile Include="Models\AcademicPlanRecord.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Classroom.cs" />
