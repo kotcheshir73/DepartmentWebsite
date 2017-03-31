@@ -473,7 +473,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
         private void buttonImportOffsetFromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+			dialog.Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx";
+			if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _service.ImportExcel(new ImportToOffsetFromExcel { FileName = dialog.FileName });
                 if (result.Succeeded)
@@ -496,7 +497,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
         private void buttonImportExaminationFromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+			dialog.Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx";
+			if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _service.ImportExcel(new ImportToExaminationFromExcel { FileName = dialog.FileName });
                 if (result.Succeeded)

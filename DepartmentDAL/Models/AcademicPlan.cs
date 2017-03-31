@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DepartmentDAL.Enums;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DepartmentDAL.Models
 {
@@ -12,8 +15,15 @@ namespace DepartmentDAL.Models
 		[Required]
 		public string AcademicYear { get; set; }
 
+		public AcademicLevel AcademicLevel { get; set; }
+
+		public AcademicCourse AcademicCourses { get; set; }
+
 		public long EducationDirectionId { get; set; }
 
 		public virtual EducationDirection EducationDirection { get; set; }
+
+		[ForeignKey("AcademicPlanId")]
+		public virtual List<AcademicPlanRecord> AcademicPlanRecords { get; set; }
 	}
 }

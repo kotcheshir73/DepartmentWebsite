@@ -1,8 +1,5 @@
-﻿using System;
+﻿using DepartmentDAL.Enums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentDAL.Models
 {
@@ -12,8 +9,16 @@ namespace DepartmentDAL.Models
 
 		public long DisciplineId { get; set; }
 
+		public long KindOfLoadId { get; set; }
+
+		public Semesters Semester { get; set; }
+
+		public int Hours { get; set; }
+
 		public virtual AcademicPlan AcademicPlan { get; set; }
 
 		public virtual Discipline Discipline { get; set; }
+
+		public virtual KindOfLoad KindOfLoad { get; set; }
 	}
 }

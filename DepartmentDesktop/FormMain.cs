@@ -231,5 +231,19 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData(StudentState.Отчислен);
 		}
+
+		private void kindOfLoadsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.KindOfLoad.KindOfLoadControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+
+		private void academicPlansToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.AcademicPlanControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 	}
 }

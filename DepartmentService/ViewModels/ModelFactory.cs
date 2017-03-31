@@ -7,274 +7,344 @@ using System.Linq;
 
 namespace DepartmentService.ViewModels
 {
-    public static class ModelFactory
-    {
-        public static EducationDirectionViewModel CreateEducationDirectionViewModel(EducationDirection entity)
-        {
-            return new EducationDirectionViewModel
-            {
-                Id = entity.Id,
-                Cipher = entity.Cipher,
-                Description = entity.Description,
-                Title = entity.Title
-            };
-        }
+	public static class ModelFactory
+	{
+		public static EducationDirectionViewModel CreateEducationDirectionViewModel(EducationDirection entity)
+		{
+			return new EducationDirectionViewModel
+			{
+				Id = entity.Id,
+				Cipher = entity.Cipher,
+				Description = entity.Description,
+				Title = entity.Title
+			};
+		}
 
-        public static IEnumerable<EducationDirectionViewModel> CreateEducationDirections(IEnumerable<EducationDirection> entities)
-        {
-            return entities.Select(e => CreateEducationDirectionViewModel(e)).OrderBy(e => e.Cipher);
-        }
+		public static IEnumerable<EducationDirectionViewModel> CreateEducationDirections(IEnumerable<EducationDirection> entities)
+		{
+			return entities.Select(e => CreateEducationDirectionViewModel(e)).OrderBy(e => e.Cipher);
+		}
 
+		public static KindOfLoadViewModel CreateKindOfLoadViewModel(KindOfLoad entity)
+		{
+			return new KindOfLoadViewModel
+			{
+				Id = entity.Id,
+				KindOfLoadName = entity.KindOfLoadName,
+				KindOfLoadType = entity.KindOfLoadType.ToString()
+			};
+		}
 
-        public static StudentGroupViewModel CreateStudentGroupViewModel(StudentGroup entity)
-        {
-            return new StudentGroupViewModel
-            {
-                Id = entity.Id,
-                EducationDirectionId = entity.EducationDirectionId,
-                EducationDirectionCipher = entity.EducationDirection.Cipher,
-                GroupName = entity.GroupName,
-                Kurs = entity.Kurs,
-                CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
+		public static IEnumerable<KindOfLoadViewModel> CreateKindOfLoads(IEnumerable<KindOfLoad> entities)
+		{
+			return entities.Select(e => CreateKindOfLoadViewModel(e));
+		}
+
+		public static AcademicPlanViewModel CreateAcademicPlanViewModel(AcademicPlan entity)
+		{
+			return new AcademicPlanViewModel
+			{
+				Id = entity.Id,
+				EducationDirectionId = entity.EducationDirectionId,
+				EducationDirection = entity.EducationDirection.Cipher,
+				AcademicYear = entity.AcademicYear,
+				AcademicLevel = entity.AcademicLevel.ToString(),
+				AcademicCourses = (int)entity.AcademicCourses
+			};
+		}
+
+		public static IEnumerable<AcademicPlanViewModel> CreateAcademicPlans(IEnumerable<AcademicPlan> entities)
+		{
+			return entities.Select(e => CreateAcademicPlanViewModel(e));
+		}
+
+		public static AcademicPlanRecordViewModel CreateAcademicPlanRecordViewModel(AcademicPlanRecord entity)
+		{
+			return new AcademicPlanRecordViewModel
+			{
+				Id = entity.Id,
+				AcademicPlanId = entity.AcademicPlanId,
+				DisciplineId = entity.DisciplineId,
+				Disciplne = entity.Discipline.DisciplineName,
+				KindOfLoadId = entity.KindOfLoadId,
+				KindOfLoad = entity.KindOfLoad.KindOfLoadName,
+				Semester = entity.Semester.ToString(),
+				Hours = entity.Hours
+			};
+		}
+
+		public static IEnumerable<AcademicPlanRecordViewModel> CreateAcademicPlanRecords(IEnumerable<AcademicPlanRecord> entities)
+		{
+			return entities.Select(e => CreateAcademicPlanRecordViewModel(e));
+		}
+
+		public static StudentGroupViewModel CreateStudentGroupViewModel(StudentGroup entity)
+		{
+			return new StudentGroupViewModel
+			{
+				Id = entity.Id,
+				EducationDirectionId = entity.EducationDirectionId,
+				EducationDirectionCipher = entity.EducationDirection.Cipher,
+				GroupName = entity.GroupName,
+				Kurs = entity.Kurs,
+				CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
 				StewardId = entity.StewardId,
-				Steward = string.IsNullOrEmpty(entity.StewardId) ? string.Empty : 
+				Steward = string.IsNullOrEmpty(entity.StewardId) ? string.Empty :
 							string.Format("{0} {1} {2}", entity.Steward.LastName, entity.Steward.FirstName, entity.Steward.Patronymic)
-            };
-        }
+			};
+		}
 
-        public static IEnumerable<StudentGroupViewModel> CreateStudentGroups(IEnumerable<StudentGroup> entities)
-        {
-            return entities.Select(e => CreateStudentGroupViewModel(e)).OrderBy(e => e.Kurs).ThenBy(e => e.EducationDirectionId);
-        }
+		public static IEnumerable<StudentGroupViewModel> CreateStudentGroups(IEnumerable<StudentGroup> entities)
+		{
+			return entities.Select(e => CreateStudentGroupViewModel(e)).OrderBy(e => e.Kurs).ThenBy(e => e.EducationDirectionId);
+		}
 
-        public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
-        {
-            return new ClassroomViewModel
-            {
-                Id = entity.Id,
-                ClassroomType = entity.ClassroomType.ToString(),
-                Capacity = entity.Capacity
-            };
-        }
 
-        public static IEnumerable<ClassroomViewModel> CreateClassrooms(IEnumerable<Classroom> entities)
-        {
-            return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
+		{
+			return new ClassroomViewModel
+			{
+				Id = entity.Id,
+				ClassroomType = entity.ClassroomType.ToString(),
+				Capacity = entity.Capacity
+			};
+		}
 
-        public static StudentViewModel CreateStudentViewModel(Student entity)
-        {
-            return new StudentViewModel
-            {
-                NumberOfBook = entity.NumberOfBook,
-                LastName = entity.LastName,
-                FirstName = entity.FirstName,
-                Patronymic = entity.Patronymic,
-                Description = entity.Description,
-                Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
-                StudentGroupId = entity.StudentGroupId,
+		public static IEnumerable<ClassroomViewModel> CreateClassrooms(IEnumerable<Classroom> entities)
+		{
+			return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
+		}
+
+
+		public static DisciplineViewModel CreateDisciplineViewModel(Discipline entity)
+		{
+			return new DisciplineViewModel
+			{
+				Id = entity.Id,
+				DisciplineName = entity.DisciplineName
+			};
+		}
+
+		public static IEnumerable<DisciplineViewModel> CreateDisciplines(IEnumerable<Discipline> entities)
+		{
+			return entities.Select(e => CreateDisciplineViewModel(e)).OrderBy(e => e.Id);
+		}
+
+
+		public static StudentViewModel CreateStudentViewModel(Student entity)
+		{
+			return new StudentViewModel
+			{
+				NumberOfBook = entity.NumberOfBook,
+				LastName = entity.LastName,
+				FirstName = entity.FirstName,
+				Patronymic = entity.Patronymic,
+				Description = entity.Description,
+				Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
+				StudentGroupId = entity.StudentGroupId,
 				StudentGroup = (entity.StudentGroup != null) ? entity.StudentGroup.GroupName : string.Empty
-            };
-        }
+			};
+		}
 
-        public static IEnumerable<StudentViewModel> CreateStudents(IEnumerable<Student> entities)
-        {
-            return entities.Select(e => CreateStudentViewModel(e));
-        }
+		public static IEnumerable<StudentViewModel> CreateStudents(IEnumerable<Student> entities)
+		{
+			return entities.Select(e => CreateStudentViewModel(e));
+		}
 
-        public static StudentHistoryViewModel CreateStudentHistoryViewModel(StudentHistory entity)
-        {
-            return new StudentHistoryViewModel
-            {
-                Id = entity.Id,
-                NumberOfBook = entity.StudentId,
-                DateCreate = entity.DateCreate.ToLongDateString(),
-                TextMessage = entity.TextMessage
-            };
-        }
+		public static StudentHistoryViewModel CreateStudentHistoryViewModel(StudentHistory entity)
+		{
+			return new StudentHistoryViewModel
+			{
+				Id = entity.Id,
+				NumberOfBook = entity.StudentId,
+				DateCreate = entity.DateCreate.ToLongDateString(),
+				TextMessage = entity.TextMessage
+			};
+		}
 
-        public static IEnumerable<StudentHistoryViewModel> CreateStudentHistorys(IEnumerable<StudentHistory> entities)
-        {
-            return entities.Select(e => CreateStudentHistoryViewModel(e)).OrderBy(e => e.DateCreate);
-        }
-
-
-        public static SeasonDatesViewModel CreateSeasonDatesViewModel(SeasonDates entity)
-        {
-            return new SeasonDatesViewModel
-            {
-                Id = entity.Id,
-                DateBeginExamination = entity.DateBeginExamination.ToLongDateString(),
-                DateBeginOffset = entity.DateBeginOffset.ToLongDateString(),
-                DateBeginSemester = entity.DateBeginSemester.ToLongDateString(),
-                DateEndExamination = entity.DateEndExamination.ToLongDateString(),
-                DateEndOffset = entity.DateEndOffset.ToLongDateString(),
-                DateEndSemester = entity.DateEndSemester.ToLongDateString(),
-                DateBeginPractice = entity.DateBeginPractice.HasValue ? entity.DateBeginPractice.Value.ToLongDateString() : "",
-                DateEndPractice = entity.DateEndPractice.HasValue ? entity.DateEndPractice.Value.ToLongDateString() : "",
-                Title = entity.Title
-            };
-        }
-
-        public static IEnumerable<SeasonDatesViewModel> CreateSeasonDaties(IEnumerable<SeasonDates> entities)
-        {
-            return entities.Select(e => CreateSeasonDatesViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<StudentHistoryViewModel> CreateStudentHistorys(IEnumerable<StudentHistory> entities)
+		{
+			return entities.Select(e => CreateStudentHistoryViewModel(e)).OrderBy(e => e.DateCreate);
+		}
 
 
-        public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
-        {
-            return new SemesterRecordViewModel
-            {
-                Id = entity.Id,
-                Day = entity.Day,
-                Week = entity.Week,
-                Lesson = entity.Lesson,
-                IsStreaming = entity.IsStreaming,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                LessonType = entity.LessonType.ToString(),
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
+		public static SeasonDatesViewModel CreateSeasonDatesViewModel(SeasonDates entity)
+		{
+			return new SeasonDatesViewModel
+			{
+				Id = entity.Id,
+				DateBeginExamination = entity.DateBeginExamination.ToLongDateString(),
+				DateBeginOffset = entity.DateBeginOffset.ToLongDateString(),
+				DateBeginSemester = entity.DateBeginSemester.ToLongDateString(),
+				DateEndExamination = entity.DateEndExamination.ToLongDateString(),
+				DateEndOffset = entity.DateEndOffset.ToLongDateString(),
+				DateEndSemester = entity.DateEndSemester.ToLongDateString(),
+				DateBeginPractice = entity.DateBeginPractice.HasValue ? entity.DateBeginPractice.Value.ToLongDateString() : "",
+				DateEndPractice = entity.DateEndPractice.HasValue ? entity.DateEndPractice.Value.ToLongDateString() : "",
+				Title = entity.Title
+			};
+		}
 
-        public static IEnumerable<SemesterRecordViewModel> CreateSemesterRecords(IEnumerable<SemesterRecord> entities)
-        {
-            return entities.Select(e => CreateSemesterRecordViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<SeasonDatesViewModel> CreateSeasonDaties(IEnumerable<SeasonDates> entities)
+		{
+			return entities.Select(e => CreateSeasonDatesViewModel(e)).OrderBy(e => e.Id);
+		}
 
-        public static OffsetRecordViewModel CreateOffsetRecordViewModel(OffsetRecord entity)
-        {
-            return new OffsetRecordViewModel
-            {
-                Id = entity.Id,
-                Day = entity.Day,
-                Week = entity.Week,
-                Lesson = entity.Lesson,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
+		#region Schedule
+		public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
+		{
+			return new SemesterRecordViewModel
+			{
+				Id = entity.Id,
+				Day = entity.Day,
+				Week = entity.Week,
+				Lesson = entity.Lesson,
+				IsStreaming = entity.IsStreaming,
+				LessonClassroom = entity.LessonClassroom,
+				LessonGroup = entity.LessonGroup,
+				LessonDiscipline = entity.LessonDiscipline,
+				LessonLecturer = entity.LessonLecturer,
+				LessonType = entity.LessonType.ToString(),
+				ClassroomId = entity.ClassroomId,
+				Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+				LecturerId = entity.LecturerId,
+				Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+				StudentGroupId = entity.StudentGroupId,
+				StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+			};
+		}
 
-        public static IEnumerable<OffsetRecordViewModel> CreateOffsetRecords(IEnumerable<OffsetRecord> entities)
-        {
-            return entities.Select(e => CreateOffsetRecordViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<SemesterRecordViewModel> CreateSemesterRecords(IEnumerable<SemesterRecord> entities)
+		{
+			return entities.Select(e => CreateSemesterRecordViewModel(e)).OrderBy(e => e.Id);
+		}
 
-        public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
-        {
-            return new ExaminationRecordViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                DateExamination = entity.DateExamination,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
+		public static OffsetRecordViewModel CreateOffsetRecordViewModel(OffsetRecord entity)
+		{
+			return new OffsetRecordViewModel
+			{
+				Id = entity.Id,
+				Day = entity.Day,
+				Week = entity.Week,
+				Lesson = entity.Lesson,
+				LessonClassroom = entity.LessonClassroom,
+				LessonGroup = entity.LessonGroup,
+				LessonDiscipline = entity.LessonDiscipline,
+				LessonLecturer = entity.LessonLecturer,
+				ClassroomId = entity.ClassroomId,
+				Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+				LecturerId = entity.LecturerId,
+				Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+				StudentGroupId = entity.StudentGroupId,
+				StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+			};
+		}
 
-        public static IEnumerable<ExaminationRecordViewModel> CreateExaminationRecords(IEnumerable<ExaminationRecord> entities)
-        {
-            return entities.Select(e => CreateExaminationRecordViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<OffsetRecordViewModel> CreateOffsetRecords(IEnumerable<OffsetRecord> entities)
+		{
+			return entities.Select(e => CreateOffsetRecordViewModel(e)).OrderBy(e => e.Id);
+		}
 
-        public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
-        {
-            return new ConsultationRecordViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
+		public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
+		{
+			return new ExaminationRecordViewModel
+			{
+				Id = entity.Id,
+				DateConsultation = entity.DateConsultation,
+				DateExamination = entity.DateExamination,
+				LessonClassroom = entity.LessonClassroom,
+				LessonGroup = entity.LessonGroup,
+				LessonDiscipline = entity.LessonDiscipline,
+				LessonLecturer = entity.LessonLecturer,
+				ClassroomId = entity.ClassroomId,
+				Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+				LecturerId = entity.LecturerId,
+				Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+				StudentGroupId = entity.StudentGroupId,
+				StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+			};
+		}
 
-        public static IEnumerable<ConsultationRecordViewModel> CreateConsultationRecords(IEnumerable<ConsultationRecord> entities)
-        {
-            return entities.Select(e => CreateConsultationRecordViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<ExaminationRecordViewModel> CreateExaminationRecords(IEnumerable<ExaminationRecord> entities)
+		{
+			return entities.Select(e => CreateExaminationRecordViewModel(e)).OrderBy(e => e.Id);
+		}
+
+		public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
+		{
+			return new ConsultationRecordViewModel
+			{
+				Id = entity.Id,
+				DateConsultation = entity.DateConsultation,
+				LessonClassroom = entity.LessonClassroom,
+				LessonGroup = entity.LessonGroup,
+				LessonDiscipline = entity.LessonDiscipline,
+				LessonLecturer = entity.LessonLecturer,
+				ClassroomId = entity.ClassroomId,
+				Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+				LecturerId = entity.LecturerId,
+				Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+				StudentGroupId = entity.StudentGroupId,
+				StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+			};
+		}
+
+		public static IEnumerable<ConsultationRecordViewModel> CreateConsultationRecords(IEnumerable<ConsultationRecord> entities)
+		{
+			return entities.Select(e => CreateConsultationRecordViewModel(e)).OrderBy(e => e.Id);
+		}
 
 
-        public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
-        {
-            return new StreamingLessonViewModel
-            {
-                Id = entity.Id,
-                IncomingGroups = entity.IncomingGroups,
-                StreamName = entity.StreamName
-            };
-        }
+		public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
+		{
+			return new StreamingLessonViewModel
+			{
+				Id = entity.Id,
+				IncomingGroups = entity.IncomingGroups,
+				StreamName = entity.StreamName
+			};
+		}
 
-        public static IEnumerable<StreamingLessonViewModel> CreateStreamingLessons(IEnumerable<StreamingLesson> entities)
-        {
-            return entities.Select(e => CreateStreamingLessonViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<StreamingLessonViewModel> CreateStreamingLessons(IEnumerable<StreamingLesson> entities)
+		{
+			return entities.Select(e => CreateStreamingLessonViewModel(e)).OrderBy(e => e.Id);
+		}
 
-        public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
-        {
-            string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
-                entity.DateEndLesson.ToShortTimeString());
-            return new ScheduleLessonTimeViewModel
-            {
-                Id = entity.Id,
-                Text = text,
-                Title = entity.Title,
-                TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
-                TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
-                DateBeginLesson = entity.DateBeginLesson,
-                DateEndLesson = entity.DateEndLesson
-            };
-        }
+		public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
+		{
+			string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
+				entity.DateEndLesson.ToShortTimeString());
+			return new ScheduleLessonTimeViewModel
+			{
+				Id = entity.Id,
+				Text = text,
+				Title = entity.Title,
+				TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
+				TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
+				DateBeginLesson = entity.DateBeginLesson,
+				DateEndLesson = entity.DateEndLesson
+			};
+		}
 
-        public static IEnumerable<ScheduleLessonTimeViewModel> CreateScheduleLessonTimes(IEnumerable<ScheduleLessonTime> entities)
-        {
-            return entities.Select(e => CreateScheduleLessonTimeViewModel(e)).OrderBy(e => e.Id);
-        }
+		public static IEnumerable<ScheduleLessonTimeViewModel> CreateScheduleLessonTimes(IEnumerable<ScheduleLessonTime> entities)
+		{
+			return entities.Select(e => CreateScheduleLessonTimeViewModel(e)).OrderBy(e => e.Id);
+		}
 
-        public static ScheduleStopWordViewModel CreateScheduleStopWordViewModel(ScheduleStopWord entity)
-        {
-            return new ScheduleStopWordViewModel
-            {
-                Id = entity.Id,
-                StopWord = entity.StopWord,
-                StopWordType = entity.StopWordType.ToString()
-            };
-        }
+		public static ScheduleStopWordViewModel CreateScheduleStopWordViewModel(ScheduleStopWord entity)
+		{
+			return new ScheduleStopWordViewModel
+			{
+				Id = entity.Id,
+				StopWord = entity.StopWord,
+				StopWordType = entity.StopWordType.ToString()
+			};
+		}
 
-        public static IEnumerable<ScheduleStopWordViewModel> CreateScheduleStopWords(IEnumerable<ScheduleStopWord> entities)
-        {
-            return entities.Select(e => CreateScheduleStopWordViewModel(e)).OrderBy(e => e.StopWordType);
-        }
-    }
+		public static IEnumerable<ScheduleStopWordViewModel> CreateScheduleStopWords(IEnumerable<ScheduleStopWord> entities)
+		{
+			return entities.Select(e => CreateScheduleStopWordViewModel(e)).OrderBy(e => e.StopWordType);
+		}
+		#endregion
+	}
 }

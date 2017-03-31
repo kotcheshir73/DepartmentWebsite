@@ -30,7 +30,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
         {
             foreach (var elem in Enum.GetValues(typeof(ClassroomTypes)))
             {
-                comboBoxTypeClassroom.Items.Add(elem);
+                comboBoxTypeClassroom.Items.Add(elem.ToString());
             }
             comboBoxTypeClassroom.SelectedIndex = 0;
             if (!string.IsNullOrEmpty(_id))
@@ -43,7 +43,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                 }
 				var entity = result.Result;
 
-				comboBoxTypeClassroom.SelectedValue = entity.ClassroomType;
+				comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
                 textBoxClassroom.Text = _id;
                 textBoxCapacity.Text = entity.Capacity.ToString();
             }

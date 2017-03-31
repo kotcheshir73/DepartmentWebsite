@@ -35,6 +35,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<DbContext, DepartmentDbContext>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISeasonDatesService, SeasonDatesService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
@@ -47,7 +48,11 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IScheduleStopWordService, ScheduleStopWordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
 
-            currentContainer
+			currentContainer.RegisterType<IKindOfLoadService, KindOfLoadService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IAcademicPlanService, AcademicPlanService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IAcademicPlanRecordService, AcademicPlanRecordService>(new HierarchicalLifetimeManager());
+
+			currentContainer
         .RegisterType<FormMain>()
         .RegisterInstance<IUnityContainer>(currentContainer);
             return currentContainer;

@@ -22,5 +22,9 @@ namespace DepartmentDAL.Models
 
         [ForeignKey("EducationDirectionId")]
         public virtual List<StudentGroup> StudentGroups { get; set; }
-    }
+
+		[ForeignKey("EducationDirectionId")]
+		public virtual List<AcademicPlan> AcademicPlans { get; set; }
+
+	}
 }

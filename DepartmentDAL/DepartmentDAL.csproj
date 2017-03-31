@@ -50,10 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\DepartmentDbContext.cs" />
+    <Compile Include="Enums\AcademicCourse.cs" />
+    <Compile Include="Enums\AcademicLevel.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
+    <Compile Include="Enums\KindOfLoadType.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\ResultServiceStatusCode.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
+    <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.cs" />
     <Compile Include="Migrations\201702031318461_InitialCreate.Designer.cs">
@@ -171,6 +175,10 @@
     <Compile Include="Migrations\201703190642289_UpdateStudentNullStudentGroup.Designer.cs">
       <DependentUpon>201703190642289_UpdateStudentNullStudentGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703310705280_AddAcademicPlansAndOther.cs" />
+    <Compile Include="Migrations\201703310705280_AddAcademicPlansAndOther.Designer.cs">
+      <DependentUpon>201703310705280_AddAcademicPlansAndOther.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -182,6 +190,7 @@
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\ExaminationRecord.cs" />
+    <Compile Include="Models\KindOfLoad.cs" />
     <Compile Include="Models\Lecturer.cs" />
     <Compile Include="Models\ScheduleLessonTime.cs" />
     <Compile Include="Models\OffsetRecord.cs" />
@@ -290,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703190642289_UpdateStudentNullStudentGroup.resx">
       <DependentUpon>201703190642289_UpdateStudentNullStudentGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703310705280_AddAcademicPlansAndOther.resx">
+      <DependentUpon>201703310705280_AddAcademicPlansAndOther.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
