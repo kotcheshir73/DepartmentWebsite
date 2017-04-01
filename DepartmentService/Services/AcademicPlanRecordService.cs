@@ -10,6 +10,7 @@ using DepartmentDAL.Context;
 using System.Data.Entity.Validation;
 using DepartmentDAL.Enums;
 using DepartmentDAL.Models;
+using System.Xml;
 
 namespace DepartmentService.Services
 {
@@ -77,11 +78,60 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-
-
-				return ResultService.Success();
+				XmlDocument newXmlDocument = new XmlDocument();
+				newXmlDocument.Load(new XmlTextReader(model.FileName));
+				XmlNode mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ/План/СтрокиПлана");
+				if (mainRootElementNode != null)
+				{//получаем перечень дисциплин по учебному плану
+					XmlNodeList elementsMainNode = mainRootElementNode.SelectNodes("Строка");
+					if (elementsMainNode != null)
+					{
+						foreach (XmlNode elementNode in elementsMainNode)
+						{//получаем информацию по каждой дисциплине
+							DisciplineRecordBindingModel disciplneModel = new DisciplineRecordBindingModel();
+							XmlAttributeCollection elementNodeAttributes = elementNode.Attributes;
+							if (elementNodeAttributes != null)
+							{
+								foreach (XmlAttribute elementNodeAttribute in elementNodeAttributes)
+								{
+									switch (elementNodeAttribute.Name)
+									{
+										case "Дис"://Получаем название дисциплины
+											disciplneModel.DisciplineName = elementNodeAttribute.Value;
+											break;
+									}
+								}
+							}
+							else
+							{
+								//TODO сделать обработку ошибки - нет аргументов
+								continue;
+							}
+							//ищем дисциплину или создаем новую
+							XmlNodeList elementSemNodes = elementNode.SelectNodes("Сем");
+							if (elementsMainNode != null)
+							{//получаем перечень семестров, в которые проводится дисциплина
+								foreach (XmlNode elementSemNode in elementSemNodes)
+								{
+									// <VZ ID="101" H="16" IntH="2" />
+									//< VZ ID = "103" H = "16" IntH = "10" />
+									//< VZ ID = "107" H = "22" />
+									//101 - где лучше задать эти кода, в видах нагрузке прописать? Кто их будет знать? Где их можно посмотреть?
+								}
+							}
+							else
+							{
+								//TODO сделать обработку ошибки - нет семестров
+								continue;
+							}
+						}
+						return ResultService.Success();
+					}
+					throw new Exception("Неверная структура xml. Не найден элемент /СтрокиПлана");
+				}
+				throw new Exception("Неверная структура xml. Не найден элемент /Документ/План/СтрокиПлана");
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
