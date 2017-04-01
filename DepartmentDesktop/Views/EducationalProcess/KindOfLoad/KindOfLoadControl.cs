@@ -66,15 +66,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 					{
 						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
 						var result = _service.DeleteKindOfLoad(new KindOfLoadGetBindingModel { Id = id });
-						if (result.Succeeded)
-						{
-							LoadData();
-						}
-						else
+						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
+					LoadData();
 				}
 			}
 		}
