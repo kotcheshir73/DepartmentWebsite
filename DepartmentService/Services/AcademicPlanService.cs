@@ -90,10 +90,10 @@ namespace DepartmentService.Services
 			var entity = new AcademicPlan
 			{
 				EducationDirectionId = model.EducationDirectionId,
-				DateCreate = DateTime.Now,
 				AcademicYearId = model.AcademicYearId,
 				AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel),
 				AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses),
+				DateCreate = DateTime.Now,
 				IsDeleted = false
 			};
 			try
@@ -123,6 +123,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
+				entity.EducationDirectionId = model.EducationDirectionId;
+				entity.AcademicYearId = model.AcademicYearId;
 				entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
 				entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses);
 

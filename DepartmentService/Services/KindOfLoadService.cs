@@ -69,10 +69,9 @@ namespace DepartmentService.Services
 		{
 			var entity = new KindOfLoad
 			{
-				Id = model.Id,
-				DateCreate = DateTime.Now,
 				KindOfLoadName = model.KindOfLoadName,
 				KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType),
+				DateCreate = DateTime.Now,
 				IsDeleted = false
 			};
 			try

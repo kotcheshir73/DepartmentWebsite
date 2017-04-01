@@ -326,11 +326,11 @@ namespace DepartmentService.Services
 			var entity = new AcademicPlanRecord
 			{
 				AcademicPlanId = model.AcademicPlanId,
-				DateCreate = DateTime.Now,
 				DisciplineId = model.DisciplineId,
 				KindOfLoadId = model.KindOfLoadId,
 				Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester),
 				Hours = model.Hours,
+				DateCreate = DateTime.Now,
 				IsDeleted = false
 			};
 			try
@@ -360,6 +360,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
+				entity.DisciplineId = model.DisciplineId;
+				entity.KindOfLoadId = model.KindOfLoadId;
 				entity.Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester);
 				entity.Hours = model.Hours;
 

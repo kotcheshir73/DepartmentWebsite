@@ -81,10 +81,10 @@ namespace DepartmentService.Services
 			var entity = new StudentGroup
 			{
 				EducationDirectionId = model.EducationDirectionId,
-				DateCreate = DateTime.Now,
 				GroupName = model.GroupName,
-				IsDeleted = false,
-				Kurs = model.Kurs
+				Kurs = model.Kurs,
+				DateCreate = DateTime.Now,
+				IsDeleted = false
 			};
 			try
 			{
@@ -113,6 +113,7 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
+				entity.EducationDirectionId = model.EducationDirectionId;
 				entity.GroupName = model.GroupName;
 				entity.Kurs = model.Kurs;
 				if (!string.IsNullOrEmpty(model.StewardId))

@@ -70,10 +70,10 @@ namespace DepartmentService.Services
 			var entity = new EducationDirection
 			{
 				Cipher = model.Cipher,
-				DateCreate = DateTime.Now,
 				Description = model.Description,
-				IsDeleted = false,
-				Title = model.Title
+				Title = model.Title,
+				DateCreate = DateTime.Now,
+				IsDeleted = false
 			};
 			try
 			{

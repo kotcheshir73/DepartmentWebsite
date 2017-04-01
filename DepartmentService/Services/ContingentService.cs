@@ -122,6 +122,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
+				entity.AcademicYearId = model.AcademicYearId;
+				entity.StudentGroupId = model.StudentGroupId;
 				entity.CountStudetns = model.CountStudents;
 				entity.CountSubgroups = model.CountSubgroups;
 

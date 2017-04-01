@@ -72,9 +72,9 @@ namespace DepartmentService.Services
 			{
 				Id = model.Id,
 				IncomingGroups = model.IncomingGroups,
+				StreamName = model.StreamName,
 				DateCreate = DateTime.Now,
-				IsDeleted = false,
-				StreamName = model.StreamName
+				IsDeleted = false
 			};
 			try
 			{
