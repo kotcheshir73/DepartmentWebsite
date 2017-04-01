@@ -17,16 +17,6 @@ namespace DepartmentDAL.Models
         [Required]
         public int Kurs { get; set; }
 
-        /// <summary>
-        /// Предполагаемое количество студентов в группе (для первого курса)
-        /// </summary>
-        public int Capacity { get; set; }
-
-        /// <summary>
-        /// Количество подгрупп
-        /// </summary>
-        public int SubgroupsCount { get; set; }
-
         public string StewardId { get; set; }
 
         public long? CuratorId { get; set; }

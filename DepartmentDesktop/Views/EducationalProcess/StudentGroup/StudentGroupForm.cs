@@ -83,8 +83,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
                 textBoxGroupName.Text = entity.GroupName;
                 textBoxKurs.Text = entity.Kurs.ToString();
-                textBoxCapacity.Text = entity.Capacity.ToString();
-                textBoxSubgroupsCount.Text = entity.SubgroupsCount.ToString();
 				if(!string.IsNullOrEmpty(entity.StewardId))
 				{
 					comboBoxSteward.SelectedValue = entity.StewardId;

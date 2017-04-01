@@ -9,7 +9,7 @@ namespace DepartmentService.BindingModels
 		public string GroupName { get; set; }
 	}
 
-    public class StudentGroupRecordBindingModel
+	public class StudentGroupRecordBindingModel
     {
         public long Id { get; set; }
 
@@ -20,12 +20,29 @@ namespace DepartmentService.BindingModels
         
         public int Kurs { get; set; }
 
-        public int Capacity { get; set; }
-
-        public int SubgroupsCount { get; set; }
-
         public string StewardId { get; set; }
 
         public long? CuratorId { get; set; }
-    }
+	}
+
+	public class ContingentGetBindingModel
+	{
+		public long Id { get; set; }
+	}
+
+	public class ContingentRecordBindingModel
+	{
+		public long Id { get; set; }
+
+		public long AcademicYearId { get; set; }
+
+		public long StudentGroupId { get; set; }
+
+		[Required(ErrorMessage = "required")]
+		public string GroupName { get; set; }
+
+		public int CountStudents { get; set; }
+
+		public int CountSubgroups { get; set; }
+	}
 }

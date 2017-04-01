@@ -70,6 +70,7 @@
     <Compile Include="IServices\IAcademicYearService.cs" />
     <Compile Include="IServices\IClassroomService.cs" />
     <Compile Include="IServices\IConsultationRecordService.cs" />
+    <Compile Include="IServices\IContingentService.cs" />
     <Compile Include="IServices\IDisciplineService.cs" />
     <Compile Include="IServices\IEducationDirectionService.cs" />
     <Compile Include="IServices\IExaminationRecordService.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Services\AcademicYearService.cs" />
     <Compile Include="Services\ClassroomService.cs" />
     <Compile Include="Services\ConsultationRecordService.cs" />
+    <Compile Include="Services\ContingentService.cs" />
     <Compile Include="Services\DisciplineService.cs" />
     <Compile Include="Services\EducationDirectionService.cs" />
     <Compile Include="Services\ExaminationRecordService.cs" />

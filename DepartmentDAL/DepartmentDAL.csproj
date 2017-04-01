@@ -183,6 +183,10 @@
     <Compile Include="Migrations\201704010842013_AddAcademyYear.Designer.cs">
       <DependentUpon>201704010842013_AddAcademyYear.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704010948531_AddContingent.cs" />
+    <Compile Include="Migrations\201704010948531_AddContingent.Designer.cs">
+      <DependentUpon>201704010948531_AddContingent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -191,6 +195,7 @@
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Classroom.cs" />
     <Compile Include="Models\ConsultationRecord.cs" />
+    <Compile Include="Models\Contingent.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\EducationDirection.cs" />
@@ -310,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704010842013_AddAcademyYear.resx">
       <DependentUpon>201704010842013_AddAcademyYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704010948531_AddContingent.resx">
+      <DependentUpon>201704010948531_AddContingent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

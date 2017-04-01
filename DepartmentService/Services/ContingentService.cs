@@ -13,92 +13,83 @@ using DepartmentDAL.Models;
 
 namespace DepartmentService.Services
 {
-	public class AcademicPlanService : IAcademicPlanService
+	public class ContingentService : IContingentService
 	{
 		private readonly DepartmentDbContext _context;
 
-		private readonly IAcademicYearService _serviceAY;
+		private readonly IStudentGroupService _serviceSG;
 
-		private readonly IEducationDirectionService _serviceED;
-
-		public AcademicPlanService(DepartmentDbContext context, IEducationDirectionService serviceED,
-			IAcademicYearService serviceAY)
+		public ContingentService(DepartmentDbContext context, IStudentGroupService serviceSG)
 		{
 			_context = context;
-			_serviceAY = serviceAY;
-			_serviceED = serviceED;
+			_serviceSG = serviceSG;
 		}
 
-		public ResultService<List<AcademicPlanViewModel>> GetAcademicPlans()
+		public ResultService<List<ContingentViewModel>> GetContingents()
 		{
 			try
 			{
-				return ResultService<List<AcademicPlanViewModel>>.Success(
-					ModelFactory.CreateAcademicPlans(_context.AcademicPlans
-						.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
+				return ResultService<List<ContingentViewModel>>.Success(
+					ModelFactory.CreateContingents(_context.Contingents
+						.Include(ap => ap.AcademicYear).Include(s => s.StudentGroup)
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<AcademicPlanViewModel>>.Error(ex,
+				return ResultService<List<ContingentViewModel>>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<AcademicPlanViewModel>>.Error(ex,
+				return ResultService<List<ContingentViewModel>>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<List<AcademicYearViewModel>> GetAcademicYears()
+		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
 		{
-			return _serviceAY.GetAcademicYears();
+			return _serviceSG.GetStudentGroups();
 		}
 
-		public ResultService<List<EducationDirectionViewModel>> GetEducationDirections()
-		{
-			return _serviceED.GetEducationDirections();
-		}
-
-		public ResultService<AcademicPlanViewModel> GetAcademicPlan(AcademicPlanGetBindingModel model)
+		public ResultService<ContingentViewModel> GetContingent(ContingentGetBindingModel model)
 		{
 			try
 			{
-				var entity = _context.AcademicPlans.Include(ap => ap.AcademicYear).Include(ap => ap.EducationDirection)
+				var entity = _context.Contingents.Include(ap => ap.AcademicYear).Include(s => s.StudentGroup)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<AcademicPlanViewModel>.Error("Error:", "Entity not found",
+					return ResultService<ContingentViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 
-				return ResultService<AcademicPlanViewModel>.Success(
-					ModelFactory.CreateAcademicPlanViewModel(entity));
+				return ResultService<ContingentViewModel>.Success(
+					ModelFactory.CreateContingentViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<AcademicPlanViewModel>.Error(ex,
+				return ResultService<ContingentViewModel>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<AcademicPlanViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<ContingentViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateAcademicPlan(AcademicPlanRecordBindingModel model)
+		public ResultService CreateContingent(ContingentRecordBindingModel model)
 		{
-			var entity = new AcademicPlan
+			var entity = new Contingent
 			{
-				EducationDirectionId = model.EducationDirectionId,
-				DateCreate = DateTime.Now,
 				AcademicYearId = model.AcademicYearId,
-				AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel),
-				AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses),
+				StudentGroupId = model.StudentGroupId,
+				CountStudetns = model.CountStudents,
+				CountSubgroups = model.CountSubgroups,
+				DateCreate = DateTime.Now,
 				IsDeleted = false
 			};
 			try
 			{
-				_context.AcademicPlans.Add(entity);
+				_context.Contingents.Add(entity);
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -112,19 +103,19 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateAcademicPlan(AcademicPlanRecordBindingModel model)
+		public ResultService UpdateContingent(ContingentRecordBindingModel model)
 		{
 			try
 			{
-				var entity = _context.AcademicPlans
+				var entity = _context.Contingents
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
-				entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses);
+				entity.CountStudetns = model.CountStudents;
+				entity.CountSubgroups = model.CountSubgroups;
 
 				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 				_context.SaveChanges();
@@ -140,11 +131,11 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteAcademicPlan(AcademicPlanGetBindingModel model)
+		public ResultService DeleteContingent(ContingentGetBindingModel model)
 		{
 			try
 			{
-				var entity = _context.AcademicPlans
+				var entity = _context.Contingents
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{

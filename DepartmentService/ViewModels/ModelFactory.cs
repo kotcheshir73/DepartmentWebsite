@@ -141,6 +141,25 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateStudentGroupViewModel(e)).OrderBy(e => e.Kurs).ThenBy(e => e.EducationDirectionId);
 		}
 
+		public static ContingentViewModel CreateContingentViewModel(Contingent entity)
+		{
+			return new ContingentViewModel
+			{
+				Id = entity.Id,
+				AcademicYearId = entity.AcademicYearId,
+				StudentGroupId = entity.StudentGroupId,
+				AcademicYear = entity.AcademicYear.Title,
+				StudentGroupName = entity.StudentGroup.GroupName,
+				CountStudents = entity.CountStudetns,
+				CountSubgroups = entity.CountSubgroups
+			};
+		}
+
+		public static IEnumerable<ContingentViewModel> CreateContingents(IEnumerable<Contingent> entities)
+		{
+			return entities.Select(e => CreateContingentViewModel(e)).OrderBy(e => e.AcademicYearId).ThenBy(e => e.StudentGroupId);
+		}
+
 
 		public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
 		{
