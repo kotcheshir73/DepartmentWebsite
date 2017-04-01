@@ -76,64 +76,224 @@ namespace DepartmentService.Services
 
 		public ResultService LoadFromXMLAcademicPlanRecord(AcademicPlanRecordLoadFromXMLBindingModel model)
 		{
-			try
+			using (var transaction = _context.Database.BeginTransaction())
 			{
-				XmlDocument newXmlDocument = new XmlDocument();
-				newXmlDocument.Load(new XmlTextReader(model.FileName));
-				XmlNode mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ/План/СтрокиПлана");
-				if (mainRootElementNode != null)
-				{//получаем перечень дисциплин по учебному плану
-					XmlNodeList elementsMainNode = mainRootElementNode.SelectNodes("Строка");
-					if (elementsMainNode != null)
+				ResultService result = new ResultService();
+				try
+				{
+					//Получаем номер кафедры
+					var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Кафедра");
+					if (currentSetting == null)
 					{
-						foreach (XmlNode elementNode in elementsMainNode)
-						{//получаем информацию по каждой дисциплине
-							DisciplineRecordBindingModel disciplneModel = new DisciplineRecordBindingModel();
-							XmlAttributeCollection elementNodeAttributes = elementNode.Attributes;
-							if (elementNodeAttributes != null)
-							{
-								foreach (XmlAttribute elementNodeAttribute in elementNodeAttributes)
+						return ResultService.Error("Error:", "CurrentSetting not found",
+							ResultServiceStatusCode.NotFound);
+					}
+					XmlDocument newXmlDocument = new XmlDocument();
+					newXmlDocument.Load(new XmlTextReader(model.FileName));
+					XmlNode mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ/План/СтрокиПлана");
+					int counter = 0;
+					if (mainRootElementNode != null)
+					{//получаем перечень дисциплин по учебному плану
+						XmlNodeList elementsMainNode = mainRootElementNode.SelectNodes("Строка");
+						if (elementsMainNode != null)
+						{
+							foreach (XmlNode elementNode in elementsMainNode)
+							{//получаем информацию по каждой дисциплине
+								counter++;
+								//дисциплина
+								XmlNode disciplineAttributes = elementNode.Attributes.GetNamedItem("Дис");
+								if (disciplineAttributes == null)
 								{
-									switch (elementNodeAttribute.Name)
+									result.AddError("Not_Found", string.Format("Дисциплина не найдена. Строка {0}", counter));
+									continue;
+								}
+								//кафедра
+								XmlNode kafedraNode = elementNode.Attributes.GetNamedItem("Кафедра");
+								if (kafedraNode == null)
+								{
+									result.AddError("Not_Found", string.Format("Кафедра не найдена. Дисциплина {0}",
+										disciplineAttributes.Value));
+									continue;
+								}
+								if(kafedraNode.Value != currentSetting.Value)
+								{//не наша кафедра
+									continue;
+								}
+								//ищем дисцилпину, если не находим, создаем							
+								var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName ==
+																disciplineAttributes.Value);
+								if (discipline == null)
+								{
+									_context.Disciplines.Add(new Discipline
 									{
-										case "Дис"://Получаем название дисциплины
-											disciplneModel.DisciplineName = elementNodeAttribute.Value;
-											break;
+										DisciplineName = disciplineAttributes.Value,
+										DateCreate = DateTime.Now,
+										IsDeleted = false
+									});
+									_context.SaveChanges();
+								}
+								//семестры
+								XmlNodeList elementSemNodes = elementNode.SelectNodes("Сем");
+								if (elementsMainNode != null)
+								{//получаем перечень семестров, в которые проводится дисциплина
+									foreach (XmlNode elementSemNode in elementSemNodes)
+									{//идем по семестрам (тегам "Сем"), смотрим их аттрибуты
+										XmlAttributeCollection elementSemNodeAttributes = elementSemNode.Attributes;
+										if (elementSemNodeAttributes != null)
+										{
+											XmlNode semNode = elementSemNodeAttributes.GetNamedItem("Ном");
+											if (semNode == null)
+											{
+												result.AddError("Not_Found", string.Format("Семестр не найден. Строка {0}", counter));
+												continue;
+											}
+											foreach (XmlAttribute elementSemNodeAttribute in elementSemNodeAttributes)
+											{
+												KindOfLoad kindOfLoad = null;
+												switch (elementSemNodeAttribute.Name)
+												{
+													case "Лек"://Лекции
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															  kl.KindOfLoadName.Contains("Лекц"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Лекция' не найден"));
+															}
+														}
+														break;
+													case "Пр"://Практика
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Практ"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Практика' не найден"));
+															}
+														}
+														break;
+													case "Лаб"://Лабораторные
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Лаборатор"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Лабораторные' не найден"));
+															}
+														}
+														break;
+													case "КР"://Курсовая работа
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Курсовая работа"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Курсовая работа' не найден"));
+															}
+														}
+														break;
+													case "КП"://Курсовой проект
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Курсовой проект"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Курсовой проект' не найден"));
+															}
+														}
+														break;
+													case "Реф"://Реферат
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Реферат"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Реферат' не найден"));
+															}
+														}
+														break;
+													case "РГР"://РГР
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("РГР"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'РГР' не найден"));
+															}
+														}
+														break;
+													case "Зач"://Зачет
+													case "ЗачО"://Зачет с оценкой
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Зачет"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Зачет' не найден"));
+															}
+														}
+														break;
+													case "Экз"://Экзамен
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Экзамен"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Экзамен' не найден"));
+															}
+														}
+														break;
+												}
+												if (kindOfLoad != null)
+												{
+													var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+														apr.AcademicPlanId == model.Id &&
+														apr.DisciplineId == discipline.Id &&
+														apr.KindOfLoadId == kindOfLoad.Id &&
+														apr.Semester == (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value)) &&
+														!apr.IsDeleted);
+													if (record == null)
+													{
+														_context.AcademicPlanRecords.Add(new AcademicPlanRecord
+														{
+															AcademicPlanId = model.Id,
+															DisciplineId = discipline.Id,
+															KindOfLoadId = kindOfLoad.Id,
+															Semester = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value)),
+															Hours = Convert.ToInt32(elementSemNodeAttribute.Value),
+															DateCreate = DateTime.Now,
+															IsDeleted = false
+														});
+													}
+													else
+													{
+														record.Hours = Convert.ToInt32(elementSemNodeAttribute.Value);
+														_context.Entry(record).State = EntityState.Modified;
+													}
+													_context.SaveChanges();
+												}
+											}
+										}
 									}
 								}
-							}
-							else
-							{
-								//TODO сделать обработку ошибки - нет аргументов
-								continue;
-							}
-							//ищем дисциплину или создаем новую
-							XmlNodeList elementSemNodes = elementNode.SelectNodes("Сем");
-							if (elementsMainNode != null)
-							{//получаем перечень семестров, в которые проводится дисциплина
-								foreach (XmlNode elementSemNode in elementSemNodes)
+								else
 								{
-									// <VZ ID="101" H="16" IntH="2" />
-									//< VZ ID = "103" H = "16" IntH = "10" />
-									//< VZ ID = "107" H = "22" />
-									//101 - где лучше задать эти кода, в видах нагрузке прописать? Кто их будет знать? Где их можно посмотреть?
+									result.AddError("Not_found", string.Format("Семестры не найдены в строке {0}", counter));
+									continue;
 								}
 							}
-							else
-							{
-								//TODO сделать обработку ошибки - нет семестров
-								continue;
-							}
+							transaction.Commit();
+							return result;
 						}
-						return ResultService.Success();
+						throw new Exception("Неверная структура xml. Не найден элемент /СтрокиПлана");
 					}
-					throw new Exception("Неверная структура xml. Не найден элемент /СтрокиПлана");
+					throw new Exception("Неверная структура xml. Не найден элемент /Документ/План/СтрокиПлана");
 				}
-				throw new Exception("Неверная структура xml. Не найден элемент /Документ/План/СтрокиПлана");
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
 			}
 		}
 

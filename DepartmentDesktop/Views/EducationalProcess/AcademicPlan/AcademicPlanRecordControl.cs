@@ -76,15 +76,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
 						var result = _service.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = id });
-						if (result.Succeeded)
-						{
-							LoadData(_apId);
-						}
-						else
+						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
+					LoadData(_apId);
 				}
 			}
 		}
