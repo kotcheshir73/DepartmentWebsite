@@ -110,6 +110,18 @@
     <Compile Include="Views\EducationalProcess\AcademicPlan\AcademicPlanRecordForm.Designer.cs">
       <DependentUpon>AcademicPlanRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\AcademicYearControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\AcademicYearControl.Designer.cs">
+      <DependentUpon>AcademicYearControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\AcademicYearForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\AcademicYearForm.Designer.cs">
+      <DependentUpon>AcademicYearForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -402,6 +414,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\AcademicPlanRecordForm.resx">
       <DependentUpon>AcademicPlanRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\AcademicYearControl.resx">
+      <DependentUpon>AcademicYearControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\AcademicYearForm.resx">
+      <DependentUpon>AcademicYearForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomControl.resx">
       <DependentUpon>ClassroomControl.cs</DependentUpon>

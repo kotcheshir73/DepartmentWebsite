@@ -34,6 +34,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AcademicPlanForm_Load(object sender, EventArgs e)
 		{
+			var resultAY = _service.GetAcademicYears();
+			if (!resultAY.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
+				return;
+			}
+
 			var resultED = _service.GetEducationDirections();
 			if (!resultED.Succeeded)
 			{
@@ -45,6 +52,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				comboBoxAcademicLevel.Items.Add(elem.ToString());
 			}
+
+			comboBoxAcademicYear.ValueMember = "Value";
+			comboBoxAcademicYear.DisplayMember = "Display";
+			comboBoxAcademicYear.DataSource = resultAY.Result
+				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
+			comboBoxAcademicYear.SelectedItem = null;
 
 			comboBoxEducationDirection.ValueMember = "Value";
 			comboBoxEducationDirection.DisplayMember = "Display";
@@ -76,7 +89,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 				comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
 				comboBoxEducationDirection.Enabled = false;
-				textBoxAcademicYear.Text = entity.AcademicYear;
+				comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
 				comboBoxAcademicLevel.SelectedIndex = comboBoxAcademicLevel.Items.IndexOf(entity.AcademicLevel);
 				var courses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), entity.AcademicCourses);
 				checkBox1.Checked = (courses & AcademicCourse.Course_1) == AcademicCourse.Course_1;
@@ -94,7 +107,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				return false;
 			}
-			if (string.IsNullOrEmpty(textBoxAcademicYear.Text))
+			if (comboBoxAcademicYear.SelectedValue == null)
 			{
 				return false;
 			}
@@ -145,7 +158,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					result = _service.CreateAcademicPlan(new AcademicPlanRecordBindingModel
 					{
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
-						AcademicYear = textBoxAcademicYear.Text,
+						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
 						AcademicLevel = comboBoxAcademicLevel.Text,
 						AcademicCourses = Convert.ToInt32(courses)
 					});
@@ -156,7 +169,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						Id = _id,
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
-						AcademicYear = textBoxAcademicYear.Text,
+						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
 						AcademicLevel = comboBoxAcademicLevel.Text,
 						AcademicCourses = Convert.ToInt32(courses)
 					});

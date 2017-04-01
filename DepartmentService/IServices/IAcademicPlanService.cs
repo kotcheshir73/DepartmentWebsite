@@ -13,6 +13,12 @@ namespace DepartmentService.IServices
 		ResultService<List<AcademicPlanViewModel>> GetAcademicPlans();
 
 		/// <summary>
+		/// Получение списка учебных годов
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<AcademicYearViewModel>> GetAcademicYears();
+
+		/// <summary>
 		/// Получение списка направлений
 		/// </summary>
 		/// <returns></returns>

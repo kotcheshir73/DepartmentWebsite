@@ -1,4 +1,5 @@
-﻿using DepartmentDAL.Models;
+﻿using DepartmentDAL.Enums;
+using DepartmentDAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -42,13 +43,40 @@ namespace DepartmentService.ViewModels
 
 		public static AcademicPlanViewModel CreateAcademicPlanViewModel(AcademicPlan entity)
 		{
+			string courses = "";
+			if ((entity.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
+			{
+				courses += "1";
+			}
+			if ((entity.AcademicCourses & AcademicCourse.Course_2) == AcademicCourse.Course_2)
+			{
+				courses += (courses == "" ? "" : ", ") + "2";
+			}
+			if ((entity.AcademicCourses & AcademicCourse.Course_3) == AcademicCourse.Course_3)
+			{
+				courses += (courses == "" ? "" : ", ") + "3";
+			}
+			if ((entity.AcademicCourses & AcademicCourse.Course_4) == AcademicCourse.Course_4)
+			{
+				courses += (courses == "" ? "" : ", ") + "4";
+			}
+			if ((entity.AcademicCourses & AcademicCourse.Course_5) == AcademicCourse.Course_5)
+			{
+				courses += (courses == "" ? "" : ", ") + "5";
+			}
+			if((entity.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
+			{
+				courses += (courses == "" ? "" : ", ") + "6";
+			}
 			return new AcademicPlanViewModel
 			{
 				Id = entity.Id,
+				AcademicYearId = entity.AcademicYearId,
 				EducationDirectionId = entity.EducationDirectionId,
 				EducationDirection = entity.EducationDirection.Cipher,
-				AcademicYear = entity.AcademicYear,
+				AcademicYear = entity.AcademicYear.Title,
 				AcademicLevel = entity.AcademicLevel.ToString(),
+				AcademicCoursesStrings = courses,
 				AcademicCourses = (int)entity.AcademicCourses
 			};
 		}
@@ -76,6 +104,20 @@ namespace DepartmentService.ViewModels
 		public static IEnumerable<AcademicPlanRecordViewModel> CreateAcademicPlanRecords(IEnumerable<AcademicPlanRecord> entities)
 		{
 			return entities.Select(e => CreateAcademicPlanRecordViewModel(e));
+		}
+
+		public static AcademicYearViewModel CreateAcademicYearViewModel(AcademicYear entity)
+		{
+			return new AcademicYearViewModel
+			{
+				Id = entity.Id,
+				Title = entity.Title
+			};
+		}
+
+		public static IEnumerable<AcademicYearViewModel> CreateAcademicYears(IEnumerable<AcademicYear> entities)
+		{
+			return entities.Select(e => CreateAcademicYearViewModel(e));
 		}
 
 		public static StudentGroupViewModel CreateStudentGroupViewModel(StudentGroup entity)

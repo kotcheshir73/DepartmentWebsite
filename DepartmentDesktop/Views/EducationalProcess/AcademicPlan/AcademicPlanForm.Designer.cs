@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.labelAcademicYear = new System.Windows.Forms.Label();
-			this.textBoxAcademicYear = new System.Windows.Forms.TextBox();
 			this.labelAcademicLevel = new System.Windows.Forms.Label();
 			this.comboBoxAcademicLevel = new System.Windows.Forms.ComboBox();
 			this.labelAcademicCourse = new System.Windows.Forms.Label();
@@ -46,6 +45,7 @@
 			this.comboBoxEducationDirection = new System.Windows.Forms.ComboBox();
 			this.labelEducationDirection = new System.Windows.Forms.Label();
 			this.tabPageRecords = new System.Windows.Forms.TabPage();
+			this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
 			this.tabControl.SuspendLayout();
 			this.tabPageConfig.SuspendLayout();
 			this.SuspendLayout();
@@ -59,17 +59,10 @@
 			this.labelAcademicYear.TabIndex = 2;
 			this.labelAcademicYear.Text = "Учебный год*:";
 			// 
-			// textBoxAcademicYear
-			// 
-			this.textBoxAcademicYear.Location = new System.Drawing.Point(100, 37);
-			this.textBoxAcademicYear.Name = "textBoxAcademicYear";
-			this.textBoxAcademicYear.Size = new System.Drawing.Size(222, 20);
-			this.textBoxAcademicYear.TabIndex = 3;
-			// 
 			// labelAcademicLevel
 			// 
 			this.labelAcademicLevel.AutoSize = true;
-			this.labelAcademicLevel.Location = new System.Drawing.Point(12, 66);
+			this.labelAcademicLevel.Location = new System.Drawing.Point(12, 67);
 			this.labelAcademicLevel.Name = "labelAcademicLevel";
 			this.labelAcademicLevel.Size = new System.Drawing.Size(58, 13);
 			this.labelAcademicLevel.TabIndex = 4;
@@ -79,7 +72,7 @@
 			// 
 			this.comboBoxAcademicLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxAcademicLevel.FormattingEnabled = true;
-			this.comboBoxAcademicLevel.Location = new System.Drawing.Point(100, 63);
+			this.comboBoxAcademicLevel.Location = new System.Drawing.Point(100, 64);
 			this.comboBoxAcademicLevel.Name = "comboBoxAcademicLevel";
 			this.comboBoxAcademicLevel.Size = new System.Drawing.Size(222, 21);
 			this.comboBoxAcademicLevel.TabIndex = 5;
@@ -87,7 +80,7 @@
 			// labelAcademicCourse
 			// 
 			this.labelAcademicCourse.AutoSize = true;
-			this.labelAcademicCourse.Location = new System.Drawing.Point(12, 94);
+			this.labelAcademicCourse.Location = new System.Drawing.Point(12, 95);
 			this.labelAcademicCourse.Name = "labelAcademicCourse";
 			this.labelAcademicCourse.Size = new System.Drawing.Size(46, 13);
 			this.labelAcademicCourse.TabIndex = 6;
@@ -96,7 +89,7 @@
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(100, 93);
+			this.checkBox1.Location = new System.Drawing.Point(100, 94);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(32, 17);
 			this.checkBox1.TabIndex = 7;
@@ -106,7 +99,7 @@
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(138, 93);
+			this.checkBox2.Location = new System.Drawing.Point(138, 94);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(32, 17);
 			this.checkBox2.TabIndex = 8;
@@ -116,7 +109,7 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(176, 93);
+			this.checkBox3.Location = new System.Drawing.Point(176, 94);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(32, 17);
 			this.checkBox3.TabIndex = 9;
@@ -126,7 +119,7 @@
 			// checkBox4
 			// 
 			this.checkBox4.AutoSize = true;
-			this.checkBox4.Location = new System.Drawing.Point(214, 93);
+			this.checkBox4.Location = new System.Drawing.Point(214, 94);
 			this.checkBox4.Name = "checkBox4";
 			this.checkBox4.Size = new System.Drawing.Size(32, 17);
 			this.checkBox4.TabIndex = 10;
@@ -136,7 +129,7 @@
 			// checkBox5
 			// 
 			this.checkBox5.AutoSize = true;
-			this.checkBox5.Location = new System.Drawing.Point(252, 93);
+			this.checkBox5.Location = new System.Drawing.Point(252, 94);
 			this.checkBox5.Name = "checkBox5";
 			this.checkBox5.Size = new System.Drawing.Size(32, 17);
 			this.checkBox5.TabIndex = 11;
@@ -146,7 +139,7 @@
 			// checkBox6
 			// 
 			this.checkBox6.AutoSize = true;
-			this.checkBox6.Location = new System.Drawing.Point(290, 95);
+			this.checkBox6.Location = new System.Drawing.Point(290, 96);
 			this.checkBox6.Name = "checkBox6";
 			this.checkBox6.Size = new System.Drawing.Size(32, 17);
 			this.checkBox6.TabIndex = 12;
@@ -155,7 +148,7 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(247, 116);
+			this.buttonClose.Location = new System.Drawing.Point(247, 117);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
 			this.buttonClose.TabIndex = 14;
@@ -165,7 +158,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(166, 116);
+			this.buttonSave.Location = new System.Drawing.Point(166, 117);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 13;
@@ -186,11 +179,11 @@
 			// 
 			// tabPageConfig
 			// 
+			this.tabPageConfig.Controls.Add(this.comboBoxAcademicYear);
 			this.tabPageConfig.Controls.Add(this.comboBoxEducationDirection);
 			this.tabPageConfig.Controls.Add(this.labelEducationDirection);
 			this.tabPageConfig.Controls.Add(this.labelAcademicYear);
 			this.tabPageConfig.Controls.Add(this.buttonClose);
-			this.tabPageConfig.Controls.Add(this.textBoxAcademicYear);
 			this.tabPageConfig.Controls.Add(this.buttonSave);
 			this.tabPageConfig.Controls.Add(this.labelAcademicLevel);
 			this.tabPageConfig.Controls.Add(this.checkBox6);
@@ -237,6 +230,15 @@
 			this.tabPageRecords.Text = "Записи";
 			this.tabPageRecords.UseVisualStyleBackColor = true;
 			// 
+			// comboBoxAcademicYear
+			// 
+			this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxAcademicYear.FormattingEnabled = true;
+			this.comboBoxAcademicYear.Location = new System.Drawing.Point(100, 37);
+			this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
+			this.comboBoxAcademicYear.Size = new System.Drawing.Size(222, 21);
+			this.comboBoxAcademicYear.TabIndex = 3;
+			// 
 			// AcademicPlanForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,7 +259,6 @@
 		#endregion
 
 		private System.Windows.Forms.Label labelAcademicYear;
-		private System.Windows.Forms.TextBox textBoxAcademicYear;
 		private System.Windows.Forms.Label labelAcademicLevel;
 		private System.Windows.Forms.ComboBox comboBoxAcademicLevel;
 		private System.Windows.Forms.Label labelAcademicCourse;
@@ -274,5 +275,6 @@
 		private System.Windows.Forms.TabPage tabPageRecords;
 		private System.Windows.Forms.ComboBox comboBoxEducationDirection;
 		private System.Windows.Forms.Label labelEducationDirection;
+		private System.Windows.Forms.ComboBox comboBoxAcademicYear;
 	}
 }

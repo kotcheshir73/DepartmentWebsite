@@ -179,9 +179,14 @@
     <Compile Include="Migrations\201703310705280_AddAcademicPlansAndOther.Designer.cs">
       <DependentUpon>201703310705280_AddAcademicPlansAndOther.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704010842013_AddAcademyYear.cs" />
+    <Compile Include="Migrations\201704010842013_AddAcademyYear.Designer.cs">
+      <DependentUpon>201704010842013_AddAcademyYear.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
+    <Compile Include="Models\AcademicYear.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Classroom.cs" />
@@ -302,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703310705280_AddAcademicPlansAndOther.resx">
       <DependentUpon>201703310705280_AddAcademicPlansAndOther.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704010842013_AddAcademyYear.resx">
+      <DependentUpon>201704010842013_AddAcademyYear.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

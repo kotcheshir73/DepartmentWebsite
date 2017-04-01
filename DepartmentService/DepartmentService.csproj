@@ -67,6 +67,7 @@
     <Compile Include="BindingModels\StudentGroupBindingModels.cs" />
     <Compile Include="IServices\IAcademicPlanRecordService.cs" />
     <Compile Include="IServices\IAcademicPlanService.cs" />
+    <Compile Include="IServices\IAcademicYearService.cs" />
     <Compile Include="IServices\IClassroomService.cs" />
     <Compile Include="IServices\IConsultationRecordService.cs" />
     <Compile Include="IServices\IDisciplineService.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AcademicPlanRecordService.cs" />
     <Compile Include="Services\AcademicPlanService.cs" />
+    <Compile Include="Services\AcademicYearService.cs" />
     <Compile Include="Services\ClassroomService.cs" />
     <Compile Include="Services\ConsultationRecordService.cs" />
     <Compile Include="Services\DisciplineService.cs" />

@@ -17,11 +17,15 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly IAcademicYearService _serviceAY;
+
 		private readonly IEducationDirectionService _serviceED;
 
-		public AcademicPlanService(DepartmentDbContext context, IEducationDirectionService serviceED)
+		public AcademicPlanService(DepartmentDbContext context, IEducationDirectionService serviceED,
+			IAcademicYearService serviceAY)
 		{
 			_context = context;
+			_serviceAY = serviceAY;
 			_serviceED = serviceED;
 		}
 
@@ -31,7 +35,7 @@ namespace DepartmentService.Services
 			{
 				return ResultService<List<AcademicPlanViewModel>>.Success(
 					ModelFactory.CreateAcademicPlans(_context.AcademicPlans
-						.Include(s => s.EducationDirection)
+						.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -45,6 +49,11 @@ namespace DepartmentService.Services
 				return ResultService<List<AcademicPlanViewModel>>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
+		}
+
+		public ResultService<List<AcademicYearViewModel>> GetAcademicYears()
+		{
+			return _serviceAY.GetAcademicYears();
 		}
 
 		public ResultService<List<EducationDirectionViewModel>> GetEducationDirections()
@@ -82,7 +91,7 @@ namespace DepartmentService.Services
 			{
 				EducationDirectionId = model.EducationDirectionId,
 				DateCreate = DateTime.Now,
-				AcademicYear = model.AcademicYear,
+				AcademicYearId = model.AcademicYearId,
 				AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel),
 				AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses),
 				IsDeleted = false
@@ -114,7 +123,6 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.AcademicYear = model.AcademicYear;
 				entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
 				entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses);
 

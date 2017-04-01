@@ -5,22 +5,19 @@ using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
-	public partial class AcademicPlanControl : UserControl
+	public partial class AcademicYearControl : UserControl
 	{
-		private readonly IAcademicPlanService _service;
+		private readonly IAcademicYearService _service;
 
-		private readonly IAcademicPlanRecordService _serviceAPR;
-
-		public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR)
+		public AcademicYearControl(IAcademicYearService service)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceAPR = serviceAPR;
 		}
 
 		public void LoadData()
 		{
-			var result = _service.GetAcademicPlans();
+			var result = _service.GetAcademicYears();
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -30,23 +27,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (dataGridViewList.Columns.Count > 0)
 			{
 				dataGridViewList.Columns[0].Visible = false;
-				dataGridViewList.Columns[1].Visible = false;
-				dataGridViewList.Columns[2].Visible = false;
-				dataGridViewList.Columns[3].HeaderText = "Направление";
-				dataGridViewList.Columns[3].Width = 100;
-				dataGridViewList.Columns[4].HeaderText = "Учебный год";
-				dataGridViewList.Columns[4].Width = 100;
-				dataGridViewList.Columns[5].HeaderText = "Уровень";
-				dataGridViewList.Columns[5].Width = 150;
-				dataGridViewList.Columns[6].HeaderText = "Курсы";
-				dataGridViewList.Columns[6].Width = 150;
-				dataGridViewList.Columns[7].Visible = false;
+				dataGridViewList.Columns[1].HeaderText = "название";
+				dataGridViewList.Columns[1].Width = 150;
 			}
 		}
 
 		private void toolStripButtonAdd_Click(object sender, EventArgs e)
 		{
-			var form = new AcademicPlanForm(_service, _serviceAPR);
+			var form = new AcademicYearForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData();
@@ -58,7 +46,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-				var form = new AcademicPlanForm(_service, _serviceAPR, id);
+				var form = new AcademicYearForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadData();
@@ -75,9 +63,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
 					{
 						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteAcademicPlan(new AcademicPlanGetBindingModel { Id = id });
+						var result = _service.DeleteAcademicYear(new AcademicYearGetBindingModel { Id = id });
 						if (!result.Succeeded)
-						{ 
+						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}

@@ -10,16 +10,15 @@ namespace DepartmentDAL.Models
 	/// </summary>
 	public class AcademicPlan : BaseEntity
 	{
-		[Display(Name = "Учебный год")]
-		[MaxLength(10)]
-		[Required]
-		public string AcademicYear { get; set; }
+		public long EducationDirectionId { get; set; }
+
+		public long AcademicYearId { get; set; }
 
 		public AcademicLevel AcademicLevel { get; set; }
 
 		public AcademicCourse AcademicCourses { get; set; }
 
-		public long EducationDirectionId { get; set; }
+		public AcademicYear AcademicYear { get; set; }
 
 		public virtual EducationDirection EducationDirection { get; set; }
 

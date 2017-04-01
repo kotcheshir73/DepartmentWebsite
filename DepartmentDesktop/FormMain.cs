@@ -245,5 +245,12 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+		private void academicYearsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.AcademicYearControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 	}
 }

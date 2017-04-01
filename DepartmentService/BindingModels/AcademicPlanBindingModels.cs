@@ -12,9 +12,8 @@ namespace DepartmentService.BindingModels
 		public long Id { get; set; }
 
 		public long EducationDirectionId { get; set; }
-
-		[Required(ErrorMessage = "required")]
-		public string AcademicYear { get; set; }
+		
+		public long AcademicYearId { get; set; }
 
 		[Required(ErrorMessage = "required")]
 		public string AcademicLevel { get; set; }
@@ -49,5 +48,18 @@ namespace DepartmentService.BindingModels
 		public string Semester { get; set; }
 
 		public int Hours { get; set; }
+	}
+
+	public class AcademicYearGetBindingModel
+	{
+		public long Id { get; set; }
+	}
+
+	public class AcademicYearRecordBindingModel
+	{
+		public long Id { get; set; }
+
+		[Required(ErrorMessage = "required")]
+		public string Title { get; set; }
 	}
 }
