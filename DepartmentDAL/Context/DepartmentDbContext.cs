@@ -15,13 +15,17 @@ namespace DepartmentDAL.Context
             Database.SetInitializer(new CreateDatabaseIfNotExists<DepartmentDbContext>());
         }
 
-        public virtual DbSet<Access> Access { set; get; }
+		public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
+		public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
+		public virtual DbSet<Access> Access { set; get; }
         public virtual DbSet<Classroom> Classrooms { set; get; }
         public virtual DbSet<ConsultationRecord> ConsultationRecords { set; get; }
         public virtual DbSet<CurrentSettings> CurrentSettings { set; get; }
-        public virtual DbSet<EducationDirection> EducationDirections { set; get; }
+		public virtual DbSet<Discipline> Disciplines { set; get; }
+		public virtual DbSet<EducationDirection> EducationDirections { set; get; }
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
-        public virtual DbSet<Lecturer> Lecturers { set; get; }
+		public virtual DbSet<KindOfLoad> KindOfLoads { get; set; }
+		public virtual DbSet<Lecturer> Lecturers { set; get; }
         public virtual DbSet<Message> Messages { set; get; }
         public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }
