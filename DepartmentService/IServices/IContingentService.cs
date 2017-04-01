@@ -14,6 +14,12 @@ namespace DepartmentService.IServices
 		ResultService<List<ContingentViewModel>> GetContingents();
 
 		/// <summary>
+		/// Получение списка учебных годов
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<AcademicYearViewModel>> GetAcademicYears();
+
+		/// <summary>
 		/// Получение списка групп
 		/// </summary>
 		/// <returns></returns>

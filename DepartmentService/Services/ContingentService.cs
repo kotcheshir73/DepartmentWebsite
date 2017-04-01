@@ -17,11 +17,14 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly IAcademicYearService _serviceAY;
+
 		private readonly IStudentGroupService _serviceSG;
 
-		public ContingentService(DepartmentDbContext context, IStudentGroupService serviceSG)
+		public ContingentService(DepartmentDbContext context, IStudentGroupService serviceSG, IAcademicYearService serviceAY)
 		{
 			_context = context;
+			_serviceAY = serviceAY;
 			_serviceSG = serviceSG;
 		}
 
@@ -45,6 +48,11 @@ namespace DepartmentService.Services
 				return ResultService<List<ContingentViewModel>>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
+		}
+
+		public ResultService<List<AcademicYearViewModel>> GetAcademicYears()
+		{
+			return _serviceAY.GetAcademicYears();
 		}
 
 		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()

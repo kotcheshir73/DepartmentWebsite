@@ -45,8 +45,9 @@
 			this.studentsAcademToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.studentsDeductionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.academicPlansAndOtherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.kindOfLoadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.academicPlansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.kindOfLoadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.academicYearsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleStudentGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleStudentGroupSemesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +63,7 @@
 			this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.academicYearsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.contingentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -202,10 +203,18 @@
 			this.academicPlansAndOtherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.academicPlansToolStripMenuItem,
             this.kindOfLoadsToolStripMenuItem,
-            this.academicYearsToolStripMenuItem});
+            this.academicYearsToolStripMenuItem,
+            this.contingentsToolStripMenuItem});
 			this.academicPlansAndOtherToolStripMenuItem.Name = "academicPlansAndOtherToolStripMenuItem";
 			this.academicPlansAndOtherToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
 			this.academicPlansAndOtherToolStripMenuItem.Text = "Учебные планы";
+			// 
+			// academicPlansToolStripMenuItem
+			// 
+			this.academicPlansToolStripMenuItem.Name = "academicPlansToolStripMenuItem";
+			this.academicPlansToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.academicPlansToolStripMenuItem.Text = "Учебные планы";
+			this.academicPlansToolStripMenuItem.Click += new System.EventHandler(this.academicPlansToolStripMenuItem_Click);
 			// 
 			// kindOfLoadsToolStripMenuItem
 			// 
@@ -214,12 +223,12 @@
 			this.kindOfLoadsToolStripMenuItem.Text = "Виды нагрузок";
 			this.kindOfLoadsToolStripMenuItem.Click += new System.EventHandler(this.kindOfLoadsToolStripMenuItem_Click);
 			// 
-			// academicPlansToolStripMenuItem
+			// academicYearsToolStripMenuItem
 			// 
-			this.academicPlansToolStripMenuItem.Name = "academicPlansToolStripMenuItem";
-			this.academicPlansToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.academicPlansToolStripMenuItem.Text = "Учебные планы";
-			this.academicPlansToolStripMenuItem.Click += new System.EventHandler(this.academicPlansToolStripMenuItem_Click);
+			this.academicYearsToolStripMenuItem.Name = "academicYearsToolStripMenuItem";
+			this.academicYearsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.academicYearsToolStripMenuItem.Text = "Учебные года";
+			this.academicYearsToolStripMenuItem.Click += new System.EventHandler(this.academicYearsToolStripMenuItem_Click);
 			// 
 			// scheduleToolStripMenuItem
 			// 
@@ -338,12 +347,12 @@
 			this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
 			this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.scheduleLessonTimeToolStripMenuItem_Click);
 			// 
-			// academicYearsToolStripMenuItem
+			// contingentsToolStripMenuItem
 			// 
-			this.academicYearsToolStripMenuItem.Name = "academicYearsToolStripMenuItem";
-			this.academicYearsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.academicYearsToolStripMenuItem.Text = "Учебные года";
-			this.academicYearsToolStripMenuItem.Click += new System.EventHandler(this.academicYearsToolStripMenuItem_Click);
+			this.contingentsToolStripMenuItem.Name = "contingentsToolStripMenuItem";
+			this.contingentsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.contingentsToolStripMenuItem.Text = "Контингент";
+			this.contingentsToolStripMenuItem.Click += new System.EventHandler(this.contingentsToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -400,6 +409,7 @@
 		private System.Windows.Forms.ToolStripMenuItem kindOfLoadsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem academicPlansToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem academicYearsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem contingentsToolStripMenuItem;
 	}
 }
 

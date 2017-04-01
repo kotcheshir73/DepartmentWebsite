@@ -49,6 +49,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
 
 			currentContainer.RegisterType<IKindOfLoadService, KindOfLoadService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IContingentService, ContingentService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAcademicYearService, AcademicYearService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAcademicPlanService, AcademicPlanService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAcademicPlanRecordService, AcademicPlanRecordService>(new HierarchicalLifetimeManager());

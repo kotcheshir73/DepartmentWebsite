@@ -123,6 +123,12 @@
     <Compile Include="Views\EducationalProcess\AcademicPlan\AcademicYearForm.Designer.cs">
       <DependentUpon>AcademicYearForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\ContingentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\ContingentControl.Designer.cs">
+      <DependentUpon>ContingentControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,10 +177,10 @@
     <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.Designer.cs">
       <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\ContingentForm.cs">
+    <Compile Include="Views\EducationalProcess\AcademicPlan\ContingentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\ContingentForm.Designer.cs">
+    <Compile Include="Views\EducationalProcess\AcademicPlan\ContingentForm.Designer.cs">
       <DependentUpon>ContingentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.cs">
@@ -425,6 +431,9 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\AcademicYearForm.resx">
       <DependentUpon>AcademicYearForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\ContingentControl.resx">
+      <DependentUpon>ContingentControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomControl.resx">
       <DependentUpon>ClassroomControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -449,7 +458,7 @@
     <EmbeddedResource Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.resx">
       <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\ContingentForm.resx">
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\ContingentForm.resx">
       <DependentUpon>ContingentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.resx">

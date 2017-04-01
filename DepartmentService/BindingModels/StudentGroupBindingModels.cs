@@ -38,9 +38,6 @@ namespace DepartmentService.BindingModels
 
 		public long StudentGroupId { get; set; }
 
-		[Required(ErrorMessage = "required")]
-		public string GroupName { get; set; }
-
 		public int CountStudents { get; set; }
 
 		public int CountSubgroups { get; set; }
