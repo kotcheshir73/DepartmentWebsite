@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
+using System.Collections.Generic;
+using DepartmentDesktop.Models;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 {
@@ -13,9 +15,34 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 		{
 			InitializeComponent();
 			_service = service;
+
+			List<ColumnConfig> columns = new List<ColumnConfig>
+			{
+				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+				new ColumnConfig { Name = "IncomingGroups", Title = "Список групп", Width = 400, Visible = true },
+				new ColumnConfig { Name = "StreamName", Title = "Описание", Width = 100, Visible = true }
+			};
+			dataGridViewList.Columns.Clear();
+			foreach (var column in columns)
+			{
+				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
+				{
+					HeaderText = column.Title,
+					Name = string.Format("Column{0}", column.Name),
+					ReadOnly = true,
+					Visible = column.Visible,
+					Width = column.Width.HasValue ? column.Width.Value : 0,
+					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+				});
+			}
 		}
 
 		public void LoadData()
+		{
+			LoadRecords();
+		}
+
+		private void LoadRecords()
 		{
 			var result = _service.GetStreamingLessons();
 			if (!result.Succeeded)
@@ -23,27 +50,27 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			dataGridViewList.DataSource = result.Result;
-			if (dataGridViewList.Columns.Count > 0)
+			dataGridViewList.Rows.Clear();
+			foreach (var res in result.Result)
 			{
-				dataGridViewList.Columns[0].Visible = false;
-				dataGridViewList.Columns[1].HeaderText = "Список групп";
-				dataGridViewList.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-				dataGridViewList.Columns[2].HeaderText = "Описание";
-				dataGridViewList.Columns[2].Width = 150;
+				dataGridViewList.Rows.Add(
+					res.Id,
+					res.IncomingGroups,
+					res.StreamName
+				);
 			}
 		}
 
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		private void AddRecord()
 		{
 			var form = new StreamingLessonForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				LoadData();
+				LoadRecords();
 			}
 		}
 
-		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		private void UpdRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
@@ -51,12 +78,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 				var form = new StreamingLessonForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
-		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		private void DelRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count > 0)
 			{
@@ -71,14 +98,50 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			AddRecord();
+		}
+
+		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		{
+			UpdRecord();
+		}
+
+		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		{
+			DelRecord();
+		}
+
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
-			LoadData();
+			LoadRecords();
+		}
+
+		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Insert:
+					AddRecord();
+					break;
+				case Keys.Enter:
+					UpdRecord();
+					break;
+				case Keys.Delete:
+					DelRecord();
+					break;
+			}
+		}
+
+		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdRecord();
 		}
 	}
 }

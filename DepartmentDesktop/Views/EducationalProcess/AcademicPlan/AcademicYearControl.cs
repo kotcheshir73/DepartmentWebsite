@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
+using System.Collections.Generic;
+using DepartmentDesktop.Models;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
@@ -13,9 +15,33 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 		{
 			InitializeComponent();
 			_service = service;
+
+			List<ColumnConfig> columns = new List<ColumnConfig>
+			{
+				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true }
+			};
+			dataGridViewList.Columns.Clear();
+			foreach (var column in columns)
+			{
+				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
+				{
+					HeaderText = column.Title,
+					Name = string.Format("Column{0}", column.Name),
+					ReadOnly = true,
+					Visible = column.Visible,
+					Width = column.Width.HasValue ? column.Width.Value : 0,
+					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+				});
+			}
 		}
 
 		public void LoadData()
+		{
+			LoadRecords();
+		}
+
+		private void LoadRecords()
 		{
 			var result = _service.GetAcademicYears();
 			if (!result.Succeeded)
@@ -23,25 +49,28 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			dataGridViewList.DataSource = result.Result;
-			if (dataGridViewList.Columns.Count > 0)
+			dataGridViewList.Rows.Clear();
+			foreach (var res in result.Result)
 			{
-				dataGridViewList.Columns[0].Visible = false;
-				dataGridViewList.Columns[1].HeaderText = "название";
-				dataGridViewList.Columns[1].Width = 150;
+				DataGridViewRow row = dataGridViewList.RowTemplate;
+				
+				dataGridViewList.Rows.Add(
+					res.Id,
+					res.Title
+				);
 			}
 		}
 
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		private void AddRecord()
 		{
 			var form = new AcademicYearForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				LoadData();
+				LoadRecords();
 			}
 		}
 
-		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		private void UpdRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
@@ -49,12 +78,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				var form = new AcademicYearForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
-		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		private void DelRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count > 0)
 			{
@@ -69,14 +98,50 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			AddRecord();
+		}
+
+		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		{
+			UpdRecord();
+		}
+
+		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		{
+			DelRecord();
+		}
+
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
-			LoadData();
+			LoadRecords();
+		}
+
+		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Insert:
+					AddRecord();
+					break;
+				case Keys.Enter:
+					UpdRecord();
+					break;
+				case Keys.Delete:
+					DelRecord();
+					break;
+			}
+		}
+
+		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdRecord();
 		}
 	}
 }

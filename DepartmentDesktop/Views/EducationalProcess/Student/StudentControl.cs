@@ -3,6 +3,8 @@ using DepartmentService.IServices;
 using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using System;
+using DepartmentDesktop.Models;
+using System.Collections.Generic;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Student
 {
@@ -22,42 +24,77 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 			_service = service;
 			_pageNumber = 1;
 			textBoxPageNumber.Text = _pageNumber.ToString();
+
+			List<ColumnConfig> columns = new List<ColumnConfig>
+			{
+				new ColumnConfig { Name = "NumberOfBook", Title = "Номер зачетки", Width = 150, Visible = true },
+				new ColumnConfig { Name = "LastName", Title = "Фамилия", Width = 100, Visible = true },
+				new ColumnConfig { Name = "FirstName", Title = "Имя", Width = 100, Visible = true },
+				new ColumnConfig { Name = "Patronymic", Title = "Отчество", Width = 150, Visible = true },
+				new ColumnConfig { Name = "StudentGroup", Title = "Группа", Width = 150, Visible = true },
+				new ColumnConfig { Name = "Description", Title = "Описание", Visible = true }
+			};
+			dataGridViewList.Columns.Clear();
+			foreach (var column in columns)
+			{
+				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
+				{
+					HeaderText = column.Title,
+					Name = string.Format("Column{0}", column.Name),
+					ReadOnly = true,
+					Visible = column.Visible,
+					Width = column.Width.HasValue ? column.Width.Value : 0,
+					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+				});
+			}
 		}
 
 		public void LoadData(StudentState state)
 		{
 			_state = state;
+			LoadRecords();
+		}
+
+		private void LoadRecords()
+		{
 			var result = _service.GetStudents(new StudentGetBindingModel
 			{
 				PageSize = 50,
 				PageNumber = _pageNumber - 1,
 				StudentStatus = _state
 			});
+			_maxPage = result.Result.MaxCount;
+			labelFromCountPages.Text = string.Format("из {0}", _maxPage);
+			textBoxPageNumber.Text = _pageNumber.ToString();
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			_maxPage = result.Result.MaxCount;
-			labelFromCountPages.Text = string.Format("из {0}", _maxPage);
-			textBoxPageNumber.Text = _pageNumber.ToString();
-			dataGridViewList.DataSource = result.Result.List;
-			if (dataGridViewList.Columns.Count > 0)
+			dataGridViewList.Rows.Clear();
+			foreach (var res in result.Result.List)
 			{
-				dataGridViewList.Columns[0].HeaderText = "Номер зачетки";
-				dataGridViewList.Columns[0].Width = 150;
-				dataGridViewList.Columns[1].HeaderText = "Фамилия";
-				dataGridViewList.Columns[1].Width = 150;
-				dataGridViewList.Columns[2].HeaderText = "Имя";
-				dataGridViewList.Columns[2].Width = 150;
-				dataGridViewList.Columns[3].HeaderText = "Отчество";
-				dataGridViewList.Columns[3].Width = 150;
-				dataGridViewList.Columns[4].Visible = false;
-				dataGridViewList.Columns[5].Visible = false;
-				dataGridViewList.Columns[6].HeaderText = "Группа";
-				dataGridViewList.Columns[6].Width = 150;
-				dataGridViewList.Columns[7].HeaderText = "Описание";
-				dataGridViewList.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+				dataGridViewList.Rows.Add(
+					res.NumberOfBook,
+					res.LastName,
+					res.FirstName,
+					res.Patronymic,
+					res.StudentGroup,
+					res.Description
+				);
+			}
+		}
+
+		private void UpdRecord()
+		{
+			if (dataGridViewList.SelectedRows.Count == 1)
+			{
+				string id = Convert.ToString(dataGridViewList.SelectedRows[0].Cells[0].Value);
+				var form = new StudentForm(_service, id);
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					LoadRecords();
+				}
 			}
 		}
 
@@ -66,7 +103,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 			if(_pageNumber > 1)
 			{
 				_pageNumber--;
-				LoadData(_state);
+				LoadRecords();
 			}
 		}
 
@@ -75,7 +112,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 			if (_pageNumber < _maxPage)
 			{
 				_pageNumber++;
-				LoadData(_state);
+				LoadRecords();
 			}
 		}
 
@@ -89,7 +126,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 					if (0 < number && number < _maxPage + 1)
 					{
 						_pageNumber = number;
-						LoadData(_state);
 					}
 					else if (0 < number)
 					{
@@ -99,12 +135,38 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 					{
 						number = _maxPage;
 					}
+					LoadRecords();
 				}
 				catch(Exception ex)
 				{
 					MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
+		}
+
+		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		{
+			UpdRecord();
+		}
+
+		private void toolStripButtonRef_Click(object sender, EventArgs e)
+		{
+			LoadRecords();
+		}
+
+		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Enter:
+					UpdRecord();
+					break;
+			}
+		}
+
+		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdRecord();
 		}
 	}
 }

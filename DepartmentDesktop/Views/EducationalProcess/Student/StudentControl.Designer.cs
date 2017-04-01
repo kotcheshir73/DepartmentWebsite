@@ -33,6 +33,9 @@
 			this.toolStripButtonUpd = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripDropDownButtonMoves = new System.Windows.Forms.ToolStripDropDownButton();
+			this.восстановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataGridViewList = new System.Windows.Forms.DataGridView();
 			this.panelDown = new System.Windows.Forms.Panel();
 			this.labelFromCountPages = new System.Windows.Forms.Label();
@@ -40,9 +43,6 @@
 			this.textBoxPageNumber = new System.Windows.Forms.TextBox();
 			this.buttonPrev = new System.Windows.Forms.Button();
 			this.labelPage = new System.Windows.Forms.Label();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripDropDownButtonMoves = new System.Windows.Forms.ToolStripDropDownButton();
-			this.восстановитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
 			this.panelDown.SuspendLayout();
@@ -69,6 +69,7 @@
 			this.toolStripButtonUpd.Name = "toolStripButtonUpd";
 			this.toolStripButtonUpd.Size = new System.Drawing.Size(81, 22);
 			this.toolStripButtonUpd.Text = "Изменить";
+			this.toolStripButtonUpd.Click += new System.EventHandler(this.toolStripButtonUpd_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -82,6 +83,30 @@
 			this.toolStripButtonRef.Name = "toolStripButtonRef";
 			this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
 			this.toolStripButtonRef.Text = "Обновить";
+			this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripDropDownButtonMoves
+			// 
+			this.toolStripDropDownButtonMoves.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButtonMoves.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.восстановитьToolStripMenuItem});
+			this.toolStripDropDownButtonMoves.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMoves.Image")));
+			this.toolStripDropDownButtonMoves.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButtonMoves.Name = "toolStripDropDownButtonMoves";
+			this.toolStripDropDownButtonMoves.Size = new System.Drawing.Size(71, 22);
+			this.toolStripDropDownButtonMoves.Text = "Действия";
+			this.toolStripDropDownButtonMoves.ToolTipText = "Действия";
+			// 
+			// восстановитьToolStripMenuItem
+			// 
+			this.восстановитьToolStripMenuItem.Name = "восстановитьToolStripMenuItem";
+			this.восстановитьToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			this.восстановитьToolStripMenuItem.Text = "Восстановить";
 			// 
 			// dataGridViewList
 			// 
@@ -98,6 +123,8 @@
 			this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewList.Size = new System.Drawing.Size(800, 450);
 			this.dataGridViewList.TabIndex = 3;
+			this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
+			this.dataGridViewList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewList_KeyDown);
 			// 
 			// panelDown
 			// 
@@ -157,29 +184,6 @@
 			this.labelPage.Size = new System.Drawing.Size(55, 13);
 			this.labelPage.TabIndex = 1;
 			this.labelPage.Text = "Страница";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripDropDownButtonMoves
-			// 
-			this.toolStripDropDownButtonMoves.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripDropDownButtonMoves.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.восстановитьToolStripMenuItem});
-			this.toolStripDropDownButtonMoves.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMoves.Image")));
-			this.toolStripDropDownButtonMoves.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripDropDownButtonMoves.Name = "toolStripDropDownButtonMoves";
-			this.toolStripDropDownButtonMoves.Size = new System.Drawing.Size(71, 22);
-			this.toolStripDropDownButtonMoves.Text = "Действия";
-			this.toolStripDropDownButtonMoves.ToolTipText = "Действия";
-			// 
-			// восстановитьToolStripMenuItem
-			// 
-			this.восстановитьToolStripMenuItem.Name = "восстановитьToolStripMenuItem";
-			this.восстановитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.восстановитьToolStripMenuItem.Text = "Восстановить";
 			// 
 			// StudentControl
 			// 

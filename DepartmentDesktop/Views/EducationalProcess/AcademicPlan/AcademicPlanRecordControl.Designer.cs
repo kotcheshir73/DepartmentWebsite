@@ -60,6 +60,8 @@
 			this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewList.Size = new System.Drawing.Size(800, 475);
 			this.dataGridViewList.TabIndex = 1;
+			this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
+			this.dataGridViewList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewList_KeyDown);
 			// 
 			// toolStripMenu
 			// 

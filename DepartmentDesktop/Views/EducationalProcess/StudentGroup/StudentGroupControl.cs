@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
+using DepartmentDesktop.Models;
+using System.Collections.Generic;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
@@ -16,9 +18,38 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			InitializeComponent();
 			_service = service;
 			_serviceS = serviceS;
+
+			List<ColumnConfig> columns = new List<ColumnConfig>
+			{
+				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+				new ColumnConfig { Name = "EducationDirectionCipher", Title = "Шифр", Width = 100, Visible = true },
+				new ColumnConfig { Name = "GroupName", Title = "Группа", Width = 150, Visible = true },
+				new ColumnConfig { Name = "Kurs", Title = "Курс", Width = 80, Visible = true },
+				new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 150, Visible = true },
+				new ColumnConfig { Name = "Steward", Title = "Староста", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Curator", Title = "Куратор", Width = 200, Visible = true }
+			};
+			dataGridViewList.Columns.Clear();
+			foreach (var column in columns)
+			{
+				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
+				{
+					HeaderText = column.Title,
+					Name = string.Format("Column{0}", column.Name),
+					ReadOnly = true,
+					Visible = column.Visible,
+					Width = column.Width.HasValue ? column.Width.Value : 0,
+					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+				});
+			}
 		}
 
 		public void LoadData()
+		{
+			LoadRecords();
+		}
+
+		private void LoadRecords()
 		{
 			var result = _service.GetStudentGroups();
 			if (!result.Succeeded)
@@ -26,42 +57,33 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			dataGridViewList.DataSource = result.Result;
-			if (dataGridViewList.Columns.Count > 0)
+			dataGridViewList.Rows.Clear();
+			foreach (var res in result.Result)
 			{
-				dataGridViewList.Columns[0].Visible = false;
-				dataGridViewList.Columns[1].Visible = false;
-				dataGridViewList.Columns[2].HeaderText = "Шифр";
-				dataGridViewList.Columns[2].Width = 100;
-				dataGridViewList.Columns[3].HeaderText = "Группа";
-				dataGridViewList.Columns[3].Width = 100;
-				dataGridViewList.Columns[4].HeaderText = "Курс";
-				dataGridViewList.Columns[4].Width = 150;
-				dataGridViewList.Columns[5].HeaderText = "Количество студентов";
-				dataGridViewList.Columns[5].Width = 150;
-				dataGridViewList.Columns[6].HeaderText = "План по студентам";
-				dataGridViewList.Columns[6].Width = 150;
-				dataGridViewList.Columns[7].HeaderText = "Количество подгрупп";
-				dataGridViewList.Columns[7].Width = 150;
-				dataGridViewList.Columns[8].Visible = false;
-				dataGridViewList.Columns[9].Visible = false;
-				dataGridViewList.Columns[10].HeaderText = "Староста";
-				dataGridViewList.Columns[10].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-				dataGridViewList.Columns[11].HeaderText = "Куратор";
-				dataGridViewList.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+				DataGridViewRow row = dataGridViewList.RowTemplate;
+
+				dataGridViewList.Rows.Add(
+					res.Id,
+					res.EducationDirectionCipher,
+					res.GroupName,
+					res.Kurs,
+					res.CountStudents,
+					res.Steward,
+					res.Curator
+				);
 			}
 		}
 
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		private void AddRecord()
 		{
 			var form = new StudentGroupForm(_service, _serviceS);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				LoadData();
+				LoadRecords();
 			}
 		}
 
-		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		private void UpdRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
@@ -69,12 +91,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				var form = new StudentGroupForm(_service, _serviceS, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
-		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		private void DelRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count > 0)
 			{
@@ -89,14 +111,50 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			AddRecord();
+		}
+
+		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		{
+			UpdRecord();
+		}
+
+		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		{
+			DelRecord();
+		}
+		
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
-			LoadData();
+			LoadRecords();
+		}
+
+		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Insert:
+					AddRecord();
+					break;
+				case Keys.Enter:
+					UpdRecord();
+					break;
+				case Keys.Delete:
+					DelRecord();
+					break;
+			}
+		}
+
+		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdRecord();
 		}
 	}
 }

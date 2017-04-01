@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.BindingModels;
+using System.Collections.Generic;
+using DepartmentDesktop.Models;
 
 namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 {
@@ -13,9 +15,41 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 		{
 			InitializeComponent();
 			_service = service;
+
+			List<ColumnConfig> columns = new List<ColumnConfig>
+			{
+				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
+				new ColumnConfig { Name = "DateBeginSemester", Title = "Нач. сем.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateEndSemester", Title = "Кон. сем.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateBeginOffset", Title = "Нач. зач.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateEndOffset", Title = "Кон. зач.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateBeginExamination", Title = "Нач. экз.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateEndExamination", Title = "Кон. экз.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateBeginPractice", Title = "Нач. пр.", Width = 150, Visible = true },
+				new ColumnConfig { Name = "DateEndPractice", Title = "Кон. пр.", Width = 150, Visible = true }
+			};
+			dataGridViewList.Columns.Clear();
+			foreach (var column in columns)
+			{
+				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
+				{
+					HeaderText = column.Title,
+					Name = string.Format("Column{0}", column.Name),
+					ReadOnly = true,
+					Visible = column.Visible,
+					Width = column.Width.HasValue ? column.Width.Value : 0,
+					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+				});
+			}
 		}
 
 		public void LoadData()
+		{
+			LoadRecords();
+		}
+
+		private void LoadRecords()
 		{
 			var result = _service.GetSeasonDaties();
 			if (!result.Succeeded)
@@ -23,41 +57,34 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			dataGridViewList.DataSource = result.Result;
-			if (dataGridViewList.Columns.Count > 0)
+			dataGridViewList.Rows.Clear();
+			foreach (var res in result.Result)
 			{
-				dataGridViewList.Columns[0].Visible = false;
-				dataGridViewList.Columns[1].HeaderText = "Название";
-				dataGridViewList.Columns[1].Width = 150;
-				dataGridViewList.Columns[2].HeaderText = "Нач. сем.";
-				dataGridViewList.Columns[2].Width = 150;
-				dataGridViewList.Columns[3].HeaderText = "Кон. сем.";
-				dataGridViewList.Columns[3].Width = 150;
-				dataGridViewList.Columns[4].HeaderText = "Нач. зач.";
-				dataGridViewList.Columns[4].Width = 150;
-				dataGridViewList.Columns[5].HeaderText = "Кон. зач.";
-				dataGridViewList.Columns[5].Width = 150;
-				dataGridViewList.Columns[6].HeaderText = "Нач. экз.";
-				dataGridViewList.Columns[6].Width = 150;
-				dataGridViewList.Columns[7].HeaderText = "Кон. экз.";
-				dataGridViewList.Columns[7].Width = 150;
-				dataGridViewList.Columns[8].HeaderText = "Нач. пр.";
-				dataGridViewList.Columns[8].Width = 150;
-				dataGridViewList.Columns[9].HeaderText = "Кон. пр.";
-				dataGridViewList.Columns[9].Width = 150;
+				dataGridViewList.Rows.Add(
+					res.Id,
+					res.Title,
+					res.DateBeginSemester,
+					res.DateEndSemester,
+					res.DateBeginOffset,
+					res.DateEndOffset,
+					res.DateBeginExamination,
+					res.DateEndExamination,
+					res.DateBeginPractice,
+					res.DateEndPractice
+				);
 			}
 		}
 
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		private void AddRecord()
 		{
 			var form = new SeasonDatesForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				LoadData();
+				LoadRecords();
 			}
 		}
 
-		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		private void UpdRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
@@ -65,12 +92,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				var form = new SeasonDatesForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
-		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		private void DelRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count > 0)
 			{
@@ -85,14 +112,50 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
-					LoadData();
+					LoadRecords();
 				}
 			}
 		}
 
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			AddRecord();
+		}
+
+		private void toolStripButtonUpd_Click(object sender, EventArgs e)
+		{
+			UpdRecord();
+		}
+
+		private void toolStripButtonDel_Click(object sender, EventArgs e)
+		{
+			DelRecord();
+		}
+
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
-			LoadData();
+			LoadRecords();
+		}
+
+		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Insert:
+					AddRecord();
+					break;
+				case Keys.Enter:
+					UpdRecord();
+					break;
+				case Keys.Delete:
+					DelRecord();
+					break;
+			}
+		}
+
+		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdRecord();
 		}
 	}
 }
