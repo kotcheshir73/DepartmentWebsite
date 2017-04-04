@@ -41,6 +41,25 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateKindOfLoadViewModel(e));
 		}
 
+		public static TimeNormViewModel CreateTimeNormViewModel(TimeNorm entity)
+		{
+			return new TimeNormViewModel
+			{
+				Id = entity.Id,
+				KindOfLoadId = entity.KindOfLoadId,
+				Title = entity.Title,
+				KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+				ParentTimeNormId = entity.ParentTimeNormId,
+				ParentTimeNormTitle = entity.ParentTimeNormId.HasValue ? entity.ParentTimeNorm.Title : string.Empty,
+				Hours = entity.Hours
+			};
+		}
+
+		public static IEnumerable<TimeNormViewModel> CreateTimeNorms(IEnumerable<TimeNorm> entities)
+		{
+			return entities.Select(e => CreateTimeNormViewModel(e));
+		}
+
 		public static AcademicPlanViewModel CreateAcademicPlanViewModel(AcademicPlan entity)
 		{
 			string courses = "";
@@ -64,7 +83,7 @@ namespace DepartmentService.ViewModels
 			{
 				courses += (courses == "" ? "" : ", ") + "5";
 			}
-			if((entity.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
+			if ((entity.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
 			{
 				courses += (courses == "" ? "" : ", ") + "6";
 			}

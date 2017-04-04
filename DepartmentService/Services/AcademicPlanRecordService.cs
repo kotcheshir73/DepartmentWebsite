@@ -93,7 +93,8 @@ namespace DepartmentService.Services
 					XmlNode mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ/План/СтрокиПлана");
 					int counter = 0;
 					if (mainRootElementNode != null)
-					{//получаем перечень дисциплин по учебному плану
+					{
+						#region получаем перечень дисциплин по учебному плану
 						XmlNodeList elementsMainNode = mainRootElementNode.SelectNodes("Строка");
 						if (elementsMainNode != null)
 						{
@@ -115,7 +116,7 @@ namespace DepartmentService.Services
 										disciplineAttributes.Value));
 									continue;
 								}
-								if(kafedraNode.Value != currentSetting.Value)
+								if (kafedraNode.Value != currentSetting.Value)
 								{//не наша кафедра
 									continue;
 								}
@@ -131,6 +132,9 @@ namespace DepartmentService.Services
 										IsDeleted = false
 									});
 									_context.SaveChanges();
+
+									discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName ==
+																disciplineAttributes.Value);
 								}
 								//семестры
 								XmlNodeList elementSemNodes = elementNode.SelectNodes("Сем");
@@ -147,6 +151,7 @@ namespace DepartmentService.Services
 												result.AddError("Not_Found", string.Format("Семестр не найден. Строка {0}", counter));
 												continue;
 											}
+											#region Записи по видам нагрузок
 											foreach (XmlAttribute elementSemNodeAttribute in elementSemNodeAttributes)
 											{
 												KindOfLoad kindOfLoad = null;
@@ -246,11 +251,12 @@ namespace DepartmentService.Services
 												}
 												if (kindOfLoad != null)
 												{
+													Semesters sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value));
 													var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
 														apr.AcademicPlanId == model.Id &&
 														apr.DisciplineId == discipline.Id &&
 														apr.KindOfLoadId == kindOfLoad.Id &&
-														apr.Semester == (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value)) &&
+														apr.Semester == sem &&
 														!apr.IsDeleted);
 													if (record == null)
 													{
@@ -259,7 +265,7 @@ namespace DepartmentService.Services
 															AcademicPlanId = model.Id,
 															DisciplineId = discipline.Id,
 															KindOfLoadId = kindOfLoad.Id,
-															Semester = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value)),
+															Semester = sem,
 															Hours = Convert.ToInt32(elementSemNodeAttribute.Value),
 															DateCreate = DateTime.Now,
 															IsDeleted = false
@@ -273,6 +279,7 @@ namespace DepartmentService.Services
 													_context.SaveChanges();
 												}
 											}
+											#endregion
 										}
 									}
 								}
@@ -282,18 +289,208 @@ namespace DepartmentService.Services
 									continue;
 								}
 							}
-							transaction.Commit();
-							return result;
 						}
-						throw new Exception("Неверная структура xml. Не найден элемент /СтрокиПлана");
+						else
+						{
+							throw new Exception("Неверная структура xml. Не найден элемент /СтрокиПлана");
+						}
+						#endregion
 					}
-					throw new Exception("Неверная структура xml. Не найден элемент /Документ/План/СтрокиПлана");
+					else
+					{
+						throw new Exception("Неверная структура xml. Не найден элемент /Документ/План/СтрокиПлана");
+					}
+					mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ/План/СпецВидыРаботНов");
+					if (mainRootElementNode != null)
+					{
+						#region Практики, ГЭК и ГАК
+						XmlNode studyPracticNode = mainRootElementNode.SelectSingleNode("УчебПрактики");
+						if (studyPracticNode != null)
+						{
+							XmlNode practicNode = mainRootElementNode.SelectSingleNode("ПрочаяПрактика");
+							parsePractic("Учебная практика", result, practicNode, counter, currentSetting.Value, model.Id);
+						}
+						XmlNode practicsNode = mainRootElementNode.SelectSingleNode("ПрочиеПрактики");
+						if (practicsNode != null)
+						{
+							XmlNodeList practicsNodes = practicsNode.SelectNodes("ПрочаяПрактика");
+							foreach (XmlNode practicNode in practicsNodes)
+							{
+								parsePractic("Производственная практика", result, practicNode, counter, currentSetting.Value, model.Id);
+							}
+						}
+						//XmlNode vkrNode = mainRootElementNode.SelectSingleNode("ВКР");
+						//if (vkrNode != null)
+						//{
+						//	var kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+						//					  kl.KindOfLoadName.Contains("Руководство ВКР"));
+						//	if(kindOfLoad != null)
+						//	{
+						//		XmlNode leadershipNode = vkrNode.SelectSingleNode("Руководство/РуководствоК");
+						//		if(leadershipNode != null)
+						//		{
+						//			XmlNode hourNode = leadershipNode.Attributes.GetNamedItem("Часов");
+						//			if(hourNode != null)
+						//			{
+						//				var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName ==
+						//											"ВКР");
+						//				if (discipline == null)
+						//				{
+						//					_context.Disciplines.Add(new Discipline
+						//					{
+						//						DisciplineName = "ВКР",
+						//						DateCreate = DateTime.Now,
+						//						IsDeleted = false
+						//					});
+						//					_context.SaveChanges();
+
+						//					var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+						//																apr.AcademicPlanId == model.Id &&
+						//																apr.DisciplineId == discipline.Id &&
+						//																apr.KindOfLoadId == kindOfLoad.Id &&
+						//						apr.Semester == (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value)) &&
+						//																!apr.IsDeleted);
+						//					if (record == null)
+						//					{
+						//						_context.AcademicPlanRecords.Add(new AcademicPlanRecord
+						//						{
+						//							AcademicPlanId = apId,
+						//							DisciplineId = discipline.Id,
+						//							KindOfLoadId = kindOfLoad.Id,
+						//							Semester = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value)),
+						//							Hours = Convert.ToInt32(weekNumNode.Value),
+						//							DateCreate = DateTime.Now,
+						//							IsDeleted = false
+						//						});
+						//					}
+						//					else
+						//					{
+						//						record.Hours = Convert.ToInt32(weekNumNode.Value);
+						//						_context.Entry(record).State = EntityState.Modified;
+						//					}
+						//					_context.SaveChanges();
+						//				}
+						//			}
+						//		}
+						//	}
+						//}
+						#endregion
+					}
+					else
+					{
+						throw new Exception("Неверная структура xml. Не найден элемент /Документ/План/СпецВидыРаботНов");
+					}
+					transaction.Commit();
+					return result;
 				}
 				catch (Exception ex)
 				{
 					transaction.Rollback();
 					return ResultService.Error(ex, ResultServiceStatusCode.Error);
 				}
+			}
+		}
+
+		private void parsePractic(string practicName, ResultService result, XmlNode node, int counter, string kafedraNumber, long apId)
+		{
+			var kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+											  kl.KindOfLoadName.Contains(practicName));
+			if (kindOfLoad == null)
+			{
+				result.AddError("Not_Found", string.Format("Нагрузка под практику не найдена"));
+				return;
+			}
+			XmlNode disciplineAttributes = node.Attributes.GetNamedItem("Наименование");
+			if (disciplineAttributes == null)
+			{
+				result.AddError("Not_Found", string.Format("Наименование практики не найдено. Строка {0}", counter));
+				return;
+			}
+			//кафедра
+			XmlNode kafedraNode = node.Attributes.GetNamedItem("Кафедра");
+			if (kafedraNode == null)
+			{
+				result.AddError("Not_Found", string.Format("Кафедра не найдена. Практика {0}",
+					disciplineAttributes.Value));
+				return;
+			}
+			if (kafedraNode.Value == kafedraNumber)
+			{//наша кафедра
+			 //ищем дисцилпину, если не находим, создаем							
+				var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName ==
+												disciplineAttributes.Value);
+				if (discipline == null)
+				{
+					_context.Disciplines.Add(new Discipline
+					{
+						DisciplineName = disciplineAttributes.Value,
+						DateCreate = DateTime.Now,
+						IsDeleted = false
+					});
+					_context.SaveChanges();
+
+					discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName ==
+												disciplineAttributes.Value);
+				}
+
+				if (discipline.DisciplineName == "Преддипломная практика")
+				{
+					kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+							  kl.KindOfLoadName.Contains(discipline.DisciplineName));
+					if (kindOfLoad == null)
+					{
+						result.AddError("Not_Found", string.Format("Практика не найдена. Строка {0}", counter));
+						return;
+					}
+				}
+
+				XmlNode semesterNode = node.SelectSingleNode("Семестр");
+				if (semesterNode.Value == null)
+				{
+					result.AddError("Not_Found", string.Format("Не найден тег семестр. Практика {0}",
+						disciplineAttributes.Value));
+					return;
+				}
+				XmlNode semNode = semesterNode.Attributes.GetNamedItem("Ном");
+				if (semNode == null)
+				{
+					result.AddError("Not_Found", string.Format("Не найден номер семестра. Практика {0}",
+						disciplineAttributes.Value));
+					return;
+				}
+				XmlNode weekNumNode = semNode.Attributes.GetNamedItem("ПланНед");
+				if (weekNumNode == null)
+				{
+					result.AddError("Not_Found", string.Format("Не найдено количество недель. Практика {0}",
+						disciplineAttributes.Value));
+					return;
+				}
+				var sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value));
+				var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+														apr.AcademicPlanId == apId &&
+														apr.DisciplineId == discipline.Id &&
+														apr.KindOfLoadId == kindOfLoad.Id &&
+														apr.Semester == sem &&
+														!apr.IsDeleted);
+				if (record == null)
+				{
+					_context.AcademicPlanRecords.Add(new AcademicPlanRecord
+					{
+						AcademicPlanId = apId,
+						DisciplineId = discipline.Id,
+						KindOfLoadId = kindOfLoad.Id,
+						Semester = sem,
+						Hours = Convert.ToInt32(weekNumNode.Value),
+						DateCreate = DateTime.Now,
+						IsDeleted = false
+					});
+				}
+				else
+				{
+					record.Hours = Convert.ToInt32(weekNumNode.Value);
+					_context.Entry(record).State = EntityState.Modified;
+				}
+				_context.SaveChanges();
 			}
 		}
 

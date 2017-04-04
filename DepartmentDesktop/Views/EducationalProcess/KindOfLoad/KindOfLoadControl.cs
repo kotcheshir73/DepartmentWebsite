@@ -19,7 +19,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "KindOfLoadName", Title = "Название", Width = 2100, Visible = true },
+				new ColumnConfig { Name = "KindOfLoadName", Title = "Название", Width = 200, Visible = true },
 				new ColumnConfig { Name = "KindOfLoadType", Title = "Тип", Width = 100, Visible = true }
 			};
 			dataGridViewList.Columns.Clear();

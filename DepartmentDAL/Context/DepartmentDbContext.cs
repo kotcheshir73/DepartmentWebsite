@@ -39,6 +39,7 @@ namespace DepartmentDAL.Context
         public virtual DbSet<Student> Students { set; get; }
         public virtual DbSet<StudentGroup> StudentGroups { set; get; }
         public virtual DbSet<StudentHistory> StudentHistorys { set; get; }
-        public virtual DbSet<User> Users { set; get; }
+		public virtual DbSet<TimeNorm> TimeNorms { get; set; }
+		public virtual DbSet<User> Users { set; get; }
     }
 }

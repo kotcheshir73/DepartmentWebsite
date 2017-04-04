@@ -129,6 +129,18 @@
     <Compile Include="Views\EducationalProcess\AcademicPlan\ContingentControl.Designer.cs">
       <DependentUpon>ContingentControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\TimeNormControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\TimeNormControl.Designer.cs">
+      <DependentUpon>TimeNormControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\TimeNormForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicPlan\TimeNormForm.Designer.cs">
+      <DependentUpon>TimeNormForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
