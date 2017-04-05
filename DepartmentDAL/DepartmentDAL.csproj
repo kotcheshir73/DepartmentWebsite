@@ -195,6 +195,10 @@
     <Compile Include="Migrations\201704041752105_AddTimeNorms.Designer.cs">
       <DependentUpon>201704041752105_AddTimeNorms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704051656085_AddLoadDistribution.cs" />
+    <Compile Include="Migrations\201704051656085_AddLoadDistribution.Designer.cs">
+      <DependentUpon>201704051656085_AddLoadDistribution.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -210,6 +214,9 @@
     <Compile Include="Models\ExaminationRecord.cs" />
     <Compile Include="Models\KindOfLoad.cs" />
     <Compile Include="Models\Lecturer.cs" />
+    <Compile Include="Models\LoadDistribution.cs" />
+    <Compile Include="Models\LoadDistributionMission.cs" />
+    <Compile Include="Models\LoadDistributionRecord.cs" />
     <Compile Include="Models\ScheduleLessonTime.cs" />
     <Compile Include="Models\OffsetRecord.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
@@ -333,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704041752105_AddTimeNorms.resx">
       <DependentUpon>201704041752105_AddTimeNorms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051656085_AddLoadDistribution.resx">
+      <DependentUpon>201704051656085_AddLoadDistribution.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

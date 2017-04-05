@@ -1,4 +1,7 @@
-﻿namespace DepartmentDAL.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DepartmentDAL.Models
 {
 	/// <summary>
 	/// Класс, хранящий инорфмацио по контингенту
@@ -16,5 +19,8 @@
 		public virtual AcademicYear AcademicYear { get; set; }
 
 		public virtual StudentGroup StudentGroup { get; set; }
+
+		[ForeignKey("ContingentId")]
+		public virtual List<LoadDistributionRecord> LoadDistributionRecord { get; set; }
 	}
 }

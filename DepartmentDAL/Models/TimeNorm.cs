@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DepartmentDAL.Models
@@ -23,5 +24,8 @@ namespace DepartmentDAL.Models
 		public virtual KindOfLoad KindOfLoad { get; set; }
 				
 		public virtual TimeNorm ParentTimeNorm { get; set; }
+
+		[ForeignKey("TimeNormId")]
+		public virtual List<LoadDistributionRecord> LoadDistributionRecord { get; set; }
 	}
 }

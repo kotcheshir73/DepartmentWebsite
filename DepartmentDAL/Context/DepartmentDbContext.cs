@@ -28,7 +28,10 @@ namespace DepartmentDAL.Context
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
 		public virtual DbSet<KindOfLoad> KindOfLoads { get; set; }
 		public virtual DbSet<Lecturer> Lecturers { set; get; }
-        public virtual DbSet<Message> Messages { set; get; }
+		public virtual DbSet<LoadDistribution> LoadDistributions { get; set; }
+		public virtual DbSet<LoadDistributionMission> LoadDistributionMissions { get; set; }
+		public virtual DbSet<LoadDistributionRecord> LoadDistributionRecords { get; set; }
+		public virtual DbSet<Message> Messages { set; get; }
         public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }

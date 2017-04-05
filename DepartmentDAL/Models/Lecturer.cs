@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DepartmentDAL.Models
@@ -67,7 +69,10 @@ namespace DepartmentDAL.Models
         [Required]
         public byte[] Photo { get; set; }
 
-        public override string ToString()
+		[ForeignKey("LecturerId")]
+		public virtual List<LoadDistributionMission> LoadDistributionMissions { get; set; }
+
+		public override string ToString()
         {
             StringBuilder result = new StringBuilder(LastName);
             if(!string.IsNullOrEmpty(FirstName))
