@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
@@ -29,7 +30,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<TimeNormViewModel>>.Success(ModelFactory.CreateTimeNorms(
-						_context.TimeNorms
+						_context.TimeNorms.Include(tn => tn.KindOfLoad)
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -54,7 +55,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				var entity = _context.TimeNorms
+				var entity = _context.TimeNorms.Include(tn => tn.KindOfLoad)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 					return ResultService<TimeNormViewModel>.Error("Error:", "Entity not found",
