@@ -446,6 +446,12 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\ContingentControl.resx">
       <DependentUpon>ContingentControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\TimeNormControl.resx">
+      <DependentUpon>TimeNormControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicPlan\TimeNormForm.resx">
+      <DependentUpon>TimeNormForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomControl.resx">
       <DependentUpon>ClassroomControl.cs</DependentUpon>
     </EmbeddedResource>

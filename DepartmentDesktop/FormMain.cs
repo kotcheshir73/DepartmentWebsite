@@ -259,5 +259,12 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+		private void timeNormsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.TimeNormControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 	}
 }
