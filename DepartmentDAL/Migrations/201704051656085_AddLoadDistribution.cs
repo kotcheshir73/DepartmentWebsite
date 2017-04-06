@@ -35,10 +35,10 @@ namespace DepartmentDAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AcademicPlanRecords", t => t.AcademicPlanRecordId, cascadeDelete: true)
-                .ForeignKey("dbo.Contingents", t => t.ContingentId, cascadeDelete: true)
+                .ForeignKey("dbo.AcademicPlanRecords", t => t.AcademicPlanRecordId, cascadeDelete: false)
+                .ForeignKey("dbo.Contingents", t => t.ContingentId, cascadeDelete: false)
                 .ForeignKey("dbo.LoadDistributions", t => t.LoadDistributionId, cascadeDelete: true)
-                .ForeignKey("dbo.TimeNorms", t => t.TimeNormId, cascadeDelete: true)
+                .ForeignKey("dbo.TimeNorms", t => t.TimeNormId, cascadeDelete: false)
                 .Index(t => t.LoadDistributionId)
                 .Index(t => t.AcademicPlanRecordId)
                 .Index(t => t.ContingentId)

@@ -179,6 +179,43 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateContingentViewModel(e)).OrderBy(e => e.AcademicYearId).ThenBy(e => e.StudentGroupId);
 		}
 
+		public static LoadDistributionViewModel CreateLoadDistributionViewModel(LoadDistribution entity)
+		{
+			return new LoadDistributionViewModel
+			{
+				Id = entity.Id,
+				AcademicYearId = entity.AcademicYearId,
+				AcademicYear = entity.AcademicYear.Title
+			};
+		}
+
+		public static IEnumerable<LoadDistributionViewModel> CreateLoadDistributions(IEnumerable<LoadDistribution> entities)
+		{
+			return entities.Select(e => CreateLoadDistributionViewModel(e)).OrderBy(e => e.AcademicYearId);
+		}
+
+		public static LoadDistributionRecordViewModel CreateLoadDistributionRecordViewModel(LoadDistributionRecord entity)
+		{
+			return new LoadDistributionRecordViewModel
+			{
+				Id = entity.Id,
+				LoadDistributionId = entity.LoadDistributionId,
+				LoadDistributionAcademicYear = entity.LoadDistribution.AcademicYear.Title,
+				AcademicPlanRecordId = entity.AcademicPlanRecordId,
+				AcademicPlanRecordViewModel = CreateAcademicPlanRecordViewModel(entity.AcademicPlanRecord),
+				ContingentId = entity.ContingentId,
+				ContingentViewModel = CreateContingentViewModel(entity.Contingent),
+				TimeNormId = entity.TimeNormId,
+				TimeNormViewModel = CreateTimeNormViewModel(entity.TimeNorm)
+			};
+		}
+
+		public static IEnumerable<LoadDistributionRecordViewModel> CreateLoadDistributionRecords(IEnumerable<LoadDistributionRecord> entities)
+		{
+			return entities.Select(e => CreateLoadDistributionRecordViewModel(e)).OrderBy(e => e.AcademicPlanRecordViewModel.Semester).ThenBy(e => e.ContingentViewModel.StudentGroupName)
+				.ThenBy(e => e.AcademicPlanRecordViewModel.Disciplne).ThenBy(e => e.TimeNormId);
+		}
+
 
 		public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
 		{
