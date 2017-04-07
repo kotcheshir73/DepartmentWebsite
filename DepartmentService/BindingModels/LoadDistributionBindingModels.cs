@@ -14,7 +14,7 @@
 
 	public class LoadDistributionRecordGetBindingModel
 	{
-		public long Id { get; set; }
+		public long? Id { get; set; }
 
 		public long? LoadDistributionId { get; set; }
 	}
@@ -34,7 +34,11 @@
 
 	public class LoadDistributionMissionGetBindingModel
 	{
-		public long Id { get; set; }
+		public long? Id { get; set; }
+
+		public long? LoadDistributionRecordId { get; set; }
+
+		public long? LecturerId { get; set; }
 	}
 
 	public class LoadDistributionMissionRecordBindingModel

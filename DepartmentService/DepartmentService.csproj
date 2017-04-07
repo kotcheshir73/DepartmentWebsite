@@ -76,6 +76,7 @@
     <Compile Include="IServices\IEducationDirectionService.cs" />
     <Compile Include="IServices\IExaminationRecordService.cs" />
     <Compile Include="IServices\IKindOfLoadService.cs" />
+    <Compile Include="IServices\ILoadDistributionMissionService.cs" />
     <Compile Include="IServices\ILoadDistributionRecordService.cs" />
     <Compile Include="IServices\ILoadDistributionService.cs" />
     <Compile Include="IServices\IScheduleLessonTimeService.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Services\EducationDirectionService.cs" />
     <Compile Include="Services\ExaminationRecordService.cs" />
     <Compile Include="Services\KindOfLoadService.cs" />
+    <Compile Include="Services\LoadDistributionMissionService.cs" />
     <Compile Include="Services\LoadDistributionRecordService.cs" />
     <Compile Include="Services\LoadDistributionService.cs" />
     <Compile Include="Services\ScheduleLessonTimeService.cs" />

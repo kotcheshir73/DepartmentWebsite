@@ -34,13 +34,9 @@
 	{
 		public long Id { get; set; }
 
-		public long LoadDistributionId { get; set; }
-
-		public string LoadDistributionAcademicYear { get; set; }
+		public long LoadDistributionRecordId { get; set; }
 
 		public long LecturerId { get; set; }
-
-		public string LectureString { get; set; }
 
 		public decimal Hours { get; set; }
 	}

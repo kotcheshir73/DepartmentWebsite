@@ -216,6 +216,22 @@ namespace DepartmentService.ViewModels
 				.ThenBy(e => e.AcademicPlanRecordViewModel.Disciplne).ThenBy(e => e.TimeNormId);
 		}
 
+		public static LoadDistributionMissionViewModel CreateLoadDistributionMissionViewModel(LoadDistributionMission entity)
+		{
+			return new LoadDistributionMissionViewModel
+			{
+				Id = entity.Id,
+				LoadDistributionRecordId = entity.LoadDistributionRecordId,
+				LecturerId = entity.LecturerId,
+				Hours = entity.Hours
+			};
+		}
+
+		public static IEnumerable<LoadDistributionMissionViewModel> CreateLoadDistributionMissions(IEnumerable<LoadDistributionMission> entities)
+		{
+			return entities.Select(e => CreateLoadDistributionMissionViewModel(e));
+		}
+
 
 		public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
 		{
