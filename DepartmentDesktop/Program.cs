@@ -61,7 +61,7 @@ namespace DepartmentDesktop
             return currentContainer;
         }
 
-		public static void PrintErrorMessage(string text, Dictionary<string, string> result)
+		public static void PrintErrorMessage(string text, List<KeyValuePair<string, string>> result)
 		{
 			FormError form = new FormError();
 			form.LoadData(text, result);

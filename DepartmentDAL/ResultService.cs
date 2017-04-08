@@ -7,57 +7,47 @@ namespace DepartmentDAL
 {
 	public class ResultService
 	{
-		private int counter;
-
 		public bool Succeeded { get; private set; }
 
 		public ResultServiceStatusCode StatusCode { get; private set; }
 
-		public Dictionary<string, string> Errors { get; private set; }
+		public List<KeyValuePair< string, string>> Errors { get; private set; }
+
+		/// <summary>
+		/// Какой-то объект, получаемый по результатам операции (например, id)
+		/// </summary>
+		public object Result { get; private set; }
 
 		public ResultService()
 		{
-			Errors = new Dictionary<string, string>();
+			Errors = new List<KeyValuePair<string, string>>();
 			Succeeded = true;
 			StatusCode = 0;
-			counter = 0;
 		}
 
 		public void AddError(string key, string value)
 		{
-			if (Errors.ContainsKey(key))
-			{
-				counter++;
-				Errors.Add(key + counter, value);
-			}
-			else
-			{
-				Errors.Add(key, value);
-			}
+			Errors.Add(new KeyValuePair<string, string>(key, value));
 			if (Succeeded)
+			{
 				Succeeded = false;
+			}
 		}
 
 		public void AddError(Exception error)
 		{
-			if (Errors.ContainsKey("Общая ошибка"))
-			{
-				counter++;
-				Errors.Add("Общая ошибка" + counter, error.Message);
-			}
-			else
-			{
-				Errors.Add("Общая ошибка", error.Message);
-			}
+			Errors.Add(new KeyValuePair<string, string>("Общая ошибка", error.Message));
 			if (Succeeded)
+			{
 				Succeeded = false;
+			}
 		}
 
 		public static ResultService Error(string key, string error, ResultServiceStatusCode statusCode)
 		{
 			var result = new ResultService();
 			result.Succeeded = false;
-			result.Errors.Add(key, error);
+			result.Errors.Add(new KeyValuePair<string, string>(key, error));
 			result.StatusCode = statusCode;
 
 			return result;
@@ -66,15 +56,13 @@ namespace DepartmentDAL
 		public static ResultService Error(Exception error, ResultServiceStatusCode statusCode)
 		{
 			var result = new ResultService();
-			int counter = 0;
 			result.Succeeded = false;
-			result.Errors.Add("Error:", error.Message);
+			result.Errors.Add(new KeyValuePair<string, string>("Error:", error.Message));
 			
 			while (error.InnerException != null)
 			{
-				counter++;
 				error = error.InnerException;
-				result.Errors.Add(string.Format("Inner error{0}:", counter), error.Message);
+				result.Errors.Add(new KeyValuePair<string, string>("Inner error:", error.Message));
 			}
 			result.StatusCode = statusCode;
 
@@ -84,15 +72,14 @@ namespace DepartmentDAL
 		public static ResultService Error(DbEntityValidationException error, ResultServiceStatusCode statusCode)
 		{
 			var result = new ResultService();
-			int counter = 0;
 			result.Succeeded = false;
-			result.Errors.Add("DbEntityValidation Error:", error.Message);
+			result.Errors.Add(new KeyValuePair<string, string>("DbEntityValidation Error:", error.Message));
 			foreach (var eve in error.EntityValidationErrors)
 			{
 				foreach (var ve in eve.ValidationErrors)
 				{
-					result.Errors.Add(string.Format("ValidationErrors{0}:", counter), string.Format("- Entity: \"{0}\", Error: \"{1}\"\r\n",
-						ve.PropertyName, ve.ErrorMessage));
+					result.Errors.Add(new KeyValuePair<string, string>("ValidationErrors:", string.Format("- Entity: \"{0}\", Error: \"{1}\"\r\n",
+						ve.PropertyName, ve.ErrorMessage)));
 				}
 			}
 			result.StatusCode = statusCode;
@@ -108,17 +95,25 @@ namespace DepartmentDAL
 				StatusCode = ResultServiceStatusCode.Success
 			};
 		}
+
+		public static ResultService Success(object obj)
+		{
+			return new ResultService
+			{
+				Result = obj,
+				Succeeded = true,
+				StatusCode = ResultServiceStatusCode.Success
+			};
+		}
 	}
 
 	public class ResultService<T>
 	{
 		public bool Succeeded { get; private set; }
 
-		int counter;
-
 		public ResultServiceStatusCode StatusCode { get; private set; }
 
-		public Dictionary<string, string> Errors { get; private set; }
+		public List<KeyValuePair<string, string>> Errors { get; private set; }
 
 		public List<T> List { get; private set; }
 
@@ -126,25 +121,18 @@ namespace DepartmentDAL
 
 		public ResultService()
 		{
-			Errors = new Dictionary<string, string>();
+			Errors = new List<KeyValuePair<string, string>>();
 			Succeeded = true;
 			StatusCode = 0;
-			counter = 0;
 		}
 
 		public void AddError(string key, string value)
 		{
-			if (Errors.ContainsKey(key))
-			{
-				counter++;
-				Errors.Add(key + counter, value);
-			}
-			else
-			{
-				Errors.Add(key, value);
-			}
+			Errors.Add(new KeyValuePair<string, string>(key, value));
 			if (Succeeded)
+			{
 				Succeeded = false;
+			}
 		}
 
 		public static ResultService<T> Error(string key, string error, ResultServiceStatusCode statusCode)
@@ -152,7 +140,7 @@ namespace DepartmentDAL
 			var result = new ResultService<T>();
 
 			result.Succeeded = false;
-			result.Errors.Add(key, error);
+			result.Errors.Add(new KeyValuePair<string, string>(key, error));
 			result.StatusCode = statusCode;
 
 			return result;
@@ -161,13 +149,12 @@ namespace DepartmentDAL
 		public static ResultService<T> Error(Exception error, ResultServiceStatusCode statusCode)
 		{
 			var result = new ResultService<T>();
-			int counter = 0;
 			result.Succeeded = false;
-			result.Errors.Add("Error:", error.Message);
+			result.Errors.Add(new KeyValuePair<string, string>("Error:", error.Message));
 			while(error.InnerException != null)
 			{
 				error = error.InnerException;
-				result.Errors.Add(string.Format("Inner error{0}:", counter), error.Message);
+				result.Errors.Add(new KeyValuePair<string, string>("Inner Error:", error.Message));
 			}
 			result.StatusCode = statusCode;
 
@@ -179,13 +166,13 @@ namespace DepartmentDAL
 			var result = new ResultService<T>();
 			int counter = 0;
 			result.Succeeded = false;
-			result.Errors.Add("DbEntityValidation Error:", error.Message);
+			result.Errors.Add(new KeyValuePair<string, string>("DbEntityValidation Error:", error.Message));
 			foreach (var eve in error.EntityValidationErrors)
 			{
 				foreach (var ve in eve.ValidationErrors)
 				{
-					result.Errors.Add(string.Format("ValidationErrors{0}:", counter), string.Format("- Entity: \"{0}\", Error: \"{1}\"\r\n",
-						ve.PropertyName, ve.ErrorMessage));
+					result.Errors.Add(new KeyValuePair<string, string>("ValidationErrors:", string.Format("- Entity: \"{0}\", Error: \"{1}\"\r\n",
+						ve.PropertyName, ve.ErrorMessage)));
 				}
 			}
 			result.StatusCode = statusCode;

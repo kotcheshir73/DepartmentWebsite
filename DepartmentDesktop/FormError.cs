@@ -17,7 +17,7 @@ namespace DepartmentDesktop
 			InitializeComponent();
 		}
 
-		public void LoadData(string text, Dictionary<string, string> result)
+		public void LoadData(string text, List<KeyValuePair<string, string>> result)
 		{
 			Text = text;
 			foreach (var err in result)
