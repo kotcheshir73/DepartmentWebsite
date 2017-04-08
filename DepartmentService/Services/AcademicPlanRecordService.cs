@@ -1,15 +1,15 @@
-﻿using DepartmentService.IServices;
+﻿using DepartmentDAL;
+using DepartmentDAL.Context;
+using DepartmentDAL.Enums;
+using DepartmentDAL.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
-using DepartmentDAL;
-using DepartmentService.BindingModels;
-using DepartmentService.ViewModels;
-using DepartmentDAL.Context;
 using System.Data.Entity.Validation;
-using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using System.Xml;
 
 namespace DepartmentService.Services
@@ -32,6 +32,23 @@ namespace DepartmentService.Services
 			_serviceD = serviceD;
 			_serviceKL = serviceKL;
 		}
+
+
+		public ResultService<List<AcademicPlanViewModel>> GetAcademicPlans()
+		{
+			return _serviceAP.GetAcademicPlans();
+		}
+
+		public ResultService<List<DisciplineViewModel>> GetDisciplines()
+		{
+			return _serviceD.GetDisciplines();
+		}
+
+		public ResultService<List<KindOfLoadViewModel>> GetKindOfLoads()
+		{
+			return _serviceKL.GetKindOfLoads();
+		}
+
 
 		public ResultService<List<AcademicPlanRecordViewModel>> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
 		{
@@ -59,20 +76,116 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService<List<AcademicPlanViewModel>> GetAcademicPlans()
+		public ResultService<AcademicPlanRecordViewModel> GetAcademicPlanRecord(AcademicPlanRecordGetBindingModel model)
 		{
-			return _serviceAP.GetAcademicPlans();
+			try
+			{
+				var entity = _context.AcademicPlanRecords.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad)
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
+					return ResultService<AcademicPlanRecordViewModel>.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+
+				return ResultService<AcademicPlanRecordViewModel>.Success(
+					ModelFactory.CreateAcademicPlanRecordViewModel(entity));
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService<AcademicPlanRecordViewModel>.Error(ex,
+					ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService<AcademicPlanRecordViewModel>.Error(ex, ResultServiceStatusCode.Error);
+			}
 		}
 
-		public ResultService<List<DisciplineViewModel>> GetDisciplines()
+		public ResultService CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
 		{
-			return _serviceD.GetDisciplines();
+			var entity = new AcademicPlanRecord
+			{
+				AcademicPlanId = model.AcademicPlanId,
+				DisciplineId = model.DisciplineId,
+				KindOfLoadId = model.KindOfLoadId,
+				Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester),
+				Hours = model.Hours,
+				DateCreate = DateTime.Now,
+				IsDeleted = false
+			};
+			try
+			{
+				_context.AcademicPlanRecords.Add(entity);
+				_context.SaveChanges();
+				return ResultService.Success(entity.Id);
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
 		}
 
-		public ResultService<List<KindOfLoadViewModel>> GetKindOfLoads()
+		public ResultService UpdateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
 		{
-			return _serviceKL.GetKindOfLoads();
+			try
+			{
+				var entity = _context.AcademicPlanRecords
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.DisciplineId = model.DisciplineId;
+				entity.KindOfLoadId = model.KindOfLoadId;
+				entity.Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester);
+				entity.Hours = model.Hours;
+
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
 		}
+
+		public ResultService DeleteAcademicPlanRecord(AcademicPlanRecordGetBindingModel model)
+		{
+			try
+			{
+				var entity = _context.AcademicPlanRecords
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
+				{
+					return ResultService.Error("Error:", "Entity not found",
+						ResultServiceStatusCode.NotFound);
+				}
+				entity.IsDeleted = true;
+				entity.DateDelete = DateTime.Now;
+
+				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				_context.SaveChanges();
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+		}
+
 
 		public ResultService LoadFromXMLAcademicPlanRecord(AcademicPlanRecordLoadFromXMLBindingModel model)
 		{
@@ -491,116 +604,6 @@ namespace DepartmentService.Services
 					_context.Entry(record).State = EntityState.Modified;
 				}
 				_context.SaveChanges();
-			}
-		}
-
-		public ResultService<AcademicPlanRecordViewModel> GetAcademicPlanRecord(AcademicPlanRecordGetBindingModel model)
-		{
-			try
-			{
-				var entity = _context.AcademicPlanRecords.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-				if (entity == null)
-					return ResultService<AcademicPlanRecordViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
-
-				return ResultService<AcademicPlanRecordViewModel>.Success(
-					ModelFactory.CreateAcademicPlanRecordViewModel(entity));
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService<AcademicPlanRecordViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService<AcademicPlanRecordViewModel>.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
-
-		public ResultService CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
-		{
-			var entity = new AcademicPlanRecord
-			{
-				AcademicPlanId = model.AcademicPlanId,
-				DisciplineId = model.DisciplineId,
-				KindOfLoadId = model.KindOfLoadId,
-				Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester),
-				Hours = model.Hours,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
-			try
-			{
-				_context.AcademicPlanRecords.Add(entity);
-				_context.SaveChanges();
-				return ResultService.Success();
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
-
-		public ResultService UpdateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
-		{
-			try
-			{
-				var entity = _context.AcademicPlanRecords
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-				if (entity == null)
-				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
-				}
-				entity.DisciplineId = model.DisciplineId;
-				entity.KindOfLoadId = model.KindOfLoadId;
-				entity.Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester);
-				entity.Hours = model.Hours;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-				_context.SaveChanges();
-				return ResultService.Success();
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
-
-		public ResultService DeleteAcademicPlanRecord(AcademicPlanRecordGetBindingModel model)
-		{
-			try
-			{
-				var entity = _context.AcademicPlanRecords
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-				if (entity == null)
-				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
-				}
-				entity.IsDeleted = true;
-				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-				_context.SaveChanges();
-				return ResultService.Success();
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 	}

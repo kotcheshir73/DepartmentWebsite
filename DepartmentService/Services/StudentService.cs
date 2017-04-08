@@ -1,17 +1,17 @@
-﻿using DepartmentService.IServices;
+﻿using DepartmentDAL;
+using DepartmentDAL.Context;
+using DepartmentDAL.Enums;
+using DepartmentDAL.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using DepartmentService.ViewModels;
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DepartmentDAL;
-using DepartmentService.BindingModels;
-using DepartmentService.ViewModels;
-using DepartmentDAL.Context;
-using DepartmentDAL.Models;
-using System.Data.Entity.Validation;
-using Microsoft.Office.Interop.Word;
-using System.IO;
-using DepartmentDAL.Enums;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.IO;
 
 namespace DepartmentService.Services
 {
@@ -26,6 +26,13 @@ namespace DepartmentService.Services
 			_context = context;
 			_serviceSG = serviceSG;
 		}
+
+
+		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
+		{
+			return _serviceSG.GetStudentGroups();
+		}
+
 
 		public ResultService<StudentPageViewModel> GetStudents(StudentGetBindingModel model)
 		{
@@ -70,11 +77,6 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
-		{
-			return _serviceSG.GetStudentGroups();
-		}
-
 		public ResultService<StudentViewModel> GetStudent(StudentGetBindingModel model)
 		{
 			try
@@ -99,60 +101,6 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService<List<StudentViewModel>> LoadStudentsFromFile(StudentLoadDocBindingModel model)
-		{
-			var word = new Application();
-			if (File.Exists(model.FileName))
-			{
-				Document document = word.Documents.Open(model.FileName, Type.Missing,
-						true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-						Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-				var table = document.Tables[1];
-
-				try
-				{
-					var list = new List<StudentViewModel>();
-					for (int i = 2; i < table.Rows.Count; ++i)
-					{
-						var studentModel = new StudentViewModel
-						{
-							NumberOfBook = table.Cell(i, 2).Range.Text.Replace("\r\a", ""),
-							StudentGroupId = model.Id,
-							LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
-							FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
-							Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
-							Description = string.Format("{0}  {1}", table.Cell(i, 6).Range.Text.Replace("\r\a", ""),
-							table.Cell(i, 7).Range.Text.Replace("\r\a", ""))
-						};
-						if (string.IsNullOrEmpty(studentModel.NumberOfBook))
-						{
-							break;
-						}
-						if (!string.IsNullOrEmpty(studentModel.LastName) && studentModel.LastName.Length > 1)
-						{
-							studentModel.LastName = studentModel.LastName[0] + studentModel.LastName.Substring(1).ToLower();
-						}
-						if (!string.IsNullOrEmpty(studentModel.FirstName) && studentModel.FirstName.Length > 1)
-						{
-							studentModel.FirstName = studentModel.FirstName[0] + studentModel.FirstName.Substring(1).ToLower();
-						}
-						if (!string.IsNullOrEmpty(studentModel.Patronymic) && studentModel.Patronymic.Length > 1)
-						{
-							studentModel.Patronymic = studentModel.Patronymic[0] + studentModel.Patronymic.Substring(1).ToLower();
-						}
-						list.Add(studentModel);
-					}
-					document.Close();
-					return ResultService<List<StudentViewModel>>.Success(list);
-				}
-				catch (Exception ex)
-				{
-					document.Close();
-					return ResultService<List<StudentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
-				}
-			}
-			return ResultService<List<StudentViewModel>>.Error("Error:", "File not found", ResultServiceStatusCode.FileNotFound);
-		}
 
 		public ResultService EnrollmentStudents(StudentEnrollmentBindingModel model)
 		{
@@ -402,6 +350,7 @@ namespace DepartmentService.Services
 			}
 		}
 
+
 		public ResultService UpdateStudent(StudentRecordBindingModel model)
 		{
 			try
@@ -459,6 +408,62 @@ namespace DepartmentService.Services
 			{
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
+		}
+
+
+		public ResultService<List<StudentViewModel>> LoadStudentsFromFile(StudentLoadDocBindingModel model)
+		{
+			var word = new Application();
+			if (File.Exists(model.FileName))
+			{
+				Document document = word.Documents.Open(model.FileName, Type.Missing,
+						true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+						Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+				var table = document.Tables[1];
+
+				try
+				{
+					var list = new List<StudentViewModel>();
+					for (int i = 2; i < table.Rows.Count; ++i)
+					{
+						var studentModel = new StudentViewModel
+						{
+							NumberOfBook = table.Cell(i, 2).Range.Text.Replace("\r\a", ""),
+							StudentGroupId = model.Id,
+							LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
+							FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
+							Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
+							Description = string.Format("{0}  {1}", table.Cell(i, 6).Range.Text.Replace("\r\a", ""),
+							table.Cell(i, 7).Range.Text.Replace("\r\a", ""))
+						};
+						if (string.IsNullOrEmpty(studentModel.NumberOfBook))
+						{
+							break;
+						}
+						if (!string.IsNullOrEmpty(studentModel.LastName) && studentModel.LastName.Length > 1)
+						{
+							studentModel.LastName = studentModel.LastName[0] + studentModel.LastName.Substring(1).ToLower();
+						}
+						if (!string.IsNullOrEmpty(studentModel.FirstName) && studentModel.FirstName.Length > 1)
+						{
+							studentModel.FirstName = studentModel.FirstName[0] + studentModel.FirstName.Substring(1).ToLower();
+						}
+						if (!string.IsNullOrEmpty(studentModel.Patronymic) && studentModel.Patronymic.Length > 1)
+						{
+							studentModel.Patronymic = studentModel.Patronymic[0] + studentModel.Patronymic.Substring(1).ToLower();
+						}
+						list.Add(studentModel);
+					}
+					document.Close();
+					return ResultService<List<StudentViewModel>>.Success(list);
+				}
+				catch (Exception ex)
+				{
+					document.Close();
+					return ResultService<List<StudentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+				}
+			}
+			return ResultService<List<StudentViewModel>>.Error("Error:", "File not found", ResultServiceStatusCode.FileNotFound);
 		}
 	}
 }

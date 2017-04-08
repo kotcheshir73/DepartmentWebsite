@@ -1,13 +1,13 @@
-﻿using DepartmentService.IServices;
+﻿using DepartmentDAL;
+using DepartmentDAL.Context;
+using DepartmentDAL.Enums;
+using DepartmentDAL.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using DepartmentService.ViewModels;
 using System;
 using System.Linq;
-using DepartmentDAL;
-using DepartmentService.BindingModels;
-using DepartmentService.ViewModels;
-using DepartmentDAL.Context;
-using DepartmentDAL.Models;
 using System.Data.Entity.Validation;
-using DepartmentDAL.Enums;
 
 namespace DepartmentService.Services
 {
@@ -19,6 +19,7 @@ namespace DepartmentService.Services
 		{
 			_context = context;
 		}
+
 
 		public ResultService<ExaminationRecordViewModel> GetExaminationRecord(ExaminationRecordGetBindingModel model)
 		{
@@ -86,7 +87,7 @@ namespace DepartmentService.Services
 			{
 				_context.ExaminationRecords.Add(entity);
 				_context.SaveChanges();
-				return ResultService.Success();
+				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
 			{

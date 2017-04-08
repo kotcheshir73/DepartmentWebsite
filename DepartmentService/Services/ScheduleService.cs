@@ -1,22 +1,22 @@
-﻿using DepartmentDAL.Context;
+﻿using DepartmentDAL;
+using DepartmentDAL.Context;
+using DepartmentDAL.Enums;
+using DepartmentDAL.Models;
+using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using DepartmentService.ViewModels;
+using HtmlAgilityPack;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Data.Entity;
-using DepartmentService.ViewModels;
-using DepartmentService.BindingModels;
-using DepartmentDAL;
+using System.Data.Entity.Validation;
 using System.Net;
 using System.Text;
-using HtmlAgilityPack;
-using DepartmentDAL.Models;
-using DepartmentDAL.Enums;
-using System.Threading;
 using System.Text.RegularExpressions;
-using Microsoft.Office.Interop.Excel;
-using System.IO;
-using System.Data.Entity.Validation;
+using System.Threading;
 
 namespace DepartmentService.Services
 {
