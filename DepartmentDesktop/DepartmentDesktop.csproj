@@ -165,6 +165,12 @@
     <Compile Include="Views\EducationalProcess\KindOfLoad\KindOfLoadForm.Designer.cs">
       <DependentUpon>KindOfLoadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.Designer.cs">
+      <DependentUpon>LoadDistributionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -463,6 +469,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\KindOfLoad\KindOfLoadForm.resx">
       <DependentUpon>KindOfLoadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.resx">
+      <DependentUpon>LoadDistributionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.resx">
       <DependentUpon>SeasonDatesControl.cs</DependentUpon>
