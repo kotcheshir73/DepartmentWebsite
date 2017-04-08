@@ -21,13 +21,17 @@ namespace DepartmentService.Services
 
 		private readonly IContingentService _serviceC;
 
+		private readonly ILecturerService _serviceL;
+
 		private readonly ITimeNormService _serviceTN;
 
-		public LoadDistributionRecordService(DepartmentDbContext context, IAcademicPlanRecordService serviceAPR, IContingentService serviceC, ITimeNormService serviceTN)
+		public LoadDistributionRecordService(DepartmentDbContext context, IAcademicPlanRecordService serviceAPR, IContingentService serviceC, 
+			ILecturerService serviceL, ITimeNormService serviceTN)
 		{
 			_context = context;
 			_serviceAPR = serviceAPR;
 			_serviceC = serviceC;
+			_serviceL = serviceL;
 			_serviceTN = serviceTN;
 		}
 
@@ -40,6 +44,11 @@ namespace DepartmentService.Services
 		public ResultService<List<ContingentViewModel>> GetContingents()
 		{
 			return _serviceC.GetContingents();
+		}
+
+		public ResultService<List<LecturerViewModel>> GetLecturers()
+		{
+			return _serviceL.GetLecturers();
 		}
 
 		public ResultService<List<TimeNormViewModel>> GetTimeNorms()

@@ -25,6 +25,12 @@ namespace DepartmentService.IServices
 		ResultService<List<ContingentViewModel>> GetContingents();
 
 		/// <summary>
+		/// Получение списка преподавателей
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<LecturerViewModel>> GetLecturers();
+
+		/// <summary>
 		/// Получение списка норм времени
 		/// </summary>
 		/// <returns></returns>

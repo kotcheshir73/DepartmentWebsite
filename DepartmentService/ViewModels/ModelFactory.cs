@@ -264,6 +264,32 @@ namespace DepartmentService.ViewModels
 		}
 
 
+		public static LecturerViewModel CreateLecturerViewModel(Lecturer entity)
+		{
+			return new LecturerViewModel
+			{
+				Id = entity.Id,
+				LastName = entity.LastName,
+				FirstName = entity.FirstName,
+				Patronymic = entity.Patronymic,
+				DateBirth = entity.DateBirth,
+				Post = entity.Post,
+				Rank = entity.Rank,
+				HomeNumber = entity.HomeNumber,
+				MobileNumber = entity.MobileNumber,
+				Email = entity.Email,
+				Address = entity.Address,
+				Description = entity.Description,
+				Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
+			};
+		}
+
+		public static IEnumerable<LecturerViewModel> CreateLecturers(IEnumerable<Lecturer> entities)
+		{
+			return entities.Select(e => CreateLecturerViewModel(e)).OrderBy(e => e.Id);
+		}
+
+
 		public static StudentViewModel CreateStudentViewModel(Student entity)
 		{
 			return new StudentViewModel
