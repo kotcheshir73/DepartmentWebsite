@@ -1,0 +1,161 @@
+﻿namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
+{
+	partial class LoadDistributionRecordForm
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
+		#region Windows Form Designer generated code
+
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.labelAcademicPlanRecord = new System.Windows.Forms.Label();
+			this.comboBoxAcademicPlanRecord = new System.Windows.Forms.ComboBox();
+			this.labelContingent = new System.Windows.Forms.Label();
+			this.comboBoxContingent = new System.Windows.Forms.ComboBox();
+			this.labelTimeNorm = new System.Windows.Forms.Label();
+			this.comboBoxTimeNorm = new System.Windows.Forms.ComboBox();
+			this.buttonSaveAndClose = new System.Windows.Forms.Button();
+			this.buttonClose = new System.Windows.Forms.Button();
+			this.buttonSave = new System.Windows.Forms.Button();
+			this.SuspendLayout();
+			// 
+			// labelAcademicPlanRecord
+			// 
+			this.labelAcademicPlanRecord.AutoSize = true;
+			this.labelAcademicPlanRecord.Location = new System.Drawing.Point(12, 9);
+			this.labelAcademicPlanRecord.Name = "labelAcademicPlanRecord";
+			this.labelAcademicPlanRecord.Size = new System.Drawing.Size(132, 13);
+			this.labelAcademicPlanRecord.TabIndex = 0;
+			this.labelAcademicPlanRecord.Text = "Запись учебного плана*:";
+			// 
+			// comboBoxAcademicPlanRecord
+			// 
+			this.comboBoxAcademicPlanRecord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxAcademicPlanRecord.FormattingEnabled = true;
+			this.comboBoxAcademicPlanRecord.Location = new System.Drawing.Point(152, 6);
+			this.comboBoxAcademicPlanRecord.Name = "comboBoxAcademicPlanRecord";
+			this.comboBoxAcademicPlanRecord.Size = new System.Drawing.Size(400, 21);
+			this.comboBoxAcademicPlanRecord.TabIndex = 1;
+			// 
+			// labelContingent
+			// 
+			this.labelContingent.AutoSize = true;
+			this.labelContingent.Location = new System.Drawing.Point(12, 36);
+			this.labelContingent.Name = "labelContingent";
+			this.labelContingent.Size = new System.Drawing.Size(72, 13);
+			this.labelContingent.TabIndex = 2;
+			this.labelContingent.Text = "Контингент*:";
+			// 
+			// comboBoxContingent
+			// 
+			this.comboBoxContingent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxContingent.FormattingEnabled = true;
+			this.comboBoxContingent.Location = new System.Drawing.Point(152, 33);
+			this.comboBoxContingent.Name = "comboBoxContingent";
+			this.comboBoxContingent.Size = new System.Drawing.Size(400, 21);
+			this.comboBoxContingent.TabIndex = 3;
+			// 
+			// labelTimeNorm
+			// 
+			this.labelTimeNorm.AutoSize = true;
+			this.labelTimeNorm.Location = new System.Drawing.Point(12, 63);
+			this.labelTimeNorm.Name = "labelTimeNorm";
+			this.labelTimeNorm.Size = new System.Drawing.Size(95, 13);
+			this.labelTimeNorm.TabIndex = 4;
+			this.labelTimeNorm.Text = "Норма времени*:";
+			// 
+			// comboBoxTimeNorm
+			// 
+			this.comboBoxTimeNorm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxTimeNorm.FormattingEnabled = true;
+			this.comboBoxTimeNorm.Location = new System.Drawing.Point(152, 60);
+			this.comboBoxTimeNorm.Name = "comboBoxTimeNorm";
+			this.comboBoxTimeNorm.Size = new System.Drawing.Size(400, 21);
+			this.comboBoxTimeNorm.TabIndex = 5;
+			// 
+			// buttonSaveAndClose
+			// 
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(330, 87);
+			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
+			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
+			this.buttonSaveAndClose.TabIndex = 7;
+			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
+			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+			// 
+			// buttonClose
+			// 
+			this.buttonClose.Location = new System.Drawing.Point(477, 87);
+			this.buttonClose.Name = "buttonClose";
+			this.buttonClose.Size = new System.Drawing.Size(75, 23);
+			this.buttonClose.TabIndex = 8;
+			this.buttonClose.Text = "Закрыть";
+			this.buttonClose.UseVisualStyleBackColor = true;
+			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+			// 
+			// buttonSave
+			// 
+			this.buttonSave.Location = new System.Drawing.Point(249, 87);
+			this.buttonSave.Name = "buttonSave";
+			this.buttonSave.Size = new System.Drawing.Size(75, 23);
+			this.buttonSave.TabIndex = 6;
+			this.buttonSave.Text = "Сохранить";
+			this.buttonSave.UseVisualStyleBackColor = true;
+			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+			// 
+			// LoadDistributionRecordForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(564, 122);
+			this.Controls.Add(this.buttonSaveAndClose);
+			this.Controls.Add(this.buttonClose);
+			this.Controls.Add(this.buttonSave);
+			this.Controls.Add(this.comboBoxTimeNorm);
+			this.Controls.Add(this.labelTimeNorm);
+			this.Controls.Add(this.comboBoxContingent);
+			this.Controls.Add(this.labelContingent);
+			this.Controls.Add(this.comboBoxAcademicPlanRecord);
+			this.Controls.Add(this.labelAcademicPlanRecord);
+			this.Name = "LoadDistributionRecordForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Запись распределения нагрузок";
+			this.Load += new System.EventHandler(this.LoadDistributionRecordForm_Load);
+			this.ResumeLayout(false);
+			this.PerformLayout();
+
+		}
+
+		#endregion
+
+		private System.Windows.Forms.Label labelAcademicPlanRecord;
+		private System.Windows.Forms.ComboBox comboBoxAcademicPlanRecord;
+		private System.Windows.Forms.Label labelContingent;
+		private System.Windows.Forms.ComboBox comboBoxContingent;
+		private System.Windows.Forms.Label labelTimeNorm;
+		private System.Windows.Forms.ComboBox comboBoxTimeNorm;
+		private System.Windows.Forms.Button buttonSaveAndClose;
+		private System.Windows.Forms.Button buttonClose;
+		private System.Windows.Forms.Button buttonSave;
+	}
+}

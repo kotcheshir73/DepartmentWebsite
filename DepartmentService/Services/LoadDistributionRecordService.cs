@@ -78,7 +78,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService<LoadDistributionRecordViewModel> GetLoadDistribution(LoadDistributionRecordGetBindingModel model)
+		public ResultService<LoadDistributionRecordViewModel> GetLoadDistributionRecord(LoadDistributionRecordGetBindingModel model)
 		{
 			try
 			{

@@ -42,7 +42,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model">Идентификатор записи распределения нагрузок</param>
 		/// <returns></returns>
-		ResultService<LoadDistributionRecordViewModel> GetLoadDistribution(LoadDistributionRecordGetBindingModel model);
+		ResultService<LoadDistributionRecordViewModel> GetLoadDistributionRecord(LoadDistributionRecordGetBindingModel model);
 
 		/// <summary>
 		/// Создание новой записи распределения нагрузок

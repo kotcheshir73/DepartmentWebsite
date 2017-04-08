@@ -33,11 +33,11 @@
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabPageConfig = new System.Windows.Forms.TabPage();
 			this.buttonSaveAndClose = new System.Windows.Forms.Button();
+			this.tabPageLoadDistributionRecords = new System.Windows.Forms.TabPage();
 			this.tabControl.SuspendLayout();
-			this.tabPage1.SuspendLayout();
+			this.tabPageConfig.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// comboBoxAcademicYear
@@ -78,8 +78,8 @@
 			// 
 			// tabControl
 			// 
-			this.tabControl.Controls.Add(this.tabPage1);
-			this.tabControl.Controls.Add(this.tabPage2);
+			this.tabControl.Controls.Add(this.tabPageConfig);
+			this.tabControl.Controls.Add(this.tabPageLoadDistributionRecords);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
 			this.tabControl.Name = "tabControl";
@@ -87,30 +87,20 @@
 			this.tabControl.Size = new System.Drawing.Size(1187, 461);
 			this.tabControl.TabIndex = 0;
 			// 
-			// tabPage1
+			// tabPageConfig
 			// 
-			this.tabPage1.Controls.Add(this.buttonSaveAndClose);
-			this.tabPage1.Controls.Add(this.labelAcademicYear);
-			this.tabPage1.Controls.Add(this.buttonClose);
-			this.tabPage1.Controls.Add(this.comboBoxAcademicYear);
-			this.tabPage1.Controls.Add(this.buttonSave);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(1179, 435);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "tabPage1";
-			this.tabPage1.UseVisualStyleBackColor = true;
-			// 
-			// tabPage2
-			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(1179, 435);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "tabPage2";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
+			this.tabPageConfig.Controls.Add(this.labelAcademicYear);
+			this.tabPageConfig.Controls.Add(this.buttonClose);
+			this.tabPageConfig.Controls.Add(this.comboBoxAcademicYear);
+			this.tabPageConfig.Controls.Add(this.buttonSave);
+			this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
+			this.tabPageConfig.Name = "tabPageConfig";
+			this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageConfig.Size = new System.Drawing.Size(1179, 435);
+			this.tabPageConfig.TabIndex = 0;
+			this.tabPageConfig.Text = "Распределение нагрузок";
+			this.tabPageConfig.UseVisualStyleBackColor = true;
 			// 
 			// buttonSaveAndClose
 			// 
@@ -121,6 +111,16 @@
 			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
 			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
 			// 
+			// tabPageLoadDistributionRecords
+			// 
+			this.tabPageLoadDistributionRecords.Location = new System.Drawing.Point(4, 22);
+			this.tabPageLoadDistributionRecords.Name = "tabPageLoadDistributionRecords";
+			this.tabPageLoadDistributionRecords.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageLoadDistributionRecords.Size = new System.Drawing.Size(1179, 435);
+			this.tabPageLoadDistributionRecords.TabIndex = 1;
+			this.tabPageLoadDistributionRecords.Text = "Записи";
+			this.tabPageLoadDistributionRecords.UseVisualStyleBackColor = true;
+			// 
 			// LoadDistributionForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,8 +130,8 @@
 			this.Name = "LoadDistributionForm";
 			this.Text = "Распределение нагрузки";
 			this.tabControl.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
+			this.tabPageConfig.ResumeLayout(false);
+			this.tabPageConfig.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -143,8 +143,8 @@
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.TabPage tabPageConfig;
+		private System.Windows.Forms.TabPage tabPageLoadDistributionRecords;
 		private System.Windows.Forms.Button buttonSaveAndClose;
 	}
 }
