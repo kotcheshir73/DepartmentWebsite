@@ -36,6 +36,7 @@
 			this.labelDescription = new System.Windows.Forms.Label();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
+			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// labelCipher
@@ -92,7 +93,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(233, 155);
+			this.buttonSave.Location = new System.Drawing.Point(89, 155);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 6;
@@ -102,19 +103,30 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(314, 155);
+			this.buttonClose.Location = new System.Drawing.Point(317, 155);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 7;
+			this.buttonClose.TabIndex = 8;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+			// 
+			// buttonSaveAndClose
+			// 
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(170, 155);
+			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
+			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
+			this.buttonSaveAndClose.TabIndex = 7;
+			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
+			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
 			// 
 			// EducationDirectionForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(404, 182);
+			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.textBoxDescription);
@@ -142,5 +154,6 @@
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonClose;
-    }
+		private System.Windows.Forms.Button buttonSaveAndClose;
+	}
 }

@@ -43,6 +43,7 @@
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageMainData = new System.Windows.Forms.TabPage();
 			this.tabPageStudents = new System.Windows.Forms.TabPage();
+			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.tabControl.SuspendLayout();
 			this.tabPageMainData.SuspendLayout();
 			this.SuspendLayout();
@@ -102,17 +103,17 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(319, 131);
+			this.buttonClose.Location = new System.Drawing.Point(319, 127);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 11;
+			this.buttonClose.TabIndex = 12;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(238, 131);
+			this.buttonSave.Location = new System.Drawing.Point(91, 127);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 10;
@@ -169,6 +170,7 @@
 			// 
 			// tabPageMainData
 			// 
+			this.tabPageMainData.Controls.Add(this.buttonSaveAndClose);
 			this.tabPageMainData.Controls.Add(this.labelEducationDirection);
 			this.tabPageMainData.Controls.Add(this.buttonClose);
 			this.tabPageMainData.Controls.Add(this.buttonSave);
@@ -198,6 +200,16 @@
 			this.tabPageStudents.TabIndex = 1;
 			this.tabPageStudents.Text = "Студенты";
 			this.tabPageStudents.UseVisualStyleBackColor = true;
+			// 
+			// buttonSaveAndClose
+			// 
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(172, 127);
+			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
+			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
+			this.buttonSaveAndClose.TabIndex = 11;
+			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
+			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
 			// 
 			// StudentGroupForm
 			// 
@@ -233,5 +245,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageMainData;
         private System.Windows.Forms.TabPage tabPageStudents;
-    }
+		private System.Windows.Forms.Button buttonSaveAndClose;
+	}
 }

@@ -38,15 +38,16 @@
 			this.textBoxCountStudents = new System.Windows.Forms.TextBox();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
+			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// comboBoxAcademicYear
 			// 
 			this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxAcademicYear.FormattingEnabled = true;
-			this.comboBoxAcademicYear.Location = new System.Drawing.Point(100, 6);
+			this.comboBoxAcademicYear.Location = new System.Drawing.Point(102, 6);
 			this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
-			this.comboBoxAcademicYear.Size = new System.Drawing.Size(105, 21);
+			this.comboBoxAcademicYear.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxAcademicYear.TabIndex = 1;
 			// 
 			// labelAcademicYear
@@ -62,9 +63,9 @@
 			// 
 			this.comboBoxStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxStudentGroup.FormattingEnabled = true;
-			this.comboBoxStudentGroup.Location = new System.Drawing.Point(100, 33);
+			this.comboBoxStudentGroup.Location = new System.Drawing.Point(102, 33);
 			this.comboBoxStudentGroup.Name = "comboBoxStudentGroup";
-			this.comboBoxStudentGroup.Size = new System.Drawing.Size(105, 21);
+			this.comboBoxStudentGroup.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxStudentGroup.TabIndex = 3;
 			// 
 			// labelStudentGroup
@@ -81,7 +82,7 @@
 			this.textBoxCountSubgroups.Location = new System.Drawing.Point(145, 86);
 			this.textBoxCountSubgroups.MaxLength = 2;
 			this.textBoxCountSubgroups.Name = "textBoxCountSubgroups";
-			this.textBoxCountSubgroups.Size = new System.Drawing.Size(60, 20);
+			this.textBoxCountSubgroups.Size = new System.Drawing.Size(177, 20);
 			this.textBoxCountSubgroups.TabIndex = 7;
 			this.textBoxCountSubgroups.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
@@ -108,23 +109,23 @@
 			this.textBoxCountStudents.Location = new System.Drawing.Point(145, 60);
 			this.textBoxCountStudents.MaxLength = 3;
 			this.textBoxCountStudents.Name = "textBoxCountStudents";
-			this.textBoxCountStudents.Size = new System.Drawing.Size(60, 20);
+			this.textBoxCountStudents.Size = new System.Drawing.Size(177, 20);
 			this.textBoxCountStudents.TabIndex = 5;
 			this.textBoxCountStudents.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(119, 122);
+			this.buttonClose.Location = new System.Drawing.Point(247, 112);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 9;
+			this.buttonClose.TabIndex = 10;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(38, 122);
+			this.buttonSave.Location = new System.Drawing.Point(19, 112);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 8;
@@ -132,11 +133,22 @@
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
+			// buttonSaveAndClose
+			// 
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 112);
+			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
+			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
+			this.buttonSaveAndClose.TabIndex = 9;
+			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
+			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+			// 
 			// ContingentForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(224, 162);
+			this.ClientSize = new System.Drawing.Size(334, 142);
+			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.textBoxCountSubgroups);
@@ -168,5 +180,6 @@
 		private System.Windows.Forms.TextBox textBoxCountStudents;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
+		private System.Windows.Forms.Button buttonSaveAndClose;
 	}
 }

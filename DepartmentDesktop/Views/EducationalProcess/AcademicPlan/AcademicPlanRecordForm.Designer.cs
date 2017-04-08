@@ -40,6 +40,7 @@
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.labelDiscipline = new System.Windows.Forms.Label();
 			this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
+			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// labelAcademicPlan
@@ -58,7 +59,7 @@
 			this.comboBoxAcademicPlan.FormattingEnabled = true;
 			this.comboBoxAcademicPlan.Location = new System.Drawing.Point(104, 6);
 			this.comboBoxAcademicPlan.Name = "comboBoxAcademicPlan";
-			this.comboBoxAcademicPlan.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxAcademicPlan.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxAcademicPlan.TabIndex = 1;
 			// 
 			// labelKindOfLoad
@@ -76,7 +77,7 @@
 			this.comboBoxKindOfLoad.FormattingEnabled = true;
 			this.comboBoxKindOfLoad.Location = new System.Drawing.Point(104, 60);
 			this.comboBoxKindOfLoad.Name = "comboBoxKindOfLoad";
-			this.comboBoxKindOfLoad.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxKindOfLoad.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxKindOfLoad.TabIndex = 5;
 			// 
 			// labelSemester
@@ -94,7 +95,7 @@
 			this.comboBoxSemester.FormattingEnabled = true;
 			this.comboBoxSemester.Location = new System.Drawing.Point(104, 87);
 			this.comboBoxSemester.Name = "comboBoxSemester";
-			this.comboBoxSemester.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxSemester.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxSemester.TabIndex = 7;
 			// 
 			// labelHours
@@ -116,17 +117,17 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(229, 147);
+			this.buttonClose.Location = new System.Drawing.Point(247, 140);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 11;
+			this.buttonClose.TabIndex = 12;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(148, 147);
+			this.buttonSave.Location = new System.Drawing.Point(19, 140);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 10;
@@ -149,14 +150,25 @@
 			this.comboBoxDiscipline.FormattingEnabled = true;
 			this.comboBoxDiscipline.Location = new System.Drawing.Point(104, 33);
 			this.comboBoxDiscipline.Name = "comboBoxDiscipline";
-			this.comboBoxDiscipline.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxDiscipline.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxDiscipline.TabIndex = 3;
+			// 
+			// buttonSaveAndClose
+			// 
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 140);
+			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
+			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
+			this.buttonSaveAndClose.TabIndex = 11;
+			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
+			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
 			// 
 			// AcademicPlanRecordForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(314, 182);
+			this.ClientSize = new System.Drawing.Size(334, 172);
+			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.comboBoxDiscipline);
 			this.Controls.Add(this.labelDiscipline);
 			this.Controls.Add(this.buttonClose);
@@ -192,5 +204,6 @@
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Label labelDiscipline;
 		private System.Windows.Forms.ComboBox comboBoxDiscipline;
+		private System.Windows.Forms.Button buttonSaveAndClose;
 	}
 }

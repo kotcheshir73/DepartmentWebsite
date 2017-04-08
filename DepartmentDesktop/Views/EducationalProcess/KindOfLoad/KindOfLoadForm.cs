@@ -35,17 +35,22 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			comboBoxKindOfLoadTypes.SelectedIndex = 0;
 			if (_id != 0)
 			{
-				var result = _service.GetKindOfLoad(new KindOfLoadGetBindingModel { Id = _id });
-				if (!result.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-				}
-				var entity = result.Result;
-
-				textBoxTitle.Text = entity.KindOfLoadName;
-				comboBoxKindOfLoadTypes.SelectedValue = entity.KindOfLoadType;
+				LoadData();
 			}
+		}
+
+		private void LoadData()
+		{
+			var result = _service.GetKindOfLoad(new KindOfLoadGetBindingModel { Id = _id });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				Close();
+			}
+			var entity = result.Result;
+
+			textBoxTitle.Text = entity.KindOfLoadName;
+			comboBoxKindOfLoadTypes.SelectedValue = entity.KindOfLoadType;
 		}
 
 		private bool CheckFill()
@@ -61,7 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			return true;
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
+		private bool Save()
 		{
 			if (CheckFill())
 			{
@@ -85,17 +90,43 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 				}
 				if (result.Succeeded)
 				{
-					DialogResult = DialogResult.OK;
-					Close();
+					if (result.Result != null)
+					{
+						if (result.Result is long)
+						{
+							_id = (long)result.Result;
+						}
+					}
+					return true;
 				}
 				else
 				{
 					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+					return false;
 				}
 			}
 			else
 			{
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+		}
+
+		private void buttonSave_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				LoadData();
+			}
+		}
+
+		private void buttonSaveAndClose_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				DialogResult = DialogResult.OK;
+				Close();
 			}
 		}
 

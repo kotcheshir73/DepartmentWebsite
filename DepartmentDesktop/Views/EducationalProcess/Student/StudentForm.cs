@@ -45,29 +45,34 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 
             if (!string.IsNullOrEmpty(_id))
             {
-                var result = _service.GetStudent(new StudentGetBindingModel { NumberOfBook = _id });
-				if (!result.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-				}
-				var entity = result.Result;
+				LoadData();
+			}
+		}
 
-				textBoxNumberOfBook.Text = _id;
-                textBoxNumberOfBook.Enabled = false;
-                textBoxLastName.Text = entity.LastName;
-                textBoxFirstName.Text = entity.FirstName;
-                textBoxPatronymic.Text = entity.Patronymic;
-                textBoxDescription.Text = entity.Description;
-                if (entity.Photo != null)
-                {
-                    pictureBoxPhoto.Image = entity.Photo;
-                }
-                comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
-            }
-        }
+		private void LoadData()
+		{
+			var result = _service.GetStudent(new StudentGetBindingModel { NumberOfBook = _id });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				Close();
+			}
+			var entity = result.Result;
 
-        private bool CheckFill()
+			textBoxNumberOfBook.Text = _id;
+			textBoxNumberOfBook.Enabled = false;
+			textBoxLastName.Text = entity.LastName;
+			textBoxFirstName.Text = entity.FirstName;
+			textBoxPatronymic.Text = entity.Patronymic;
+			textBoxDescription.Text = entity.Description;
+			if (entity.Photo != null)
+			{
+				pictureBoxPhoto.Image = entity.Photo;
+			}
+			comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+		}
+
+		private bool CheckFill()
         {
             if (comboBoxStudentGroup.SelectedValue == null)
             {
@@ -86,9 +91,45 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
                 return false;
             }
             return true;
-        }
+		}
 
-        private void buttonUpload_Click(object sender, EventArgs e)
+		private bool Save()
+		{
+			if (CheckFill())
+			{
+				ImageConverter converter = new ImageConverter();
+				ResultService result;
+				if (!string.IsNullOrEmpty(_id))
+				{
+					result = _service.UpdateStudent(new StudentRecordBindingModel
+					{
+						NumberOfBook = textBoxNumberOfBook.Text,
+						LastName = textBoxLastName.Text,
+						FirstName = textBoxFirstName.Text,
+						Patronymic = textBoxPatronymic.Text,
+						Description = textBoxDescription.Text,
+						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
+					});
+					if (result.Succeeded)
+					{
+						return true;
+					}
+					else
+					{
+						Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+						return false;
+					}
+				}
+				return false;
+			}
+			else
+			{
+				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+		}
+
+		private void buttonUpload_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -103,46 +144,30 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
                     MessageBox.Show(ex.Message, "Ошибка при загрузке файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
+		}
 
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            ImageConverter converter = new ImageConverter();
-            if (CheckFill())
-            {
-                ResultService result;
-                if (!string.IsNullOrEmpty(_id))
-                {
-                    result = _service.UpdateStudent(new StudentRecordBindingModel
-                    {
-                        NumberOfBook = textBoxNumberOfBook.Text,
-                        LastName = textBoxLastName.Text,
-                        FirstName = textBoxFirstName.Text,
-                        Patronymic = textBoxPatronymic.Text,
-                        Description = textBoxDescription.Text,
-                        Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
-                    });
-					if (result.Succeeded)
-					{
-						DialogResult = DialogResult.OK;
-						Close();
-					}
-					else
-					{
-						Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-					}
-				}
-            }
-            else
-            {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+		private void buttonSave_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				LoadData();
+			}
+		}
 
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-    }
+		private void buttonSaveAndClose_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				DialogResult = DialogResult.OK;
+				Close();
+			}
+		}
+
+		private void buttonClose_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.Cancel;
+			Close();
+		}
+	}
 }

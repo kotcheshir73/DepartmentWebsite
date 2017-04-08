@@ -38,15 +38,16 @@
 			this.labelHours = new System.Windows.Forms.Label();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
+			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// comboBoxKindOfLoad
 			// 
 			this.comboBoxKindOfLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxKindOfLoad.FormattingEnabled = true;
-			this.comboBoxKindOfLoad.Location = new System.Drawing.Point(104, 6);
+			this.comboBoxKindOfLoad.Location = new System.Drawing.Point(102, 6);
 			this.comboBoxKindOfLoad.Name = "comboBoxKindOfLoad";
-			this.comboBoxKindOfLoad.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxKindOfLoad.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxKindOfLoad.TabIndex = 1;
 			// 
 			// labelKindOfLoad
@@ -69,9 +70,9 @@
 			// 
 			// textBoxTitle
 			// 
-			this.textBoxTitle.Location = new System.Drawing.Point(104, 33);
+			this.textBoxTitle.Location = new System.Drawing.Point(102, 33);
 			this.textBoxTitle.Name = "textBoxTitle";
-			this.textBoxTitle.Size = new System.Drawing.Size(200, 20);
+			this.textBoxTitle.Size = new System.Drawing.Size(220, 20);
 			this.textBoxTitle.TabIndex = 3;
 			// 
 			// labelParentTimeNorm
@@ -87,16 +88,16 @@
 			// 
 			this.comboBoxTimeNorm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxTimeNorm.FormattingEnabled = true;
-			this.comboBoxTimeNorm.Location = new System.Drawing.Point(104, 59);
+			this.comboBoxTimeNorm.Location = new System.Drawing.Point(102, 59);
 			this.comboBoxTimeNorm.Name = "comboBoxTimeNorm";
-			this.comboBoxTimeNorm.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxTimeNorm.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxTimeNorm.TabIndex = 5;
 			// 
 			// textBoxHours
 			// 
-			this.textBoxHours.Location = new System.Drawing.Point(104, 86);
+			this.textBoxHours.Location = new System.Drawing.Point(102, 86);
 			this.textBoxHours.Name = "textBoxHours";
-			this.textBoxHours.Size = new System.Drawing.Size(200, 20);
+			this.textBoxHours.Size = new System.Drawing.Size(220, 20);
 			this.textBoxHours.TabIndex = 7;
 			// 
 			// labelHours
@@ -110,17 +111,17 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(229, 112);
+			this.buttonClose.Location = new System.Drawing.Point(247, 112);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 13;
+			this.buttonClose.TabIndex = 14;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(148, 112);
+			this.buttonSave.Location = new System.Drawing.Point(19, 112);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 12;
@@ -128,11 +129,22 @@
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
+			// buttonSaveAndClose
+			// 
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 112);
+			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
+			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
+			this.buttonSaveAndClose.TabIndex = 13;
+			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
+			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+			// 
 			// TimeNormForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(314, 142);
+			this.ClientSize = new System.Drawing.Size(334, 142);
+			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.textBoxHours);
@@ -164,5 +176,6 @@
 		private System.Windows.Forms.Label labelHours;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
+		private System.Windows.Forms.Button buttonSaveAndClose;
 	}
 }

@@ -35,21 +35,27 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
             comboBoxTypeClassroom.SelectedIndex = 0;
             if (!string.IsNullOrEmpty(_id))
             {
-				var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id });
-                if (!result.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-                }
-				var entity = result.Result;
+				LoadData();
 
-				comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
-                textBoxClassroom.Text = _id;
-                textBoxCapacity.Text = entity.Capacity.ToString();
-            }
-        }
+			}
+		}
 
-        private bool CheckFill()
+		private void LoadData()
+		{
+			var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				Close();
+			}
+			var entity = result.Result;
+
+			comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
+			textBoxClassroom.Text = _id;
+			textBoxCapacity.Text = entity.Capacity.ToString();
+		}
+
+		private bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxTypeClassroom.Text))
             {
@@ -69,51 +75,77 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                 return false;
             }
             return true;
-        }
+		}
 
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (CheckFill())
-            {
-                ResultService result;
-                if (string.IsNullOrEmpty(_id))
-                {
-                    result = _service.CreateClassroom(new ClassroomRecordBindingModel
-                    {
-                        Id = textBoxClassroom.Text,
-                        ClassroomType = comboBoxTypeClassroom.Text,
-                        Capacity = Convert.ToInt32(textBoxCapacity.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateClassroom(new ClassroomRecordBindingModel
-                    {
-                        Id = textBoxClassroom.Text,
-                        ClassroomType = comboBoxTypeClassroom.Text,
-                        Capacity = Convert.ToInt32(textBoxCapacity.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
+		private bool Save()
+		{
+			if (CheckFill())
+			{
+				ResultService result;
+				if (string.IsNullOrEmpty(_id))
+				{
+					result = _service.CreateClassroom(new ClassroomRecordBindingModel
+					{
+						Id = textBoxClassroom.Text,
+						ClassroomType = comboBoxTypeClassroom.Text,
+						Capacity = Convert.ToInt32(textBoxCapacity.Text)
+					});
+				}
+				else
+				{
+					result = _service.UpdateClassroom(new ClassroomRecordBindingModel
+					{
+						Id = textBoxClassroom.Text,
+						ClassroomType = comboBoxTypeClassroom.Text,
+						Capacity = Convert.ToInt32(textBoxCapacity.Text)
+					});
+				}
+				if (result.Succeeded)
+				{
+					if (result.Result != null)
+					{
+						if (result.Result is string)
+						{
+							_id = (string)result.Result;
+						}
+					}
+					return true;
+				}
+				else
 				{
 					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+					return false;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+		}
 
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-    }
+		private void buttonSave_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				LoadData();
+			}
+		}
+
+		private void buttonSaveAndClose_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				DialogResult = DialogResult.OK;
+				Close();
+			}
+		}
+
+		private void buttonClose_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.Cancel;
+			Close();
+		}
+	}
 }

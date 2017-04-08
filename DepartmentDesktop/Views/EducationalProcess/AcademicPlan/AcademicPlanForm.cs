@@ -70,35 +70,40 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			control.Top = 0;
 			control.Height = Height - 60;
 			control.Width = Width - 15;
-			control.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top
-						| System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			control.Anchor = (((AnchorStyles.Top
+						| AnchorStyles.Bottom)
+						| AnchorStyles.Left)
+						| AnchorStyles.Right);
 			tabPageRecords.Controls.Add(control);
 
 			if (_id != 0)
 			{
-				control.LoadData(_id);
-				var result = _service.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = _id });
-				if (!result.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-				}
-				var entity = result.Result;
-
-				comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
-				comboBoxEducationDirection.Enabled = false;
-				comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
-				comboBoxAcademicLevel.SelectedIndex = comboBoxAcademicLevel.Items.IndexOf(entity.AcademicLevel);
-				var courses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), entity.AcademicCourses);
-				checkBox1.Checked = (courses & AcademicCourse.Course_1) == AcademicCourse.Course_1;
-				checkBox2.Checked = (courses & AcademicCourse.Course_2) == AcademicCourse.Course_2;
-				checkBox3.Checked = (courses & AcademicCourse.Course_3) == AcademicCourse.Course_3;
-				checkBox4.Checked = (courses & AcademicCourse.Course_4) == AcademicCourse.Course_4;
-				checkBox5.Checked = (courses & AcademicCourse.Course_5) == AcademicCourse.Course_5;
-				checkBox6.Checked = (courses & AcademicCourse.Course_6) == AcademicCourse.Course_6;
+				LoadData();
 			}
+		}
+
+		private void LoadData()
+		{
+			(tabPageRecords.Controls[0] as AcademicPlanRecordControl).LoadData(_id);
+			var result = _service.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = _id });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				Close();
+			}
+			var entity = result.Result;
+
+			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
+			comboBoxEducationDirection.Enabled = false;
+			comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
+			comboBoxAcademicLevel.SelectedIndex = comboBoxAcademicLevel.Items.IndexOf(entity.AcademicLevel);
+			var courses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), entity.AcademicCourses);
+			checkBox1.Checked = (courses & AcademicCourse.Course_1) == AcademicCourse.Course_1;
+			checkBox2.Checked = (courses & AcademicCourse.Course_2) == AcademicCourse.Course_2;
+			checkBox3.Checked = (courses & AcademicCourse.Course_3) == AcademicCourse.Course_3;
+			checkBox4.Checked = (courses & AcademicCourse.Course_4) == AcademicCourse.Course_4;
+			checkBox5.Checked = (courses & AcademicCourse.Course_5) == AcademicCourse.Course_5;
+			checkBox6.Checked = (courses & AcademicCourse.Course_6) == AcademicCourse.Course_6;
 		}
 
 		private bool CheckFill()
@@ -123,12 +128,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			return true;
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
+		private bool Save()
 		{
 			if (CheckFill())
 			{
 				AcademicCourse courses = new AcademicCourse();
-				if(checkBox1.Checked)
+				if (checkBox1.Checked)
 				{
 					courses = courses | AcademicCourse.Course_1;
 				}
@@ -176,17 +181,43 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				}
 				if (result.Succeeded)
 				{
-					DialogResult = DialogResult.OK;
-					Close();
+					if(result.Result != null)
+					{
+						if(result.Result is long)
+						{
+							_id = (long)result.Result;
+						}
+					}
+					return true;
 				}
 				else
 				{
 					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+					return false;
 				}
 			}
 			else
 			{
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+		}
+
+		private void buttonSave_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				LoadData();
+			}
+		}
+
+		private void buttonSaveAndClose_Click(object sender, EventArgs e)
+		{
+			if(Save())
+			{
+				DialogResult = DialogResult.OK;
+				Close();
 			}
 		}
 

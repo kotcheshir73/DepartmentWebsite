@@ -2,13 +2,8 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
@@ -62,19 +57,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			if (_id != 0)
 			{
-				var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id });
-				if (!result.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-				}
-				var entity = result.Result;
-				
-				comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
-				comboBoxTimeNorm.SelectedValue = entity.ParentTimeNormId;
-				textBoxTitle.Text = entity.Title;
-				textBoxHours.Text = entity.Hours.ToString();
+				LoadData();
 			}
+		}
+
+		private void LoadData()
+		{
+			var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				Close();
+			}
+			var entity = result.Result;
+
+			comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
+			comboBoxTimeNorm.SelectedValue = entity.ParentTimeNormId;
+			textBoxTitle.Text = entity.Title;
+			textBoxHours.Text = entity.Hours.ToString();
 		}
 
 		private bool CheckFill()
@@ -99,16 +99,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			return true;
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
+		private bool Save()
 		{
 			if (CheckFill())
 			{
-				ResultService result;
 				long? paretnId = null;
-				if(comboBoxTimeNorm.SelectedValue != null)
+				if (comboBoxTimeNorm.SelectedValue != null)
 				{
 					paretnId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue);
 				}
+				ResultService result;
 				if (_id == 0)
 				{
 					result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
@@ -132,17 +132,43 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				}
 				if (result.Succeeded)
 				{
-					DialogResult = DialogResult.OK;
-					Close();
+					if (result.Result != null)
+					{
+						if (result.Result is long)
+						{
+							_id = (long)result.Result;
+						}
+					}
+					return true;
 				}
 				else
 				{
 					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+					return false;
 				}
 			}
 			else
 			{
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+		}
+
+		private void buttonSave_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				LoadData();
+			}
+		}
+
+		private void buttonSaveAndClose_Click(object sender, EventArgs e)
+		{
+			if (Save())
+			{
+				DialogResult = DialogResult.OK;
+				Close();
 			}
 		}
 
