@@ -89,6 +89,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 		{
 			if (CheckFill())
 			{
+				DateTime? dateBeginPractic = null;
+				DateTime? dateEndPractic = null;
+				if(checkBoxDateBeginPractic.Checked)
+				{
+					dateBeginPractic = dateTimePickerDateBeginPractic.Value;
+				}
+				if(checkBoxDateEndPractic.Checked)
+				{
+					dateBeginPractic = dateTimePickerDateEndPractic.Value;
+				}
 				ResultService result;
 				if (_id == 0)
 				{

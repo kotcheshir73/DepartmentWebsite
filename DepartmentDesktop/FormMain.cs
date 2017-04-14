@@ -266,5 +266,12 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+		private void lecturerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Lecturer.LecturerControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 	}
 }

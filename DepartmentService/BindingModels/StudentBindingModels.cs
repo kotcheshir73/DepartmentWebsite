@@ -47,7 +47,10 @@ namespace DepartmentService.BindingModels
 
         public string Patronymic { get; set; }
 
-        public string Description { get; set; }
+		[Required(ErrorMessage = "required")]
+		public string Email { get; set; }
+
+		public string Description { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string StudentStatus { get; set; }

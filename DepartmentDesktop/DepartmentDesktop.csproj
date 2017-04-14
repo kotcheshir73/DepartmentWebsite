@@ -165,6 +165,18 @@
     <Compile Include="Views\EducationalProcess\KindOfLoad\KindOfLoadForm.Designer.cs">
       <DependentUpon>KindOfLoadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\Lecturer\LecturerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Lecturer\LecturerControl.Designer.cs">
+      <DependentUpon>LecturerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.Designer.cs">
+      <DependentUpon>LecturerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -481,6 +493,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\KindOfLoad\KindOfLoadForm.resx">
       <DependentUpon>KindOfLoadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerControl.resx">
+      <DependentUpon>LecturerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerForm.resx">
+      <DependentUpon>LecturerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.resx">
       <DependentUpon>LoadDistributionForm.cs</DependentUpon>

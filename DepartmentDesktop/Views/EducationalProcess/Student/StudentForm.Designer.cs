@@ -45,6 +45,8 @@
 			this.labelStudentGroup = new System.Windows.Forms.Label();
 			this.comboBoxStudentGroup = new System.Windows.Forms.ComboBox();
 			this.buttonSaveAndClose = new System.Windows.Forms.Button();
+			this.textBoxEmail = new System.Windows.Forms.TextBox();
+			this.labelEmail = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -117,20 +119,20 @@
 			// 
 			// textBoxDescription
 			// 
-			this.textBoxDescription.Location = new System.Drawing.Point(109, 137);
+			this.textBoxDescription.Location = new System.Drawing.Point(109, 163);
 			this.textBoxDescription.MaxLength = 30;
 			this.textBoxDescription.Multiline = true;
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(200, 107);
-			this.textBoxDescription.TabIndex = 11;
+			this.textBoxDescription.TabIndex = 13;
 			// 
 			// labelDescription
 			// 
 			this.labelDescription.AutoSize = true;
-			this.labelDescription.Location = new System.Drawing.Point(12, 140);
+			this.labelDescription.Location = new System.Drawing.Point(12, 166);
 			this.labelDescription.Name = "labelDescription";
 			this.labelDescription.Size = new System.Drawing.Size(60, 13);
-			this.labelDescription.TabIndex = 10;
+			this.labelDescription.TabIndex = 12;
 			this.labelDescription.Text = "Описание:";
 			// 
 			// pictureBoxPhoto
@@ -147,27 +149,27 @@
 			this.buttonUpload.Location = new System.Drawing.Point(353, 174);
 			this.buttonUpload.Name = "buttonUpload";
 			this.buttonUpload.Size = new System.Drawing.Size(100, 25);
-			this.buttonUpload.TabIndex = 13;
+			this.buttonUpload.TabIndex = 14;
 			this.buttonUpload.Text = "Загрузить";
 			this.buttonUpload.UseVisualStyleBackColor = true;
 			this.buttonUpload.Click += new System.EventHandler(this.buttonUpload_Click);
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(397, 250);
+			this.buttonClose.Location = new System.Drawing.Point(397, 278);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 16;
+			this.buttonClose.TabIndex = 17;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(169, 250);
+			this.buttonSave.Location = new System.Drawing.Point(169, 278);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
-			this.buttonSave.TabIndex = 14;
+			this.buttonSave.TabIndex = 15;
 			this.buttonSave.Text = "Сохранить";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -192,19 +194,38 @@
 			// 
 			// buttonSaveAndClose
 			// 
-			this.buttonSaveAndClose.Location = new System.Drawing.Point(250, 250);
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(250, 278);
 			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
 			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-			this.buttonSaveAndClose.TabIndex = 15;
+			this.buttonSaveAndClose.TabIndex = 16;
 			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
 			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
 			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+			// 
+			// textBoxEmail
+			// 
+			this.textBoxEmail.Location = new System.Drawing.Point(109, 137);
+			this.textBoxEmail.MaxLength = 150;
+			this.textBoxEmail.Name = "textBoxEmail";
+			this.textBoxEmail.Size = new System.Drawing.Size(200, 20);
+			this.textBoxEmail.TabIndex = 11;
+			// 
+			// labelEmail
+			// 
+			this.labelEmail.AutoSize = true;
+			this.labelEmail.Location = new System.Drawing.Point(12, 140);
+			this.labelEmail.Name = "labelEmail";
+			this.labelEmail.Size = new System.Drawing.Size(44, 13);
+			this.labelEmail.TabIndex = 10;
+			this.labelEmail.Text = "Почта*:";
 			// 
 			// StudentForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(484, 280);
+			this.ClientSize = new System.Drawing.Size(484, 309);
+			this.Controls.Add(this.textBoxEmail);
+			this.Controls.Add(this.labelEmail);
 			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.comboBoxStudentGroup);
 			this.Controls.Add(this.labelStudentGroup);
@@ -251,5 +272,7 @@
         private System.Windows.Forms.Label labelStudentGroup;
         private System.Windows.Forms.ComboBox comboBoxStudentGroup;
 		private System.Windows.Forms.Button buttonSaveAndClose;
+		private System.Windows.Forms.TextBox textBoxEmail;
+		private System.Windows.Forms.Label labelEmail;
 	}
 }

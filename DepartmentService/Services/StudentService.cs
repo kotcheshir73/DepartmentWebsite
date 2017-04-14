@@ -365,6 +365,7 @@ namespace DepartmentService.Services
 				entity.LastName = model.LastName;
 				entity.FirstName = model.FirstName;
 				entity.Patronymic = model.Patronymic;
+				entity.Email = model.Email;
 				entity.Description = model.Description;
 				entity.Photo = model.Photo;
 
@@ -433,6 +434,7 @@ namespace DepartmentService.Services
 							LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
 							FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
 							Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
+							Email = "отсутсвует",
 							Description = string.Format("{0}  {1}", table.Cell(i, 6).Range.Text.Replace("\r\a", ""),
 							table.Cell(i, 7).Range.Text.Replace("\r\a", ""))
 						};

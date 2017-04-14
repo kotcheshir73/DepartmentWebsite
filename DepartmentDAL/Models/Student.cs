@@ -40,7 +40,12 @@ namespace DepartmentDAL.Models
         [MaxLength(30)]
         public string Patronymic { get; set; }
 
-        public StudentState StudentState { get; set; }
+		[Display(Name = "Почта")]
+		[MaxLength(150)]
+		[Required]
+		public string Email { get; set; }
+
+		public StudentState StudentState { get; set; }
 
         [Display(Name = "О себе")]
         public string Description { get; set; }

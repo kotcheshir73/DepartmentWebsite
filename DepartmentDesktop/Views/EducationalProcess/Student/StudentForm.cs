@@ -64,6 +64,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 			textBoxLastName.Text = entity.LastName;
 			textBoxFirstName.Text = entity.FirstName;
 			textBoxPatronymic.Text = entity.Patronymic;
+			textBoxEmail.Text = entity.Email;
 			textBoxDescription.Text = entity.Description;
 			if (entity.Photo != null)
 			{
@@ -89,8 +90,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
             if (string.IsNullOrEmpty(textBoxFirstName.Text))
             {
                 return false;
-            }
-            return true;
+			}
+			if (string.IsNullOrEmpty(textBoxEmail.Text))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private bool Save()
@@ -107,6 +112,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 						LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,
+						Email = textBoxEmail.Text,
 						Description = textBoxDescription.Text,
 						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
 					});

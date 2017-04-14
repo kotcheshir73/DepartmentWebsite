@@ -199,6 +199,14 @@
     <Compile Include="Migrations\201704051656085_AddLoadDistribution.Designer.cs">
       <DependentUpon>201704051656085_AddLoadDistribution.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704141817541_AddEmailToStudent.cs" />
+    <Compile Include="Migrations\201704141817541_AddEmailToStudent.Designer.cs">
+      <DependentUpon>201704141817541_AddEmailToStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704141824166_DontRequiredInLecturer.cs" />
+    <Compile Include="Migrations\201704141824166_DontRequiredInLecturer.Designer.cs">
+      <DependentUpon>201704141824166_DontRequiredInLecturer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -343,6 +351,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704051656085_AddLoadDistribution.resx">
       <DependentUpon>201704051656085_AddLoadDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704141817541_AddEmailToStudent.resx">
+      <DependentUpon>201704141817541_AddEmailToStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704141824166_DontRequiredInLecturer.resx">
+      <DependentUpon>201704141824166_DontRequiredInLecturer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

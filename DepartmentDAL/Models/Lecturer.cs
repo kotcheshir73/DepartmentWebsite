@@ -48,7 +48,6 @@ namespace DepartmentDAL.Models
 
         [Display(Name = "Домашний")]
         [MaxLength(50)]
-        [Required]
         public string HomeNumber { get; set; }
 
         [Display(Name = "Должность")]
@@ -58,15 +57,12 @@ namespace DepartmentDAL.Models
 
         [Display(Name = "Звание")]
         [MaxLength(50)]
-        [Required]
         public string Rank { get; set; }
 
         [Display(Name = "О себе")]
-        [Required]
         public string Description { get; set; }
 
         [Display(Name = "Фото")]
-        [Required]
         public byte[] Photo { get; set; }
 
 		[ForeignKey("LecturerId")]

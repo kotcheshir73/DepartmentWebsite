@@ -280,7 +280,7 @@ namespace DepartmentService.ViewModels
 				Email = entity.Email,
 				Address = entity.Address,
 				Description = entity.Description,
-				Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
+				Photo = entity.Photo != null && entity.Photo.Length > 0 ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
 			};
 		}
 
@@ -298,6 +298,7 @@ namespace DepartmentService.ViewModels
 				LastName = entity.LastName,
 				FirstName = entity.FirstName,
 				Patronymic = entity.Patronymic,
+				Email = entity.Email,
 				Description = entity.Description,
 				Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
 				StudentGroupId = entity.StudentGroupId,

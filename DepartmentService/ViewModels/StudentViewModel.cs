@@ -20,7 +20,9 @@ namespace DepartmentService.ViewModels
 
         public string Patronymic { get; set; }
 
-        public Image Photo { get; set; }
+		public string Email { get; set; }
+
+		public Image Photo { get; set; }
 
         public long? StudentGroupId { get; set; }
 
