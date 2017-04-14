@@ -171,6 +171,18 @@
     <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.Designer.cs">
       <DependentUpon>LoadDistributionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionRecordControl.Designer.cs">
+      <DependentUpon>LoadDistributionRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionRecordForm.Designer.cs">
+      <DependentUpon>LoadDistributionRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -472,6 +484,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.resx">
       <DependentUpon>LoadDistributionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionRecordControl.resx">
+      <DependentUpon>LoadDistributionRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionRecordForm.resx">
+      <DependentUpon>LoadDistributionRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesControl.resx">
       <DependentUpon>SeasonDatesControl.cs</DependentUpon>

@@ -60,6 +60,7 @@
     <Compile Include="BindingModels\DisciplineBindingModels.cs" />
     <Compile Include="BindingModels\EducationDirectionBindingModels.cs" />
     <Compile Include="BindingModels\KindOfLoadBindingModels.cs" />
+    <Compile Include="BindingModels\LecturerBindingModels.cs" />
     <Compile Include="BindingModels\LoadDistributionBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
     <Compile Include="BindingModels\SeasonDatesBindingModels.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="IServices\IEducationDirectionService.cs" />
     <Compile Include="IServices\IExaminationRecordService.cs" />
     <Compile Include="IServices\IKindOfLoadService.cs" />
+    <Compile Include="IServices\ILecturerService.cs" />
     <Compile Include="IServices\ILoadDistributionMissionService.cs" />
     <Compile Include="IServices\ILoadDistributionRecordService.cs" />
     <Compile Include="IServices\ILoadDistributionService.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Services\EducationDirectionService.cs" />
     <Compile Include="Services\ExaminationRecordService.cs" />
     <Compile Include="Services\KindOfLoadService.cs" />
+    <Compile Include="Services\LecturerService.cs" />
     <Compile Include="Services\LoadDistributionMissionService.cs" />
     <Compile Include="Services\LoadDistributionRecordService.cs" />
     <Compile Include="Services\LoadDistributionService.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModel.cs" />
     <Compile Include="ViewModels\KindOfLoadViewModel.cs" />
+    <Compile Include="ViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\LoadDistributionViewModels.cs" />
     <Compile Include="ViewModels\ModelFactory.cs" />
     <Compile Include="ViewModels\ScheduleViewModels.cs" />
