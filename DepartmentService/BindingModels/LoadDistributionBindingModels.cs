@@ -17,6 +17,8 @@
 		public long? Id { get; set; }
 
 		public long? LoadDistributionId { get; set; }
+
+		public int SemesterTime { get; set; }
 	}
 
 	public class LoadDistributionRecordRecordBindingModel

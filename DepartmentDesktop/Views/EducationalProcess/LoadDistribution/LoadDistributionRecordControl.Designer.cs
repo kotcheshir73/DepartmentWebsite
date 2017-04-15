@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoadDistributionRecordControl));
 			this.dataGridViewList = new System.Windows.Forms.DataGridView();
 			this.toolStripMenu = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
@@ -37,6 +38,9 @@
 			this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripDropDownButtonMoves = new System.Windows.Forms.ToolStripDropDownButton();
+			this.MakeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
 			this.toolStripMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -66,7 +70,9 @@
             this.toolStripSeparator2,
             this.toolStripButtonDel,
             this.toolStripSeparator3,
-            this.toolStripButtonRef});
+            this.toolStripButtonRef,
+            this.toolStripSeparator4,
+            this.toolStripDropDownButtonMoves});
 			this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
 			this.toolStripMenu.Name = "toolStripMenu";
 			this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -120,6 +126,28 @@
 			this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
 			this.toolStripButtonRef.Text = "Обновить";
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripDropDownButtonMoves
+			// 
+			this.toolStripDropDownButtonMoves.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripDropDownButtonMoves.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MakeToolStripMenuItem});
+			this.toolStripDropDownButtonMoves.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMoves.Image")));
+			this.toolStripDropDownButtonMoves.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButtonMoves.Name = "toolStripDropDownButtonMoves";
+			this.toolStripDropDownButtonMoves.Size = new System.Drawing.Size(71, 22);
+			this.toolStripDropDownButtonMoves.Text = "Действия";
+			// 
+			// MakeToolStripMenuItem
+			// 
+			this.MakeToolStripMenuItem.Name = "MakeToolStripMenuItem";
+			this.MakeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.MakeToolStripMenuItem.Text = "Сформировать";
+			// 
 			// LoadDistributionRecordControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -147,5 +175,8 @@
 		private System.Windows.Forms.ToolStripButton toolStripButtonDel;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripButton toolStripButtonRef;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMoves;
+		private System.Windows.Forms.ToolStripMenuItem MakeToolStripMenuItem;
 	}
 }

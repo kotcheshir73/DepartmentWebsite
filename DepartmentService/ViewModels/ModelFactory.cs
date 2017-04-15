@@ -169,6 +169,7 @@ namespace DepartmentService.ViewModels
 				StudentGroupId = entity.StudentGroupId,
 				AcademicYear = entity.AcademicYear.Title,
 				StudentGroupName = entity.StudentGroup.GroupName,
+				Course = entity.StudentGroup.Kurs,
 				CountStudents = entity.CountStudetns,
 				CountSubgroups = entity.CountSubgroups
 			};

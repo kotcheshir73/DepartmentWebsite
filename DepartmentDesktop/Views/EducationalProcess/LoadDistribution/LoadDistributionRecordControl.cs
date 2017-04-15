@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 {
 	public partial class LoadDistributionRecordControl : UserControl
 	{
 		private readonly ILoadDistributionRecordService _service;
+
+		private long _ldId;
 
 		public LoadDistributionRecordControl(ILoadDistributionRecordService service)
 		{
@@ -32,8 +35,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "KindOfLoadName", Title = "Запись", Width = 200, Visible = true },
-				new ColumnConfig { Name = "KindOfLoadType", Title = "Тип", Width = 100, Visible = true }
+				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Title", Title = "Название", Width = 150, Visible = true }
 			};
 			foreach(var lecture in resultL.Result)
 			{
@@ -51,6 +54,33 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 					Width = column.Width.HasValue ? column.Width.Value : 0,
 					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
 				});
+			}
+		}
+
+		public void LoadData(long ldId)
+		{
+			_ldId = ldId;
+			LoadRecords();
+		}
+
+		private void LoadRecords()
+		{
+			var result = _service.GetLoadDistributionRecords(new LoadDistributionRecordGetBindingModel { LoadDistributionId = _ldId });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+				return;
+			}
+			dataGridViewList.Rows.Clear();
+			foreach (var res in result.Result)
+			{
+				dataGridViewList.Rows.Add(
+					res.Id,
+					res.AcademicPlanRecordViewModel.Semester,
+					res.TimeNormViewModel.Title,
+					res.ContingentViewModel.Course,
+					res.TimeNormViewModel.Hours
+				);
 			}
 		}
 	}
