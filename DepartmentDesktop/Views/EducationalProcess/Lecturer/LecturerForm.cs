@@ -47,6 +47,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 			textBoxLastName.Text = entity.LastName;
 			textBoxFirstName.Text = entity.FirstName;
 			textBoxPatronymic.Text = entity.Patronymic;
+			textBoxAbbreviation.Text = entity.Abbreviation;
 			dateTimePickerDateBirth.Value = entity.DateBirth;
 			textBoxAddress.Text = entity.Address;
 			textBoxEmail.Text = entity.Email;
@@ -107,6 +108,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 						LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,
+						Abbreviation = textBoxAbbreviation.Text,
 						DateBirth = dateTimePickerDateBirth.Value,
 						Address = textBoxAddress.Text,
 						Email = textBoxEmail.Text,
@@ -126,6 +128,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 						LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,
+						Abbreviation = textBoxAbbreviation.Text,
 						DateBirth = dateTimePickerDateBirth.Value,
 						Address = textBoxAddress.Text,
 						Email = textBoxEmail.Text,

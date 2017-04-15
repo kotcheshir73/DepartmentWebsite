@@ -12,7 +12,9 @@ namespace DepartmentService.ViewModels
 		public string LastName { get; set; }
 		
 		public string Patronymic { get; set; }
-		
+
+		public  string Abbreviation { get; set; }
+
 		public DateTime DateBirth { get; set; }
 		
 		public string Address { get; set; }

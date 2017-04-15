@@ -19,7 +19,9 @@ namespace DepartmentService.BindingModels
 		
 		[Required(ErrorMessage = "required")]
 		public string Patronymic { get; set; }
-		
+
+		public string Abbreviation { get; set; }
+
 		[Required(ErrorMessage = "required")]
 		public DateTime DateBirth { get; set; }
 		
@@ -32,19 +34,15 @@ namespace DepartmentService.BindingModels
 		[Required(ErrorMessage = "required")]
 		public string MobileNumber { get; set; }
 		
-		[Required(ErrorMessage = "required")]
 		public string HomeNumber { get; set; }
 		
 		[Required(ErrorMessage = "required")]
 		public string Post { get; set; }
 		
-		[Required(ErrorMessage = "required")]
 		public string Rank { get; set; }
 		
-		[Required(ErrorMessage = "required")]
 		public string Description { get; set; }
 		
-		[Required(ErrorMessage = "required")]
 		public byte[] Photo { get; set; }
 	}
 }

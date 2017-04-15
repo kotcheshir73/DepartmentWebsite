@@ -55,6 +55,8 @@
 			this.labelPost = new System.Windows.Forms.Label();
 			this.textBoxRank = new System.Windows.Forms.TextBox();
 			this.labelRank = new System.Windows.Forms.Label();
+			this.labelAbbreviation = new System.Windows.Forms.Label();
+			this.textBoxAbbreviation = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -63,7 +65,7 @@
 			this.buttonSaveAndClose.Location = new System.Drawing.Point(267, 401);
 			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
 			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-			this.buttonSaveAndClose.TabIndex = 24;
+			this.buttonSaveAndClose.TabIndex = 26;
 			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
 			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
 			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
@@ -73,7 +75,7 @@
 			this.buttonClose.Location = new System.Drawing.Point(414, 401);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 25;
+			this.buttonClose.TabIndex = 27;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -83,7 +85,7 @@
 			this.buttonSave.Location = new System.Drawing.Point(186, 401);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
-			this.buttonSave.TabIndex = 23;
+			this.buttonSave.TabIndex = 25;
 			this.buttonSave.Text = "Сохранить";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -295,11 +297,30 @@
 			this.labelRank.TabIndex = 18;
 			this.labelRank.Text = "Звание:";
 			// 
+			// labelAbbreviation
+			// 
+			this.labelAbbreviation.AutoSize = true;
+			this.labelAbbreviation.Location = new System.Drawing.Point(336, 237);
+			this.labelAbbreviation.Name = "labelAbbreviation";
+			this.labelAbbreviation.Size = new System.Drawing.Size(81, 13);
+			this.labelAbbreviation.TabIndex = 23;
+			this.labelAbbreviation.Text = "Аббревиатура:";
+			// 
+			// textBoxAbbreviation
+			// 
+			this.textBoxAbbreviation.Location = new System.Drawing.Point(339, 260);
+			this.textBoxAbbreviation.MaxLength = 10;
+			this.textBoxAbbreviation.Name = "textBoxAbbreviation";
+			this.textBoxAbbreviation.Size = new System.Drawing.Size(100, 20);
+			this.textBoxAbbreviation.TabIndex = 24;
+			// 
 			// LecturerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(499, 432);
+			this.Controls.Add(this.textBoxAbbreviation);
+			this.Controls.Add(this.labelAbbreviation);
 			this.Controls.Add(this.textBoxRank);
 			this.Controls.Add(this.labelRank);
 			this.Controls.Add(this.textBoxPost);
@@ -366,5 +387,7 @@
 		private System.Windows.Forms.Label labelPost;
 		private System.Windows.Forms.TextBox textBoxRank;
 		private System.Windows.Forms.Label labelRank;
+		private System.Windows.Forms.Label labelAbbreviation;
+		private System.Windows.Forms.TextBox textBoxAbbreviation;
 	}
 }

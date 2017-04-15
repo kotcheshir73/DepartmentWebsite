@@ -272,6 +272,7 @@ namespace DepartmentService.ViewModels
 				LastName = entity.LastName,
 				FirstName = entity.FirstName,
 				Patronymic = entity.Patronymic,
+				Abbreviation = entity.Abbreviation,
 				DateBirth = entity.DateBirth,
 				Post = entity.Post,
 				Rank = entity.Rank,

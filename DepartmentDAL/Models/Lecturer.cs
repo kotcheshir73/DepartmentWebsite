@@ -26,7 +26,11 @@ namespace DepartmentDAL.Models
         [Required]
         public string Patronymic { get; set; }
 
-        [DataType(DataType.DateTime)]
+		[Display(Name = "Аббревиатура")]
+		[MaxLength(10)]
+		public string Abbreviation { get; set; }
+
+		[DataType(DataType.DateTime)]
         [Display(Name = "Дата рождения")]
         [Required]
         public DateTime DateBirth { get; set; }

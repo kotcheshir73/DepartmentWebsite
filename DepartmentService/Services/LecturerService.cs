@@ -73,6 +73,7 @@ namespace DepartmentService.Services
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Patronymic = model.Patronymic,
+				Abbreviation = model.Abbreviation,
 				DateBirth = model.DateBirth,
 				Post = model.Post,
 				Rank = model.Rank,
@@ -116,6 +117,7 @@ namespace DepartmentService.Services
 					entity.FirstName = model.FirstName;
 					entity.LastName = model.LastName;
 					entity.Patronymic = model.Patronymic;
+					entity.Abbreviation = model.Abbreviation;
 					entity.DateBirth = model.DateBirth;
 					entity.Post = model.Post;
 					entity.Rank = model.Rank;

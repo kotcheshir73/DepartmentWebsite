@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201704141824166_DontRequiredInLecturer.Designer.cs">
       <DependentUpon>201704141824166_DontRequiredInLecturer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704150616283_AddAbbreviationToLecturer.cs" />
+    <Compile Include="Migrations\201704150616283_AddAbbreviationToLecturer.Designer.cs">
+      <DependentUpon>201704150616283_AddAbbreviationToLecturer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -357,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704141824166_DontRequiredInLecturer.resx">
       <DependentUpon>201704141824166_DontRequiredInLecturer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704150616283_AddAbbreviationToLecturer.resx">
+      <DependentUpon>201704150616283_AddAbbreviationToLecturer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
