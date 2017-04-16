@@ -94,6 +94,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			comboBoxAcademicPlanRecord.SelectedValue = entity.AcademicPlanRecordId;
 			comboBoxContingent.SelectedValue = entity.ContingentId;
 			comboBoxTimeNorm.SelectedValue = entity.TimeNormId;
+			textBoxLoad.Text = entity.Load.ToString();
 		}
 
 		private bool CheckFill()
@@ -107,6 +108,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				return false;
 			}
 			if (comboBoxTimeNorm.SelectedValue == null)
+			{
+				return false;
+			}
+			if(textBoxLoad.Text == "")
+			{
+				return false;
+			}
+			decimal load = 0;
+			if(!decimal.TryParse(textBoxLoad.Text, out load))
 			{
 				return false;
 			}
@@ -125,7 +135,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						LoadDistributionId = _ldId,
 						AcademicPlanRecordId = Convert.ToInt64(comboBoxAcademicPlanRecord.SelectedValue),
 						ContingentId = Convert.ToInt64(comboBoxContingent.SelectedValue),
-						TimeNormId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue)
+						TimeNormId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue),
+						Load = Convert.ToDecimal(textBoxLoad.Text)
 					});
 				}
 				else
@@ -136,7 +147,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						LoadDistributionId = _ldId,
 						AcademicPlanRecordId = Convert.ToInt64(comboBoxAcademicPlanRecord.SelectedValue),
 						ContingentId = Convert.ToInt64(comboBoxContingent.SelectedValue),
-						TimeNormId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue)
+						TimeNormId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue),
+						Load = Convert.ToDecimal(textBoxLoad.Text)
 					});
 				}
 				if (result.Succeeded)

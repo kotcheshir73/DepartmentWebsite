@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentDesktop.Models;
@@ -34,7 +29,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
-				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Title", Title = "Название", Width = 150, Visible = true }
 			};
@@ -72,15 +66,37 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			//сепвра получаем нечетные семестры
+			var resultGroups = result.Result.GroupBy(r => r.AcademicPlanRecordViewModel.SemesterNumber).Select(r => r.Key % 2 == 0);//.Select(grp => grp.ToList()).ToList();			
+			var semester = "оcень";
+			foreach (var resSemesterRecord in resultGroups)
 			{
-				dataGridViewList.Rows.Add(
-					res.Id,
-					res.AcademicPlanRecordViewModel.Semester,
-					res.TimeNormViewModel.Title,
-					res.ContingentViewModel.Course,
-					res.TimeNormViewModel.Hours
-				);
+
+				dataGridViewList.Rows.Add();
+				int index = dataGridViewList.Rows.Count - 1;
+
+				dataGridViewList.Rows[index].Cells[0].Value = semester;
+				//foreach (var record in resRecord)
+				//{
+				//	//dataGridViewList.Rows.Add(
+				//	//	res.Key
+
+				//	//);
+				//}
+			}
+		}
+
+		private void MakeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var result = _service.MakeLoadDistribution(new LoadDistributionRecordGetBindingModel { LoadDistributionId = _ldId });
+			if (!result.Succeeded)
+			{
+				Program.PrintErrorMessage("При формировании возникла ошибка: ", result.Errors);
+				return;
+			}
+			else
+			{
+				LoadRecords();
 			}
 		}
 	}

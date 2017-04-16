@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 						.Include(e => e.AcademicPlanRecord.Discipline).Include(e => e.AcademicPlanRecord.KindOfLoad)
 						.Include(e => e.Contingent.AcademicYear).Include(e => e.Contingent.StudentGroup)
 						.Include(e => e.TimeNorm.KindOfLoad)
-							.Where(e => (int)e.AcademicPlanRecord.Semester % 2 == model.SemesterTime && !e.IsDeleted))
+							.Where(e => /*(int)e.AcademicPlanRecord.Semester % 2 == model.SemesterTime && */!e.IsDeleted))
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)

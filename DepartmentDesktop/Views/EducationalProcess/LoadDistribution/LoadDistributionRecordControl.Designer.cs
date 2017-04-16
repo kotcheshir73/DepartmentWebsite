@@ -147,6 +147,7 @@
 			this.MakeToolStripMenuItem.Name = "MakeToolStripMenuItem";
 			this.MakeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
 			this.MakeToolStripMenuItem.Text = "Сформировать";
+			this.MakeToolStripMenuItem.Click += new System.EventHandler(this.MakeToolStripMenuItem_Click);
 			// 
 			// LoadDistributionRecordControl
 			// 

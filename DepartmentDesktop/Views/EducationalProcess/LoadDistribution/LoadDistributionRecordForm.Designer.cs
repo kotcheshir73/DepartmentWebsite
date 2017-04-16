@@ -37,6 +37,8 @@
 			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
+			this.labelLoad = new System.Windows.Forms.Label();
+			this.textBoxLoad = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// labelAcademicPlanRecord
@@ -98,7 +100,7 @@
 			this.buttonSaveAndClose.Location = new System.Drawing.Point(330, 87);
 			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
 			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-			this.buttonSaveAndClose.TabIndex = 7;
+			this.buttonSaveAndClose.TabIndex = 9;
 			this.buttonSaveAndClose.Text = "Сохранить и закрыть";
 			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
 			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
@@ -108,7 +110,7 @@
 			this.buttonClose.Location = new System.Drawing.Point(477, 87);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
-			this.buttonClose.TabIndex = 8;
+			this.buttonClose.TabIndex = 10;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -118,16 +120,34 @@
 			this.buttonSave.Location = new System.Drawing.Point(249, 87);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
-			this.buttonSave.TabIndex = 6;
+			this.buttonSave.TabIndex = 8;
 			this.buttonSave.Text = "Сохранить";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+			// 
+			// labelLoad
+			// 
+			this.labelLoad.AutoSize = true;
+			this.labelLoad.Location = new System.Drawing.Point(12, 90);
+			this.labelLoad.Name = "labelLoad";
+			this.labelLoad.Size = new System.Drawing.Size(62, 13);
+			this.labelLoad.TabIndex = 6;
+			this.labelLoad.Text = "Нагрузка*:";
+			// 
+			// textBoxLoad
+			// 
+			this.textBoxLoad.Location = new System.Drawing.Point(152, 87);
+			this.textBoxLoad.Name = "textBoxLoad";
+			this.textBoxLoad.Size = new System.Drawing.Size(74, 20);
+			this.textBoxLoad.TabIndex = 7;
 			// 
 			// LoadDistributionRecordForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(564, 122);
+			this.Controls.Add(this.textBoxLoad);
+			this.Controls.Add(this.labelLoad);
 			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
@@ -157,5 +177,7 @@
 		private System.Windows.Forms.Button buttonSaveAndClose;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
+		private System.Windows.Forms.Label labelLoad;
+		private System.Windows.Forms.TextBox textBoxLoad;
 	}
 }
