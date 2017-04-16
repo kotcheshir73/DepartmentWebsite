@@ -280,5 +280,12 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+		private void disciplineToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Discipline.DisciplineControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 	}
 }
