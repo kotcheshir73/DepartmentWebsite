@@ -12,80 +12,71 @@ using System.Data.Entity.Validation;
 
 namespace DepartmentService.Services
 {
-	public class DisciplineService : IDisciplineService
+	public class DisciplineBlockService : IDisciplineBlockService
 	{
 		private readonly DepartmentDbContext _context;
 
-		private readonly IDisciplineBlockService _serviceDB;
-
-		public DisciplineService(DepartmentDbContext context, IDisciplineBlockService serviceDB)
+		public DisciplineBlockService(DepartmentDbContext context)
 		{
 			_context = context;
-			_serviceDB = serviceDB;
 		}
 
 
 		public ResultService<List<DisciplineBlockViewModel>> GetDisciplineBlocks()
 		{
-			return _serviceDB.GetDisciplineBlocks();
-		}
-
-
-		public ResultService<List<DisciplineViewModel>> GetDisciplines()
-		{
 			try
 			{
-				return ResultService<List<DisciplineViewModel>>.Success(ModelFactory.CreateDisciplines(
-						_context.Disciplines
+				return ResultService<List<DisciplineBlockViewModel>>.Success(ModelFactory.CreateDisciplineBlocks(
+						_context.DisciplineBlocks
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<DisciplineViewModel>>.Error(ex,
+				return ResultService<List<DisciplineBlockViewModel>>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<DisciplineViewModel>>.Error(ex,
+				return ResultService<List<DisciplineBlockViewModel>>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel model)
+		public ResultService<DisciplineBlockViewModel> GetDisciplineBlock(DisciplineBlockGetBindingModel model)
 		{
 			try
 			{
-				var entity = _context.Disciplines
+				var entity = _context.DisciplineBlocks
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<DisciplineViewModel>.Error("Error:", "Entity not found",
+					return ResultService<DisciplineBlockViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
-				return ResultService<DisciplineViewModel>.Success(
-					ModelFactory.CreateDisciplineViewModel(entity));
+				return ResultService<DisciplineBlockViewModel>.Success(
+					ModelFactory.CreateDisciplineBlockViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<DisciplineViewModel>.Error(ex,
+				return ResultService<DisciplineBlockViewModel>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<DisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<DisciplineBlockViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService CreateDisciplineBlock(DisciplineBlockRecordBindingModel model)
 		{
-			var entity = new Discipline
+			var entity = new DisciplineBlock
 			{
-				DisciplineName = model.DisciplineName,
+				Title = model.Title,
 				DateCreate = DateTime.Now,
-				IsDeleted = false,
+				IsDeleted = false
 			};
 			try
 			{
-				_context.Disciplines.Add(entity);
+				_context.DisciplineBlocks.Add(entity);
 				_context.SaveChanges();
 				return ResultService.Success(entity.Id);
 			}
@@ -99,18 +90,18 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService UpdateDisciplineBlock(DisciplineBlockRecordBindingModel model)
 		{
 			try
 			{
-				var entity = _context.Disciplines
+				var entity = _context.DisciplineBlocks
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.DisciplineName = model.DisciplineName;
+				entity.Title = model.Title;
 
 				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 				_context.SaveChanges();
@@ -126,11 +117,11 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteDiscipline(DisciplineGetBindingModel model)
+		public ResultService DeleteDisciplineBlock(DisciplineBlockGetBindingModel model)
 		{
 			try
 			{
-				var entity = _context.Disciplines
+				var entity = _context.DisciplineBlocks
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{

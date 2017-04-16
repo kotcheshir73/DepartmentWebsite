@@ -8,6 +8,12 @@ namespace DepartmentService.IServices
 	public interface IDisciplineService
 	{
 		/// <summary>
+		/// Получение списка блоков дисциплин
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<DisciplineBlockViewModel>> GetDisciplineBlocks();
+
+		/// <summary>
 		/// Получение списка дисциплин
 		/// </summary>
 		/// <returns></returns>

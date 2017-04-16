@@ -114,6 +114,7 @@ namespace DepartmentService.ViewModels
 				KindOfLoadId = entity.KindOfLoadId,
 				KindOfLoad = entity.KindOfLoad.KindOfLoadName,
 				Semester = entity.Semester.ToString(),
+				SemesterNumber = (int)entity.Semester,
 				Hours = entity.Hours
 			};
 		}
@@ -249,12 +250,29 @@ namespace DepartmentService.ViewModels
 		}
 
 
+
+		public static DisciplineBlockViewModel CreateDisciplineBlockViewModel(DisciplineBlock entity)
+		{
+			return new DisciplineBlockViewModel
+			{
+				Id = entity.Id,
+				Title = entity.Title
+			};
+		}
+
+		public static IEnumerable<DisciplineBlockViewModel> CreateDisciplineBlocks(IEnumerable<DisciplineBlock> entities)
+		{
+			return entities.Select(e => CreateDisciplineBlockViewModel(e)).OrderBy(e => e.Id);
+		}
+
 		public static DisciplineViewModel CreateDisciplineViewModel(Discipline entity)
 		{
 			return new DisciplineViewModel
 			{
 				Id = entity.Id,
-				DisciplineName = entity.DisciplineName
+				DisciplineBlockId = entity.DisciplineBlockId,
+				DisciplineName = entity.DisciplineName,
+				DisciplineBlockTitle = entity.DisciplineBlock.Title
 			};
 		}
 

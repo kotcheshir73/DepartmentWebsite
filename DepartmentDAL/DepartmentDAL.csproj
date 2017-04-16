@@ -223,6 +223,10 @@
     <Compile Include="Migrations\201704161036591_AddFiledLoadInLoadDistributionRecord.Designer.cs">
       <DependentUpon>201704161036591_AddFiledLoadInLoadDistributionRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704161304254_AddDisciplineBlocks.cs" />
+    <Compile Include="Migrations\201704161304254_AddDisciplineBlocks.Designer.cs">
+      <DependentUpon>201704161304254_AddDisciplineBlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -234,6 +238,7 @@
     <Compile Include="Models\Contingent.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\Discipline.cs" />
+    <Compile Include="Models\DisciplineBlock.cs" />
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\ExaminationRecord.cs" />
     <Compile Include="Models\KindOfLoad.cs" />
@@ -385,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704161036591_AddFiledLoadInLoadDistributionRecord.resx">
       <DependentUpon>201704161036591_AddFiledLoadInLoadDistributionRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704161304254_AddDisciplineBlocks.resx">
+      <DependentUpon>201704161304254_AddDisciplineBlocks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
