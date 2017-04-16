@@ -153,6 +153,18 @@
     <Compile Include="Views\EducationalProcess\Classroom\ClassroomForm.Designer.cs">
       <DependentUpon>ClassroomForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\Discipline\DisciplineBlockControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Discipline\DisciplineBlockControl.Designer.cs">
+      <DependentUpon>DisciplineBlockControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Discipline\DisciplineBlockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\Discipline\DisciplineBlockForm.Designer.cs">
+      <DependentUpon>DisciplineBlockForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\KindOfLoad\KindOfLoadControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -487,6 +499,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomForm.resx">
       <DependentUpon>ClassroomForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\Discipline\DisciplineBlockControl.resx">
+      <DependentUpon>DisciplineBlockControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\Discipline\DisciplineBlockForm.resx">
+      <DependentUpon>DisciplineBlockForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\KindOfLoad\KindOfLoadControl.resx">
       <DependentUpon>KindOfLoadControl.cs</DependentUpon>

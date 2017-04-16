@@ -8,6 +8,7 @@ using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 
 namespace DepartmentService.Services
@@ -37,6 +38,7 @@ namespace DepartmentService.Services
 			{
 				return ResultService<List<DisciplineViewModel>>.Success(ModelFactory.CreateDisciplines(
 						_context.Disciplines
+							.Include(d => d.DisciplineBlock)
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -79,6 +81,7 @@ namespace DepartmentService.Services
 		{
 			var entity = new Discipline
 			{
+				DisciplineBlockId = model.DisciplineBlockId,
 				DisciplineName = model.DisciplineName,
 				DateCreate = DateTime.Now,
 				IsDeleted = false,
@@ -110,6 +113,7 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
+				entity.DisciplineBlockId = model.DisciplineBlockId;
 				entity.DisciplineName = model.DisciplineName;
 
 				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
