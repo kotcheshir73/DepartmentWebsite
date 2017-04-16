@@ -70,5 +70,12 @@ namespace DepartmentService.IServices
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService DeleteLoadDistributionRecord(LoadDistributionRecordGetBindingModel model);
+
+		/// <summary>
+		/// Формирование/перерасчет учебной нагрузки на год
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService MakeLoadDistribution(LoadDistributionRecordGetBindingModel model);
 	}
 }
