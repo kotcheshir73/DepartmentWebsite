@@ -82,7 +82,6 @@ namespace DepartmentService.Services
 			{
 				Title = model.Title,
 				KindOfLoadId = model.KindOfLoadId,
-				ParentTimeNormId = model.ParentTimeNormId,
 				Hours = model.Hours,
 				DateCreate = DateTime.Now,
 				IsDeleted = false
@@ -115,7 +114,6 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 				}
 				entity.KindOfLoadId = model.KindOfLoadId;
-				entity.ParentTimeNormId = model.ParentTimeNormId;
 				entity.Hours = model.Hours;
 
 				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;

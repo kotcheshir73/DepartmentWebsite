@@ -32,8 +32,6 @@
 			this.labelKindOfLoad = new System.Windows.Forms.Label();
 			this.labelTitle = new System.Windows.Forms.Label();
 			this.textBoxTitle = new System.Windows.Forms.TextBox();
-			this.labelParentTimeNorm = new System.Windows.Forms.Label();
-			this.comboBoxTimeNorm = new System.Windows.Forms.ComboBox();
 			this.textBoxHours = new System.Windows.Forms.TextBox();
 			this.labelHours = new System.Windows.Forms.Label();
 			this.buttonClose = new System.Windows.Forms.Button();
@@ -75,27 +73,9 @@
 			this.textBoxTitle.Size = new System.Drawing.Size(220, 20);
 			this.textBoxTitle.TabIndex = 3;
 			// 
-			// labelParentTimeNorm
-			// 
-			this.labelParentTimeNorm.AutoSize = true;
-			this.labelParentTimeNorm.Location = new System.Drawing.Point(12, 62);
-			this.labelParentTimeNorm.Name = "labelParentTimeNorm";
-			this.labelParentTimeNorm.Size = new System.Drawing.Size(74, 13);
-			this.labelParentTimeNorm.TabIndex = 4;
-			this.labelParentTimeNorm.Text = "Привязать к:";
-			// 
-			// comboBoxTimeNorm
-			// 
-			this.comboBoxTimeNorm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxTimeNorm.FormattingEnabled = true;
-			this.comboBoxTimeNorm.Location = new System.Drawing.Point(102, 59);
-			this.comboBoxTimeNorm.Name = "comboBoxTimeNorm";
-			this.comboBoxTimeNorm.Size = new System.Drawing.Size(220, 21);
-			this.comboBoxTimeNorm.TabIndex = 5;
-			// 
 			// textBoxHours
 			// 
-			this.textBoxHours.Location = new System.Drawing.Point(102, 86);
+			this.textBoxHours.Location = new System.Drawing.Point(102, 59);
 			this.textBoxHours.Name = "textBoxHours";
 			this.textBoxHours.Size = new System.Drawing.Size(220, 20);
 			this.textBoxHours.TabIndex = 7;
@@ -103,7 +83,7 @@
 			// labelHours
 			// 
 			this.labelHours.AutoSize = true;
-			this.labelHours.Location = new System.Drawing.Point(12, 89);
+			this.labelHours.Location = new System.Drawing.Point(12, 62);
 			this.labelHours.Name = "labelHours";
 			this.labelHours.Size = new System.Drawing.Size(42, 13);
 			this.labelHours.TabIndex = 6;
@@ -111,7 +91,7 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(247, 112);
+			this.buttonClose.Location = new System.Drawing.Point(247, 85);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
 			this.buttonClose.TabIndex = 14;
@@ -121,7 +101,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(19, 112);
+			this.buttonSave.Location = new System.Drawing.Point(19, 85);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 12;
@@ -131,7 +111,7 @@
 			// 
 			// buttonSaveAndClose
 			// 
-			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 112);
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 85);
 			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
 			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
 			this.buttonSaveAndClose.TabIndex = 13;
@@ -143,14 +123,12 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(334, 142);
+			this.ClientSize = new System.Drawing.Size(334, 117);
 			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.textBoxHours);
 			this.Controls.Add(this.labelHours);
-			this.Controls.Add(this.comboBoxTimeNorm);
-			this.Controls.Add(this.labelParentTimeNorm);
 			this.Controls.Add(this.textBoxTitle);
 			this.Controls.Add(this.labelTitle);
 			this.Controls.Add(this.comboBoxKindOfLoad);
@@ -170,8 +148,6 @@
 		private System.Windows.Forms.Label labelKindOfLoad;
 		private System.Windows.Forms.Label labelTitle;
 		private System.Windows.Forms.TextBox textBoxTitle;
-		private System.Windows.Forms.Label labelParentTimeNorm;
-		private System.Windows.Forms.ComboBox comboBoxTimeNorm;
 		private System.Windows.Forms.TextBox textBoxHours;
 		private System.Windows.Forms.Label labelHours;
 		private System.Windows.Forms.Button buttonClose;

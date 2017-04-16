@@ -36,24 +36,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return;
 			}
 
-			var resultTN = _service.GetTimeNorms();
-			if (!resultKL.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке норм времени возникла ошибка: ", resultKL.Errors);
-				return;
-			}
-
 			comboBoxKindOfLoad.ValueMember = "Value";
 			comboBoxKindOfLoad.DisplayMember = "Display";
 			comboBoxKindOfLoad.DataSource = resultKL.Result
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
 			comboBoxKindOfLoad.SelectedItem = null;
-
-			comboBoxTimeNorm.ValueMember = "Value";
-			comboBoxTimeNorm.DisplayMember = "Display";
-			comboBoxTimeNorm.DataSource = resultTN.Result
-				.Select(tn => new { Value = tn.Id, Display = tn.Title }).ToList();
-			comboBoxTimeNorm.SelectedItem = null;
 
 			if (_id != 0)
 			{
@@ -72,7 +59,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			var entity = result.Result;
 
 			comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
-			comboBoxTimeNorm.SelectedValue = entity.ParentTimeNormId;
 			textBoxTitle.Text = entity.Title;
 			textBoxHours.Text = entity.Hours.ToString();
 		}
@@ -103,11 +89,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 		{
 			if (CheckFill())
 			{
-				long? paretnId = null;
-				if (comboBoxTimeNorm.SelectedValue != null)
-				{
-					paretnId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue);
-				}
 				ResultService result;
 				if (_id == 0)
 				{
@@ -115,7 +96,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
 						Title = textBoxTitle.Text,
-						ParentTimeNormId = paretnId,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
 					});
 				}
@@ -126,7 +106,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 						Id = _id,
 						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
 						Title = textBoxTitle.Text,
-						ParentTimeNormId = paretnId,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
 					});
 				}

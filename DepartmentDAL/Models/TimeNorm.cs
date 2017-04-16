@@ -16,14 +16,9 @@ namespace DepartmentDAL.Models
 
 		public long KindOfLoadId { get; set; }
 
-		[ForeignKey("ParentTimeNorm")]
-		public long? ParentTimeNormId { get; set; }
-
 		public decimal Hours { get; set; }
 
 		public virtual KindOfLoad KindOfLoad { get; set; }
-				
-		public virtual TimeNorm ParentTimeNorm { get; set; }
 
 		[ForeignKey("TimeNormId")]
 		public virtual List<LoadDistributionRecord> LoadDistributionRecord { get; set; }

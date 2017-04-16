@@ -32,8 +32,6 @@ namespace DepartmentService.BindingModels
 		
 		public long KindOfLoadId { get; set; }
 
-		public long? ParentTimeNormId { get; set; }
-
 		public decimal Hours { get; set; }
 	}
 }

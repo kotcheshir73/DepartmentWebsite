@@ -21,8 +21,6 @@
 
 		public string KindOfLoadName { get; set; }
 
-		public string ParentTimeNormTitle { get; set; }
-
 		public decimal Hours { get; set; }
 	}
 }

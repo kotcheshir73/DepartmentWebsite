@@ -19,5 +19,8 @@ namespace DepartmentDAL.Models
 
 		[ForeignKey("KindOfLoadId")]
 		public virtual List<AcademicPlanRecord> AcademicPlanRecords { get; set; }
+
+		[ForeignKey("KindOfLoadId")]
+		public virtual List<TimeNorm> TimeNorms { get; set; }
 	}
 }
