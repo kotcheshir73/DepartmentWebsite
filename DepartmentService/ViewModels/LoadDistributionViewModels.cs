@@ -28,6 +28,8 @@
 		public long TimeNormId { get; set; }
 
 		public TimeNormViewModel TimeNormViewModel { get; set; }
+
+		public decimal Load { get; set; }
 	}
 
 	public class LoadDistributionMissionViewModel

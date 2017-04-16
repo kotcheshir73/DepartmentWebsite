@@ -32,6 +32,8 @@
 		public long ContingentId { get; set; }
 
 		public long TimeNormId { get; set; }
+
+		public decimal Load { get; set; }
 	}
 
 	public class LoadDistributionMissionGetBindingModel

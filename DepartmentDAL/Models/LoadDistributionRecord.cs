@@ -16,6 +16,8 @@ namespace DepartmentDAL.Models
 
 		public long TimeNormId { get; set; }
 
+		public decimal Load { get; set; }
+
 		public virtual LoadDistribution LoadDistribution { get; set; }
 
 		public virtual AcademicPlanRecord AcademicPlanRecord { get; set; }

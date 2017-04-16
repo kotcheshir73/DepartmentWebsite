@@ -205,7 +205,8 @@ namespace DepartmentService.ViewModels
 				ContingentId = entity.ContingentId,
 				ContingentViewModel = CreateContingentViewModel(entity.Contingent),
 				TimeNormId = entity.TimeNormId,
-				TimeNormViewModel = CreateTimeNormViewModel(entity.TimeNorm)
+				TimeNormViewModel = CreateTimeNormViewModel(entity.TimeNorm),
+				Load = entity.Load
 			};
 		}
 
