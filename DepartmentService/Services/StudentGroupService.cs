@@ -84,7 +84,7 @@ namespace DepartmentService.Services
 			{
 				EducationDirectionId = model.EducationDirectionId,
 				GroupName = model.GroupName,
-				Kurs = model.Kurs,
+				Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course),
 				DateCreate = DateTime.Now,
 				IsDeleted = false
 			};
@@ -117,7 +117,7 @@ namespace DepartmentService.Services
 				}
 				entity.EducationDirectionId = model.EducationDirectionId;
 				entity.GroupName = model.GroupName;
-				entity.Kurs = model.Kurs;
+				entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
 				if (!string.IsNullOrEmpty(model.StewardId))
 				{
 					entity.StewardId = model.StewardId;

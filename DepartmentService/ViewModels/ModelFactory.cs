@@ -49,8 +49,6 @@ namespace DepartmentService.ViewModels
 				KindOfLoadId = entity.KindOfLoadId,
 				Title = entity.Title,
 				KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
-				ParentTimeNormId = entity.ParentTimeNormId,
-				ParentTimeNormTitle = entity.ParentTimeNormId.HasValue ? entity.ParentTimeNorm.Title : string.Empty,
 				Hours = entity.Hours
 			};
 		}
@@ -147,7 +145,7 @@ namespace DepartmentService.ViewModels
 				EducationDirectionId = entity.EducationDirectionId,
 				EducationDirectionCipher = entity.EducationDirection.Cipher,
 				GroupName = entity.GroupName,
-				Kurs = entity.Kurs,
+				Course = (int)entity.Course,
 				CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
 				StewardId = entity.StewardId,
 				Steward = string.IsNullOrEmpty(entity.StewardId) ? string.Empty :
@@ -157,7 +155,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<StudentGroupViewModel> CreateStudentGroups(IEnumerable<StudentGroup> entities)
 		{
-			return entities.Select(e => CreateStudentGroupViewModel(e)).OrderBy(e => e.Kurs).ThenBy(e => e.EducationDirectionId);
+			return entities.Select(e => CreateStudentGroupViewModel(e)).OrderBy(e => e.Course).ThenBy(e => e.EducationDirectionId);
 		}
 
 		public static ContingentViewModel CreateContingentViewModel(Contingent entity)
@@ -169,7 +167,7 @@ namespace DepartmentService.ViewModels
 				StudentGroupId = entity.StudentGroupId,
 				AcademicYear = entity.AcademicYear.Title,
 				StudentGroupName = entity.StudentGroup.GroupName,
-				Course = entity.StudentGroup.Kurs,
+				Course = (int)entity.StudentGroup.Course,
 				CountStudents = entity.CountStudetns,
 				CountSubgroups = entity.CountSubgroups
 			};

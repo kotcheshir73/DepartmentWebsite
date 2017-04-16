@@ -10,7 +10,7 @@
         
         public string GroupName { get; set; }
 
-        public int Kurs { get; set; }
+        public int Course { get; set; }
 
         public int CountStudents { get; set; }
 

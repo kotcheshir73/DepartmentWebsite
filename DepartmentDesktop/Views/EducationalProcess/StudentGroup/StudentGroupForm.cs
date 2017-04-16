@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL;
+using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -88,7 +89,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
 			textBoxGroupName.Text = entity.GroupName;
-			textBoxKurs.Text = entity.Kurs.ToString();
+			textBoxKurs.Text = (Math.Log(entity.Course, 2.0) + 1).ToString();
 			if (!string.IsNullOrEmpty(entity.StewardId))
 			{
 				comboBoxSteward.SelectedValue = entity.StewardId;
@@ -109,11 +110,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             {
                 return false;
             }
-            int kurs = 0;
-            if (!int.TryParse(textBoxKurs.Text, out kurs))
+            int course = 0;
+            if (!int.TryParse(textBoxKurs.Text, out course))
             {
                 return false;
             }
+			if(course < 0 || course > 6)
+			{
+				return false;
+			}
             return true;
 		}
 
@@ -121,6 +126,32 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 		{
 			if (CheckFill())
 			{
+				
+				//AcademicCourse course = new AcademicCourse();
+				//if(textBoxKurs.Text == "1")
+				//{
+				//	course = AcademicCourse.Course_1;
+				//}
+				//if (textBoxKurs.Text == "2")
+				//{
+				//	course = AcademicCourse.Course_2;
+				//}
+				//if (textBoxKurs.Text == "3")
+				//{
+				//	course = AcademicCourse.Course_3;
+				//}
+				//if (textBoxKurs.Text == "4")
+				//{
+				//	course = AcademicCourse.Course_4;
+				//}
+				//if (textBoxKurs.Text == "5")
+				//{
+				//	course = AcademicCourse.Course_5;
+				//}
+				//if (textBoxKurs.Text == "6")
+				//{
+				//	course = AcademicCourse.Course_6;
+				//}
 				ResultService result;
 				if (_id == 0)
 				{
@@ -128,7 +159,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					{
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
 						GroupName = textBoxGroupName.Text,
-						Kurs = Convert.ToInt32(textBoxKurs.Text)
+						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0)
 					});
 				}
 				else
@@ -143,7 +174,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 						Id = _id,
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
 						GroupName = textBoxGroupName.Text,
-						Kurs = Convert.ToInt32(textBoxKurs.Text),
+						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0),
 						StewardId = StewardId
 					});
 				}

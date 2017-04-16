@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DepartmentDAL.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +16,7 @@ namespace DepartmentDAL.Models
         public string GroupName { get; set; }
 
         [Required]
-        public int Kurs { get; set; }
+        public AcademicCourse Course { get; set; }
 
         public string StewardId { get; set; }
 

@@ -18,7 +18,7 @@ namespace DepartmentService.BindingModels
         [Required(ErrorMessage = "required")]
         public string GroupName { get; set; }
         
-        public int Kurs { get; set; }
+        public int Course { get; set; }
 
         public string StewardId { get; set; }
 

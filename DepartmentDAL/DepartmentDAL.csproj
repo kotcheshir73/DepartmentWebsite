@@ -211,6 +211,14 @@
     <Compile Include="Migrations\201704150616283_AddAbbreviationToLecturer.Designer.cs">
       <DependentUpon>201704150616283_AddAbbreviationToLecturer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704160842445_ChangeTimeNormAndKindOfLoad.cs" />
+    <Compile Include="Migrations\201704160842445_ChangeTimeNormAndKindOfLoad.Designer.cs">
+      <DependentUpon>201704160842445_ChangeTimeNormAndKindOfLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704160923217_ChangeStudentGroup.cs" />
+    <Compile Include="Migrations\201704160923217_ChangeStudentGroup.Designer.cs">
+      <DependentUpon>201704160923217_ChangeStudentGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -364,6 +372,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704150616283_AddAbbreviationToLecturer.resx">
       <DependentUpon>201704150616283_AddAbbreviationToLecturer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704160842445_ChangeTimeNormAndKindOfLoad.resx">
+      <DependentUpon>201704160842445_ChangeTimeNormAndKindOfLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704160923217_ChangeStudentGroup.resx">
+      <DependentUpon>201704160923217_ChangeStudentGroup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

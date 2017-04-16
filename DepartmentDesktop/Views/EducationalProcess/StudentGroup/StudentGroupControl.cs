@@ -66,7 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					res.Id,
 					res.EducationDirectionCipher,
 					res.GroupName,
-					res.Kurs,
+					Math.Log(res.Course, 2.0) + 1,
 					res.CountStudents,
 					res.Steward,
 					res.Curator
