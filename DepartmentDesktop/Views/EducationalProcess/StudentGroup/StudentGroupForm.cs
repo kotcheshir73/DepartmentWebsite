@@ -126,32 +126,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 		{
 			if (CheckFill())
 			{
-				
-				//AcademicCourse course = new AcademicCourse();
-				//if(textBoxKurs.Text == "1")
-				//{
-				//	course = AcademicCourse.Course_1;
-				//}
-				//if (textBoxKurs.Text == "2")
-				//{
-				//	course = AcademicCourse.Course_2;
-				//}
-				//if (textBoxKurs.Text == "3")
-				//{
-				//	course = AcademicCourse.Course_3;
-				//}
-				//if (textBoxKurs.Text == "4")
-				//{
-				//	course = AcademicCourse.Course_4;
-				//}
-				//if (textBoxKurs.Text == "5")
-				//{
-				//	course = AcademicCourse.Course_5;
-				//}
-				//if (textBoxKurs.Text == "6")
-				//{
-				//	course = AcademicCourse.Course_6;
-				//}
 				ResultService result;
 				if (_id == 0)
 				{
