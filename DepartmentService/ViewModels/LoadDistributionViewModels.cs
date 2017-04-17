@@ -19,7 +19,11 @@
 
 		public long AcademicPlanRecordId { get; set; }
 
-		public AcademicPlanRecordViewModel AcademicPlanRecordViewModel { get; set; }
+		public string EducationDirectionCipher { get; set; }
+
+		public  string Disciplne { get; set; }
+
+		public string DisciplineBlockTitle { get; set; }
 
 		public long ContingentId { get; set; }
 
@@ -28,6 +32,8 @@
 		public long TimeNormId { get; set; }
 
 		public TimeNormViewModel TimeNormViewModel { get; set; }
+
+		public int SemesterNumber { get; set; }
 
 		public decimal Load { get; set; }
 	}

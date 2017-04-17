@@ -115,7 +115,6 @@ namespace DepartmentService.ViewModels
 				KindOfLoadId = entity.KindOfLoadId,
 				KindOfLoad = entity.KindOfLoad.KindOfLoadName,
 				Semester = entity.Semester.ToString(),
-				SemesterNumber = (int)entity.Semester,
 				Hours = entity.Hours
 			};
 		}
@@ -203,19 +202,21 @@ namespace DepartmentService.ViewModels
 				LoadDistributionId = entity.LoadDistributionId,
 				LoadDistributionAcademicYear = entity.LoadDistribution.AcademicYear.Title,
 				AcademicPlanRecordId = entity.AcademicPlanRecordId,
-				AcademicPlanRecordViewModel = CreateAcademicPlanRecordViewModel(entity.AcademicPlanRecord),
+				EducationDirectionCipher = entity.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher,
+				Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
+				DisciplineBlockTitle = entity.AcademicPlanRecord.Discipline.DisciplineBlock.Title,
 				ContingentId = entity.ContingentId,
 				ContingentViewModel = CreateContingentViewModel(entity.Contingent),
 				TimeNormId = entity.TimeNormId,
 				TimeNormViewModel = CreateTimeNormViewModel(entity.TimeNorm),
+				SemesterNumber = (int)entity.AcademicPlanRecord.Semester,
 				Load = entity.Load
 			};
 		}
 
 		public static IEnumerable<LoadDistributionRecordViewModel> CreateLoadDistributionRecords(IEnumerable<LoadDistributionRecord> entities)
 		{
-			return entities.Select(e => CreateLoadDistributionRecordViewModel(e)).OrderBy(e => e.AcademicPlanRecordViewModel.Semester).ThenBy(e => e.ContingentViewModel.StudentGroupName)
-				.ThenBy(e => e.AcademicPlanRecordViewModel.Disciplne).ThenBy(e => e.TimeNormId);
+			return entities.Select(e => CreateLoadDistributionRecordViewModel(e));
 		}
 
 		public static LoadDistributionMissionViewModel CreateLoadDistributionMissionViewModel(LoadDistributionMission entity)
