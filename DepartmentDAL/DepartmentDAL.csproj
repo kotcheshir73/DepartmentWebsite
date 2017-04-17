@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201704161304254_AddDisciplineBlocks.Designer.cs">
       <DependentUpon>201704161304254_AddDisciplineBlocks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.cs" />
+    <Compile Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.Designer.cs">
+      <DependentUpon>201704171702418_AddFieldFormulaInTimeNorm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -393,6 +397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704161304254_AddDisciplineBlocks.resx">
       <DependentUpon>201704161304254_AddDisciplineBlocks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.resx">
+      <DependentUpon>201704171702418_AddFieldFormulaInTimeNorm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -37,6 +37,8 @@
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonSaveAndClose = new System.Windows.Forms.Button();
+			this.labelFormula = new System.Windows.Forms.Label();
+			this.textBoxFormula = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// comboBoxKindOfLoad
@@ -75,7 +77,7 @@
 			// 
 			// textBoxHours
 			// 
-			this.textBoxHours.Location = new System.Drawing.Point(102, 59);
+			this.textBoxHours.Location = new System.Drawing.Point(102, 85);
 			this.textBoxHours.Name = "textBoxHours";
 			this.textBoxHours.Size = new System.Drawing.Size(220, 20);
 			this.textBoxHours.TabIndex = 7;
@@ -83,7 +85,7 @@
 			// labelHours
 			// 
 			this.labelHours.AutoSize = true;
-			this.labelHours.Location = new System.Drawing.Point(12, 62);
+			this.labelHours.Location = new System.Drawing.Point(12, 88);
 			this.labelHours.Name = "labelHours";
 			this.labelHours.Size = new System.Drawing.Size(42, 13);
 			this.labelHours.TabIndex = 6;
@@ -91,7 +93,7 @@
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(247, 85);
+			this.buttonClose.Location = new System.Drawing.Point(247, 111);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
 			this.buttonClose.TabIndex = 14;
@@ -101,7 +103,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(19, 85);
+			this.buttonSave.Location = new System.Drawing.Point(19, 111);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 12;
@@ -111,7 +113,7 @@
 			// 
 			// buttonSaveAndClose
 			// 
-			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 85);
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 111);
 			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
 			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
 			this.buttonSaveAndClose.TabIndex = 13;
@@ -119,11 +121,29 @@
 			this.buttonSaveAndClose.UseVisualStyleBackColor = true;
 			this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
 			// 
+			// labelFormula
+			// 
+			this.labelFormula.AutoSize = true;
+			this.labelFormula.Location = new System.Drawing.Point(12, 62);
+			this.labelFormula.Name = "labelFormula";
+			this.labelFormula.Size = new System.Drawing.Size(62, 13);
+			this.labelFormula.TabIndex = 4;
+			this.labelFormula.Text = "Формула*:";
+			// 
+			// textBoxFormula
+			// 
+			this.textBoxFormula.Location = new System.Drawing.Point(102, 59);
+			this.textBoxFormula.Name = "textBoxFormula";
+			this.textBoxFormula.Size = new System.Drawing.Size(220, 20);
+			this.textBoxFormula.TabIndex = 5;
+			// 
 			// TimeNormForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(334, 117);
+			this.ClientSize = new System.Drawing.Size(334, 142);
+			this.Controls.Add(this.textBoxFormula);
+			this.Controls.Add(this.labelFormula);
 			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
@@ -153,5 +173,7 @@
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Button buttonSaveAndClose;
+		private System.Windows.Forms.Label labelFormula;
+		private System.Windows.Forms.TextBox textBoxFormula;
 	}
 }

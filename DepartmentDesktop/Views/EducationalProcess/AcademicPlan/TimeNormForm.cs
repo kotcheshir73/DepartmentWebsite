@@ -60,6 +60,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
 			textBoxTitle.Text = entity.Title;
+			textBoxFormula.Text = entity.Formula;
 			textBoxHours.Text = entity.Hours.ToString();
 		}
 
@@ -70,6 +71,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return false;
 			}
 			if (string.IsNullOrEmpty(textBoxTitle.Text))
+			{
+				return false;
+			}
+			if (string.IsNullOrEmpty(textBoxFormula.Text))
 			{
 				return false;
 			}
@@ -96,6 +101,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
 						Title = textBoxTitle.Text,
+						Formula = textBoxFormula.Text,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
 					});
 				}
@@ -106,6 +112,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 						Id = _id,
 						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
 						Title = textBoxTitle.Text,
+						Formula = textBoxFormula.Text,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
 					});
 				}

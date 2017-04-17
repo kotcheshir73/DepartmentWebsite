@@ -21,6 +21,8 @@
 
 		public string KindOfLoadName { get; set; }
 
+		public string Formula { get; set; }
+
 		public decimal Hours { get; set; }
 	}
 }

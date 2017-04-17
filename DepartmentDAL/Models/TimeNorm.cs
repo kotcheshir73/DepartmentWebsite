@@ -16,6 +16,8 @@ namespace DepartmentDAL.Models
 
 		public long KindOfLoadId { get; set; }
 
+		public string Formula { get; set; }
+
 		public decimal Hours { get; set; }
 
 		public virtual KindOfLoad KindOfLoad { get; set; }

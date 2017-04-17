@@ -49,6 +49,7 @@ namespace DepartmentService.ViewModels
 				KindOfLoadId = entity.KindOfLoadId,
 				Title = entity.Title,
 				KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+				Formula = entity.Formula,
 				Hours = entity.Hours
 			};
 		}
