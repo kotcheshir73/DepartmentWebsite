@@ -63,7 +63,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					res.EducationDirection,
 					res.AcademicYear,
 					res.AcademicLevel,
-					res.AcademicCourses
+					res.AcademicCoursesStrings
 				);
 			}
 		}

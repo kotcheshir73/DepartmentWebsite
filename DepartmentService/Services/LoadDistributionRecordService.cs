@@ -240,7 +240,13 @@ namespace DepartmentService.Services
 						{
 							continue;
 						}
-						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id);
+						List<Semesters> semesters = new List<Semesters>();
+						foreach(var course in courses)
+						{
+							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32((int)course * 2 - 1)));
+							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32((int)course * 2)));
+						}
+						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id && semesters.Contains(apr.Semester));
 						if(apRecords.Count() == 0)
 						{
 							transaction.Rollback();

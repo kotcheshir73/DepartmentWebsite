@@ -213,8 +213,8 @@ namespace DepartmentService.Services
 						return ResultService.Error("Error:", "В настройках не указан disciplineBlock(Дисциплины (модули))",
 							ResultServiceStatusCode.NotFound);
 					}
-					var disciplineBlock = _context.DisciplineBlocks.FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockModules.Value));
-					if (disciplineBlock == null)
+					var disciplineBlockModuls = _context.DisciplineBlocks.FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockModules.Value));
+					if (disciplineBlockModuls == null)
 					{
 						return ResultService.Error("Error:", "disciplineBlock(Дисциплины (модули)) not found",
 							ResultServiceStatusCode.NotFound);
@@ -259,7 +259,7 @@ namespace DepartmentService.Services
 									_context.Disciplines.Add(new Discipline
 									{
 										DisciplineName = disciplineAttributes.Value,
-										DisciplineBlockId = disciplineBlock.Id,
+										DisciplineBlockId = disciplineBlockModuls.Id,
 										DateCreate = DateTime.Now,
 										IsDeleted = false
 									});
@@ -442,8 +442,8 @@ namespace DepartmentService.Services
 							return ResultService.Error("Error:", "В настройках не указан disciplineBlock(Практика)",
 								ResultServiceStatusCode.NotFound);
 						}
-						disciplineBlock = _context.DisciplineBlocks.FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockPractic.Value));
-						if (disciplineBlock == null)
+						var disciplineBlockPractic = _context.DisciplineBlocks.FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockPractic.Value));
+						if (disciplineBlockPractic == null)
 						{
 							return ResultService.Error("Error:", "disciplineBlock(Практика) not found",
 								ResultServiceStatusCode.NotFound);
@@ -451,7 +451,7 @@ namespace DepartmentService.Services
 						XmlNode studyPracticNode = mainRootElementNode.SelectSingleNode("УчебПрактики");
 						if (studyPracticNode != null)
 						{
-							XmlNode practicNode = mainRootElementNode.SelectSingleNode("ПрочаяПрактика");
+							XmlNode practicNode = studyPracticNode.SelectSingleNode("ПрочаяПрактика");
 							parsePractic(new parsePracticBindingModel
 							{
 								PracticName = "Учебная практика",
@@ -460,7 +460,7 @@ namespace DepartmentService.Services
 								Counter = counter,
 								KafedraNumber = currentSetting.Value,
 								ApId = model.Id,
-								DisciplineBlockId = disciplineBlock.Id
+								DisciplineBlockId = disciplineBlockPractic.Id
 							});
 						}
 						XmlNode practicsNode = mainRootElementNode.SelectSingleNode("ПрочиеПрактики");
@@ -477,7 +477,7 @@ namespace DepartmentService.Services
 									Counter = counter,
 									KafedraNumber = currentSetting.Value,
 									ApId = model.Id,
-									DisciplineBlockId = disciplineBlock.Id
+									DisciplineBlockId = disciplineBlockPractic.Id
 								});
 							}
 						}
@@ -489,8 +489,8 @@ namespace DepartmentService.Services
 							return ResultService.Error("Error:", "В настройках не указан disciplineBlock(ГИА)",
 								ResultServiceStatusCode.NotFound);
 						}
-						disciplineBlock = _context.DisciplineBlocks.FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockGIA.Value));
-						if (disciplineBlock == null)
+						var disciplineBlockGIA = _context.DisciplineBlocks.FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockGIA.Value));
+						if (disciplineBlockGIA == null)
 						{
 							return ResultService.Error("Error:", "disciplineBlock(ГИА) not found",
 								ResultServiceStatusCode.NotFound);
@@ -529,38 +529,43 @@ namespace DepartmentService.Services
 									{
 										_context.Disciplines.Add(new Discipline
 										{
+											DisciplineBlockId = disciplineBlockGIA.Id,
 											DisciplineName = discpName,
 											DateCreate = DateTime.Now,
 											IsDeleted = false
 										});
 										_context.SaveChanges();
 
-										var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
-																					apr.AcademicPlanId == model.Id &&
-																					apr.DisciplineId == discipline.Id &&
-																					apr.KindOfLoadId == kindOfLoad.Id &&
-											apr.Semester == (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNumber)) &&
-																					!apr.IsDeleted);
-										if (record == null)
-										{
-											_context.AcademicPlanRecords.Add(new AcademicPlanRecord
-											{
-												AcademicPlanId = model.Id,
-												DisciplineId = discipline.Id,
-												KindOfLoadId = kindOfLoad.Id,
-												Semester = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNumber)),
-												Hours = 1,
-												DateCreate = DateTime.Now,
-												IsDeleted = false
-											});
-										}
-										else
-										{
-											record.Hours = 1;
-											_context.Entry(record).State = EntityState.Modified;
-										}
-										_context.SaveChanges();
+										discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
 									}
+
+									var sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNumber));
+									var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+																				apr.AcademicPlanId == model.Id &&
+																				apr.DisciplineId == discipline.Id &&
+																				apr.KindOfLoadId == kindOfLoad.Id &&
+																				apr.Semester == sem &&
+																				!apr.IsDeleted);
+									if (record == null)
+									{
+										_context.AcademicPlanRecords.Add(new AcademicPlanRecord
+										{
+											AcademicPlanId = model.Id,
+											DisciplineId = discipline.Id,
+											KindOfLoadId = kindOfLoad.Id,
+											Semester = sem,
+											Hours = 1,
+											DateCreate = DateTime.Now,
+											IsDeleted = false
+										});
+									}
+									else
+									{
+										record.Hours = 1;
+										_context.Entry(record).State = EntityState.Modified;
+									}
+									_context.SaveChanges();
+
 								}
 							}
 						}
@@ -578,45 +583,48 @@ namespace DepartmentService.Services
 							{
 								var kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
 											  kl.KindOfLoadName.Contains(discpName));
-							if (kindOfLoad != null)
-							{
+								if (kindOfLoad != null)
+								{
 									var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
 									if (discipline == null)
 									{
 										_context.Disciplines.Add(new Discipline
 										{
+											DisciplineBlockId = disciplineBlockGIA.Id,
 											DisciplineName = discpName,
 											DateCreate = DateTime.Now,
 											IsDeleted = false
 										});
 										_context.SaveChanges();
 
-										var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
-																					apr.AcademicPlanId == model.Id &&
-																					apr.DisciplineId == discipline.Id &&
-																					apr.KindOfLoadId == kindOfLoad.Id &&
-											apr.Semester == (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNumber)) &&
-																					!apr.IsDeleted);
-										if (record == null)
-										{
-											_context.AcademicPlanRecords.Add(new AcademicPlanRecord
-											{
-												AcademicPlanId = model.Id,
-												DisciplineId = discipline.Id,
-												KindOfLoadId = kindOfLoad.Id,
-												Semester = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNumber)),
-												Hours = 1,
-												DateCreate = DateTime.Now,
-												IsDeleted = false
-											});
-										}
-										else
-										{
-											record.Hours = 1;
-											_context.Entry(record).State = EntityState.Modified;
-										}
-										_context.SaveChanges();
+										discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
 									}
+									var sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNumber));
+									var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+																				apr.AcademicPlanId == model.Id &&
+																				apr.DisciplineId == discipline.Id &&
+																				apr.KindOfLoadId == kindOfLoad.Id &&
+																				apr.Semester == sem &&
+																				!apr.IsDeleted);
+									if (record == null)
+									{
+										_context.AcademicPlanRecords.Add(new AcademicPlanRecord
+										{
+											AcademicPlanId = model.Id,
+											DisciplineId = discipline.Id,
+											KindOfLoadId = kindOfLoad.Id,
+											Semester = sem,
+											Hours = 1,
+											DateCreate = DateTime.Now,
+											IsDeleted = false
+										});
+									}
+									else
+									{
+										record.Hours = 1;
+										_context.Entry(record).State = EntityState.Modified;
+									}
+									_context.SaveChanges();
 								}
 							}
 						}
@@ -693,7 +701,7 @@ namespace DepartmentService.Services
 				}
 
 				XmlNode semesterNode = model.Node.SelectSingleNode("Семестр");
-				if (semesterNode.Value == null)
+				if (semesterNode == null)
 				{
 					model.Result.AddError("Not_Found", string.Format("Не найден тег семестр. Практика {0}",
 						disciplineAttributes.Value));
@@ -706,7 +714,7 @@ namespace DepartmentService.Services
 						disciplineAttributes.Value));
 					return;
 				}
-				XmlNode weekNumNode = semNode.Attributes.GetNamedItem("ПланНед");
+				XmlNode weekNumNode = semesterNode.Attributes.GetNamedItem("ПланНед");
 				if (weekNumNode == null)
 				{
 					model.Result.AddError("Not_Found", string.Format("Не найдено количество недель. Практика {0}",
