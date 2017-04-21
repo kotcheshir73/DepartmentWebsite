@@ -287,5 +287,12 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+		private void loadDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.LoadDistribution.LoadDistributionControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 	}
 }

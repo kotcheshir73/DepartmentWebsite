@@ -243,8 +243,9 @@ namespace DepartmentService.Services
 						List<Semesters> semesters = new List<Semesters>();
 						foreach(var course in courses)
 						{
-							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32((int)course * 2 - 1)));
-							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32((int)course * 2)));
+							int courseInt = (int)Math.Log((double)course, 2) + 1;
+							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
+							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
 						}
 						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id && semesters.Contains(apr.Semester));
 						if(apRecords.Count() == 0)

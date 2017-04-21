@@ -51,8 +51,9 @@
 			this.academicYearsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contingentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.timeNormsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.расчетШтатовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.disciplineBlockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.disciplineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleStudentGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleStudentGroupSemesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +69,6 @@
 			this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleStopWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.disciplineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -126,7 +126,7 @@
             this.streamingLessonsToolStripMenuItem,
             this.studentsToolStripMenuItem,
             this.academicPlansAndOtherToolStripMenuItem,
-            this.расчетШтатовToolStripMenuItem,
+            this.loadDistributionToolStripMenuItem,
             this.disciplineBlockToolStripMenuItem,
             this.disciplineToolStripMenuItem});
 			this.educationalProcessToolStripMenuItem.Name = "educationalProcessToolStripMenuItem";
@@ -261,11 +261,12 @@
 			this.timeNormsToolStripMenuItem.Text = "Нормы времени";
 			this.timeNormsToolStripMenuItem.Click += new System.EventHandler(this.timeNormsToolStripMenuItem_Click);
 			// 
-			// расчетШтатовToolStripMenuItem
+			// loadDistributionToolStripMenuItem
 			// 
-			this.расчетШтатовToolStripMenuItem.Name = "расчетШтатовToolStripMenuItem";
-			this.расчетШтатовToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.расчетШтатовToolStripMenuItem.Text = "Расчет штатов";
+			this.loadDistributionToolStripMenuItem.Name = "loadDistributionToolStripMenuItem";
+			this.loadDistributionToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.loadDistributionToolStripMenuItem.Text = "Расчет штатов";
+			this.loadDistributionToolStripMenuItem.Click += new System.EventHandler(this.loadDistributionToolStripMenuItem_Click);
 			// 
 			// disciplineBlockToolStripMenuItem
 			// 
@@ -273,6 +274,13 @@
 			this.disciplineBlockToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.disciplineBlockToolStripMenuItem.Text = "Блоки дисциплин";
 			this.disciplineBlockToolStripMenuItem.Click += new System.EventHandler(this.disciplineBlockToolStripMenuItem_Click);
+			// 
+			// disciplineToolStripMenuItem
+			// 
+			this.disciplineToolStripMenuItem.Name = "disciplineToolStripMenuItem";
+			this.disciplineToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.disciplineToolStripMenuItem.Text = "Дисциплины";
+			this.disciplineToolStripMenuItem.Click += new System.EventHandler(this.disciplineToolStripMenuItem_Click);
 			// 
 			// scheduleToolStripMenuItem
 			// 
@@ -391,13 +399,6 @@
 			this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
 			this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.scheduleLessonTimeToolStripMenuItem_Click);
 			// 
-			// disciplineToolStripMenuItem
-			// 
-			this.disciplineToolStripMenuItem.Name = "disciplineToolStripMenuItem";
-			this.disciplineToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.disciplineToolStripMenuItem.Text = "Дисциплины";
-			this.disciplineToolStripMenuItem.Click += new System.EventHandler(this.disciplineToolStripMenuItem_Click);
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,7 +457,7 @@
 		private System.Windows.Forms.ToolStripMenuItem contingentsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem timeNormsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem lecturerToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem расчетШтатовToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem loadDistributionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem disciplineBlockToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem disciplineToolStripMenuItem;
 	}
