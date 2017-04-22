@@ -69,7 +69,10 @@ namespace DepartmentService.Services
 					ModelFactory.CreateLoadDistributionRecords(_context.LoadDistributionRecords
 					.Where(e => e.LoadDistributionId == model.LoadDistributionId.Value)
 						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
-						.Include(e => e.AcademicPlanRecord.Discipline).Include(e => e.AcademicPlanRecord.KindOfLoad)
+						.Include(e => e.AcademicPlanRecord.AcademicPlan.EducationDirection)
+						.Include(e => e.AcademicPlanRecord.Discipline)
+						.Include(e => e.AcademicPlanRecord.Discipline.DisciplineBlock)
+						.Include(e => e.AcademicPlanRecord.KindOfLoad)
 						.Include(e => e.Contingent.AcademicYear).Include(e => e.Contingent.StudentGroup)
 						.Include(e => e.TimeNorm.KindOfLoad)
 							.Where(e => /*(int)e.AcademicPlanRecord.Semester % 2 == model.SemesterTime && */!e.IsDeleted))

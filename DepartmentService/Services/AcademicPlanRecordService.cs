@@ -360,13 +360,22 @@ namespace DepartmentService.Services
 														}
 														break;
 													case "Зач"://Зачет
-													case "ЗачО"://Зачет с оценкой
 														{
 															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
 															kl.KindOfLoadName.Contains("Зачет"));
 															if (kindOfLoad == null)
 															{
 																result.AddError("Not_Found", string.Format("Вид нагрузки 'Зачет' не найден"));
+															}
+														}
+														break;
+													case "ЗачО"://Зачет с оценкой
+														{
+															kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
+															kl.KindOfLoadName.Contains("Зачет с оценкой"));
+															if (kindOfLoad == null)
+															{
+																result.AddError("Not_Found", string.Format("Вид нагрузки 'Зачет с оценкой' не найден"));
 															}
 														}
 														break;
