@@ -15,7 +15,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private long _ldId;
 
-		private bool _showTimeNorms = false;
+		private bool _showTimeNorms = true;
 
 		private int _countTimeNormColumns;
 
@@ -39,7 +39,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
-				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 100, Visible = true },
+				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 50, Visible = true },
 				new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
 				new ColumnConfig { Name = "Title", Title = "Название", Width = 150, Visible = true }
 			};
@@ -64,6 +64,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 					});
 				}
 			}
+			columns.Add(new ColumnConfig
+			{
+				Name = "Itog",
+				Title = "Итого",
+				Width = 50,
+				Visible = true
+			});
 			foreach (var lecture in resultL.Result)
 			{
 				columns.Add(new ColumnConfig
@@ -156,7 +163,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						}
 						columnIndex += _countTimeNormColumns;
 					}
-					dataGridViewList.Rows[index].Cells[columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
+					dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
 				}
 			}
 		}

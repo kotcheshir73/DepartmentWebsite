@@ -1,34 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
-using DepartmentService.BindingModels;
-using System.Collections.Generic;
 using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 {
-	public partial class AcademicPlanControl : UserControl
+	public partial class LoadDistributionControl : UserControl
 	{
-		private readonly IAcademicPlanService _service;
+		private readonly ILoadDistributionService _service;
 
-		private readonly IAcademicPlanRecordService _serviceAPR;
+		private readonly ILoadDistributionRecordService _serviceLDR;
 
-		public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR)
+		public LoadDistributionControl(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceAPR = serviceAPR;
+			_serviceLDR = serviceLDR;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
-				new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 100, Visible = true },
-				new ColumnConfig { Name = "AcademicLevel", Title = "Уровень", Width = 150, Visible = true },
-				new ColumnConfig { Name = "AcademicCourses", Title = "Курсы", Width = 150, Visible = true }
+				new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 100, Visible = true }
 			};
 			dataGridViewList.Columns.Clear();
-			foreach(var column in columns)
+			foreach (var column in columns)
 			{
 				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
 				{
@@ -49,7 +52,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadRecords()
 		{
-			var result = _service.GetAcademicPlans();
+			var result = _service.GetLoadDistributions();
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -58,19 +61,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			dataGridViewList.Rows.Clear();
 			foreach (var res in result.Result)
 			{
-				dataGridViewList.Rows.Add(				
+				dataGridViewList.Rows.Add(
 					res.Id,
-					res.EducationDirection,
-					res.AcademicYear,
-					res.AcademicLevel,
-					res.AcademicCoursesStrings
+					res.AcademicYear
 				);
 			}
 		}
 
 		private void AddRecord()
 		{
-			var form = new AcademicPlanForm(_service, _serviceAPR);
+			var form = new LoadDistributionForm(_service, _serviceLDR);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadRecords();
@@ -82,7 +82,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-				var form = new AcademicPlanForm(_service, _serviceAPR, id);
+				var form = new LoadDistributionForm(_service, _serviceLDR, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();
@@ -99,7 +99,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
 					{
 						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteAcademicPlan(new AcademicPlanGetBindingModel { Id = id });
+						var result = _service.DeleteLoadDistribution(new LoadDistributionGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -132,7 +132,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
 		{
-			switch(e.KeyCode)
+			switch (e.KeyCode)
 			{
 				case Keys.Insert:
 					AddRecord();

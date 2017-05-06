@@ -27,11 +27,11 @@
 
 		public long ContingentId { get; set; }
 
-		public ContingentViewModel ContingentViewModel { get; set; }
+		//public ContingentViewModel ContingentViewModel { get; set; }
 
 		public long TimeNormId { get; set; }
 
-		public TimeNormViewModel TimeNormViewModel { get; set; }
+	//	public TimeNormViewModel TimeNormViewModel { get; set; }
 
 		public int SemesterNumber { get; set; }
 

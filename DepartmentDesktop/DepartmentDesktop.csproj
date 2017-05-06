@@ -201,6 +201,12 @@
     <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.Designer.cs">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionControl.Designer.cs">
+      <DependentUpon>LoadDistributionControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -535,6 +541,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionControl.resx">
+      <DependentUpon>LoadDistributionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LoadDistribution\LoadDistributionForm.resx">
       <DependentUpon>LoadDistributionForm.cs</DependentUpon>

@@ -69,7 +69,10 @@ namespace DepartmentService.Services
 					ModelFactory.CreateLoadDistributionRecords(_context.LoadDistributionRecords
 					.Where(e => e.LoadDistributionId == model.LoadDistributionId.Value)
 						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
-						.Include(e => e.AcademicPlanRecord.Discipline).Include(e => e.AcademicPlanRecord.KindOfLoad)
+						.Include(e => e.AcademicPlanRecord.AcademicPlan.EducationDirection)
+						.Include(e => e.AcademicPlanRecord.Discipline)
+						.Include(e => e.AcademicPlanRecord.Discipline.DisciplineBlock)
+						.Include(e => e.AcademicPlanRecord.KindOfLoad)
 						.Include(e => e.Contingent.AcademicYear).Include(e => e.Contingent.StudentGroup)
 						.Include(e => e.TimeNorm.KindOfLoad)
 							.Where(e => /*(int)e.AcademicPlanRecord.Semester % 2 == model.SemesterTime && */!e.IsDeleted))
@@ -240,7 +243,14 @@ namespace DepartmentService.Services
 						{
 							continue;
 						}
-						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id);
+						List<Semesters> semesters = new List<Semesters>();
+						foreach(var course in courses)
+						{
+							int courseInt = (int)Math.Log((double)course, 2) + 1;
+							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
+							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
+						}
+						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id && semesters.Contains(apr.Semester));
 						if(apRecords.Count() == 0)
 						{
 							transaction.Rollback();
