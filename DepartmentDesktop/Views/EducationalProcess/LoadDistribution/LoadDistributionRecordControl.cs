@@ -163,7 +163,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void MakeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var result = _service.MakeLoadDistribution(new LoadDistributionRecordGetBindingModel { LoadDistributionId = _ldId });
+			var result = _service.MakeLoadDistribution(new LoadDistributionGetBindingModel { Id = _ldId });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При формировании возникла ошибка: ", result.Errors);

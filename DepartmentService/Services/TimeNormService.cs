@@ -114,6 +114,7 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
+				entity.Title = model.Title;
 				entity.KindOfLoadId = model.KindOfLoadId;
 				entity.Formula = model.Formula;
 				entity.Hours = model.Hours;

@@ -76,6 +76,6 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService MakeLoadDistribution(LoadDistributionRecordGetBindingModel model);
+		ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model);
 	}
 }
