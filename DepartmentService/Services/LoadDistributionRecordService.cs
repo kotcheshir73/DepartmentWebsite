@@ -204,13 +204,13 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService MakeLoadDistribution(LoadDistributionRecordGetBindingModel model)
+		public ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model)
 		{
 			using (var transaction = _context.Database.BeginTransaction())
 			{
 				try
 				{
-					var academicYearId = _context.LoadDistributions.FirstOrDefault(ld => ld.Id == model.LoadDistributionId.Value).AcademicYearId;
+					var academicYearId = _context.LoadDistributions.FirstOrDefault(ld => ld.Id == model.Id).AcademicYearId;
 					var academicPlans = _context.AcademicPlans.Where(ap => ap.AcademicYearId == academicYearId);
 					foreach(var academicPlan in academicPlans)
 					{//получаем список учебных планов за нужный учебный год
@@ -297,7 +297,7 @@ namespace DepartmentService.Services
 												load = apRecord.Hours * timeNorm.Hours * contingent.CountStudetns;
 												break;
 										}
-										var record = _context.LoadDistributionRecords.FirstOrDefault(ldr => ldr.LoadDistributionId == model.LoadDistributionId.Value
+										var record = _context.LoadDistributionRecords.FirstOrDefault(ldr => ldr.LoadDistributionId == model.Id
 										&& ldr.AcademicPlanRecordId == apRecord.Id 
 										&& ldr.TimeNormId == timeNorm.Id
 										&& ldr.ContingentId == contingent.Id);
@@ -306,7 +306,7 @@ namespace DepartmentService.Services
 										{
 											result = CreateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 											{
-												LoadDistributionId = model.LoadDistributionId.Value,
+												LoadDistributionId = model.Id,
 												AcademicPlanRecordId = apRecord.Id,
 												TimeNormId = timeNorm.Id,
 												ContingentId = contingent.Id,
@@ -317,7 +317,7 @@ namespace DepartmentService.Services
 										{
 											result = UpdateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 											{
-												LoadDistributionId = model.LoadDistributionId.Value,
+												LoadDistributionId = model.Id,
 												AcademicPlanRecordId = apRecord.Id,
 												TimeNormId = timeNorm.Id,
 												ContingentId = contingent.Id,
