@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL;
+using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -41,6 +42,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			comboBoxKindOfLoad.DataSource = resultKL.Result
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
 			comboBoxKindOfLoad.SelectedItem = null;
+
+			comboBoxSelectKindOfLoad.ValueMember = "Value";
+			comboBoxSelectKindOfLoad.DisplayMember = "Display";
+			comboBoxSelectKindOfLoad.DataSource = resultKL.Result
+				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
+			comboBoxSelectKindOfLoad.SelectedItem = null;
+
+			foreach (var elem in Enum.GetValues(typeof(KindOfLoadType)))
+			{
+				comboBoxSelectKindOfLoadType.Items.Add(elem);
+			}
+			comboBoxSelectKindOfLoadType.SelectedIndex = 0;
 
 			if (_id != 0)
 			{

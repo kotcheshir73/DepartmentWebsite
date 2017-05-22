@@ -32,20 +32,24 @@
 			this.labelKindOfLoad = new System.Windows.Forms.Label();
 			this.labelTitle = new System.Windows.Forms.Label();
 			this.textBoxTitle = new System.Windows.Forms.TextBox();
-			this.textBoxHours = new System.Windows.Forms.TextBox();
-			this.labelHours = new System.Windows.Forms.Label();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonSaveAndClose = new System.Windows.Forms.Button();
 			this.labelFormula = new System.Windows.Forms.Label();
 			this.textBoxFormula = new System.Windows.Forms.TextBox();
+			this.labelSelectKindOfLoad = new System.Windows.Forms.Label();
+			this.comboBoxSelectKindOfLoad = new System.Windows.Forms.ComboBox();
+			this.labelSelectKindOfLoadType = new System.Windows.Forms.Label();
+			this.comboBoxSelectKindOfLoadType = new System.Windows.Forms.ComboBox();
+			this.labelHours = new System.Windows.Forms.Label();
+			this.textBoxHours = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// comboBoxKindOfLoad
 			// 
 			this.comboBoxKindOfLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxKindOfLoad.FormattingEnabled = true;
-			this.comboBoxKindOfLoad.Location = new System.Drawing.Point(102, 6);
+			this.comboBoxKindOfLoad.Location = new System.Drawing.Point(176, 6);
 			this.comboBoxKindOfLoad.Name = "comboBoxKindOfLoad";
 			this.comboBoxKindOfLoad.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxKindOfLoad.TabIndex = 1;
@@ -53,16 +57,16 @@
 			// labelKindOfLoad
 			// 
 			this.labelKindOfLoad.AutoSize = true;
-			this.labelKindOfLoad.Location = new System.Drawing.Point(12, 9);
+			this.labelKindOfLoad.Location = new System.Drawing.Point(19, 9);
 			this.labelKindOfLoad.Name = "labelKindOfLoad";
-			this.labelKindOfLoad.Size = new System.Drawing.Size(82, 13);
+			this.labelKindOfLoad.Size = new System.Drawing.Size(153, 13);
 			this.labelKindOfLoad.TabIndex = 0;
-			this.labelKindOfLoad.Text = "Вид нагрузки*:";
+			this.labelKindOfLoad.Text = "Привязать к виду нагрузки*:";
 			// 
 			// labelTitle
 			// 
 			this.labelTitle.AutoSize = true;
-			this.labelTitle.Location = new System.Drawing.Point(12, 36);
+			this.labelTitle.Location = new System.Drawing.Point(108, 36);
 			this.labelTitle.Name = "labelTitle";
 			this.labelTitle.Size = new System.Drawing.Size(64, 13);
 			this.labelTitle.TabIndex = 2;
@@ -70,30 +74,14 @@
 			// 
 			// textBoxTitle
 			// 
-			this.textBoxTitle.Location = new System.Drawing.Point(102, 33);
+			this.textBoxTitle.Location = new System.Drawing.Point(176, 33);
 			this.textBoxTitle.Name = "textBoxTitle";
 			this.textBoxTitle.Size = new System.Drawing.Size(220, 20);
 			this.textBoxTitle.TabIndex = 3;
 			// 
-			// textBoxHours
-			// 
-			this.textBoxHours.Location = new System.Drawing.Point(102, 85);
-			this.textBoxHours.Name = "textBoxHours";
-			this.textBoxHours.Size = new System.Drawing.Size(220, 20);
-			this.textBoxHours.TabIndex = 7;
-			// 
-			// labelHours
-			// 
-			this.labelHours.AutoSize = true;
-			this.labelHours.Location = new System.Drawing.Point(12, 88);
-			this.labelHours.Name = "labelHours";
-			this.labelHours.Size = new System.Drawing.Size(42, 13);
-			this.labelHours.TabIndex = 6;
-			this.labelHours.Text = "Часы*:";
-			// 
 			// buttonClose
 			// 
-			this.buttonClose.Location = new System.Drawing.Point(247, 111);
+			this.buttonClose.Location = new System.Drawing.Point(311, 177);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
 			this.buttonClose.TabIndex = 14;
@@ -103,7 +91,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(19, 111);
+			this.buttonSave.Location = new System.Drawing.Point(83, 177);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(75, 23);
 			this.buttonSave.TabIndex = 12;
@@ -113,7 +101,7 @@
 			// 
 			// buttonSaveAndClose
 			// 
-			this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 111);
+			this.buttonSaveAndClose.Location = new System.Drawing.Point(164, 177);
 			this.buttonSaveAndClose.Name = "buttonSaveAndClose";
 			this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
 			this.buttonSaveAndClose.TabIndex = 13;
@@ -124,7 +112,7 @@
 			// labelFormula
 			// 
 			this.labelFormula.AutoSize = true;
-			this.labelFormula.Location = new System.Drawing.Point(12, 62);
+			this.labelFormula.Location = new System.Drawing.Point(108, 62);
 			this.labelFormula.Name = "labelFormula";
 			this.labelFormula.Size = new System.Drawing.Size(62, 13);
 			this.labelFormula.TabIndex = 4;
@@ -132,23 +120,79 @@
 			// 
 			// textBoxFormula
 			// 
-			this.textBoxFormula.Location = new System.Drawing.Point(102, 59);
+			this.textBoxFormula.Location = new System.Drawing.Point(176, 59);
 			this.textBoxFormula.Name = "textBoxFormula";
 			this.textBoxFormula.Size = new System.Drawing.Size(220, 20);
 			this.textBoxFormula.TabIndex = 5;
+			// 
+			// labelSelectKindOfLoad
+			// 
+			this.labelSelectKindOfLoad.AutoSize = true;
+			this.labelSelectKindOfLoad.Location = new System.Drawing.Point(12, 88);
+			this.labelSelectKindOfLoad.Name = "labelSelectKindOfLoad";
+			this.labelSelectKindOfLoad.Size = new System.Drawing.Size(158, 13);
+			this.labelSelectKindOfLoad.TabIndex = 6;
+			this.labelSelectKindOfLoad.Text = "Выбрать нагрузку в формулу:";
+			// 
+			// comboBoxSelectKindOfLoad
+			// 
+			this.comboBoxSelectKindOfLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxSelectKindOfLoad.FormattingEnabled = true;
+			this.comboBoxSelectKindOfLoad.Location = new System.Drawing.Point(176, 85);
+			this.comboBoxSelectKindOfLoad.Name = "comboBoxSelectKindOfLoad";
+			this.comboBoxSelectKindOfLoad.Size = new System.Drawing.Size(220, 21);
+			this.comboBoxSelectKindOfLoad.TabIndex = 7;
+			// 
+			// labelSelectKindOfLoadType
+			// 
+			this.labelSelectKindOfLoadType.AutoSize = true;
+			this.labelSelectKindOfLoadType.Location = new System.Drawing.Point(47, 141);
+			this.labelSelectKindOfLoadType.Name = "labelSelectKindOfLoadType";
+			this.labelSelectKindOfLoadType.Size = new System.Drawing.Size(123, 13);
+			this.labelSelectKindOfLoadType.TabIndex = 10;
+			this.labelSelectKindOfLoadType.Text = "Выбрать тип нагрузки:";
+			// 
+			// comboBoxSelectKindOfLoadType
+			// 
+			this.comboBoxSelectKindOfLoadType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxSelectKindOfLoadType.FormattingEnabled = true;
+			this.comboBoxSelectKindOfLoadType.Location = new System.Drawing.Point(176, 138);
+			this.comboBoxSelectKindOfLoadType.Name = "comboBoxSelectKindOfLoadType";
+			this.comboBoxSelectKindOfLoadType.Size = new System.Drawing.Size(220, 21);
+			this.comboBoxSelectKindOfLoadType.TabIndex = 11;
+			// 
+			// labelHours
+			// 
+			this.labelHours.AutoSize = true;
+			this.labelHours.Location = new System.Drawing.Point(128, 115);
+			this.labelHours.Name = "labelHours";
+			this.labelHours.Size = new System.Drawing.Size(42, 13);
+			this.labelHours.TabIndex = 8;
+			this.labelHours.Text = "Часы*:";
+			// 
+			// textBoxHours
+			// 
+			this.textBoxHours.Location = new System.Drawing.Point(176, 112);
+			this.textBoxHours.Name = "textBoxHours";
+			this.textBoxHours.Size = new System.Drawing.Size(220, 20);
+			this.textBoxHours.TabIndex = 9;
 			// 
 			// TimeNormForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(334, 142);
+			this.ClientSize = new System.Drawing.Size(408, 215);
+			this.Controls.Add(this.textBoxHours);
+			this.Controls.Add(this.labelHours);
+			this.Controls.Add(this.comboBoxSelectKindOfLoadType);
+			this.Controls.Add(this.labelSelectKindOfLoadType);
+			this.Controls.Add(this.comboBoxSelectKindOfLoad);
+			this.Controls.Add(this.labelSelectKindOfLoad);
 			this.Controls.Add(this.textBoxFormula);
 			this.Controls.Add(this.labelFormula);
 			this.Controls.Add(this.buttonSaveAndClose);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.buttonSave);
-			this.Controls.Add(this.textBoxHours);
-			this.Controls.Add(this.labelHours);
 			this.Controls.Add(this.textBoxTitle);
 			this.Controls.Add(this.labelTitle);
 			this.Controls.Add(this.comboBoxKindOfLoad);
@@ -168,12 +212,16 @@
 		private System.Windows.Forms.Label labelKindOfLoad;
 		private System.Windows.Forms.Label labelTitle;
 		private System.Windows.Forms.TextBox textBoxTitle;
-		private System.Windows.Forms.TextBox textBoxHours;
-		private System.Windows.Forms.Label labelHours;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Button buttonSaveAndClose;
 		private System.Windows.Forms.Label labelFormula;
 		private System.Windows.Forms.TextBox textBoxFormula;
+		private System.Windows.Forms.Label labelSelectKindOfLoad;
+		private System.Windows.Forms.ComboBox comboBoxSelectKindOfLoad;
+		private System.Windows.Forms.Label labelSelectKindOfLoadType;
+		private System.Windows.Forms.ComboBox comboBoxSelectKindOfLoadType;
+		private System.Windows.Forms.Label labelHours;
+		private System.Windows.Forms.TextBox textBoxHours;
 	}
 }

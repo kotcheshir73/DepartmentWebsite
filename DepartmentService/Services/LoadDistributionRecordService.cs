@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Text.RegularExpressions;
 
 namespace DepartmentService.Services
 {
@@ -25,7 +26,7 @@ namespace DepartmentService.Services
 
 		private readonly ITimeNormService _serviceTN;
 
-		public LoadDistributionRecordService(DepartmentDbContext context, IAcademicPlanRecordService serviceAPR, IContingentService serviceC, 
+		public LoadDistributionRecordService(DepartmentDbContext context, IAcademicPlanRecordService serviceAPR, IContingentService serviceC,
 			ILecturerService serviceL, ITimeNormService serviceTN)
 		{
 			_context = context;
@@ -56,12 +57,12 @@ namespace DepartmentService.Services
 			return _serviceTN.GetTimeNorms();
 		}
 
-		
+
 		public ResultService<List<LoadDistributionRecordViewModel>> GetLoadDistributionRecords(LoadDistributionRecordGetBindingModel model)
 		{
 			try
 			{
-				if(!model.LoadDistributionId.HasValue)
+				if (!model.LoadDistributionId.HasValue)
 				{
 					throw new Exception("Отсутсвует идентификатор рапределения нагрузок");
 				}
@@ -204,18 +205,18 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService MakeLoadDistribution(LoadDistributionRecordGetBindingModel model)
+		public ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model)
 		{
 			using (var transaction = _context.Database.BeginTransaction())
 			{
 				try
 				{
-					var academicYearId = _context.LoadDistributions.FirstOrDefault(ld => ld.Id == model.LoadDistributionId.Value).AcademicYearId;
+					var academicYearId = _context.LoadDistributions.FirstOrDefault(ld => ld.Id == model.Id).AcademicYearId;
 					var academicPlans = _context.AcademicPlans.Where(ap => ap.AcademicYearId == academicYearId);
-					foreach(var academicPlan in academicPlans)
+					foreach (var academicPlan in academicPlans)
 					{//получаем список учебных планов за нужный учебный год
 						List<AcademicCourse> courses = new List<AcademicCourse>();
-						if((academicPlan.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
+						if ((academicPlan.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
 						{
 							courses.Add(AcademicCourse.Course_1);
 						}
@@ -239,66 +240,99 @@ namespace DepartmentService.Services
 						{
 							courses.Add(AcademicCourse.Course_6);
 						}
-						if(courses.Count == 0)
+						if (courses.Count == 0)
 						{
 							continue;
 						}
 						List<Semesters> semesters = new List<Semesters>();
-						foreach(var course in courses)
+						foreach (var course in courses)
 						{
 							int courseInt = (int)Math.Log((double)course, 2) + 1;
 							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
 							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
 						}
 						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id && semesters.Contains(apr.Semester));
-						if(apRecords.Count() == 0)
+						if (apRecords.Count() == 0)
 						{
 							transaction.Rollback();
-							return ResultService.Error("not_found", string.Format("Для одного из учебных планов отсуствуют записи"), 
+							return ResultService.Error("not_found", string.Format("Для одного из учебных планов отсуствуют записи"),
 								ResultServiceStatusCode.NotFound);
 						}
-						foreach(var apRecord in apRecords)
+						//var timeNorms = _context.TimeNorms;
+						//foreach (var timeNorm in timeNorms)
+						//{// для каждой нормы времени
+						// извлекаем из формулы слагаемые.
+						// ожидаем вид: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
+						//	decimal load = 0;
+						//	#region
+
+						//	#endregion
+						//	}
+
+						foreach (var apRecord in apRecords)
 						{//идем по записям учебного плана
 							var timeNorms = _context.TimeNorms.Where(tn => tn.KindOfLoadId == apRecord.KindOfLoadId);
-							if(timeNorms.Count() == 0)
+							if (timeNorms.Count() == 0)
 							{
 								transaction.Rollback();
 								return ResultService.Error("not_found", string.Format("Для вида нагрузок {0} отсуствуют нормы времени",
 									_context.KindOfLoads.Single(kl => kl.Id == apRecord.KindOfLoadId).KindOfLoadName), ResultServiceStatusCode.NotFound);
 							}
-							foreach(var timeNorm in timeNorms)
+							foreach (var timeNorm in timeNorms)
 							{//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
 							 //их может быть от 1 до нескольких, на каждую нужно создать запись
+							 // ищем схему: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
+								decimal load = 0;
+								var match = Regex.Match(timeNorm.Formula, @"*[\d\,]+($|"")");
+								// для начала получаем число
+								if (match.Success)
+								{
+									load = Convert.ToDecimal(Regex.Match(match.Value, @"[\d\,]+").Value);
+								}
+								match = Regex.Match(timeNorm.Formula, @"\[[\w\ ]+\]");
+								if (match.Success)
+								{// ищем вид нагрузки, если он там есть
+									var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(Regex.Match(match.Value, @"[\w\ ]+").Value));
+									if (apR != null)
+									{
+										load *= apR.Hours;
+									}
+								}
 								foreach (var course in courses)
 								{//для всех курсов, входящих в учебный план ищем записи по контингенту
 									var contingents = _context.Contingents.Include(c => c.StudentGroup).Where(c => c.StudentGroup.Course == course &&
 									c.StudentGroup.EducationDirectionId == academicPlan.EducationDirectionId);
-									if(contingents.Count() == 0)
+									if (contingents.Count() == 0)
 									{
 										transaction.Rollback();
 										return ResultService.Error("not_found", string.Format("Для курса {0} отсуствуют записи по контингенту",
 											Math.Log((int)course, 2) + 1), ResultServiceStatusCode.NotFound);
 									}
-									foreach(var contingent in contingents)
+									foreach (var contingent in contingents)
 									{//для каждой найденной записи по контингенту, формируем запись по учебной нагрузки
-										decimal load = 0;
-										switch(apRecord.KindOfLoad.KindOfLoadType)
+									 // если требуется учесть студентов или группу
+										match = Regex.Match(timeNorm.Formula, @"""[\w\ ]+""");
+										if (match.Success)
 										{
-											case KindOfLoadType.Группа:
-												//Расчет времени по группе: берем время, указанное в учебнном плане, умножаем на время, указаное в нормах времени и на 1, так как 1 группа
-												load = apRecord.Hours * timeNorm.Hours * 1;
-												break;
-											case KindOfLoadType.Подгруппа:
-												//Расчет времени по группе: берем время, указанное в учебнном плане, умножаем на время, указаное в нормах времени и на количество подгрупп
-												load = apRecord.Hours * timeNorm.Hours * contingent.CountSubgroups;
-												break;
-											case KindOfLoadType.Студенты:
-												//Расчет времени по группе: берем время, указанное в учебнном плане, умножаем на время, указаное в нормах времени и на количество студентов
-												load = apRecord.Hours * timeNorm.Hours * contingent.CountStudetns;
-												break;
+											var type = Regex.Match(match.Value, @"[\w\ ]+").Value;
+											switch (type)
+											{
+												case "Группа":
+													//Расчет времени по группе: берем время, указанное в учебнном плане, умножаем на время, указаное в нормах времени и на 1, так как 1 группа
+													load *= 1;
+													break;
+												case "Подгруппа":
+													//Расчет времени по группе: берем время, указанное в учебнном плане, умножаем на время, указаное в нормах времени и на количество подгрупп
+													load *= contingent.CountSubgroups;
+													break;
+												case "Студенты":
+													//Расчет времени по группе: берем время, указанное в учебнном плане, умножаем на время, указаное в нормах времени и на количество студентов
+													load *= contingent.CountStudetns;
+													break;
+											}
 										}
-										var record = _context.LoadDistributionRecords.FirstOrDefault(ldr => ldr.LoadDistributionId == model.LoadDistributionId.Value
-										&& ldr.AcademicPlanRecordId == apRecord.Id 
+										var record = _context.LoadDistributionRecords.FirstOrDefault(ldr => ldr.LoadDistributionId == model.Id
+										&& ldr.AcademicPlanRecordId == apRecord.Id
 										&& ldr.TimeNormId == timeNorm.Id
 										&& ldr.ContingentId == contingent.Id);
 										ResultService result = null;
@@ -306,7 +340,7 @@ namespace DepartmentService.Services
 										{
 											result = CreateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 											{
-												LoadDistributionId = model.LoadDistributionId.Value,
+												LoadDistributionId = model.Id,
 												AcademicPlanRecordId = apRecord.Id,
 												TimeNormId = timeNorm.Id,
 												ContingentId = contingent.Id,
@@ -317,14 +351,14 @@ namespace DepartmentService.Services
 										{
 											result = UpdateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 											{
-												LoadDistributionId = model.LoadDistributionId.Value,
+												LoadDistributionId = model.Id,
 												AcademicPlanRecordId = apRecord.Id,
 												TimeNormId = timeNorm.Id,
 												ContingentId = contingent.Id,
 												Load = load
 											});
 										}
-										if(!result.Succeeded)
+										if (!result.Succeeded)
 										{
 											transaction.Rollback();
 											return result;
