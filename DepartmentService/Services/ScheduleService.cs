@@ -1590,17 +1590,19 @@ namespace DepartmentService.Services
 				var currentDates = resultCurrentDates.Result;
 
 				var excel = new Application();
-				try
+				using (var transaction = _context.Database.BeginTransaction())
 				{
-					var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-						Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-
-					var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
-					var excelcell = excelworksheet.get_Range("A2", "A2");
-
-					while (true)
+					try
 					{
-						if (excelcell.Value2 != null)
+						var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+							Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+						var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
+						var excelcell = excelworksheet.get_Range("A2", "A2");
+
+						//while (true)
+						//{
+						while (excelcell.Value2 != null)
 						{
 							DateTime dateOffset = Convert.ToDateTime(excelcell.Value2);
 
@@ -1610,11 +1612,11 @@ namespace DepartmentService.Services
 							string studentGroupName = excelcell.get_Offset(0, 1).Value2;
 							string disciplineName = excelcell.get_Offset(0, 2).Value2;
 							string lecturerName = excelcell.get_Offset(0, 3).Value2;
-							string classroomId = excelcell.get_Offset(0, 4).Value2;
+							string classroomId = Convert.ToString(excelcell.get_Offset(0, 4).Value2);
 
 							var classroom = _context.Classrooms.FirstOrDefault(c => c.Id.Contains(classroomId));
 
-							var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName.Contains(lecturerName));
+							var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lecturerName);
 
 							var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
 
@@ -1644,12 +1646,12 @@ namespace DepartmentService.Services
 							//        }
 							//    }
 							//}
-							Nullable<long> lecturerId = null;
+							long? lecturerId = null;
 							if (lecturer != null)
 							{
 								lecturerId = lecturer.Id;
 							}
-							Nullable<long> studentGroupId = null;
+							long? studentGroupId = null;
 							if (group != null)
 							{
 								studentGroupId = group.Id;
@@ -1675,12 +1677,16 @@ namespace DepartmentService.Services
 							}
 							excelcell = excelcell.get_Offset(1, 0);
 						}
+						transaction.Commit();
+						return ResultService.Success();
+						//}
 					}
-				}
-				catch (Exception)
-				{
-					excel.Quit();
-					throw;
+					catch (Exception)
+					{
+						transaction.Rollback();
+						excel.Quit();
+						throw;
+					}
 				}
 			}
 			catch (Exception ex)
@@ -1702,25 +1708,26 @@ namespace DepartmentService.Services
 				var currentDates = resultCurrentDates.Result;
 
 				var excel = new Application();
-				try
+
+				using (var transaction = _context.Database.BeginTransaction())
 				{
-					var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-						Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-
-					var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
-					var excelcell = excelworksheet.get_Range("A2", "A2");
-
-					while (true)
+					try
 					{
-						if (excelcell.Value2 != null)
+						var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+							Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+						var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
+						var excelcell = excelworksheet.get_Range("A2", "A2");
+
+						while (excelcell.Value2 != null)
 						{
 							DateTime dateConsult = Convert.ToDateTime(excelcell.Value2);
 							DateTime dateExam = Convert.ToDateTime(excelcell.get_Offset(0, 1).Value2);
 
-							string studentGroupName = excelcell.get_Offset(0, 1).Value2;
-							string disciplineName = excelcell.get_Offset(0, 2).Value2;
-							string lecturerName = excelcell.get_Offset(0, 3).Value2;
-							string classroomId = excelcell.get_Offset(0, 4).Value2;
+							string studentGroupName = excelcell.get_Offset(0, 2).Value2;
+							string disciplineName = excelcell.get_Offset(0, 3).Value2;
+							string lecturerName = excelcell.get_Offset(0, 4).Value2;
+							string classroomId = excelcell.get_Offset(0, 5).Value2;
 
 							var classroom = _context.Classrooms.FirstOrDefault(c => c.Id.Contains(classroomId));
 
@@ -1728,12 +1735,12 @@ namespace DepartmentService.Services
 
 							var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
 
-							Nullable<long> lecturerId = null;
+							long? lecturerId = null;
 							if (lecturer != null)
 							{
 								lecturerId = lecturer.Id;
 							}
-							Nullable<long> studentGroupId = null;
+							long? studentGroupId = null;
 							if (group != null)
 							{
 								studentGroupId = group.Id;
@@ -1758,12 +1765,15 @@ namespace DepartmentService.Services
 							}
 							excelcell = excelcell.get_Offset(1, 0);
 						}
+						transaction.Commit();
+						return ResultService.Success();
 					}
-				}
-				catch (Exception)
-				{
-					excel.Quit();
-					throw;
+					catch (Exception)
+					{
+						transaction.Rollback();
+						excel.Quit();
+						throw;
+					}
 				}
 			}
 			catch (Exception ex)

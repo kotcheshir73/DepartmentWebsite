@@ -6,6 +6,7 @@ using DepartmentService.ViewModels;
 using DepartmentService.BindingModels;
 using DepartmentDAL;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
@@ -25,7 +26,15 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private Color _consultationColor = Color.Green;
 
-        public ScheduleExaminationClassroomControl(IScheduleService service, IExaminationRecordService serviceER,
+		private KeyValuePair<DateTime, int> _consultFirstIndex;
+
+		private KeyValuePair<DateTime, int> _consultSecondIndex;
+
+		private KeyValuePair<DateTime, int> _examFirstIndex;
+
+		private KeyValuePair<DateTime, int> _examSecondIndex;
+
+		public ScheduleExaminationClassroomControl(IScheduleService service, IExaminationRecordService serviceER,
             IConsultationRecordService serviceCR)
         {
             InitializeComponent();
@@ -50,7 +59,23 @@ namespace DepartmentDesktop.Views.Services.Schedule
             {
                 for (int i = 0; i < lessons.Count; ++i)
                 {
-                    dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+					if(lessons[i].Text.Contains("Утренний"))
+					{
+						_examFirstIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+					}
+					if (lessons[i].Text.Contains("Дневной"))
+					{
+						_examSecondIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+					}
+					if (lessons[i].Text.Contains("Первая"))
+					{
+						_consultFirstIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+					}
+					if (lessons[i].Text.Contains("Вторая"))
+					{
+						_consultSecondIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+					}
+					dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
                 }
             }
         }
@@ -101,30 +126,32 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				var list = result.Result;
                 foreach (var record in list)
                 {
-                    if ((record.DateConsultation - dateBeginExamination).Days > -1 && (record.DateConsultation - dateBeginExamination).Days <= days)
+					int daysCons = (record.DateConsultation - dateBeginExamination).Days;
+					if (daysCons > -1 && daysCons <= days)
                     {
-                        if (record.DateConsultation.Hour == 16)
+                        if (record.DateConsultation.Hour == _consultFirstIndex.Key.Hour)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateConsultation - dateBeginExamination).Days].Cells[5].Value = record.Text;
-                            dataGridViewFirstWeek.Rows[(record.DateConsultation - dateBeginExamination).Days].Cells[5].Tag = record.Id;
+                            dataGridViewFirstWeek.Rows[daysCons].Cells[_consultFirstIndex.Value].Value = record.Text;
+                            dataGridViewFirstWeek.Rows[daysCons].Cells[_consultFirstIndex.Value].Tag = record.Id;
                         }
-                        else if (record.DateConsultation.Hour == 17)
+                        else if (record.DateConsultation.Hour == _consultSecondIndex.Key.Hour)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateConsultation - dateBeginExamination).Days].Cells[6].Value = record.Text;
-                            dataGridViewFirstWeek.Rows[(record.DateConsultation - dateBeginExamination).Days].Cells[6].Tag = record.Id;
+                            dataGridViewFirstWeek.Rows[daysCons].Cells[_consultSecondIndex.Value].Value = record.Text;
+                            dataGridViewFirstWeek.Rows[daysCons].Cells[_consultSecondIndex.Value].Tag = record.Id;
                         }
-                    }
-                    if ((record.DateExamination - dateBeginExamination).Days > -1 && (record.DateExamination - dateBeginExamination).Days <= days)
+					}
+					int daysExam = (record.DateExamination - dateBeginExamination).Days;
+					if (daysExam > -1 && daysExam <= days)
                     {
-                        if (record.DateExamination.Hour == 8)
+                        if (record.DateExamination.Hour == _examFirstIndex.Key.Hour)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateExamination - dateBeginExamination).Days].Cells[1].Value = record.Text;
-                            dataGridViewFirstWeek.Rows[(record.DateExamination - dateBeginExamination).Days].Cells[1].Tag = record.Id;
+                            dataGridViewFirstWeek.Rows[daysExam].Cells[_examFirstIndex.Value].Value = record.Text;
+                            dataGridViewFirstWeek.Rows[daysExam].Cells[_examFirstIndex.Value].Tag = record.Id;
                         }
-                        else if (record.DateExamination.Hour == 12)
+                        else if (record.DateExamination.Hour == _examSecondIndex.Key.Hour)
                         {
-                            dataGridViewFirstWeek.Rows[(record.DateExamination - dateBeginExamination).Days].Cells[2].Value = record.Text;
-                            dataGridViewFirstWeek.Rows[(record.DateExamination - dateBeginExamination).Days].Cells[2].Tag = record.Id;
+                            dataGridViewFirstWeek.Rows[daysExam].Cells[_examSecondIndex.Value].Value = record.Text;
+                            dataGridViewFirstWeek.Rows[daysExam].Cells[_examSecondIndex.Value].Tag = record.Id;
                         }
                     }
                 }
