@@ -5,6 +5,7 @@ using DepartmentService.IServices;
 using System;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
@@ -53,12 +54,46 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				comboBoxSelectKindOfLoadType.Items.Add(elem);
 			}
-			comboBoxSelectKindOfLoadType.SelectedIndex = 0;
+			comboBoxSelectKindOfLoadType.SelectedIndex = -1;
 
 			if (_id != 0)
 			{
 				LoadData();
 			}
+		}
+
+		private void CreateFormula()
+		{
+			// делаем схему [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
+			StringBuilder formula = new StringBuilder();
+			if(comboBoxSelectKindOfLoad.SelectedItem != null)
+			{
+				formula.Append(string.Format("[{0}]", comboBoxSelectKindOfLoad.Text));
+			}
+			if(!string.IsNullOrEmpty(textBoxHours.Text))
+			{
+				formula.Append(string.Format("*{0}*", textBoxHours.Text));
+			}
+			if(comboBoxSelectKindOfLoadType.SelectedItem != null)
+			{
+				formula.Append(string.Format("\"{0}\"", comboBoxSelectKindOfLoadType.Text));
+			}
+			textBoxFormula.Text = formula.ToString();
+		}
+
+		private void comboBoxSelectKindOfLoad_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CreateFormula();
+		}
+
+		private void comboBoxSelectKindOfLoadType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CreateFormula();
+		}
+
+		private void textBoxHours_Leave(object sender, EventArgs e)
+		{
+			CreateFormula();
 		}
 
 		private void LoadData()

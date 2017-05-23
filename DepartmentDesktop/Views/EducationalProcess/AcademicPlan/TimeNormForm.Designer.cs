@@ -120,6 +120,7 @@
 			// 
 			// textBoxFormula
 			// 
+			this.textBoxFormula.Enabled = false;
 			this.textBoxFormula.Location = new System.Drawing.Point(176, 59);
 			this.textBoxFormula.Name = "textBoxFormula";
 			this.textBoxFormula.Size = new System.Drawing.Size(220, 20);
@@ -142,6 +143,7 @@
 			this.comboBoxSelectKindOfLoad.Name = "comboBoxSelectKindOfLoad";
 			this.comboBoxSelectKindOfLoad.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxSelectKindOfLoad.TabIndex = 7;
+			this.comboBoxSelectKindOfLoad.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectKindOfLoad_SelectedIndexChanged);
 			// 
 			// labelSelectKindOfLoadType
 			// 
@@ -160,6 +162,7 @@
 			this.comboBoxSelectKindOfLoadType.Name = "comboBoxSelectKindOfLoadType";
 			this.comboBoxSelectKindOfLoadType.Size = new System.Drawing.Size(220, 21);
 			this.comboBoxSelectKindOfLoadType.TabIndex = 11;
+			this.comboBoxSelectKindOfLoadType.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectKindOfLoadType_SelectedIndexChanged);
 			// 
 			// labelHours
 			// 
@@ -176,6 +179,7 @@
 			this.textBoxHours.Name = "textBoxHours";
 			this.textBoxHours.Size = new System.Drawing.Size(220, 20);
 			this.textBoxHours.TabIndex = 9;
+			this.textBoxHours.Leave += new System.EventHandler(this.textBoxHours_Leave);
 			// 
 			// TimeNormForm
 			// 
