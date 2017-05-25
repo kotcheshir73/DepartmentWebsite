@@ -211,39 +211,21 @@ namespace DepartmentService.Services
 			{
 				try
 				{
-					var academicYearId = _context.LoadDistributions.FirstOrDefault(ld => ld.Id == model.Id).AcademicYearId;
-					var academicPlans = _context.AcademicPlans.Where(ap => ap.AcademicYearId == academicYearId);
+					var academicYearId = _context.LoadDistributions
+						.FirstOrDefault(ld => ld.Id == model.Id && !ld.IsDeleted).AcademicYearId;
+					var academicPlans = _context.AcademicPlans
+						.Where(ap => ap.AcademicYearId == academicYearId &&
+									!ap.IsDeleted);
 					foreach (var academicPlan in academicPlans)
 					{//получаем список учебных планов за нужный учебный год
-						List<AcademicCourse> courses = new List<AcademicCourse>();
-						if ((academicPlan.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
-						{
-							courses.Add(AcademicCourse.Course_1);
-						}
-						if ((academicPlan.AcademicCourses & AcademicCourse.Course_2) == AcademicCourse.Course_2)
-						{
-							courses.Add(AcademicCourse.Course_2);
-						}
-						if ((academicPlan.AcademicCourses & AcademicCourse.Course_3) == AcademicCourse.Course_3)
-						{
-							courses.Add(AcademicCourse.Course_3);
-						}
-						if ((academicPlan.AcademicCourses & AcademicCourse.Course_4) == AcademicCourse.Course_4)
-						{
-							courses.Add(AcademicCourse.Course_4);
-						}
-						if ((academicPlan.AcademicCourses & AcademicCourse.Course_5) == AcademicCourse.Course_5)
-						{
-							courses.Add(AcademicCourse.Course_5);
-						}
-						if ((academicPlan.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
-						{
-							courses.Add(AcademicCourse.Course_6);
-						}
+					 // определяем курсы, к которым относится план
+						List<AcademicCourse> courses = GetCourses(academicPlan);
+						// если курсов нет, значит пропускаем план
 						if (courses.Count == 0)
 						{
 							continue;
 						}
+						// получаем семестры на основе курсов
 						List<Semesters> semesters = new List<Semesters>();
 						foreach (var course in courses)
 						{
@@ -251,24 +233,17 @@ namespace DepartmentService.Services
 							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
 							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
 						}
-						var apRecords = _context.AcademicPlanRecords.Include(apr => apr.KindOfLoad).Where(apr => apr.AcademicPlanId == academicPlan.Id && semesters.Contains(apr.Semester));
+						var apRecords = _context.AcademicPlanRecords
+							.Include(apr => apr.KindOfLoad)
+							.Where(apr => apr.AcademicPlanId == academicPlan.Id && 
+										semesters.Contains(apr.Semester) &&
+										!apr.IsDeleted);
 						if (apRecords.Count() == 0)
 						{
 							transaction.Rollback();
 							return ResultService.Error("not_found", string.Format("Для одного из учебных планов отсуствуют записи"),
 								ResultServiceStatusCode.NotFound);
 						}
-						//var timeNorms = _context.TimeNorms;
-						//foreach (var timeNorm in timeNorms)
-						//{// для каждой нормы времени
-						// извлекаем из формулы слагаемые.
-						// ожидаем вид: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
-						//	decimal load = 0;
-						//	#region
-
-						//	#endregion
-						//	}
-
 						foreach (var apRecord in apRecords)
 						{//идем по записям учебного плана
 							var timeNorms = _context.TimeNorms.Where(tn => tn.KindOfLoadId == apRecord.KindOfLoadId);
@@ -281,8 +256,8 @@ namespace DepartmentService.Services
 							foreach (var timeNorm in timeNorms)
 							{//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
 							 //их может быть от 1 до нескольких, на каждую нужно создать запись
-							 // ищем схему: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
 								decimal load = 0;
+								// ищем схему: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
 								var match = Regex.Match(timeNorm.Formula, @"*[\d\,]+($|"")");
 								// для начала получаем число
 								if (match.Success)
@@ -291,7 +266,7 @@ namespace DepartmentService.Services
 								}
 								match = Regex.Match(timeNorm.Formula, @"\[[\w\ ]+\]");
 								if (match.Success)
-								{// ищем вид нагрузки, если он там есть
+								{// среди записей по этой дисциплине ищем вид нагрузки, если он там есть
 									var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(Regex.Match(match.Value, @"[\w\ ]+").Value));
 									if (apR != null)
 									{
@@ -302,12 +277,12 @@ namespace DepartmentService.Services
 								{//для всех курсов, входящих в учебный план ищем записи по контингенту
 									var contingents = _context.Contingents.Include(c => c.StudentGroup).Where(c => c.StudentGroup.Course == course &&
 									c.StudentGroup.EducationDirectionId == academicPlan.EducationDirectionId);
-									if (contingents.Count() == 0)
-									{
-										transaction.Rollback();
-										return ResultService.Error("not_found", string.Format("Для курса {0} отсуствуют записи по контингенту",
-											Math.Log((int)course, 2) + 1), ResultServiceStatusCode.NotFound);
-									}
+									//if (contingents.Count() == 0)
+									//{
+									//	transaction.Rollback();
+									//	return ResultService.Error("not_found", string.Format("Для курса {0} отсуствуют записи по контингенту",
+									//		Math.Log((int)course, 2) + 1), ResultServiceStatusCode.NotFound);
+									//}
 									foreach (var contingent in contingents)
 									{//для каждой найденной записи по контингенту, формируем запись по учебной нагрузки
 									 // если требуется учесть студентов или группу
@@ -331,10 +306,12 @@ namespace DepartmentService.Services
 													break;
 											}
 										}
-										var record = _context.LoadDistributionRecords.FirstOrDefault(ldr => ldr.LoadDistributionId == model.Id
-										&& ldr.AcademicPlanRecordId == apRecord.Id
-										&& ldr.TimeNormId == timeNorm.Id
-										&& ldr.ContingentId == contingent.Id);
+										var record = _context.LoadDistributionRecords
+											.FirstOrDefault(ldr => ldr.LoadDistributionId == model.Id &&
+													ldr.AcademicPlanRecordId == apRecord.Id &&
+													ldr.TimeNormId == timeNorm.Id &&
+													ldr.ContingentId == contingent.Id &&
+													!ldr.IsDeleted);
 										ResultService result = null;
 										if (record == null)
 										{
@@ -351,6 +328,7 @@ namespace DepartmentService.Services
 										{
 											result = UpdateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 											{
+												Id = record.Id,
 												LoadDistributionId = model.Id,
 												AcademicPlanRecordId = apRecord.Id,
 												TimeNormId = timeNorm.Id,
@@ -382,6 +360,37 @@ namespace DepartmentService.Services
 					return ResultService.Error(ex, ResultServiceStatusCode.Error);
 				}
 			}
+		}
+
+		private List<AcademicCourse> GetCourses(AcademicPlan academicPlan)
+		{
+			List<AcademicCourse> courses = new List<AcademicCourse>();
+			if ((academicPlan.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
+			{
+				courses.Add(AcademicCourse.Course_1);
+			}
+			if ((academicPlan.AcademicCourses & AcademicCourse.Course_2) == AcademicCourse.Course_2)
+			{
+				courses.Add(AcademicCourse.Course_2);
+			}
+			if ((academicPlan.AcademicCourses & AcademicCourse.Course_3) == AcademicCourse.Course_3)
+			{
+				courses.Add(AcademicCourse.Course_3);
+			}
+			if ((academicPlan.AcademicCourses & AcademicCourse.Course_4) == AcademicCourse.Course_4)
+			{
+				courses.Add(AcademicCourse.Course_4);
+			}
+			if ((academicPlan.AcademicCourses & AcademicCourse.Course_5) == AcademicCourse.Course_5)
+			{
+				courses.Add(AcademicCourse.Course_5);
+			}
+			if ((academicPlan.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
+			{
+				courses.Add(AcademicCourse.Course_6);
+			}
+
+			return courses;
 		}
 	}
 }
