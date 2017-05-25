@@ -27,7 +27,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "KindOfLoadName", Title = "Вид нагрузки", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
-				new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+				new ColumnConfig { Name = "Formula", Title = "Формула", Width = 300, Visible = true }
 			};
 			dataGridViewList.Columns.Clear();
 			foreach (var column in columns)
@@ -66,7 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					res.Id,
 					res.KindOfLoadName,
 					res.Title,
-					res.Hours
+					res.Formula
 				);
 			}
 		}

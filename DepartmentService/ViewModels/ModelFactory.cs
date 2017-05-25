@@ -121,7 +121,8 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<AcademicPlanRecordViewModel> CreateAcademicPlanRecords(IEnumerable<AcademicPlanRecord> entities)
 		{
-			return entities.Select(e => CreateAcademicPlanRecordViewModel(e));
+			return entities.Select(e => CreateAcademicPlanRecordViewModel(e))
+								.OrderBy(e => (Semesters)Enum.Parse(typeof(Semesters), e.Semester)).ThenBy(e => e.Disciplne);
 		}
 
 		public static AcademicYearViewModel CreateAcademicYearViewModel(AcademicYear entity)
