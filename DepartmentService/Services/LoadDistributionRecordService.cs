@@ -76,7 +76,7 @@ namespace DepartmentService.Services
 						.Include(e => e.AcademicPlanRecord.KindOfLoad)
 						.Include(e => e.Contingent.AcademicYear).Include(e => e.Contingent.StudentGroup)
 						.Include(e => e.TimeNorm.KindOfLoad)
-							.Where(e => /*(int)e.AcademicPlanRecord.Semester % 2 == model.SemesterTime && */!e.IsDeleted))
+							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
@@ -225,68 +225,50 @@ namespace DepartmentService.Services
 						{
 							continue;
 						}
-						// получаем семестры на основе курсов
-						List<Semesters> semesters = new List<Semesters>();
+
 						foreach (var course in courses)
 						{
+							// получаем семестры на основе курсов
+							List<Semesters> semesters = new List<Semesters>();
 							int courseInt = (int)Math.Log((double)course, 2) + 1;
 							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
 							semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
-						}
-						var apRecords = _context.AcademicPlanRecords
+
+							var apRecords = _context.AcademicPlanRecords
 							.Include(apr => apr.KindOfLoad)
-							.Where(apr => apr.AcademicPlanId == academicPlan.Id && 
+							.Where(apr => apr.AcademicPlanId == academicPlan.Id &&
 										semesters.Contains(apr.Semester) &&
 										!apr.IsDeleted);
-						if (apRecords.Count() == 0)
-						{
-							transaction.Rollback();
-							return ResultService.Error("not_found", string.Format("Для одного из учебных планов отсуствуют записи"),
-								ResultServiceStatusCode.NotFound);
-						}
-						foreach (var apRecord in apRecords)
-						{//идем по записям учебного плана
-							var timeNorms = _context.TimeNorms.Where(tn => tn.KindOfLoadId == apRecord.KindOfLoadId);
-							if (timeNorms.Count() == 0)
+							if (apRecords.Count() == 0)
 							{
 								transaction.Rollback();
-								return ResultService.Error("not_found", string.Format("Для вида нагрузок {0} отсуствуют нормы времени",
-									_context.KindOfLoads.Single(kl => kl.Id == apRecord.KindOfLoadId).KindOfLoadName), ResultServiceStatusCode.NotFound);
+								return ResultService.Error("not_found", string.Format("Для одного из учебных планов отсуствуют записи"),
+									ResultServiceStatusCode.NotFound);
+
 							}
-							foreach (var timeNorm in timeNorms)
-							{//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
-							 //их может быть от 1 до нескольких, на каждую нужно создать запись
-								decimal load = 0;
-								// ищем схему: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
-								var match = Regex.Match(timeNorm.Formula, @"*[\d\,]+($|"")");
-								// для начала получаем число
-								if (match.Success)
+
+							foreach (var apRecord in apRecords)
+							{//идем по записям учебного плана
+								var timeNorms = _context.TimeNorms.Where(tn => tn.KindOfLoadId == apRecord.KindOfLoadId);
+								if (timeNorms.Count() == 0)
 								{
-									load = Convert.ToDecimal(Regex.Match(match.Value, @"[\d\,]+").Value);
+									transaction.Rollback();
+									return ResultService.Error("not_found", string.Format("Для вида нагрузок {0} отсуствуют нормы времени",
+										_context.KindOfLoads.Single(kl => kl.Id == apRecord.KindOfLoadId).KindOfLoadName), ResultServiceStatusCode.NotFound);
 								}
-								match = Regex.Match(timeNorm.Formula, @"\[[\w\ ]+\]");
-								if (match.Success)
-								{// среди записей по этой дисциплине ищем вид нагрузки, если он там есть
-									var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(Regex.Match(match.Value, @"[\w\ ]+").Value));
-									if (apR != null)
-									{
-										load *= apR.Hours;
-									}
-								}
-								foreach (var course in courses)
-								{//для всех курсов, входящих в учебный план ищем записи по контингенту
-									var contingents = _context.Contingents.Include(c => c.StudentGroup).Where(c => c.StudentGroup.Course == course &&
-									c.StudentGroup.EducationDirectionId == academicPlan.EducationDirectionId);
-									//if (contingents.Count() == 0)
-									//{
-									//	transaction.Rollback();
-									//	return ResultService.Error("not_found", string.Format("Для курса {0} отсуствуют записи по контингенту",
-									//		Math.Log((int)course, 2) + 1), ResultServiceStatusCode.NotFound);
-									//}
+								foreach (var timeNorm in timeNorms)
+								{//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
+								 //их может быть от 1 до нескольких, на каждую нужно создать запись
+									decimal load = CalcLoad(timeNorm.Formula, apRecords);
+									var contingents = _context.Contingents.Include(c => c.StudentGroup)
+										.Where(c => c.StudentGroup.Course == course &&
+												c.StudentGroup.EducationDirectionId == academicPlan.EducationDirectionId &&
+												!c.IsDeleted &&
+												!c.StudentGroup.IsDeleted);
 									foreach (var contingent in contingents)
 									{//для каждой найденной записи по контингенту, формируем запись по учебной нагрузки
 									 // если требуется учесть студентов или группу
-										match = Regex.Match(timeNorm.Formula, @"""[\w\ ]+""");
+										var match = Regex.Match(timeNorm.Formula, @"""[\w\ ]+""");
 										if (match.Success)
 										{
 											var type = Regex.Match(match.Value, @"[\w\ ]+").Value;
@@ -312,38 +294,29 @@ namespace DepartmentService.Services
 													ldr.TimeNormId == timeNorm.Id &&
 													ldr.ContingentId == contingent.Id &&
 													!ldr.IsDeleted);
-										ResultService result = null;
 										if (record == null)
 										{
-											result = CreateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
+											_context.LoadDistributionRecords.Add(new LoadDistributionRecord
 											{
-												LoadDistributionId = model.Id,
 												AcademicPlanRecordId = apRecord.Id,
-												TimeNormId = timeNorm.Id,
 												ContingentId = contingent.Id,
-												Load = load
+												LoadDistributionId = model.Id,
+												TimeNormId = timeNorm.Id,
+												Load = load,
+												DateCreate = DateTime.Now,
+												IsDeleted = false
 											});
 										}
 										else
 										{
-											result = UpdateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
-											{
-												Id = record.Id,
-												LoadDistributionId = model.Id,
-												AcademicPlanRecordId = apRecord.Id,
-												TimeNormId = timeNorm.Id,
-												ContingentId = contingent.Id,
-												Load = load
-											});
+											record.Load = load;
+											_context.Entry(record).State = EntityState.Modified;
 										}
-										if (!result.Succeeded)
-										{
-											transaction.Rollback();
-											return result;
-										}
+										_context.SaveChanges();
 									}
 								}
 							}
+
 						}
 					}
 					transaction.Commit();
@@ -391,6 +364,30 @@ namespace DepartmentService.Services
 			}
 
 			return courses;
+		}
+
+		private decimal CalcLoad(string formula, IQueryable<AcademicPlanRecord> apRecords)
+		{
+			decimal load = 0;
+			// ищем схему: [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
+			var match = Regex.Match(formula, @"\*[\d\,]+\*");
+			// для начала получаем число
+			if (match.Success)
+			{
+				load = Convert.ToDecimal(Regex.Match(match.Value, @"[\d\,]+").Value);
+			}
+			match = Regex.Match(formula, @"\[[\w\ ]+\]");
+			if (match.Success)
+			{// среди записей по этой дисциплине ищем вид нагрузки, если он там есть
+				var kindOfLoadName = Regex.Match(match.Value, @"[\w\ ]+").Value;
+				var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(kindOfLoadName));
+				if (apR != null)
+				{
+					load *= apR.Hours;
+				}
+			}
+
+			return load;
 		}
 	}
 }

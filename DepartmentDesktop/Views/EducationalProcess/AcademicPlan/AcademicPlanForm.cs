@@ -94,7 +94,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			var entity = result.Result;
 
 			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
-			comboBoxEducationDirection.Enabled = false;
 			comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
 			comboBoxAcademicLevel.SelectedIndex = comboBoxAcademicLevel.Items.IndexOf(entity.AcademicLevel);
 			var courses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), entity.AcademicCourses);

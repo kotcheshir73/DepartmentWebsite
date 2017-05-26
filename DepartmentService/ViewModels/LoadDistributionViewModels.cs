@@ -27,7 +27,7 @@
 
 		public long ContingentId { get; set; }
 
-		//public ContingentViewModel ContingentViewModel { get; set; }
+		public string StudentGroupName { get; set; }
 
 		public long TimeNormId { get; set; }
 

@@ -71,6 +71,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				Width = 50,
 				Visible = true
 			});
+			columns.Add(new ColumnConfig
+			{
+				Name = "Sum",
+				Title = "Сумма",
+				Width = 50,
+				Visible = true
+			});
 			foreach (var lecture in resultL.Result)
 			{
 				columns.Add(new ColumnConfig
@@ -120,12 +127,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				int index = dataGridViewList.Rows.Count - 1;
 				dataGridViewList.Rows[index].Cells[2].Value = resDiscBlockRecord.Key;
 				var semester = "оcень";
-				var resultSemesterGroups = resDiscBlockRecord.Where(r => (Math.Log(r.SemesterNumber, 2) - 1) % 2 == 1)
+				var resultSemesterGroups = resDiscBlockRecord
+					.Where(r => r.SemesterNumber % 2 == 1)
 					.GroupBy(r => r.SemesterNumber);
 				//спевра получаем нечетные семестры
 				LoadSemester(semester, resultSemesterGroups);
 				semester = "весна";
-				resultSemesterGroups = resDiscBlockRecord.Where(r => (Math.Log(r.SemesterNumber, 2) - 1) % 2 == 0)
+				resultSemesterGroups = resDiscBlockRecord
+					.Where(r => r.SemesterNumber % 2 == 0)
 					.GroupBy(r => r.SemesterNumber);
 				//теперь получаем четные семестры
 				LoadSemester(semester, resultSemesterGroups);
@@ -136,34 +145,46 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 		{
 			foreach (var resSemesterRecord in resultSemesterGroups)
 			{
-				var resultDisciplineGroups = resSemesterRecord.GroupBy(r => r.Disciplne);
-				foreach (var resDisciplineRecord in resultDisciplineGroups)
+				var resultContingentGroups = resSemesterRecord.GroupBy(r => r.ContingentId);
+				foreach(var resultContingentRecord in resultContingentGroups)
 				{
-					var firstRecord = resDisciplineRecord.First();
-					dataGridViewList.Rows.Add();
-					int index = dataGridViewList.Rows.Count - 1;
-					dataGridViewList.Rows[index].Cells[0].Value = semester;
-					dataGridViewList.Rows[index].Cells[1].Value = firstRecord.EducationDirectionCipher;
-					dataGridViewList.Rows[index].Cells[2].Value = resDisciplineRecord.Key;
-					int columnIndex = 2;
-					if (_showTimeNorms)
+					var resultDisciplineGroups = resultContingentRecord.GroupBy(r => r.Disciplne);
+					foreach (var resDisciplineRecord in resultDisciplineGroups)
 					{
-						for (int i = 3; i < _countTimeNormColumns + 3; ++i)
+						var firstRecord = resDisciplineRecord.First();
+						dataGridViewList.Rows.Add();
+						int index = dataGridViewList.Rows.Count - 1;
+						dataGridViewList.Rows[index].Cells[0].Value = semester;
+						dataGridViewList.Rows[index].Cells[1].Value = firstRecord.StudentGroupName;
+						dataGridViewList.Rows[index].Cells[2].Value = resDisciplineRecord.Key;
+						int columnIndex = 2;
+						decimal sum = 0;
+						if (_showTimeNorms)
 						{
-							if (dataGridViewList.Columns[i].Tag != null)
+							for (int i = 3; i < _countTimeNormColumns + 3; ++i)
 							{
-								long timeNormId = Convert.ToInt64(dataGridViewList.Columns[i].Tag);
-								var recordTimeNorm = resDisciplineRecord.FirstOrDefault(r => r.TimeNormId == timeNormId);
-								if (recordTimeNorm != null)
+								if (dataGridViewList.Columns[i].Tag != null)
 								{
-									dataGridViewList.Rows[index].Cells[i].Value = recordTimeNorm.Load;
-									dataGridViewList.Rows[index].Cells[i].Tag = recordTimeNorm.Id;
+									long timeNormId = Convert.ToInt64(dataGridViewList.Columns[i].Tag);
+									var recordTimeNorm = resDisciplineRecord.FirstOrDefault(r => r.TimeNormId == timeNormId);
+									if (recordTimeNorm != null)
+									{
+										dataGridViewList.Rows[index].Cells[i].Value = recordTimeNorm.Load;
+										dataGridViewList.Rows[index].Cells[i].Tag = recordTimeNorm.Id;
+										sum += recordTimeNorm.Load;
+									}
 								}
 							}
+							columnIndex += _countTimeNormColumns;
 						}
-						columnIndex += _countTimeNormColumns;
+						var itog = resDisciplineRecord.Sum(r => r.Load);
+						if(sum != itog)
+						{
+							int c = 0;
+						}
+						dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
+						dataGridViewList.Rows[index].Cells[++columnIndex].Value = sum;
 					}
-					dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
 				}
 			}
 		}

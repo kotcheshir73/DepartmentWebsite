@@ -207,9 +207,8 @@ namespace DepartmentService.ViewModels
 				Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
 				DisciplineBlockTitle = entity.AcademicPlanRecord.Discipline.DisciplineBlock.Title,
 				ContingentId = entity.ContingentId,
-			//	ContingentViewModel = CreateContingentViewModel(entity.Contingent),
+				StudentGroupName = entity.Contingent.StudentGroup.GroupName,
 				TimeNormId = entity.TimeNormId,
-		//		TimeNormViewModel = CreateTimeNormViewModel(entity.TimeNorm),
 				SemesterNumber = (int)entity.AcademicPlanRecord.Semester,
 				Load = entity.Load
 			};
