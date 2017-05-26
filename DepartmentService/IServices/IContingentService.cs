@@ -20,10 +20,10 @@ namespace DepartmentService.IServices
 		ResultService<List<AcademicYearViewModel>> GetAcademicYears();
 
 		/// <summary>
-		/// Получение списка групп
+		/// Получение списка направлений
 		/// </summary>
 		/// <returns></returns>
-		ResultService<List<StudentGroupViewModel>> GetStudentGroups();
+		ResultService<List<EducationDirectionViewModel>> GetEducationDirections();
 
 		/// <summary>
 		/// Получения контингента

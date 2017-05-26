@@ -22,23 +22,4 @@
 
         public string Curator { get; set; }
 	}
-
-	public class ContingentViewModel
-	{
-		public long Id { get; set; }
-
-		public long AcademicYearId { get; set; }
-
-		public long StudentGroupId { get; set; }
-
-		public string AcademicYear { get; set; }
-
-		public string StudentGroupName { get; set; }
-
-		public int Course { get; set; }
-
-		public int CountStudents { get; set; }
-
-		public int CountSubgroups { get; set; }
-	}
 }

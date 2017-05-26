@@ -36,10 +36,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return;
 			}
 
-			var resultSG = _service.GetStudentGroups();
-			if (!resultSG.Succeeded)
+			var resultED = _service.GetEducationDirections();
+			if (!resultED.Succeeded)
 			{
-				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
+				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultED.Errors);
 				return;
 			}
 
@@ -49,11 +49,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
 			comboBoxAcademicYear.SelectedItem = null;
 
-			comboBoxStudentGroup.ValueMember = "Value";
-			comboBoxStudentGroup.DisplayMember = "Display";
-			comboBoxStudentGroup.DataSource = resultSG.Result
-				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
-			comboBoxStudentGroup.SelectedItem = null;
+			comboBoxEducationDirection.ValueMember = "Value";
+			comboBoxEducationDirection.DisplayMember = "Display";
+			comboBoxEducationDirection.DataSource = resultED.Result
+				.Select(ed => new { Value = ed.Id, Display = ed.Cipher }).ToList();
+			comboBoxEducationDirection.SelectedItem = null;
 
 			if (_id != 0)
 			{
@@ -72,7 +72,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			var entity = result.Result;
 
 			comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
-			comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
+			textBoxCourse.Text = (Math.Log(entity.Course, 2.0) + 1).ToString();
 			textBoxCountStudents.Text = entity.CountStudents.ToString();
 			textBoxCountSubgroups.Text = entity.CountSubgroups.ToString();
 		}
@@ -83,7 +84,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				return false;
 			}
-			if (comboBoxStudentGroup.SelectedValue == null)
+			if (comboBoxEducationDirection.SelectedValue == null)
+			{
+				return false;
+			}
+			if (string.IsNullOrEmpty(textBoxCourse.Text))
 			{
 				return false;
 			}
@@ -96,7 +101,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return false;
 			}
 			int count = 0;
-			if(!int.TryParse(textBoxCountStudents.Text, out count))
+			if (!int.TryParse(textBoxCourse.Text, out count))
+			{
+				return false;
+			}
+			if (!int.TryParse(textBoxCountStudents.Text, out count))
 			{
 				return false;
 			}
@@ -117,7 +126,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					result = _service.CreateContingent(new ContingentRecordBindingModel
 					{
 						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
-						StudentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue),
+						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
 						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)
 					});
@@ -128,7 +138,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						Id = _id,
 						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
-						StudentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue),
+						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
 						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)
 					});

@@ -19,13 +19,13 @@ namespace DepartmentService.Services
 
 		private readonly IAcademicYearService _serviceAY;
 
-		private readonly IStudentGroupService _serviceSG;
+		private readonly IEducationDirectionService _serviceED;
 
-		public ContingentService(DepartmentDbContext context, IStudentGroupService serviceSG, IAcademicYearService serviceAY)
+		public ContingentService(DepartmentDbContext context, IEducationDirectionService serviceED, IAcademicYearService serviceAY)
 		{
 			_context = context;
 			_serviceAY = serviceAY;
-			_serviceSG = serviceSG;
+			_serviceED = serviceED;
 		}
 
 
@@ -34,9 +34,9 @@ namespace DepartmentService.Services
 			return _serviceAY.GetAcademicYears();
 		}
 
-		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
+		public ResultService<List<EducationDirectionViewModel>> GetEducationDirections()
 		{
-			return _serviceSG.GetStudentGroups();
+			return _serviceED.GetEducationDirections();
 		}
 
 
@@ -46,7 +46,7 @@ namespace DepartmentService.Services
 			{
 				return ResultService<List<ContingentViewModel>>.Success(
 					ModelFactory.CreateContingents(_context.Contingents
-						.Include(ap => ap.AcademicYear).Include(s => s.StudentGroup)
+						.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -66,7 +66,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				var entity = _context.Contingents.Include(ap => ap.AcademicYear).Include(s => s.StudentGroup)
+				var entity = _context.Contingents.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 					return ResultService<ContingentViewModel>.Error("Error:", "Entity not found",
@@ -91,7 +91,8 @@ namespace DepartmentService.Services
 			var entity = new Contingent
 			{
 				AcademicYearId = model.AcademicYearId,
-				StudentGroupId = model.StudentGroupId,
+				EducationDirectionId = model.EducationDirectionId,
+				Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course),
 				CountStudetns = model.CountStudents,
 				CountSubgroups = model.CountSubgroups,
 				DateCreate = DateTime.Now,
@@ -125,7 +126,8 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 				}
 				entity.AcademicYearId = model.AcademicYearId;
-				entity.StudentGroupId = model.StudentGroupId;
+				entity.EducationDirectionId = model.EducationDirectionId;
+				entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
 				entity.CountStudetns = model.CountStudents;
 				entity.CountSubgroups = model.CountSubgroups;
 

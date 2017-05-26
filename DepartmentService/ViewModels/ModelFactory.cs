@@ -166,10 +166,10 @@ namespace DepartmentService.ViewModels
 			{
 				Id = entity.Id,
 				AcademicYearId = entity.AcademicYearId,
-				StudentGroupId = entity.StudentGroupId,
+				EducationDirectionId = entity.EducationDirectionId,
+				EducationDirectionCipher = entity.EducationDirection.Cipher,
 				AcademicYear = entity.AcademicYear.Title,
-				StudentGroupName = entity.StudentGroup.GroupName,
-				Course = (int)entity.StudentGroup.Course,
+				Course = (int)entity.Course,
 				CountStudents = entity.CountStudetns,
 				CountSubgroups = entity.CountSubgroups
 			};
@@ -177,7 +177,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<ContingentViewModel> CreateContingents(IEnumerable<Contingent> entities)
 		{
-			return entities.Select(e => CreateContingentViewModel(e)).OrderBy(e => e.AcademicYearId).ThenBy(e => e.StudentGroupId);
+			return entities.Select(e => CreateContingentViewModel(e)).OrderBy(e => e.AcademicYearId).ThenBy(e => e.EducationDirectionId);
 		}
 
 		public static LoadDistributionViewModel CreateLoadDistributionViewModel(LoadDistribution entity)
@@ -207,7 +207,6 @@ namespace DepartmentService.ViewModels
 				Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
 				DisciplineBlockTitle = entity.AcademicPlanRecord.Discipline.DisciplineBlock.Title,
 				ContingentId = entity.ContingentId,
-				StudentGroupName = entity.Contingent.StudentGroup.GroupName,
 				TimeNormId = entity.TimeNormId,
 				SemesterNumber = (int)entity.AcademicPlanRecord.Semester,
 				Load = entity.Load

@@ -71,13 +71,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				Width = 50,
 				Visible = true
 			});
-			columns.Add(new ColumnConfig
-			{
-				Name = "Sum",
-				Title = "Сумма",
-				Width = 50,
-				Visible = true
-			});
 			foreach (var lecture in resultL.Result)
 			{
 				columns.Add(new ColumnConfig
@@ -155,10 +148,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						dataGridViewList.Rows.Add();
 						int index = dataGridViewList.Rows.Count - 1;
 						dataGridViewList.Rows[index].Cells[0].Value = semester;
-						dataGridViewList.Rows[index].Cells[1].Value = firstRecord.StudentGroupName;
+						dataGridViewList.Rows[index].Cells[1].Value = firstRecord.EducationDirectionCipher;
 						dataGridViewList.Rows[index].Cells[2].Value = resDisciplineRecord.Key;
 						int columnIndex = 2;
-						decimal sum = 0;
 						if (_showTimeNorms)
 						{
 							for (int i = 3; i < _countTimeNormColumns + 3; ++i)
@@ -171,19 +163,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 									{
 										dataGridViewList.Rows[index].Cells[i].Value = recordTimeNorm.Load;
 										dataGridViewList.Rows[index].Cells[i].Tag = recordTimeNorm.Id;
-										sum += recordTimeNorm.Load;
 									}
 								}
 							}
 							columnIndex += _countTimeNormColumns;
 						}
-						var itog = resDisciplineRecord.Sum(r => r.Load);
-						if(sum != itog)
-						{
-							int c = 0;
-						}
 						dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
-						dataGridViewList.Rows[index].Cells[++columnIndex].Value = sum;
 					}
 				}
 			}

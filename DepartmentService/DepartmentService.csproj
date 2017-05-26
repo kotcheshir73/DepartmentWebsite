@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="BindingModels\AcademicPlanBindingModels.cs" />
     <Compile Include="BindingModels\ClassroomBindingModels.cs" />
+    <Compile Include="BindingModels\ContingentBindingModel.cs" />
     <Compile Include="BindingModels\DisciplineBindingModels.cs" />
     <Compile Include="BindingModels\EducationDirectionBindingModels.cs" />
     <Compile Include="BindingModels\KindOfLoadBindingModels.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Services\TimeNormService.cs" />
     <Compile Include="ViewModels\AcademicPlanViewModels.cs" />
     <Compile Include="ViewModels\ClassroomViewModel.cs" />
+    <Compile Include="ViewModels\ContingentViewModel.cs" />
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModel.cs" />
     <Compile Include="ViewModels\KindOfLoadViewModel.cs" />

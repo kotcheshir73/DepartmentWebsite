@@ -20,7 +20,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 200, Visible = true },
-				new ColumnConfig { Name = "StudentGroupName", Title = "Группа", Width = 200, Visible = true },
+				new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
+				new ColumnConfig { Name = "StudentGroupName", Title = "Курс", Width = 100, Visible = true },
 				new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 200, Visible = true },
 				new ColumnConfig { Name = "CountSubgroups", Title = "Количество подгрупп", Width = 200, Visible = true }
 			};
@@ -60,7 +61,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				dataGridViewList.Rows.Add(
 					res.Id,
 					res.AcademicYear,
-					res.StudentGroupName,
+					res.EducationDirectionCipher,
+					Math.Log(res.Course, 2.0) + 1,
 					res.CountStudents,
 					res.CountSubgroups
 				);

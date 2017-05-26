@@ -74,7 +74,7 @@ namespace DepartmentService.Services
 						.Include(e => e.AcademicPlanRecord.Discipline)
 						.Include(e => e.AcademicPlanRecord.Discipline.DisciplineBlock)
 						.Include(e => e.AcademicPlanRecord.KindOfLoad)
-						.Include(e => e.Contingent.AcademicYear).Include(e => e.Contingent.StudentGroup)
+						.Include(e => e.Contingent.AcademicYear)
 						.Include(e => e.TimeNorm.KindOfLoad)
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -98,7 +98,7 @@ namespace DepartmentService.Services
 				var entity = _context.LoadDistributionRecords
 						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
 						.Include(e => e.AcademicPlanRecord.Discipline).Include(e => e.AcademicPlanRecord.KindOfLoad)
-						.Include(e => e.Contingent.AcademicYear).Include(e => e.Contingent.StudentGroup)
+						.Include(e => e.Contingent.AcademicYear)
 						.Include(e => e.TimeNorm.KindOfLoad)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
@@ -260,11 +260,10 @@ namespace DepartmentService.Services
 								{//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
 								 //их может быть от 1 до нескольких, на каждую нужно создать запись
 									decimal load = CalcLoad(timeNorm.Formula, apRecords);
-									var contingents = _context.Contingents.Include(c => c.StudentGroup)
-										.Where(c => c.StudentGroup.Course == course &&
-												c.StudentGroup.EducationDirectionId == academicPlan.EducationDirectionId &&
-												!c.IsDeleted &&
-												!c.StudentGroup.IsDeleted);
+									var contingents = _context.Contingents
+										.Where(c => c.Course == course &&
+												c.EducationDirectionId == academicPlan.EducationDirectionId &&
+												!c.IsDeleted);
 									foreach (var contingent in contingents)
 									{//для каждой найденной записи по контингенту, формируем запись по учебной нагрузки
 									 // если требуется учесть студентов или группу

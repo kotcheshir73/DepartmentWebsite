@@ -27,11 +27,7 @@
 
 		public long ContingentId { get; set; }
 
-		public string StudentGroupName { get; set; }
-
 		public long TimeNormId { get; set; }
-
-	//	public TimeNormViewModel TimeNormViewModel { get; set; }
 
 		public int SemesterNumber { get; set; }
 

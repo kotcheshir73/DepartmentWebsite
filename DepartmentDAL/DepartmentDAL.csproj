@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.Designer.cs">
       <DependentUpon>201704171702418_AddFieldFormulaInTimeNorm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705261010384_ChangeContingent.cs" />
+    <Compile Include="Migrations\201705261010384_ChangeContingent.Designer.cs">
+      <DependentUpon>201705261010384_ChangeContingent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -400,6 +404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.resx">
       <DependentUpon>201704171702418_AddFieldFormulaInTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705261010384_ChangeContingent.resx">
+      <DependentUpon>201705261010384_ChangeContingent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
