@@ -57,9 +57,10 @@
 			this.dataGridViewList.Name = "dataGridViewList";
 			this.dataGridViewList.ReadOnly = true;
 			this.dataGridViewList.RowHeadersVisible = false;
-			this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.dataGridViewList.Size = new System.Drawing.Size(800, 475);
 			this.dataGridViewList.TabIndex = 1;
+			this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
 			// 
 			// toolStripMenu
 			// 

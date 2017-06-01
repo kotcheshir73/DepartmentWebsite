@@ -162,7 +162,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 									if (recordTimeNorm != null)
 									{
 										dataGridViewList.Rows[index].Cells[i].Value = recordTimeNorm.Load;
-										dataGridViewList.Rows[index].Cells[i].Tag = recordTimeNorm.Id;
+										dataGridViewList.Rows[index].Cells[i].Tag = 
+											recordTimeNorm.AcademicPlanRecordId + "_" +  recordTimeNorm.Id;
 									}
 								}
 							}
@@ -170,6 +171,48 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						}
 						dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
 					}
+				}
+			}
+		}
+
+		private void AddRecord()
+		{
+			//var form = new LoadDistributionRecordForm(_service, _serviceLDR);
+			//if (form.ShowDialog() == DialogResult.OK)
+			//{
+			//	LoadRecords();
+			//}
+		}
+
+		private void UpdRecord()
+		{
+			if (dataGridViewList.SelectedRows.Count == 1)
+			{
+				//long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
+				//var form = new LoadDistributionForm(_service, _serviceLDR, id);
+				//if (form.ShowDialog() == DialogResult.OK)
+				//{
+				//	LoadRecords();
+				//}
+			}
+		}
+
+		private void DelRecord()
+		{
+			if (dataGridViewList.SelectedRows.Count > 0)
+			{
+				if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
+					{
+						//long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
+						//var result = _service.DeleteLoadDistribution(new LoadDistributionGetBindingModel { Id = id });
+						//if (!result.Succeeded)
+						//{
+						//	Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+						//}
+					}
+					LoadRecords();
 				}
 			}
 		}
@@ -185,6 +228,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			else
 			{
 				LoadRecords();
+			}
+		}
+
+		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			for(int i = 0; i < dataGridViewList.SelectedCells.Count; ++i)
+			{
+				if(dataGridViewList.SelectedCells[i].Tag != null)
+				{
+					var apId = Convert.ToInt64(dataGridViewList.SelectedCells[i].Tag.ToString().Split('_')[0]);
+					var id = Convert.ToInt64(dataGridViewList.SelectedCells[i].Tag.ToString().Split('_')[1]);
+					var form = new LoadDistributionRecordForm(_service, id, apId);
+					form.ShowDialog();
+				}
 			}
 		}
 	}
