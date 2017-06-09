@@ -113,7 +113,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     dataGridViewFirstWeek.Rows[j].Cells[0].Value = string.Format("{0}{1}{2}", currentdate.ToShortDateString(), Environment.NewLine, 
                        CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek));
                     if (currentdate.Date == DateTime.Now.Date)
-                        for (int i = 0; i < 7; i++)
+                        for (int i = 0; i < dataGridViewFirstWeek.Columns.Count; i++)
                             dataGridViewFirstWeek.Rows[j].Cells[i].Style.BackColor = Color.Aqua;
                     currentdate = currentdate.AddDays(1);
                 }
