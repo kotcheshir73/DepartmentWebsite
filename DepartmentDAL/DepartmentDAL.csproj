@@ -53,6 +53,8 @@
     <Compile Include="Enums\AcademicCourse.cs" />
     <Compile Include="Enums\AcademicLevel.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
+    <Compile Include="Enums\DisciplineLessonStudentStatus.cs" />
+    <Compile Include="Enums\DisciplineLessonTaskStudentResult.cs" />
     <Compile Include="Enums\KindOfLoadType.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\ResultServiceStatusCode.cs" />
@@ -247,6 +249,14 @@
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\Discipline.cs" />
     <Compile Include="Models\DisciplineBlock.cs" />
+    <Compile Include="Models\DisciplineLesson.cs" />
+    <Compile Include="Models\DisciplineLessonStudentRecord.cs" />
+    <Compile Include="Models\DisciplineLessonTaskImageContext.cs" />
+    <Compile Include="Models\DisciplineLessonTaskStudentRecord.cs" />
+    <Compile Include="Models\DisciplineLessonTaskTextContext.cs" />
+    <Compile Include="Models\DisciplineLessonTask.cs" />
+    <Compile Include="Models\DisciplineLessonTaskContext.cs" />
+    <Compile Include="Models\DisciplineStudentRecord.cs" />
     <Compile Include="Models\EducationDirection.cs" />
     <Compile Include="Models\ExaminationRecord.cs" />
     <Compile Include="Models\KindOfLoad.cs" />

@@ -57,5 +57,14 @@ namespace DepartmentDAL.Models
 
         [ForeignKey("StudentId")]
         public virtual List<StudentHistory> StudentHistory { get; set; }
-    }
+
+		[ForeignKey("StudentId")]
+		public virtual List<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
+
+		[ForeignKey("StudentId")]
+		public virtual List<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
+
+		[ForeignKey("StudentId")]
+		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
+	}
 }

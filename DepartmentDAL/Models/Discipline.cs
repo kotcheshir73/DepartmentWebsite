@@ -9,7 +9,6 @@ namespace DepartmentDAL.Models
 	/// </summary>
 	public class Discipline : BaseEntity
 	{
-
 		[Display(Name = "Название дисциплины")]
 		[MaxLength(100)]
 		[Required]
@@ -21,5 +20,11 @@ namespace DepartmentDAL.Models
 
 		[ForeignKey("DisciplineId")]
 		public virtual List<AcademicPlanRecord> AcademicPlanRecord { get; set; }
+
+		[ForeignKey("DisciplineId")]
+		public virtual List<DisciplineLesson> DisciplineLessons { get; set; }
+
+		[ForeignKey("DisciplineId")]
+		public virtual List<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
 	}
 }
