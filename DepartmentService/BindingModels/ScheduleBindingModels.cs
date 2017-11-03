@@ -10,7 +10,9 @@ namespace DepartmentService.BindingModels
 
         public string GroupName { get; set; }
 
-        public DateTime? DateBegin { get; set; }
+		public long? LecturerId { get; set; }
+
+		public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
     }

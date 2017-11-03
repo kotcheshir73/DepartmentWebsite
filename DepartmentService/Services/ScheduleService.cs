@@ -28,6 +28,8 @@ namespace DepartmentService.Services
 
 		private readonly IStudentGroupService _serviceG;
 
+		private readonly ILecturerService _serviceL;
+
 		private readonly ISeasonDatesService _serviceSD;
 
 		private readonly IScheduleLessonTimeService _serviceSLT;
@@ -42,7 +44,7 @@ namespace DepartmentService.Services
 
 		private readonly IConsultationRecordService _serviceCR;
 
-		public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ISeasonDatesService serviceSD,
+		public ScheduleService(DepartmentDbContext context, IClassroomService serviceC, IStudentGroupService serviceG, ILecturerService serviceL, ISeasonDatesService serviceSD,
 			IScheduleLessonTimeService serviceSLT, IStreamingLessonService serviceSL,
 			ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
 			IConsultationRecordService serviceCR)
@@ -50,6 +52,7 @@ namespace DepartmentService.Services
 			_context = context;
 			_serviceC = serviceC;
 			_serviceG = serviceG;
+			_serviceL = serviceL;
 			_serviceSD = serviceSD;
 			_serviceSLT = serviceSLT;
 			_serviceSL = serviceSL;
@@ -67,6 +70,11 @@ namespace DepartmentService.Services
 		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
 		{
 			return _serviceG.GetStudentGroups();
+		}
+
+		public ResultService<List<LecturerViewModel>> GetLecturers()
+		{
+			return _serviceL.GetLecturers();
 		}
 
 		public ResultService<List<SeasonDatesViewModel>> GetSeasonDaties()
@@ -154,12 +162,17 @@ namespace DepartmentService.Services
 					selectedRecords = selectedRecords.
 						Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
 				}
+				if (model.LecturerId.HasValue)
+				{
+					selectedRecords = selectedRecords.
+						Where(sr => sr.LecturerId == model.LecturerId.Value && sr.SeasonDatesId == currentDates.Id);
+				}
 				var records = selectedRecords.ToList();
 				List<SemesterRecordShortViewModel> result = new List<SemesterRecordShortViewModel>();
 				for (int i = 0; i < records.Count; ++i)
 				{
 					string groups = GetLessonGroup(records[i]);
-					if (records[i].IsStreaming && !string.IsNullOrEmpty(model.ClassroomId))
+					if (records[i].IsStreaming && (!string.IsNullOrEmpty(model.ClassroomId) || model.LecturerId.HasValue))
 					{//если потоковая пара
 						var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
 												rec.LessonClassroom == records[i].LessonClassroom && rec.IsStreaming).ToList();
@@ -367,6 +380,13 @@ namespace DepartmentService.Services
 										sr.DateConsultation >= model.DateBegin.Value &&
 										sr.DateConsultation <= model.DateEnd.Value);
 					}
+					if (model.LecturerId.HasValue)
+					{
+						selectedRecords = selectedRecords
+							.Where(sr => sr.LecturerId == model.LecturerId.Value && sr.SeasonDatesId == currentDates.Id &&
+										sr.DateConsultation >= model.DateBegin.Value &&
+										sr.DateConsultation <= model.DateEnd.Value);
+					}
 				}
 				else
 				{
@@ -380,6 +400,11 @@ namespace DepartmentService.Services
 						selectedRecords = selectedRecords
 							.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
 					}
+					if (model.LecturerId.HasValue)
+					{
+						selectedRecords = selectedRecords
+							.Where(sr => sr.LecturerId == model.LecturerId.Value && sr.SeasonDatesId == currentDates.Id);
+					}
 				}
 
 				var records = selectedRecords.ToList();
@@ -391,6 +416,8 @@ namespace DepartmentService.Services
 					record = new ConsultationRecordRecordBindingModel
 					{
 						ClassroomId = model.ClassroomId,
+						LecturerId = model.LecturerId,
+						// TODO посомтреть по группе
 						DateConsultation = records[i].DateConsultation
 					};
 					resultCheck = _serviceCR.CheckCreateConsultation(record, currentDates);
@@ -1803,70 +1830,63 @@ namespace DepartmentService.Services
 			int day = -1;
 			int para = -1;
 			var resError = new ResultService();
-			try
+			foreach (var pageNode in pageNodes)
 			{
-				foreach (var pageNode in pageNodes)
+				string text = pageNode.InnerText.Replace("\r\n", "").Replace(" ", "");
+				if (days.Contains(text))
 				{
-					string text = pageNode.InnerText.Replace("\r\n", "").Replace(" ", "");
-					if (days.Contains(text))
+					if (days[0].Contains(text))
 					{
-						if (days[0].Contains(text))
-						{
-							week++;
-							day = -1;
-						}
-						day++;
-						para = -1;
+						week++;
+						day = -1;
 					}
-					if (week > -1)
+					day++;
+					para = -1;
+				}
+				if (week > -1)
+				{
+					var elem = pageNode.ChildNodes.First().NextSibling;
+					if (elem.Name.ToLower() == "font")
 					{
-						var elem = pageNode.ChildNodes.First().NextSibling;
-						if (elem.Name.ToLower() == "font")
+						para++;
+						var lesson = pageNode.InnerText.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+						if (lesson[0] == "_")
 						{
-							para++;
-							var lesson = pageNode.InnerText.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-							if (lesson[0] == "_")
-							{
-								// пустая пара, переходим к следующей
-								continue;
-							}
-							var entityFirst = new SemesterRecordRecordBindingModel();
-							var entitySecond = new SemesterRecordRecordBindingModel();
+							// пустая пара, переходим к следующей
+							continue;
+						}
+						var entityFirst = new SemesterRecordRecordBindingModel();
+						var entitySecond = new SemesterRecordRecordBindingModel();
 
-							entityFirst.Week = week;
-							entityFirst.Day = day;
-							entityFirst.Lesson = para;
-							entityFirst.LessonGroup = groupName;
-							entityFirst.SeasonDatesId = currentDates.Id;
+						entityFirst.Week = week;
+						entityFirst.Day = day;
+						entityFirst.Lesson = para;
+						entityFirst.LessonGroup = groupName;
+						entityFirst.SeasonDatesId = currentDates.Id;
 
-							entitySecond.Week = week;
-							entitySecond.Day = day;
-							entitySecond.Lesson = para;
-							entitySecond.SeasonDatesId = currentDates.Id;
-							AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
-							var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
-							if (!result.Succeeded)
+						entitySecond.Week = week;
+						entitySecond.Day = day;
+						entitySecond.Lesson = para;
+						entitySecond.SeasonDatesId = currentDates.Id;
+						AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
+						var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
+						if (!result.Succeeded)
+						{
+							foreach (var err in result.Errors)
 							{
-								foreach (var err in result.Errors)
-								{
-									resError.AddError(err.Key, err.Value);
-								}
+								resError.AddError(err.Key, err.Value);
 							}
-							result = CheckNewSemesterRecordForConflictAndSave(entitySecond);
-							if (!result.Succeeded)
+						}
+						result = CheckNewSemesterRecordForConflictAndSave(entitySecond);
+						if (!result.Succeeded)
+						{
+							foreach (var err in result.Errors)
 							{
-								foreach (var err in result.Errors)
-								{
-									resError.AddError(err.Key, err.Value);
-								}
+								resError.AddError(err.Key, err.Value);
 							}
 						}
 					}
 				}
-			}
-			catch (Exception)
-			{
-				throw;
 			}
 			return resError;
 		}
@@ -1910,18 +1930,15 @@ namespace DepartmentService.Services
 				if (!string.IsNullOrEmpty(currentRecord.LessonLecturer))
 				{
 					var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-					string lastName = spliters[0] + spliters[0].Substring(1).ToLower();
+					string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
 					string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
 					string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
-					if (currentRecord.LessonLecturer.Split(' ').Length > 1)
-					{// !!!!!!!!!!!!!!!TODO отладить при вводе преподавателей
-						var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
-												((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-												((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
-						if (lecturer != null)
-						{
-							currentRecord.LecturerId = lecturer.Id;
-						}
+					var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
+											((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
+											((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+					if (lecturer != null)
+					{
+						currentRecord.LecturerId = lecturer.Id;
 					}
 				}
 				// оставляем только название предмета

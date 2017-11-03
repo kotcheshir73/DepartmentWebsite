@@ -151,7 +151,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 					}
 					return true;
 				}
-				return false;
+				else
+				{
+					Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+					return false;
+				}
 			}
 			else
 			{

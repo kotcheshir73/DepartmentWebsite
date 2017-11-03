@@ -20,6 +20,12 @@ namespace DepartmentService.IServices
 		ResultService<List<StudentGroupViewModel>> GetStudentGroups();
 
 		/// <summary>
+		/// Получение списка преподавателей
+		/// </summary>
+		/// <returns></returns>
+		ResultService<List<LecturerViewModel>> GetLecturers();
+
+		/// <summary>
 		/// Получение списка дат семестра
 		/// </summary>
 		/// <returns></returns>

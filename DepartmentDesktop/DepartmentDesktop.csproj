@@ -341,6 +341,12 @@
     <Compile Include="Views\Rules\RuleF.Designer.cs">
       <DependentUpon>RuleF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\Lecturers\ScheduleSemesterLecturerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\Lecturers\ScheduleSemesterLecturerControl.Designer.cs">
+      <DependentUpon>ScheduleSemesterLecturerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\ScheduleConfigControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -620,6 +626,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Rules\RuleF.resx">
       <DependentUpon>RuleF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\Lecturers\ScheduleSemesterLecturerControl.resx">
+      <DependentUpon>ScheduleSemesterLecturerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\ScheduleConfigControl.resx">
       <DependentUpon>ScheduleConfigControl.cs</DependentUpon>

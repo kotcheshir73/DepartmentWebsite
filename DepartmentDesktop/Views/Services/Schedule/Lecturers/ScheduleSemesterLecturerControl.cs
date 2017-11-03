@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using DepartmentService.BindingModels;
 using DepartmentDAL.Enums;
 using DepartmentDAL;
-using System.Text;
 
-namespace DepartmentDesktop.Views.Services.Schedule
+namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 {
-	public partial class ScheduleSemesterStudentGroupControl : UserControl
+	public partial class ScheduleSemesterLecturerControl : UserControl
 	{
 		private readonly IScheduleService _service;
 
@@ -18,7 +23,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 		private readonly IConsultationRecordService _serviceCR;
 
-		private string _groupName;
+		private long _lecturerID;
+
+		private string _lectureFullName;
 
 		private DateTime _selectDate;
 
@@ -26,7 +33,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 		private Color _consultationColor = Color.Green;
 
-		public ScheduleSemesterStudentGroupControl(IScheduleService service, ISemesterRecordService serviceSR,
+		public ScheduleSemesterLecturerControl(IScheduleService service, ISemesterRecordService serviceSR,
 			IConsultationRecordService serviceCR)
 		{
 			InitializeComponent();
@@ -51,11 +58,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			}
 		}
 
-		public void LoadData(string groupName)
+		public void LoadData(long lecturerID, string lectureFullName)
 		{
 			try
 			{
-				_groupName = groupName;
+				_lecturerID = lecturerID;
+				_lectureFullName = lectureFullName;
 
 				var resultCD = _service.GetCurrentDates();
 				if (!resultCD.Succeeded)
@@ -64,7 +72,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				}
 				_dates = resultCD.Result;
 
-				labelTop.Text = string.Format("Группа {0}. {1}", _groupName, _dates.Title);
+				// TODO получать ФИО преподавателя
+				labelTop.Text = string.Format("{0} . {1}", _lectureFullName, _dates.Title);
 
 				//Заполняем даты
 				DateTime currentdate = _selectDate;
@@ -95,7 +104,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 					currentdate = currentdate.AddDays(1);
 				}
-				var result = _service.GetScheduleSemester(new ScheduleBindingModel { GroupName = _groupName });
+				var result = _service.GetScheduleSemester(new ScheduleBindingModel { LecturerId = _lecturerID });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
@@ -119,16 +128,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 						{
 							dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
 						}
-						if (dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value == null)
-						{
-							dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
-							dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
-						}
-						else
-						{
-							dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value += Environment.NewLine + text;
-							dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag += "_" + list[r].Id;
-						}
+						dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
+						dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
 					}
 					if (list[r].Week == 1)
 					{
@@ -144,16 +145,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 						{
 							dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
 						}
-						if (dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value == null)
-						{
-							dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
-							dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
-						}
-						else
-						{
-							dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value += Environment.NewLine + text;
-							dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag += "_" + list[r].Id;
-						}
+						dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
+						dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
 					}
 				}
 				var dateFinish = _selectDate.AddDays(14);
@@ -161,7 +154,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				{
 					DateBegin = _selectDate,
 					DateEnd = dateFinish,
-					GroupName = _groupName
+					LecturerId = _lecturerID
 				});
 				if (!resultConsults.Succeeded)
 				{
@@ -204,7 +197,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
 			if (date.AddDays(-14) >= dateBeginSemester.Date)
 				_selectDate = date.AddDays(-14);
-			LoadData(_groupName);
+			LoadData(_lecturerID, _lectureFullName);
 		}
 
 		private void buttonNextWeek_Click(object sender, EventArgs e)
@@ -213,7 +206,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
 			if (date.AddDays(14) <= dateEndSemester.Date)
 				_selectDate = date.AddDays(14);
-			LoadData(_groupName);
+			LoadData(_lecturerID, _lectureFullName);
 		}
 
 		private void dataGridView_Resize(object sender, EventArgs e)
@@ -238,31 +231,11 @@ namespace DepartmentDesktop.Views.Services.Schedule
 									ResultService result;
 									if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 									{
-										if (((DataGridView)sender).SelectedCells[0].Tag.ToString().Contains("_"))
-										{
-											var ids = ((DataGridView)sender).SelectedCells[0].Tag.ToString().Split('_');
-											result = _serviceSR.DeleteSemesterRecord(
-															new SemesterRecordGetBindingModel
-															{
-																Id = Convert.ToInt32(ids[0])
-															});
-											if (result.Succeeded)
+										result = _serviceSR.DeleteSemesterRecord(
+											new SemesterRecordGetBindingModel
 											{
-												result = _serviceSR.DeleteSemesterRecord(
-																		new SemesterRecordGetBindingModel
-																		{
-																			Id = Convert.ToInt32(ids[1])
-																		});
-											}
-										}
-										else
-										{
-											result = _serviceSR.DeleteSemesterRecord(
-												new SemesterRecordGetBindingModel
-												{
-													Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
-												});
-										}
+												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+											});
 									}
 									else
 									{
@@ -274,14 +247,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 									}
 									if (!result.Succeeded)
 									{
-										StringBuilder strRes = new StringBuilder();
-										foreach (var err in result.Errors)
-										{
-											strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-										}
-										throw new Exception(strRes.ToString());
+										Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 									}
-									LoadData(_groupName);
+									LoadData(_lecturerID, _lectureFullName);
 								}
 				}
 				catch (Exception ex)
@@ -300,24 +268,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 						{//если в Tag есть данные, то это id записи
 							if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 							{
-								if (((DataGridView)sender).SelectedCells[0].Tag.ToString().Contains("_"))
-								{
-									var ids = ((DataGridView)sender).SelectedCells[0].Tag.ToString().Split('_');
-
-									ScheduleSemesterRecordForm form1 = new ScheduleSemesterRecordForm(_serviceSR, _service,
-										Convert.ToInt64(ids[0]));
-									form1.ShowDialog();
-
-									ScheduleSemesterRecordForm form2 = new ScheduleSemesterRecordForm(_serviceSR, _service,
-										Convert.ToInt64(ids[1]));
-									form2.ShowDialog();
-								}
-								else
-								{
-									ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
-										Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
-									form.ShowDialog();
-								}
+								ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
+									Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+								form.ShowDialog();
 							}
 							else
 							{
@@ -325,7 +278,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 								   Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
 								form.ShowDialog();
 							}
-							LoadData(_groupName);
+							LoadData(_lecturerID, _lectureFullName);
 						}
 						else
 						{//иначе пустая ячейка
@@ -335,7 +288,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 						 //    ((DataGridView)sender).SelectedCells[0].RowIndex, date,
 						 //    ((DataGridView)sender).SelectedCells[0].ColumnIndex - 1, null);
 						 //form.ShowDialog();
-							LoadData(_groupName);
+							LoadData(_lecturerID, _lectureFullName);
 						}
 			}
 			catch (Exception ex)
@@ -352,7 +305,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
-			LoadData(_groupName);
+			LoadData(_lecturerID, _lectureFullName);
 		}
 	}
 }

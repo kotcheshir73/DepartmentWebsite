@@ -306,7 +306,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<LecturerViewModel> CreateLecturers(IEnumerable<Lecturer> entities)
 		{
-			return entities.Select(e => CreateLecturerViewModel(e)).OrderBy(e => e.Id);
+			return entities.Select(e => CreateLecturerViewModel(e)).OrderBy(e => e.LastName);
 		}
 
 

@@ -102,8 +102,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				var list = result.Result;
 				for (int r = 0; r < list.Count; ++r)
 				{
-					string text = string.Format("{0} {1}{2}{3}{2}{4}", list[r].LessonType, list[r].LessonDiscipline, Environment.NewLine,
-						list[r].LessonLecturer, list[r].LessonGroup);
+					string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", list[r].LessonType, list[r].LessonDiscipline, list[r].LessonClassroom,
+						Environment.NewLine, list[r].LessonLecturer, list[r].LessonGroup);
 					if (list[r].Week == 0)
 					{
 						if (list[r].IsStreaming)
