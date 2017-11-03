@@ -668,7 +668,7 @@ namespace DepartmentService.Services
 			}
 			var currentDates = resultCurrentDates.Result;
 			WebClient web = new WebClient();
-			web.Encoding = UTF8Encoding.Default;
+			web.Encoding = Encoding.Default;
 
 			string strHTML = web.DownloadString(model.ScheduleUrl + "raspisan.htm");
 
@@ -1794,7 +1794,7 @@ namespace DepartmentService.Services
 		{
 			string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
 			WebClient web = new WebClient();
-			web.Encoding = UTF8Encoding.Default;
+			web.Encoding = Encoding.Default;
 			string pageHTML = web.DownloadString(schedulrUrl);
 			HtmlDocument document = new HtmlDocument();
 			document.LoadHtml(pageHTML);
@@ -1876,6 +1876,7 @@ namespace DepartmentService.Services
 		private void AnalisString(string text, List<ScheduleStopWord> stopWords,
 			SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
 		{
+			recordFirst.NotParseRecord = recordSecond.NotParseRecord = text;
 			text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "");
 			var lesson = text.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 			//определяем группу
@@ -1890,6 +1891,7 @@ namespace DepartmentService.Services
 			//определяем дисциплину
 			recordFirst.LessonDiscipline += lesson[0];
 			int i = 1;
+			ScheduleStopWord stopWord = null;
 			for (; i < lesson.Length - 1; ++i)
 			{
 				if (i < lesson.Length - 3 && lesson[i].ToUpper() == lesson[i] &&
@@ -1898,7 +1900,8 @@ namespace DepartmentService.Services
 				{//Шаблон для преподавателя "ФАМИЛИЯ И О"
 					break;
 				}
-				if (stopWords.FirstOrDefault(sw => sw.StopWord == lesson[i].ToUpper() && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
+				stopWord = stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель);
+				if (stopWord != null)
 				{
 					break;
 				}
@@ -1907,26 +1910,43 @@ namespace DepartmentService.Services
 			//определяем преподавателя
 			if (i < lesson.Length - 3)
 			{
-				if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
+				if (stopWord != null)
 				{
-					recordFirst.LessonLecturer = lesson[i++];
+					if (string.IsNullOrEmpty(stopWord.StopWordReplace))
+					{
+						recordFirst.LessonLecturer = lesson[i++];
+					}
+					else
+					{
+						recordFirst.LessonLecturer = stopWord.StopWordReplace;
+						i++;
+					}
 				}
 				else
 				{
 					recordFirst.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
 				}
 			}
-			else if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
+			else if (stopWord != null)
 			{
-				recordFirst.LessonLecturer = lesson[i++];
+				if (string.IsNullOrEmpty(stopWord.StopWordReplace))
+				{
+					recordFirst.LessonLecturer = lesson[i++];
+				}
+				else
+				{
+					recordFirst.LessonLecturer = stopWord.StopWordReplace;
+					i++;
+				}
 			}
 			if (!string.IsNullOrEmpty(recordFirst.LessonLecturer))
 			{
 				string searchName = recordFirst.LessonLecturer[0] + recordFirst.LessonLecturer.Split(' ')[0].Substring(1).ToLower();
 				if (recordFirst.LessonLecturer.Split(' ').Length > 1)
 				{
-					string firstName = recordFirst.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
-					string patronumic = recordFirst.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1];
+					var spliters = recordFirst.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+					string firstName = spliters.Length > 0 ? spliters[0] : string.Empty;
+					string patronumic = spliters.Length > 1 ? spliters[1] : string.Empty;
 					var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName &&
 											((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
 											((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
@@ -1945,6 +1965,14 @@ namespace DepartmentService.Services
 				}
 			}
 			//определяем аудиторию
+			while (i < lesson.Length)
+			{
+				if (Regex.IsMatch(lesson[i], ""))
+				{
+					break;
+				}
+				i++;
+			}
 			if (i < lesson.Length)
 			{
 				if (lesson[i] == "-")
@@ -2009,8 +2037,9 @@ namespace DepartmentService.Services
 					string searchName = recordSecond.LessonLecturer[0] + recordSecond.LessonLecturer.Split(' ')[0].Substring(1).ToLower();
 					if (recordSecond.LessonLecturer.Split(' ').Length > 1)
 					{
-						string firstName = recordSecond.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
-						string patronumic = recordSecond.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1];
+						var spliters = recordSecond.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+						string firstName = spliters.Length > 0 ? spliters[0] : string.Empty;
+						string patronumic = spliters.Length > 1 ? spliters[1] : string.Empty;
 						var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName &&
 												((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
 												((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));

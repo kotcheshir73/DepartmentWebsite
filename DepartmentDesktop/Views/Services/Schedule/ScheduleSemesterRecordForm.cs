@@ -21,21 +21,22 @@ namespace DepartmentDesktop.Views.Services.Schedule
         public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS)
         {
             InitializeComponent();
-            _service = service;
+			_service = service;
             _serviceS = serviceS;
         }
 
         public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, long id)
         {
             InitializeComponent();
-            _service = service;
+			_service = service;
             _serviceS = serviceS;
             _id = id;
         }
 
         private void ScheduleSemesterRecordForm_Load(object sender, EventArgs e)
-        {
-            foreach (var elem in Enum.GetValues(typeof(LessonTypes)))
+		{
+			Width = 510;
+			foreach (var elem in Enum.GetValues(typeof(LessonTypes)))
             {
                 comboBoxLessonType.Items.Add(elem.ToString());
             }
@@ -83,6 +84,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 					Close();
 				}
 				var entity = result.Result;
+
+				textBoxNotParseRecord.Text = entity.NotParseRecord;
 
 				textBoxLessonDiscipline.Text = entity.LessonDiscipline;
                 textBoxLessonGroup.Text = entity.LessonGroup;
@@ -181,6 +184,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
+						NotParseRecord = textBoxNotParseRecord.Text,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
@@ -199,8 +203,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
+						NotParseRecord = textBoxNotParseRecord.Text,
 
-                        LessonDiscipline = textBoxLessonDiscipline.Text,
+						LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
@@ -236,5 +241,17 @@ namespace DepartmentDesktop.Views.Services.Schedule
             DialogResult = DialogResult.Cancel;
             Close();
         }
-    }
+
+		private void buttonShowNotParse_Click(object sender, EventArgs e)
+		{
+			if (Width == 510)
+			{
+				Width = 670;
+			}
+			else
+			{
+				Width = 510;
+			}
+		}
+	}
 }

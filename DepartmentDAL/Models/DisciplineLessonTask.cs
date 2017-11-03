@@ -21,13 +21,13 @@ namespace DepartmentDAL.Models
 
 		public virtual DisciplineLesson DisciplineLesson { get; set; }
 
-		[ForeignKey("DisciplineLessonSubTaskId")]
+		[ForeignKey("DisciplineLessonTaskId")]
 		public virtual List<DisciplineLessonTaskImageContext> DisciplineLessonTaskImageContexts { get; set; }
 
-		[ForeignKey("DisciplineLessonSubTaskId")]
+		[ForeignKey("DisciplineLessonTaskId")]
 		public virtual List<DisciplineLessonTaskTextContext> DisciplineLessonTaskTextContexts { get; set; }
 
-		[ForeignKey("DisciplineLessonSubTaskId")]
+		[ForeignKey("DisciplineLessonTaskId")]
 		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
 	}
 }

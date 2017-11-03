@@ -29,8 +29,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 dataGridViewList.Columns[0].Visible = false;
                 dataGridViewList.Columns[1].HeaderText = "Стоп-слово";
                 dataGridViewList.Columns[1].Width = 100;
-                dataGridViewList.Columns[2].HeaderText = "Тип";
-                dataGridViewList.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+				dataGridViewList.Columns[2].HeaderText = "Замена";
+				dataGridViewList.Columns[2].Width = 300;
+				dataGridViewList.Columns[3].HeaderText = "Тип";
+                dataGridViewList.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
 

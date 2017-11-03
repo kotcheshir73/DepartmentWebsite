@@ -76,6 +76,7 @@ namespace DepartmentService.Services
 				Week = model.Week,
 				Day = model.Day,
 				Lesson = model.Lesson,
+				NotParseRecord = model.NotParseRecord,
 				SeasonDatesId = seasonDate.Id,
 				IsStreaming = model.IsStreaming,
 

@@ -11,6 +11,8 @@ namespace DepartmentDAL.Models
 
         public string StopWord { get; set; }
 
-        public ScheduleStopWordTypes StopWordType { get; set; }
+		public string StopWordReplace { get; set; }
+
+		public ScheduleStopWordTypes StopWordType { get; set; }
     }
 }

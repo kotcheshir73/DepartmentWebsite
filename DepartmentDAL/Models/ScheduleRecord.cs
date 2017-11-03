@@ -6,6 +6,8 @@
 
         public long SeasonDatesId { get; set; }
 
+		public string NotParseRecord { get; set; }
+
         public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }

@@ -71,6 +71,7 @@ namespace DepartmentService.Services
 			var entity = new ScheduleStopWord
 			{
 				StopWord = model.StopWord,
+				StopWordReplace = model.StopWordReplace,
 				StopWordType = (ScheduleStopWordTypes)Enum.Parse(typeof(ScheduleStopWordTypes), model.StopWordType)
 			};
 			try
@@ -101,6 +102,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 				}
 				entity.StopWord = model.StopWord;
+				entity.StopWordReplace = model.StopWordReplace;
 				entity.StopWordType = (ScheduleStopWordTypes)Enum.Parse(typeof(ScheduleStopWordTypes), model.StopWordType);
 
 				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;

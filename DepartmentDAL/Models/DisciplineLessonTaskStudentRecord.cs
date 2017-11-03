@@ -12,7 +12,7 @@ namespace DepartmentDAL.Models
 
 		public virtual DisciplineLessonTask DisciplineLessonTask { get; set; }
 
-		public long StudentId { get; set; }
+		public string StudentId { get; set; }
 
 		public virtual Student Student { get; set; }
 	}

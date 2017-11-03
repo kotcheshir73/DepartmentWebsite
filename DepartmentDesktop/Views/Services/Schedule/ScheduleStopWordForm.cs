@@ -45,6 +45,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 				comboBoxStopWordType.SelectedValue = entity.StopWordType;
                 textBoxStopWord.Text = entity.StopWord;
+				textBoxReplace.Text = entity.StopWordReplace;
             }
         }
 
@@ -71,6 +72,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     result = _service.CreateScheduleStopWord(new ScheduleStopWordRecordBindingModel
                     {
                         StopWord = textBoxStopWord.Text,
+						StopWordReplace = textBoxReplace.Text,
                         StopWordType = comboBoxStopWordType.Text
                     });
                 }
@@ -80,7 +82,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     {
                         Id = _id,
                         StopWord = textBoxStopWord.Text,
-                        StopWordType = comboBoxStopWordType.Text
+						StopWordReplace = textBoxReplace.Text,
+						StopWordType = comboBoxStopWordType.Text
                     });
                 }
                 if (result.Succeeded)

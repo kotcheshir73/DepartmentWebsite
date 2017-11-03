@@ -14,7 +14,7 @@
 
 		public virtual Discipline Discipline { get; set; }
 
-		public long StudentId { get; set; }
+		public string StudentId { get; set; }
 
 		public virtual Student Student { get; set; }
 	}

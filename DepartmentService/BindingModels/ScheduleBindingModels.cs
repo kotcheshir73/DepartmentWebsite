@@ -84,8 +84,10 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string StopWord { get; set; }
+		
+		public string StopWordReplace { get; set; }
 
-        [Required(ErrorMessage = "required")]
+		[Required(ErrorMessage = "required")]
         public string StopWordType { get; set; }
     }
 
@@ -106,7 +108,9 @@ namespace DepartmentService.BindingModels
 
         public int Lesson { get; set; }
 
-        public bool IsStreaming { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public bool IsStreaming { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string LessonType { get; set; }
@@ -160,7 +164,9 @@ namespace DepartmentService.BindingModels
 
         public int Lesson { get; set; }
 
-        [Required(ErrorMessage = "required")]
+		public string NotParseRecord { get; set; }
+
+		[Required(ErrorMessage = "required")]
         public string LessonDiscipline { get; set; }
 
         [Required(ErrorMessage = "required")]
@@ -194,7 +200,9 @@ namespace DepartmentService.BindingModels
         [Required(ErrorMessage = "required")]
         public DateTime DateExamination { get; set; }
 
-        [Required(ErrorMessage = "required")]
+		public string NotParseRecord { get; set; }
+
+		[Required(ErrorMessage = "required")]
         public string LessonDiscipline { get; set; }
 
         [Required(ErrorMessage = "required")]
@@ -235,7 +243,9 @@ namespace DepartmentService.BindingModels
         [Required(ErrorMessage = "required")]
         public DateTime DateConsultation { get; set; }
 
-        [Required(ErrorMessage = "required")]
+		public string NotParseRecord { get; set; }
+
+		[Required(ErrorMessage = "required")]
         public string LessonDiscipline { get; set; }
 
         [Required(ErrorMessage = "required")]

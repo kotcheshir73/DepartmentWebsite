@@ -379,6 +379,7 @@ namespace DepartmentService.ViewModels
 				Day = entity.Day,
 				Week = entity.Week,
 				Lesson = entity.Lesson,
+				NotParseRecord = entity.NotParseRecord,
 				IsStreaming = entity.IsStreaming,
 				LessonClassroom = entity.LessonClassroom,
 				LessonGroup = entity.LessonGroup,
@@ -407,6 +408,7 @@ namespace DepartmentService.ViewModels
 				Day = entity.Day,
 				Week = entity.Week,
 				Lesson = entity.Lesson,
+				NotParseRecord = entity.NotParseRecord,
 				LessonClassroom = entity.LessonClassroom,
 				LessonGroup = entity.LessonGroup,
 				LessonDiscipline = entity.LessonDiscipline,
@@ -432,6 +434,7 @@ namespace DepartmentService.ViewModels
 				Id = entity.Id,
 				DateConsultation = entity.DateConsultation,
 				DateExamination = entity.DateExamination,
+				NotParseRecord = entity.NotParseRecord,
 				LessonClassroom = entity.LessonClassroom,
 				LessonGroup = entity.LessonGroup,
 				LessonDiscipline = entity.LessonDiscipline,
@@ -456,6 +459,7 @@ namespace DepartmentService.ViewModels
 			{
 				Id = entity.Id,
 				DateConsultation = entity.DateConsultation,
+				NotParseRecord = entity.NotParseRecord,
 				LessonClassroom = entity.LessonClassroom,
 				LessonGroup = entity.LessonGroup,
 				LessonDiscipline = entity.LessonDiscipline,
@@ -517,6 +521,7 @@ namespace DepartmentService.ViewModels
 			{
 				Id = entity.Id,
 				StopWord = entity.StopWord,
+				StopWordReplace = entity.StopWordReplace,
 				StopWordType = entity.StopWordType.ToString()
 			};
 		}

@@ -25,7 +25,9 @@ namespace DepartmentService.ViewModels
 
         public string StopWord { get; set; }
 
-        public string StopWordType { get; set; }
+		public string StopWordReplace { get; set; }
+
+		public string StopWordType { get; set; }
     }
 
     public class SemesterRecordShortViewModel
@@ -38,7 +40,9 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public string LessonType { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public string LessonType { get; set; }
 
         public bool IsStreaming { get; set; }
 
@@ -69,7 +73,9 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public string LessonType { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public string LessonType { get; set; }
 
         public bool IsStreaming { get; set; }
 
@@ -106,7 +112,9 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public string LessonDiscipline { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }
 
@@ -133,7 +141,9 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public string LessonDiscipline { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }
 
@@ -160,9 +170,11 @@ namespace DepartmentService.ViewModels
     {
         public long Id { get; set; }
 
-        public DateTime DateConsultation { get; set; }
+		public DateTime DateConsultation { get; set; }
 
         public DateTime DateExamination { get; set; }
+
+		public string NotParseRecord { get; set; }
 
         public string LessonDiscipline { get; set; }
 
@@ -185,9 +197,11 @@ namespace DepartmentService.ViewModels
     {
         public long Id { get; set; }
 
-        public DateTime DateConsultation { get; set; }
+		public DateTime DateConsultation { get; set; }
 
         public DateTime DateExamination { get; set; }
+
+		public string NotParseRecord { get; set; }
 
         public string LessonDiscipline { get; set; }
 
@@ -222,7 +236,9 @@ namespace DepartmentService.ViewModels
 
         public int Lesson { get; set; }
 
-        public DateTime DateConsultation { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public DateTime DateConsultation { get; set; }
 
         public string LessonDiscipline { get; set; }
 
@@ -247,7 +263,9 @@ namespace DepartmentService.ViewModels
 
         public DateTime DateConsultation { get; set; }
 
-        public string LessonDiscipline { get; set; }
+		public string NotParseRecord { get; set; }
+
+		public string LessonDiscipline { get; set; }
 
         public string LessonLecturer { get; set; }
 

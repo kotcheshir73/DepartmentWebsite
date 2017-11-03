@@ -237,6 +237,14 @@
     <Compile Include="Migrations\201705261010384_ChangeContingent.Designer.cs">
       <DependentUpon>201705261010384_ChangeContingent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709070419039_UpdateDLTasks.cs" />
+    <Compile Include="Migrations\201709070419039_UpdateDLTasks.Designer.cs">
+      <DependentUpon>201709070419039_UpdateDLTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711030420036_UpdateForSchedule.cs" />
+    <Compile Include="Migrations\201711030420036_UpdateForSchedule.Designer.cs">
+      <DependentUpon>201711030420036_UpdateForSchedule.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -417,6 +425,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705261010384_ChangeContingent.resx">
       <DependentUpon>201705261010384_ChangeContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709070419039_UpdateDLTasks.resx">
+      <DependentUpon>201709070419039_UpdateDLTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711030420036_UpdateForSchedule.resx">
+      <DependentUpon>201711030420036_UpdateForSchedule.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
