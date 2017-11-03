@@ -1843,9 +1843,7 @@ namespace DepartmentService.Services
 							entitySecond.Day = day;
 							entitySecond.Lesson = para;
 							entitySecond.SeasonDatesId = currentDates.Id;
-
 							AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
-
 							var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
 							if (!result.Succeeded)
 							{
@@ -1877,203 +1875,84 @@ namespace DepartmentService.Services
 			SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
 		{
 			recordFirst.NotParseRecord = recordSecond.NotParseRecord = text;
-			text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "");
-			var lesson = text.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			//определяем группу
-			if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
+			text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").Replace("\r\n", "").TrimStart();
+			// ищем в записе наличие аудиторий
+			var classroomMatches = Regex.Matches(text, @"а.(\w{0,2})[\d]+(\-\d)*(\/\d)*");
+			if (classroomMatches.Count == 0)
 			{
-				var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
-				if (group != null)
-				{
-					recordFirst.StudentGroupId = group.Id;
-				}
+				return;
 			}
-			//определяем дисциплину
-			recordFirst.LessonDiscipline += lesson[0];
-			int i = 1;
-			ScheduleStopWord stopWord = null;
-			for (; i < lesson.Length - 1; ++i)
+			for (int clM = 0; clM < classroomMatches.Count; ++clM)
 			{
-				if (i < lesson.Length - 3 && lesson[i].ToUpper() == lesson[i] &&
-					lesson[i + 1].Length == 1 && lesson[i + 1].ToUpper() == lesson[i + 1] &&
-					lesson[i + 2].Length == 1 && lesson[i + 2].ToUpper() == lesson[i + 2])
-				{//Шаблон для преподавателя "ФАМИЛИЯ И О"
-					break;
-				}
-				stopWord = stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель);
-				if (stopWord != null)
-				{
-					break;
-				}
-				recordFirst.LessonDiscipline += lesson[i] + " ";
-			}
-			//определяем преподавателя
-			if (i < lesson.Length - 3)
-			{
-				if (stopWord != null)
-				{
-					if (string.IsNullOrEmpty(stopWord.StopWordReplace))
-					{
-						recordFirst.LessonLecturer = lesson[i++];
-					}
-					else
-					{
-						recordFirst.LessonLecturer = stopWord.StopWordReplace;
-						i++;
-					}
-				}
-				else
-				{
-					recordFirst.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
-				}
-			}
-			else if (stopWord != null)
-			{
-				if (string.IsNullOrEmpty(stopWord.StopWordReplace))
-				{
-					recordFirst.LessonLecturer = lesson[i++];
-				}
-				else
-				{
-					recordFirst.LessonLecturer = stopWord.StopWordReplace;
-					i++;
-				}
-			}
-			if (!string.IsNullOrEmpty(recordFirst.LessonLecturer))
-			{
-				string searchName = recordFirst.LessonLecturer[0] + recordFirst.LessonLecturer.Split(' ')[0].Substring(1).ToLower();
-				if (recordFirst.LessonLecturer.Split(' ').Length > 1)
-				{
-					var spliters = recordFirst.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-					string firstName = spliters.Length > 0 ? spliters[0] : string.Empty;
-					string patronumic = spliters.Length > 1 ? spliters[1] : string.Empty;
-					var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName &&
-											((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-											((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
-					if (lecturer != null)
-					{
-						recordFirst.LecturerId = lecturer.Id;
-					}
-				}
-				else
-				{
-					var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName);
-					if (lecturer != null)
-					{
-						recordFirst.LecturerId = lecturer.Id;
-					}
-				}
-			}
-			//определяем аудиторию
-			while (i < lesson.Length)
-			{
-				if (Regex.IsMatch(lesson[i], ""))
-				{
-					break;
-				}
-				i++;
-			}
-			if (i < lesson.Length)
-			{
-				if (lesson[i] == "-")
-				{
-					i++;
-				}
-				recordFirst.LessonClassroom = lesson[i++];
-
-				var classroom = _context.Classrooms.FirstOrDefault(c => recordFirst.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
+				var currentRecord = clM == 0 ? recordFirst : recordSecond;
+				currentRecord.LessonClassroom = classroomMatches[clM].Value;
+				var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
 				if (classroom != null)
 				{
-					recordFirst.ClassroomId = classroom.Id;
+					currentRecord.ClassroomId = classroom.Id;
 				}
-			}
-			//определяем тип занятия
-			recordFirst.LessonType = LessonTypes.нд.ToString();
-			if (recordFirst.LessonDiscipline.StartsWith("лек."))
-			{
-				recordFirst.LessonType = LessonTypes.лек.ToString();
-				recordFirst.LessonDiscipline = recordFirst.LessonDiscipline.Remove(0, 4);
-			}
-			if (recordFirst.LessonDiscipline.StartsWith("пр."))
-			{
-				recordFirst.LessonType = LessonTypes.пр.ToString();
-				recordFirst.LessonDiscipline = recordFirst.LessonDiscipline.Remove(0, 3);
-			}
-			if (recordFirst.LessonDiscipline.StartsWith("лаб."))
-			{
-				recordFirst.LessonType = LessonTypes.лаб.ToString();
-				recordFirst.LessonDiscipline = recordFirst.LessonDiscipline.Remove(0, 4);
-			}
+				// убираем из текста номер аудитории, остается предмет и преподаватель
+				var lessonText = text.Substring(0, text.IndexOf(currentRecord.LessonClassroom)).TrimEnd();
 
-			//если еще остались элементы, значит есть вторая пара
-			if (i < lesson.Length)
-			{
-				//дисциплина будет пустой
-				recordSecond.LessonDiscipline = "";
-				//определяем группу
-				recordSecond.LessonGroup = recordFirst.LessonGroup;
-				if (recordFirst.StudentGroupId != null)
+				if (lessonText.ToLower().Contains("дударин"))
 				{
-					recordSecond.StudentGroupId = recordFirst.StudentGroupId;
 				}
-				//определяем преподавателя
-				if (i < lesson.Length - 3)
+
+
+				// маленький костыль для второй записи
+				if (lessonText.EndsWith("-"))
 				{
-					if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
-					{
-						recordSecond.LessonLecturer = lesson[i++];
-					}
-					else
-					{
-						recordSecond.LessonLecturer = lesson[i++] + " " + lesson[i++] + "." + lesson[i++] + ".";
-					}
+					lessonText = lessonText.Substring(0, lessonText.Length - 1).TrimEnd();
 				}
-				else if (stopWords.FirstOrDefault(sw => sw.StopWord.Contains(lesson[i].ToUpper()) && sw.StopWordType == ScheduleStopWordTypes.Преподаватель) != null)
+				// вычисляем преподавателя
+				currentRecord.LessonLecturer = Regex.Match(lessonText, @"[\w]+(\ (\w(\.)?)?)?(\ (\w(\.)?)?)?$").Value;
+
+				if (!string.IsNullOrEmpty(currentRecord.LessonLecturer))
 				{
-					recordSecond.LessonLecturer = lesson[i++];
-				}
-				if (!string.IsNullOrEmpty(recordSecond.LessonLecturer))
-				{
-					string searchName = recordSecond.LessonLecturer[0] + recordSecond.LessonLecturer.Split(' ')[0].Substring(1).ToLower();
-					if (recordSecond.LessonLecturer.Split(' ').Length > 1)
-					{
-						var spliters = recordSecond.LessonLecturer.Split(' ')[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-						string firstName = spliters.Length > 0 ? spliters[0] : string.Empty;
-						string patronumic = spliters.Length > 1 ? spliters[1] : string.Empty;
-						var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName &&
+					var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+					string lastName = spliters[0] + spliters[0].Substring(1).ToLower();
+					string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
+					string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
+					if (currentRecord.LessonLecturer.Split(' ').Length > 1)
+					{// !!!!!!!!!!!!!!!TODO отладить при вводе преподавателей
+						var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
 												((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
 												((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
 						if (lecturer != null)
 						{
-							recordSecond.LecturerId = lecturer.Id;
-						}
-					}
-					else
-					{
-						var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == searchName);
-						if (lecturer != null)
-						{
-							recordSecond.LecturerId = lecturer.Id;
+							currentRecord.LecturerId = lecturer.Id;
 						}
 					}
 				}
-				//определяем аудиторию
-				if (i < lesson.Length)
-				{
-					if (lesson[i] == "-")
-					{
-						i++;
-					}
-					recordSecond.LessonClassroom = lesson[i++];
+				// оставляем только название предмета
+				currentRecord.LessonDiscipline = lessonText.Substring(0, lessonText.IndexOf(currentRecord.LessonLecturer)).TrimEnd();
 
-					var classroom = _context.Classrooms.FirstOrDefault(c => recordSecond.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
-					if (classroom != null)
-					{
-						recordSecond.ClassroomId = classroom.Id;
-					}
-					//определяем тип занятия
-					recordSecond.LessonType = recordFirst.LessonType;
+				currentRecord.LessonType = LessonTypes.нд.ToString();
+				if (currentRecord.LessonDiscipline.StartsWith("лек."))
+				{
+					currentRecord.LessonType = LessonTypes.лек.ToString();
+					currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
 				}
+				if (currentRecord.LessonDiscipline.StartsWith("пр."))
+				{
+					currentRecord.LessonType = LessonTypes.пр.ToString();
+					currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 3);
+				}
+				if (currentRecord.LessonDiscipline.StartsWith("лаб."))
+				{
+					currentRecord.LessonType = LessonTypes.лаб.ToString();
+					currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
+				}
+				//определяем группу
+				if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
+				{
+					var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
+					if (group != null)
+					{
+						currentRecord.StudentGroupId = group.Id;
+					}
+				}
+				text = text.Substring(text.IndexOf(currentRecord.LessonClassroom) + currentRecord.LessonClassroom.Length).TrimStart();
 			}
 		}
 
@@ -2084,75 +1963,86 @@ namespace DepartmentService.Services
 		/// <param name="error"></param>
 		private ResultService CheckNewSemesterRecordForConflictAndSave(SemesterRecordRecordBindingModel record)
 		{
-			//ищем занятие другой группы в этой аудитории
-			var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-									r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
-									r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
-			if (exsistRecord != null)
-			{//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
-				if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
-					exsistRecord.LessonLecturer == record.LessonLecturer &&
-					exsistRecord.LessonType.ToString() == record.LessonType)
-				{//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
-					record.IsStreaming = true;
-					exsistRecord.IsStreaming = true;
-
-					_context.Entry(exsistRecord).State = EntityState.Modified;
-					_context.SaveChanges();
-
-					return _serviceSR.CreateSemesterRecord(record);
+			try
+			{
+				if (record.ClassroomId == null && record.StudentGroupId == null && record.LecturerId == null)
+				{
+					return ResultService.Success();
 				}
-				else if (exsistRecord.LessonType == LessonTypes.удл)
-				{//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-					var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
-					if (!result.Succeeded)
-					{
-						return result;
+				//ищем занятие другой группы в этой аудитории
+				var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
+										r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
+										r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
+				if (exsistRecord != null)
+				{//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
+					if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
+						exsistRecord.LessonLecturer == record.LessonLecturer &&
+						exsistRecord.LessonType.ToString() == record.LessonType)
+					{//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
+						record.IsStreaming = true;
+						exsistRecord.IsStreaming = true;
+
+						_context.Entry(exsistRecord).State = EntityState.Modified;
+						_context.SaveChanges();
+
+						return _serviceSR.CreateSemesterRecord(record);
 					}
+					else if (exsistRecord.LessonType == LessonTypes.удл)
+					{//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
+						var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
+						if (!result.Succeeded)
+						{
+							return result;
+						}
+						return _serviceSR.CreateSemesterRecord(record);
+					}
+					else
+					{
+						return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+							record.Week, record.Day, record.Lesson,
+							exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+					}
+				}
+
+				//ищем занятие этой группы в другой аудитории
+				exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
+											  r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
+											  r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
+				if (exsistRecord != null)
+				{//если на этой неделе в этот день этой парой у этой группы уже есть занятие
+					if (exsistRecord.LessonType.ToString() == record.LessonType ||
+										exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд.ToString())
+					{//если совпадает тип занятия (или у одного из занятий неизвестен тип), но аудитории разные, то это лабораторные по подгруппам
+						return _serviceSR.CreateSemesterRecord(record);
+					}
+					else if (exsistRecord.LessonType == LessonTypes.удл)
+					{//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
+						var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
+						if (!result.Succeeded)
+						{
+							return result;
+						}
+						return _serviceSR.CreateSemesterRecord(record);
+					}
+					else
+					{
+						return ResultService.Error("Конфликт (группы):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+							record.Week, record.Day, record.Lesson,
+							exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup), ResultServiceStatusCode.Error);
+					}
+				}
+				if (record.StudentGroupId != null || record.ClassroomId != null || record.LecturerId != null)
+				{
 					return _serviceSR.CreateSemesterRecord(record);
 				}
 				else
 				{
-					return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-						record.Week, record.Day, record.Lesson,
-						exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+					return ResultService.Success();
 				}
 			}
-
-			//ищем занятие этой группы в другой аудитории
-			exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-										  r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
-										  r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
-			if (exsistRecord != null)
-			{//если на этой неделе в этот день этой парой у этой группы уже есть занятие
-				if (exsistRecord.LessonType.ToString() == record.LessonType ||
-									exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд.ToString())
-				{//если совпадает тип занятия (или у одного из занятий неизвестен тип), но аудитории разные, то это лабораторные по подгруппам
-					return _serviceSR.CreateSemesterRecord(record);
-				}
-				else if (exsistRecord.LessonType == LessonTypes.удл)
-				{//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-					var result = _serviceSR.DeleteSemesterRecord(new SemesterRecordGetBindingModel { Id = exsistRecord.Id });
-					if (!result.Succeeded)
-					{
-						return result;
-					}
-					return _serviceSR.CreateSemesterRecord(record);
-				}
-				else
-				{
-					return ResultService.Error("Конфликт (группы):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-						record.Week, record.Day, record.Lesson,
-						exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup), ResultServiceStatusCode.Error);
-				}
-			}
-			if (record.StudentGroupId != null || record.ClassroomId != null || record.LecturerId != null)
+			catch (Exception)
 			{
-				return _serviceSR.CreateSemesterRecord(record);
-			}
-			else
-			{
-				return ResultService.Success();
+				throw;
 			}
 		}
 		#endregion
