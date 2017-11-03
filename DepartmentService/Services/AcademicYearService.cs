@@ -27,7 +27,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<AcademicYearViewModel>>.Success(
-					ModelFactory.CreateAcademicYears(_context.AcademicYears
+					ModelFactoryToViewModel.CreateAcademicYears(_context.AcademicYears
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -54,7 +54,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<AcademicYearViewModel>.Success(
-					ModelFactory.CreateAcademicYearViewModel(entity));
+					ModelFactoryToViewModel.CreateAcademicYearViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

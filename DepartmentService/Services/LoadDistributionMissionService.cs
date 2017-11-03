@@ -29,19 +29,19 @@ namespace DepartmentService.Services
 				if(model.LecturerId.HasValue)
 				{
 					return ResultService<List<LoadDistributionMissionViewModel>>.Success(
-						ModelFactory.CreateLoadDistributionMissions(_context.LoadDistributionMissions
+						ModelFactoryToViewModel.CreateLoadDistributionMissions(_context.LoadDistributionMissions
 								.Where(e => !e.IsDeleted && e.LecturerId == model.LecturerId.Value))
 						.ToList());
 				}
 				if (model.LoadDistributionRecordId.HasValue)
 				{
 					return ResultService<List<LoadDistributionMissionViewModel>>.Success(
-						ModelFactory.CreateLoadDistributionMissions(_context.LoadDistributionMissions
+						ModelFactoryToViewModel.CreateLoadDistributionMissions(_context.LoadDistributionMissions
 								.Where(e => !e.IsDeleted && e.LoadDistributionRecordId == model.LoadDistributionRecordId.Value))
 						.ToList());
 				}
 				return ResultService<List<LoadDistributionMissionViewModel>>.Success(
-					ModelFactory.CreateLoadDistributionMissions(_context.LoadDistributionMissions
+					ModelFactoryToViewModel.CreateLoadDistributionMissions(_context.LoadDistributionMissions
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<LoadDistributionMissionViewModel>.Success(
-					ModelFactory.CreateLoadDistributionMissionViewModel(entity));
+					ModelFactoryToViewModel.CreateLoadDistributionMissionViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

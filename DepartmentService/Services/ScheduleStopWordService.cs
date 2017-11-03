@@ -27,7 +27,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<ScheduleStopWordViewModel>>.Success(
-					ModelFactory.CreateScheduleStopWords(_context.ScheduleStopWords)
+					ModelFactoryToViewModel.CreateScheduleStopWords(_context.ScheduleStopWords)
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<ScheduleStopWordViewModel>.Success(
-					ModelFactory.CreateScheduleStopWordViewModel(entity));
+					ModelFactoryToViewModel.CreateScheduleStopWordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

@@ -37,7 +37,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<StudentGroupViewModel>>.Success(
-					ModelFactory.CreateStudentGroups(_context.StudentGroups
+					ModelFactoryToViewModel.CreateStudentGroups(_context.StudentGroups
 						.Include(s => s.EducationDirection).Include(s => s.Students)
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -65,7 +65,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<StudentGroupViewModel>.Success(
-					ModelFactory.CreateStudentGroupViewModel(entity));
+					ModelFactoryToViewModel.CreateStudentGroupViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

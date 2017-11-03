@@ -26,7 +26,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				return ResultService<List<LecturerViewModel>>.Success(ModelFactory.CreateLecturers(
+				return ResultService<List<LecturerViewModel>>.Success(ModelFactoryToViewModel.CreateLecturers(
 						_context.Lecturers
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 					return ResultService<LecturerViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<LecturerViewModel>.Success(
-					ModelFactory.CreateLecturerViewModel(entity));
+					ModelFactoryToViewModel.CreateLecturerViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

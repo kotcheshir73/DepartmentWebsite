@@ -31,7 +31,7 @@ namespace DepartmentService.Services
 					return ResultService<OffsetRecordViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<OffsetRecordViewModel>.Success(
-					ModelFactory.CreateOffsetRecordViewModel(entity));
+					ModelFactoryToViewModel.CreateOffsetRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

@@ -26,7 +26,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				return ResultService<List<EducationDirectionViewModel>>.Success(ModelFactory.CreateEducationDirections(
+				return ResultService<List<EducationDirectionViewModel>>.Success(ModelFactoryToViewModel.CreateEducationDirections(
 						_context.EducationDirections
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 					return ResultService<EducationDirectionViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<EducationDirectionViewModel>.Success(
-					ModelFactory.CreateEducationDirectionViewModel(entity));
+					ModelFactoryToViewModel.CreateEducationDirectionViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

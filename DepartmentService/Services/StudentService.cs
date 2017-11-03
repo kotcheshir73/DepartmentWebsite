@@ -58,7 +58,7 @@ namespace DepartmentService.Services
 				var result = new StudentPageViewModel
 				{
 					MaxCount = count,
-					List = ModelFactory.CreateStudents(query)
+					List = ModelFactoryToViewModel.CreateStudents(query)
 					.ToList()
 				};
 
@@ -88,7 +88,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<StudentViewModel>.Success(
-					ModelFactory.CreateStudentViewModel(entity));
+					ModelFactoryToViewModel.CreateStudentViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

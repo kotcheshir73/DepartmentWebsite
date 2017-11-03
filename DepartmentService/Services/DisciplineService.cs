@@ -36,7 +36,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				return ResultService<List<DisciplineViewModel>>.Success(ModelFactory.CreateDisciplines(
+				return ResultService<List<DisciplineViewModel>>.Success(ModelFactoryToViewModel.CreateDisciplines(
 						_context.Disciplines
 							.Include(d => d.DisciplineBlock)
 							.Where(e => !e.IsDeleted))
@@ -64,7 +64,7 @@ namespace DepartmentService.Services
 					return ResultService<DisciplineViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<DisciplineViewModel>.Success(
-					ModelFactory.CreateDisciplineViewModel(entity));
+					ModelFactoryToViewModel.CreateDisciplineViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

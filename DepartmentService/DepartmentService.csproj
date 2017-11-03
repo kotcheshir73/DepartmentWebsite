@@ -130,7 +130,7 @@
     <Compile Include="ViewModels\KindOfLoadViewModel.cs" />
     <Compile Include="ViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\LoadDistributionViewModels.cs" />
-    <Compile Include="ViewModels\ModelFactory.cs" />
+    <Compile Include="ViewModels\ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModels.cs" />
     <Compile Include="ViewModels\SeasonDatesViewModel.cs" />
     <Compile Include="ViewModels\StreamingLessonViewModel.cs" />

@@ -26,7 +26,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				return ResultService<List<KindOfLoadViewModel>>.Success(ModelFactory.CreateKindOfLoads(
+				return ResultService<List<KindOfLoadViewModel>>.Success(ModelFactoryToViewModel.CreateKindOfLoads(
 						_context.KindOfLoads
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 					return ResultService<KindOfLoadViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<KindOfLoadViewModel>.Success(
-					ModelFactory.CreateKindOfLoadViewModel(entity));
+					ModelFactoryToViewModel.CreateKindOfLoadViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

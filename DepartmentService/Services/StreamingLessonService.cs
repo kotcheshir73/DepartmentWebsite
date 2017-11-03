@@ -27,7 +27,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<StreamingLessonViewModel>>.Success(
-					ModelFactory.CreateStreamingLessons(_context.StreamingLessons
+					ModelFactoryToViewModel.CreateStreamingLessons(_context.StreamingLessons
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -54,7 +54,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<StreamingLessonViewModel>.Success(
-					ModelFactory.CreateStreamingLessonViewModel(entity));
+					ModelFactoryToViewModel.CreateStreamingLessonViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

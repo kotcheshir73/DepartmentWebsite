@@ -46,7 +46,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<AcademicPlanViewModel>>.Success(
-					ModelFactory.CreateAcademicPlans(_context.AcademicPlans
+					ModelFactoryToViewModel.CreateAcademicPlans(_context.AcademicPlans
 						.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -74,7 +74,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<AcademicPlanViewModel>.Success(
-					ModelFactory.CreateAcademicPlanViewModel(entity));
+					ModelFactoryToViewModel.CreateAcademicPlanViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

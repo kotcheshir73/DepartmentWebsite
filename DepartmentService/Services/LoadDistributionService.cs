@@ -37,7 +37,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<LoadDistributionViewModel>>.Success(
-					ModelFactory.CreateLoadDistributions(_context.LoadDistributions
+					ModelFactoryToViewModel.CreateLoadDistributions(_context.LoadDistributions
 						.Include(ap => ap.AcademicYear)
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -65,7 +65,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<LoadDistributionViewModel>.Success(
-					ModelFactory.CreateLoadDistributionViewModel(entity));
+					ModelFactoryToViewModel.CreateLoadDistributionViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

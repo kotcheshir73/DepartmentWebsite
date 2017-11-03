@@ -57,7 +57,7 @@ namespace DepartmentService.Services
 				if (model.AcademicPlanId.HasValue)
 				{
 					return ResultService<List<AcademicPlanRecordViewModel>>.Success(
-						ModelFactory.CreateAcademicPlanRecords(_context.AcademicPlanRecords
+						ModelFactoryToViewModel.CreateAcademicPlanRecords(_context.AcademicPlanRecords
 							.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad)
 								.Where(e => e.AcademicPlanId == model.AcademicPlanId.Value && !e.IsDeleted))
 						.ToList());
@@ -87,7 +87,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<AcademicPlanRecordViewModel>.Success(
-					ModelFactory.CreateAcademicPlanRecordViewModel(entity));
+					ModelFactoryToViewModel.CreateAcademicPlanRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DepartmentService.ViewModels
 {
-	public static class ModelFactory
+	public static class ModelFactoryToViewModel
 	{
 		public static EducationDirectionViewModel CreateEducationDirectionViewModel(EducationDirection entity)
 		{

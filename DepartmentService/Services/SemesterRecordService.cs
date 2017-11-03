@@ -31,7 +31,7 @@ namespace DepartmentService.Services
 					return ResultService<SemesterRecordViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<SemesterRecordViewModel>.Success(
-					ModelFactory.CreateSemesterRecordViewModel(entity));
+					ModelFactoryToViewModel.CreateSemesterRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

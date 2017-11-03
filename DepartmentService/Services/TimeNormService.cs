@@ -36,7 +36,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				return ResultService<List<TimeNormViewModel>>.Success(ModelFactory.CreateTimeNorms(
+				return ResultService<List<TimeNormViewModel>>.Success(ModelFactoryToViewModel.CreateTimeNorms(
 						_context.TimeNorms.Include(tn => tn.KindOfLoad)
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -63,7 +63,7 @@ namespace DepartmentService.Services
 					return ResultService<TimeNormViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<TimeNormViewModel>.Success(
-					ModelFactory.CreateTimeNormViewModel(entity));
+					ModelFactoryToViewModel.CreateTimeNormViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

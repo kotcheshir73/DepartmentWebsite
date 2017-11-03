@@ -27,7 +27,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<SeasonDatesViewModel>>.Success(
-					ModelFactory.CreateSeasonDaties(_context.SeasonDates)
+					ModelFactoryToViewModel.CreateSeasonDaties(_context.SeasonDates)
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 					return ResultService<SeasonDatesViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<SeasonDatesViewModel>.Success(
-					ModelFactory.CreateSeasonDatesViewModel(entity));
+					ModelFactoryToViewModel.CreateSeasonDatesViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

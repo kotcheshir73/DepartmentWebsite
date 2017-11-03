@@ -29,13 +29,13 @@ namespace DepartmentService.Services
 				if (string.IsNullOrEmpty(model.Title))
 				{
 					return ResultService<List<ScheduleLessonTimeViewModel>>.Success(
-						ModelFactory.CreateScheduleLessonTimes(_context.ScheduleLessonTimes)
+						ModelFactoryToViewModel.CreateScheduleLessonTimes(_context.ScheduleLessonTimes)
 						.ToList());
 				}
 				else
 				{
 					return ResultService<List<ScheduleLessonTimeViewModel>>.Success(
-						ModelFactory.CreateScheduleLessonTimes(_context.ScheduleLessonTimes
+						ModelFactoryToViewModel.CreateScheduleLessonTimes(_context.ScheduleLessonTimes
 							.Where(slt => slt.Title.Contains(model.Title)))
 						.ToList());
 				}
@@ -63,7 +63,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<ScheduleLessonTimeViewModel>.Success(
-					ModelFactory.CreateScheduleLessonTimeViewModel(entity));
+					ModelFactoryToViewModel.CreateScheduleLessonTimeViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

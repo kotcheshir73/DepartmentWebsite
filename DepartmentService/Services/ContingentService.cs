@@ -45,7 +45,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<ContingentViewModel>>.Success(
-					ModelFactory.CreateContingents(_context.Contingents
+					ModelFactoryToViewModel.CreateContingents(_context.Contingents
 						.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
 							.Where(e => !e.IsDeleted))
 					.ToList());
@@ -73,7 +73,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<ContingentViewModel>.Success(
-					ModelFactory.CreateContingentViewModel(entity));
+					ModelFactoryToViewModel.CreateContingentViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

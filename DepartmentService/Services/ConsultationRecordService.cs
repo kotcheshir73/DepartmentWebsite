@@ -34,7 +34,7 @@ namespace DepartmentService.Services
 					return ResultService<ConsultationRecordViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				return ResultService<ConsultationRecordViewModel>.Success(
-					ModelFactory.CreateConsultationRecordViewModel(entity));
+					ModelFactoryToViewModel.CreateConsultationRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
@@ -61,7 +61,7 @@ namespace DepartmentService.Services
 				return ResultService.Error("Error:", "SeasonDate not found",
 					ResultServiceStatusCode.NotFound);
 			}
-			var result = CheckCreateConsultation(model, ModelFactory.CreateSeasonDatesViewModel(seasonDate));
+			var result = CheckCreateConsultation(model, ModelFactoryToViewModel.CreateSeasonDatesViewModel(seasonDate));
 			if (!result.Succeeded)
 			{
 				return result;

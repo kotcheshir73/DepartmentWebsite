@@ -29,12 +29,12 @@ namespace DepartmentService.Services
 				if (!string.IsNullOrEmpty(model.NumberOfBook))
 				{
 					return ResultService<List<StudentHistoryViewModel>>.Success(
-						ModelFactory.CreateStudentHistorys(_context.StudentHistorys
+						ModelFactoryToViewModel.CreateStudentHistorys(_context.StudentHistorys
 										   .Where(sh => sh.StudentId == model.NumberOfBook))
 									.ToList());
 				}
 				return ResultService<List<StudentHistoryViewModel>>.Success(
-					ModelFactory.CreateStudentHistorys(_context.StudentHistorys)
+					ModelFactoryToViewModel.CreateStudentHistorys(_context.StudentHistorys)
 					.ToList());
 			}
 			catch (DbEntityValidationException ex)
@@ -60,7 +60,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<StudentHistoryViewModel>.Success(
-					ModelFactory.CreateStudentHistoryViewModel(entity));
+					ModelFactoryToViewModel.CreateStudentHistoryViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

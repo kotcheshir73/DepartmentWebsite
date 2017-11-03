@@ -27,7 +27,7 @@ namespace DepartmentService.Services
 			try
 			{
 				return ResultService<List<ClassroomViewModel>>.Success(
-					ModelFactory.CreateClassrooms(_context.Classrooms
+					ModelFactoryToViewModel.CreateClassrooms(_context.Classrooms
 							.Where(e => !e.IsDeleted))
 					.ToList());
 			}
@@ -54,7 +54,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<ClassroomViewModel>.Success(
-					ModelFactory.CreateClassroomViewModel(entity));
+					ModelFactoryToViewModel.CreateClassroomViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{

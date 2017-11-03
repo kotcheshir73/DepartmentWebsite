@@ -67,7 +67,7 @@ namespace DepartmentService.Services
 					throw new Exception("Отсутсвует идентификатор рапределения нагрузок");
 				}
 				return ResultService<List<LoadDistributionRecordViewModel>>.Success(
-					ModelFactory.CreateLoadDistributionRecords(_context.LoadDistributionRecords
+					ModelFactoryToViewModel.CreateLoadDistributionRecords(_context.LoadDistributionRecords
 					.Where(e => e.LoadDistributionId == model.LoadDistributionId.Value)
 						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
 						.Include(e => e.AcademicPlanRecord.AcademicPlan.EducationDirection)
@@ -106,7 +106,7 @@ namespace DepartmentService.Services
 						ResultServiceStatusCode.NotFound);
 
 				return ResultService<LoadDistributionRecordViewModel>.Success(
-					ModelFactory.CreateLoadDistributionRecordViewModel(entity));
+					ModelFactoryToViewModel.CreateLoadDistributionRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
