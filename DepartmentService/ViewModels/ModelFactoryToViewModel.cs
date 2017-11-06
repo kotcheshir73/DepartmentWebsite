@@ -515,5 +515,37 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateScheduleLessonTimeViewModel(e)).OrderBy(e => e.Id);
 		}
 		#endregion
+
+		#region Administration
+		public static RoleViewModel CreateRoleViewModel(Role entity)
+		{
+			return new RoleViewModel
+			{
+				Id = entity.Id,
+				RoleName = entity.RoleName
+			};
+		}
+
+		public static IEnumerable<RoleViewModel> CreateRoles(IEnumerable<Role> entities)
+		{
+			return entities.Select(e => CreateRoleViewModel(e)).OrderBy(e => e.RoleName);
+		}
+
+		public static AccessViewModel CreateAccessViewModel(Access entity)
+		{
+			return new AccessViewModel
+			{
+				Id = entity.Id,
+				RoleName = entity.Role.RoleName,
+				Operation = entity.Operation,
+				AccessType = (int)entity.AccessType
+			};
+		}
+
+		public static IEnumerable<AccessViewModel> CreateAccesses(IEnumerable<Access> entities)
+		{
+			return entities.Select(e => CreateAccessViewModel(e)).OrderBy(e => e.RoleName);
+		}
+		#endregion
 	}
 }

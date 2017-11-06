@@ -18,7 +18,7 @@ namespace DepartmentDAL.Context
 		public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
 		public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
 		public virtual DbSet<AcademicYear> AcademicYears { get; set; }
-		public virtual DbSet<Access> Access { set; get; }
+		public virtual DbSet<Access> Accesses { set; get; }
         public virtual DbSet<Classroom> Classrooms { set; get; }
         public virtual DbSet<ConsultationRecord> ConsultationRecords { set; get; }
 		public virtual DbSet<Contingent> Contingents { get; set; }

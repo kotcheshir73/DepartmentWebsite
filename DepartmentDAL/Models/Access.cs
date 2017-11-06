@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DepartmentDAL.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentDAL.Models
 {
@@ -13,6 +14,8 @@ namespace DepartmentDAL.Models
         [MaxLength(100)]
         [Required]
         public string Operation { get; set; }
+
+		public AccessType AccessType { get; set; }
 
         public virtual Role Role { get; set; }
     }

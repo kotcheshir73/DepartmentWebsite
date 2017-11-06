@@ -70,7 +70,7 @@ namespace DepartmentService.BindingModels
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.AcademicYearId = model.AcademicYearId;
 			entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
-			entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicLevel), model.AcademicCourses);
+			entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses);
 
 			return entity;
 		}
@@ -459,6 +459,40 @@ namespace DepartmentService.BindingModels
 			entity.Title = model.Title;
 			entity.DateBeginLesson = model.DateBeginLesson;
 			entity.DateEndLesson = model.DateEndLesson;
+
+			return entity;
+		}
+		#endregion
+
+		#region Administration
+		public static Role CreateRole(RoleRecordBindingModel model, Role entity = null)
+		{
+			if (entity == null)
+			{
+				entity = new Role
+				{
+					DateCreate = DateTime.Now,
+					IsDeleted = false
+				};
+			}
+			entity.RoleName = model.RoleName;
+
+			return entity;
+		}
+
+		public static Access CreateAccess(AccessRecordBindingModel model, Access entity = null)
+		{
+			if (entity == null)
+			{
+				entity = new Access
+				{
+					DateCreate = DateTime.Now,
+					IsDeleted = false
+				};
+			}
+			entity.RoleId = model.RoleId;
+			entity.Operation = model.Operation;
+			entity.AccessType = (AccessType)Enum.ToObject(typeof(AccessType), model.AccessType);
 
 			return entity;
 		}

@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingModels\AcademicPlanBindingModels.cs" />
+    <Compile Include="BindingModels\AccessBindingModels.cs" />
     <Compile Include="BindingModels\ClassroomBindingModels.cs" />
     <Compile Include="BindingModels\ContingentBindingModel.cs" />
     <Compile Include="BindingModels\DisciplineBindingModels.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="BindingModels\LecturerBindingModels.cs" />
     <Compile Include="BindingModels\LoadDistributionBindingModels.cs" />
     <Compile Include="BindingModels\ModelFacotryFromBindingModel.cs" />
+    <Compile Include="BindingModels\RoleBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
     <Compile Include="BindingModels\SeasonDatesBindingModels.cs" />
     <Compile Include="BindingModels\StreamingLessonBindingModels.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="IServices\IAcademicPlanRecordService.cs" />
     <Compile Include="IServices\IAcademicPlanService.cs" />
     <Compile Include="IServices\IAcademicYearService.cs" />
+    <Compile Include="IServices\IAccessService.cs" />
     <Compile Include="IServices\IClassroomService.cs" />
     <Compile Include="IServices\IConsultationRecordService.cs" />
     <Compile Include="IServices\IContingentService.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="IServices\ILoadDistributionMissionService.cs" />
     <Compile Include="IServices\ILoadDistributionRecordService.cs" />
     <Compile Include="IServices\ILoadDistributionService.cs" />
+    <Compile Include="IServices\IRoleService.cs" />
     <Compile Include="IServices\IScheduleLessonTimeService.cs" />
     <Compile Include="IServices\IOffsetRecordService.cs" />
     <Compile Include="IServices\IScheduleService.cs" />
@@ -101,6 +105,7 @@
     <Compile Include="Services\AcademicPlanRecordService.cs" />
     <Compile Include="Services\AcademicPlanService.cs" />
     <Compile Include="Services\AcademicYearService.cs" />
+    <Compile Include="Services\AccessService.cs" />
     <Compile Include="Services\ClassroomService.cs" />
     <Compile Include="Services\ConsultationRecordService.cs" />
     <Compile Include="Services\ContingentService.cs" />
@@ -114,6 +119,7 @@
     <Compile Include="Services\LoadDistributionMissionService.cs" />
     <Compile Include="Services\LoadDistributionRecordService.cs" />
     <Compile Include="Services\LoadDistributionService.cs" />
+    <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\ScheduleLessonTimeService.cs" />
     <Compile Include="Services\OffsetRecordService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
@@ -125,6 +131,7 @@
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="Services\TimeNormService.cs" />
     <Compile Include="ViewModels\AcademicPlanViewModels.cs" />
+    <Compile Include="ViewModels\AccessViewModel.cs" />
     <Compile Include="ViewModels\ClassroomViewModel.cs" />
     <Compile Include="ViewModels\ContingentViewModel.cs" />
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
@@ -133,6 +140,7 @@
     <Compile Include="ViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\LoadDistributionViewModels.cs" />
     <Compile Include="ViewModels\ModelFactoryToViewModel.cs" />
+    <Compile Include="ViewModels\RoleViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModels.cs" />
     <Compile Include="ViewModels\SeasonDatesViewModel.cs" />
     <Compile Include="ViewModels\StreamingLessonViewModel.cs" />

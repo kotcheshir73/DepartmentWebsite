@@ -52,6 +52,7 @@
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\AcademicCourse.cs" />
     <Compile Include="Enums\AcademicLevel.cs" />
+    <Compile Include="Enums\AccessType.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
     <Compile Include="Enums\DisciplineLessonStudentStatus.cs" />
     <Compile Include="Enums\DisciplineLessonTaskStudentResult.cs" />
@@ -249,6 +250,10 @@
     <Compile Include="Migrations\201711060923425_DeleteStopWords.Designer.cs">
       <DependentUpon>201711060923425_DeleteStopWords.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711061349530_ChangeAccesses.cs" />
+    <Compile Include="Migrations\201711061349530_ChangeAccesses.Designer.cs">
+      <DependentUpon>201711061349530_ChangeAccesses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -437,6 +442,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711060923425_DeleteStopWords.resx">
       <DependentUpon>201711060923425_DeleteStopWords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711061349530_ChangeAccesses.resx">
+      <DependentUpon>201711061349530_ChangeAccesses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
