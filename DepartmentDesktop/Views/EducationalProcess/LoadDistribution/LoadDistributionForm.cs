@@ -14,20 +14,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private readonly ILoadDistributionRecordService _serviceLDR;
 
+		private readonly IEducationalProcessService _serviceEP;
+
 		private long _id = 0;
 
-		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR)
+		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceLDR = serviceLDR;
+			_serviceEP = serviceEP;
 		}
 
-		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, long id)
+		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP, long id)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceLDR = serviceLDR;
+			_serviceEP = serviceEP;
 			_id = id;
 		}
 
@@ -46,7 +50,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
 			comboBoxAcademicYear.SelectedItem = null;
 
-			var control = new LoadDistributionRecordControl(_serviceLDR);
+			var control = new LoadDistributionRecordControl(_serviceLDR, _serviceEP);
 			control.Left = 0;
 			control.Top = 0;
 			control.Height = Height - 60;

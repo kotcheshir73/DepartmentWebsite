@@ -13,16 +13,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 	{
 		private readonly ILoadDistributionRecordService _service;
 
+		private readonly IEducationalProcessService _serviceEP;
+
 		private long _ldId;
 
 		private bool _showTimeNorms = true;
 
 		private int _countTimeNormColumns;
 
-		public LoadDistributionRecordControl(ILoadDistributionRecordService service)
+		public LoadDistributionRecordControl(ILoadDistributionRecordService service, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
+			_serviceEP = serviceEP;
 
 			LoadColumns();
 		}
@@ -219,7 +222,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void MakeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var result = _service.MakeLoadDistribution(new LoadDistributionGetBindingModel { Id = _ldId });
+			var result = _serviceEP.MakeLoadDistribution(new LoadDistributionGetBindingModel { Id = _ldId });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При формировании возникла ошибка: ", result.Errors);

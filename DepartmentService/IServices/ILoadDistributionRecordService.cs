@@ -1,11 +1,7 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentService.IServices
 {
@@ -70,12 +66,5 @@ namespace DepartmentService.IServices
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService DeleteLoadDistributionRecord(LoadDistributionRecordGetBindingModel model);
-
-		/// <summary>
-		/// Формирование/перерасчет учебной нагрузки на год
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model);
 	}
 }

@@ -32,13 +32,6 @@ namespace DepartmentService.BindingModels
 		public long? AcademicPlanId { get; set; }
 	}
 
-	public class AcademicPlanRecordLoadFromXMLBindingModel
-	{
-		public long Id { get; set; }
-
-		public string FileName{ get; set; }
-	}
-
 	public class AcademicPlanRecordRecordBindingModel
 	{
 		public long Id { get; set; }

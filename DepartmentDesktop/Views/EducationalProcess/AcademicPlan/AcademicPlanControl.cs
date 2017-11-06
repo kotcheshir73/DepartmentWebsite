@@ -13,11 +13,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private readonly IAcademicPlanRecordService _serviceAPR;
 
-		public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR)
+		private readonly IEducationalProcessService _serviceEP;
+
+		public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceAPR = serviceAPR;
+			_serviceEP = serviceEP;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -70,7 +73,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AddRecord()
 		{
-			var form = new AcademicPlanForm(_service, _serviceAPR);
+			var form = new AcademicPlanForm(_service, _serviceAPR, _serviceEP);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadRecords();
@@ -82,7 +85,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-				var form = new AcademicPlanForm(_service, _serviceAPR, id);
+				var form = new AcademicPlanForm(_service, _serviceAPR, _serviceEP, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();

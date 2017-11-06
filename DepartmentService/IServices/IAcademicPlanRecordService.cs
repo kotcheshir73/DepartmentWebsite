@@ -33,13 +33,6 @@ namespace DepartmentService.IServices
 		ResultService<List<KindOfLoadViewModel>> GetKindOfLoads();
 
 		/// <summary>
-		/// Загрузка записей учебного плана из xml
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService LoadFromXMLAcademicPlanRecord(AcademicPlanRecordLoadFromXMLBindingModel model);
-
-		/// <summary>
 		/// Получения записи учебного плана
 		/// </summary>
 		/// <param name="model">Идентификатор записи учебного плана</param>

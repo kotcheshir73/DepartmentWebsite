@@ -15,20 +15,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private readonly IAcademicPlanRecordService _serviceAPR;
 
+		private readonly IEducationalProcessService _serviceEP;
+
 		private long _id = 0;
 
-		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR)
+		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceAPR = serviceAPR;
+			_serviceEP = serviceEP;
 		}
 
-		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, long id)
+		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, long id)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceAPR = serviceAPR;
+			_serviceEP = serviceEP;
 			_id = id;
 		}
 
@@ -65,7 +69,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 			comboBoxEducationDirection.SelectedItem = null;
 
-			var control = new AcademicPlanRecordControl(_serviceAPR);
+			var control = new AcademicPlanRecordControl(_serviceAPR, _serviceEP);
 			control.Left = 0;
 			control.Top = 0;
 			control.Height = Height - 60;

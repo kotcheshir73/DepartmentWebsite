@@ -33,7 +33,8 @@ namespace DepartmentDesktop
         {
             var currentContainer = new UnityContainer();
             currentContainer.RegisterType<DbContext, DepartmentDbContext>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IEducationalProcessService, EducationalProcessService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());

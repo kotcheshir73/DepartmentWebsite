@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentDesktop.Models;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 {
@@ -19,11 +13,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private readonly ILoadDistributionRecordService _serviceLDR;
 
-		public LoadDistributionControl(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR)
+		private readonly IEducationalProcessService _serviceEP;
+
+		public LoadDistributionControl(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceLDR = serviceLDR;
+			_serviceEP = serviceEP;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -70,7 +67,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void AddRecord()
 		{
-			var form = new LoadDistributionForm(_service, _serviceLDR);
+			var form = new LoadDistributionForm(_service, _serviceLDR, _serviceEP);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadRecords();
@@ -82,7 +79,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-				var form = new LoadDistributionForm(_service, _serviceLDR, id);
+				var form = new LoadDistributionForm(_service, _serviceLDR, _serviceEP, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();

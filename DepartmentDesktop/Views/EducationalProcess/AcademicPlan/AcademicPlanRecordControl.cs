@@ -11,12 +11,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 	{
 		private readonly IAcademicPlanRecordService _service;
 
+		private readonly IEducationalProcessService _serviceEP;
+
 		private long _apId;
 
-		public AcademicPlanRecordControl(IAcademicPlanRecordService service)
+		public AcademicPlanRecordControl(IAcademicPlanRecordService service, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
+			_serviceEP = serviceEP;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -136,7 +139,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			dialog.Filter = "xml|*.xml";
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
-				var result = _service.LoadFromXMLAcademicPlanRecord(new AcademicPlanRecordLoadFromXMLBindingModel
+				var result = _serviceEP.LoadFromXMLAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
 				{
 					Id = _apId,
 					FileName = dialog.FileName

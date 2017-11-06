@@ -59,6 +59,7 @@
     <Compile Include="BindingModels\ClassroomBindingModels.cs" />
     <Compile Include="BindingModels\ContingentBindingModel.cs" />
     <Compile Include="BindingModels\DisciplineBindingModels.cs" />
+    <Compile Include="BindingModels\EducationalProcessBindingModels.cs" />
     <Compile Include="BindingModels\EducationDirectionBindingModels.cs" />
     <Compile Include="BindingModels\KindOfLoadBindingModels.cs" />
     <Compile Include="BindingModels\LecturerBindingModels.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="IServices\IContingentService.cs" />
     <Compile Include="IServices\IDisciplineBlockService.cs" />
     <Compile Include="IServices\IDisciplineService.cs" />
+    <Compile Include="IServices\IEducationalProcessService.cs" />
     <Compile Include="IServices\IEducationDirectionService.cs" />
     <Compile Include="IServices\IExaminationRecordService.cs" />
     <Compile Include="IServices\IKindOfLoadService.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Services\ContingentService.cs" />
     <Compile Include="Services\DisciplineBlockService.cs" />
     <Compile Include="Services\DisciplineService.cs" />
+    <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\EducationDirectionService.cs" />
     <Compile Include="Services\ExaminationRecordService.cs" />
     <Compile Include="Services\KindOfLoadService.cs" />
