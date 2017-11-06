@@ -1646,6 +1646,7 @@ namespace DepartmentService.Services
 
 							var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
 
+							// TODO
 							//var disc = _context.d.Disciplines.SingleOrDefault(rec => rec.DisciplineShortName == disciplineName);
 							//if (disc != null)
 							//{

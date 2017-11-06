@@ -137,6 +137,7 @@ namespace DepartmentService.Services
 											e.ClassroomId == entity.ClassroomId);
 							flag = true;
 						}
+						// TODO
 						//if (model.ApplyToAnalogRecordsByDiscipline)
 						//{
 						//    entries = entries.Where(e =>
@@ -187,6 +188,7 @@ namespace DepartmentService.Services
 							}
 							if (!model.ApplyToAnalogRecordsByTextData && model.ApplyToAnalogRecordsByDiscipline)
 							{
+								// TODO
 								// record.LessonDiscipline = model.LessonDiscipline;
 							}
 							if (model.ApplyToAnalogRecordsByTextData && model.ApplyToAnalogRecordsByLecturer)
