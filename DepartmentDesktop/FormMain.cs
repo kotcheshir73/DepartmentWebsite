@@ -32,10 +32,10 @@ namespace DepartmentDesktop
 			control.Top = 25;
 			control.Height = Height - 60;
 			control.Width = Width - 15;
-			control.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top
-						| System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			control.Anchor = ((AnchorStyles)((((AnchorStyles.Top
+						| AnchorStyles.Bottom)
+						| AnchorStyles.Left)
+						| AnchorStyles.Right)));
 			while (Controls.Count > 1)
 			{
 				Controls.RemoveAt(Controls.Count - 1);
@@ -193,15 +193,37 @@ namespace DepartmentDesktop
 		}
 		#endregion
 
-		#region
+		#region Расписание - преподаватели
 		private void scheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.Services.Schedule.ScheduleSemesterControl>();
 			ApplyControl(control);
 			control.LoadData(2);
 		}
+
+		private void scheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.Services.Schedule.ScheduleOffsetControl>();
+			ApplyControl(control);
+			control.LoadData(2);
+		}
+
+		private void scheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.Services.Schedule.ScheduleExaminationControl>();
+			ApplyControl(control);
+			control.LoadData(2);
+		}
+
+		private void scheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.Services.Schedule.ScheduleConsultationControl>();
+			ApplyControl(control);
+			control.LoadData(2);
+		}
 		#endregion
 
+		#region Студенты
 		private void studentsStudentToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
@@ -229,6 +251,7 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData(StudentState.Отчислен);
 		}
+		#endregion
 
 		private void kindOfLoadsToolStripMenuItem_Click(object sender, EventArgs e)
 		{

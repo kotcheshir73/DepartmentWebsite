@@ -341,6 +341,18 @@
     <Compile Include="Views\Rules\RuleF.Designer.cs">
       <DependentUpon>RuleF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Schedule\Lecturers\ScheduleConsultationLecturerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\Lecturers\ScheduleConsultationLecturerControl.Designer.cs">
+      <DependentUpon>ScheduleConsultationLecturerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\Lecturers\ScheduleExaminationLecturerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Schedule\Lecturers\ScheduleExaminationLecturerControl.Designer.cs">
+      <DependentUpon>ScheduleExaminationLecturerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Schedule\Lecturers\ScheduleOffsetLecturerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -620,6 +632,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Rules\RuleF.resx">
       <DependentUpon>RuleF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\Lecturers\ScheduleConsultationLecturerControl.resx">
+      <DependentUpon>ScheduleConsultationLecturerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Schedule\Lecturers\ScheduleExaminationLecturerControl.resx">
+      <DependentUpon>ScheduleExaminationLecturerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\Lecturers\ScheduleOffsetLecturerControl.resx">
       <DependentUpon>ScheduleOffsetLecturerControl.cs</DependentUpon>

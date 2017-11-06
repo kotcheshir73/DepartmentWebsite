@@ -264,6 +264,11 @@ namespace DepartmentService.Services
 					selectedRecords = selectedRecords
 						.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
 				}
+				if (model.LecturerId.HasValue)
+				{
+					selectedRecords = selectedRecords
+						.Where(sr => sr.LecturerId == model.LecturerId.Value && sr.SeasonDatesId == currentDates.Id);
+				}
 				var records = selectedRecords.ToList();
 				List<OffsetRecordShortViewModel> result = new List<OffsetRecordShortViewModel>();
 				for (int i = 0; i < records.Count; ++i)
@@ -318,6 +323,11 @@ namespace DepartmentService.Services
 				{
 					selectedRecords = selectedRecords
 						.Where(sr => sr.LessonGroup == model.GroupName && sr.SeasonDatesId == currentDates.Id);
+				}
+				if (model.LecturerId.HasValue)
+				{
+					selectedRecords = selectedRecords
+						.Where(sr => sr.LecturerId == model.LecturerId.Value && sr.SeasonDatesId == currentDates.Id);
 				}
 				var records = selectedRecords.ToList();
 				List<ExaminationRecordShortViewModel> result = new List<ExaminationRecordShortViewModel>();

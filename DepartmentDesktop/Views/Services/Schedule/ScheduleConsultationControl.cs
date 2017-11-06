@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using DepartmentService.IServices;
+using DepartmentDesktop.Views.Services.Schedule.Lecturers;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
@@ -38,7 +39,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                             tabpage.AutoScroll = true;
                             tabpage.Location = new System.Drawing.Point(23, 4);
                             tabpage.Name = "tabPageConsultation" + classrooms[i].Id;
-                            tabpage.Padding = new System.Windows.Forms.Padding(3);
+                            tabpage.Padding = new Padding(3);
                             tabpage.Size = new System.Drawing.Size(1140, 611);
                             tabpage.Tag = i.ToString();
                             tabpage.Text = "Аудитория " + classrooms[i].Id;
@@ -66,7 +67,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                             tabpage.AutoScroll = true;
                             tabpage.Location = new System.Drawing.Point(23, 4);
                             tabpage.Name = "tabPageConsultation" + studentGroups[i].Id;
-                            tabpage.Padding = new System.Windows.Forms.Padding(3);
+                            tabpage.Padding = new Padding(3);
                             tabpage.Size = new System.Drawing.Size(1140, 611);
                             tabpage.Tag = i.ToString();
                             tabpage.Text = studentGroups[i].GroupName;
@@ -78,7 +79,35 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         }
                     }
                     break;
-            }
+				case 2://расписание по преподавателям
+					var resultLecturers = _service.GetLecturers();
+					if (!resultLecturers.Succeeded)
+					{
+						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultLecturers.Errors);
+						return;
+					}
+					var lecturers = resultLecturers.Result;
+					if (lecturers != null)
+					{
+						for (int i = 0; i < lecturers.Count; i++)
+						{
+							TabPage tabpage = new TabPage();
+							tabpage.AutoScroll = true;
+							tabpage.Location = new System.Drawing.Point(23, 4);
+							tabpage.Name = "tabPageSemester" + lecturers[i].Id;
+							tabpage.Padding = new Padding(3);
+							tabpage.Size = new System.Drawing.Size(1140, 611);
+							tabpage.Tag = i.ToString();
+							tabpage.Text = lecturers[i].FullName;
+							tabControlSemester.TabPages.Add(tabpage);
+							var control = new ScheduleConsultationLecturerControl(_service, _serviceCR);
+							control.Dock = DockStyle.Fill;
+							control.LoadData(lecturers[i].Id, lecturers[i].FullName);
+							tabControlSemester.TabPages[i].Controls.Add(control);
+						}
+					}
+					break;
+			}
         }
     }
 }

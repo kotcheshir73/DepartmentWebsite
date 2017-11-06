@@ -126,7 +126,7 @@ namespace DepartmentService.ViewModels
         {
             get
             {
-                return string.Format("{0}{1}{2}{1}{3}", LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+                return string.Format("{0} {1}{2}{3}{2}{4}", LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
             }
         }
     }
@@ -188,7 +188,7 @@ namespace DepartmentService.ViewModels
         {
             get
             {
-                return string.Format("{0}{1}{2}{1}{3}", LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+                return string.Format("{0} {1}{2}{3}{2}{4}", LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
             }
         }
     }
@@ -252,7 +252,7 @@ namespace DepartmentService.ViewModels
         {
             get
             {
-                return string.Format("{0} конс.{1}{2}{1}{3}", LessonDiscipline, Environment.NewLine, LessonLecturer, LessonGroup);
+                return string.Format("{0} конс.{1}{2}{3}{2}{4}", LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
             }
         }
     }

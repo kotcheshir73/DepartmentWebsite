@@ -400,18 +400,21 @@
 			this.scheduleLecturerOffsetToolStripMenuItem.Name = "scheduleLecturerOffsetToolStripMenuItem";
 			this.scheduleLecturerOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.scheduleLecturerOffsetToolStripMenuItem.Text = "Зачетная неделя";
+			this.scheduleLecturerOffsetToolStripMenuItem.Click += new System.EventHandler(this.scheduleLecturerOffsetToolStripMenuItem_Click);
 			// 
 			// scheduleLecturerExaminationToolStripMenuItem
 			// 
 			this.scheduleLecturerExaminationToolStripMenuItem.Name = "scheduleLecturerExaminationToolStripMenuItem";
 			this.scheduleLecturerExaminationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.scheduleLecturerExaminationToolStripMenuItem.Text = "Экзамены";
+			this.scheduleLecturerExaminationToolStripMenuItem.Click += new System.EventHandler(this.scheduleLecturerExaminationToolStripMenuItem_Click);
 			// 
 			// scheduleLecturerConsultationToolStripMenuItem
 			// 
 			this.scheduleLecturerConsultationToolStripMenuItem.Name = "scheduleLecturerConsultationToolStripMenuItem";
 			this.scheduleLecturerConsultationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.scheduleLecturerConsultationToolStripMenuItem.Text = "Консультации";
+			this.scheduleLecturerConsultationToolStripMenuItem.Click += new System.EventHandler(this.scheduleLecturerConsultationToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 

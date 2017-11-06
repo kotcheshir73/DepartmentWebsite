@@ -73,7 +73,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 				_dates = resultCD.Result;
 
 				// TODO получать ФИО преподавателя
-				labelTop.Text = string.Format("{0} . {1}", _lectureFullName, _dates.Title);
+				labelTop.Text = string.Format("{0} {1}", _lectureFullName, _dates.Title);
 
 				//Заполняем даты
 				DateTime currentdate = _selectDate;
