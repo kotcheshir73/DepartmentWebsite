@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -33,13 +32,11 @@ namespace DepartmentService.Services
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<EducationDirectionViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<List<EducationDirectionViewModel>>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<EducationDirectionViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<List<EducationDirectionViewModel>>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -50,15 +47,12 @@ namespace DepartmentService.Services
 				var entity = _context.EducationDirections
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<EducationDirectionViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
-				return ResultService<EducationDirectionViewModel>.Success(
-					ModelFactoryToViewModel.CreateEducationDirectionViewModel(entity));
+					return ResultService<EducationDirectionViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				return ResultService<EducationDirectionViewModel>.Success(ModelFactoryToViewModel.CreateEducationDirectionViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<EducationDirectionViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<EducationDirectionViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -68,14 +62,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateEducationDirection(EducationDirectionRecordBindingModel model)
 		{
-			var entity = new EducationDirection
-			{
-				Cipher = model.Cipher,
-				Description = model.Description,
-				Title = model.Title,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
 			try
 			{
 				_context.EducationDirections.Add(entity);
@@ -100,14 +87,10 @@ namespace DepartmentService.Services
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				entity.Cipher = model.Cipher;
-				entity.Description = model.Description;
-				entity.Title = model.Title;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateEducationDirection(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -129,8 +112,7 @@ namespace DepartmentService.Services
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;

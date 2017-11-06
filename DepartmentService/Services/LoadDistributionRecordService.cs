@@ -7,9 +7,9 @@ using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace DepartmentService.Services
@@ -121,16 +121,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateLoadDistributionRecord(LoadDistributionRecordRecordBindingModel model)
 		{
-			var entity = new LoadDistributionRecord
-			{
-				LoadDistributionId = model.LoadDistributionId,
-				AcademicPlanRecordId = model.AcademicPlanRecordId,
-				ContingentId = model.ContingentId,
-				TimeNormId = model.TimeNormId,
-				Load = model.Load,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateLoadDistributionRecord(model);
 			try
 			{
 				_context.LoadDistributionRecords.Add(entity);
@@ -158,12 +149,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
-				entity.ContingentId = model.ContingentId;
-				entity.TimeNormId = model.TimeNormId;
-				entity.Load = model.Load;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateLoadDistributionRecord(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -190,8 +177,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -68,24 +67,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateLecturer(LecturerRecordBindingModel model)
 		{
-			var entity = new Lecturer
-			{
-				FirstName = model.FirstName,
-				LastName = model.LastName,
-				Patronymic = model.Patronymic,
-				Abbreviation = model.Abbreviation,
-				DateBirth = model.DateBirth,
-				Post = model.Post,
-				Rank = model.Rank,
-				Address = model.Address,
-				HomeNumber = model.HomeNumber,
-				MobileNumber = model.MobileNumber,
-				Email = model.Email,
-				Description = model.Description,
-				Photo = model.Photo,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
 			try
 			{
 				_context.Lecturers.Add(entity);
@@ -114,21 +96,8 @@ namespace DepartmentService.Services
 						return ResultService.Error("Error:", "Entity not found",
 							ResultServiceStatusCode.NotFound);
 					}
-					entity.FirstName = model.FirstName;
-					entity.LastName = model.LastName;
-					entity.Patronymic = model.Patronymic;
-					entity.Abbreviation = model.Abbreviation;
-					entity.DateBirth = model.DateBirth;
-					entity.Post = model.Post;
-					entity.Rank = model.Rank;
-					entity.Address = model.Address;
-					entity.HomeNumber = model.HomeNumber;
-					entity.MobileNumber = model.MobileNumber;
-					entity.Email = model.Email;
-					entity.Description = model.Description;
-					entity.Photo = model.Photo;
-
-					_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+					entity = ModelFacotryFromBindingModel.CreateLecturer(model, entity);
+					
 					_context.SaveChanges();
 					return ResultService.Success();
 				}
@@ -156,8 +125,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

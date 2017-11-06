@@ -1,15 +1,14 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -79,13 +78,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateDiscipline(DisciplineRecordBindingModel model)
 		{
-			var entity = new Discipline
-			{
-				DisciplineBlockId = model.DisciplineBlockId,
-				DisciplineName = model.DisciplineName,
-				DateCreate = DateTime.Now,
-				IsDeleted = false,
-			};
+			var entity = ModelFacotryFromBindingModel.CreateDiscipline(model);
 			try
 			{
 				_context.Disciplines.Add(entity);
@@ -113,10 +106,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.DisciplineBlockId = model.DisciplineBlockId;
-				entity.DisciplineName = model.DisciplineName;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateDiscipline(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -143,8 +134,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

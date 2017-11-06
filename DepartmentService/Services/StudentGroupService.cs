@@ -1,15 +1,14 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -80,14 +79,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateStudentGroup(StudentGroupRecordBindingModel model)
 		{
-			var entity = new StudentGroup
-			{
-				EducationDirectionId = model.EducationDirectionId,
-				GroupName = model.GroupName,
-				Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course),
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateStudentGroup(model);
 			try
 			{
 				_context.StudentGroups.Add(entity);
@@ -115,15 +107,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.EducationDirectionId = model.EducationDirectionId;
-				entity.GroupName = model.GroupName;
-				entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
-				if (!string.IsNullOrEmpty(model.StewardId))
-				{
-					entity.StewardId = model.StewardId;
-				}
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateStudentGroup(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -150,8 +135,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

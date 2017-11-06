@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -69,13 +68,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateClassroom(ClassroomRecordBindingModel model)
 		{
-			var entity = new Classroom
-			{
-				Id = model.Id,
-				Capacity = model.Capacity,
-				ClassroomType = (ClassroomTypes)Enum.Parse(typeof(ClassroomTypes), model.ClassroomType),
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateClassroom(model);
 			try
 			{
 				_context.Classrooms.Add(entity);
@@ -103,10 +96,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.Capacity = model.Capacity;
-				entity.ClassroomType = (ClassroomTypes)Enum.Parse(typeof(ClassroomTypes), model.ClassroomType);
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateClassroom(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -133,8 +124,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -68,19 +67,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateSeasonDates(SeasonDatesRecordBindingModel model)
 		{
-			var entity = new SeasonDates
-			{
-				Id = model.Id,
-				Title = model.Title,
-				DateBeginExamination = model.DateBeginExamination,
-				DateBeginOffset = model.DateBeginOffset,
-				DateBeginPractice = model.DateBeginPractice,
-				DateBeginSemester = model.DateBeginSemester,
-				DateEndExamination = model.DateEndExamination,
-				DateEndOffset = model.DateEndOffset,
-				DateEndPractice = model.DateEndPractice,
-				DateEndSemester = model.DateEndSemester
-			};
+			var entity = ModelFacotryFromBindingModel.CreateSeasonDates(model);
 			try
 			{
 				_context.SeasonDates.Add(entity);
@@ -108,17 +95,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.Title = model.Title;
-				entity.DateBeginExamination = model.DateBeginExamination;
-				entity.DateBeginOffset = model.DateBeginOffset;
-				entity.DateBeginPractice = model.DateBeginPractice;
-				entity.DateBeginSemester = model.DateBeginSemester;
-				entity.DateEndExamination = model.DateEndExamination;
-				entity.DateEndOffset = model.DateEndOffset;
-				entity.DateEndPractice = model.DateEndPractice;
-				entity.DateEndSemester = model.DateEndSemester;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateSeasonDates(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

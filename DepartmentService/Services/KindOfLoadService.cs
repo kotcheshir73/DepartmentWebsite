@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -68,13 +67,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateKindOfLoad(KindOfLoadRecordBindingModel model)
 		{
-			var entity = new KindOfLoad
-			{
-				KindOfLoadName = model.KindOfLoadName,
-				KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType),
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateKindOfLoad(model);
 			try
 			{
 				_context.KindOfLoads.Add(entity);
@@ -102,10 +95,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.KindOfLoadName = model.KindOfLoadName;
-				entity.KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType);
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateKindOfLoad(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -132,8 +123,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

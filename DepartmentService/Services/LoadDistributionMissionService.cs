@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -87,14 +86,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateLoadDistributionMission(LoadDistributionMissionRecordBindingModel model)
 		{
-			var entity = new LoadDistributionMission
-			{
-				LoadDistributionRecordId = model.LoadDistributionRecordId,
-				LecturerId = model.LecturerId,
-				Hours = model.Hours,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateLoadDistributionMission(model);
 			try
 			{
 				_context.LoadDistributionMissions.Add(entity);
@@ -122,10 +114,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.LecturerId = model.LecturerId;
-				entity.Hours = model.Hours;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateLoadDistributionMission(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -152,8 +142,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

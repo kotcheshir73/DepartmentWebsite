@@ -1,15 +1,14 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -78,15 +77,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateTimeNorm(TimeNormRecordBindingModel model)
 		{
-			var entity = new TimeNorm
-			{
-				Title = model.Title,
-				KindOfLoadId = model.KindOfLoadId,
-				Formula = model.Formula,
-				Hours = model.Hours,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateTimeNorm(model);
 			try
 			{
 				_context.TimeNorms.Add(entity);
@@ -114,12 +105,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.Title = model.Title;
-				entity.KindOfLoadId = model.KindOfLoadId;
-				entity.Formula = model.Formula;
-				entity.Hours = model.Hours;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateTimeNorm(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -146,8 +133,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

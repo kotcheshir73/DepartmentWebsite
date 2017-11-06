@@ -1,13 +1,12 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -67,22 +66,7 @@ namespace DepartmentService.Services
 				return ResultService.Error("Error:", "Exsist ExaminationRecord",
 					ResultServiceStatusCode.ExsistItem);
 			}
-			var entity = new ExaminationRecord
-			{
-				Id = model.Id,
-				DateConsultation = model.DateConsultation,
-				DateExamination = model.DateExamination,
-				SeasonDatesId = seasonDate.Id,
-
-				LessonDiscipline = model.LessonDiscipline,
-				LessonLecturer = model.LessonLecturer,
-				LessonGroup = model.LessonGroup,
-				LessonClassroom = model.LessonClassroom,
-
-				ClassroomId = model.ClassroomId,
-				LecturerId = model.LecturerId,
-				StudentGroupId = model.StudentGroupId
-			};
+			var entity = ModelFacotryFromBindingModel.CreateExaminationRecord(model);
 			try
 			{
 				_context.ExaminationRecords.Add(entity);
@@ -110,17 +94,7 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.LessonDiscipline = model.LessonDiscipline;
-				entity.LessonGroup = model.LessonGroup;
-				entity.LessonLecturer = model.LessonLecturer;
-				entity.LessonClassroom = model.LessonClassroom;
-				if (!string.IsNullOrEmpty(model.ClassroomId))
-				{
-					entity.ClassroomId = model.ClassroomId;
-				}
-				entity.LecturerId = model.LecturerId;
-				entity.StudentGroupId = model.StudentGroupId;
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateExaminationRecord(model, entity);
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

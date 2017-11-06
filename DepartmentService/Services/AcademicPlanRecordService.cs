@@ -7,9 +7,9 @@ using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Linq;
 using System.Xml;
 
 namespace DepartmentService.Services
@@ -102,16 +102,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
 		{
-			var entity = new AcademicPlanRecord
-			{
-				AcademicPlanId = model.AcademicPlanId,
-				DisciplineId = model.DisciplineId,
-				KindOfLoadId = model.KindOfLoadId,
-				Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester),
-				Hours = model.Hours,
-				DateCreate = DateTime.Now,
-				IsDeleted = false
-			};
+			var entity = ModelFacotryFromBindingModel.CreateAcademicPlanRecord(model);
 			try
 			{
 				_context.AcademicPlanRecords.Add(entity);
@@ -139,12 +130,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.DisciplineId = model.DisciplineId;
-				entity.KindOfLoadId = model.KindOfLoadId;
-				entity.Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester);
-				entity.Hours = model.Hours;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateAcademicPlanRecord(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -171,8 +158,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

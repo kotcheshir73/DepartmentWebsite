@@ -1,14 +1,13 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -75,12 +74,7 @@ namespace DepartmentService.Services
 
 		public ResultService CreateStudentHistory(StudentHistoryRecordBindingModel model)
 		{
-			var entity = new StudentHistory
-			{
-				StudentId = model.NumberOfBook,
-				DateCreate = model.DateCreate,
-				TextMessage = model.TextMessage
-			};
+			var entity = ModelFacotryFromBindingModel.CreateStudentHistory(model);
 			try
 			{
 				_context.StudentHistorys.Add(entity);
@@ -108,10 +102,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.DateCreate = model.DateCreate;
-				entity.TextMessage = model.TextMessage;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateStudentHistory(model, entity);
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

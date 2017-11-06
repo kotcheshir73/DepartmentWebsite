@@ -8,10 +8,10 @@ using DepartmentService.ViewModels;
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.IO;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -115,17 +115,8 @@ namespace DepartmentService.Services
 					}
 					for (int i = 0; i < model.StudentList.Count; ++i)
 					{
-						var entity = new Student
-						{
-							NumberOfBook = model.StudentList[i].NumberOfBook,
-							StudentGroupId = model.StudentList[i].StudentGroupId,
-							LastName = model.StudentList[i].LastName,
-							FirstName = model.StudentList[i].FirstName,
-							Patronymic = model.StudentList[i].Patronymic,
-							Description = model.StudentList[i].Description,
-							DateCreate = DateTime.Now,
-							IsDeleted = false
-						};
+						var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
+
 						_context.Students.Add(entity);
 						_context.SaveChanges();
 
@@ -189,14 +180,11 @@ namespace DepartmentService.Services
 								ResultServiceStatusCode.NotFound);
 						}
 						entity.StudentGroup = newGroup;
-						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 						_context.SaveChanges();
 						if (oldGroup.StewardId == numberofBook)
 						{
 							oldGroup.Steward = null;
 							newGroup.Steward = entity;
-							_context.Entry(oldGroup).State = System.Data.Entity.EntityState.Modified;
-							_context.Entry(newGroup).State = System.Data.Entity.EntityState.Modified;
 							_context.SaveChanges();
 						}
 
@@ -254,12 +242,10 @@ namespace DepartmentService.Services
 						}
 						entity.StudentState = StudentState.Завершил;
 						entity.StudentGroup = null;
-						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 						_context.SaveChanges();
 						if (oldGroup.StewardId == numberofBook)
 						{
 							oldGroup.Steward = null;
-							_context.Entry(oldGroup).State = System.Data.Entity.EntityState.Modified;
 							_context.SaveChanges();
 						}
 
@@ -317,12 +303,10 @@ namespace DepartmentService.Services
 						}
 						entity.StudentState = StudentState.Академ;
 						entity.StudentGroup = null;
-						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 						_context.SaveChanges();
 						if (oldGroup.StewardId == numberofBook)
 						{
 							oldGroup.Steward = null;
-							_context.Entry(oldGroup).State = System.Data.Entity.EntityState.Modified;
 							_context.SaveChanges();
 						}
 
@@ -362,14 +346,8 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.LastName = model.LastName;
-				entity.FirstName = model.FirstName;
-				entity.Patronymic = model.Patronymic;
-				entity.Email = model.Email;
-				entity.Description = model.Description;
-				entity.Photo = model.Photo;
+				entity = ModelFacotryFromBindingModel.CreateStudent(model, entity);
 
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -396,8 +374,7 @@ namespace DepartmentService.Services
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

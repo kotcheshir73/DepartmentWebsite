@@ -1,13 +1,12 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -67,21 +66,7 @@ namespace DepartmentService.Services
 				return result;
 			}
 
-			var entity = new ConsultationRecord
-			{
-				Id = model.Id,
-				DateConsultation = model.DateConsultation,
-				SeasonDatesId = seasonDate.Id,
-
-				LessonDiscipline = model.LessonDiscipline,
-				LessonLecturer = model.LessonLecturer,
-				LessonGroup = model.LessonGroup,
-				LessonClassroom = model.LessonClassroom,
-
-				ClassroomId = model.ClassroomId,
-				LecturerId = model.LecturerId,
-				StudentGroupId = model.StudentGroupId
-			};
+			var entity = ModelFacotryFromBindingModel.CreateConsultationRecord(model);
 			try
 			{
 				_context.ConsultationRecords.Add(entity);
@@ -109,18 +94,7 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);
 				}
-				entity.LessonDiscipline = model.LessonDiscipline;
-				entity.LessonGroup = model.LessonGroup;
-				entity.LessonLecturer = model.LessonLecturer;
-				entity.LessonClassroom = model.LessonClassroom;
-				if (!string.IsNullOrEmpty(model.ClassroomId))
-				{
-					entity.ClassroomId = model.ClassroomId;
-				}
-				entity.LecturerId = model.LecturerId;
-				entity.StudentGroupId = model.StudentGroupId;
-
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+				entity = ModelFacotryFromBindingModel.CreateConsultationRecord(model, entity);
 				_context.SaveChanges();
 				return ResultService.Success();
 			}
@@ -214,7 +188,7 @@ namespace DepartmentService.Services
 				day = day % 7;
 				int lesson = 7;
 				var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-				if(!result.Succeeded)
+				if (!result.Succeeded)
 				{
 					return ResultService.Error("Error:", "LessonTime not found",
 						ResultServiceStatusCode.NotFound);

@@ -1,13 +1,12 @@
 ﻿using DepartmentDAL;
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Linq;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace DepartmentService.Services
 {
@@ -70,26 +69,7 @@ namespace DepartmentService.Services
 				return ResultService.Error("Error:", "Exsist SemesterRecord",
 					ResultServiceStatusCode.ExsistItem);
 			}
-			var entity = new SemesterRecord
-			{
-				Id = model.Id,
-				Week = model.Week,
-				Day = model.Day,
-				Lesson = model.Lesson,
-				NotParseRecord = model.NotParseRecord,
-				SeasonDatesId = seasonDate.Id,
-				IsStreaming = model.IsStreaming,
-
-				LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType),
-				LessonDiscipline = model.LessonDiscipline,
-				LessonLecturer = model.LessonLecturer,
-				LessonGroup = model.LessonGroup,
-				LessonClassroom = model.LessonClassroom,
-
-				ClassroomId = model.ClassroomId,
-				LecturerId = model.LecturerId,
-				StudentGroupId = model.StudentGroupId
-			};
+			var entity = ModelFacotryFromBindingModel.CreateSemesterRecord(model, seasonDate: seasonDate);
 			try
 			{
 				_context.SemesterRecords.Add(entity);
@@ -225,24 +205,12 @@ namespace DepartmentService.Services
 							{
 								record.StudentGroupId = model.StudentGroupId;
 							}
-							_context.Entry(record).State = System.Data.Entity.EntityState.Modified;
 							_context.SaveChanges();
 						}
 					}
 					else
 					{
-						entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
-						entity.LessonDiscipline = model.LessonDiscipline;
-						entity.LessonGroup = model.LessonGroup;
-						entity.LessonLecturer = model.LessonLecturer;
-						entity.LessonClassroom = model.LessonClassroom;
-						if (!string.IsNullOrEmpty(model.ClassroomId))
-						{
-							entity.ClassroomId = model.ClassroomId;
-						}
-						entity.LecturerId = model.LecturerId;
-						entity.StudentGroupId = model.StudentGroupId;
-						_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+						entity = ModelFacotryFromBindingModel.CreateSemesterRecord(model, entity);
 						_context.SaveChanges();
 					}
 					transaction.Commit();
