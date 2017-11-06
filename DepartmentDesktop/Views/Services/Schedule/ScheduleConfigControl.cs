@@ -12,13 +12,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
     {
         private readonly IScheduleService _service;
 
-        private readonly IScheduleStopWordService _serviceSW;
-
-        public ScheduleConfigControl(IScheduleService service, IScheduleStopWordService serviceSW)
+        public ScheduleConfigControl(IScheduleService service)
         {
             InitializeComponent();
             _service = service;
-            _serviceSW = serviceSW;
         }
 
         public void LoadData()

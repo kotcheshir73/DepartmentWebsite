@@ -514,22 +514,6 @@ namespace DepartmentService.ViewModels
 		{
 			return entities.Select(e => CreateScheduleLessonTimeViewModel(e)).OrderBy(e => e.Id);
 		}
-
-		public static ScheduleStopWordViewModel CreateScheduleStopWordViewModel(ScheduleStopWord entity)
-		{
-			return new ScheduleStopWordViewModel
-			{
-				Id = entity.Id,
-				StopWord = entity.StopWord,
-				StopWordReplace = entity.StopWordReplace,
-				StopWordType = entity.StopWordType.ToString()
-			};
-		}
-
-		public static IEnumerable<ScheduleStopWordViewModel> CreateScheduleStopWords(IEnumerable<ScheduleStopWord> entities)
-		{
-			return entities.Select(e => CreateScheduleStopWordViewModel(e)).OrderBy(e => e.StopWordType);
-		}
 		#endregion
 	}
 }

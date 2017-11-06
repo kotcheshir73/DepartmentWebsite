@@ -75,24 +75,6 @@ namespace DepartmentService.BindingModels
         public DateTime DateEndLesson { get; set; }
     }
 
-    public class ScheduleStopWordGetBindingModel
-    {
-        public long Id { get; set; }
-    }
-
-    public class ScheduleStopWordRecordBindingModel
-    {
-        public long Id { get; set; }
-
-        [Required(ErrorMessage = "required")]
-        public string StopWord { get; set; }
-		
-		public string StopWordReplace { get; set; }
-
-		[Required(ErrorMessage = "required")]
-        public string StopWordType { get; set; }
-    }
-
     public class SemesterRecordGetBindingModel
     {
         public long Id { get; set; }

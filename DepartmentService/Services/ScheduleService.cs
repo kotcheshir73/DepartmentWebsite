@@ -705,8 +705,7 @@ namespace DepartmentService.Services
 
 			var nodes = document.DocumentNode.SelectNodes("//table/tr/td");
 			var resError = new ResultService();
-
-			var stopWords = _context.ScheduleStopWords.ToList();
+			
 			foreach (var node in nodes)
 			{
 				if (node.InnerText != "\r\n")
@@ -717,7 +716,7 @@ namespace DepartmentService.Services
 						try
 						{
 							var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value,
-														(node.InnerText.Replace("\r\n", "").Replace(" ", "")), stopWords, currentDates);
+														(node.InnerText.Replace("\r\n", "").Replace(" ", "")), currentDates);
 							if (!res.Succeeded)
 							{
 								foreach (var err in res.Errors)
@@ -1816,8 +1815,7 @@ namespace DepartmentService.Services
 		/// </summary>
 		/// <param name="schedulrUrl"></param>
 		/// <param name="classrooms"></param>
-		private ResultService ParsingPage(string schedulrUrl, string groupName, List<ScheduleStopWord> stopWords,
-			SeasonDatesViewModel currentDates)
+		private ResultService ParsingPage(string schedulrUrl, string groupName, SeasonDatesViewModel currentDates)
 		{
 			string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
 			WebClient web = new WebClient();
@@ -1868,7 +1866,7 @@ namespace DepartmentService.Services
 						entitySecond.Day = day;
 						entitySecond.Lesson = para;
 						entitySecond.SeasonDatesId = currentDates.Id;
-						AnalisString(pageNode.InnerText, stopWords, entityFirst, entitySecond);
+						AnalisString(pageNode.InnerText, entityFirst, entitySecond);
 						var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
 						if (!result.Succeeded)
 						{
@@ -1891,8 +1889,7 @@ namespace DepartmentService.Services
 			return resError;
 		}
 
-		private void AnalisString(string text, List<ScheduleStopWord> stopWords,
-			SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
+		private void AnalisString(string text, SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
 		{
 			recordFirst.NotParseRecord = recordSecond.NotParseRecord = text;
 			text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").Replace("\r\n", "").TrimStart();

@@ -104,17 +104,6 @@ namespace DepartmentDesktop
 			control.LoadData();
 		}
 		/// <summary>
-		/// Стоп-слова
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void scheduleStopWordsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Services.Schedule.ScheduleStopWordControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-		/// <summary>
 		/// Интервалы пар
 		/// </summary>
 		/// <param name="sender"></param>

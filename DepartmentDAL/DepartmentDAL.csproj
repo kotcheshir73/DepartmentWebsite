@@ -245,6 +245,10 @@
     <Compile Include="Migrations\201711030420036_UpdateForSchedule.Designer.cs">
       <DependentUpon>201711030420036_UpdateForSchedule.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711060923425_DeleteStopWords.cs" />
+    <Compile Include="Migrations\201711060923425_DeleteStopWords.Designer.cs">
+      <DependentUpon>201711060923425_DeleteStopWords.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -275,7 +279,6 @@
     <Compile Include="Models\ScheduleLessonTime.cs" />
     <Compile Include="Models\OffsetRecord.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
-    <Compile Include="Models\ScheduleStopWord.cs" />
     <Compile Include="Models\SeasonDates.cs" />
     <Compile Include="Models\SemesterRecord.cs" />
     <Compile Include="Models\Message.cs" />
@@ -431,6 +434,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711030420036_UpdateForSchedule.resx">
       <DependentUpon>201711030420036_UpdateForSchedule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711060923425_DeleteStopWords.resx">
+      <DependentUpon>201711060923425_DeleteStopWords.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

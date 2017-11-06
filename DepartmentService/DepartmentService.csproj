@@ -63,6 +63,7 @@
     <Compile Include="BindingModels\KindOfLoadBindingModels.cs" />
     <Compile Include="BindingModels\LecturerBindingModels.cs" />
     <Compile Include="BindingModels\LoadDistributionBindingModels.cs" />
+    <Compile Include="BindingModels\ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
     <Compile Include="BindingModels\SeasonDatesBindingModels.cs" />
     <Compile Include="BindingModels\StreamingLessonBindingModels.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="IServices\IScheduleLessonTimeService.cs" />
     <Compile Include="IServices\IOffsetRecordService.cs" />
     <Compile Include="IServices\IScheduleService.cs" />
-    <Compile Include="IServices\IScheduleStopWordService.cs" />
     <Compile Include="IServices\ISeasonDatesService.cs" />
     <Compile Include="IServices\ISemesterRecordService.cs" />
     <Compile Include="IServices\IStreamingLessonService.cs" />
@@ -114,7 +114,6 @@
     <Compile Include="Services\ScheduleLessonTimeService.cs" />
     <Compile Include="Services\OffsetRecordService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
-    <Compile Include="Services\ScheduleStopWordService.cs" />
     <Compile Include="Services\SeasonDatesService.cs" />
     <Compile Include="Services\SemesterRecordService.cs" />
     <Compile Include="Services\StreamingLessonService.cs" />
