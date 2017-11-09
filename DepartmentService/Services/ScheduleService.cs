@@ -1876,6 +1876,7 @@ namespace DepartmentService.Services
 						entitySecond.Week = week;
 						entitySecond.Day = day;
 						entitySecond.Lesson = para;
+						entitySecond.LessonGroup = groupName;
 						entitySecond.SeasonDatesId = currentDates.Id;
 						AnalisString(pageNode.InnerText, entityFirst, entitySecond);
 						var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
@@ -1908,6 +1909,19 @@ namespace DepartmentService.Services
 			var classroomMatches = Regex.Matches(text, @"а.(\w{0,2})[\d]+(\-\d)*(\/\d)*");
 			if (classroomMatches.Count == 0)
 			{
+				if (text.StartsWith("Физкультура"))
+				{
+					recordFirst.LessonDiscipline = "Физкультура";
+					recordFirst.LessonType = LessonTypes.нд.ToString();
+					if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
+					{
+						var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
+						if (group != null)
+						{
+							recordFirst.StudentGroupId = group.Id;
+						}
+					}
+				}
 				return;
 			}
 			for (int clM = 0; clM < classroomMatches.Count; ++clM)
@@ -1969,9 +1983,9 @@ namespace DepartmentService.Services
 					currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
 				}
 				//определяем группу
-				if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
+				if (!string.IsNullOrEmpty(currentRecord.LessonGroup))
 				{
-					var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
+					var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
 					if (group != null)
 					{
 						currentRecord.StudentGroupId = group.Id;
