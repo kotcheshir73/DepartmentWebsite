@@ -339,7 +339,7 @@
             this.toolStripButtonAdd,
             this.toolStripSeparator1,
             this.toolStripButtonRef});
-			this.toolStripMenu.Location = new System.Drawing.Point(0, 30);
+			this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
 			this.toolStripMenu.Name = "toolStripMenu";
 			this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
 			this.toolStripMenu.TabIndex = 1;
@@ -366,7 +366,7 @@
 			// 
 			this.panelTop.Controls.Add(this.labelTop);
 			this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panelTop.Location = new System.Drawing.Point(0, 0);
+			this.panelTop.Location = new System.Drawing.Point(0, 25);
 			this.panelTop.Name = "panelTop";
 			this.panelTop.Size = new System.Drawing.Size(800, 30);
 			this.panelTop.TabIndex = 0;
@@ -380,8 +380,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.dataGridViewFirstWeek);
-			this.Controls.Add(this.toolStripMenu);
 			this.Controls.Add(this.panelTop);
+			this.Controls.Add(this.toolStripMenu);
 			this.Name = "ScheduleExaminationLecturerControl";
 			this.Size = new System.Drawing.Size(800, 500);
 			this.contextMenuStripExamination.ResumeLayout(false);
