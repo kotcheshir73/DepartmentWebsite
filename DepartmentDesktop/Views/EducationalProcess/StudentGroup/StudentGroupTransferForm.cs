@@ -14,9 +14,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
-		private long _id = 0;
+		private long? _id;
 
-		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, long id)
+		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -100,7 +100,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				TransferDate = dateTimePickerTransferDate.Value,
 				TransferReason = textBoxTransferReason.Text,
 				NewStudentGroupId = newId,
-				OldStudentGroupId = _id,
+				OldStudentGroupId = _id.Value,
 				StudentList = list
 			});
 			if (result.Succeeded)

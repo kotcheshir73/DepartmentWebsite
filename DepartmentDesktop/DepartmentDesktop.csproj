@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationService.cs" />
     <Compile Include="Controllers\ListUsersUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -303,11 +304,35 @@
     <Compile Include="Views\Services\Administration\AccessControl.Designer.cs">
       <DependentUpon>AccessControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\Administration\AccessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Administration\AccessForm.Designer.cs">
+      <DependentUpon>AccessForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\Administration\RoleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\Services\Administration\RoleControl.Designer.cs">
       <DependentUpon>RoleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Administration\RoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Administration\RoleForm.Designer.cs">
+      <DependentUpon>RoleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Administration\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Administration\UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Administration\UsersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Administration\UsersControl.Designer.cs">
+      <DependentUpon>UsersControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\MakeTicketsUS.cs">
       <SubType>UserControl</SubType>
@@ -346,12 +371,6 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.Designer.cs">
       <DependentUpon>StudentGroupForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Rules\RuleF.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Rules\RuleF.Designer.cs">
-      <DependentUpon>RuleF.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\Schedule\Lecturers\ScheduleConsultationLecturerControl.cs">
       <SubType>UserControl</SubType>
@@ -617,8 +636,20 @@
     <EmbeddedResource Include="Views\Services\Administration\AccessControl.resx">
       <DependentUpon>AccessControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Administration\AccessForm.resx">
+      <DependentUpon>AccessForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Administration\RoleControl.resx">
       <DependentUpon>RoleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Administration\RoleForm.resx">
+      <DependentUpon>RoleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Administration\UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Administration\UsersControl.resx">
+      <DependentUpon>UsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>
@@ -647,9 +678,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.resx">
       <DependentUpon>StudentGroupForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Rules\RuleF.resx">
-      <DependentUpon>RuleF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\Schedule\Lecturers\ScheduleConsultationLecturerControl.resx">
       <DependentUpon>ScheduleConsultationLecturerControl.cs</DependentUpon>

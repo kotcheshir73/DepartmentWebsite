@@ -11,15 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 	{
 		private readonly IKindOfLoadService _service;
 
-		private long _id;
+		private long? _id;
 
-		public KindOfLoadForm(IKindOfLoadService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public KindOfLoadForm(IKindOfLoadService service, long id)
+		public KindOfLoadForm(IKindOfLoadService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -33,7 +27,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 				comboBoxKindOfLoadTypes.Items.Add(elem);
 			}
 			comboBoxKindOfLoadTypes.SelectedIndex = 0;
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -41,7 +35,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 
 		private void LoadData()
 		{
-			var result = _service.GetKindOfLoad(new KindOfLoadGetBindingModel { Id = _id });
+			var result = _service.GetKindOfLoad(new KindOfLoadGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -71,7 +65,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateKindOfLoad(new KindOfLoadRecordBindingModel
 					{
@@ -83,7 +77,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 				{
 					result = _service.UpdateKindOfLoad(new KindOfLoadRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						KindOfLoadType = comboBoxKindOfLoadTypes.Text,
 						KindOfLoadName = textBoxTitle.Text
 					});

@@ -10,15 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
     {
         private readonly IStreamingLessonService _service;
 
-        private long _id = 0;
+        private long? _id = 0;
 
-        public StreamingLessonForm(IStreamingLessonService service)
-        {
-            InitializeComponent();
-            _service = service;
-        }
-
-        public StreamingLessonForm(IStreamingLessonService service, long id)
+        public StreamingLessonForm(IStreamingLessonService service, long? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -27,7 +21,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 
         private void StreamingLessonForm_Load(object sender, EventArgs e)
         {
-            if (_id != 0)
+            if (_id.HasValue)
             {
 				LoadData();
 			}
@@ -35,7 +29,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 
 		private void LoadData()
 		{
-			var result = _service.GetStreamingLesson(new StreamingLessonGetBindingModel { Id = _id });
+			var result = _service.GetStreamingLesson(new StreamingLessonGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -65,7 +59,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateStreamingLesson(new StreamingLessonRecordBindingModel
 					{
@@ -77,7 +71,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 				{
 					result = _service.UpdateStreamingLesson(new StreamingLessonRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						IncomingGroups = textBoxIncomingGroups.Text,
 						StreamName = textBoxStreamName.Text
 					});

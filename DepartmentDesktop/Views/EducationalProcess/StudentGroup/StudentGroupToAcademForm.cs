@@ -18,9 +18,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
-		private long _id = 0;
+		private long? _id;
 
-		public StudentGroupToAcademForm(IStudentGroupService service, IStudentService serviceS, long id)
+		public StudentGroupToAcademForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -90,7 +90,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				ToAcademReason = textBoxToAcademReason.Text,
 				ToAcademOrderNumber = textBoxToAcademOrderNumber.Text,
 				StudentList = list,
-				StudentGroupId = _id
+				StudentGroupId = _id.Value
 			});
 			if (result.Succeeded)
 			{

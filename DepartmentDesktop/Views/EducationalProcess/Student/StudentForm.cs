@@ -13,17 +13,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
     {
         private readonly IStudentService _service;
 
-        private string _id = string.Empty;
+        private string _id;
 
-        public StudentForm(IStudentService service)
+		public StudentForm(IStudentService service, string id = null)
         {
-            InitializeComponent();
-            _service = service;
-        }
 
-        public StudentForm(IStudentService service, string id)
-        {
-            InitializeComponent();
+			InitializeComponent();
             _service = service;
             _id = id;
         }

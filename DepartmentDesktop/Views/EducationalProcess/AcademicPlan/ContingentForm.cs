@@ -12,15 +12,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 	{
 		private readonly IContingentService _service;
 
-		private long _id = 0;
+		private long? _id = 0;
 
-		public ContingentForm(IContingentService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public ContingentForm(IContingentService service, long id)
+		public ContingentForm(IContingentService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -55,7 +49,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher }).ToList();
 			comboBoxEducationDirection.SelectedItem = null;
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -63,7 +57,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadData()
 		{
-			var result = _service.GetContingent(new ContingentGetBindingModel { Id = _id });
+			var result = _service.GetContingent(new ContingentGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -121,7 +115,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateContingent(new ContingentRecordBindingModel
 					{
@@ -136,7 +130,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.UpdateContingent(new ContingentRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),

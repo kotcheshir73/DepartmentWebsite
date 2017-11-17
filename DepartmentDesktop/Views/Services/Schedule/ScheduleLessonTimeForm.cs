@@ -10,15 +10,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
     {
         private readonly IScheduleLessonTimeService _service;
 
-        private long _id;
+        private long? _id;
 
-        public ScheduleLessonTimeForm(IScheduleLessonTimeService service)
-        {
-            InitializeComponent();
-            _service = service;
-        }
-
-        public ScheduleLessonTimeForm(IScheduleLessonTimeService service, long id)
+        public ScheduleLessonTimeForm(IScheduleLessonTimeService service, long? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -27,9 +21,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private void ScheduleLessonTimeForm_Load(object sender, EventArgs e)
         {
-            if (_id != 0)
+            if (_id.HasValue)
             {
-                var result = _service.GetScheduleLessonTime(new ScheduleLessonTimeGetBindingModel { Id = _id });
+                var result = _service.GetScheduleLessonTime(new ScheduleLessonTimeGetBindingModel { Id = _id.Value });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -57,7 +51,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             if (CheckFill())
             {
                 ResultService result;
-                if (_id == 0)
+                if (!_id.HasValue)
                 {
                     result = _service.CreateScheduleLessonTime(new ScheduleLessonTimeRecordBindingModel
                     {
@@ -70,7 +64,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 {
                     result = _service.UpdateScheduleLessonTime(new ScheduleLessonTimeRecordBindingModel
                     {
-                        Id = _id,
+                        Id = _id.Value,
                         Title = textBoxTitle.Text,
                         DateBeginLesson = dateTimePickerDateBeginLesson.Value,
                         DateEndLesson = dateTimePickerDateEndLesson.Value

@@ -491,9 +491,36 @@ namespace DepartmentService.BindingModels
 				};
 			}
 			entity.RoleId = model.RoleId;
-			entity.Operation = model.Operation;
-			entity.AccessType = (AccessType)Enum.ToObject(typeof(AccessType), model.AccessType);
+			entity.Operation = (AccessOperation)Enum.Parse(typeof(AccessOperation), model.Operation);
+			entity.AccessType = (AccessType)Enum.Parse(typeof(AccessType), model.AccessType);
 
+			return entity;
+		}
+
+		public static User CreateUser(UserRecordBindingModel model, User entity = null)
+		{
+			if (entity == null)
+			{
+				entity = new User
+				{
+					DateCreate = DateTime.Now,
+					IsDeleted = false,
+					Password = AccessCheckService.GetPasswordHash(model.Password)
+				};
+			}
+			entity.Login = model.Login;
+			entity.Avatar = model.Avatar;
+			entity.RoleId = model.RoleId;
+			entity.LecturerId = model.LecturerId;
+			entity.StudentId = model.StudentId;
+			if (entity.IsBanned != model.IsBanned)
+			{
+				entity.IsBanned = model.IsBanned;
+				if (model.IsBanned)
+				{
+					entity.DateBanned = DateTime.Now;
+				}
+			}
 			return entity;
 		}
 		#endregion

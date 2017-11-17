@@ -55,7 +55,7 @@ namespace DepartmentService.Services
 				var entity = model.Id.HasValue ?_context.Accesses
 								.FirstOrDefault(e => e.Id == model.Id.Value && !e.IsDeleted) :
 								model.RoleId.HasValue && !string.IsNullOrEmpty(model.Operation) ? _context.Accesses
-								.FirstOrDefault(e => e.RoleId == model.RoleId.Value && e.Operation == model.Operation && !e.IsDeleted) : null ;
+								.FirstOrDefault(e => e.RoleId == model.RoleId.Value && e.Operation.ToString() == model.Operation && !e.IsDeleted) : null ;
 				if (entity == null)
 					return ResultService<AccessViewModel>.Error("Error:", "Entity not found",
 						ResultServiceStatusCode.NotFound);

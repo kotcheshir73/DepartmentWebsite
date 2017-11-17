@@ -10,15 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 	{
 		private readonly IDisciplineBlockService _service;
 
-		private long _id;
+		private long? _id;
 
-		public DisciplineBlockForm(IDisciplineBlockService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public DisciplineBlockForm(IDisciplineBlockService service, long id)
+		public DisciplineBlockForm(IDisciplineBlockService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -27,7 +21,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void DisciplineBlockForm_Load(object sender, EventArgs e)
 		{
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -35,7 +29,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void LoadData()
 		{
-			var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id });
+			var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -60,7 +54,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateDisciplineBlock(new DisciplineBlockRecordBindingModel
 					{
@@ -71,7 +65,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				{
 					result = _service.UpdateDisciplineBlock(new DisciplineBlockRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						Title = textBoxTitle.Text
 					});
 				}

@@ -14,15 +14,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 	{
 		private readonly ITimeNormService _service;
 
-		private long _id = 0;
+		private long? _id = 0;
 
-		public TimeNormForm(ITimeNormService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public TimeNormForm(ITimeNormService service, long id)
+		public TimeNormForm(ITimeNormService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -56,7 +50,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			}
 			comboBoxSelectKindOfLoadType.SelectedIndex = -1;
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -98,7 +92,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadData()
 		{
-			var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id });
+			var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -143,7 +137,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
 					{
@@ -157,7 +151,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.UpdateTimeNorm(new TimeNormRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
 						Title = textBoxTitle.Text,
 						Formula = textBoxFormula.Text,

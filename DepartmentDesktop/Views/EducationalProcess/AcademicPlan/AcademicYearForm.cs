@@ -10,15 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 	{
 		private readonly IAcademicYearService _service;
 
-		private long _id = 0;
+		private long? _id = 0;
 
-		public AcademicYearForm(IAcademicYearService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public AcademicYearForm(IAcademicYearService service, long id)
+		public AcademicYearForm(IAcademicYearService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -27,7 +21,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AcademicYearForm_Load(object sender, EventArgs e)
 		{
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -35,7 +29,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadData()
 		{
-			var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id });
+			var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -60,7 +54,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateAcademicYear(new AcademicYearRecordBindingModel
 					{
@@ -71,7 +65,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.UpdateAcademicYear(new AcademicYearRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						Title = textBoxTitle.Text
 					});
 				}

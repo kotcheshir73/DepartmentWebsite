@@ -10,8 +10,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка аудиторий
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<ClassroomViewModel>> GetClassrooms();
+		ResultService<List<ClassroomViewModel>> GetClassrooms(ClassroomGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка групп

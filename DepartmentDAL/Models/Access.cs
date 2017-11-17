@@ -11,9 +11,8 @@ namespace DepartmentDAL.Models
         public long RoleId { get; set; }
 
         [Display(Name = "Название операции")]
-        [MaxLength(100)]
         [Required]
-        public string Operation { get; set; }
+        public AccessOperation Operation { get; set; }
 
 		public AccessType AccessType { get; set; }
 

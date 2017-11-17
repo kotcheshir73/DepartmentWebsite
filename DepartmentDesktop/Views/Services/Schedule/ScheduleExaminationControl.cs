@@ -1,10 +1,11 @@
-﻿using System.Windows.Forms;
+﻿using DepartmentDesktop.Views.Services.Schedule.Lecturers;
+using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using DepartmentDesktop.Views.Services.Schedule.Lecturers;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule
 {
-    public partial class ScheduleExaminationControl : UserControl
+	public partial class ScheduleExaminationControl : UserControl
     {
         private readonly IScheduleService _service;
 
@@ -27,7 +28,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             switch (type)
             {
                 case 0:
-					var resultClassrooms = _service.GetClassrooms();
+					var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { UserId = AuthorizationService.UserId });
 					if (!resultClassrooms.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);

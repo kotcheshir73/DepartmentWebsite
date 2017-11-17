@@ -62,9 +62,9 @@ namespace DepartmentService.Services
 			_serviceCR = serviceCR;
 		}
 
-		public ResultService<List<ClassroomViewModel>> GetClassrooms()
+		public ResultService<List<ClassroomViewModel>> GetClassrooms(ClassroomGetBindingModel model)
 		{
-			return _serviceC.GetClassrooms();
+			return _serviceC.GetClassrooms(model);
 		}
 
 		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()

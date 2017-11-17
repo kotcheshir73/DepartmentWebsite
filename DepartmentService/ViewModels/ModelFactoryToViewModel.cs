@@ -537,7 +537,7 @@ namespace DepartmentService.ViewModels
 			{
 				Id = entity.Id,
 				RoleName = entity.Role.RoleName,
-				Operation = entity.Operation,
+				Operation = entity.Operation.ToString(),
 				AccessType = (int)entity.AccessType
 			};
 		}
@@ -545,6 +545,28 @@ namespace DepartmentService.ViewModels
 		public static IEnumerable<AccessViewModel> CreateAccesses(IEnumerable<Access> entities)
 		{
 			return entities.Select(e => CreateAccessViewModel(e)).OrderBy(e => e.RoleName);
+		}
+
+		public static UserViewModel CreateUserViewModel(User entity)
+		{
+			return new UserViewModel
+			{
+				Id = entity.Id,
+				Login = entity.Login,
+				RoleId = entity.RoleId,
+				RoleName = entity.Role.RoleName,
+				StudentId = entity.StudentId,
+				LecturerId = entity.LecturerId,
+				Avatar = entity.Avatar != null && entity.Avatar.Length > 0 ? Image.FromStream(new MemoryStream(entity.Avatar)) : null,
+				IsBanned = entity.IsBanned,
+				DateBanned = entity.DateBanned,
+				DateLastVisit = entity.DateLastVisit
+			};
+		}
+
+		public static IEnumerable<UserViewModel> CreateUsers(IEnumerable<User> entities)
+		{
+			return entities.Select(e => CreateUserViewModel(e)).OrderBy(e => e.RoleName).ThenBy(e => e.Login).ThenBy(e => e.DateLastVisit);
 		}
 		#endregion
 	}

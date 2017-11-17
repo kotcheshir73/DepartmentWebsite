@@ -13,13 +13,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
         private string _id;
 
-        public ClassroomForm(IClassroomService service)
-        {
-            InitializeComponent();
-            _service = service;
-        }
-
-        public ClassroomForm(IClassroomService service, string id)
+        public ClassroomForm(IClassroomService service, string id = null)
         {
             InitializeComponent();
             _service = service;
@@ -33,10 +27,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                 comboBoxTypeClassroom.Items.Add(elem.ToString());
             }
             comboBoxTypeClassroom.SelectedIndex = 0;
+
             if (!string.IsNullOrEmpty(_id))
             {
 				LoadData();
-
 			}
 		}
 

@@ -12,9 +12,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
-		private long _id = 0;
+		private long? _id;
 
-		public StudentGroupDeductionForm(IStudentGroupService service, IStudentService serviceS, long id)
+		public StudentGroupDeductionForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -79,7 +79,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				DeductionReason = textBoxDeductionReason.Text,
 				DeductionOrderNumber = textBoxDeductionOrderNumber.Text,
 				StudentList = list,
-				StudentGroupId = _id
+				StudentGroupId = _id.Value
 			});
 			if (result.Succeeded)
 			{

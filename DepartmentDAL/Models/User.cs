@@ -21,17 +21,15 @@ namespace DepartmentDAL.Models
         public string Login { get; set; }
 
         [Display(Name = "Пароль (для студентов - номер зачетки)")]
-        [MaxLength(20)]
         [Required]
         public string Password { get; set; }
 
         [Display(Name = "Картинка")]
-        [Required]
         public byte[] Avatar { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Дата последнего посещения")]
-        public DateTime DateLastVisit { get; set; }
+        public DateTime? DateLastVisit { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Дата блокировки")]

@@ -10,15 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
     {
         private readonly ISeasonDatesService _service;
 
-        private long _id = 0;
+        private long? _id = 0;
 
-        public SeasonDatesForm(ISeasonDatesService service)
-        {
-            InitializeComponent();
-            _service = service;
-        }
-
-        public SeasonDatesForm(ISeasonDatesService service, long id)
+        public SeasonDatesForm(ISeasonDatesService service, long? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -27,7 +21,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
         private void SeasonDatesForm_Load(object sender, EventArgs e)
         {
-            if (_id != 0)
+            if (_id.HasValue)
             {
 				LoadData();
 			}
@@ -35,7 +29,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
 		private void LoadData()
 		{
-			var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id });
+			var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -100,7 +94,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 					dateBeginPractic = dateTimePickerDateEndPractic.Value;
 				}
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateSeasonDates(new SeasonDatesRecordBindingModel
 					{
@@ -119,7 +113,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				{
 					result = _service.UpdateSeasonDates(new SeasonDatesRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						Title = textBoxTitle.Text,
 						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
 						DateBeginOffset = dateTimePickerDateBeginOffset.Value,

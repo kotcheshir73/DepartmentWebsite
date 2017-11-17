@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 
 namespace DepartmentService.ViewModels
 {
@@ -29,7 +30,24 @@ namespace DepartmentService.ViewModels
         public string StudentGroup { get; set; }
 
         public string Description { get; set; }
-    }
+
+		public string FullName
+		{
+			get
+			{
+				StringBuilder fullname = new StringBuilder(LastName);
+				if (FirstName.Length > 0)
+				{
+					fullname.Append(string.Format(" {0}.", FirstName[0]));
+				}
+				if (Patronymic.Length > 0)
+				{
+					fullname.Append(string.Format(" {0}.", Patronymic[0]));
+				}
+				return fullname.ToString();
+			}
+		}
+	}
 
     public class StudentHistoryViewModel
     {

@@ -20,7 +20,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         public void LoadData()
         {
-            var resultC = _service.GetClassrooms();
+            var resultC = _service.GetClassrooms(new ClassroomGetBindingModel { UserId = AuthorizationService.UserId });
 			if (!resultC.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);

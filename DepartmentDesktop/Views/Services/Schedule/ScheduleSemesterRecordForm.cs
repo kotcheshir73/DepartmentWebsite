@@ -16,16 +16,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private readonly IScheduleService _serviceS;
 
-        private long _id = 0;
+        private long? _id;
 
-        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS)
-        {
-            InitializeComponent();
-			_service = service;
-            _serviceS = serviceS;
-        }
-
-        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, long id)
+        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, long? id = null)
         {
             InitializeComponent();
 			_service = service;
@@ -49,7 +42,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				return;
 			}
 
-			var resultS = _serviceS.GetClassrooms();
+			var resultS = _serviceS.GetClassrooms(new ClassroomGetBindingModel { UserId = AuthorizationService.UserId });
 			if (!resultS.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
@@ -75,9 +68,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			comboBoxClassroom.SelectedItem = null;
 			textBoxClassroom.Text = string.Empty;
 
-			if (_id != 0)
+			if (_id.HasValue)
             {
-                var result = _service.GetSemesterRecord(new SemesterRecordGetBindingModel { Id = _id });
+                var result = _service.GetSemesterRecord(new SemesterRecordGetBindingModel { Id = _id.Value });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -176,7 +169,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             if (CheckFill())
             {
                 ResultService result;
-                if (_id == 0)
+                if (!_id.HasValue)
                 {
                     result = _service.CreateSemesterRecord(new SemesterRecordRecordBindingModel
                     {
@@ -198,7 +191,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 {
                     result = _service.UpdateSemesterRecord(new SemesterRecordRecordBindingModel
                     {
-                        Id = _id,
+                        Id = _id.Value,
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,

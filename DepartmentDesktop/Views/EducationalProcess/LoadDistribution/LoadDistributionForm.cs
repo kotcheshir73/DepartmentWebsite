@@ -16,17 +16,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		private long _id = 0;
+		private long? _id = 0;
 
-		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP)
-		{
-			InitializeComponent();
-			_service = service;
-			_serviceLDR = serviceLDR;
-			_serviceEP = serviceEP;
-		}
-
-		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP, long id)
+		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -61,7 +53,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						| AnchorStyles.Right);
 			tabPageRecords.Controls.Add(control);
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -69,8 +61,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void LoadData()
 		{
-			(tabPageRecords.Controls[0] as LoadDistributionRecordControl).LoadData(_id);
-			var result = _service.GetLoadDistribution(new LoadDistributionGetBindingModel { Id = _id });
+			(tabPageRecords.Controls[0] as LoadDistributionRecordControl).LoadData(_id.Value);
+			var result = _service.GetLoadDistribution(new LoadDistributionGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -95,7 +87,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateLoadDistribution(new LoadDistributionRecordBindingModel
 					{
@@ -106,7 +98,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				{
 					result = _service.UpdateLoadDistribution(new LoadDistributionRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue)
 					});
 				}

@@ -11,15 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 	{
 		private readonly ILecturerService _service;
 
-		private long _id;
+		private long? _id;
 
-		public LecturerForm(ILecturerService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public LecturerForm(ILecturerService service, long id)
+		public LecturerForm(ILecturerService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -28,7 +22,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 
 		private void LecturerForm_Load(object sender, EventArgs e)
 		{
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -36,7 +30,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 
 		private void LoadData()
 		{
-			var result = _service.GetLecturer(new LecturerGetBindingModel { Id = _id });
+			var result = _service.GetLecturer(new LecturerGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -101,7 +95,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 			{
 				ImageConverter converter = new ImageConverter();
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateLecturer(new LecturerRecordBindingModel
 					{
@@ -124,7 +118,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				{
 					result = _service.UpdateLecturer(new LecturerRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,

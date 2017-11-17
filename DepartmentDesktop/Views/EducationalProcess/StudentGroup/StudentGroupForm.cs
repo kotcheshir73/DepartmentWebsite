@@ -14,16 +14,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
     
         private readonly IStudentService _serviceS;
 
-        private long _id = 0;
+        private long? _id;
 
-        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS)
-        {
-            InitializeComponent();
-            _service = service;
-            _serviceS = serviceS;
-        }
-
-        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, long id)
+        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -56,7 +49,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                         | AnchorStyles.Right)));
             tabPageStudents.Controls.Add(control);
 
-            if (_id != 0)
+            if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -77,8 +70,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				.Select(s => new { Value = s.NumberOfBook, Display = string.Format("{0} {1}", s.LastName, s.FirstName) }).ToList();
 			comboBoxSteward.SelectedItem = null;
 
-			(tabPageStudents.Controls[0] as StudentGroupStudentsControl).LoadData(_id);
-			var result = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id });
+			(tabPageStudents.Controls[0] as StudentGroupStudentsControl).LoadData(_id.Value);
+			var result = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -126,7 +119,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateStudentGroup(new StudentGroupRecordBindingModel
 					{
@@ -144,7 +137,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					}
 					result = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
 						GroupName = textBoxGroupName.Text,
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0),

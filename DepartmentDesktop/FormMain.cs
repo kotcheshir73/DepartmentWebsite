@@ -51,7 +51,14 @@ namespace DepartmentDesktop
 
 		private void UsersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = new Controllers.ListUsersUC();
+			var control = Container.Resolve<Views.Services.Administration.UsersControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+
+		private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.Services.Administration.RoleControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}

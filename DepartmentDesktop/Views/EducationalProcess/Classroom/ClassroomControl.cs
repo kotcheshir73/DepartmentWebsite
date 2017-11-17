@@ -44,7 +44,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
 		private void LoadRecords()
 		{
-			var result = _service.GetClassrooms();
+			var result = _service.GetClassrooms(new ClassroomGetBindingModel { UserId = AuthorizationService.UserId });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

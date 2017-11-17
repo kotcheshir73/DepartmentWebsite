@@ -15,16 +15,26 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly AccessOperation _serviceOperation = AccessOperation.Аудитории;
+
 		public ClassroomService(DepartmentDbContext context)
 		{
 			_context = context;
 		}
 
 
-		public ResultService<List<ClassroomViewModel>> GetClassrooms()
+		public ResultService<List<ClassroomViewModel>> GetClassrooms(ClassroomGetBindingModel model)
 		{
 			try
 			{
+				if (!model.UserId.HasValue)
+				{
+					throw new Exception("Неизвестный пользователь");
+				}
+				if(!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View, model.UserId.Value))
+				{
+					throw new Exception("Нет доступа на чтение данных");
+				}
 				return ResultService<List<ClassroomViewModel>>.Success(
 					ModelFactoryToViewModel.CreateClassrooms(_context.Classrooms
 							.Where(e => !e.IsDeleted))

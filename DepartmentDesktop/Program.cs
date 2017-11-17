@@ -1,19 +1,15 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
+﻿using DepartmentDAL.Context;
 using DepartmentService.IServices;
 using DepartmentService.Services;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop
 {
-    static class Program
+	static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -59,6 +55,10 @@ namespace DepartmentDesktop
 			currentContainer.RegisterType<ILoadDistributionService, LoadDistributionService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<ILoadDistributionRecordService, LoadDistributionRecordService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<ILoadDistributionMissionService, LoadDistributionMissionService>(new HierarchicalLifetimeManager());
+			
+			currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
+			currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
 			currentContainer
         .RegisterType<FormMain>()

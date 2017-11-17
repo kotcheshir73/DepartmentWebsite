@@ -17,17 +17,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		private long _id = 0;
+		private long? _id = 0;
 
-		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
-		{
-			InitializeComponent();
-			_service = service;
-			_serviceAPR = serviceAPR;
-			_serviceEP = serviceEP;
-		}
-
-		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, long id)
+		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -80,7 +72,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 						| AnchorStyles.Right);
 			tabPageRecords.Controls.Add(control);
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -88,8 +80,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadData()
 		{
-			(tabPageRecords.Controls[0] as AcademicPlanRecordControl).LoadData(_id);
-			var result = _service.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = _id });
+			(tabPageRecords.Controls[0] as AcademicPlanRecordControl).LoadData(_id.Value);
+			var result = _service.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -161,7 +153,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					courses = courses | AcademicCourse.Course_6;
 				}
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateAcademicPlan(new AcademicPlanRecordBindingModel
 					{
@@ -175,7 +167,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.UpdateAcademicPlan(new AcademicPlanRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
 						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
 						AcademicLevel = comboBoxAcademicLevel.Text,

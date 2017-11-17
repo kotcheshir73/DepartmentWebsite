@@ -3,8 +3,10 @@
 namespace DepartmentService.BindingModels
 {
     public class ClassroomGetBindingModel
-    {
-        public string Id { get; set; }
+	{
+		public string Id { get; set; }
+
+		public long? UserId { get; set; }
     }
 
     public class ClassroomRecordBindingModel

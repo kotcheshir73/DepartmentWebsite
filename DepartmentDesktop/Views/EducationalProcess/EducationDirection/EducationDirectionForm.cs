@@ -10,15 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
     {
         private readonly IEducationDirectionService _service;
 
-        private long _id = 0;
+        private long? _id = 0;
 
-        public EducationDirectionForm(IEducationDirectionService service)
-        {
-            InitializeComponent();
-            _service = service;
-        }
-
-        public EducationDirectionForm(IEducationDirectionService service, long id)
+        public EducationDirectionForm(IEducationDirectionService service, long? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -27,7 +21,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 
         private void EducationDirectionForm_Load(object sender, EventArgs e)
         {
-            if(_id != 0)
+            if(_id.HasValue)
             {
 				LoadData();
 			}
@@ -35,7 +29,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 
 		private void LoadData()
 		{
-			var result = _service.GetEducationDirection(new EducationDirectionGetBindingModel { Id = _id });
+			var result = _service.GetEducationDirection(new EducationDirectionGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -65,7 +59,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateEducationDirection(new EducationDirectionRecordBindingModel
 					{
@@ -78,7 +72,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 				{
 					result = _service.UpdateEducationDirection(new EducationDirectionRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						Cipher = textBoxCipher.Text,
 						Description = textBoxDescription.Text,
 						Title = textBoxTitle.Text

@@ -12,15 +12,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 	{
 		private readonly IDisciplineService _service;
 
-		private long _id;
+		private long? _id;
 
-		public DisciplineForm(IDisciplineService service)
-		{
-			InitializeComponent();
-			_service = service;
-		}
-
-		public DisciplineForm(IDisciplineService service, long id)
+		public DisciplineForm(IDisciplineService service, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -42,7 +36,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				.Select(d => new { Value = d.Id, Display = d.Title }).ToList();
 			comboBoxDisciplineBlock.SelectedItem = null;
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -50,7 +44,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void LoadData()
 		{
-			var result = _service.GetDiscipline(new DisciplineGetBindingModel { Id = _id });
+			var result = _service.GetDiscipline(new DisciplineGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -80,7 +74,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateDiscipline(new DisciplineRecordBindingModel
 					{
@@ -92,7 +86,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				{
 					result = _service.UpdateDiscipline(new DisciplineRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						DisciplineName = textBoxTitle.Text,
 						DisciplineBlockId = Convert.ToInt64(comboBoxDisciplineBlock.SelectedValue)
 					});

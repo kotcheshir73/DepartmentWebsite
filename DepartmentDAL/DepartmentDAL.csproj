@@ -52,6 +52,7 @@
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\AcademicCourse.cs" />
     <Compile Include="Enums\AcademicLevel.cs" />
+    <Compile Include="Enums\AccessOperation.cs" />
     <Compile Include="Enums\AccessType.cs" />
     <Compile Include="Enums\ClassroomTypes.cs" />
     <Compile Include="Enums\DisciplineLessonStudentStatus.cs" />
@@ -254,6 +255,22 @@
     <Compile Include="Migrations\201711061349530_ChangeAccesses.Designer.cs">
       <DependentUpon>201711061349530_ChangeAccesses.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711111017397_ChangeAccess.cs" />
+    <Compile Include="Migrations\201711111017397_ChangeAccess.Designer.cs">
+      <DependentUpon>201711111017397_ChangeAccess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711170942568_ChangeUser.cs" />
+    <Compile Include="Migrations\201711170942568_ChangeUser.Designer.cs">
+      <DependentUpon>201711170942568_ChangeUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711170944135_ChangeUserPassword.cs" />
+    <Compile Include="Migrations\201711170944135_ChangeUserPassword.Designer.cs">
+      <DependentUpon>201711170944135_ChangeUserPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711170944530_ChangeUserAvatar.cs" />
+    <Compile Include="Migrations\201711170944530_ChangeUserAvatar.Designer.cs">
+      <DependentUpon>201711170944530_ChangeUserAvatar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -445,6 +462,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711061349530_ChangeAccesses.resx">
       <DependentUpon>201711061349530_ChangeAccesses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711111017397_ChangeAccess.resx">
+      <DependentUpon>201711111017397_ChangeAccess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711170942568_ChangeUser.resx">
+      <DependentUpon>201711170942568_ChangeUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711170944135_ChangeUserPassword.resx">
+      <DependentUpon>201711170944135_ChangeUserPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711170944530_ChangeUserAvatar.resx">
+      <DependentUpon>201711170944530_ChangeUserAvatar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,18 +13,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 	{
 		private readonly IAcademicPlanRecordService _service;
 
-		private long _id = 0;
+		private long? _id = 0;
 
 		private long _apId = 0;
 
-		public AcademicPlanRecordForm(IAcademicPlanRecordService service, long apId)
-		{
-			InitializeComponent();
-			_service = service;
-			_apId = apId;
-		}
-
-		public AcademicPlanRecordForm(IAcademicPlanRecordService service, long apId, long id)
+		public AcademicPlanRecordForm(IAcademicPlanRecordService service, long apId, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -82,7 +75,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
 			comboBoxKindOfLoad.SelectedItem = null;
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -140,7 +133,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
 					{
@@ -155,7 +148,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.UpdateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						AcademicPlanId = Convert.ToInt64(comboBoxAcademicPlan.SelectedValue),
 						DisciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue),
 						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),

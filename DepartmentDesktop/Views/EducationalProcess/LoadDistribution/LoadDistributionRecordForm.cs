@@ -12,21 +12,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 	{
 		private readonly ILoadDistributionRecordService _service;
 
-		private long _id = 0;
+		private long? _id = 0;
 
 		private long _ldId = 0;
 
 		private long _apId = 0;
 
-		public LoadDistributionRecordForm(ILoadDistributionRecordService service, long ldId, long apId)
-		{
-			InitializeComponent();
-			_service = service;
-			_ldId = ldId;
-			_apId = apId;
-		}
-
-		public LoadDistributionRecordForm(ILoadDistributionRecordService service, long ldId, long apId, long id)
+		public LoadDistributionRecordForm(ILoadDistributionRecordService service, long ldId, long apId, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -75,7 +67,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				.Select(tn => new { Value = tn.Id, Display = tn.KindOfLoadName }).ToList();
 			comboBoxTimeNorm.SelectedItem = null;
 
-			if (_id != 0)
+			if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -128,7 +120,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			if (CheckFill())
 			{
 				ResultService result;
-				if (_id == 0)
+				if (!_id.HasValue)
 				{
 					result = _service.CreateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 					{
@@ -143,7 +135,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				{
 					result = _service.UpdateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 					{
-						Id = _id,
+						Id = _id.Value,
 						LoadDistributionId = _ldId,
 						AcademicPlanRecordId = Convert.ToInt64(comboBoxAcademicPlanRecord.SelectedValue),
 						ContingentId = Convert.ToInt64(comboBoxContingent.SelectedValue),
