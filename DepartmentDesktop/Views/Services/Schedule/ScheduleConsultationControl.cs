@@ -34,20 +34,20 @@ namespace DepartmentDesktop.Views.Services.Schedule
 					var classrooms = resultClassrooms.Result;
 					if (classrooms != null)
                     {
-                        for (int i = 0; i < classrooms.Count; i++)
+                        for (int i = 0; i < classrooms.List.Count; i++)
                         {
                             TabPage tabpage = new TabPage();
                             tabpage.AutoScroll = true;
                             tabpage.Location = new System.Drawing.Point(23, 4);
-                            tabpage.Name = "tabPageConsultation" + classrooms[i].Id;
+                            tabpage.Name = "tabPageConsultation" + classrooms.List[i].Id;
                             tabpage.Padding = new Padding(3);
                             tabpage.Size = new System.Drawing.Size(1140, 611);
                             tabpage.Tag = i.ToString();
-                            tabpage.Text = "Аудитория " + classrooms[i].Id;
+                            tabpage.Text = "Аудитория " + classrooms.List[i].Id;
                             tabControlSemester.TabPages.Add(tabpage);
                             var control = new ScheduleConsultationClassroomControl(_service, _serviceCR);
                             control.Dock = DockStyle.Fill;
-                            control.LoadData(classrooms[i].Id);
+                            control.LoadData(classrooms.List[i].Id);
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
                     }
