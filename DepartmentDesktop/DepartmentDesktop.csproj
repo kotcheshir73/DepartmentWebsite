@@ -75,6 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizationService.cs" />
+    <Compile Include="Controllers\StandartControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controllers\StandartControl.Designer.cs">
+      <DependentUpon>StandartControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormError.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -510,6 +516,9 @@
     <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleSemesterStudentGroupControl.Designer.cs">
       <DependentUpon>ScheduleSemesterStudentGroupControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controllers\StandartControl.resx">
+      <DependentUpon>StandartControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormError.resx">
       <DependentUpon>FormError.cs</DependentUpon>
     </EmbeddedResource>
@@ -784,9 +793,7 @@
   <ItemGroup>
     <None Include="Resources\Up.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
