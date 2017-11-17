@@ -1,8 +1,8 @@
 ﻿using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
 using DepartmentService.ViewModels;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -34,11 +34,10 @@ namespace DepartmentService
 				var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && a.RoleId == roleId);
 				if(access != null)
 				{
-					return access.AccessType <= type;
+					return access.AccessType >= type;
 				}
 			}
-			// TODO как настроят роли и пользователи - заменить на false
-			return true;
+			return false;
 		}
 
 		/// <summary>
@@ -50,7 +49,7 @@ namespace DepartmentService
 		public static UserViewModel Login(string login, string password)
 		{
 			var passHash = GetPasswordHash(password);
-			var user = _context.Users.SingleOrDefault(u => u.Login == login && u.Password == passHash);
+			var user = _context.Users.Include(u => u.Role).SingleOrDefault(u => u.Login == login && u.Password == passHash);
 			if (user == null)
 			{
 				throw new Exception("Введен неверный логин/пароль");

@@ -18,8 +18,9 @@ namespace DepartmentDesktop
         static void Main()
         {
             var container = BuildUnityContainer();
+			AuthorizationService.Login("admin", "isadmin");
 
-            Application.EnableVisualStyles();
+			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             Application.Run(container.Resolve<FormMain>());
