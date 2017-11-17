@@ -26,11 +26,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if (!model.UserId.HasValue)
-				{
-					throw new Exception("Неизвестный пользователь");
-				}
-				if(!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View, model.UserId.Value))
+				if(!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
 					throw new Exception("Нет доступа на чтение данных");
 				}
@@ -69,11 +65,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if (!model.UserId.HasValue)
-				{
-					throw new Exception("Неизвестный пользователь");
-				}
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View, model.UserId.Value))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
 					throw new Exception("Нет доступа на чтение данных");
 				}
@@ -104,11 +96,7 @@ namespace DepartmentService.Services
 			{
 				try
 				{
-					if (!model.UserId.HasValue)
-					{
-						throw new Exception("Неизвестный пользователь");
-					}
-					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change, model.UserId.Value))
+					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 					{
 						throw new Exception("Нет доступа на изменение данных");
 					}
@@ -139,11 +127,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if (!model.UserId.HasValue)
-				{
-					throw new Exception("Неизвестный пользователь");
-				}
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change, model.UserId.Value))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
 					throw new Exception("Нет доступа на изменение данных");
 				}
@@ -174,11 +158,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if (!model.UserId.HasValue)
-				{
-					throw new Exception("Неизвестный пользователь");
-				}
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete, model.UserId.Value))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
 				{
 					throw new Exception("Нет доступа на удаление данных");
 				}

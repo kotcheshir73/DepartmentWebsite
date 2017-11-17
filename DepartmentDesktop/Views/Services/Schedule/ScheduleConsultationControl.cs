@@ -25,7 +25,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             switch (type)
             {
                 case 0:
-                    var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { UserId = AuthorizationService.UserId });
+                    var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { });
 					if (!resultClassrooms.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);

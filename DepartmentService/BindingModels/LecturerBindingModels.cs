@@ -6,8 +6,6 @@ namespace DepartmentService.BindingModels
 	public class LecturerGetBindingModel
 	{
 		public long? Id { get; set; }
-
-		public long? UserId { get; set; }
 	}
 
 	public class LecturerRecordBindingModel

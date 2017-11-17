@@ -27,11 +27,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if (!model.UserId.HasValue)
-				{
-					throw new Exception("Неизвестный пользователь");
-				}
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View, model.UserId.Value))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
 					throw new Exception("Нет доступа на чтение данных");
 				}

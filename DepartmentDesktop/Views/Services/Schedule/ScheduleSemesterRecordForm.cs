@@ -42,7 +42,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				return;
 			}
 
-			var resultS = _serviceS.GetClassrooms(new ClassroomGetBindingModel { UserId = AuthorizationService.UserId });
+			var resultS = _serviceS.GetClassrooms(new ClassroomGetBindingModel { });
 			if (!resultS.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);

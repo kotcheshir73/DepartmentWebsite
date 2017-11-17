@@ -18,6 +18,8 @@ namespace DepartmentService
 
 		private static Encoding ascii = Encoding.ASCII;
 
+		private static UserViewModel _user;
+
 		/// <summary>
 		/// Авторизация пользователя к операции
 		/// </summary>
@@ -25,17 +27,12 @@ namespace DepartmentService
 		/// <param name="type"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public static bool CheckAccess(AccessOperation operation, AccessType type, long userId)
+		public static bool CheckAccess(AccessOperation operation, AccessType type)
 		{
-			var roleId = _context.Users.SingleOrDefault(u => u.Id == userId)?.RoleId ?? -0;
-
-			if (roleId > 0)
+			var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && a.RoleId == _user.RoleId);
+			if (access != null)
 			{
-				var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && a.RoleId == roleId);
-				if(access != null)
-				{
-					return access.AccessType >= type;
-				}
+				return access.AccessType >= type;
 			}
 			return false;
 		}
@@ -60,7 +57,8 @@ namespace DepartmentService
 			}
 			user.DateLastVisit = DateTime.Now;
 			_context.SaveChanges();
-			return ModelFactoryToViewModel.CreateUserViewModel(user);
+			_user = ModelFactoryToViewModel.CreateUserViewModel(user);
+			return _user;
 		}
 
 		/// <summary>
