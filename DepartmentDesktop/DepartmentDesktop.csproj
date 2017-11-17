@@ -75,12 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizationService.cs" />
-    <Compile Include="Controllers\ListUsersUC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controllers\ListUsersUC.Designer.cs">
-      <DependentUpon>ListUsersUC.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormError.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -516,15 +510,6 @@
     <Compile Include="Views\Services\Schedule\StudentGroups\ScheduleSemesterStudentGroupControl.Designer.cs">
       <DependentUpon>ScheduleSemesterStudentGroupControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Users\UserF.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Users\UserF.Designer.cs">
-      <DependentUpon>UserF.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Controllers\ListUsersUC.resx">
-      <DependentUpon>ListUsersUC.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormError.resx">
       <DependentUpon>FormError.cs</DependentUpon>
     </EmbeddedResource>
@@ -751,9 +736,6 @@
     <EmbeddedResource Include="Views\Services\Schedule\StudentGroups\ScheduleSemesterStudentGroupControl.resx">
       <DependentUpon>ScheduleSemesterStudentGroupControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Users\UserF.resx">
-      <DependentUpon>UserF.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -802,7 +784,9 @@
   <ItemGroup>
     <None Include="Resources\Up.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
