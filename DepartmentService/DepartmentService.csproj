@@ -136,7 +136,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\AcademicPlanViewModels.cs" />
     <Compile Include="ViewModels\AccessViewModel.cs" />
-    <Compile Include="ViewModels\ClassroomViewModel.cs" />
+    <Compile Include="ViewModels\ClassroomViewModels.cs" />
     <Compile Include="ViewModels\ContingentViewModel.cs" />
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModel.cs" />

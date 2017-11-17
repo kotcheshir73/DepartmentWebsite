@@ -45,9 +45,9 @@ namespace DepartmentService.Services
 			return _serviceC.GetContingents();
 		}
 
-		public ResultService<List<LecturerViewModel>> GetLecturers()
+		public ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model)
 		{
-			return _serviceL.GetLecturers();
+			return _serviceL.GetLecturers(model);
 		}
 
 		public ResultService<List<TimeNormViewModel>> GetTimeNorms()

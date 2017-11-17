@@ -27,7 +27,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				return;
 			}
 			var classrooms = resultC.Result;
-			foreach (var elem in classrooms)
+			foreach (var elem in classrooms.List)
             {
                 checkedListBoxClassrooms.Items.Add(elem.Id, true);
             }

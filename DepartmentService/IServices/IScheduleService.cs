@@ -12,7 +12,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<ClassroomViewModel>> GetClassrooms(ClassroomGetBindingModel model);
+		ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка групп
@@ -23,8 +23,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка преподавателей
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LecturerViewModel>> GetLecturers();
+		ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка дат семестра

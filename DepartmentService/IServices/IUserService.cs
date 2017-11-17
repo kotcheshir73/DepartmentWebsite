@@ -23,8 +23,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка преподавателей
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LecturerViewModel>> GetLecturers();
+		ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка пользователей

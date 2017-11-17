@@ -82,7 +82,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 					{
 						Id = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
-						Capacity = Convert.ToInt32(textBoxCapacity.Text)
+						Capacity = Convert.ToInt32(textBoxCapacity.Text),
+						UserId = AuthorizationService.UserId
 					});
 				}
 				else
@@ -91,7 +92,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 					{
 						Id = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
-						Capacity = Convert.ToInt32(textBoxCapacity.Text)
+						Capacity = Convert.ToInt32(textBoxCapacity.Text),
+						UserId = AuthorizationService.UserId
 					});
 				}
 				if (result.Succeeded)

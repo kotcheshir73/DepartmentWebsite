@@ -81,7 +81,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                     break;
 				case 2://расписание по преподавателям
-					var resultLecturers = _service.GetLecturers();
+					var resultLecturers = _service.GetLecturers(new LecturerGetBindingModel { });
 					if (!resultLecturers.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultLecturers.Errors);

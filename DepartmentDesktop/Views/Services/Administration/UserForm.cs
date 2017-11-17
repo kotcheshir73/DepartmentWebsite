@@ -51,7 +51,7 @@ namespace DepartmentDesktop.Views.Services.Administration
 				.Select(d => new { Value = d.NumberOfBook, Display = d.FullName }).ToList();
 			comboBoxStudent.SelectedItem = null;
 
-			var resultL = _service.GetLecturers();
+			var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
 			if (!resultL.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке студентов возникла ошибка: ", resultL.Errors);

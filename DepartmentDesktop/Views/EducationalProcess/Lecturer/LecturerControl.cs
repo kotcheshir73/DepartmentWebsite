@@ -51,7 +51,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 
 		private void LoadRecords()
 		{
-			var result = _service.GetLecturers();
+			var result = _service.GetLecturers(new LecturerGetBindingModel { UserId = AuthorizationService.UserId });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

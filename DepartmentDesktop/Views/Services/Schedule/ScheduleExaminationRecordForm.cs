@@ -55,7 +55,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 			comboBoxClassroom.ValueMember = "Value";
 			comboBoxClassroom.DisplayMember = "Display";
-			comboBoxClassroom.DataSource = resultS.Result
+			comboBoxClassroom.DataSource = resultS.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
 			comboBoxClassroom.SelectedItem = null;
 			textBoxClassroom.Text = string.Empty;

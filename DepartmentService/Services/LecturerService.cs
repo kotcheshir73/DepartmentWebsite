@@ -15,16 +15,26 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly AccessOperation _serviceOperation = AccessOperation.Преподаватели;
+
 		public LecturerService(DepartmentDbContext context)
 		{
 			_context = context;
 		}
 
 
-		public ResultService<List<LecturerViewModel>> GetLecturers()
+		public ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model)
 		{
 			try
 			{
+				if (!model.UserId.HasValue)
+				{
+					throw new Exception("Неизвестный пользователь");
+				}
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View, model.UserId.Value))
+				{
+					throw new Exception("Нет доступа на чтение данных");
+				}
 				return ResultService<List<LecturerViewModel>>.Success(ModelFactoryToViewModel.CreateLecturers(
 						_context.Lecturers
 							.Where(e => !e.IsDeleted))

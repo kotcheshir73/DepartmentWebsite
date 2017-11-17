@@ -10,13 +10,14 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка преподавателей
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LecturerViewModel>> GetLecturers();
+		ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model);
 
 		/// <summary>
 		/// Получения преподавателя
 		/// </summary>
-		/// <param name="model">Идентификатор преподавателя</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<LecturerViewModel> GetLecturer(LecturerGetBindingModel model);
 

@@ -1,18 +1,17 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
-    public interface IClassroomService
+	public interface IClassroomService
     {
 		/// <summary>
 		/// Получение списка аудиторий
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<ClassroomViewModel>> GetClassrooms(ClassroomGetBindingModel model);
+		ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model);
 
 		/// <summary>
 		/// Получения аудитории

@@ -32,7 +32,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void LoadColumns()
 		{
-			var resultL = _service.GetLecturers();
+			var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
 
 			if (!resultL.Succeeded)
 			{

@@ -51,7 +51,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(
 					res.Id,
@@ -92,7 +92,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
 					{
 						string id = Convert.ToString(dataGridViewList.SelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteClassroom(new ClassroomGetBindingModel { Id = id });
+						var result = _service.DeleteClassroom(new ClassroomGetBindingModel { Id = id, UserId = AuthorizationService.UserId });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
