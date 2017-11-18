@@ -28,7 +28,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных");
+					throw new Exception("Нет доступа на чтение данных по направлениям");
 				}
 
 				int countPages = 0;
@@ -66,7 +66,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных");
+					throw new Exception("Нет доступа на чтение данных по направлениям");
 				}
 
 				var entity = _context.EducationDirections
@@ -93,7 +93,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных");
+					throw new Exception("Нет доступа на изменение данных по направлениям");
 				}
 
 				var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
@@ -118,7 +118,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных");
+					throw new Exception("Нет доступа на изменение данных по направлениям");
 				}
 
 				var entity = _context.EducationDirections
@@ -147,6 +147,11 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по направлениям");
+				}
+
 				var entity = _context.EducationDirections
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
