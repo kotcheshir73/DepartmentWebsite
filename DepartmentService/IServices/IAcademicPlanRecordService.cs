@@ -23,8 +23,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка дисциплин
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<DisciplineViewModel>> GetDisciplines();
+		ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка видов нагрузки

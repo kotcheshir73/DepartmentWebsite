@@ -16,6 +16,13 @@ namespace DepartmentService.ViewModels
 		public string Title { get; set; }
 	}
 
+	public class DisciplinePageViewModel
+	{
+		public int MaxCount { get; set; }
+
+		public List<DisciplineViewModel> List { get; set; }
+	}
+
 	public class DisciplineViewModel
 	{
 		public long Id { get; set; }

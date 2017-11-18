@@ -24,6 +24,10 @@ namespace DepartmentService.BindingModels
 		public long Id { get; set; }
 
 		public long? DisciplineBlockId { get; set; }
+
+		public int? PageNumber { get; set; }
+
+		public int? PageSize { get; set; }
 	}
 
 	public class DisciplineRecordBindingModel

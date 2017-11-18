@@ -37,9 +37,9 @@ namespace DepartmentService.Services
 			return _serviceAP.GetAcademicPlans();
 		}
 
-		public ResultService<List<DisciplineViewModel>> GetDisciplines()
+		public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
 		{
-			return _serviceD.GetDisciplines();
+			return _serviceD.GetDisciplines(model);
 		}
 
 		public ResultService<List<KindOfLoadViewModel>> GetKindOfLoads()

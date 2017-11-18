@@ -39,7 +39,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return;
 			}
 
-			var resultD = _service.GetDisciplines();
+			var resultD = _service.GetDisciplines( new DisciplineGetBindingModel { } );
 			if (!resultD.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
@@ -65,7 +65,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxDiscipline.ValueMember = "Value";
 			comboBoxDiscipline.DisplayMember = "Display";
-			comboBoxDiscipline.DataSource = resultD.Result
+			comboBoxDiscipline.DataSource = resultD.Result.List
 				.Select(d=> new { Value = d.Id, Display = d.DisciplineName }).ToList();
 			comboBoxDiscipline.SelectedItem = null;
 

@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -17,13 +16,14 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка дисциплин
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<DisciplineViewModel>> GetDisciplines();
+		ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model);
 
 		/// <summary>
 		/// Получения дисциплины
 		/// </summary>
-		/// <param name="model">Идентификатор дисциплины</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel model);
 
