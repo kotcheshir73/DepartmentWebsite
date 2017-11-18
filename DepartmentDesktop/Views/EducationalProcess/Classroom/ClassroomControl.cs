@@ -27,7 +27,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
 			standartControl.Configurate(columns, hideToolStripButtons);
 
-			standartControl.GetPageAddEvenet(LoadRecords); 
+			standartControl.GetPageAddEvent(LoadRecords); 
 			standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
 			standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
 			standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
