@@ -125,7 +125,7 @@
 			this.toolStripTextBoxPage.MaxLength = 3;
 			this.toolStripTextBoxPage.Name = "toolStripTextBoxPage";
 			this.toolStripTextBoxPage.Size = new System.Drawing.Size(30, 25);
-			this.toolStripTextBoxPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxPage_KeyDown);
+			this.toolStripTextBoxPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ToolStripTextBoxPage_KeyDown);
 			// 
 			// toolStripLabelPage
 			// 
@@ -147,7 +147,7 @@
 			this.toolStripButtonBefore.Name = "toolStripButtonBefore";
 			this.toolStripButtonBefore.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButtonBefore.Text = "Предыдущая";
-			this.toolStripButtonBefore.Click += new System.EventHandler(this.toolStripButtonBefore_Click);
+			this.toolStripButtonBefore.Click += new System.EventHandler(this.ToolStripButtonBefore_Click);
 			// 
 			// toolStripButtonNext
 			// 
@@ -157,7 +157,7 @@
 			this.toolStripButtonNext.Name = "toolStripButtonNext";
 			this.toolStripButtonNext.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButtonNext.Text = "Следующая";
-			this.toolStripButtonNext.Click += new System.EventHandler(this.toolStripButtonNext_Click);
+			this.toolStripButtonNext.Click += new System.EventHandler(this.ToolStripButtonNext_Click);
 			// 
 			// toolStripButtonAdd
 			// 

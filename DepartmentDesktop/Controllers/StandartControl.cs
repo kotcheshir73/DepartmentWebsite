@@ -7,12 +7,24 @@ namespace DepartmentDesktop.Controllers
 {
 	public partial class StandartControl : UserControl
 	{
+		/// <summary>
+		/// Событие, вызываемое при загрузке данных на datagrid
+		/// </summary>
 		private event Func<int, int, int> _getPage;
 
+		/// <summary>
+		/// Номер страницы, которая сейчас выведена в таблице
+		/// </summary>
 		private int _currentPage = 1;
 
+		/// <summary>
+		/// Максимальное количество элементов, выводимых на странице
+		/// </summary>
 		private int _countElementsOnPage = 10;
 
+		/// <summary>
+		/// Количество страниц
+		/// </summary>
 		private int _countPages = 1;
 
 		public StandartControl()
@@ -21,6 +33,12 @@ namespace DepartmentDesktop.Controllers
 			toolStripButtonRef.Click += (object sender, EventArgs e) => { LoadPage(); };
 		}
 
+		/// <summary>
+		/// Конфингуратор контрола
+		/// </summary>
+		/// <param name="columns">Конфигурация колонок для datagrid</param>
+		/// <param name="showToolStripButton">Список названий кнопок, которые надо скрыть</param>
+		/// <param name="countElementsOnPage">Максимальное количество элементов, выводимых на странице (по умолчанию - 10)</param>
 		public void Configurate(List<ColumnConfig> columns, List<string> showToolStripButton, int? countElementsOnPage = null)
 		{
 			dataGridViewList.Columns.Clear();
@@ -32,7 +50,7 @@ namespace DepartmentDesktop.Controllers
 					Name = string.Format("Column{0}", column.Name),
 					ReadOnly = true,
 					Visible = column.Visible,
-					Width = column.Width.HasValue ? column.Width.Value : 0,
+					Width = column.Width ?? 0,
 					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
 				});
 			}
@@ -67,40 +85,63 @@ namespace DepartmentDesktop.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Привязка к событию загрузки данных на datagrid
+		/// </summary>
+		/// <param name="ev"></param>
+		public void GetPageAddEvent(Func<int, int, int> ev)
+		{
+			_getPage += ev;
+		}
+
+		/// <summary>
+		/// Привязка обработчика для добавления нового элемента
+		/// </summary>
+		/// <param name="ev"></param>
 		public void ToolStripButtonAddEventClickAddEvent(EventHandler ev)
 		{
 			toolStripButtonAdd.Click += ev;
 		}
 
+		/// <summary>
+		/// Привязка обработчика для редактирования элемента
+		/// </summary>
+		/// <param name="ev"></param>
 		public void ToolStripButtonUpdEventClickAddEvent(EventHandler ev)
 		{
 			toolStripButtonUpd.Click += ev;
 		}
 
+		/// <summary>
+		/// Привязка обработчика для удаления элемента
+		/// </summary>
+		/// <param name="ev"></param>
 		public void ToolStripButtonDelEventClickAddEvent(EventHandler ev)
 		{
 			toolStripButtonDel.Click += ev;
 		}
 
+		/// <summary>
+		/// Привязка обработчика нажатия клавиш на datagrid
+		/// </summary>
+		/// <param name="ev"></param>
 		public void DataGridViewListEventKeyDownAddEvent(KeyEventHandler ev)
 		{
 			dataGridViewList.KeyDown += ev;
 		}
 
+		/// <summary>
+		/// Привязка обработчика двойного клика мыши по строке datagrid
+		/// </summary>
+		/// <param name="ev"></param>
 		public void DataGridViewListEventCellDoubleClickAddEvent(DataGridViewCellEventHandler ev)
 		{
 			dataGridViewList.CellDoubleClick += ev;
 		}
 
-		public void GetPageAddEvenet(Func<int, int, int> ev)
-		{
-			_getPage += ev;
-		}
-
-		public DataGridViewSelectedRowCollection GetDataGridViewSelectedRows { get { return dataGridViewList.SelectedRows; } }
-
-		public DataGridViewRowCollection GetDataGridViewRows { get { return dataGridViewList.Rows; } }
-
+		/// <summary>
+		/// Вызов события загрузки данных на datagrid
+		/// </summary>
 		public void LoadPage()
 		{
 			if (_getPage != null)
@@ -111,19 +152,44 @@ namespace DepartmentDesktop.Controllers
 			}
 		}
 
-		private void toolStripButtonBefore_Click(object sender, EventArgs e)
+		/// <summary>
+		/// Получение списка выбранныз строк (для редактирования или удаления)
+		/// </summary>
+		public DataGridViewSelectedRowCollection GetDataGridViewSelectedRows { get { return dataGridViewList.SelectedRows; } }
+
+		/// <summary>
+		/// Получение доступа к строка datagrid для заполнения
+		/// </summary>
+		public DataGridViewRowCollection GetDataGridViewRows { get { return dataGridViewList.Rows; } }
+
+		/// <summary>
+		/// Переход на страницу назад
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToolStripButtonBefore_Click(object sender, EventArgs e)
 		{
 			_currentPage--;
 			LoadPage();
 		}
 
-		private void toolStripButtonNext_Click(object sender, EventArgs e)
+		/// <summary>
+		/// Переход на страницу вперед
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToolStripButtonNext_Click(object sender, EventArgs e)
 		{
 			_currentPage++;
 			LoadPage();
 		}
 
-		private void toolStripTextBoxPage_KeyDown(object sender, KeyEventArgs e)
+		/// <summary>
+		/// Ввод номера страницы для отображения
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToolStripTextBoxPage_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyData == Keys.Enter)
 			{
