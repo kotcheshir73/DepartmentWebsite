@@ -89,106 +89,84 @@ namespace DepartmentService.Services
 
 		public ResultService CreateEducationDirection(EducationDirectionRecordBindingModel model)
 		{
-			using (var transaction = _context.Database.BeginTransaction())
+			try
 			{
-				try
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
-					{
-						throw new Exception("Нет доступа на изменение данных");
-					}
-
-					var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
-
-					_context.EducationDirections.Add(entity);
-					_context.SaveChanges();
-
-					transaction.Commit();
-
-					return ResultService.Success(entity.Id);
+					throw new Exception("Нет доступа на изменение данных");
 				}
-				catch (DbEntityValidationException ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+
+				var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
+				_context.EducationDirections.Add(entity);
+				_context.SaveChanges();
+
+				return ResultService.Success(entity.Id);
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
 		public ResultService UpdateEducationDirection(EducationDirectionRecordBindingModel model)
 		{
-			using (var transaction = _context.Database.BeginTransaction())
+			try
 			{
-				try
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
-					{
-						throw new Exception("Нет доступа на изменение данных");
-					}
-
-					var entity = _context.EducationDirections
-									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-					if (entity == null)
-					{
-						return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-					}
-					entity = ModelFacotryFromBindingModel.CreateEducationDirection(model, entity);
-
-					_context.SaveChanges();
-
-					transaction.Commit();
-
-					return ResultService.Success();
+					throw new Exception("Нет доступа на изменение данных");
 				}
-				catch (DbEntityValidationException ex)
+
+				var entity = _context.EducationDirections
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
 				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+				entity = ModelFacotryFromBindingModel.CreateEducationDirection(model, entity);
+
+				_context.SaveChanges();
+
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
 		public ResultService DeleteEducationDirection(EducationDirectionGetBindingModel model)
 		{
-			using (var transaction = _context.Database.BeginTransaction())
+			try
 			{
-				try
+				var entity = _context.EducationDirections
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
 				{
-					var entity = _context.EducationDirections
-									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-					if (entity == null)
-					{
-						return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-					}
-					entity.IsDeleted = true;
-					entity.DateDelete = DateTime.Now;
-					
-					_context.SaveChanges();
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
+				entity.IsDeleted = true;
+				entity.DateDelete = DateTime.Now;
 
-					transaction.Commit();
+				_context.SaveChanges();
 
-					return ResultService.Success();
-				}
-				catch (DbEntityValidationException ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 	}

@@ -26,9 +26,9 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if(!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных");
+					throw new Exception("Нет доступа на чтение данных по аудиториям");
 				}
 
 				int countPages = 0;
@@ -66,7 +66,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных");
+					throw new Exception("Нет доступа на чтение данных по аудиториям");
 				}
 
 				var entity = _context.Classrooms
@@ -90,112 +90,92 @@ namespace DepartmentService.Services
 
 		public ResultService CreateClassroom(ClassroomRecordBindingModel model)
 		{
-			using (var transaction = _context.Database.BeginTransaction())
+			try
 			{
-				try
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
-					{
-						throw new Exception("Нет доступа на изменение данных");
-					}
-
-					var entity = ModelFacotryFromBindingModel.CreateClassroom(model);
-
-					_context.Classrooms.Add(entity);
-					_context.SaveChanges();
-
-					transaction.Commit();
-
-					return ResultService.Success(entity.Id);
+					throw new Exception("Нет доступа на изменение данных по аудиториям");
 				}
-				catch (DbEntityValidationException ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+
+				var entity = ModelFacotryFromBindingModel.CreateClassroom(model);
+
+				_context.Classrooms.Add(entity);
+				_context.SaveChanges();
+
+				return ResultService.Success(entity.Id);
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
 		public ResultService UpdateClassroom(ClassroomRecordBindingModel model)
 		{
-			using (var transaction = _context.Database.BeginTransaction())
+			try
 			{
-				try
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
-					{
-						throw new Exception("Нет доступа на изменение данных");
-					}
-
-					var entity = _context.Classrooms
-									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-					if (entity == null)
-					{
-						return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-					}
-					entity = ModelFacotryFromBindingModel.CreateClassroom(model, entity);
-
-					_context.SaveChanges();
-
-					transaction.Commit();
-
-					return ResultService.Success();
+					throw new Exception("Нет доступа на изменение данных по аудиториям");
 				}
-				catch (DbEntityValidationException ex)
+
+				var entity = _context.Classrooms
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
 				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+				entity = ModelFacotryFromBindingModel.CreateClassroom(model, entity);
+
+				_context.SaveChanges();
+
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
 		public ResultService DeleteClassroom(ClassroomGetBindingModel model)
 		{
-			using (var transaction = _context.Database.BeginTransaction())
+			try
 			{
-				try
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
 				{
-					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
-					{
-						throw new Exception("Нет доступа на удаление данных");
-					}
-
-					var entity = _context.Classrooms
-									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-					if (entity == null)
-					{
-						return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-					}
-					entity.IsDeleted = true;
-					entity.DateDelete = DateTime.Now;
-
-					_context.SaveChanges();
-
-					transaction.Commit();
-
-					return ResultService.Success();
+					throw new Exception("Нет доступа на удаление данных по аудиториям");
 				}
-				catch (DbEntityValidationException ex)
+
+				var entity = _context.Classrooms
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
 				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				catch (Exception ex)
-				{
-					transaction.Rollback();
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+				entity.IsDeleted = true;
+				entity.DateDelete = DateTime.Now;
+
+				_context.SaveChanges();
+
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 	}
 }
+
