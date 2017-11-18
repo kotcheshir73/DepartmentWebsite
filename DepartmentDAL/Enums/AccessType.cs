@@ -2,7 +2,6 @@
 
 namespace DepartmentDAL.Enums
 {
-	[Flags]
 	public enum AccessType : int
 	{
 		/// <summary>

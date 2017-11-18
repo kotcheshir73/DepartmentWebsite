@@ -538,7 +538,7 @@ namespace DepartmentService.ViewModels
 				Id = entity.Id,
 				RoleName = entity.Role.RoleName,
 				Operation = entity.Operation.ToString(),
-				AccessType = (int)entity.AccessType
+				AccessType = entity.AccessType.ToString()
 			};
 		}
 

@@ -8,6 +8,6 @@
 
 		public string RoleName { get; set; }
 
-		public int AccessType { get; set; }
+		public string AccessType { get; set; }
 	}
 }
