@@ -7,12 +7,21 @@ namespace DepartmentDesktop.Controllers
 {
 	public partial class StandartControl : UserControl
 	{
+		private event Func<int, int, int> _getPage;
+
+		private int _currentPage = 1;
+
+		private int _countElementsOnPage = 10;
+
+		private int _countPages = 1;
+
 		public StandartControl()
 		{
 			InitializeComponent();
+			toolStripButtonRef.Click += (object sender, EventArgs e) => { LoadPage(); };
 		}
 
-		public void Configurate(List<ColumnConfig> columns, List<string> showToolStripButton)
+		public void Configurate(List<ColumnConfig> columns, List<string> showToolStripButton, int? countElementsOnPage = null)
 		{
 			dataGridViewList.Columns.Clear();
 			foreach (var column in columns)
@@ -51,6 +60,11 @@ namespace DepartmentDesktop.Controllers
 					}
 				}
 			}
+
+			if (countElementsOnPage.HasValue)
+			{
+				_countElementsOnPage = countElementsOnPage.Value;
+			}
 		}
 
 		public void ToolStripButtonAddEventClickAddEvent(EventHandler ev)
@@ -68,11 +82,6 @@ namespace DepartmentDesktop.Controllers
 			toolStripButtonDel.Click += ev;
 		}
 
-		public void ToolStripButtonRefEventClickAddEvent(EventHandler ev)
-		{
-			toolStripButtonRef.Click += ev;
-		}
-
 		public void DataGridViewListEventKeyDownAddEvent(KeyEventHandler ev)
 		{
 			dataGridViewList.KeyDown += ev;
@@ -83,8 +92,47 @@ namespace DepartmentDesktop.Controllers
 			dataGridViewList.CellDoubleClick += ev;
 		}
 
+		public void GetPageAddEvenet(Func<int, int, int> ev)
+		{
+			_getPage += ev;
+		}
+
 		public DataGridViewSelectedRowCollection GetDataGridViewSelectedRows { get { return dataGridViewList.SelectedRows; } }
 
 		public DataGridViewRowCollection GetDataGridViewRows { get { return dataGridViewList.Rows; } }
+
+		public void LoadPage()
+		{
+			if (_getPage != null)
+			{
+				_countPages = _getPage(_currentPage - 1, _countElementsOnPage);
+				toolStripTextBoxPage.Text = _currentPage.ToString();
+				toolStripLabelCountPages.Text = string.Format("из {0}", _countPages);
+			}
+		}
+
+		private void toolStripButtonBefore_Click(object sender, EventArgs e)
+		{
+			_currentPage--;
+			LoadPage();
+		}
+
+		private void toolStripButtonNext_Click(object sender, EventArgs e)
+		{
+			_currentPage++;
+			LoadPage();
+		}
+
+		private void toolStripTextBoxPage_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				if (int.TryParse(toolStripTextBoxPage.Text, out int tempPage))
+				{
+					_currentPage = tempPage;
+					LoadPage();
+				}
+			}
+		}
 	}
 }

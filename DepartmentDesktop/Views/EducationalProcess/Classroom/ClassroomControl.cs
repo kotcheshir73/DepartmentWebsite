@@ -27,10 +27,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
 			standartControl.Configurate(columns, hideToolStripButtons);
 
+			standartControl.GetPageAddEvenet(LoadRecords); 
 			standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
 			standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
 			standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-			standartControl.ToolStripButtonRefEventClickAddEvent((object sender, EventArgs e) => { LoadRecords(); });
 			standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
 			standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
 				switch (e.KeyCode)
@@ -50,16 +50,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
 		public void LoadData()
 		{
-			LoadRecords();
+			standartControl.LoadPage();
 		}
 
-		private void LoadRecords()
+		private int LoadRecords(int pageNumber, int pageSize)
 		{
-			var result = _service.GetClassrooms(new ClassroomGetBindingModel { });
+			var result = _service.GetClassrooms(new ClassroomGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				return;
+				return -1;
 			}
 			standartControl.GetDataGridViewRows.Clear();
 			foreach (var res in result.Result.List)
@@ -70,6 +70,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 					res.Capacity
 				);
 			}
+			return result.Result.MaxCount;
 		}
 
 		private void AddRecord()
@@ -77,7 +78,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			var form = new ClassroomForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				LoadRecords();
+				standartControl.LoadPage();
 			}
 		}
 
@@ -89,7 +90,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				var form = new ClassroomForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					LoadRecords();
+					standartControl.LoadPage();
 				}
 			}
 		}
@@ -109,7 +110,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
 					}
-					LoadRecords();
+					standartControl.LoadPage();
 				}
 			}
 		}
