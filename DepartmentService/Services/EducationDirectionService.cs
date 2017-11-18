@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 
@@ -15,28 +14,49 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly AccessOperation _serviceOperation = AccessOperation.Направления;
+
 		public EducationDirectionService(DepartmentDbContext context)
 		{
 			_context = context;
 		}
 
 
-		public ResultService<List<EducationDirectionViewModel>> GetEducationDirections()
+		public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
 		{
 			try
 			{
-				return ResultService<List<EducationDirectionViewModel>>.Success(ModelFactoryToViewModel.CreateEducationDirections(
-						_context.EducationDirections
-							.Where(e => !e.IsDeleted))
-					.ToList());
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных");
+				}
+
+				int countPages = 0;
+				var query = _context.EducationDirections.Where(c => !c.IsDeleted).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Floor((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.Id)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				var result = new EducationDirectionPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateEducationDirections(query).ToList()
+				};
+
+				return ResultService<EducationDirectionPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<EducationDirectionViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<EducationDirectionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<EducationDirectionViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<EducationDirectionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -44,10 +64,17 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных");
+				}
+
 				var entity = _context.EducationDirections
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
+				{
 					return ResultService<EducationDirectionViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 				return ResultService<EducationDirectionViewModel>.Success(ModelFactoryToViewModel.CreateEducationDirectionViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
@@ -62,72 +89,106 @@ namespace DepartmentService.Services
 
 		public ResultService CreateEducationDirection(EducationDirectionRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
-			try
+			using (var transaction = _context.Database.BeginTransaction())
 			{
-				_context.EducationDirections.Add(entity);
-				_context.SaveChanges();
-				return ResultService.Success(entity.Id);
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				try
+				{
+					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+					{
+						throw new Exception("Нет доступа на изменение данных");
+					}
+
+					var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
+
+					_context.EducationDirections.Add(entity);
+					_context.SaveChanges();
+
+					transaction.Commit();
+
+					return ResultService.Success(entity.Id);
+				}
+				catch (DbEntityValidationException ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
 			}
 		}
 
 		public ResultService UpdateEducationDirection(EducationDirectionRecordBindingModel model)
 		{
-			try
+			using (var transaction = _context.Database.BeginTransaction())
 			{
-				var entity = _context.EducationDirections
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-				if (entity == null)
+				try
 				{
-					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+					if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+					{
+						throw new Exception("Нет доступа на изменение данных");
+					}
+
+					var entity = _context.EducationDirections
+									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+					if (entity == null)
+					{
+						return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+					}
+					entity = ModelFacotryFromBindingModel.CreateEducationDirection(model, entity);
+
+					_context.SaveChanges();
+
+					transaction.Commit();
+
+					return ResultService.Success();
 				}
-				entity = ModelFacotryFromBindingModel.CreateEducationDirection(model, entity);
-				
-				_context.SaveChanges();
-				return ResultService.Success();
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				catch (DbEntityValidationException ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
 			}
 		}
 
 		public ResultService DeleteEducationDirection(EducationDirectionGetBindingModel model)
 		{
-			try
+			using (var transaction = _context.Database.BeginTransaction())
 			{
-				var entity = _context.EducationDirections
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-				if (entity == null)
+				try
 				{
-					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-				}
-				entity.IsDeleted = true;
-				entity.DateDelete = DateTime.Now;
+					var entity = _context.EducationDirections
+									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+					if (entity == null)
+					{
+						return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+					}
+					entity.IsDeleted = true;
+					entity.DateDelete = DateTime.Now;
+					
+					_context.SaveChanges();
 
-				_context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-				_context.SaveChanges();
-				return ResultService.Success();
-			}
-			catch (DbEntityValidationException ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+					transaction.Commit();
+
+					return ResultService.Success();
+				}
+				catch (DbEntityValidationException ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+				}
 			}
 		}
 	}

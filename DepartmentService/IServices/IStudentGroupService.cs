@@ -16,8 +16,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка направлений
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<EducationDirectionViewModel>> GetEducationDirections();
+		ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model);
 
 		/// <summary>
 		/// Получения группы

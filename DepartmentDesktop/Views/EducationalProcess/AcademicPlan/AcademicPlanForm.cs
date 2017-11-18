@@ -37,7 +37,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return;
 			}
 
-			var resultED = _service.GetEducationDirections();
+			var resultED = _service.GetEducationDirections(new EducationDirectionGetBindingModel { });
 			if (!resultED.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке направлений возникла ошибка: ", resultED.Errors);
@@ -57,7 +57,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxEducationDirection.ValueMember = "Value";
 			comboBoxEducationDirection.DisplayMember = "Display";
-			comboBoxEducationDirection.DataSource = resultED.Result
+			comboBoxEducationDirection.DataSource = resultED.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 			comboBoxEducationDirection.SelectedItem = null;
 

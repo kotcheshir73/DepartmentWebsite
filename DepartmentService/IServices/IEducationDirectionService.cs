@@ -1,22 +1,22 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
-    public interface IEducationDirectionService
+	public interface IEducationDirectionService
     {
 		/// <summary>
 		/// Получение списка направлений
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<EducationDirectionViewModel>> GetEducationDirections();
+		ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model);
 
 		/// <summary>
 		/// Получения направления
 		/// </summary>
-		/// <param name="model">Идентификатор направления</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<EducationDirectionViewModel> GetEducationDirection(EducationDirectionGetBindingModel model);
 

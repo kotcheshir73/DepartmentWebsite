@@ -45,14 +45,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 
 		private void LoadRecords()
 		{
-			var result = _service.GetEducationDirections();
+			var result = _service.GetEducationDirections(new EducationDirectionGetBindingModel { });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(new object[]
 				{

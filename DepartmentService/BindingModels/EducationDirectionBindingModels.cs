@@ -5,7 +5,11 @@ namespace DepartmentService.BindingModels
     public class EducationDirectionGetBindingModel
     {
         public long Id { get; set; }
-    }
+
+		public int? PageNumber { get; set; }
+
+		public int? PageSize { get; set; }
+	}
 
     public class EducationDirectionRecordBindingModel
     {

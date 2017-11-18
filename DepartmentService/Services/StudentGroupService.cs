@@ -25,9 +25,9 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<EducationDirectionViewModel>> GetEducationDirections()
+		public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
 		{
-			return _serviceED.GetEducationDirections();
+			return _serviceED.GetEducationDirections(model);
 		}
 
 
