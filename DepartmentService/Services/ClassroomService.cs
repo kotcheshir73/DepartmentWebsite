@@ -35,7 +35,7 @@ namespace DepartmentService.Services
 				var query = _context.Classrooms.Where(c => !c.IsDeleted).AsQueryable();
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
-					countPages = (int)Math.Floor((double)query.Count() / model.PageSize.Value);
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
 								.OrderBy(c => c.Id)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
