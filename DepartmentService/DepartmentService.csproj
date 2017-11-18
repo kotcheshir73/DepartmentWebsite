@@ -138,7 +138,7 @@
     <Compile Include="ViewModels\AccessViewModel.cs" />
     <Compile Include="ViewModels\ClassroomViewModels.cs" />
     <Compile Include="ViewModels\ContingentViewModel.cs" />
-    <Compile Include="ViewModels\DisciplineViewModel.cs" />
+    <Compile Include="ViewModels\DisciplineViewModels.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModels.cs" />
     <Compile Include="ViewModels\KindOfLoadViewModel.cs" />
     <Compile Include="ViewModels\LecturerViewModels.cs" />

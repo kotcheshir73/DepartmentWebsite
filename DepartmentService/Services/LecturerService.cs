@@ -66,7 +66,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных по аудиториям");
+					throw new Exception("Нет доступа на чтение данных по преподавателям");
 				}
 
 				var entity = _context.Lecturers
@@ -94,7 +94,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по аудиториям");
+					throw new Exception("Нет доступа на изменение данных по преподавателям");
 				}
 
 				var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
@@ -120,7 +120,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по аудиториям");
+					throw new Exception("Нет доступа на изменение данных по преподавателям");
 				}
 
 				var entity = _context.Lecturers
@@ -151,7 +151,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
 				{
-					throw new Exception("Нет доступа на удаление данных по аудиториям");
+					throw new Exception("Нет доступа на удаление данных по преподавателям");
 				}
 
 				var entity = _context.Lecturers

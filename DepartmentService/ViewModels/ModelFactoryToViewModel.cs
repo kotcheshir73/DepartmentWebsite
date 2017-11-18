@@ -263,7 +263,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<DisciplineBlockViewModel> CreateDisciplineBlocks(IEnumerable<DisciplineBlock> entities)
 		{
-			return entities.Select(e => CreateDisciplineBlockViewModel(e)).OrderBy(e => e.Id);
+			return entities.Select(e => CreateDisciplineBlockViewModel(e));
 		}
 
 		public static DisciplineViewModel CreateDisciplineViewModel(Discipline entity)

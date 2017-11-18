@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void DisciplineForm_Load(object sender, EventArgs e)
 		{
-			var resultDB = _service.GetDisciplineBlocks();
+			var resultDB = _service.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
 			if (!resultDB.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке блоков дисциплин возникла ошибка: ", resultDB.Errors);
@@ -32,7 +32,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 			comboBoxDisciplineBlock.ValueMember = "Value";
 			comboBoxDisciplineBlock.DisplayMember = "Display";
-			comboBoxDisciplineBlock.DataSource = resultDB.Result
+			comboBoxDisciplineBlock.DataSource = resultDB.Result.List
 				.Select(d => new { Value = d.Id, Display = d.Title }).ToList();
 			comboBoxDisciplineBlock.SelectedItem = null;
 

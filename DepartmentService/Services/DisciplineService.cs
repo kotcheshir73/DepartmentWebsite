@@ -25,9 +25,9 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<DisciplineBlockViewModel>> GetDisciplineBlocks()
+		public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
 		{
-			return _serviceDB.GetDisciplineBlocks();
+			return _serviceDB.GetDisciplineBlocks(model);
 		}
 
 

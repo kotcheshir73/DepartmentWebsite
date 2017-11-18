@@ -10,8 +10,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка блоков дисциплин
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<DisciplineBlockViewModel>> GetDisciplineBlocks();
+		ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка дисциплин
