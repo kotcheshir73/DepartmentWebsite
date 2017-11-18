@@ -23,7 +23,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<EducationDirectionViewModel> CreateEducationDirections(IEnumerable<EducationDirection> entities)
 		{
-			return entities.Select(e => CreateEducationDirectionViewModel(e)).OrderBy(e => e.Cipher);
+			return entities.Select(e => CreateEducationDirectionViewModel(e));
 		}
 
 		public static KindOfLoadViewModel CreateKindOfLoadViewModel(KindOfLoad entity)
@@ -247,7 +247,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<ClassroomViewModel> CreateClassrooms(IEnumerable<Classroom> entities)
 		{
-			return entities.Select(e => CreateClassroomViewModel(e)).OrderBy(e => e.Id);
+			return entities.Select(e => CreateClassroomViewModel(e));
 		}
 
 
@@ -306,7 +306,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<LecturerViewModel> CreateLecturers(IEnumerable<Lecturer> entities)
 		{
-			return entities.Select(e => CreateLecturerViewModel(e)).OrderBy(e => e.LastName);
+			return entities.Select(e => CreateLecturerViewModel(e));
 		}
 
 

@@ -60,7 +60,7 @@ namespace DepartmentDesktop.Views.Services.Administration
 
 			comboBoxLecturer.ValueMember = "Value";
 			comboBoxLecturer.DisplayMember = "Display";
-			comboBoxLecturer.DataSource = resultL.Result
+			comboBoxLecturer.DataSource = resultL.Result.List
 				.Select(d => new { Value = d.Id, Display = d.FullName }).ToList();
 			comboBoxLecturer.SelectedItem = null;
 

@@ -41,7 +41,7 @@ namespace DepartmentService.Services
 			return _serviceS.GetStudents(model);
 		}
 
-		public ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model)
+		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
 		{
 			return _serviceL.GetLecturers(model);
 		}

@@ -74,7 +74,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				Width = 50,
 				Visible = true
 			});
-			foreach (var lecture in resultL.Result)
+			foreach (var lecture in resultL.Result.List)
 			{
 				columns.Add(new ColumnConfig
 				{

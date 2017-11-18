@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
 namespace DepartmentService.ViewModels
 {
+	public class LecturerPageViewModel
+	{
+		public int MaxCount { get; set; }
+
+		public List<LecturerViewModel> List { get; set; }
+	}
+
 	public class LecturerViewModel
 	{
 		public long Id { get; set; }

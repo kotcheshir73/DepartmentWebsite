@@ -25,7 +25,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model);
+		ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка дат семестра

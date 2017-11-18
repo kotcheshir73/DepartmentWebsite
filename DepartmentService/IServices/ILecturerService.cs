@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -12,7 +11,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model);
+		ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
 
 		/// <summary>
 		/// Получения преподавателя

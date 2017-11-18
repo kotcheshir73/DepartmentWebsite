@@ -141,7 +141,7 @@
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
     <Compile Include="ViewModels\EducationDirectionViewModels.cs" />
     <Compile Include="ViewModels\KindOfLoadViewModel.cs" />
-    <Compile Include="ViewModels\LecturerViewModel.cs" />
+    <Compile Include="ViewModels\LecturerViewModels.cs" />
     <Compile Include="ViewModels\LoadDistributionViewModels.cs" />
     <Compile Include="ViewModels\ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />

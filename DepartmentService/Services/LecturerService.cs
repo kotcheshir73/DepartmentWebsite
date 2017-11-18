@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 
@@ -23,28 +22,41 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model)
+		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных");
+					throw new Exception("Нет доступа на чтение данных по преподавателям");
 				}
-				return ResultService<List<LecturerViewModel>>.Success(ModelFactoryToViewModel.CreateLecturers(
-						_context.Lecturers
-							.Where(e => !e.IsDeleted))
-					.ToList());
+
+				int countPages = 0;
+				var query = _context.Lecturers.Where(c => !c.IsDeleted).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.LastName)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				var result = new LecturerPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateLecturers(query).ToList()
+				};
+
+				return ResultService<LecturerPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<LecturerViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<LecturerViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -52,18 +64,23 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по аудиториям");
+				}
+
 				var entity = _context.Lecturers
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<LecturerViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
-				return ResultService<LecturerViewModel>.Success(
-					ModelFactoryToViewModel.CreateLecturerViewModel(entity));
+				{
+					return ResultService<LecturerViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
+
+				return ResultService<LecturerViewModel>.Success(ModelFactoryToViewModel.CreateLecturerViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<LecturerViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LecturerViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -73,11 +90,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateLecturer(LecturerRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по аудиториям");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
+
 				_context.Lecturers.Add(entity);
 				_context.SaveChanges();
+
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -92,29 +116,32 @@ namespace DepartmentService.Services
 
 		public ResultService UpdateLecturer(LecturerRecordBindingModel model)
 		{
+			try
 			{
-				try
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					var entity = _context.Lecturers
-									.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
-					if (entity == null)
-					{
-						return ResultService.Error("Error:", "Entity not found",
-							ResultServiceStatusCode.NotFound);
-					}
-					entity = ModelFacotryFromBindingModel.CreateLecturer(model, entity);
-					
-					_context.SaveChanges();
-					return ResultService.Success();
+					throw new Exception("Нет доступа на изменение данных по аудиториям");
 				}
-				catch (DbEntityValidationException ex)
+
+				var entity = _context.Lecturers
+								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				if (entity == null)
 				{
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				catch (Exception ex)
-				{
-					return ResultService.Error(ex, ResultServiceStatusCode.Error);
-				}
+				entity = ModelFacotryFromBindingModel.CreateLecturer(model, entity);
+
+				_context.SaveChanges();
+
+				return ResultService.Success();
+			}
+			catch (DbEntityValidationException ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -122,16 +149,20 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по аудиториям");
+				}
+
 				var entity = _context.Lecturers
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
-				
+
 				_context.SaveChanges();
 				return ResultService.Success();
 			}

@@ -90,20 +90,20 @@ namespace DepartmentDesktop.Views.Services.Schedule
 					var lecturers = resultLecturers.Result;
 					if (lecturers != null)
 					{
-						for (int i = 0; i < lecturers.Count; i++)
+						for (int i = 0; i < lecturers.List.Count; i++)
 						{
 							TabPage tabpage = new TabPage();
 							tabpage.AutoScroll = true;
 							tabpage.Location = new System.Drawing.Point(23, 4);
-							tabpage.Name = "tabPageSemester" + lecturers[i].Id;
+							tabpage.Name = "tabPageSemester" + lecturers.List[i].Id;
 							tabpage.Padding = new Padding(3);
 							tabpage.Size = new System.Drawing.Size(1140, 611);
 							tabpage.Tag = i.ToString();
-							tabpage.Text = lecturers[i].FullName;
+							tabpage.Text = lecturers.List[i].FullName;
 							tabControlSemester.TabPages.Add(tabpage);
 							var control = new ScheduleConsultationLecturerControl(_service, _serviceCR);
 							control.Dock = DockStyle.Fill;
-							control.LoadData(lecturers[i].Id, lecturers[i].FullName);
+							control.LoadData(lecturers.List[i].Id, lecturers.List[i].FullName);
 							tabControlSemester.TabPages[i].Controls.Add(control);
 						}
 					}
