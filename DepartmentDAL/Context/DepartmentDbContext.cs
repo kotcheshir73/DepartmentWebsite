@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL.Models;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
@@ -51,5 +52,36 @@ namespace DepartmentDAL.Context
         public virtual DbSet<StudentHistory> StudentHistorys { set; get; }
 		public virtual DbSet<TimeNorm> TimeNorms { get; set; }
 		public virtual DbSet<User> Users { set; get; }
-    }
+
+		/// <summary>
+		/// Перегружаем метод созранения изменений. Если возникла ошибка - очищаем все изменения
+		/// </summary>
+		/// <returns></returns>
+		public override int SaveChanges()
+		{
+			try
+			{
+				return base.SaveChanges();
+			}
+			catch (Exception)
+			{
+				foreach (var entry in ChangeTracker.Entries())
+				{
+					switch (entry.State)
+					{
+						case EntityState.Modified:
+							entry.State = EntityState.Unchanged;
+							break;
+						case EntityState.Deleted:
+							entry.Reload();
+							break;
+						case EntityState.Added:
+							entry.State = EntityState.Detached;
+							break;
+					}
+				}
+				throw;
+			}
+		}
+	}
 }
