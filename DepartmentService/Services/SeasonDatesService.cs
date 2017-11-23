@@ -66,7 +66,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных по аудиториям");
+					throw new Exception("Нет доступа на чтение данных по датам семестра");
 				}
 
 				var entity = string.IsNullOrEmpty(model.Title) ?
@@ -95,7 +95,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по аудиториям");
+					throw new Exception("Нет доступа на изменение данных по датам семестра");
 				}
 
 				var entity = ModelFacotryFromBindingModel.CreateSeasonDates(model);
@@ -121,7 +121,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по аудиториям");
+					throw new Exception("Нет доступа на изменение данных по датам семестра");
 				}
 
 				var entity = _context.SeasonDates
@@ -152,7 +152,7 @@ namespace DepartmentService.Services
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
 				{
-					throw new Exception("Нет доступа на удаление данных по аудиториям");
+					throw new Exception("Нет доступа на удаление данных по датам семестра");
 				}
 
 				var entity = _context.SeasonDates
