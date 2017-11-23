@@ -77,9 +77,9 @@ namespace DepartmentService.Services
 			return _serviceL.GetLecturers(model);
 		}
 
-		public ResultService<List<SeasonDatesViewModel>> GetSeasonDaties()
+		public ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model)
 		{
-			return _serviceSD.GetSeasonDaties();
+			return _serviceSD.GetSeasonDaties(model);
 		}
 
 		public ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(

@@ -146,7 +146,7 @@
     <Compile Include="ViewModels\ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModels.cs" />
-    <Compile Include="ViewModels\SeasonDatesViewModel.cs" />
+    <Compile Include="ViewModels\SeasonDatesViewModels.cs" />
     <Compile Include="ViewModels\StreamingLessonViewModel.cs" />
     <Compile Include="ViewModels\StudentGroupViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />

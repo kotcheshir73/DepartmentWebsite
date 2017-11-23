@@ -44,7 +44,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
             }
 
-			var resultSD = _service.GetSeasonDaties();
+			var resultSD = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { });
 			if (!resultSD.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
@@ -52,7 +52,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			}
 			comboBoxSeasonDates.ValueMember = "Value";
             comboBoxSeasonDates.DisplayMember = "Display";
-            comboBoxSeasonDates.DataSource = resultSD.Result
+            comboBoxSeasonDates.DataSource = resultSD.Result.List
 				.Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
 
 			var resultCD = _service.GetCurrentDates();

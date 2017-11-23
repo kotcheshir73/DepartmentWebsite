@@ -367,7 +367,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<SeasonDatesViewModel> CreateSeasonDaties(IEnumerable<SeasonDates> entities)
 		{
-			return entities.Select(e => CreateSeasonDatesViewModel(e)).OrderBy(e => e.Id);
+			return entities.Select(e => CreateSeasonDatesViewModel(e));
 		}
 
 		#region Schedule

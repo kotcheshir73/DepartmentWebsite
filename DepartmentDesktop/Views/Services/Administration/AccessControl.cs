@@ -61,7 +61,7 @@ namespace DepartmentDesktop.Views.Services.Administration
 				{
 					res.Id,
 					res.Operation,
-					((AccessType)Enum.ToObject(typeof(AccessType), res.AccessType)).ToString()
+					res.AccessType
 				});
 			}
 		}

@@ -30,8 +30,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка дат семестра
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<SeasonDatesViewModel>> GetSeasonDaties();
+		ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка временных интервалов

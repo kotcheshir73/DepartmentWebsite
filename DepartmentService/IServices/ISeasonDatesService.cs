@@ -1,21 +1,17 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentService.IServices
 {
-    public interface ISeasonDatesService
+	public interface ISeasonDatesService
     {
 		/// <summary>
 		/// Получение списка дат семестра
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<SeasonDatesViewModel>> GetSeasonDaties();
+		ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
 
 		/// <summary>
 		/// Получить запись по датам семестра

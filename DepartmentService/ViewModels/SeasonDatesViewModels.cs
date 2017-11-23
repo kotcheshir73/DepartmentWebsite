@@ -1,8 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DepartmentService.ViewModels
 {
-    public class SeasonDatesViewModel
+	public class SeasonDatesPageViewModel
+	{
+		public int MaxCount { get; set; }
+
+		public List<SeasonDatesViewModel> List { get; set; }
+	}
+
+	public class SeasonDatesViewModel
     {
         public long Id { get; set; }
 
