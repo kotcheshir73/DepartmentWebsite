@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\DatabaseInitializer.cs" />
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\AcademicCourse.cs" />
     <Compile Include="Enums\AcademicLevel.cs" />
