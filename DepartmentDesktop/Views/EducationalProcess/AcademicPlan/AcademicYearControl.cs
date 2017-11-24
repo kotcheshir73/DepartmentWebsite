@@ -43,14 +43,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadRecords()
 		{
-			var result = _service.GetAcademicYears();
+			var result = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				DataGridViewRow row = dataGridViewList.RowTemplate;
 				

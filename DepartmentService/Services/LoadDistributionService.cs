@@ -25,9 +25,9 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<AcademicYearViewModel>> GetAcademicYears()
+		public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
 		{
-			return _serviceAY.GetAcademicYears();
+			return _serviceAY.GetAcademicYears(model);
 		}
 
 

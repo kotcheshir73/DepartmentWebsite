@@ -30,7 +30,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AcademicPlanForm_Load(object sender, EventArgs e)
 		{
-			var resultAY = _service.GetAcademicYears();
+			var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
 			if (!resultAY.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
@@ -51,7 +51,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxAcademicYear.ValueMember = "Value";
 			comboBoxAcademicYear.DisplayMember = "Display";
-			comboBoxAcademicYear.DataSource = resultAY.Result
+			comboBoxAcademicYear.DataSource = resultAY.Result.List
 				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
 			comboBoxAcademicYear.SelectedItem = null;
 

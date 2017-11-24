@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -10,13 +9,14 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка учебных годов
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<AcademicYearViewModel>> GetAcademicYears();
+		ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
 
 		/// <summary>
 		/// Получения учебного года
 		/// </summary>
-		/// <param name="model">Идентификатор учебного года</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<AcademicYearViewModel> GetAcademicYear(AcademicYearGetBindingModel model);
 

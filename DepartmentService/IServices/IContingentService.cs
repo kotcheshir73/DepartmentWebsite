@@ -16,8 +16,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка учебных годов
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<AcademicYearViewModel>> GetAcademicYears();
+		ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка направлений
