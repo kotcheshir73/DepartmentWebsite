@@ -53,7 +53,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                     break;
                 case 1:
-                    var resultStudentGroups = _service.GetStudentGroups();
+                    var resultStudentGroups = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
 					if (!resultStudentGroups.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
@@ -62,20 +62,20 @@ namespace DepartmentDesktop.Views.Services.Schedule
 					var studentGroups = resultStudentGroups.Result;
 					if (studentGroups != null)
                     {
-                        for (int i = 0; i < studentGroups.Count; i++)
+                        for (int i = 0; i < studentGroups.List.Count; i++)
                         {
                             TabPage tabpage = new TabPage();
                             tabpage.AutoScroll = true;
                             tabpage.Location = new System.Drawing.Point(23, 4);
-                            tabpage.Name = "tabPageConsultation" + studentGroups[i].Id;
+                            tabpage.Name = "tabPageConsultation" + studentGroups.List[i].Id;
                             tabpage.Padding = new Padding(3);
                             tabpage.Size = new System.Drawing.Size(1140, 611);
                             tabpage.Tag = i.ToString();
-                            tabpage.Text = studentGroups[i].GroupName;
+                            tabpage.Text = studentGroups.List[i].GroupName;
                             tabControlSemester.TabPages.Add(tabpage);
                             var control = new ScheduleConsultationStudentGroupControl(_service, _serviceCR);
                             control.Dock = DockStyle.Fill;
-                            control.LoadData(studentGroups[i].GroupName);
+                            control.LoadData(studentGroups.List[i].GroupName);
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
                     }

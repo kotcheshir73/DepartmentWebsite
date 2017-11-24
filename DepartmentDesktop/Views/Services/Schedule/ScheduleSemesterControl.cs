@@ -56,13 +56,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     }
                     break;
                 case 1://расписание по группам
-					var resultStudentGroups = _service.GetStudentGroups();
+					var resultStudentGroups = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
 					if (!resultStudentGroups.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
 						return;
 					}
-					var studentGroups = resultStudentGroups.Result;
+					var studentGroups = resultStudentGroups.Result.List;
 					if (studentGroups != null)
                     {
                         for (int i = 0; i < studentGroups.Count; i++)

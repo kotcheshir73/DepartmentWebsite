@@ -19,13 +19,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "DisciplineName", Title = "Название", Width = 200, Visible = true },
+				new ColumnConfig { Name = "DisciplineName", Title = "Название", Width = 600, Visible = true },
 				new ColumnConfig { Name = "DisciplineBlockTitle", Title = "Блок", Width = 200, Visible = true }
 			};
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
-			standartControl.Configurate(columns, hideToolStripButtons);
+			standartControl.Configurate(columns, hideToolStripButtons, 20);
 
 			standartControl.GetPageAddEvent(LoadRecords);
 			standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });

@@ -67,9 +67,9 @@ namespace DepartmentService.Services
 			return _serviceC.GetClassrooms(model);
 		}
 
-		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
+		public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
 		{
-			return _serviceG.GetStudentGroups();
+			return _serviceG.GetStudentGroups(model);
 		}
 
 		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)

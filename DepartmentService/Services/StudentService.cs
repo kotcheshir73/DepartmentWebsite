@@ -28,9 +28,9 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
+		public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
 		{
-			return _serviceSG.GetStudentGroups();
+			return _serviceSG.GetStudentGroups(model);
 		}
 
 
@@ -38,7 +38,7 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				int count = 0;
+				int countPages = 0;
 				var query = _context.Students.Include(s => s.StudentGroup).AsQueryable();
 				if (model.StudentGroupId.HasValue)
 				{
@@ -48,16 +48,17 @@ namespace DepartmentService.Services
 				{
 					query = query.Where(e => e.StudentState == model.StudentStatus.Value && !e.IsDeleted);
 				}
-				if (model.PageNumber.HasValue)
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
-					query = query.OrderBy(e => e.StudentGroupId).ThenBy(s => s.LastName);
-					count = query.Count();
-					count = count / model.PageSize + (count % model.PageSize == 0 ? 0 : 1);
-					query = query.Skip(model.PageSize * model.PageNumber.Value).Take(model.PageSize);
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.StudentGroupId).ThenBy(s => s.LastName)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
 				}
 				var result = new StudentPageViewModel
 				{
-					MaxCount = count,
+					MaxCount = countPages,
 					List = ModelFactoryToViewModel.CreateStudents(query)
 					.ToList()
 				};

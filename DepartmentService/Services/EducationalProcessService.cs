@@ -798,7 +798,7 @@ namespace DepartmentService.Services
 											{
 												AcademicPlanRecordId = apRecord.Id,
 												ContingentId = contingent.Id,
-												LoadDistributionId = model.Id,
+												LoadDistributionId = model.Id.Value,
 												TimeNormId = timeNorm.Id,
 												Load = load
 											}));

@@ -26,7 +26,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void StudentGroupTransferForm_Load(object sender, EventArgs e)
 		{
-			var resultSG = _service.GetStudentGroups();
+			var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
 			if (!resultSG.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
@@ -35,7 +35,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 			comboBoxNewStudentGroup.ValueMember = "Value";
 			comboBoxNewStudentGroup.DisplayMember = "Display";
-			comboBoxNewStudentGroup.DataSource = resultSG.Result
+			comboBoxNewStudentGroup.DataSource = resultSG.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
 			comboBoxNewStudentGroup.SelectedItem = null;
 

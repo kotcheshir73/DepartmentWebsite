@@ -164,7 +164,6 @@ namespace DepartmentDAL
 		public static ResultService<T> Error(DbEntityValidationException error, ResultServiceStatusCode statusCode)
 		{
 			var result = new ResultService<T>();
-			int counter = 0;
 			result.Succeeded = false;
 			result.Errors.Add(new KeyValuePair<string, string>("DbEntityValidation Error:", error.Message));
 			foreach (var eve in error.EntityValidationErrors)

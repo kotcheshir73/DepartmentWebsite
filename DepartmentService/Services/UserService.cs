@@ -51,25 +51,26 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				var result = _context.Users.Include(u => u.Role).Where(u => !u.IsDeleted);
+				int countPages = 0;
+				var query = _context.Users.Include(u => u.Role).Where(u => !u.IsDeleted);
 				if (model.RoleId.HasValue)
 				{
-					result = result.Where(u => u.RoleId == model.RoleId.Value);
+					query = query.Where(u => u.RoleId == model.RoleId.Value);
 				}
 				if (model.IsBanned.HasValue)
 				{
-					result = result.Where(u => u.IsBanned == model.IsBanned.Value);
+					query = query.Where(u => u.IsBanned == model.IsBanned.Value);
 				}
 				// TODO skip&take сделать везде
-				if (model.Skip.HasValue)
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
-					result = result.Skip(model.Skip.Value);
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.Id)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
 				}
-				if (model.Take.HasValue)
-				{
-					result = result.Take(model.Take.Value);
-				}
-				return ResultService<List<UserViewModel>>.Success(ModelFactoryToViewModel.CreateUsers(result).ToList());
+				return ResultService<List<UserViewModel>>.Success(ModelFactoryToViewModel.CreateUsers(query).ToList());
 			}
 			catch (DbEntityValidationException ex)
 			{

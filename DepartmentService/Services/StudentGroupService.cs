@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -15,6 +14,8 @@ namespace DepartmentService.Services
 	public class StudentGroupService : IStudentGroupService
 	{
 		private readonly DepartmentDbContext _context;
+
+		private readonly AccessOperation _serviceOperation = AccessOperation.Группы;
 
 		private readonly IEducationDirectionService _serviceED;
 
@@ -31,25 +32,41 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<StudentGroupViewModel>> GetStudentGroups()
+		public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
 		{
 			try
 			{
-				return ResultService<List<StudentGroupViewModel>>.Success(
-					ModelFactoryToViewModel.CreateStudentGroups(_context.StudentGroups
-						.Include(s => s.EducationDirection).Include(s => s.Students)
-							.Where(e => !e.IsDeleted))
-					.ToList());
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по группам");
+				}
+
+				int countPages = 0;
+				var query = _context.StudentGroups.Where(c => !c.IsDeleted).Include(s => s.EducationDirection).Include(s => s.Students).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(e => e.Course).ThenBy(e => e.EducationDirectionId)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				var result = new StudentGroupPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateStudentGroups(query).ToList()
+				};
+
+				return ResultService<StudentGroupPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<StudentGroupViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<StudentGroupPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<StudentGroupViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<StudentGroupPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -57,19 +74,23 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по группам");
+				}
+
 				var entity = _context.StudentGroups.Include(s => s.EducationDirection).Include(s => s.Steward)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<StudentGroupViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+				{
+					return ResultService<StudentGroupViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 
-				return ResultService<StudentGroupViewModel>.Success(
-					ModelFactoryToViewModel.CreateStudentGroupViewModel(entity));
+				return ResultService<StudentGroupViewModel>.Success(ModelFactoryToViewModel.CreateStudentGroupViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<StudentGroupViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<StudentGroupViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -79,11 +100,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateStudentGroup(StudentGroupRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateStudentGroup(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по группам");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateStudentGroup(model);
+
 				_context.StudentGroups.Add(entity);
 				_context.SaveChanges();
+				
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -100,6 +128,11 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по группам");
+				}
+
 				var entity = _context.StudentGroups
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
@@ -110,6 +143,7 @@ namespace DepartmentService.Services
 				entity = ModelFacotryFromBindingModel.CreateStudentGroup(model, entity);
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -126,17 +160,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по группам");
+				}
+
 				var entity = _context.StudentGroups
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)

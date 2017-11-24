@@ -1,18 +1,11 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
-    public interface IStudentGroupService
+	public interface IStudentGroupService
     {
-		/// <summary>
-		/// Получение списка групп
-		/// </summary>
-		/// <returns></returns>
-		ResultService<List<StudentGroupViewModel>> GetStudentGroups();
-
 		/// <summary>
 		/// Получение списка направлений
 		/// </summary>
@@ -21,9 +14,16 @@ namespace DepartmentService.IServices
 		ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model);
 
 		/// <summary>
+		/// Получение списка групп
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
+
+		/// <summary>
 		/// Получения группы
 		/// </summary>
-		/// <param name="model">Идентификатор группы</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<StudentGroupViewModel> GetStudentGroup(StudentGroupGetBindingModel model);
 

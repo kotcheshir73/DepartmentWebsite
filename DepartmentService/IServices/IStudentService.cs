@@ -17,8 +17,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка групп
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<StudentGroupViewModel>> GetStudentGroups();
+		ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
 
 		/// <summary>
 		/// Получения студента

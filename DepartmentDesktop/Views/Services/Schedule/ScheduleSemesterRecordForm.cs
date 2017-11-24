@@ -35,7 +35,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
             }
             comboBoxLessonType.SelectedIndex = -1;
 
-			var resultSG = _serviceS.GetStudentGroups();
+			var resultSG = _serviceS.GetStudentGroups(new StudentGroupGetBindingModel { });
 			if (!resultSG.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
@@ -56,7 +56,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 			comboBoxStudentGroup.ValueMember = "Value";
 			comboBoxStudentGroup.DisplayMember = "Display";
-			comboBoxStudentGroup.DataSource = resultSG.Result
+			comboBoxStudentGroup.DataSource = resultSG.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
 			comboBoxStudentGroup.SelectedItem = null;
 			textBoxLessonGroup.Text = string.Empty;

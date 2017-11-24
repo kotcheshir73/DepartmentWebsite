@@ -32,13 +32,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 checkedListBoxClassrooms.Items.Add(elem.Id, true);
             }
 
-            var resultSG = _service.GetStudentGroups();
+            var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
 			if (!resultSG.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
 				return;
 			}
-			var studentGroups = resultSG.Result;
+			var studentGroups = resultSG.Result.List;
 			foreach (var elem in studentGroups)
             {
                 checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
