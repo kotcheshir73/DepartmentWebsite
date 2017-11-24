@@ -5,113 +5,101 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 
 namespace DepartmentService.Services
 {
-	public class DisciplineService : IDisciplineService
+	public class KindOfLoadService : IKindOfLoadService
 	{
 		private readonly DepartmentDbContext _context;
 
-		private readonly IDisciplineBlockService _serviceDB;
+		private readonly AccessOperation _serviceOperation = AccessOperation.Виды_нагрузок;
 
-		private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
-
-		public DisciplineService(DepartmentDbContext context, IDisciplineBlockService serviceDB)
+		public KindOfLoadService(DepartmentDbContext context)
 		{
 			_context = context;
-			_serviceDB = serviceDB;
 		}
 
 
-		public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
-		{
-			return _serviceDB.GetDisciplineBlocks(model);
-		}
-
-
-		public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
+		public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных по дисциплинам");
+					throw new Exception("Нет доступа на чтение данных по видам нагрузки");
 				}
 
 				int countPages = 0;
-				var query = _context.Disciplines.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.KindOfLoads.Where(c => !c.IsDeleted).AsQueryable();
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(c => c.Id)
+								.OrderBy(e => e.KindOfLoadType).ThenBy(e => e.KindOfLoadName)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(d => d.DisciplineBlock);
-
-				var result = new DisciplinePageViewModel
+				var result = new KindOfLoadPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateDisciplines(query).ToList()
+					List = ModelFactoryToViewModel.CreateKindOfLoads(query).ToList()
 				};
 
-				return ResultService<DisciplinePageViewModel>.Success(result);
+				return ResultService<KindOfLoadPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<DisciplinePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<KindOfLoadPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<DisciplinePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<KindOfLoadPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel model)
+		public ResultService<KindOfLoadViewModel> GetKindOfLoad(KindOfLoadGetBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных по дисциплинам");
+					throw new Exception("Нет доступа на чтение данных по видам нагрузки");
 				}
 
-				var entity = _context.Disciplines
+				var entity = _context.KindOfLoads
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService<DisciplineViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+					return ResultService<KindOfLoadViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 
-				return ResultService<DisciplineViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineViewModel(entity));
+				return ResultService<KindOfLoadViewModel>.Success(ModelFactoryToViewModel.CreateKindOfLoadViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<DisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<KindOfLoadViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<DisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<KindOfLoadViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService CreateKindOfLoad(KindOfLoadRecordBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по дисциплинам");
+					throw new Exception("Нет доступа на изменение данных по видам нагрузки");
 				}
 
-				var entity = ModelFacotryFromBindingModel.CreateDiscipline(model);
+				var entity = ModelFacotryFromBindingModel.CreateKindOfLoad(model);
 
-				_context.Disciplines.Add(entity);
+				_context.KindOfLoads.Add(entity);
 				_context.SaveChanges();
 
 				return ResultService.Success(entity.Id);
@@ -126,22 +114,22 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService UpdateKindOfLoad(KindOfLoadRecordBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по дисциплинам");
+					throw new Exception("Нет доступа на изменение данных по видам нагрузки");
 				}
 
-				var entity = _context.Disciplines
+				var entity = _context.KindOfLoads
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				entity = ModelFacotryFromBindingModel.CreateDiscipline(model, entity);
+				entity = ModelFacotryFromBindingModel.CreateKindOfLoad(model, entity);
 				
 				_context.SaveChanges();
 
@@ -157,16 +145,16 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteDiscipline(DisciplineGetBindingModel model)
+		public ResultService DeleteKindOfLoad(KindOfLoadGetBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
 				{
-					throw new Exception("Нет доступа на удаление данных по дисциплинам");
+					throw new Exception("Нет доступа на удаление данных по видам нагрузки");
 				}
 
-				var entity = _context.Disciplines
+				var entity = _context.KindOfLoads
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{

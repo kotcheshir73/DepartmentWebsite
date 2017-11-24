@@ -1,18 +1,11 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
 	public interface IContingentService
 	{
-		/// <summary>
-		/// Получение списка контингентов
-		/// </summary>
-		/// <returns></returns>
-		ResultService<List<ContingentViewModel>> GetContingents();
-
 		/// <summary>
 		/// Получение списка учебных годов
 		/// </summary>
@@ -28,9 +21,16 @@ namespace DepartmentService.IServices
 		ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model);
 
 		/// <summary>
+		/// Получение списка контингентов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<ContingentPageViewModel> GetContingents(ContingentGetBindingModel model);
+
+		/// <summary>
 		/// Получения контингента
 		/// </summary>
-		/// <param name="model">Идентификатор контингента</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<ContingentViewModel> GetContingent(ContingentGetBindingModel model);
 

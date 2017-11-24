@@ -38,7 +38,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<KindOfLoadViewModel> CreateKindOfLoads(IEnumerable<KindOfLoad> entities)
 		{
-			return entities.Select(e => CreateKindOfLoadViewModel(e)).OrderBy(e => e.KindOfLoadType).ThenBy(e => e.KindOfLoadName);
+			return entities.Select(e => CreateKindOfLoadViewModel(e));
 		}
 
 		public static TimeNormViewModel CreateTimeNormViewModel(TimeNorm entity)
@@ -56,7 +56,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<TimeNormViewModel> CreateTimeNorms(IEnumerable<TimeNorm> entities)
 		{
-			return entities.Select(e => CreateTimeNormViewModel(e)).OrderBy(e => e.KindOfLoadName).ThenBy(e => e.Title);
+			return entities.Select(e => CreateTimeNormViewModel(e));
 		}
 
 		public static AcademicPlanViewModel CreateAcademicPlanViewModel(AcademicPlan entity)
@@ -121,8 +121,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<AcademicPlanRecordViewModel> CreateAcademicPlanRecords(IEnumerable<AcademicPlanRecord> entities)
 		{
-			return entities.Select(e => CreateAcademicPlanRecordViewModel(e))
-								.OrderBy(e => (Semesters)Enum.Parse(typeof(Semesters), e.Semester)).ThenBy(e => e.Disciplne);
+			return entities.Select(e => CreateAcademicPlanRecordViewModel(e));
 		}
 
 		public static AcademicYearViewModel CreateAcademicYearViewModel(AcademicYear entity)

@@ -32,7 +32,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				MessageBox.Show("Неуказан учебный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var resultAP = _service.GetAcademicPlans();
+			var resultAP = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { });
 			if (!resultAP.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке учебных планов возникла ошибка: ", resultAP.Errors);
@@ -45,7 +45,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
 				return;
 			}
-			var resultKL = _service.GetKindOfLoads();
+			var resultKL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
 			if (!resultKL.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке видов нагрузок возникла ошибка: ", resultKL.Errors);
@@ -59,7 +59,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxAcademicPlan.ValueMember = "Value";
 			comboBoxAcademicPlan.DisplayMember = "Display";
-			comboBoxAcademicPlan.DataSource = resultAP.Result
+			comboBoxAcademicPlan.DataSource = resultAP.Result.List
 				.Select(ap => new { Value = ap.Id, Display = ap.EducationDirection + "/" + ap.AcademicYear }).ToList();
 			comboBoxAcademicPlan.SelectedValue = _apId;
 
@@ -71,7 +71,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxKindOfLoad.ValueMember = "Value";
 			comboBoxKindOfLoad.DisplayMember = "Display";
-			comboBoxKindOfLoad.DataSource = resultKL.Result
+			comboBoxKindOfLoad.DataSource = resultKL.Result.List
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
 			comboBoxKindOfLoad.SelectedItem = null;
 

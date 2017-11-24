@@ -11,107 +11,107 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-	public class DisciplineService : IDisciplineService
+	public class TimeNormService : ITimeNormService
 	{
 		private readonly DepartmentDbContext _context;
 
-		private readonly IDisciplineBlockService _serviceDB;
+		private readonly AccessOperation _serviceOperation = AccessOperation.Нормы_времени;
 
-		private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
+		private readonly IKindOfLoadService _serviceKL;
 
-		public DisciplineService(DepartmentDbContext context, IDisciplineBlockService serviceDB)
+		public TimeNormService(DepartmentDbContext context, IKindOfLoadService serviceKL)
 		{
 			_context = context;
-			_serviceDB = serviceDB;
+			_serviceKL = serviceKL;
 		}
 
 
-		public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
+		public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
 		{
-			return _serviceDB.GetDisciplineBlocks(model);
+			return _serviceKL.GetKindOfLoads(model);
 		}
 
 
-		public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
+		public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных по дисциплинам");
+					throw new Exception("Нет доступа на чтение данных по нормам времени");
 				}
 
 				int countPages = 0;
-				var query = _context.Disciplines.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.TimeNorms.Where(c => !c.IsDeleted).AsQueryable();
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(c => c.Id)
+								.OrderBy(e => e.KindOfLoad.KindOfLoadName).ThenBy(e => e.Title)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(d => d.DisciplineBlock);
+				query = query.Include(tn => tn.KindOfLoad);
 
-				var result = new DisciplinePageViewModel
+				var result = new TimeNormPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateDisciplines(query).ToList()
+					List = ModelFactoryToViewModel.CreateTimeNorms(query).ToList()
 				};
 
-				return ResultService<DisciplinePageViewModel>.Success(result);
+				return ResultService<TimeNormPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<DisciplinePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<TimeNormPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<DisciplinePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<TimeNormPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel model)
+		public ResultService<TimeNormViewModel> GetTimeNorm(TimeNormGetBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					throw new Exception("Нет доступа на чтение данных по дисциплинам");
+					throw new Exception("Нет доступа на чтение данных по нормам времени");
 				}
 
-				var entity = _context.Disciplines
+				var entity = _context.TimeNorms.Include(tn => tn.KindOfLoad)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService<DisciplineViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+					return ResultService<TimeNormViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 
-				return ResultService<DisciplineViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineViewModel(entity));
+				return ResultService<TimeNormViewModel>.Success(ModelFactoryToViewModel.CreateTimeNormViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<DisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<TimeNormViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<DisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<TimeNormViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService CreateTimeNorm(TimeNormRecordBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по дисциплинам");
+					throw new Exception("Нет доступа на изменение данных по нормам времени");
 				}
 
-				var entity = ModelFacotryFromBindingModel.CreateDiscipline(model);
+				var entity = ModelFacotryFromBindingModel.CreateTimeNorm(model);
 
-				_context.Disciplines.Add(entity);
+				_context.TimeNorms.Add(entity);
 				_context.SaveChanges();
 
 				return ResultService.Success(entity.Id);
@@ -126,22 +126,22 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService UpdateTimeNorm(TimeNormRecordBindingModel model)
 		{
 			try
 			{
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на изменение данных по дисциплинам");
+					throw new Exception("Нет доступа на изменение данных по нормам времени");
 				}
 
-				var entity = _context.Disciplines
+				var entity = _context.TimeNorms
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
-				entity = ModelFacotryFromBindingModel.CreateDiscipline(model, entity);
+				entity = ModelFacotryFromBindingModel.CreateTimeNorm(model, entity);
 				
 				_context.SaveChanges();
 
@@ -157,16 +157,16 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteDiscipline(DisciplineGetBindingModel model)
+		public ResultService DeleteTimeNorm(TimeNormGetBindingModel model)
 		{
 			try
 			{
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
 				{
-					throw new Exception("Нет доступа на удаление данных по дисциплинам");
+					throw new Exception("Нет доступа на изменение данных по нормам времени");
 				}
 
-				var entity = _context.Disciplines
+				var entity = _context.TimeNorms
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{

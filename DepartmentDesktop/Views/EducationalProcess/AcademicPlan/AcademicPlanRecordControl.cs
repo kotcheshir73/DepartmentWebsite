@@ -59,7 +59,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(
 					res.Id,

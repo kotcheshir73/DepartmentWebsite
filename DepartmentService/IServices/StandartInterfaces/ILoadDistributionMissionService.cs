@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -10,13 +9,14 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка поручений в распределении нагрузки
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LoadDistributionMissionViewModel>> GetLoadDistributionMissions(LoadDistributionMissionGetBindingModel model);
+		ResultService<LoadDistributionMissionPageViewModel> GetLoadDistributionMissions(LoadDistributionMissionGetBindingModel model);
 
 		/// <summary>
 		/// Получения поручения в распределении нагрузки
 		/// </summary>
-		/// <param name="model">Идентификатор поручения</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<LoadDistributionMissionViewModel> GetLoadDistributionMission(LoadDistributionMissionGetBindingModel model);
 

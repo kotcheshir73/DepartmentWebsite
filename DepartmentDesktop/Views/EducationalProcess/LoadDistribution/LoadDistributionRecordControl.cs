@@ -48,14 +48,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			};
 			if (_showTimeNorms)
 			{
-				var resultTN = _service.GetTimeNorms();
+				var resultTN = _service.GetTimeNorms(new TimeNormGetBindingModel { });
 				if (!resultTN.Succeeded)
 				{
 					Program.PrintErrorMessage("При загрузке списка норм времени возникла ошибка: ", resultL.Errors);
 					return;
 				}
-				_countTimeNormColumns = resultTN.Result.Count;
-				foreach (var timeNorm in resultTN.Result)
+				_countTimeNormColumns = resultTN.Result.List.Count;
+				foreach (var timeNorm in resultTN.Result.List)
 				{
 					columns.Add(new ColumnConfig
 					{
@@ -116,7 +116,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			var resultDiscBlockGroups = result.Result.GroupBy(r => r.DisciplineBlockTitle);//.Select(grp => grp.ToList()).ToList();
+			var resultDiscBlockGroups = result.Result.List.GroupBy(r => r.DisciplineBlockTitle);//.Select(grp => grp.ToList()).ToList();
 			foreach (var resDiscBlockRecord in resultDiscBlockGroups)
 			{
 				dataGridViewList.Rows.Add();

@@ -1,28 +1,29 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
 	public interface ITimeNormService
 	{
 		/// <summary>
-		/// Получение списка норм времени
-		/// </summary>
-		/// <returns></returns>
-		ResultService<List<TimeNormViewModel>> GetTimeNorms();
-
-		/// <summary>
 		/// Получение списка видов нагрузок
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<KindOfLoadViewModel>> GetKindOfLoads();
+		ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
+
+		/// <summary>
+		/// Получение списка норм времени
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model);
 
 		/// <summary>
 		/// Получения нормы времени
 		/// </summary>
-		/// <param name="model">Идентификатор нормы времени</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<TimeNormViewModel> GetTimeNorm(TimeNormGetBindingModel model);
 

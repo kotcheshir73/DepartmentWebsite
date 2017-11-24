@@ -52,14 +52,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadRecords()
 		{
-			var result = _service.GetAcademicPlans();
+			var result = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(				
 					res.Id,

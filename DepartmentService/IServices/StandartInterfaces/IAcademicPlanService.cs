@@ -1,17 +1,11 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
+
 namespace DepartmentService.IServices
 {
 	public interface IAcademicPlanService
 	{
-		/// <summary>
-		/// Получение списка учебных планов
-		/// </summary>
-		/// <returns></returns>
-		ResultService<List<AcademicPlanViewModel>> GetAcademicPlans();
-
 		/// <summary>
 		/// Получение списка учебных годов
 		/// </summary>
@@ -27,9 +21,16 @@ namespace DepartmentService.IServices
 		ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model);
 
 		/// <summary>
+		/// Получение списка учебных планов
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<AcademicPlanPageViewModel> GetAcademicPlans(AcademicPlanGetBindingModel model);
+
+		/// <summary>
 		/// Получения учебного плана
 		/// </summary>
-		/// <param name="model">Идентификатор учебного плана</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<AcademicPlanViewModel> GetAcademicPlan(AcademicPlanGetBindingModel model);
 

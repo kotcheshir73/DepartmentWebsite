@@ -8,12 +8,6 @@ namespace DepartmentService.IServices
 	public interface ILoadDistributionService
 	{
 		/// <summary>
-		/// Получение списка распределений нагрузок
-		/// </summary>
-		/// <returns></returns>
-		ResultService<List<LoadDistributionViewModel>> GetLoadDistributions();
-
-		/// <summary>
 		/// Получение списка учебных годов
 		/// </summary>
 		/// <param name="model"></param>
@@ -21,9 +15,16 @@ namespace DepartmentService.IServices
 		ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
 
 		/// <summary>
+		/// Получение списка распределений нагрузок
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<LoadDistributionPageViewModel> GetLoadDistributions(LoadDistributionGetBindingModel model);
+
+		/// <summary>
 		/// Получения распределения нагрузок
 		/// </summary>
-		/// <param name="model">Идентификатор распределения нагрузок</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<LoadDistributionViewModel> GetLoadDistribution(LoadDistributionGetBindingModel model);
 

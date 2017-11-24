@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -10,13 +9,14 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка видов нагрузок
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<KindOfLoadViewModel>> GetKindOfLoads();
+		ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
 
 		/// <summary>
 		/// Получения вида нагрузки
 		/// </summary>
-		/// <param name="model">Идентификатор вида нагрузки</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<KindOfLoadViewModel> GetKindOfLoad(KindOfLoadGetBindingModel model);
 

@@ -16,6 +16,8 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_планы;
+
 		private readonly IAcademicPlanService _serviceAP;
 
 		private readonly IDisciplineService _serviceD;
@@ -32,9 +34,9 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<AcademicPlanViewModel>> GetAcademicPlans()
+		public ResultService<AcademicPlanPageViewModel> GetAcademicPlans(AcademicPlanGetBindingModel model)
 		{
-			return _serviceAP.GetAcademicPlans();
+			return _serviceAP.GetAcademicPlans(model);
 		}
 
 		public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
@@ -42,35 +44,53 @@ namespace DepartmentService.Services
 			return _serviceD.GetDisciplines(model);
 		}
 
-		public ResultService<List<KindOfLoadViewModel>> GetKindOfLoads()
+		public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
 		{
-			return _serviceKL.GetKindOfLoads();
+			return _serviceKL.GetKindOfLoads(model);
 		}
 
 
-		public ResultService<List<AcademicPlanRecordViewModel>> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
+		public ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
 		{
 			try
 			{
-				if (model.AcademicPlanId.HasValue)
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
-					return ResultService<List<AcademicPlanRecordViewModel>>.Success(
-						ModelFactoryToViewModel.CreateAcademicPlanRecords(_context.AcademicPlanRecords
-							.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad)
-								.Where(e => e.AcademicPlanId == model.AcademicPlanId.Value && !e.IsDeleted))
-						.ToList());
+					throw new Exception("Нет доступа на чтение данных по записям учекбных планов");
 				}
-				throw new Exception("Не указан учебный план");
+				if (!model.AcademicPlanId.HasValue)
+				{
+					throw new Exception("Не указан учебный план");
+				}
+
+					int countPages = 0;
+				var query = _context.AcademicPlanRecords.Where(c => !c.IsDeleted && c.AcademicPlanId == model.AcademicPlanId).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(e => e.Semester).ThenBy(e => e.Discipline.DisciplineName)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				query = query.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad);
+
+				var result = new AcademicPlanRecordPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateAcademicPlanRecords(query).ToList()
+				};
+
+				return ResultService<AcademicPlanRecordPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<AcademicPlanRecordViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<AcademicPlanRecordPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<AcademicPlanRecordViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<AcademicPlanRecordPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -78,19 +98,23 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по записям учекбных планов");
+				}
+
 				var entity = _context.AcademicPlanRecords.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<AcademicPlanRecordViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+				{
+					return ResultService<AcademicPlanRecordViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 
-				return ResultService<AcademicPlanRecordViewModel>.Success(
-					ModelFactoryToViewModel.CreateAcademicPlanRecordViewModel(entity));
+				return ResultService<AcademicPlanRecordViewModel>.Success(ModelFactoryToViewModel.CreateAcademicPlanRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<AcademicPlanRecordViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<AcademicPlanRecordViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -100,11 +124,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateAcademicPlanRecord(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по записям учекбных планов");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateAcademicPlanRecord(model);
+
 				_context.AcademicPlanRecords.Add(entity);
 				_context.SaveChanges();
+
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -121,16 +152,21 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по записям учекбных планов");
+				}
+
 				var entity = _context.AcademicPlanRecords
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity = ModelFacotryFromBindingModel.CreateAcademicPlanRecord(model, entity);
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -147,17 +183,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по записям учекбных планов");
+				}
+
 				var entity = _context.AcademicPlanRecords
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)

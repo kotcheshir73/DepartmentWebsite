@@ -42,7 +42,7 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.StudentGroups.Where(c => !c.IsDeleted).Include(s => s.EducationDirection).Include(s => s.Students).AsQueryable();
+				var query = _context.StudentGroups.Where(c => !c.IsDeleted).AsQueryable();
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
@@ -51,6 +51,8 @@ namespace DepartmentService.Services
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
+
+				query = query.Include(s => s.EducationDirection).Include(s => s.Students);
 
 				var result = new StudentGroupPageViewModel
 				{

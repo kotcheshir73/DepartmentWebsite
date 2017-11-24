@@ -12,13 +12,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model">Идентификатор учебного плана</param>
 		/// <returns></returns>
-		ResultService<List<AcademicPlanRecordViewModel>> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model);
+		ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка контингентов
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<ContingentViewModel>> GetContingents();
+		ResultService<ContingentPageViewModel> GetContingents(ContingentGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка преподавателей
@@ -30,15 +31,16 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка норм времени
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<TimeNormViewModel>> GetTimeNorms();
+		ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка записей распределения нагрузок
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<LoadDistributionRecordViewModel>> GetLoadDistributionRecords(LoadDistributionRecordGetBindingModel model);
+		ResultService<LoadDistributionRecordPageViewModel> GetLoadDistributionRecords(LoadDistributionRecordGetBindingModel model);
 
 		/// <summary>
 		/// Получения записи распределения нагрузок

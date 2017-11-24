@@ -25,7 +25,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void TimeNormForm_Load(object sender, EventArgs e)
 		{
-			var resultKL = _service.GetKindOfLoads();
+			var resultKL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
 			if (!resultKL.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке видов нагрузок возникла ошибка: ", resultKL.Errors);
@@ -34,13 +34,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxKindOfLoad.ValueMember = "Value";
 			comboBoxKindOfLoad.DisplayMember = "Display";
-			comboBoxKindOfLoad.DataSource = resultKL.Result
+			comboBoxKindOfLoad.DataSource = resultKL.Result.List
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
 			comboBoxKindOfLoad.SelectedItem = null;
 
 			comboBoxSelectKindOfLoad.ValueMember = "Value";
 			comboBoxSelectKindOfLoad.DisplayMember = "Display";
-			comboBoxSelectKindOfLoad.DataSource = resultKL.Result
+			comboBoxSelectKindOfLoad.DataSource = resultKL.Result.List
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
 			comboBoxSelectKindOfLoad.SelectedItem = null;
 

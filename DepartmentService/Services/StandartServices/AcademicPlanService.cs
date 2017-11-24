@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -16,12 +15,13 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_планы;
+
 		private readonly IAcademicYearService _serviceAY;
 
 		private readonly IEducationDirectionService _serviceED;
 
-		public AcademicPlanService(DepartmentDbContext context, IEducationDirectionService serviceED,
-			IAcademicYearService serviceAY)
+		public AcademicPlanService(DepartmentDbContext context, IEducationDirectionService serviceED, IAcademicYearService serviceAY)
 		{
 			_context = context;
 			_serviceAY = serviceAY;
@@ -40,25 +40,43 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<AcademicPlanViewModel>> GetAcademicPlans()
+		public ResultService<AcademicPlanPageViewModel> GetAcademicPlans(AcademicPlanGetBindingModel model)
 		{
 			try
 			{
-				return ResultService<List<AcademicPlanViewModel>>.Success(
-					ModelFactoryToViewModel.CreateAcademicPlans(_context.AcademicPlans
-						.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
-							.Where(e => !e.IsDeleted))
-					.ToList());
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по учебным планам");
+				}
+
+				int countPages = 0;
+				var query = _context.AcademicPlans.Where(c => !c.IsDeleted).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.Id)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				query = query.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection);
+
+				var result = new AcademicPlanPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateAcademicPlans(query).ToList()
+				};
+
+				return ResultService<AcademicPlanPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<AcademicPlanViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<AcademicPlanPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<AcademicPlanViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<AcademicPlanPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -66,19 +84,23 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по учебным планам");
+				}
+
 				var entity = _context.AcademicPlans.Include(ap => ap.AcademicYear).Include(ap => ap.EducationDirection)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<AcademicPlanViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+				{
+					return ResultService<AcademicPlanViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 
-				return ResultService<AcademicPlanViewModel>.Success(
-					ModelFactoryToViewModel.CreateAcademicPlanViewModel(entity));
+				return ResultService<AcademicPlanViewModel>.Success(ModelFactoryToViewModel.CreateAcademicPlanViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<AcademicPlanViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<AcademicPlanViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -88,11 +110,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateAcademicPlan(AcademicPlanRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateAcademicPlan(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по учебным планам");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateAcademicPlan(model);
+
 				_context.AcademicPlans.Add(entity);
 				_context.SaveChanges();
+
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -109,16 +138,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по учебным планам");
+				}
+
 				var entity = _context.AcademicPlans
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
+
 				entity = ModelFacotryFromBindingModel.CreateAcademicPlan(model, entity);
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -135,17 +170,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по учебным планам");
+				}
+
 				var entity = _context.AcademicPlans
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)

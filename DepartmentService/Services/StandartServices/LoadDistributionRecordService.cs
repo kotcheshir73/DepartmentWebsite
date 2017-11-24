@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -15,6 +14,8 @@ namespace DepartmentService.Services
 	public class LoadDistributionRecordService : ILoadDistributionRecordService
 	{
 		private readonly DepartmentDbContext _context;
+
+		private readonly AccessOperation _serviceOperation = AccessOperation.Расчет_штатов;
 
 		private readonly IAcademicPlanRecordService _serviceAPR;
 
@@ -35,14 +36,14 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<AcademicPlanRecordViewModel>> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
+		public ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
 		{
 			return _serviceAPR.GetAcademicPlanRecords(model);
 		}
 
-		public ResultService<List<ContingentViewModel>> GetContingents()
+		public ResultService<ContingentPageViewModel> GetContingents(ContingentGetBindingModel model)
 		{
-			return _serviceC.GetContingents();
+			return _serviceC.GetContingents(model);
 		}
 
 		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
@@ -50,42 +51,61 @@ namespace DepartmentService.Services
 			return _serviceL.GetLecturers(model);
 		}
 
-		public ResultService<List<TimeNormViewModel>> GetTimeNorms()
+		public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
 		{
-			return _serviceTN.GetTimeNorms();
+			return _serviceTN.GetTimeNorms(model);
 		}
 
 
-		public ResultService<List<LoadDistributionRecordViewModel>> GetLoadDistributionRecords(LoadDistributionRecordGetBindingModel model)
+		public ResultService<LoadDistributionRecordPageViewModel> GetLoadDistributionRecords(LoadDistributionRecordGetBindingModel model)
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по записям расчета штата");
+				}
 				if (!model.LoadDistributionId.HasValue)
 				{
 					throw new Exception("Отсутсвует идентификатор рапределения нагрузок");
 				}
-				return ResultService<List<LoadDistributionRecordViewModel>>.Success(
-					ModelFactoryToViewModel.CreateLoadDistributionRecords(_context.LoadDistributionRecords
-					.Where(e => e.LoadDistributionId == model.LoadDistributionId.Value)
-						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
+
+				int countPages = 0;
+				var query = _context.LoadDistributionRecords.Where(c => !c.IsDeleted && c.LoadDistributionId == model.LoadDistributionId).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.Id)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				var result = new LoadDistributionRecordPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateLoadDistributionRecords(query).ToList()
+				};
+
+				query = query.Include(e => e.AcademicPlanRecord)
+						.Include(e => e.Contingent)
+						.Include(e => e.TimeNorm)
 						.Include(e => e.AcademicPlanRecord.AcademicPlan.EducationDirection)
 						.Include(e => e.AcademicPlanRecord.Discipline)
 						.Include(e => e.AcademicPlanRecord.Discipline.DisciplineBlock)
 						.Include(e => e.AcademicPlanRecord.KindOfLoad)
 						.Include(e => e.Contingent.AcademicYear)
-						.Include(e => e.TimeNorm.KindOfLoad)
-							.Where(e => !e.IsDeleted))
-					.ToList());
+						.Include(e => e.TimeNorm.KindOfLoad);
+
+				return ResultService<LoadDistributionRecordPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<LoadDistributionRecordViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LoadDistributionRecordPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<LoadDistributionRecordViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LoadDistributionRecordPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -93,6 +113,11 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по записям расчета штата");
+				}
+
 				var entity = _context.LoadDistributionRecords
 						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
 						.Include(e => e.AcademicPlanRecord.Discipline).Include(e => e.AcademicPlanRecord.KindOfLoad)
@@ -100,16 +125,15 @@ namespace DepartmentService.Services
 						.Include(e => e.TimeNorm.KindOfLoad)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<LoadDistributionRecordViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+				{
+					return ResultService<LoadDistributionRecordViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 
-				return ResultService<LoadDistributionRecordViewModel>.Success(
-					ModelFactoryToViewModel.CreateLoadDistributionRecordViewModel(entity));
+				return ResultService<LoadDistributionRecordViewModel>.Success(ModelFactoryToViewModel.CreateLoadDistributionRecordViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<LoadDistributionRecordViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LoadDistributionRecordViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -119,11 +143,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateLoadDistributionRecord(LoadDistributionRecordRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateLoadDistributionRecord(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по записям расчета штата");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateLoadDistributionRecord(model);
+
 				_context.LoadDistributionRecords.Add(entity);
 				_context.SaveChanges();
+
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -140,16 +171,21 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по записям расчета штата");
+				}
+
 				var entity = _context.LoadDistributionRecords
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity = ModelFacotryFromBindingModel.CreateLoadDistributionRecord(model, entity);
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -166,17 +202,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по записям расчета штата");
+				}
+
 				var entity = _context.LoadDistributionRecords
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
 				
 				_context.SaveChanges();
+				
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)

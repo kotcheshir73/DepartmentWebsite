@@ -49,14 +49,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void LoadRecords()
 		{
-			var result = _service.GetLoadDistributions();
+			var result = _service.GetLoadDistributions(new LoadDistributionGetBindingModel { });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(
 					res.Id,

@@ -36,13 +36,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				return;
 			}
 
-			var resultC = _service.GetContingents();
+			var resultC = _service.GetContingents(new ContingentGetBindingModel { });
 			if (!resultC.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке контингента возникла ошибка: ", resultC.Errors);
 				return;
 			}
-			var resultTN = _service.GetTimeNorms();
+			var resultTN = _service.GetTimeNorms(new TimeNormGetBindingModel { });
 			if (!resultTN.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке норм времени возникла ошибка: ", resultTN.Errors);
@@ -51,19 +51,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 			comboBoxAcademicPlanRecord.ValueMember = "Value";
 			comboBoxAcademicPlanRecord.DisplayMember = "Display";
-			comboBoxAcademicPlanRecord.DataSource = resultAPR.Result
+			comboBoxAcademicPlanRecord.DataSource = resultAPR.Result.List
 				.Select(apr => new { Value = apr.Id, Display = apr.Disciplne + "/" + apr.KindOfLoad }).ToList();
 			comboBoxAcademicPlanRecord.SelectedValue = _apId;
 
 			comboBoxContingent.ValueMember = "Value";
 			comboBoxContingent.DisplayMember = "Display";
-			comboBoxContingent.DataSource = resultC.Result
+			comboBoxContingent.DataSource = resultC.Result.List
 				.Select(c => new { Value = c.Id, Display = c.EducationDirectionCipher }).ToList();
 			comboBoxContingent.SelectedItem = null;
 
 			comboBoxTimeNorm.ValueMember = "Value";
 			comboBoxTimeNorm.DisplayMember = "Display";
-			comboBoxTimeNorm.DataSource = resultTN.Result
+			comboBoxTimeNorm.DataSource = resultTN.Result.List
 				.Select(tn => new { Value = tn.Id, Display = tn.KindOfLoadName }).ToList();
 			comboBoxTimeNorm.SelectedItem = null;
 

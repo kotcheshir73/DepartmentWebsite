@@ -1,24 +1,17 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
 	public interface IAcademicPlanRecordService
 	{
 		/// <summary>
-		/// Получение списка записей учебного плана
-		/// </summary>
-		/// <param name="model">Идентификатор учебного плана</param>
-		/// <returns></returns>
-		ResultService<List<AcademicPlanRecordViewModel>> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model);
-
-		/// <summary>
 		/// Получение списка учебных планов
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<AcademicPlanViewModel>> GetAcademicPlans();
+		ResultService<AcademicPlanPageViewModel> GetAcademicPlans(AcademicPlanGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка дисциплин
@@ -30,13 +23,21 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка видов нагрузки
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<KindOfLoadViewModel>> GetKindOfLoads();
+		ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
+
+		/// <summary>
+		/// Получение списка записей учебного плана
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model);
 
 		/// <summary>
 		/// Получения записи учебного плана
 		/// </summary>
-		/// <param name="model">Идентификатор записи учебного плана</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<AcademicPlanRecordViewModel> GetAcademicPlanRecord(AcademicPlanRecordGetBindingModel model);
 

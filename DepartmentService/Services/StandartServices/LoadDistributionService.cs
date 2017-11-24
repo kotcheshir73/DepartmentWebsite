@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -15,6 +14,8 @@ namespace DepartmentService.Services
 	public class LoadDistributionService : ILoadDistributionService
 	{
 		private readonly DepartmentDbContext _context;
+
+		private readonly AccessOperation _serviceOperation = AccessOperation.Расчет_штатов;
 
 		private readonly IAcademicYearService _serviceAY;
 
@@ -31,25 +32,43 @@ namespace DepartmentService.Services
 		}
 
 
-		public ResultService<List<LoadDistributionViewModel>> GetLoadDistributions()
+		public ResultService<LoadDistributionPageViewModel> GetLoadDistributions(LoadDistributionGetBindingModel model)
 		{
 			try
 			{
-				return ResultService<List<LoadDistributionViewModel>>.Success(
-					ModelFactoryToViewModel.CreateLoadDistributions(_context.LoadDistributions
-						.Include(ap => ap.AcademicYear)
-							.Where(e => !e.IsDeleted))
-					.ToList());
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по расчетам штатов");
+				}
+
+				int countPages = 0;
+				var query = _context.LoadDistributions.Where(c => !c.IsDeleted).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(e => e.AcademicYearId)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				query = query.Include(ap => ap.AcademicYear);
+
+				var result = new LoadDistributionPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateLoadDistributions(query).ToList()
+				};
+
+				return ResultService<LoadDistributionPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<LoadDistributionViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LoadDistributionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<LoadDistributionViewModel>>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LoadDistributionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -57,19 +76,23 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по расчетам штатов");
+				}
+
 				var entity = _context.LoadDistributions.Include(ap => ap.AcademicYear)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<LoadDistributionViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+				{
+					return ResultService<LoadDistributionViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 
-				return ResultService<LoadDistributionViewModel>.Success(
-					ModelFactoryToViewModel.CreateLoadDistributionViewModel(entity));
+				return ResultService<LoadDistributionViewModel>.Success(ModelFactoryToViewModel.CreateLoadDistributionViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<LoadDistributionViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<LoadDistributionViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -79,11 +102,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateLoadDistribution(LoadDistributionRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateLoadDistribution(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по расчетам штатов");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateLoadDistribution(model);
+
 				_context.LoadDistributions.Add(entity);
 				_context.SaveChanges();
+
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -100,6 +130,11 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по расчетам штатов");
+				}
+
 				var entity = _context.LoadDistributions
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
@@ -110,6 +145,7 @@ namespace DepartmentService.Services
 				entity = ModelFacotryFromBindingModel.CreateLoadDistribution(model, entity);
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -126,17 +162,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по расчетам штатов");
+				}
+
 				var entity = _context.LoadDistributions
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
