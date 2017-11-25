@@ -565,7 +565,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<UserViewModel> CreateUsers(IEnumerable<User> entities)
 		{
-			return entities.Select(e => CreateUserViewModel(e)).OrderBy(e => e.RoleName).ThenBy(e => e.Login).ThenBy(e => e.DateLastVisit);
+			return entities.Select(e => CreateUserViewModel(e));
 		}
 		#endregion
 	}
