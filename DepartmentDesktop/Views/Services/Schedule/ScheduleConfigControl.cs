@@ -200,8 +200,8 @@ namespace DepartmentDesktop.Views.Services.Schedule
 				cleaningStudentGroups(studentGroups);
             }
 
-            var result = _service.LoadScheduleHTMLForClassrooms(new LoadHTMLForClassroomsBindingModel
-            {
+            var result = _service.LoadScheduleHTMLForClassrooms(new ImportToSemesterFromHTMLBindingModel
+			{
                 ScheduleUrl = textBoxLinkToHtml.Text,
                 Classrooms = classrooms,
                 StudentGroups = studentGroups

@@ -695,7 +695,7 @@ namespace DepartmentService.Services
 		}
 		#endregion
 
-		public ResultService LoadScheduleHTMLForClassrooms(LoadHTMLForClassroomsBindingModel model)
+		public ResultService LoadScheduleHTMLForClassrooms(ImportToSemesterFromHTMLBindingModel model)
 		{
 			var resultCurrentDates = GetCurrentDates();
 			if (!resultCurrentDates.Succeeded)

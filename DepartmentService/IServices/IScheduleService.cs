@@ -87,7 +87,7 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService LoadScheduleHTMLForClassrooms(LoadHTMLForClassroomsBindingModel model);
+        ResultService LoadScheduleHTMLForClassrooms(ImportToSemesterFromHTMLBindingModel model);
 
         /// <summary>
         /// Импорт зачетов из excel-файла
