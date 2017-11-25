@@ -12,13 +12,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
+		private readonly IStudentMoveService _serviceSM;
+
 		private long? _id;
 
-		public StudentGroupDeductionForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
+		public StudentGroupDeductionForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceS = serviceS;
+			_serviceSM = serviceSM;
 			_id = id;
 		}
 
@@ -73,7 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var result = _serviceS.DeductionStudents(new StudentDeductionBindingModel
+			var result = _serviceSM.DeductionStudents(new StudentDeductionBindingModel
 			{
 				DeductionDate = dateTimePickerDeductionDate.Value,
 				DeductionReason = textBoxDeductionReason.Text,

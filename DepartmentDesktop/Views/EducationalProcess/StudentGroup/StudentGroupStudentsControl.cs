@@ -12,14 +12,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
+		private readonly IStudentMoveService _serviceSM;
+
 		private long _studentGroupId;
 
-        public StudentGroupStudentsControl(IStudentGroupService service, IStudentService serviceS)
+        public StudentGroupStudentsControl(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM)
         {
             InitializeComponent();
             _service = service;
 			_serviceS = serviceS;
-
+			_serviceSM = serviceSM;
 		}
 
         public void LoadData(long studentGroupId)
@@ -74,7 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             dialog.Filter = "doc|*.doc|docx|*.docx";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _serviceS.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _studentGroupId, FileName = dialog.FileName });
+                var result = _serviceSM.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _studentGroupId, FileName = dialog.FileName });
                 if (result.Succeeded)
                 {
                     LoadData(_studentGroupId);
@@ -93,7 +95,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void enrollmentStudentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new StudentGroupEnrollmentForm(_service, _serviceS, _studentGroupId);
+			var form = new StudentGroupEnrollmentForm(_service, _serviceSM, _studentGroupId);
 			if(form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);
@@ -102,7 +104,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void transferStudentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new StudentGroupTransferForm(_service, _serviceS, _studentGroupId);
+			var form = new StudentGroupTransferForm(_service, _serviceS, _serviceSM, _studentGroupId);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);
@@ -111,7 +113,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void deductionStudentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new StudentGroupDeductionForm(_service, _serviceS, _studentGroupId);
+			var form = new StudentGroupDeductionForm(_service, _serviceS, _serviceSM, _studentGroupId);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);
@@ -120,7 +122,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void toAcademStudentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new StudentGroupToAcademForm(_service, _serviceS, _studentGroupId);
+			var form = new StudentGroupToAcademForm(_service, _serviceS, _serviceSM, _studentGroupId);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);

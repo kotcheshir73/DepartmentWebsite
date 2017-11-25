@@ -63,14 +63,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 				PageNumber = _pageNumber - 1,
 				StudentStatus = _state
 			});
-			_maxPage = result.Result.MaxCount;
-			labelFromCountPages.Text = string.Format("из {0}", _maxPage);
-			textBoxPageNumber.Text = _pageNumber.ToString();
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
+			_maxPage = result.Result.MaxCount;
+			labelFromCountPages.Text = string.Format("из {0}", _maxPage);
+			textBoxPageNumber.Text = _pageNumber.ToString();
 			dataGridViewList.Rows.Clear();
 			foreach (var res in result.Result.List)
 			{

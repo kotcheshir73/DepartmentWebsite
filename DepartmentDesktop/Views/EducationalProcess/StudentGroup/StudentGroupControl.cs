@@ -13,11 +13,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
-		public StudentGroupControl(IStudentGroupService service, IStudentService serviceS)
+		private readonly IStudentMoveService _serviceSM;
+
+		public StudentGroupControl(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceS = serviceS;
+			_serviceSM = serviceSM;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -86,7 +89,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void AddRecord()
 		{
-			var form = new StudentGroupForm(_service, _serviceS);
+			var form = new StudentGroupForm(_service, _serviceS, _serviceSM);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
@@ -98,7 +101,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new StudentGroupForm(_service, _serviceS, id);
+				var form = new StudentGroupForm(_service, _serviceS, _serviceSM, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();

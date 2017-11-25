@@ -14,14 +14,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
     
         private readonly IStudentService _serviceS;
 
-        private long? _id;
+		private readonly IStudentMoveService _serviceSM;
 
-        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
+		private long? _id;
+
+        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, long? id = null)
         {
             InitializeComponent();
             _service = service;
             _serviceS = serviceS;
-            _id = id;
+			_serviceSM = serviceSM;
+			_id = id;
         }
 
         private void StudentGroupForm_Load(object sender, EventArgs e)
@@ -38,7 +41,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DataSource = resultED.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
-			var control = new StudentGroupStudentsControl(_service, _serviceS);
+			var control = new StudentGroupStudentsControl(_service, _serviceS, _serviceSM);
             control.Left = 0;
             control.Top = 0;
             control.Height = Height - 60;

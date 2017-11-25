@@ -2,12 +2,6 @@
 using DepartmentService.IServices;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
@@ -18,13 +12,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
+		private readonly IStudentMoveService _serviceSM;
+
 		private long? _id;
 
-		public StudentGroupToAcademForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
+		public StudentGroupToAcademForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceS = serviceS;
+			_serviceSM = serviceSM;
 			_id = id;
 		}
 
@@ -84,7 +81,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var result = _serviceS.ToAcademStudents(new StudentToAcademBindingModel
+			var result = _serviceSM.ToAcademStudents(new StudentToAcademBindingModel
 			{
 				ToAcademDate = dateTimePickerToAcademDate.Value,
 				ToAcademReason = textBoxToAcademReason.Text,

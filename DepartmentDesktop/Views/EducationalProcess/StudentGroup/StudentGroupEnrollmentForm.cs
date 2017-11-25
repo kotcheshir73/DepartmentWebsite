@@ -10,15 +10,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 	{
 		private readonly IStudentGroupService _service;
 
-		private readonly IStudentService _serviceS;
+		private readonly IStudentMoveService _serviceSM;
 
 		private long? _id;
 
-		public StudentGroupEnrollmentForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
+		public StudentGroupEnrollmentForm(IStudentGroupService service, IStudentMoveService serviceSM, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceS = serviceS;
+			_serviceSM = serviceSM;
 			_id = id;
 		}
 
@@ -28,10 +28,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			dialog.Filter = "doc|*.doc|docx|*.docx";
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
-				var result = _serviceS.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _id.Value, FileName = dialog.FileName });
+				var result = _serviceSM.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _id.Value, FileName = dialog.FileName });
 				if (result.Succeeded)
 				{
-					var list = result.Result;
+					var list = result.Result.List;
 					for (int i = 0; i < list.Count; ++i)
 					{
 						dataGridViewStudents.Rows.Add();
@@ -76,7 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				};
 				list.Add(model);
 			}
-			var result = _serviceS.EnrollmentStudents(new StudentEnrollmentBindingModel
+			var result = _serviceSM.EnrollmentStudents(new StudentEnrollmentBindingModel
 			{
 				OrderNumber = textBoxOrderNumber.Text,
 				OrderDate = dateTimePickerEnrollmentDate.Value,

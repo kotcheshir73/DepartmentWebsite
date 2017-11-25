@@ -73,6 +73,8 @@
     <Compile Include="BindingModels\StandartModels\EducationDirection\LoadDistributionMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartModels\EducationDirection\StudentHistoryBindingModels.cs" />
+    <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
+    <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartModels\Administration\RoleBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
@@ -108,7 +110,7 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamingLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStudentGroupService.cs" />
     <Compile Include="IServices\IStudentHistoryService.cs" />
-    <Compile Include="IServices\IStudentService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStudentService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ITimeNormService.cs" />
     <Compile Include="IServices\StandartInterfaces\Administration\IUserService.cs" />
     <Compile Include="ParsingScheduleHTML.cs" />
@@ -139,7 +141,8 @@
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentGroupService.cs" />
     <Compile Include="Services\StudentHistoryService.cs" />
-    <Compile Include="Services\StudentService.cs" />
+    <Compile Include="Services\StudentMoveService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StudentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\TimeNormService.cs" />
     <Compile Include="Services\StandartServices\Administration\UserService.cs" />
     <Compile Include="ViewModels\StandartModels\EducationDirection\AcademicPlanRecordViewModels.cs" />

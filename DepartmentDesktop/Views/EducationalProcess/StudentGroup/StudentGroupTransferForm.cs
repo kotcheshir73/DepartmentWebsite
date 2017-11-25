@@ -14,13 +14,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentService _serviceS;
 
+		private readonly IStudentMoveService _serviceSM;
+
 		private long? _id;
 
-		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, long? id = null)
+		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, long? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceS = serviceS;
+			_serviceSM = serviceSM;
 			_id = id;
 		}
 
@@ -95,7 +98,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var result = _serviceS.TransferStudents(new StudentTransferBindingModel
+			var result = _serviceSM.TransferStudents(new StudentTransferBindingModel
 			{
 				TransferDate = dateTimePickerTransferDate.Value,
 				TransferReason = textBoxTransferReason.Text,
