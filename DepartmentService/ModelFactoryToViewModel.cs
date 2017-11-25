@@ -159,6 +159,21 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateStudentGroupViewModel(e));
 		}
 
+		public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
+		{
+			return new StreamingLessonViewModel
+			{
+				Id = entity.Id,
+				IncomingGroups = entity.IncomingGroups,
+				StreamName = entity.StreamName
+			};
+		}
+
+		public static IEnumerable<StreamingLessonViewModel> CreateStreamingLessons(IEnumerable<StreamingLesson> entities)
+		{
+			return entities.Select(e => CreateStreamingLessonViewModel(e));
+		}
+
 		public static ContingentViewModel CreateContingentViewModel(Contingent entity)
 		{
 			return new ContingentViewModel
@@ -477,21 +492,6 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateConsultationRecordViewModel(e)).OrderBy(e => e.Id);
 		}
 
-
-		public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
-		{
-			return new StreamingLessonViewModel
-			{
-				Id = entity.Id,
-				IncomingGroups = entity.IncomingGroups,
-				StreamName = entity.StreamName
-			};
-		}
-
-		public static IEnumerable<StreamingLessonViewModel> CreateStreamingLessons(IEnumerable<StreamingLesson> entities)
-		{
-			return entities.Select(e => CreateStreamingLessonViewModel(e)).OrderBy(e => e.Id);
-		}
 
 		public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
 		{

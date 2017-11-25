@@ -5,7 +5,6 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 
@@ -15,29 +14,50 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+		private readonly AccessOperation _serviceOperation = AccessOperation.Группы;
+
 		public StreamingLessonService(DepartmentDbContext context)
 		{
 			_context = context;
 		}
 
 
-		public ResultService<List<StreamingLessonViewModel>> GetStreamingLessons()
+		public ResultService<StreamingLessonPageViewModel> GetStreamingLessons(StreamingLessonGetBindingModel model)
 		{
 			try
 			{
-				return ResultService<List<StreamingLessonViewModel>>.Success(
-					ModelFactoryToViewModel.CreateStreamingLessons(_context.StreamingLessons
-							.Where(e => !e.IsDeleted))
-					.ToList());
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по потокам");
+				}
+
+				int countPages = 0;
+				var query = _context.StreamingLessons.Where(c => !c.IsDeleted).AsQueryable();
+				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+				{
+					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
+					query = query
+								.OrderBy(c => c.Id)
+								.Skip(model.PageSize.Value * model.PageNumber.Value)
+								.Take(model.PageSize.Value);
+				}
+
+				var result = new StreamingLessonPageViewModel
+				{
+					MaxCount = countPages,
+					List = ModelFactoryToViewModel.CreateStreamingLessons(query).ToList()
+				};
+
+				return ResultService<StreamingLessonPageViewModel>.Success(result);
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<List<StreamingLessonViewModel>>.Error(ex,
+				return ResultService<StreamingLessonPageViewModel>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<List<StreamingLessonViewModel>>.Error(ex,
+				return ResultService<StreamingLessonPageViewModel>.Error(ex,
 					ResultServiceStatusCode.Error);
 			}
 		}
@@ -46,19 +66,23 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+				{
+					throw new Exception("Нет доступа на чтение данных по потокам");
+				}
+
 				var entity = _context.StreamingLessons
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
-					return ResultService<StreamingLessonViewModel>.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+				{
+					return ResultService<StreamingLessonViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+				}
 
-				return ResultService<StreamingLessonViewModel>.Success(
-					ModelFactoryToViewModel.CreateStreamingLessonViewModel(entity));
+				return ResultService<StreamingLessonViewModel>.Success(ModelFactoryToViewModel.CreateStreamingLessonViewModel(entity));
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<StreamingLessonViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<StreamingLessonViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
@@ -68,11 +92,18 @@ namespace DepartmentService.Services
 
 		public ResultService CreateStreamingLesson(StreamingLessonRecordBindingModel model)
 		{
-			var entity = ModelFacotryFromBindingModel.CreateStreamingLesson(model);
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по потокам");
+				}
+
+				var entity = ModelFacotryFromBindingModel.CreateStreamingLesson(model);
+
 				_context.StreamingLessons.Add(entity);
 				_context.SaveChanges();
+
 				return ResultService.Success(entity.Id);
 			}
 			catch (DbEntityValidationException ex)
@@ -89,16 +120,21 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				{
+					throw new Exception("Нет доступа на изменение данных по потокам");
+				}
+
 				var entity = _context.StreamingLessons
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity = ModelFacotryFromBindingModel.CreateStreamingLesson(model, entity);
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)
@@ -115,17 +151,22 @@ namespace DepartmentService.Services
 		{
 			try
 			{
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+				{
+					throw new Exception("Нет доступа на удаление данных по потокам");
+				}
+
 				var entity = _context.StreamingLessons
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
-					return ResultService.Error("Error:", "Entity not found",
-						ResultServiceStatusCode.NotFound);
+					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
 				}
 				entity.IsDeleted = true;
 				entity.DateDelete = DateTime.Now;
 				
 				_context.SaveChanges();
+
 				return ResultService.Success();
 			}
 			catch (DbEntityValidationException ex)

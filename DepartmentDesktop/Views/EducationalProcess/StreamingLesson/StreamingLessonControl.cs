@@ -44,14 +44,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 
 		private void LoadRecords()
 		{
-			var result = _service.GetStreamingLessons();
+			var result = _service.GetStreamingLessons(new StreamingLessonGetBindingModel { });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(
 					res.Id,
