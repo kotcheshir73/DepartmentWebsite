@@ -25,7 +25,7 @@ namespace DepartmentDesktop.Views.Services.Administration
 
 		private void UserForm_Load(object sender, EventArgs e)
 		{
-			var resultR = _service.GetRoles();
+			var resultR = _service.GetRoles(new RoleGetBindingModel { });
 			if (!resultR.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке ролей возникла ошибка: ", resultR.Errors);
@@ -34,7 +34,7 @@ namespace DepartmentDesktop.Views.Services.Administration
 
 			comboBoxRole.ValueMember = "Value";
 			comboBoxRole.DisplayMember = "Display";
-			comboBoxRole.DataSource = resultR.Result
+			comboBoxRole.DataSource = resultR.Result.List
 				.Select(d => new { Value = d.Id, Display = d.RoleName }).ToList();
 			comboBoxRole.SelectedItem = null;
 

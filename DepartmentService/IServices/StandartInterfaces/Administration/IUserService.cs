@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -10,8 +9,9 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка ролей
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<RoleViewModel>> GetRoles();
+		ResultService<RolePageViewModel> GetRoles(RoleGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка студентов
@@ -32,7 +32,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<UserViewModel>> GetUsers(UserGetBindingModel model);
+		ResultService<UserPageViewModel> GetUsers(UserGetBindingModel model);
 
 		/// <summary>
 		/// Получения пользователя

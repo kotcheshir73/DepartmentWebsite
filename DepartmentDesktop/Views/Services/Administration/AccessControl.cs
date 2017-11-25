@@ -55,7 +55,7 @@ namespace DepartmentDesktop.Views.Services.Administration
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(new object[]
 				{

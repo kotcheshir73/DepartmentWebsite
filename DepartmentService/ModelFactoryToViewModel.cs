@@ -527,7 +527,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<RoleViewModel> CreateRoles(IEnumerable<Role> entities)
 		{
-			return entities.Select(e => CreateRoleViewModel(e)).OrderBy(e => e.RoleName);
+			return entities.Select(e => CreateRoleViewModel(e));
 		}
 
 		public static AccessViewModel CreateAccessViewModel(Access entity)
@@ -543,7 +543,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<AccessViewModel> CreateAccesses(IEnumerable<Access> entities)
 		{
-			return entities.Select(e => CreateAccessViewModel(e)).OrderBy(e => e.RoleName);
+			return entities.Select(e => CreateAccessViewModel(e));
 		}
 
 		public static UserViewModel CreateUserViewModel(User entity)

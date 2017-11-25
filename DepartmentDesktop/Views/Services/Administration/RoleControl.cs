@@ -46,14 +46,14 @@ namespace DepartmentDesktop.Views.Services.Administration
 
 		private void LoadRecords()
 		{
-			var result = _service.GetRoles();
+			var result = _service.GetRoles(new RoleGetBindingModel { });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
 			dataGridViewList.Rows.Clear();
-			foreach (var res in result.Result)
+			foreach (var res in result.Result.List)
 			{
 				dataGridViewList.Rows.Add(new object[]
 				{

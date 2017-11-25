@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -12,12 +11,12 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <returns></returns>
 		/// <param name="model"></param>
-		ResultService<List<AccessViewModel>> GetAccesses(AccessGetBindingModel model);
+		ResultService<AccessPageViewModel> GetAccesses(AccessGetBindingModel model);
 
 		/// <summary>
 		/// Получения права доступа
 		/// </summary>
-		/// <param name="model">Идентификатор права доступа</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<AccessViewModel> GetAccess(AccessGetBindingModel model);
 

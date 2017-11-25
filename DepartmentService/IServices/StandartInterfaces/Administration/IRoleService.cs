@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -10,13 +9,14 @@ namespace DepartmentService.IServices
 		/// <summary>
 		/// Получение списка ролей
 		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<RoleViewModel>> GetRoles();
+		ResultService<RolePageViewModel> GetRoles(RoleGetBindingModel model);
 
 		/// <summary>
 		/// Получения роли
 		/// </summary>
-		/// <param name="model">Идентификатор роли</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<RoleViewModel> GetRole(RoleGetBindingModel model);
 
