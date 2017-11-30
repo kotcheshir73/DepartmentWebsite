@@ -39,17 +39,21 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     {
                         for (int i = 0; i < classrooms.List.Count; i++)
                         {
-                            TabPage tabpage = new TabPage();
-                            tabpage.AutoScroll = true;
-                            tabpage.Location = new System.Drawing.Point(23, 4);
-                            tabpage.Name = "tabPageExamination" + classrooms.List[i].Id;
-                            tabpage.Padding = new Padding(3);
-                            tabpage.Size = new System.Drawing.Size(1140, 611);
-                            tabpage.Tag = i.ToString();
-                            tabpage.Text = "Аудитория " + classrooms.List[i].Id;
+                            TabPage tabpage = new TabPage
+                            {
+                                AutoScroll = true,
+                                Location = new System.Drawing.Point(23, 4),
+                                Name = "tabPageExamination" + classrooms.List[i].Id,
+                                Padding = new Padding(3),
+                                Size = new System.Drawing.Size(1140, 611),
+                                Tag = i.ToString(),
+                                Text = "Аудитория " + classrooms.List[i].Id
+                            };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleExaminationClassroomControl(_service, _serviceER, _serviceCR);
-                            control.Dock = DockStyle.Fill;
+                            var control = new ScheduleExaminationClassroomControl(_service, _serviceER, _serviceCR)
+                            {
+                                Dock = DockStyle.Fill
+                            };
                             control.LoadData(classrooms.List[i].Id);
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
@@ -67,17 +71,21 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     {
                         for (int i = 0; i < studentGroups.Count; i++)
                         {
-                            TabPage tabpage = new TabPage();
-                            tabpage.AutoScroll = true;
-                            tabpage.Location = new System.Drawing.Point(23, 4);
-                            tabpage.Name = "tabPageExamination" + studentGroups[i].Id;
-                            tabpage.Padding = new Padding(3);
-                            tabpage.Size = new System.Drawing.Size(1140, 611);
-                            tabpage.Tag = i.ToString();
-                            tabpage.Text = studentGroups[i].GroupName;
+                            TabPage tabpage = new TabPage
+                            {
+                                AutoScroll = true,
+                                Location = new System.Drawing.Point(23, 4),
+                                Name = "tabPageExamination" + studentGroups[i].Id,
+                                Padding = new Padding(3),
+                                Size = new System.Drawing.Size(1140, 611),
+                                Tag = i.ToString(),
+                                Text = studentGroups[i].GroupName
+                            };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleExaminationStudentGroupControl(_service, _serviceER, _serviceCR);
-                            control.Dock = DockStyle.Fill;
+                            var control = new ScheduleExaminationStudentGroupControl(_service, _serviceER, _serviceCR)
+                            {
+                                Dock = DockStyle.Fill
+                            };
                             control.LoadData(studentGroups[i].GroupName);
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
@@ -95,18 +103,22 @@ namespace DepartmentDesktop.Views.Services.Schedule
 					{
 						for (int i = 0; i < lecturers.List.Count; i++)
 						{
-							TabPage tabpage = new TabPage();
-							tabpage.AutoScroll = true;
-							tabpage.Location = new System.Drawing.Point(23, 4);
-							tabpage.Name = "tabPageSemester" + lecturers.List[i].Id;
-							tabpage.Padding = new Padding(3);
-							tabpage.Size = new System.Drawing.Size(1140, 611);
-							tabpage.Tag = i.ToString();
-							tabpage.Text = lecturers.List[i].FullName;
-							tabControlSemester.TabPages.Add(tabpage);
-							var control = new ScheduleExaminationLecturerControl(_service, _serviceER, _serviceCR);
-							control.Dock = DockStyle.Fill;
-							control.LoadData(lecturers.List[i].Id, lecturers.List[i].FullName);
+                            TabPage tabpage = new TabPage
+                            {
+                                AutoScroll = true,
+                                Location = new System.Drawing.Point(23, 4),
+                                Name = "tabPageSemester" + lecturers.List[i].Id,
+                                Padding = new Padding(3),
+                                Size = new System.Drawing.Size(1140, 611),
+                                Tag = i.ToString(),
+                                Text = lecturers.List[i].FullName
+                            };
+                            tabControlSemester.TabPages.Add(tabpage);
+                            var control = new ScheduleExaminationLecturerControl(_service, _serviceER, _serviceCR)
+                            {
+                                Dock = DockStyle.Fill
+                            };
+                            control.LoadData(lecturers.List[i].Id, lecturers.List[i].FullName);
 							tabControlSemester.TabPages[i].Controls.Add(control);
 						}
 					}

@@ -94,7 +94,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 					currentdate = currentdate.AddDays(1);
 				}
-				var result = _service.GetScheduleSemester(new ScheduleBindingModel { ClassroomId = classroomID });
+				var result = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel { ClassroomId = classroomID });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
@@ -140,7 +140,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 					}
 				}
 				var dateFinish = _selectDate.AddDays(14);
-				var resultConsults = _service.GetScheduleConsultation(new ScheduleBindingModel
+				var resultConsults = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel
 				{
 					DateBegin = _selectDate,
 					DateEnd = dateFinish,
@@ -222,16 +222,16 @@ namespace DepartmentDesktop.Views.Services.Schedule
 									if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 									{
 										result = _serviceSR.DeleteSemesterRecord(
-											new SemesterRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}
 									else
 									{
 										result = _serviceCR.DeleteConsultationRecord(
-											new ConsultationRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}
@@ -258,7 +258,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 						{//если в Tag есть данные, то это id записи
 							if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 							{
-								ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
+								ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, 
 									Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
 								form.ShowDialog();
 							}

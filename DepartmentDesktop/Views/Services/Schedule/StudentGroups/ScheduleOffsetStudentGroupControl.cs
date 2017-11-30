@@ -93,7 +93,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
 					currentdate = currentdate.AddDays(1);
 				}
-				var result = _service.GetScheduleOffset(new ScheduleBindingModel { GroupName = _groupName });
+				var result = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel { GroupName = _groupName });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("Невозможно получить список зачетов в семестре: ", result.Errors);
@@ -112,7 +112,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 						dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
 					}
 				}
-				var resultConsults = _service.GetScheduleConsultation(new ScheduleBindingModel
+				var resultConsults = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel
 				{
 					DateBegin = _selectDate,
 					DateEnd = dateEndOffset,
@@ -176,16 +176,16 @@ namespace DepartmentDesktop.Views.Services.Schedule
 									if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 									{
 										result = _serviceOR.DeleteOffsetRecord(
-											new OffsetRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}
 									else
 									{
 										result = _serviceCR.DeleteConsultationRecord(
-											new ConsultationRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}

@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
         public void LoadData(string groupName)
         {
             _groupName = groupName;
-            var result = _service.GetScheduleConsultation(new ScheduleBindingModel { GroupName = _groupName });
+            var result = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel { GroupName = _groupName });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

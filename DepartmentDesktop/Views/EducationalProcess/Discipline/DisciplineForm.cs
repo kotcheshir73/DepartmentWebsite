@@ -53,6 +53,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			var entity = result.Result;
 
 			textBoxTitle.Text = entity.DisciplineName;
+            textBoxDisciplineShortName.Text = entity.DisciplineShortName;
 			comboBoxDisciplineBlock.SelectedValue = entity.DisciplineBlockId;
 		}
 
@@ -79,7 +80,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 					result = _service.CreateDiscipline(new DisciplineRecordBindingModel
 					{
 						DisciplineName = textBoxTitle.Text,
-						DisciplineBlockId = Convert.ToInt64(comboBoxDisciplineBlock.SelectedValue)
+                        DisciplineShortName = textBoxDisciplineShortName.Text,
+                        DisciplineBlockId = Convert.ToInt64(comboBoxDisciplineBlock.SelectedValue)
 					});
 				}
 				else
@@ -88,6 +90,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 					{
 						Id = _id.Value,
 						DisciplineName = textBoxTitle.Text,
+                        DisciplineShortName = textBoxDisciplineShortName.Text,
 						DisciplineBlockId = Convert.ToInt64(comboBoxDisciplineBlock.SelectedValue)
 					});
 				}

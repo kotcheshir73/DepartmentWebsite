@@ -27,31 +27,33 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
         private void ScheduleExaminationRecordForm_Load(object sender, EventArgs e)
 		{
+			var resultS = _serviceS.GetClassrooms(new ClassroomGetBindingModel { });
+			if (!resultS.Succeeded)
+			{
+				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
+				return;
+            }
+
+            var resultD = _serviceS.GetDisciplines(new DisciplineGetBindingModel { });
+            if (!resultD.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
+                return;
+            }
+
+            var resultL = _serviceS.GetLecturers(new LecturerGetBindingModel { });
+            if (!resultL.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
+                return;
+            }
+
 			var resultSG = _serviceS.GetStudentGroups(new StudentGroupGetBindingModel { } );
 			if (!resultSG.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
 				return;
 			}
-
-			var resultS = _serviceS.GetClassrooms(new ClassroomGetBindingModel { });
-			if (!resultS.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
-				return;
-			}
-
-			//comboBoxLecturer.ValueMember = "Value";
-			//comboBoxLecturer.DisplayMember = "Display";
-			//comboBoxLecturer.DataSource = _service.GetEducationDirections()
-			//    .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
-
-			comboBoxStudentGroup.ValueMember = "Value";
-			comboBoxStudentGroup.DisplayMember = "Display";
-			comboBoxStudentGroup.DataSource = resultSG.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
-			comboBoxStudentGroup.SelectedItem = null;
-			textBoxLessonGroup.Text = string.Empty;
 
 			comboBoxClassroom.ValueMember = "Value";
 			comboBoxClassroom.DisplayMember = "Display";
@@ -60,9 +62,30 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			comboBoxClassroom.SelectedItem = null;
 			textBoxClassroom.Text = string.Empty;
 
+            comboBoxDiscipline.ValueMember = "Value";
+            comboBoxDiscipline.DisplayMember = "Display";
+            comboBoxDiscipline.DataSource = resultD.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.DisciplineName }).ToList();
+            comboBoxDiscipline.SelectedItem = null;
+            textBoxLessonDiscipline.Text = string.Empty;
+
+            comboBoxLecturer.ValueMember = "Value";
+            comboBoxLecturer.DisplayMember = "Display";
+            comboBoxLecturer.DataSource = resultL.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.FullName }).ToList();
+            comboBoxLecturer.SelectedItem = null;
+            textBoxLessonLecturer.Text = string.Empty;
+            
+            comboBoxStudentGroup.ValueMember = "Value";
+			comboBoxStudentGroup.DisplayMember = "Display";
+			comboBoxStudentGroup.DataSource = resultSG.Result.List
+				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+			comboBoxStudentGroup.SelectedItem = null;
+			textBoxLessonGroup.Text = string.Empty;
+
 			if (_id.HasValue)
             {
-                var result = _service.GetExaminationRecord(new ExaminationRecordGetBindingModel { Id = _id.Value });
+                var result = _service.GetExaminationRecord(new ScheduleGetBindingModel { Id = _id.Value });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -82,6 +105,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
                 {
                     comboBoxClassroom.SelectedValue = entity.ClassroomId;
                 }
+                if (entity.DisciplineId.HasValue)
+                {
+                    comboBoxDiscipline.SelectedValue = entity.DisciplineId;
+                }
+                if (entity.LecturerId.HasValue)
+                {
+                    comboBoxLecturer.SelectedValue = entity.LecturerId;
+                }
                 if (entity.StudentGroupId.HasValue)
                 {
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
@@ -89,6 +120,14 @@ namespace DepartmentDesktop.Views.Services.Schedule
 
                 dateTimePickerDateConsultation.Enabled = false;
                 dateTimePickerDateExamination.Enabled = false;
+            }
+        }
+
+        private void comboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text) && comboBoxDiscipline.SelectedIndex > -1)
+            {
+                textBoxLessonDiscipline.Text = comboBoxDiscipline.Text;
             }
         }
 
@@ -141,6 +180,21 @@ namespace DepartmentDesktop.Views.Services.Schedule
         {
             if (CheckFill())
             {
+                long? disciplineId = null;
+                if (comboBoxDiscipline.SelectedValue != null)
+                {
+                    disciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                }
+                long? lecturerId = null;
+                if (comboBoxLecturer.SelectedValue != null)
+                {
+                    lecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                }
+                long? studentGroupId = null;
+                if (comboBoxStudentGroup.SelectedValue != null)
+                {
+                    studentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue);
+                }
                 ResultService result;
                 if (!_id.HasValue)
                 {
@@ -155,6 +209,9 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         LessonClassroom = textBoxClassroom.Text,
 
                         ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        DisciplineId = disciplineId,
+                        LecturerId = lecturerId,
+                        StudentGroupId = studentGroupId
                     });
                 }
                 else
@@ -170,7 +227,10 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty
+                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        DisciplineId = disciplineId,
+                        LecturerId = lecturerId,
+                        StudentGroupId = studentGroupId
                     });
                 }
                 if (result.Succeeded)

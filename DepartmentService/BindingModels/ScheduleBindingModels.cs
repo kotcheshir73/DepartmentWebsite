@@ -1,12 +1,15 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
 	/// <summary>
 	/// Получение расписания для аудитории, преподавателя или группы
 	/// </summary>
-	public class ScheduleBindingModel
+	public class ScheduleGetBindingModel
     {
+        public long? Id;
+
         public string ClassroomId { get; set; }
 
         public string GroupName { get; set; }
@@ -16,5 +19,35 @@ namespace DepartmentService.BindingModels
 		public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
+    }
+
+    /// <summary>
+    /// Запись расписания для сохранения
+    /// </summary>
+    public class ScheduleRecordBindingModel
+    {
+        public long Id;
+
+        public string NotParseRecord { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string LessonDiscipline { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string LessonLecturer { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string LessonGroup { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string LessonClassroom { get; set; }
+
+        public long? LecturerId { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public string ClassroomId { get; set; }
+
+        public long? DisciplineId { get; set; }
     }
 }

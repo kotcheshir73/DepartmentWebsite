@@ -18,5 +18,8 @@ namespace DepartmentService.BindingModels
 
 		[Required(ErrorMessage = "required")]
 		public string DisciplineName { get; set; }
-	}
+
+        [Required(ErrorMessage = "required")]
+        public string DisciplineShortName { get; set; }
+    }
 }

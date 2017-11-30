@@ -48,6 +48,7 @@
             this.panelClassroom = new System.Windows.Forms.Panel();
             this.panelStudentGroup = new System.Windows.Forms.Panel();
             this.comboBoxStudentGroup = new System.Windows.Forms.ComboBox();
+            this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
             this.panelDateTime.SuspendLayout();
             this.panelDiscipline.SuspendLayout();
             this.panelLecturer.SuspendLayout();
@@ -91,7 +92,7 @@
             // 
             // textBoxLessonGroup
             // 
-            this.textBoxLessonGroup.Location = new System.Drawing.Point(104, 5);
+            this.textBoxLessonGroup.Location = new System.Drawing.Point(102, 5);
             this.textBoxLessonGroup.Name = "textBoxLessonGroup";
             this.textBoxLessonGroup.Size = new System.Drawing.Size(180, 20);
             this.textBoxLessonGroup.TabIndex = 2;
@@ -190,6 +191,7 @@
             // panelDiscipline
             // 
             this.panelDiscipline.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelDiscipline.Controls.Add(this.comboBoxDiscipline);
             this.panelDiscipline.Controls.Add(this.textBoxLessonDiscipline);
             this.panelDiscipline.Controls.Add(this.labelLessonDiscipline);
             this.panelDiscipline.Location = new System.Drawing.Point(12, 120);
@@ -239,6 +241,16 @@
             this.comboBoxStudentGroup.Size = new System.Drawing.Size(180, 21);
             this.comboBoxStudentGroup.TabIndex = 3;
             this.comboBoxStudentGroup.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentGroup_SelectedIndexChanged);
+            // 
+            // comboBoxDiscipline
+            // 
+            this.comboBoxDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDiscipline.FormattingEnabled = true;
+            this.comboBoxDiscipline.Location = new System.Drawing.Point(292, 5);
+            this.comboBoxDiscipline.Name = "comboBoxDiscipline";
+            this.comboBoxDiscipline.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxDiscipline.TabIndex = 1;
+            this.comboBoxDiscipline.SelectedIndexChanged += new System.EventHandler(this.comboBoxDiscipline_SelectedIndexChanged);
             // 
             // ScheduleConsultationRecordForm
             // 
@@ -291,5 +303,6 @@
         private System.Windows.Forms.Panel panelClassroom;
         private System.Windows.Forms.Panel panelStudentGroup;
         private System.Windows.Forms.ComboBox comboBoxStudentGroup;
+        private System.Windows.Forms.ComboBox comboBoxDiscipline;
     }
 }

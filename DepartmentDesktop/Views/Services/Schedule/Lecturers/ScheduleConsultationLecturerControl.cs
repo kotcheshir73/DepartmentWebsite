@@ -26,7 +26,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 		{
 			_lecturerID = lecturerID;
 			_lectureFullName = lectureFullName;
-			var result = _service.GetScheduleConsultation(new ScheduleBindingModel { LecturerId = _lecturerID });
+			var result = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel { LecturerId = _lecturerID });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

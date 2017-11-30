@@ -10,11 +10,16 @@ namespace DepartmentDAL.Models
 	public class Discipline : BaseEntity
 	{
 		[Display(Name = "Название дисциплины")]
-		[MaxLength(100)]
+		[MaxLength(200)]
 		[Required]
 		public string DisciplineName { get; set; }
 
-		public long DisciplineBlockId { get; set; }
+        [Display(Name = "Краткое название дисциплины")]
+        [MaxLength(10)]
+       // [Required] TODO
+        public string DisciplineShortName { get; set; }
+
+        public long DisciplineBlockId { get; set; }
 
 		public DisciplineBlock DisciplineBlock { get; set; }
 

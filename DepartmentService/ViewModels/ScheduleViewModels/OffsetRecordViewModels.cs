@@ -5,25 +5,13 @@ namespace DepartmentService.ViewModels
 	/// <summary>
 	/// Краткая запись для вывода в расписании
 	/// </summary>
-	public class OffsetRecordShortViewModel
-	{
-		public long Id { get; set; }
-
+	public class OffsetRecordShortViewModel : ScheduleRecordShortViewModels
+    {
 		public int Week { get; set; }
 
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-		public string NotParseRecord { get; set; }
-
-		public string LessonDiscipline { get; set; }
-
-		public string LessonLecturer { get; set; }
-
-		public string LessonGroup { get; set; }
-
-		public string LessonClassroom { get; set; }
 
 		public string Text
 		{
@@ -37,38 +25,12 @@ namespace DepartmentService.ViewModels
 	/// <summary>
 	/// Полная запись для редактирования
 	/// </summary>
-	public class OffsetRecordViewModel
-	{
-		public long Id { get; set; }
-
+	public class OffsetRecordViewModel : ScheduleRecordViewModels
+    {
 		public int Week { get; set; }
 
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-		public string NotParseRecord { get; set; }
-
-		public string LessonDiscipline { get; set; }
-
-		public string LessonLecturer { get; set; }
-
-		public string LessonGroup { get; set; }
-
-		public string LessonClassroom { get; set; }
-
-		public string ClassroomId { get; set; }
-
-		public string Classroom { get; set; }
-
-		public long? LecturerId { get; set; }
-
-		public string Lecturer { get; set; }
-
-		public string Discipline { get; set; }
-
-		public long? StudentGroupId { get; set; }
-
-		public string StudentGroup { get; set; }
 	}
 }

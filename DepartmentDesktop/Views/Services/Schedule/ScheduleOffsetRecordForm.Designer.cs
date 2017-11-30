@@ -50,6 +50,7 @@
             this.labelLessonDiscipline = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
             this.panelDateTime.SuspendLayout();
             this.panelBaseData.SuspendLayout();
             this.panelTextData.SuspendLayout();
@@ -146,6 +147,7 @@
             // panelBaseData
             // 
             this.panelBaseData.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelBaseData.Controls.Add(this.comboBoxDiscipline);
             this.panelBaseData.Controls.Add(this.comboBoxLecturer);
             this.panelBaseData.Controls.Add(this.comboBoxClassroom);
             this.panelBaseData.Controls.Add(this.comboBoxStudentGroup);
@@ -280,6 +282,16 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // comboBoxDiscipline
+            // 
+            this.comboBoxDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDiscipline.FormattingEnabled = true;
+            this.comboBoxDiscipline.Location = new System.Drawing.Point(3, 6);
+            this.comboBoxDiscipline.Name = "comboBoxDiscipline";
+            this.comboBoxDiscipline.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxDiscipline.TabIndex = 0;
+            this.comboBoxDiscipline.SelectedIndexChanged += new System.EventHandler(this.comboBoxDiscipline_SelectedIndexChanged);
+            // 
             // ScheduleOffsetRecordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,5 +343,6 @@
         private System.Windows.Forms.Label labelLessonDiscipline;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.ComboBox comboBoxDiscipline;
     }
 }

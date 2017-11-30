@@ -22,6 +22,8 @@
 
         public long? LecturerId { get; set; }
 
+		public long? DisciplineId { get; set; }
+
         public virtual SeasonDates SeasonDates { get; set; }
 
         public virtual Classroom Classroom { get; set; }
@@ -29,5 +31,7 @@
         public virtual StudentGroup StudentGroup { get; set; }
 
         public virtual Lecturer Lecturer { get; set; }
-    }
+
+		public virtual Discipline Discipline { get; set; }
+	}
 }

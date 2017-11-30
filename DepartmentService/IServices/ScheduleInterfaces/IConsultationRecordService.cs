@@ -1,18 +1,25 @@
 ﻿using DepartmentDAL;
-using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
+using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
-    public interface IConsultationRecordService
-    {
+	public interface IConsultationRecordService
+	{
+		/// <summary>
+		/// Получение расписания консультаций
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<List<ConsultationRecordShortViewModel>> GetConsultationSchedule(ScheduleGetBindingModel model);
+
 		/// <summary>
 		/// Получения записи о консультации
 		/// </summary>
 		/// <param name="model">Идентификатор аудитории</param>
 		/// <returns></returns>
-		ResultService<ConsultationRecordViewModel> GetConsultationRecord(ConsultationRecordGetBindingModel model);
+		ResultService<ConsultationRecordViewModel> GetConsultationRecord(ScheduleGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи о консультации
@@ -33,14 +40,6 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteConsultationRecord(ConsultationRecordGetBindingModel model);
-
-        /// <summary>
-        /// Проверка что на выбранную дату можно ставить консультацию
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="seasonDate"></param>
-        /// <returns></returns>
-        ResultService CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDatesViewModel seasonDate);
+        ResultService DeleteConsultationRecord(ScheduleGetBindingModel model);
     }
 }

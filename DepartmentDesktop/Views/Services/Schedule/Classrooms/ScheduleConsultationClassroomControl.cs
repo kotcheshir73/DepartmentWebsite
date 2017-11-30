@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
         public void LoadData(string classroomID)
         {
             _classroomID = classroomID;
-            var result = _service.GetScheduleConsultation(new ScheduleBindingModel { ClassroomId = _classroomID });
+            var result = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel { ClassroomId = _classroomID });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -83,7 +83,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
                     {
                         long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-                        var result = _serviceCR.DeleteConsultationRecord(new ConsultationRecordGetBindingModel { Id = id });
+                        var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                         if (result.Succeeded)
                         {
                             LoadData(_classroomID);

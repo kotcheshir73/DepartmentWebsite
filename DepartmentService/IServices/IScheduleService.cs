@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL;
+using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using System.Collections.Generic;
@@ -7,80 +8,59 @@ namespace DepartmentService.IServices
 {
     public interface IScheduleService
     {
-		/// <summary>
-		/// Получение списка аудиторий
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model);
+        /// <summary>
+        /// Получение списка аудиторий
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка групп
-		/// </summary>
-		/// <returns></returns>
-		ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
+        /// <summary>
+        /// Получение списка преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка преподавателей
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
+        /// <summary>
+        /// Получение списка преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка дат семестра
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
+        /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <returns></returns>
+        ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка временных интервалов
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+        /// <summary>
+        /// Получение списка временных интервалов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
 
-		/// <summary>
-		/// Получить даты по текущему семестру
-		/// </summary>
-		/// <returns></returns>
-		ResultService<SeasonDatesViewModel> GetCurrentDates();
+        /// <summary>
+        /// Получить даты по текущему семестру
+        /// </summary>
+        /// <returns></returns>
+        ResultService<SeasonDatesViewModel> GetCurrentDates();
 
+        /// <summary>
+        /// Получение списка временных интервалов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+        
         /// <summary>
         /// Измненение текущих настроек
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
-
-		/// <summary>
-		/// Получение расписания занятий в семестре
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<List<SemesterRecordShortViewModel>> GetScheduleSemester(ScheduleBindingModel model);
-
-		/// <summary>
-		/// Получение расписания консультаций
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<List<ConsultationRecordShortViewModel>> GetScheduleConsultation(ScheduleBindingModel model);
-
-		/// <summary>
-		/// Получение расписания зачетов
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<List<OffsetRecordShortViewModel>> GetScheduleOffset(ScheduleBindingModel model);
-
-		/// <summary>
-		/// Получение расписания экзаменов
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<List<ExaminationRecordShortViewModel>> GetScheduleExamination(ScheduleBindingModel model);
 
         /// <summary>
         /// Загрузка арсписания по аудиториям
@@ -206,5 +186,5 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService ExportExaminationRecordHTML(ExportToHTMLClassroomsBindingModel model);
-    }
+	}
 }

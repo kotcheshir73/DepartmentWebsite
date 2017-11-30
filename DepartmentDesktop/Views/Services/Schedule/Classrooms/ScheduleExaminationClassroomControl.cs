@@ -118,7 +118,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                     currentdate = currentdate.AddDays(1);
                 }
                 currentdate = dateBeginExamination;
-                var result = _service.GetScheduleExamination(new ScheduleBindingModel { ClassroomId = _classroomID });
+                var result = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel { ClassroomId = _classroomID });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
@@ -155,7 +155,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                         }
                     }
                 }
-                var resultConsults = _service.GetScheduleConsultation(new ScheduleBindingModel
+                var resultConsults = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel
                 {
                     DateBegin = dateBeginExamination,
                     DateEnd = dateEndExamination,
@@ -203,7 +203,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                         ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
                                     {
                                         result = _serviceER.DeleteExaminationRecord(
-                                            new ExaminationRecordGetBindingModel
+                                            new ScheduleGetBindingModel
                                             {
                                                 Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
                                             });
@@ -211,7 +211,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
                                     else
                                     {
                                         result = _serviceCR.DeleteConsultationRecord(
-                                            new ConsultationRecordGetBindingModel
+                                            new ScheduleGetBindingModel
                                             {
                                                 Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
                                             });

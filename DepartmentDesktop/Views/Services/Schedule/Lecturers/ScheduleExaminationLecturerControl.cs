@@ -96,7 +96,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 					currentdate = currentdate.AddDays(1);
 				}
 				currentdate = dateBeginExamination;
-				var result = _service.GetScheduleExamination(new ScheduleBindingModel { LecturerId = _lecturerID });
+				var result = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel { LecturerId = _lecturerID });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
@@ -131,7 +131,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 						}
 					}
 				}
-				var resultConsults = _service.GetScheduleConsultation(new ScheduleBindingModel
+				var resultConsults = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel
 				{
 					DateBegin = dateBeginExamination,
 					DateEnd = dateEndExamination,
@@ -179,16 +179,16 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 										((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
 									{
 										result = _serviceER.DeleteExaminationRecord(
-											new ExaminationRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}
 									else
 									{
 										result = _serviceCR.DeleteConsultationRecord(
-											new ConsultationRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}

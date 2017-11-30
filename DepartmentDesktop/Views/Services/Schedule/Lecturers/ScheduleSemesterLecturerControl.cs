@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using DepartmentDAL;
+using DepartmentDAL.Enums;
+using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
-using DepartmentService.BindingModels;
-using DepartmentDAL.Enums;
-using DepartmentDAL;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 {
-	public partial class ScheduleSemesterLecturerControl : UserControl
+    public partial class ScheduleSemesterLecturerControl : UserControl
 	{
 		private readonly IScheduleService _service;
 
@@ -104,7 +98,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 
 					currentdate = currentdate.AddDays(1);
 				}
-				var result = _service.GetScheduleSemester(new ScheduleBindingModel { LecturerId = _lecturerID });
+				var result = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel { LecturerId = _lecturerID });
 				if (!result.Succeeded)
 				{
 					Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
@@ -150,7 +144,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 					}
 				}
 				var dateFinish = _selectDate.AddDays(14);
-				var resultConsults = _service.GetScheduleConsultation(new ScheduleBindingModel
+				var resultConsults = _serviceCR.GetConsultationSchedule(new ScheduleGetBindingModel
 				{
 					DateBegin = _selectDate,
 					DateEnd = dateFinish,
@@ -232,16 +226,16 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 									if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 									{
 										result = _serviceSR.DeleteSemesterRecord(
-											new SemesterRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}
 									else
 									{
 										result = _serviceCR.DeleteConsultationRecord(
-											new ConsultationRecordGetBindingModel
-											{
+											new ScheduleGetBindingModel
+                                            {
 												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
 											});
 									}
@@ -268,7 +262,7 @@ namespace DepartmentDesktop.Views.Services.Schedule.Lecturers
 						{//если в Tag есть данные, то это id записи
 							if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
 							{
-								ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
+								ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR,_service, 
 									Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
 								form.ShowDialog();
 							}

@@ -1,5 +1,6 @@
 ﻿using DepartmentDAL.Enums;
 using DepartmentDAL.Models;
+using DepartmentService.ViewModels;
 using System;
 
 namespace DepartmentService.BindingModels
@@ -239,8 +240,9 @@ namespace DepartmentService.BindingModels
 			}
 			entity.DisciplineBlockId = model.DisciplineBlockId;
 			entity.DisciplineName = model.DisciplineName;
+            entity.DisciplineShortName = model.DisciplineShortName;
 
-			return entity;
+            return entity;
 		}
 
 		public static Lecturer CreateLecturer(LecturerRecordBindingModel model, Lecturer entity = null)
@@ -326,6 +328,20 @@ namespace DepartmentService.BindingModels
 		}
 
 		#region Schedule
+        private static void CreateScheduleRecord(ScheduleRecordBindingModel model, ScheduleRecord entity = null)
+        {
+            entity.LessonDiscipline = model.LessonDiscipline;
+            entity.LessonGroup = model.LessonGroup;
+            entity.LessonLecturer = model.LessonLecturer;
+            entity.LessonClassroom = model.LessonClassroom;
+            if (!string.IsNullOrEmpty(model.ClassroomId))
+            {
+                entity.ClassroomId = model.ClassroomId;
+            }
+            entity.DisciplineId = model.DisciplineId;
+            entity.LecturerId = model.LecturerId;
+            entity.StudentGroupId = model.StudentGroupId;
+        }
 
 		public static SemesterRecord CreateSemesterRecord(SemesterRecordRecordBindingModel model, SemesterRecord entity = null, SeasonDates seasonDate = null)
 		{
@@ -342,18 +358,9 @@ namespace DepartmentService.BindingModels
 				};
 			}
 			entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
-			entity.LessonDiscipline = model.LessonDiscipline;
-			entity.LessonGroup = model.LessonGroup;
-			entity.LessonLecturer = model.LessonLecturer;
-			entity.LessonClassroom = model.LessonClassroom;
-			if (!string.IsNullOrEmpty(model.ClassroomId))
-			{
-				entity.ClassroomId = model.ClassroomId;
-			}
-			entity.LecturerId = model.LecturerId;
-			entity.StudentGroupId = model.StudentGroupId;
+            CreateScheduleRecord(model, entity);
 
-			return entity;
+            return entity;
 		}
 
 		public static OffsetRecord CreateOffsetRecord(OffsetRecordRecordBindingModel model, OffsetRecord entity = null, SeasonDates seasonDate = null)
@@ -368,19 +375,10 @@ namespace DepartmentService.BindingModels
 					NotParseRecord = model.NotParseRecord,
 					SeasonDatesId = seasonDate.Id
 				};
-			}
-			entity.LessonDiscipline = model.LessonDiscipline;
-			entity.LessonGroup = model.LessonGroup;
-			entity.LessonLecturer = model.LessonLecturer;
-			entity.LessonClassroom = model.LessonClassroom;
-			if (!string.IsNullOrEmpty(model.ClassroomId))
-			{
-				entity.ClassroomId = model.ClassroomId;
-			}
-			entity.LecturerId = model.LecturerId;
-			entity.StudentGroupId = model.StudentGroupId;
+            }
+            CreateScheduleRecord(model, entity);
 
-			return entity;
+            return entity;
 		}
 
 		public static ExaminationRecord CreateExaminationRecord(ExaminationRecordRecordBindingModel model, ExaminationRecord entity = null, SeasonDates seasonDate = null)
@@ -395,18 +393,9 @@ namespace DepartmentService.BindingModels
 					SeasonDatesId = seasonDate.Id
 				};
 			}
-			entity.LessonDiscipline = model.LessonDiscipline;
-			entity.LessonGroup = model.LessonGroup;
-			entity.LessonLecturer = model.LessonLecturer;
-			entity.LessonClassroom = model.LessonClassroom;
-			if (!string.IsNullOrEmpty(model.ClassroomId))
-			{
-				entity.ClassroomId = model.ClassroomId;
-			}
-			entity.LecturerId = model.LecturerId;
-			entity.StudentGroupId = model.StudentGroupId;
+            CreateScheduleRecord(model, entity);
 
-			return entity;
+            return entity;
 		}
 
 		public static ConsultationRecord CreateConsultationRecord(ConsultationRecordRecordBindingModel model, ConsultationRecord entity = null, SeasonDates seasonDate = null)
@@ -419,19 +408,10 @@ namespace DepartmentService.BindingModels
 					NotParseRecord = model.NotParseRecord,
 					SeasonDatesId = seasonDate.Id
 				};
-			}
-			entity.LessonDiscipline = model.LessonDiscipline;
-			entity.LessonGroup = model.LessonGroup;
-			entity.LessonLecturer = model.LessonLecturer;
-			entity.LessonClassroom = model.LessonClassroom;
-			if (!string.IsNullOrEmpty(model.ClassroomId))
-			{
-				entity.ClassroomId = model.ClassroomId;
-			}
-			entity.LecturerId = model.LecturerId;
-			entity.StudentGroupId = model.StudentGroupId;
+            }
+            CreateScheduleRecord(model, entity);
 
-			return entity;
+            return entity;
 		}
 
 		public static StreamingLesson CreateStreamingLesson(StreamingLessonRecordBindingModel model, StreamingLesson entity = null)

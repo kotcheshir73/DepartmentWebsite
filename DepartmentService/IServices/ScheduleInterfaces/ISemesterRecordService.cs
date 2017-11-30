@@ -1,17 +1,25 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
+using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
     public interface ISemesterRecordService
-    {
+	{
+        /// <summary>
+        /// Получение расписания занятий в семестре
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<SemesterRecordShortViewModel>> GetSemesterSchedule(ScheduleGetBindingModel model);
+
 		/// <summary>
 		/// Получения записи о паре
 		/// </summary>
-		/// <param name="model">Идентификатор аудитории</param>
+		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<SemesterRecordViewModel> GetSemesterRecord(SemesterRecordGetBindingModel model);
+		ResultService<SemesterRecordViewModel> GetSemesterRecord(ScheduleGetBindingModel model);
 
         /// <summary>
         /// Создание новой записи о паре
@@ -32,6 +40,6 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteSemesterRecord(SemesterRecordGetBindingModel model);
+        ResultService DeleteSemesterRecord(ScheduleGetBindingModel model);
     }
 }

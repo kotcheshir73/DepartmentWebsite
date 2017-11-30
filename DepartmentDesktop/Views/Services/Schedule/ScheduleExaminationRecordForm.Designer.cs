@@ -42,12 +42,13 @@
             this.labelLessonLecturer = new System.Windows.Forms.Label();
             this.labelLessonDiscipline = new System.Windows.Forms.Label();
             this.panelDateTime = new System.Windows.Forms.Panel();
-            this.labelDateConsultation = new System.Windows.Forms.Label();
-            this.dateTimePickerDateConsultation = new System.Windows.Forms.DateTimePicker();
             this.labelDateExamination = new System.Windows.Forms.Label();
             this.dateTimePickerDateExamination = new System.Windows.Forms.DateTimePicker();
+            this.labelDateConsultation = new System.Windows.Forms.Label();
+            this.dateTimePickerDateConsultation = new System.Windows.Forms.DateTimePicker();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
             this.panelBaseData.SuspendLayout();
             this.panelTextData.SuspendLayout();
             this.panelDateTime.SuspendLayout();
@@ -56,6 +57,7 @@
             // panelBaseData
             // 
             this.panelBaseData.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelBaseData.Controls.Add(this.comboBoxDiscipline);
             this.panelBaseData.Controls.Add(this.comboBoxLecturer);
             this.panelBaseData.Controls.Add(this.comboBoxClassroom);
             this.panelBaseData.Controls.Add(this.comboBoxStudentGroup);
@@ -182,24 +184,6 @@
             this.panelDateTime.Size = new System.Drawing.Size(386, 62);
             this.panelDateTime.TabIndex = 7;
             // 
-            // labelDateConsultation
-            // 
-            this.labelDateConsultation.AutoSize = true;
-            this.labelDateConsultation.Location = new System.Drawing.Point(9, 10);
-            this.labelDateConsultation.Name = "labelDateConsultation";
-            this.labelDateConsultation.Size = new System.Drawing.Size(109, 13);
-            this.labelDateConsultation.TabIndex = 0;
-            this.labelDateConsultation.Text = "Дата консультации:";
-            // 
-            // dateTimePickerDateConsultation
-            // 
-            this.dateTimePickerDateConsultation.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.dateTimePickerDateConsultation.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerDateConsultation.Location = new System.Drawing.Point(138, 6);
-            this.dateTimePickerDateConsultation.Name = "dateTimePickerDateConsultation";
-            this.dateTimePickerDateConsultation.Size = new System.Drawing.Size(148, 20);
-            this.dateTimePickerDateConsultation.TabIndex = 1;
-            // 
             // labelDateExamination
             // 
             this.labelDateExamination.AutoSize = true;
@@ -217,6 +201,24 @@
             this.dateTimePickerDateExamination.Name = "dateTimePickerDateExamination";
             this.dateTimePickerDateExamination.Size = new System.Drawing.Size(148, 20);
             this.dateTimePickerDateExamination.TabIndex = 3;
+            // 
+            // labelDateConsultation
+            // 
+            this.labelDateConsultation.AutoSize = true;
+            this.labelDateConsultation.Location = new System.Drawing.Point(9, 10);
+            this.labelDateConsultation.Name = "labelDateConsultation";
+            this.labelDateConsultation.Size = new System.Drawing.Size(109, 13);
+            this.labelDateConsultation.TabIndex = 0;
+            this.labelDateConsultation.Text = "Дата консультации:";
+            // 
+            // dateTimePickerDateConsultation
+            // 
+            this.dateTimePickerDateConsultation.CustomFormat = "dd.MM.yyyy HH:mm:ss";
+            this.dateTimePickerDateConsultation.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerDateConsultation.Location = new System.Drawing.Point(138, 6);
+            this.dateTimePickerDateConsultation.Name = "dateTimePickerDateConsultation";
+            this.dateTimePickerDateConsultation.Size = new System.Drawing.Size(148, 20);
+            this.dateTimePickerDateConsultation.TabIndex = 1;
             // 
             // buttonClose
             // 
@@ -237,6 +239,16 @@
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // comboBoxDiscipline
+            // 
+            this.comboBoxDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDiscipline.FormattingEnabled = true;
+            this.comboBoxDiscipline.Location = new System.Drawing.Point(3, 6);
+            this.comboBoxDiscipline.Name = "comboBoxDiscipline";
+            this.comboBoxDiscipline.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxDiscipline.TabIndex = 0;
+            this.comboBoxDiscipline.SelectedIndexChanged += new System.EventHandler(this.comboBoxDiscipline_SelectedIndexChanged);
             // 
             // ScheduleExaminationRecordForm
             // 
@@ -288,5 +300,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerDateExamination;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.ComboBox comboBoxDiscipline;
     }
 }

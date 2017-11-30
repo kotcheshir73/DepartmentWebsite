@@ -272,6 +272,14 @@
     <Compile Include="Migrations\201711170944530_ChangeUserAvatar.Designer.cs">
       <DependentUpon>201711170944530_ChangeUserAvatar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711301119100_ChangeScheduleRecords.cs" />
+    <Compile Include="Migrations\201711301119100_ChangeScheduleRecords.Designer.cs">
+      <DependentUpon>201711301119100_ChangeScheduleRecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301430317_ChangeDisciplineAddShortName.cs" />
+    <Compile Include="Migrations\201711301430317_ChangeDisciplineAddShortName.Designer.cs">
+      <DependentUpon>201711301430317_ChangeDisciplineAddShortName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -475,6 +483,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711170944530_ChangeUserAvatar.resx">
       <DependentUpon>201711170944530_ChangeUserAvatar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301119100_ChangeScheduleRecords.resx">
+      <DependentUpon>201711301119100_ChangeScheduleRecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301430317_ChangeDisciplineAddShortName.resx">
+      <DependentUpon>201711301430317_ChangeDisciplineAddShortName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

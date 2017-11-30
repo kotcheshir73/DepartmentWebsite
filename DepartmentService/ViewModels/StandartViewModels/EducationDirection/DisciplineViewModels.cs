@@ -10,6 +10,8 @@
 
 		public string DisciplineName { get; set; }
 
-		public string DisciplineBlockTitle { get; set; }
+        public string DisciplineShortName { get; set; }
+
+        public string DisciplineBlockTitle { get; set; }
 	}
 }
