@@ -15,8 +15,7 @@ namespace DepartmentDAL.Models
 		public string DisciplineName { get; set; }
 
         [Display(Name = "Краткое название дисциплины")]
-        [MaxLength(10)]
-       // [Required] TODO
+        [MaxLength(20)]
         public string DisciplineShortName { get; set; }
 
         public long DisciplineBlockId { get; set; }

@@ -280,6 +280,10 @@
     <Compile Include="Migrations\201711301430317_ChangeDisciplineAddShortName.Designer.cs">
       <DependentUpon>201711301430317_ChangeDisciplineAddShortName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.cs" />
+    <Compile Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.Designer.cs">
+      <DependentUpon>201712010539520_ChangeDisciplineAddShortName2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -489,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711301430317_ChangeDisciplineAddShortName.resx">
       <DependentUpon>201711301430317_ChangeDisciplineAddShortName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.resx">
+      <DependentUpon>201712010539520_ChangeDisciplineAddShortName2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

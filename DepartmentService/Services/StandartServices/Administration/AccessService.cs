@@ -42,7 +42,7 @@ namespace DepartmentService.Services
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(e => e.AccessType)
+								.OrderBy(e => e.Operation).ThenBy(e => e.AccessType)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}

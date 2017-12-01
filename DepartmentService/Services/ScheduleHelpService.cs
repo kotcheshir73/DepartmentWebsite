@@ -3,6 +3,7 @@ using DepartmentDAL.Enums;
 using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -41,7 +42,7 @@ namespace DepartmentService.Services
                 int week = day < 8 ? 0 : 1;
                 day = day % 7;
                 int lesson = 7;
-                
+
                 // получаем время пар
                 var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("пара")).ToList();
                 if (times == null || times.Count == 0)
@@ -106,7 +107,7 @@ namespace DepartmentService.Services
                     lessons[i] = new DateTime(model.DateConsultation.Year, model.DateConsultation.Month, model.DateConsultation.Day,
                         times[i].DateBeginLesson.Hour, times[i].DateBeginLesson.Minute, 0);
                 }
-                
+
                 // ищем на какую пару выпадает консультация
                 for (int i = 0; i < lessons.Length - 1; ++i)
                 {
@@ -228,41 +229,69 @@ namespace DepartmentService.Services
         {
             string str = entity.DisciplineId.HasValue ? entity.Discipline.DisciplineShortName : entity.LessonDiscipline;
 
+            if (string.IsNullOrEmpty(str) && entity.DisciplineId.HasValue)
+            {
+                str = entity.LessonDiscipline;
+            }
+
             if (str.Length > 10)
             {
-                var strs = str.Split(new char[] { '.', ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < strs.Length; ++i)
+                if (str.Contains("-"))
                 {
-                    if (strs.Length == 1)
+                    var substrs = str.Split(new char[] { '-', '.', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    var glas = new List<char> { 'а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я' };
+                    for (int j = 0; j < substrs.Length; ++j)
                     {
-                        sb.Append(string.Format("{0}.", strs[0].Substring(0, 8)));
-                    }
-                    else if (strs[i].Length == 1)
-                    {
-                        sb.Append(strs[i]);
-                    }
-                    else if (strs[i].ToUpper() == strs[i])
-                    {
-                        sb.Append(strs[i].ToUpper());
-                    }
-                    else
-                    {
-                        sb.Append(strs[i][0].ToString().ToUpper());
-                        for (int j = 1; j < strs[i].Length; ++j)
+                        for (int t = 0; t < substrs[j].Length; ++t)
                         {
-                            if (strs[i][j] == '-')
+                            if (t < 4)
                             {
-                                continue;
+                                sb.Append(substrs[j][t]);
                             }
-                            if (strs[i][j].ToString().ToUpper() == strs[i][j].ToString())
+                            else if (!glas.Contains(substrs[j][t]))
                             {
-                                sb.Append(strs[i][j].ToString().ToUpper());
+                                sb.Append(substrs[j][t]);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        sb.Append('-');
+                    }
+                }
+                else
+                {
+                    var strs = str.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < strs.Length; ++i)
+                    {
+                        if (strs.Length == 1)
+                        {
+                            sb.Append(string.Format("{0}.", strs[0].Substring(0, 8)));
+                        }
+                        else if (strs[i].Length == 1)
+                        {
+                            sb.Append(strs[i]);
+                        }
+                        else if (strs[i].ToUpper() == strs[i])
+                        {
+                            sb.Append(strs[i].ToUpper());
+                        }
+                        else
+                        {
+                            sb.Append(strs[i][0].ToString().ToUpper());
+                            for (int j = 1; j < strs[i].Length; ++j)
+                            {
+                                if (strs[i][j].ToString().ToUpper() == strs[i][j].ToString())
+                                {
+                                    sb.Append(strs[i][j].ToString().ToUpper());
+                                }
                             }
                         }
                     }
+                    str = sb.ToString();
                 }
-                str = sb.ToString();
             }
             else
             {
