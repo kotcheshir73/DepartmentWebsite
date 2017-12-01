@@ -42,14 +42,14 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Students.AsQueryable();
+				var query = _context.Students.Where(e => !e.IsDeleted);
 				if (model.StudentGroupId.HasValue)
 				{
-					query = query.Where(e => e.StudentGroupId == model.StudentGroupId.Value && !e.IsDeleted);
+					query = query.Where(e => e.StudentGroupId == model.StudentGroupId.Value);
 				}
 				if (model.StudentStatus.HasValue)
 				{
-					query = query.Where(e => e.StudentState == model.StudentStatus.Value && !e.IsDeleted);
+					query = query.Where(e => e.StudentState == model.StudentStatus.Value);
 				}
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

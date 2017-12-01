@@ -116,7 +116,7 @@
     <Compile Include="IServices\ScheduleInterfaces\ISemesterRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamingLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStudentGroupService.cs" />
-    <Compile Include="IServices\IStudentHistoryService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStudentHistoryService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStudentService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ITimeNormService.cs" />
     <Compile Include="IServices\StandartInterfaces\Administration\IUserService.cs" />
@@ -148,7 +148,7 @@
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentGroupService.cs" />
-    <Compile Include="Services\StudentHistoryService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StudentHistoryService.cs" />
     <Compile Include="Services\StudentMoveService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\TimeNormService.cs" />

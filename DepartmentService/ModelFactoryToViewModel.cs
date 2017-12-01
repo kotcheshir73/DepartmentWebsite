@@ -361,7 +361,7 @@ namespace DepartmentService.ViewModels
 
 		public static IEnumerable<StudentHistoryViewModel> CreateStudentHistorys(IEnumerable<StudentHistory> entities)
 		{
-			return entities.Select(e => CreateStudentHistoryViewModel(e)).OrderBy(e => e.DateCreate);
+			return entities.Select(e => CreateStudentHistoryViewModel(e));
 		}
 
 
