@@ -33,11 +33,13 @@ namespace DepartmentService.Services
 
 				int countPages = 0;
 				var query = _context.EducationDirections.Where(c => !c.IsDeleted).AsQueryable();
-				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+
+                query = query.OrderBy(c => c.Cipher);
+
+                if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(c => c.Cipher)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}

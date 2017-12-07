@@ -40,12 +40,14 @@ namespace DepartmentService.Services
 				if (model.LoadDistributionRecordId.HasValue)
 				{
 					query = query.Where(e => e.LoadDistributionRecordId == model.LoadDistributionRecordId.Value);
-				}
-				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+                }
+
+                query = query.OrderBy(c => c.Id);
+
+                if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(c => c.Id)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}

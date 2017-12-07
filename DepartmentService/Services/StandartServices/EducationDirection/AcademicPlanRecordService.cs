@@ -65,11 +65,13 @@ namespace DepartmentService.Services
 
                 int countPages = 0;
                 var query = _context.AcademicPlanRecords.Where(c => !c.IsDeleted && c.AcademicPlanId == model.AcademicPlanId);
+
+                query = query.OrderBy(e => e.Semester).ThenBy(e => e.Discipline.DisciplineName);
+
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
                     countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
                     query = query
-                                .OrderBy(e => e.Semester).ThenBy(e => e.Discipline.DisciplineName)
                                 .Skip(model.PageSize.Value * model.PageNumber.Value)
                                 .Take(model.PageSize.Value);
                 }

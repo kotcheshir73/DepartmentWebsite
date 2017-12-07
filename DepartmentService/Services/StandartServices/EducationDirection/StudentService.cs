@@ -50,12 +50,14 @@ namespace DepartmentService.Services
 				if (model.StudentStatus.HasValue)
 				{
 					query = query.Where(e => e.StudentState == model.StudentStatus.Value);
-				}
-				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+                }
+
+                query = query.OrderBy(c => c.StudentGroupId).ThenBy(s => s.LastName);
+
+                if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(c => c.StudentGroupId).ThenBy(s => s.LastName)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}

@@ -43,11 +43,13 @@ namespace DepartmentService.Services
 
 				int countPages = 0;
 				var query = _context.TimeNorms.Where(c => !c.IsDeleted).AsQueryable();
-				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+
+                query = query.OrderBy(e => e.KindOfLoad.KindOfLoadName).ThenBy(e => e.Title);
+
+                if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(e => e.KindOfLoad.KindOfLoadName).ThenBy(e => e.Title)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}

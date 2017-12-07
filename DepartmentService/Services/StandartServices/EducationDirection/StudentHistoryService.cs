@@ -39,11 +39,13 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(e => e.StudentId == model.NumberOfBook);
                 }
+
+                query = query.OrderBy(c => c.DateCreate);
+
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
                     countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
                     query = query
-                                .OrderBy(c => c.DateCreate)
                                 .Skip(model.PageSize.Value * model.PageNumber.Value)
                                 .Take(model.PageSize.Value);
                 }

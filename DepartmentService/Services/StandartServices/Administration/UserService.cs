@@ -66,13 +66,14 @@ namespace DepartmentService.Services
 				if (model.IsBanned.HasValue)
 				{
 					query = query.Where(u => u.IsBanned == model.IsBanned.Value);
-				}
+                }
 
-				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+                query = query.OrderBy(e => e.Role.RoleName).ThenBy(e => e.Login).ThenBy(e => e.DateLastVisit);
+
+                if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(e => e.Role.RoleName).ThenBy(e => e.Login).ThenBy(e => e.DateLastVisit)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}

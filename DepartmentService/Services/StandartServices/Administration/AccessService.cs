@@ -38,11 +38,12 @@ namespace DepartmentService.Services
 					query = query.Where(e => e.RoleId == model.RoleId);
 				}
 
-				if (model.PageNumber.HasValue && model.PageSize.HasValue)
+                query = query.OrderBy(e => e.Operation).ThenBy(e => e.AccessType);
+
+                if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(e => e.Operation).ThenBy(e => e.AccessType)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
