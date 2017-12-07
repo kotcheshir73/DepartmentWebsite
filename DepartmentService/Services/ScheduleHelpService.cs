@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DepartmentService.Services
 {
-    class ScheduleHelpService
+    public class ScheduleHelpService
     {
         public static SeasonDates GetCurrentDates(DepartmentDbContext context)
         {
@@ -227,76 +227,13 @@ namespace DepartmentService.Services
 
         public static string GetLessonDiscipline(ScheduleRecord entity)
         {
-            string str = entity.DisciplineId.HasValue ? entity.Discipline.DisciplineShortName : entity.LessonDiscipline;
+            string str = entity.DisciplineId.HasValue ? entity.Discipline.DisciplineShortName : CalcShortDisciplineName(entity.LessonDiscipline);
 
             if (string.IsNullOrEmpty(str) && entity.DisciplineId.HasValue)
             {
-                str = entity.LessonDiscipline;
+                str = CalcShortDisciplineName(entity.LessonDiscipline);
             }
 
-            if (str.Length > 10)
-            {
-                StringBuilder sb = new StringBuilder();
-                if (str.Contains("-"))
-                {
-                    var substrs = str.Split(new char[] { '-', '.', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    var glas = new List<char> { 'а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я' };
-                    for (int j = 0; j < substrs.Length; ++j)
-                    {
-                        for (int t = 0; t < substrs[j].Length; ++t)
-                        {
-                            if (t < 4)
-                            {
-                                sb.Append(substrs[j][t]);
-                            }
-                            else if (!glas.Contains(substrs[j][t]))
-                            {
-                                sb.Append(substrs[j][t]);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        sb.Append('-');
-                    }
-                }
-                else
-                {
-                    var strs = str.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < strs.Length; ++i)
-                    {
-                        if (strs.Length == 1)
-                        {
-                            sb.Append(string.Format("{0}.", strs[0].Substring(0, 8)));
-                        }
-                        else if (strs[i].Length == 1)
-                        {
-                            sb.Append(strs[i]);
-                        }
-                        else if (strs[i].ToUpper() == strs[i])
-                        {
-                            sb.Append(strs[i].ToUpper());
-                        }
-                        else
-                        {
-                            sb.Append(strs[i][0].ToString().ToUpper());
-                            for (int j = 1; j < strs[i].Length; ++j)
-                            {
-                                if (strs[i][j].ToString().ToUpper() == strs[i][j].ToString())
-                                {
-                                    sb.Append(strs[i][j].ToString().ToUpper());
-                                }
-                            }
-                        }
-                    }
-                    str = sb.ToString();
-                }
-            }
-            else
-            {
-                str = str.Replace(" ", "");
-            }
             return str;
         }
 
@@ -308,6 +245,78 @@ namespace DepartmentService.Services
         public static string GetLessonClassroom(ScheduleRecord entity)
         {
             return string.IsNullOrEmpty(entity.ClassroomId) ? entity.LessonClassroom : entity.ClassroomId;
+        }
+
+        public static string CalcShortDisciplineName(string fullDiscipliineName)
+        {
+            // TODO избавиться от '-ия' и т.п.
+            StringBuilder sb = new StringBuilder();
+            var glas = new List<char> { 'а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я' };
+            var predlogs = new List<string> { "в", "без", "до", "и", "из", "к", "на", "по", "о", "от", "перед", "при", "через", "с", "у", "за", "над", "об", "под", "для" };
+            var strsSpice = fullDiscipliineName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            // если одно слово, и оно не содержит деифсов и точек, то просто берем первые 8 символов
+            if (strsSpice.Length == 1 && !strsSpice[0].Contains("-") && !strsSpice[0].Contains("."))
+            {
+                int length = strsSpice[0].Length > 8 ? 8 : strsSpice[0].Length;
+                sb.Append(string.Format("{0}.", strsSpice[0].Substring(0, length)));
+            }
+            else
+            {
+                foreach (var strSpice in strsSpice)
+                {
+                    // если слово содержит дефис и оно одно, то каждое слово сокращаем до 3-4 знаков
+                    if (strSpice.Contains("-") && strsSpice.Length == 1)
+                    {
+                        var substrs = strSpice.Split(new char[] { '-', '.' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var subS in substrs)
+                        {
+                            for (int t = 0; t < subS.Length; ++t)
+                            {
+                                if (t < 3)
+                                {
+                                    sb.Append(subS[t]);
+                                }
+                                else if (!glas.Contains(subS[t]))
+                                {
+                                    sb.Append(subS[t]);
+                                }
+                                else
+                                {
+                                    sb.Append('.');
+                                    break;
+                                }
+                            }
+                            sb.Append('-');
+                        }
+                        sb = sb.Remove(sb.Length - 1, 1);
+                    }
+                    // иначе
+                    else
+                    {
+                        // разбиваем строку на подстроки по точке и дефису
+                        var substrs = strSpice.Split(new char[] { '.', '-' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var subS in substrs)
+                        {
+                            // если строка - предлог, то берем тока первый симвов а нижнем регистре
+                            if (predlogs.Contains(subS.ToLower()))
+                            {
+                                sb.Append(subS.ToLower()[0]);
+                            }
+                            // слово может быть целиком уже аббревиатурой
+                            else if (subS.ToUpper() == subS)
+                            {
+                                sb.Append(subS);
+                            }
+                            // либо берем первую букву в верхнем регистре
+                            else
+                            {
+                                sb.Append(subS[0].ToString().ToUpper());
+                            }
+                        }
+                    }
+                }
+            }
+            return sb.ToString();
         }
     }
 }

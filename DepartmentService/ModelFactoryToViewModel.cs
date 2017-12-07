@@ -387,8 +387,50 @@ namespace DepartmentService.ViewModels
 			return entities.Select(e => CreateSeasonDatesViewModel(e));
 		}
 
+        public static AcademicPlanRecordForDiciplineViewModel CreateAcademicPlanRecordForDiciplineViewModel(AcademicPlanRecord entity)
+        {
+            return new AcademicPlanRecordForDiciplineViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanId = entity.AcademicPlanId,
+                EducationDirectionCipher = entity.AcademicPlan.EducationDirection.Cipher,
+                DisciplineId = entity.DisciplineId,
+                Disciplne = entity.Discipline.DisciplineName,
+                KindOfLoadId = entity.KindOfLoadId,
+                KindOfLoad = entity.KindOfLoad.KindOfLoadName,
+                Semester = entity.Semester.ToString(),
+                Hours = entity.Hours
+            };
+        }
+
+        public static IEnumerable<AcademicPlanRecordForDiciplineViewModel> CreateAcademicPlanRecordForDiciplines(IEnumerable<AcademicPlanRecord> entities)
+        {
+            return entities.Select(e => CreateAcademicPlanRecordForDiciplineViewModel(e));
+        }
+
         #region Schedule
-		public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
+        public static ScheduleRecordViewModels CreateScheduleRecordViewModel(ScheduleRecord entity)
+        {
+            return new ScheduleRecordViewModels
+            {
+                Id = entity.Id,
+                NotParseRecord = entity.NotParseRecord,
+                LessonClassroom = entity.LessonClassroom,
+                LessonGroup = entity.LessonGroup,
+                LessonDiscipline = entity.LessonDiscipline,
+                LessonLecturer = entity.LessonLecturer,
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+                DisciplineId = entity.DisciplineId,
+                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
+                LecturerId = entity.LecturerId,
+                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                StudentGroupId = entity.StudentGroupId,
+                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+            };
+        }
+
+        public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
 		{
             return new SemesterRecordViewModel
 			{

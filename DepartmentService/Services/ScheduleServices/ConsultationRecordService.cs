@@ -30,11 +30,11 @@ namespace DepartmentService.Services
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
 					throw new Exception("Нет доступа на чтение данных по расписанию");
-				}
+                }
 
-				var currentDates = ScheduleHelpService.GetCurrentDates(_context);
+                var currentDates = model.SeasonDateId ?? ScheduleHelpService.GetCurrentDates(_context).Id;
 
-				var selectedRecords = _context.ConsultationRecords.Where(sr => sr.SeasonDatesId == currentDates.Id);
+                var selectedRecords = _context.ConsultationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
 				if (model.DateBegin.HasValue)
 				{
@@ -70,8 +70,19 @@ namespace DepartmentService.Services
 							.Where(sr => sr.LecturerId == model.LecturerId.Value &&
 										sr.DateConsultation >= model.DateBegin.Value &&
 										sr.DateConsultation <= model.DateEnd.Value);
-					}
-				}
+                    }
+                    if (model.DisciplineId.HasValue)
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию дисциплины");
+                        }
+                        selectedRecords = selectedRecords
+                            .Where(sr => sr.DisciplineId == model.DisciplineId.Value &&
+                                        sr.DateConsultation >= model.DateBegin.Value &&
+                                        sr.DateConsultation <= model.DateEnd.Value);
+                    }
+                }
 				else
 				{
 					if (!string.IsNullOrEmpty(model.ClassroomId))
@@ -97,7 +108,15 @@ namespace DepartmentService.Services
                             throw new Exception("Нет доступа на чтение данных по расписанию преподавателей");
                         }
                         selectedRecords = selectedRecords.Where(sr => sr.LecturerId == model.LecturerId.Value);
-					}
+                    }
+                    if (model.DisciplineId.HasValue)
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию дисциплины");
+                        }
+                        selectedRecords = selectedRecords.Where(sr => sr.DisciplineId == model.DisciplineId.Value);
+                    }
                 }
 
                 selectedRecords = selectedRecords
@@ -119,7 +138,10 @@ namespace DepartmentService.Services
 						// TODO посомтреть по группе
 						DateConsultation = records[i].DateConsultation
 					};
-                    ScheduleHelpService.CheckCreateConsultation(_context, record, currentDates);
+                    var seasonDate = model.SeasonDateId.HasValue ? 
+                                            _context.SeasonDates.FirstOrDefault(sd => sd.Id == model.SeasonDateId.Value) :
+                                            ScheduleHelpService.GetCurrentDates(_context);
+                    ScheduleHelpService.CheckCreateConsultation(_context, record, seasonDate);
 
                     result.Add(ModelFactoryToViewModel.CreateConsultationRecordShortViewModel(records[i], record));
                 }

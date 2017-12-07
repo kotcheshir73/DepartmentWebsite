@@ -30,11 +30,11 @@ namespace DepartmentService.Services
 				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
 				{
 					throw new Exception("Нет доступа на чтение данных по расписанию");
-				}
+                }
 
-				var currentDates = ScheduleHelpService.GetCurrentDates(_context);
+                var currentDates = model.SeasonDateId ?? ScheduleHelpService.GetCurrentDates(_context).Id;
 
-				var selectedRecords = _context.ExaminationRecords.Where(sr => sr.SeasonDatesId == currentDates.Id);
+                var selectedRecords = _context.ExaminationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
 				if (!string.IsNullOrEmpty(model.ClassroomId))
 				{
@@ -59,9 +59,17 @@ namespace DepartmentService.Services
 						throw new Exception("Нет доступа на чтение данных по расписанию преподавателей");
 					}
 					selectedRecords = selectedRecords.Where(sr => sr.LecturerId == model.LecturerId.Value);
-				}
+                }
+                if (model.DisciplineId.HasValue)
+                {
+                    if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View))
+                    {
+                        throw new Exception("Нет доступа на чтение данных по расписанию дисциплины");
+                    }
+                    selectedRecords = selectedRecords.Where(sr => sr.DisciplineId == model.DisciplineId.Value);
+                }
 
-				selectedRecords = selectedRecords
+                selectedRecords = selectedRecords
 										.Include(sr => sr.Classroom)
 										.Include(sr => sr.Discipline)
 										.Include(sr => sr.Lecturer)

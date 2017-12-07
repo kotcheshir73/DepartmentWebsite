@@ -11,12 +11,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 	{
 		private readonly IDisciplineService _service;
 
-		public DisciplineControl(IDisciplineService service)
+        private readonly IEducationalProcessService _processE;
+
+        public DisciplineControl(IDisciplineService service, IEducationalProcessService processE)
 		{
 			InitializeComponent();
 			_service = service;
+            _processE = processE;
 
-			List<ColumnConfig> columns = new List<ColumnConfig>
+            List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "DisciplineName", Title = "Название", Width = 600, Visible = true },
@@ -77,7 +80,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void AddRecord()
 		{
-			var form = new DisciplineForm(_service);
+			var form = new DisciplineForm(_service, _processE);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
@@ -89,7 +92,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new DisciplineForm(_service, id);
+				var form = new DisciplineForm(_service, _processE, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();

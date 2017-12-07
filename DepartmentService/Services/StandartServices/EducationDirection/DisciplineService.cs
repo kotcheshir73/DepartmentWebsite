@@ -17,19 +17,34 @@ namespace DepartmentService.Services
 
 		private readonly IDisciplineBlockService _serviceDB;
 
-		private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
+        private readonly IAcademicYearService _serviceAY;
 
-		public DisciplineService(DepartmentDbContext context, IDisciplineBlockService serviceDB)
+        private readonly ISeasonDatesService _serviceSD;
+
+        private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
+
+		public DisciplineService(DepartmentDbContext context, IDisciplineBlockService serviceDB, IAcademicYearService serviceAY, ISeasonDatesService serviceSD)
 		{
 			_context = context;
 			_serviceDB = serviceDB;
-		}
-
-
+            _serviceAY = serviceAY;
+            _serviceSD = serviceSD;
+        }
+        
 		public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
 		{
 			return _serviceDB.GetDisciplineBlocks(model);
 		}
+
+        public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
+        {
+            return _serviceAY.GetAcademicYears(model);
+        }
+
+        public ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model)
+        {
+            return _serviceSD.GetSeasonDaties(model);
+        }
 
 
 		public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
@@ -43,16 +58,18 @@ namespace DepartmentService.Services
 
 				int countPages = 0;
 				var query = _context.Disciplines.Where(c => !c.IsDeleted).AsQueryable();
+
+                query = query.OrderBy(c => c.DisciplineBlockId).ThenBy(d => d.DisciplineName);
+
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
 					countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
 					query = query
-								.OrderBy(c => c.DisciplineBlockId).ThenBy(d => d.DisciplineName)
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
-				}
+                }
 
-				query = query.Include(d => d.DisciplineBlock);
+                query = query.Include(d => d.DisciplineBlock);
 
 				var result = new DisciplinePageViewModel
 				{
@@ -188,5 +205,5 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
-	}
+    }
 }

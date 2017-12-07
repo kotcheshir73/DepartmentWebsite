@@ -14,11 +14,15 @@ namespace DepartmentService.BindingModels
 
         public string GroupName { get; set; }
 
+        public long? DisciplineId { get; set; }
+
 		public long? LecturerId { get; set; }
 
-		public DateTime? DateBegin { get; set; }
+        public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
+
+        public long? SeasonDateId { get; set; }
     }
 
     /// <summary>

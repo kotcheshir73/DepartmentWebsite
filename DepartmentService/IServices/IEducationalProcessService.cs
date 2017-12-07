@@ -1,5 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
+using DepartmentService.ViewModels;
 
 namespace DepartmentService.IServices
 {
@@ -18,5 +19,19 @@ namespace DepartmentService.IServices
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model);
-	}
+
+        /// <summary>
+        /// Получение списка учебных планов для дисциплины за конкретный год
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicPlanRecordForDiciplinePageViewModel> GetAcademicPlanRecordsForDiscipline(AcademicPlanRecrodsForDiciplineBindingModel model);
+
+        /// <summary>
+        /// Получение записей расписания семестра, зачетов и экзаменов по дисциплине
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<ScheduleRecordsForDisciplinePageViewModel> GetScheduleRecordsForDiciplinePageViewModel(ScheduleRecordsForDiciplineBindingModel model);
+    }
 }

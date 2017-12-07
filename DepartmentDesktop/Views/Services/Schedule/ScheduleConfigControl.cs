@@ -59,15 +59,12 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			if (!resultCD.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
-			}
+                return;
+            }
 			var _dates = resultCD.Result;
             if (_dates != null)
             {
                 comboBoxSeasonDates.SelectedValue = _dates.Id;
-            }
-            else
-            {
-                comboBoxSeasonDates.SelectedValue = null;
             }
         }
 

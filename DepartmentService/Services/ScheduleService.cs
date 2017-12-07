@@ -1660,6 +1660,18 @@ namespace DepartmentService.Services
                     currentRecord.LessonType = LessonTypes.лаб.ToString();
                     currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
                 }
+
+                // определяем дисциплину
+                if (!string.IsNullOrEmpty(currentRecord.LessonDiscipline))
+                {
+                    var shortName = ScheduleHelpService.CalcShortDisciplineName(currentRecord.LessonDiscipline);
+                    var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
+                    if (discipline != null)
+                    {
+                        currentRecord.DisciplineId = discipline.Id;
+                    }
+                }
+
                 //определяем группу
                 if (!string.IsNullOrEmpty(currentRecord.LessonGroup))
                 {

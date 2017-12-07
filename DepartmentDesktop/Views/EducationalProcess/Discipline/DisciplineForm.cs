@@ -1,11 +1,12 @@
 ﻿using DepartmentDAL;
+using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using DepartmentService.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Discipline
@@ -14,12 +15,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
     {
         private readonly IDisciplineService _service;
 
+        private readonly IEducationalProcessService _processE;
+
         private long? _id;
 
-        public DisciplineForm(IDisciplineService service, long? id = null)
+        public DisciplineForm(IDisciplineService service, IEducationalProcessService processE, long? id = null)
         {
             InitializeComponent();
             _service = service;
+            _processE = processE;
             _id = id;
         }
 
@@ -32,15 +36,44 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                 return;
             }
 
+            var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (!resultAY.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке академических годов возникла ошибка: ", resultAY.Errors);
+                return;
+            }
+
+            var resultSD = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { });
+            if (!resultSD.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке семестров возникла ошибка: ", resultAY.Errors);
+                return;
+            }
+
             comboBoxDisciplineBlock.ValueMember = "Value";
             comboBoxDisciplineBlock.DisplayMember = "Display";
             comboBoxDisciplineBlock.DataSource = resultDB.Result.List
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
             comboBoxDisciplineBlock.SelectedItem = null;
 
+            comboBoxAcademicYear.ValueMember = "Value";
+            comboBoxAcademicYear.DisplayMember = "Display";
+            comboBoxAcademicYear.DataSource = resultAY.Result.List
+                .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
+            comboBoxAcademicYear.SelectedItem = null;
+
+            comboBoxSeasonDate.ValueMember = "Value";
+            comboBoxSeasonDate.DisplayMember = "Display";
+            comboBoxSeasonDate.DataSource = resultSD.Result.List
+                .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
+            comboBoxSeasonDate.SelectedItem = null;
+
             if (_id.HasValue)
             {
                 LoadData();
+
+                LoadSettingsAcademicPlaRecords();
+                LoadSettingsSchedule();
             }
         }
 
@@ -56,7 +89,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
             if (string.IsNullOrEmpty(entity.DisciplineShortName))
             {
-                entity.DisciplineShortName = CalcShortName(entity.DisciplineName);
+                entity.DisciplineShortName = ScheduleHelpService.CalcShortDisciplineName(entity.DisciplineName);
             }
 
             textBoxTitle.Text = entity.DisciplineName;
@@ -125,79 +158,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
             }
         }
 
-        private string CalcShortName(string str)
-        {
-            if (str.Length > 10)
-            {
-                StringBuilder sb = new StringBuilder();
-                if (str.Contains("-"))
-                {
-                    var substrs = str.Split(new char[] { '-', '.', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    var glas = new List<char> { 'а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я' };
-                    for (int j = 0; j < substrs.Length; ++j)
-                    {
-                        for (int t = 0; t < substrs[j].Length; ++t)
-                        {
-                            if (t < 3)
-                            {
-                                sb.Append(substrs[j][t]);
-                            }
-                            else if (!glas.Contains(substrs[j][t]))
-                            {
-                                sb.Append(substrs[j][t]);
-                            }
-                            else
-                            {
-                                sb.Append('.');
-                                break;
-                            }
-                        }
-                        if (j + 1 < substrs.Length)
-                        {
-                            sb.Append('-');
-                        }
-                    }
-                    str = sb.ToString();
-                }
-                else
-                {
-                    var strs = str.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < strs.Length; ++i)
-                    {
-                        if (strs.Length == 1)
-                        {
-                            sb.Append(string.Format("{0}.", strs[0].Substring(0, 8)));
-                        }
-                        else if (strs[i].Length == 1)
-                        {
-                            sb.Append(strs[i]);
-                        }
-                        else if (strs[i].ToUpper() == strs[i])
-                        {
-                            sb.Append(strs[i].ToUpper());
-                        }
-                        else
-                        {
-                            sb.Append(strs[i][0].ToString().ToUpper());
-                            for (int j = 1; j < strs[i].Length; ++j)
-                            {
-                                if (strs[i][j].ToString().ToUpper() == strs[i][j].ToString())
-                                {
-                                    sb.Append(strs[i][j].ToString().ToUpper());
-                                }
-                            }
-                        }
-                    }
-                    str = sb.ToString();
-                }
-            }
-            else
-            {
-                str = str.Replace(" ", "");
-            }
-            return str;
-        }
-
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if (Save())
@@ -220,6 +180,133 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void comboBoxAcademicYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxAcademicYear.SelectedValue != null && _id.HasValue)
+            {
+                standartControlAcademicPlanRecords.LoadPage();
+            }
+        }
+
+        private void comboBoxSeasonDate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxSeasonDate.SelectedValue != null && _id.HasValue)
+            {
+                standartControlSchedule.LoadPage();
+            }
+        }
+
+        /// <summary>
+        /// Настройка контрола для вывода учебного плана по дисциплине
+        /// </summary>
+        private void LoadSettingsAcademicPlaRecords()
+        {
+            List<ColumnConfig> columns = new List<ColumnConfig>
+            {
+                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+                new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Semester", Title = "Семестры", Width = 100, Visible = true },
+                new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+            };
+
+            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd", "toolStripButtonUpd", "toolStripButtonDel", "toolStripDropDownButtonMoves" };
+
+            standartControlAcademicPlanRecords.Configurate(columns, hideToolStripButtons, 20);
+
+            standartControlAcademicPlanRecords.GetPageAddEvent(LoadAcademicPlanRecords);
+        }
+
+        /// <summary>
+        /// Вывод страницы учебного плана по дисциплине
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        private int LoadAcademicPlanRecords(int pageNumber, int pageSize)
+        {
+            var result = _processE.GetAcademicPlanRecordsForDiscipline(new AcademicPlanRecrodsForDiciplineBindingModel
+            {
+                AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
+                DisciplineId = _id.Value,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                return -1;
+            }
+            standartControlAcademicPlanRecords.GetDataGridViewRows.Clear();
+            foreach (var res in result.Result.List)
+            {
+                standartControlAcademicPlanRecords.GetDataGridViewRows.Add(
+                     res.Id,
+                     res.EducationDirectionCipher,
+                     res.Semester,
+                     res.KindOfLoad,
+                     res.Hours
+                );
+            }
+            return result.Result.MaxCount;
+        }
+
+        private void LoadSettingsSchedule()
+        {
+            List<ColumnConfig> columns = new List<ColumnConfig>
+            {
+                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+                new ColumnConfig { Name = "Type", Title = "Type", Width = 100, Visible = false },
+                new ColumnConfig { Name = "Date", Title = "Дата", Width = 200, Visible = true },
+                new ColumnConfig { Name = "LessonType", Title = "Тип занятия", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Classroom", Title = "Аудитория", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Lecturer", Title = "Преподаватель", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Group", Title = "Группа", Width = 100, Visible = true }
+            };
+
+            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd", "toolStripButtonUpd", "toolStripButtonDel", "toolStripDropDownButtonMoves" };
+
+            standartControlSchedule.Configurate(columns, hideToolStripButtons, 20);
+
+            standartControlSchedule.GetPageAddEvent(LoadSchedule);
+        }
+
+        /// <summary>
+        /// Вывод страницы учебного плана по дисциплине
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        private int LoadSchedule(int pageNumber, int pageSize)
+        {
+            var result = _processE.GetScheduleRecordsForDiciplinePageViewModel(new ScheduleRecordsForDiciplineBindingModel
+            {
+                SeasonDateId = Convert.ToInt64(comboBoxSeasonDate.SelectedValue),
+                DisciplineId = _id.Value,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                return -1;
+            }
+            standartControlSchedule.GetDataGridViewRows.Clear();
+            foreach (var res in result.Result.List)
+            {
+                standartControlSchedule.GetDataGridViewRows.Add(
+                     res.Id,
+                     res.Type,
+                     res.Date,
+                     res.LessonType,
+                     res.LessonClassroom,
+                     res.LessonLecturer,
+                     res.LessonGroup
+                );
+            }
+            return result.Result.MaxCount;
         }
     }
 }

@@ -81,6 +81,7 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
+    <Compile Include="Enums\ScheduleRecordTypeForDiscipline.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Services\StandartServices\EducationDirection\StudentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\TimeNormService.cs" />
     <Compile Include="Services\StandartServices\Administration\UserService.cs" />
+    <Compile Include="ViewModels\EducationalProcessViewModels.cs" />
     <Compile Include="ViewModels\ScheduleRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
