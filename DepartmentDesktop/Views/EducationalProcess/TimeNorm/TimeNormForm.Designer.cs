@@ -1,4 +1,4 @@
-﻿namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+﻿namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 {
 	partial class TimeNormForm
 	{

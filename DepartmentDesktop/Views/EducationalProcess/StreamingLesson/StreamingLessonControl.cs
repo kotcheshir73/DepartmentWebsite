@@ -22,126 +22,97 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 				new ColumnConfig { Name = "IncomingGroups", Title = "Список групп", Width = 400, Visible = true },
 				new ColumnConfig { Name = "StreamName", Title = "Описание", Width = 100, Visible = true }
 			};
-			dataGridViewList.Columns.Clear();
-			foreach (var column in columns)
-			{
-				dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
-				{
-					HeaderText = column.Title,
-					Name = string.Format("Column{0}", column.Name),
-					ReadOnly = true,
-					Visible = column.Visible,
-					Width = column.Width.HasValue ? column.Width.Value : 0,
-					AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
-				});
-			}
-		}
+
+            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+
+            standartControl.Configurate(columns, hideToolStripButtons);
+
+            standartControl.GetPageAddEvent(LoadRecords);
+            standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
+            standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
+            standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
+            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
+                switch (e.KeyCode)
+                {
+                    case Keys.Insert:
+                        AddRecord();
+                        break;
+                    case Keys.Enter:
+                        UpdRecord();
+                        break;
+                    case Keys.Delete:
+                        DelRecord();
+                        break;
+                }
+            });
+        }
 
 		public void LoadData()
-		{
-			LoadRecords();
-		}
+        {
+            standartControl.LoadPage();
+        }
 
-		private void LoadRecords()
-		{
-			var result = _service.GetStreamingLessons(new StreamingLessonGetBindingModel { });
+		private int LoadRecords(int pageNumber, int pageSize)
+        {
+			var result = _service.GetStreamingLessons(new StreamingLessonGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				return;
+				return -1;
 			}
-			dataGridViewList.Rows.Clear();
+            standartControl.GetDataGridViewRows.Clear();
 			foreach (var res in result.Result.List)
 			{
-				dataGridViewList.Rows.Add(
+                standartControl.GetDataGridViewRows.Add(
 					res.Id,
 					res.IncomingGroups,
 					res.StreamName
 				);
-			}
-		}
+            }
+            return result.Result.MaxCount;
+        }
 
 		private void AddRecord()
 		{
 			var form = new StreamingLessonForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
-			{
-				LoadRecords();
-			}
+            {
+                standartControl.LoadPage();
+            }
 		}
 
 		private void UpdRecord()
 		{
-			if (dataGridViewList.SelectedRows.Count == 1)
+			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
-				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
+				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
 				var form = new StreamingLessonForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
-				{
-					LoadRecords();
-				}
+                {
+                    standartControl.LoadPage();
+                }
 			}
 		}
 
 		private void DelRecord()
 		{
-			if (dataGridViewList.SelectedRows.Count > 0)
+			if (standartControl.GetDataGridViewSelectedRows.Count > 0)
 			{
 				if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
-					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
+					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
+						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
 						var result = _service.DeleteStreamingLesson(new StreamingLessonGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
-					}
-					LoadRecords();
-				}
+                    }
+                    standartControl.LoadPage();
+                }
 			}
-		}
-
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
-		{
-			AddRecord();
-		}
-
-		private void toolStripButtonUpd_Click(object sender, EventArgs e)
-		{
-			UpdRecord();
-		}
-
-		private void toolStripButtonDel_Click(object sender, EventArgs e)
-		{
-			DelRecord();
-		}
-
-		private void toolStripButtonRef_Click(object sender, EventArgs e)
-		{
-			LoadRecords();
-		}
-
-		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
-		{
-			switch (e.KeyCode)
-			{
-				case Keys.Insert:
-					AddRecord();
-					break;
-				case Keys.Enter:
-					UpdRecord();
-					break;
-				case Keys.Delete:
-					DelRecord();
-					break;
-			}
-		}
-
-		private void dataGridViewList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-		{
-			UpdRecord();
 		}
 	}
 }

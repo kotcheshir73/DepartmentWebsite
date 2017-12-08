@@ -276,21 +276,21 @@ namespace DepartmentDesktop
 
 		private void academicYearsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.AcademicYearControl>();
+			var control = Container.Resolve<Views.EducationalProcess.AcademicYear.AcademicYearControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
 
 		private void contingentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.ContingentControl>();
+			var control = Container.Resolve<Views.EducationalProcess.Contingent.ContingentControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
 
 		private void timeNormsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.TimeNormControl>();
+			var control = Container.Resolve<Views.EducationalProcess.TimeNorm.TimeNormControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}

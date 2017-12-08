@@ -33,9 +33,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				new ColumnConfig { Name = "Curator", Title = "Куратор", Width = 200, Visible = true }
 			};
 
-			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+			List<string> hideToolStripButtons = new List<string> { };
 
-			standartControl.Configurate(columns, hideToolStripButtons, 20);
+			standartControl.Configurate(columns, hideToolStripButtons);
 
 			standartControl.GetPageAddEvent(LoadRecords);
 			standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });

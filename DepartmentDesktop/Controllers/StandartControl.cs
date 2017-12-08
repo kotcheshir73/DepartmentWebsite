@@ -20,7 +20,7 @@ namespace DepartmentDesktop.Controllers
 		/// <summary>
 		/// Максимальное количество элементов, выводимых на странице
 		/// </summary>
-		private int _countElementsOnPage = 10;
+		private int _countElementsOnPage = 20;
 
 		/// <summary>
 		/// Количество страниц

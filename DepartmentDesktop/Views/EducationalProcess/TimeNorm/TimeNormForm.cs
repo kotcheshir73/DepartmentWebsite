@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 {
 	public partial class TimeNormForm : Form
 	{

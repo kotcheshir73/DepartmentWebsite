@@ -1,36 +1,30 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 {
-	public partial class AcademicPlanRecordControl : UserControl
+    public partial class TimeNormControl : UserControl
 	{
-		private readonly IAcademicPlanRecordService _service;
+		private readonly ITimeNormService _service;
 
-		private readonly IEducationalProcessService _serviceEP;
-
-		private long _apId;
-
-		public AcademicPlanRecordControl(IAcademicPlanRecordService service, IEducationalProcessService serviceEP)
+		public TimeNormControl(ITimeNormService service)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceEP = serviceEP;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
-				new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+				new ColumnConfig { Name = "KindOfLoadName", Title = "Вид нагрузки", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Formula", Title = "Формула", Width = 300, Visible = true }
 			};
 
-            List<string> hideToolStripButtons = new List<string> { };
+            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
             standartControl.Configurate(columns, hideToolStripButtons);
 
@@ -55,37 +49,35 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             });
         }
 
-		public void LoadData(long apId)
-		{
-			_apId = apId;
+		public void LoadData()
+        {
             standartControl.LoadPage();
         }
 
-		private int LoadRecords(int pageNumber, int pageSize)
+        private int LoadRecords(int pageNumber, int pageSize)
         {
-			var result = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { PageNumber = pageNumber, PageSize = pageSize, AcademicPlanId = _apId });
-			if (!result.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				return -1;
-			}
+            var result = _service.GetTimeNorms(new TimeNormGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                return -1;
+            }
             standartControl.GetDataGridViewRows.Clear();
-			foreach (var res in result.Result.List)
-			{
+            foreach (var res in result.Result.List)
+            {
                 standartControl.GetDataGridViewRows.Add(
-					res.Id,
-					res.Disciplne,
-					res.KindOfLoad,
-					res.Semester,
-					res.Hours
-				);
+                    res.Id,
+                    res.KindOfLoadName,
+                    res.Title,
+                    res.Formula
+                );
             }
             return result.Result.MaxCount;
         }
 
 		private void AddRecord()
 		{
-			var form = new AcademicPlanRecordForm(_service, _apId);
+			var form = new TimeNormForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -97,7 +89,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new AcademicPlanRecordForm(_service, _apId, id);
+				var form = new TimeNormForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -114,7 +106,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
 						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = id });
+						var result = _service.DeleteTimeNorm(new TimeNormGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -122,28 +114,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                     }
                     standartControl.LoadPage();
                 }
-			}
-		}
-
-		private void loadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			OpenFileDialog dialog = new OpenFileDialog();
-			dialog.Filter = "xml|*.xml";
-			if (dialog.ShowDialog() == DialogResult.OK)
-			{
-				var result = _serviceEP.LoadFromXMLAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
-				{
-					Id = _apId,
-					FileName = dialog.FileName
-				});
-				if (result.Succeeded)
-				{
-					LoadData(_apId);
-				}
-				else
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				}
 			}
 		}
 	}

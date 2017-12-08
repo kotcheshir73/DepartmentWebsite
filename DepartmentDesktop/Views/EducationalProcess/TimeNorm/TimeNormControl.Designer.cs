@@ -1,6 +1,6 @@
-﻿namespace DepartmentDesktop.Views.EducationalProcess.Student
+﻿namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 {
-	partial class StudentControl
+	partial class TimeNormControl
 	{
 		/// <summary> 
 		/// Обязательная переменная конструктора.
@@ -39,12 +39,12 @@
             this.standartControl.Size = new System.Drawing.Size(800, 500);
             this.standartControl.TabIndex = 0;
             // 
-            // StudentControl
+            // TimeNormControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.standartControl);
-            this.Name = "StudentControl";
+            this.Name = "TimeNormControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.ResumeLayout(false);
 

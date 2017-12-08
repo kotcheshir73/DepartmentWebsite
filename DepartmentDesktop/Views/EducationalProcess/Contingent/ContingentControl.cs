@@ -1,36 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using DepartmentService.IServices;
-using DepartmentService.BindingModels;
-using System.Collections.Generic;
 using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 {
-	public partial class AcademicPlanRecordControl : UserControl
+	public partial class ContingentControl : UserControl
 	{
-		private readonly IAcademicPlanRecordService _service;
+		private readonly IContingentService _service;
 
-		private readonly IEducationalProcessService _serviceEP;
-
-		private long _apId;
-
-		public AcademicPlanRecordControl(IAcademicPlanRecordService service, IEducationalProcessService serviceEP)
+		public ContingentControl(IContingentService service)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceEP = serviceEP;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
-				new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+				new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 200, Visible = true },
+				new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
+				new ColumnConfig { Name = "StudentGroupName", Title = "Курс", Width = 100, Visible = true },
+				new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 200, Visible = true },
+				new ColumnConfig { Name = "CountSubgroups", Title = "Количество подгрупп", Width = 200, Visible = true }
 			};
 
-            List<string> hideToolStripButtons = new List<string> { };
+            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
             standartControl.Configurate(columns, hideToolStripButtons);
 
@@ -55,15 +51,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             });
         }
 
-		public void LoadData(long apId)
-		{
-			_apId = apId;
+		public void LoadData()
+        {
             standartControl.LoadPage();
         }
 
 		private int LoadRecords(int pageNumber, int pageSize)
         {
-			var result = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { PageNumber = pageNumber, PageSize = pageSize, AcademicPlanId = _apId });
+			var result = _service.GetContingents(new ContingentGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -74,10 +69,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
                 standartControl.GetDataGridViewRows.Add(
 					res.Id,
-					res.Disciplne,
-					res.KindOfLoad,
-					res.Semester,
-					res.Hours
+					res.AcademicYear,
+					res.EducationDirectionCipher,
+					Math.Log(res.Course, 2.0) + 1,
+					res.CountStudents,
+					res.CountSubgroups
 				);
             }
             return result.Result.MaxCount;
@@ -85,7 +81,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AddRecord()
 		{
-			var form = new AcademicPlanRecordForm(_service, _apId);
+			var form = new ContingentForm(_service);
 			if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -97,7 +93,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
 				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new AcademicPlanRecordForm(_service, _apId, id);
+				var form = new ContingentForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -114,7 +110,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
 						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = id });
+						var result = _service.DeleteContingent(new ContingentGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -122,28 +118,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                     }
                     standartControl.LoadPage();
                 }
-			}
-		}
-
-		private void loadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			OpenFileDialog dialog = new OpenFileDialog();
-			dialog.Filter = "xml|*.xml";
-			if (dialog.ShowDialog() == DialogResult.OK)
-			{
-				var result = _serviceEP.LoadFromXMLAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
-				{
-					Id = _apId,
-					FileName = dialog.FileName
-				});
-				if (result.Succeeded)
-				{
-					LoadData(_apId);
-				}
-				else
-				{
-					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				}
 			}
 		}
 	}

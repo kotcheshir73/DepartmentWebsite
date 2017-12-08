@@ -29,7 +29,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
-			standartControl.Configurate(columns, hideToolStripButtons, 20);
+			standartControl.Configurate(columns, hideToolStripButtons);
 
 			standartControl.GetPageAddEvent(LoadRecords);
 			standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });

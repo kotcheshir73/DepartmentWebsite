@@ -4,7 +4,7 @@ using DepartmentService.IServices;
 using System;
 using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 {
 	public partial class AcademicYearForm : Form
 	{

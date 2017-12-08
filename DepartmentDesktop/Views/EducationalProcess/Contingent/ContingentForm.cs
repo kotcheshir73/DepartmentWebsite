@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
+namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 {
 	public partial class ContingentForm : Form
 	{
