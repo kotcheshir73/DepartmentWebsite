@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using DepartmentService;
+﻿using DepartmentDAL.Enums;
 using Microsoft.Practices.Unity;
-using DepartmentDAL.Enums;
+using System;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop
 {
-	public partial class FormMain : Form
+    public partial class FormMain : Form
 	{
 		[Dependency]
-		public IUnityContainer Container { get; set; }
+		public new IUnityContainer Container { get; set; }
 
 		public FormMain()
 		{
