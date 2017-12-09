@@ -2,7 +2,9 @@
 
 namespace DepartmentService.ViewModels
 {
-	public class ScheduleLessonTimeViewModel
+    public class ScheduleLessonTimePageViewModel : PageViewModel<ScheduleLessonTimeViewModel> { }
+
+    public class ScheduleLessonTimeViewModel
 	{
 		public long Id { get; set; }
 

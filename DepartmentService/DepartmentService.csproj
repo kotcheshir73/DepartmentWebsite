@@ -62,7 +62,7 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
-    <Compile Include="BindingModels\ScheduleBindingModels\ScheduleLessonTimeBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordBindingModels.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILoadDistributionRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILoadDistributionService.cs" />
     <Compile Include="IServices\StandartInterfaces\Administration\IRoleService.cs" />
-    <Compile Include="IServices\IScheduleLessonTimeService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IScheduleLessonTimeService.cs" />
     <Compile Include="IServices\ScheduleInterfaces\IOffsetRecordService.cs" />
     <Compile Include="IServices\IScheduleService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ISeasonDatesService.cs" />
@@ -142,7 +142,7 @@
     <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionService.cs" />
     <Compile Include="Services\StandartServices\Administration\RoleService.cs" />
-    <Compile Include="Services\ScheduleLessonTimeService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\ScheduleLessonTimeService.cs" />
     <Compile Include="Services\ScheduleServices\OffsetRecordService.cs" />
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
@@ -159,7 +159,7 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
-    <Compile Include="ViewModels\ScheduleViewModels\ScheduleLessonTimeViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\SemesterRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanViewModels.cs" />

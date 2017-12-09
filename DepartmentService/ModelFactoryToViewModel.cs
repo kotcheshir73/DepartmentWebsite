@@ -407,6 +407,27 @@ namespace DepartmentService.ViewModels
         {
             return entities.Select(e => CreateAcademicPlanRecordForDiciplineViewModel(e));
         }
+        
+		public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
+		{
+			string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
+				entity.DateEndLesson.ToShortTimeString());
+			return new ScheduleLessonTimeViewModel
+			{
+				Id = entity.Id,
+				Text = text,
+				Title = entity.Title,
+				TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
+				TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
+				DateBeginLesson = entity.DateBeginLesson,
+				DateEndLesson = entity.DateEndLesson
+			};
+		}
+
+		public static IEnumerable<ScheduleLessonTimeViewModel> CreateScheduleLessonTimes(IEnumerable<ScheduleLessonTime> entities)
+		{
+			return entities.Select(e => CreateScheduleLessonTimeViewModel(e));
+		}
 
         #region Schedule
         public static ScheduleRecordViewModels CreateScheduleRecordViewModel(ScheduleRecord entity)
@@ -605,28 +626,6 @@ namespace DepartmentService.ViewModels
         public static IEnumerable<ConsultationRecordViewModel> CreateConsultationRecords(IEnumerable<ConsultationRecord> entities)
 		{
 			return entities.Select(e => CreateConsultationRecordViewModel(e));
-		}
-
-
-		public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
-		{
-			string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
-				entity.DateEndLesson.ToShortTimeString());
-			return new ScheduleLessonTimeViewModel
-			{
-				Id = entity.Id,
-				Text = text,
-				Title = entity.Title,
-				TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
-				TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
-				DateBeginLesson = entity.DateBeginLesson,
-				DateEndLesson = entity.DateEndLesson
-			};
-		}
-
-		public static IEnumerable<ScheduleLessonTimeViewModel> CreateScheduleLessonTimes(IEnumerable<ScheduleLessonTime> entities)
-		{
-			return entities.Select(e => CreateScheduleLessonTimeViewModel(e));
 		}
 		#endregion
 

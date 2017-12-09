@@ -32,12 +32,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
             List<string> hideToolStripButtons = new List<string> { };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "LoadFromXMLToolStripMenuItem", "Загрузить из xml"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("LoadFromXMLToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
                 switch (e.KeyCode)
@@ -125,7 +131,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			}
 		}
 
-		private void loadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
+		private void LoadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
 			dialog.Filter = "xml|*.xml";

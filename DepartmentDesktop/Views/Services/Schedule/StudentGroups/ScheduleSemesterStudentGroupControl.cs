@@ -40,7 +40,7 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			{
 				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
 			}
-			var lessons = result.Result;
+			var lessons = result.Result.List;
 			if (lessons != null)
 			{
 				for (int i = 0; i < lessons.Count; ++i)

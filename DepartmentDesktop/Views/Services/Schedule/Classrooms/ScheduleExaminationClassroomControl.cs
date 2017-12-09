@@ -48,13 +48,13 @@ namespace DepartmentDesktop.Views.Services.Schedule
 			{
 				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
 			}
-			var lessons = result.Result;
+			var lessons = result.Result.List;
 			result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
 			}
-			lessons.AddRange(result.Result);
+			lessons.AddRange(result.Result.List);
             if (lessons != null)
             {
                 for (int i = 0; i < lessons.Count; ++i)

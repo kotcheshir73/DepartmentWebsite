@@ -327,6 +327,35 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
+		public static StreamingLesson CreateStreamingLesson(StreamingLessonRecordBindingModel model, StreamingLesson entity = null)
+		{
+			if (entity == null)
+			{
+				entity = new StreamingLesson
+				{
+					DateCreate = DateTime.Now,
+					IsDeleted = false
+				};
+			}
+			entity.IncomingGroups = model.IncomingGroups;
+			entity.StreamName = model.StreamName;
+
+			return entity;
+		}
+
+		public static ScheduleLessonTime CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model, ScheduleLessonTime entity = null)
+		{
+			if (entity == null)
+			{
+				entity = new ScheduleLessonTime();
+			}
+			entity.Title = model.Title;
+			entity.DateBeginLesson = model.DateBeginLesson;
+			entity.DateEndLesson = model.DateEndLesson;
+
+			return entity;
+		}
+
 		#region Schedule
         private static void CreateScheduleRecord(ScheduleRecordBindingModel model, ScheduleRecord entity = null)
         {
@@ -412,35 +441,6 @@ namespace DepartmentService.BindingModels
             CreateScheduleRecord(model, entity);
 
             return entity;
-		}
-
-		public static StreamingLesson CreateStreamingLesson(StreamingLessonRecordBindingModel model, StreamingLesson entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new StreamingLesson
-				{
-					DateCreate = DateTime.Now,
-					IsDeleted = false
-				};
-			}
-			entity.IncomingGroups = model.IncomingGroups;
-			entity.StreamName = model.StreamName;
-
-			return entity;
-		}
-
-		public static ScheduleLessonTime CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model, ScheduleLessonTime entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new ScheduleLessonTime();
-			}
-			entity.Title = model.Title;
-			entity.DateBeginLesson = model.DateBeginLesson;
-			entity.DateEndLesson = model.DateEndLesson;
-
-			return entity;
 		}
 		#endregion
 

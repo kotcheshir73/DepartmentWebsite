@@ -39,7 +39,7 @@ namespace DepartmentDesktop.Controllers
 		/// <param name="columns">Конфигурация колонок для datagrid</param>
 		/// <param name="showToolStripButton">Список названий кнопок, которые надо скрыть</param>
 		/// <param name="countElementsOnPage">Максимальное количество элементов, выводимых на странице (по умолчанию - 10)</param>
-		public void Configurate(List<ColumnConfig> columns, List<string> showToolStripButton, int? countElementsOnPage = null)
+		public void Configurate(List<ColumnConfig> columns, List<string> showToolStripButton, int? countElementsOnPage = null, Dictionary<string, string> controlOnMoveElem = null)
 		{
 			dataGridViewList.Columns.Clear();
 			foreach (var column in columns)
@@ -83,6 +83,15 @@ namespace DepartmentDesktop.Controllers
 			{
 				_countElementsOnPage = countElementsOnPage.Value;
 			}
+
+            if (controlOnMoveElem != null)
+            {
+                foreach (var elem in controlOnMoveElem)
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem { Text = elem.Value, Name = elem.Key };
+                    toolStripDropDownButtonMoves.DropDownItems.Add(item);
+                }
+            }
 		}
 
 		/// <summary>
@@ -120,6 +129,18 @@ namespace DepartmentDesktop.Controllers
 		{
 			toolStripButtonDel.Click += ev;
 		}
+
+        public void ToolStripButtonMoveEventClickAddEvent(string controlElementName, EventHandler ev)
+        {
+            ToolStripItemCollection controls = toolStripDropDownButtonMoves.DropDownItems;
+            foreach (ToolStripItem control in controls)
+            {
+                if (control.Name == controlElementName)
+                {
+                    control.Click += ev;
+                }
+            }
+        }
 
 		/// <summary>
 		/// Привязка обработчика нажатия клавиш на datagrid

@@ -89,7 +89,7 @@ namespace DepartmentService.Services
             return _serviceSD.GetSeasonDaties(model);
         }
 
-        public ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model)
+        public ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model)
         {
             return _serviceSLT.GetScheduleLessonTimes(model);
         }
@@ -578,7 +578,7 @@ namespace DepartmentService.Services
                         return ResultService.Error("Error:", "LessonTime not found",
                             ResultServiceStatusCode.NotFound);
                     }
-                    var times = result.Result;
+                    var times = result.Result.List;
 
                     Range excelcells = excelworksheet.get_Range("A2", simbols[times.Count] + (2 + days.Length));
                     excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
@@ -709,7 +709,7 @@ namespace DepartmentService.Services
                         return ResultService.Error("Error:", "LessonTime not found",
                             ResultServiceStatusCode.NotFound);
                     }
-                    var times = result.Result;
+                    var times = result.Result.List;
 
                     Range excelcells = excelworksheet.get_Range("A2", simbols[times.Count] + (2 + days.Length));
                     excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
@@ -845,14 +845,14 @@ namespace DepartmentService.Services
                         return ResultService.Error("Error:", "LessonTime not found",
                             ResultServiceStatusCode.NotFound);
                     }
-                    var times = result.Result;
+                    var times = result.Result.List;
                     result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
                     if (!result.Succeeded)
                     {
                         return ResultService.Error("Error:", "LessonTime not found",
                             ResultServiceStatusCode.NotFound);
                     }
-                    times.AddRange(result.Result);
+                    times.AddRange(result.Result.List);
 
                     Range excelcells = excelworksheet.get_Range("A2", simbols[times.Count] + (2 + days));
                     excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
@@ -954,7 +954,7 @@ namespace DepartmentService.Services
                     return ResultService.Error("Error:", "LessonTime not found",
                         ResultServiceStatusCode.NotFound);
                 }
-                var times = result.Result;
+                var times = result.Result.List;
 
                 for (int i = 0; i < model.Classrooms.Count; ++i)
                 {
@@ -1050,7 +1050,7 @@ namespace DepartmentService.Services
                     return ResultService.Error("Error:", "LessonTime not found",
                         ResultServiceStatusCode.NotFound);
                 }
-                var times = result.Result;
+                var times = result.Result.List;
 
                 for (int i = 0; i < model.Classrooms.Count; ++i)
                 {
@@ -1146,14 +1146,14 @@ namespace DepartmentService.Services
                     return ResultService.Error("Error:", "LessonTime not found",
                         ResultServiceStatusCode.NotFound);
                 }
-                var times = result.Result;
+                var times = result.Result.List;
                 result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
                 if (!result.Succeeded)
                 {
                     return ResultService.Error("Error:", "LessonTime not found",
                         ResultServiceStatusCode.NotFound);
                 }
-                times.AddRange(result.Result);
+                times.AddRange(result.Result.List);
 
                 var resultCurrentDates = GetCurrentDates();
                 if (!resultCurrentDates.Succeeded)

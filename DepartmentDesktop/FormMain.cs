@@ -22,10 +22,10 @@ namespace DepartmentDesktop
 			control.Top = 25;
 			control.Height = Height - 60;
 			control.Width = Width - 15;
-			control.Anchor = ((AnchorStyles)((((AnchorStyles.Top
-						| AnchorStyles.Bottom)
-						| AnchorStyles.Left)
-						| AnchorStyles.Right)));
+			control.Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right);
 			while (Controls.Count > 1)
 			{
 				Controls.RemoveAt(Controls.Count - 1);
@@ -107,7 +107,7 @@ namespace DepartmentDesktop
 		/// <param name="e"></param>
 		private void scheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Services.Schedule.ScheduleLessonTimeControl>();
+			var control = Container.Resolve<Views.EducationalProcess.ScheduleLessonTime.ScheduleLessonTimeControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}

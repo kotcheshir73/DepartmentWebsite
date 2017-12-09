@@ -1,7 +1,6 @@
 ﻿using DepartmentDAL;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
-using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -12,7 +11,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<List<ScheduleLessonTimeViewModel>> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+		ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
 
 		/// <summary>
 		/// Получения временного интервала

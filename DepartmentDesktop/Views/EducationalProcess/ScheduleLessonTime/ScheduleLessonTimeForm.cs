@@ -4,7 +4,7 @@ using DepartmentService.IServices;
 using System;
 using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.Services.Schedule
+namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
 {
     public partial class ScheduleLessonTimeForm : Form
     {

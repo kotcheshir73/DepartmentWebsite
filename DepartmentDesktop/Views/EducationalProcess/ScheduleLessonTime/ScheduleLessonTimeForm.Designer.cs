@@ -1,4 +1,4 @@
-﻿namespace DepartmentDesktop.Views.Services.Schedule
+﻿namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
 {
     partial class ScheduleLessonTimeForm
     {
