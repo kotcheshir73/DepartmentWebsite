@@ -88,60 +88,32 @@ namespace DepartmentService.IServices
         ResultService CheckSemesterRecordsIfNotComplite();
 
         /// <summary>
-        /// Отчистка пар семестра по аудиториям
+        /// Отчистка пар семестра
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ClearSemesterRecords(ClassroomGetBindingModel model);
+        ResultService ClearSemesterRecords(ScheduleGetBindingModel model);
 
 		/// <summary>
-		/// Отчистка пар семестра по группам
+		/// Отчистка зачетов
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService ClearSemesterRecords(StudentGroupGetBindingModel model);
+		ResultService ClearOffsetRecords(ScheduleGetBindingModel model);
 
 		/// <summary>
-		/// Отчистка зачетов по аудиториям
+		/// Отчистка экзаменов
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService ClearOffsetRecords(ClassroomGetBindingModel model);
+		ResultService ClearExaminationRecords(ScheduleGetBindingModel model);
 
 		/// <summary>
-		/// Отчистка зачетов по группам
+		/// Отчистка консультаций
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService ClearOffsetRecords(StudentGroupGetBindingModel model);
-
-		/// <summary>
-		/// Отчистка экзаменов по аудиториям
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService ClearExaminationRecords(ClassroomGetBindingModel model);
-
-		/// <summary>
-		/// Отчистка экзаменов по группам
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService ClearExaminationRecords(StudentGroupGetBindingModel model);
-
-		/// <summary>
-		/// Отчистка консультаций по аудиториям
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService ClearConsultationRecords(ClassroomGetBindingModel model);
-
-		/// <summary>
-		/// Отчистка консультаций по группам
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService ClearConsultationRecords(StudentGroupGetBindingModel model);
+		ResultService ClearConsultationRecords(ScheduleGetBindingModel model);
 
 		/// <summary>
 		/// Выгрузка данных в Excel

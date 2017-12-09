@@ -41,5 +41,12 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService DeleteSemesterRecord(ScheduleGetBindingModel model);
+
+        /// <summary>
+        /// Отчистка пар в семестре
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ClearSemesterRecords(ScheduleGetBindingModel model);
     }
 }

@@ -41,5 +41,12 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService DeleteOffsetRecord(ScheduleGetBindingModel model);
+
+        /// <summary>
+        /// Отчистка пар на зачетной неделе
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ClearOffsetRecords(ScheduleGetBindingModel model);
     }
 }

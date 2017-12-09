@@ -145,230 +145,24 @@ namespace DepartmentService.Services
         }
 
         #region ClearRecords
-        public ResultService ClearSemesterRecords(ClassroomGetBindingModel model)
+        public ResultService ClearSemesterRecords(ScheduleGetBindingModel model)
         {
-            try
-            {
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found", ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-                var records = _context.SemesterRecords.Where(sr => sr.ClassroomId == model.Id && sr.SeasonDatesId == currentDates.Id);
-                _context.SemesterRecords.RemoveRange(records);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
+            return _serviceSR.ClearSemesterRecords(model);
         }
 
-        public ResultService ClearSemesterRecords(StudentGroupGetBindingModel model)
+        public ResultService ClearOffsetRecords(ScheduleGetBindingModel model)
         {
-            try
-            {
-                if (!string.IsNullOrEmpty(model.GroupName))
-                {
-                    var resultCurrentDates = GetCurrentDates();
-                    if (!resultCurrentDates.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "CurrentSetting not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var currentDates = resultCurrentDates.Result;
-                    var records = _context.SemesterRecords.Include(sr => sr.StudentGroup).Where(sr => sr.StudentGroup != null && sr.StudentGroup.GroupName == model.GroupName
-                                                                                                    && sr.SeasonDatesId == currentDates.Id);
-                    _context.SemesterRecords.RemoveRange(records);
-                    _context.SaveChanges();
-                }
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
+            return _serviceOR.ClearOffsetRecords(model);
         }
 
-        public ResultService ClearOffsetRecords(ClassroomGetBindingModel model)
+        public ResultService ClearExaminationRecords(ScheduleGetBindingModel model)
         {
-            try
-            {
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-                var records = _context.OffsetRecords.Where(sr => sr.ClassroomId == model.Id && sr.SeasonDatesId == currentDates.Id);
-                _context.OffsetRecords.RemoveRange(records);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
+            return _serviceER.ClearExaminationRecords(model);
         }
 
-        public ResultService ClearOffsetRecords(StudentGroupGetBindingModel model)
-
+        public ResultService ClearConsultationRecords(ScheduleGetBindingModel model)
         {
-            try
-            {
-                if (!string.IsNullOrEmpty(model.GroupName))
-                {
-                    var resultCurrentDates = GetCurrentDates();
-                    if (!resultCurrentDates.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "CurrentSetting not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var currentDates = resultCurrentDates.Result;
-                    var records = _context.OffsetRecords.Include(sr => sr.StudentGroup).Where(sr => sr.StudentGroup != null && sr.StudentGroup.GroupName == model.GroupName
-                                                                                                    && sr.SeasonDatesId == currentDates.Id);
-                    _context.OffsetRecords.RemoveRange(records);
-                    _context.SaveChanges();
-                }
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-
-        public ResultService ClearExaminationRecords(ClassroomGetBindingModel model)
-        {
-            try
-            {
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-                var records = _context.ExaminationRecords.Where(sr => sr.ClassroomId == model.Id && sr.SeasonDatesId == currentDates.Id);
-                _context.ExaminationRecords.RemoveRange(records);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-
-        public ResultService ClearExaminationRecords(StudentGroupGetBindingModel model)
-
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(model.GroupName))
-                {
-                    var resultCurrentDates = GetCurrentDates();
-                    if (!resultCurrentDates.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "CurrentSetting not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var currentDates = resultCurrentDates.Result;
-                    var records = _context.ExaminationRecords.Include(sr => sr.StudentGroup).Where(sr => sr.StudentGroup != null && sr.StudentGroup.GroupName == model.GroupName
-                                                                                                    && sr.SeasonDatesId == currentDates.Id);
-                    _context.ExaminationRecords.RemoveRange(records);
-                    _context.SaveChanges();
-                }
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-
-        public ResultService ClearConsultationRecords(ClassroomGetBindingModel model)
-        {
-            try
-            {
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-                var records = _context.ConsultationRecords.Where(sr => sr.ClassroomId == model.Id && sr.SeasonDatesId == currentDates.Id);
-                _context.ConsultationRecords.RemoveRange(records);
-                _context.SaveChanges();
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-
-        public ResultService ClearConsultationRecords(StudentGroupGetBindingModel model)
-
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(model.GroupName))
-                {
-                    var resultCurrentDates = GetCurrentDates();
-                    if (!resultCurrentDates.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "CurrentSetting not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var currentDates = resultCurrentDates.Result;
-                    var records = _context.ConsultationRecords.Include(sr => sr.StudentGroup).Where(sr => sr.StudentGroup != null && sr.StudentGroup.GroupName == model.GroupName
-                                                                                                    && sr.SeasonDatesId == currentDates.Id);
-                    _context.ConsultationRecords.RemoveRange(records);
-                    _context.SaveChanges();
-                }
-                return ResultService.Success();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
+            return _serviceCR.ClearConsultationRecords(model);
         }
         #endregion
 

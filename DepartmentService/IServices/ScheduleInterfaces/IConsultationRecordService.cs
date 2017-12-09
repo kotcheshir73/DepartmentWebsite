@@ -41,5 +41,12 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService DeleteConsultationRecord(ScheduleGetBindingModel model);
+
+        /// <summary>
+        /// Отчистка записей о консультациях
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ClearConsultationRecords(ScheduleGetBindingModel model);
     }
 }

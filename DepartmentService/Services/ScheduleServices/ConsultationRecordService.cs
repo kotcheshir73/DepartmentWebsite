@@ -278,5 +278,116 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
-	}
+
+        public ResultService ClearConsultationRecords(ScheduleGetBindingModel model)
+        {
+            try
+            {
+                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
+                {
+                    throw new Exception("Нет доступа на удаление данных по расписанию");
+                }
+
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+
+                var selectedRecords = _context.ConsultationRecords.Where(sr => sr.SeasonDatesId == currentDates);
+
+                if (model.DateBegin.HasValue)
+                {
+                    if (!string.IsNullOrEmpty(model.ClassroomId))
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
+                        }
+                        selectedRecords = selectedRecords
+                            .Where(sr => sr.ClassroomId == model.ClassroomId &&
+                                        sr.DateConsultation >= model.DateBegin.Value &&
+                                        sr.DateConsultation <= model.DateEnd.Value);
+                    }
+                    if (!string.IsNullOrEmpty(model.GroupName))
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_группы, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию групп");
+                        }
+                        selectedRecords = selectedRecords
+                            .Where(sr => sr.LessonGroup == model.GroupName &&
+                                        sr.DateConsultation >= model.DateBegin.Value &&
+                                        sr.DateConsultation <= model.DateEnd.Value);
+                    }
+                    if (model.LecturerId.HasValue)
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию преподавателей");
+                        }
+                        selectedRecords = selectedRecords
+                            .Where(sr => sr.LecturerId == model.LecturerId.Value &&
+                                        sr.DateConsultation >= model.DateBegin.Value &&
+                                        sr.DateConsultation <= model.DateEnd.Value);
+                    }
+                    if (model.DisciplineId.HasValue)
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию дисциплины");
+                        }
+                        selectedRecords = selectedRecords
+                            .Where(sr => sr.DisciplineId == model.DisciplineId.Value &&
+                                        sr.DateConsultation >= model.DateBegin.Value &&
+                                        sr.DateConsultation <= model.DateEnd.Value);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(model.ClassroomId))
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
+                        }
+                        selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId);
+                    }
+                    if (!string.IsNullOrEmpty(model.GroupName))
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_группы, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию групп");
+                        }
+                        selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName);
+                    }
+                    if (model.LecturerId.HasValue)
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию преподавателей");
+                        }
+                        selectedRecords = selectedRecords.Where(sr => sr.LecturerId == model.LecturerId.Value);
+                    }
+                    if (model.DisciplineId.HasValue)
+                    {
+                        if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View))
+                        {
+                            throw new Exception("Нет доступа на чтение данных по расписанию дисциплины");
+                        }
+                        selectedRecords = selectedRecords.Where(sr => sr.DisciplineId == model.DisciplineId.Value);
+                    }
+                }
+
+                _context.ConsultationRecords.RemoveRange(selectedRecords);
+                _context.SaveChanges();
+
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+    }
 }
