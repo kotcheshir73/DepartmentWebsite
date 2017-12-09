@@ -1,8 +1,8 @@
 ﻿using DepartmentDAL;
 using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Helpers;
 using DepartmentService.IServices;
-using DepartmentService.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -89,7 +89,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
             if (string.IsNullOrEmpty(entity.DisciplineShortName))
             {
-                entity.DisciplineShortName = ScheduleHelpService.CalcShortDisciplineName(entity.DisciplineName);
+                entity.DisciplineShortName = ScheduleHelper.CalcShortDisciplineName(entity.DisciplineName);
             }
 
             textBoxTitle.Text = entity.DisciplineName;

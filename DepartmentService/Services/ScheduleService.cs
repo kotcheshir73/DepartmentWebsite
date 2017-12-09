@@ -2,12 +2,12 @@
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using HtmlAgilityPack;
 using Microsoft.Office.Interop.Excel;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.IO;
@@ -1664,7 +1664,7 @@ namespace DepartmentService.Services
                 // определяем дисциплину
                 if (!string.IsNullOrEmpty(currentRecord.LessonDiscipline))
                 {
-                    var shortName = ScheduleHelpService.CalcShortDisciplineName(currentRecord.LessonDiscipline);
+                    var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
                     var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
                     if (discipline != null)
                     {

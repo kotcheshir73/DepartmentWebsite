@@ -2,6 +2,7 @@
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -32,7 +33,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelpService.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
 
                 var selectedRecords = _context.ConsultationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
@@ -140,8 +141,8 @@ namespace DepartmentService.Services
 					};
                     var seasonDate = model.SeasonDateId.HasValue ? 
                                             _context.SeasonDates.FirstOrDefault(sd => sd.Id == model.SeasonDateId.Value) :
-                                            ScheduleHelpService.GetCurrentDates(_context);
-                    ScheduleHelpService.CheckCreateConsultation(_context, record, seasonDate);
+                                            ScheduleHelper.GetCurrentDates(_context);
+                    ScheduleHelper.CheckCreateConsultation(_context, record, seasonDate);
 
                     result.Add(ModelFactoryToViewModel.CreateConsultationRecordShortViewModel(records[i], record));
                 }
@@ -196,9 +197,9 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по расписанию");
                 }
 
-                var seasonDate = ScheduleHelpService.GetCurrentDates(_context);
+                var seasonDate = ScheduleHelper.GetCurrentDates(_context);
 
-                ScheduleHelpService.CheckCreateConsultation(_context, model, seasonDate);
+                ScheduleHelper.CheckCreateConsultation(_context, model, seasonDate);
 
                 var entity = ModelFacotryFromBindingModel.CreateConsultationRecord(model);
 

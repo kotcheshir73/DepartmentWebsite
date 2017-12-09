@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DepartmentService.Services
+namespace DepartmentService.Helpers
 {
-    public class ScheduleHelpService
+    public class ScheduleHelper
     {
         public static SeasonDates GetCurrentDates(DepartmentDbContext context)
         {

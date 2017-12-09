@@ -2,6 +2,7 @@
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -12,7 +13,7 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-	public class ExaminationRecordService : IExaminationRecordService
+    public class ExaminationRecordService : IExaminationRecordService
 	{
 		private readonly DepartmentDbContext _context;
 
@@ -32,7 +33,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelpService.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
 
                 var selectedRecords = _context.ExaminationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
@@ -132,7 +133,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по расписанию");
 				}
 
-				var seasonDate = ScheduleHelpService.GetCurrentDates(_context);
+				var seasonDate = ScheduleHelper.GetCurrentDates(_context);
 
 				var entry = _context.ExaminationRecords.FirstOrDefault(sr => sr.DateConsultation == model.DateConsultation && sr.DateExamination == model.DateExamination &&
 																				sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id);

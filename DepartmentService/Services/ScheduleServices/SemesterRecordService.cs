@@ -2,6 +2,7 @@
 using DepartmentDAL.Context;
 using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -13,7 +14,7 @@ using System.Text;
 
 namespace DepartmentService.Services
 {
-	public class SemesterRecordService : ISemesterRecordService
+    public class SemesterRecordService : ISemesterRecordService
 	{
 		private readonly DepartmentDbContext _context;
 
@@ -34,7 +35,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расписанию");
 				}
 				
-				var currentDates = model.SeasonDateId ?? ScheduleHelpService.GetCurrentDates(_context).Id;
+				var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
 
 				var selectedRecords = _context.SemesterRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
@@ -82,7 +83,7 @@ namespace DepartmentService.Services
 				List<SemesterRecordShortViewModel> result = new List<SemesterRecordShortViewModel>();
 				for (int i = 0; i < records.Count; ++i)
 				{
-					string groups = ScheduleHelpService.GetLessonGroup(records[i]);
+					string groups = ScheduleHelper.GetLessonGroup(records[i]);
 					if (records[i].IsStreaming && (!string.IsNullOrEmpty(model.ClassroomId) || model.LecturerId.HasValue))
 					{//если потоковая пара
 						var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
@@ -181,7 +182,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по расписанию");
 				}
 
-				var seasonDate = ScheduleHelpService.GetCurrentDates(_context);
+				var seasonDate = ScheduleHelper.GetCurrentDates(_context);
 
 				var entry = _context.SemesterRecords.FirstOrDefault(sr => sr.Week == model.Week && sr.Day == model.Day && sr.Lesson == model.Lesson &&
 																				(sr.ClassroomId == model.ClassroomId && model.ClassroomId != null) &&

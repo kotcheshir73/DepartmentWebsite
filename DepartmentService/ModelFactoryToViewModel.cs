@@ -1,6 +1,7 @@
 ﻿using DepartmentDAL.Enums;
 using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Helpers;
 using DepartmentService.Services;
 using System;
 using System.Collections.Generic;
@@ -492,10 +493,10 @@ namespace DepartmentService.ViewModels
 				Lesson = entity.Lesson,
 				LessonType = entity.LessonType.ToString(),
 				IsStreaming = entity.IsStreaming,
-				LessonLecturer = ScheduleHelpService.GetLessonLecturer(entity),
-				LessonDiscipline = ScheduleHelpService.GetLessonDiscipline(entity),
+				LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
+				LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
 				LessonGroup = groups,
-				LessonClassroom = ScheduleHelpService.GetLessonClassroom(entity)
+				LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
 			};
 		}
 
@@ -531,10 +532,10 @@ namespace DepartmentService.ViewModels
 				Week = entity.Week,
 				Day = entity.Day,
 				Lesson = entity.Lesson,
-				LessonLecturer = ScheduleHelpService.GetLessonLecturer(entity),
-				LessonDiscipline = ScheduleHelpService.GetLessonDiscipline(entity),
-				LessonGroup = ScheduleHelpService.GetLessonGroup(entity),
-				LessonClassroom = ScheduleHelpService.GetLessonClassroom(entity)
+				LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
+				LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
+				LessonGroup = ScheduleHelper.GetLessonGroup(entity),
+				LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
 			};
 		}
 
@@ -573,10 +574,10 @@ namespace DepartmentService.ViewModels
 				Id = entity.Id,
 				DateConsultation = entity.DateConsultation,
 				DateExamination = entity.DateExamination,
-				LessonLecturer = ScheduleHelpService.GetLessonLecturer(entity),
-				LessonDiscipline = ScheduleHelpService.GetLessonDiscipline(entity),
-				LessonGroup = ScheduleHelpService.GetLessonGroup(entity),
-				LessonClassroom = ScheduleHelpService.GetLessonClassroom(entity)
+				LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
+				LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
+				LessonGroup = ScheduleHelper.GetLessonGroup(entity),
+				LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
 			};
 		}
 
@@ -616,10 +617,10 @@ namespace DepartmentService.ViewModels
                 Day = model.Day.Value,
                 Lesson = model.Lesson.Value,
                 DateConsultation = entity.DateConsultation,
-                LessonLecturer = ScheduleHelpService.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelpService.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelpService.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelpService.GetLessonClassroom(entity)
+                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
+                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
+                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
+                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
             };
         }
 
