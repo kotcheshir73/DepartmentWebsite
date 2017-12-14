@@ -9,17 +9,20 @@ using System.Text;
 
 namespace DepartmentService.Helpers
 {
+    // TODO разбить на несколько классов по логике
     public class ScheduleHelper
     {
-        public static SeasonDates GetCurrentDates(DepartmentDbContext context)
+        private static DepartmentDbContext _context = new DepartmentDbContext();
+
+        public static SeasonDates GetCurrentDates()
         {
-            var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
+            var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
             if (currentSetting == null)
             {
                 throw new Exception("CurrentSetting not found");
             }
 
-            var currentDates = context.SeasonDates.Where(sd => sd.Title == currentSetting.Value).FirstOrDefault();
+            var currentDates = _context.SeasonDates.Where(sd => sd.Title == currentSetting.Value).FirstOrDefault();
             if (currentDates == null)
             {
                 throw new Exception("CurrentDates not found");

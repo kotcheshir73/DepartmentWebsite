@@ -5,17 +5,10 @@ using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
-using HtmlAgilityPack;
-using Microsoft.Office.Interop.Excel;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace DepartmentService.Services
 {
@@ -166,60 +159,6 @@ namespace DepartmentService.Services
         }
         #endregion
 
-        public ResultService LoadScheduleHTMLForClassrooms(ImportToSemesterFromHTMLBindingModel model)
-        {
-            var resultCurrentDates = GetCurrentDates();
-            if (!resultCurrentDates.Succeeded)
-            {
-                return ResultService.Error("Error:", "CurrentSetting not found",
-                    ResultServiceStatusCode.NotFound);
-            }
-            var currentDates = resultCurrentDates.Result;
-            WebClient web = new WebClient
-            {
-                Encoding = Encoding.Default
-            };
-
-            string strHTML = web.DownloadString(model.ScheduleUrl + "raspisan.htm");
-
-            HtmlDocument document = new HtmlDocument();
-
-            document.LoadHtml(strHTML);
-
-            var nodes = document.DocumentNode.SelectNodes("//table/tr/td");
-            var resError = new ResultService();
-
-            foreach (var node in nodes)
-            {
-                if (node.InnerText != "\r\n")
-                {
-                    var elem = node.ChildNodes.FirstOrDefault(e => e.Name.ToLower() == "a");
-                    if (elem != null)
-                    {
-                        try
-                        {
-                            var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value,
-                                                        (node.InnerText.Replace("\r\n", "").Replace(" ", "")), currentDates);
-                            if (!res.Succeeded)
-                            {
-                                foreach (var err in res.Errors)
-                                {
-                                    resError.AddError(err.Key, err.Value);
-                                }
-                            }
-                            Thread.Sleep(100);
-                        }
-                        catch (Exception ex)
-                        {
-                            resError.AddError(ex);
-                        }
-                    }
-                }
-            }
-
-            return resError;
-        }
-
         public ResultService CheckSemesterRecordsIfNotComplite()
         {
             var records = _context.SemesterRecords.Include(sr => sr.Classroom).Where(sr =>
@@ -334,1239 +273,144 @@ namespace DepartmentService.Services
         #region Export
         public ResultService ExportSemesterRecordExcel(ExportToExcelClassroomsBindingModel model)
         {
-            var excel = new Application();
-            try
+            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            if (!result.Succeeded)
             {
-                if (File.Exists(model.FileName))
-                {
-                    excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing);
-                }
-                else
-                {
-                    excel.SheetsInNewWorkbook = model.Classrooms.Count;
-                    excel.Workbooks.Add(Type.Missing);
-                    excel.Workbooks[1].SaveAs(model.FileName, XlFileFormat.xlExcel8, Type.Missing, Type.Missing, false, false,
-                        XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                }
-                Sheets excelsheets = excel.Workbooks[1].Worksheets;
-                for (int r = 1; r <= model.Classrooms.Count; r++)
-                {
-                    var excelworksheet = (Worksheet)excelsheets.get_Item(r);//Получаем ссылку на лист
-                    excelworksheet.Cells.Clear();
-                    excelworksheet.Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0];
-                    excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
-                    excelworksheet.PageSetup.RightMargin = 0;
-                    excelworksheet.PageSetup.LeftMargin = 0;
-                    excelworksheet.PageSetup.TopMargin = 0;
-                    excelworksheet.PageSetup.BottomMargin = 0;
-                    excelworksheet.PageSetup.CenterHorizontally = true;
-                    excelworksheet.PageSetup.CenterVertically = true;
-                    #region шапка
-                    var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
-                    var simbols = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
-                    var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-                    if (!result.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "LessonTime not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var times = result.Result.List;
-
-                    Range excelcells = excelworksheet.get_Range("A2", simbols[times.Count] + (2 + days.Length));
-                    excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
-                    excelcells.Borders.Weight = XlBorderWeight.xlThin;
-                    excelcells.HorizontalAlignment = Constants.xlCenter;
-                    excelcells.VerticalAlignment = Constants.xlCenter;
-                    excelcells.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlMedium,
-                                            XlColorIndex.xlColorIndexAutomatic, 1);//обводим границы дня
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 8;
-
-                    excelcells = excelworksheet.get_Range("A" + (4 + days.Length), simbols[times.Count] + (4 + days.Length * 2));
-                    excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
-                    excelcells.Borders.Weight = XlBorderWeight.xlThin;
-                    excelcells.HorizontalAlignment = Constants.xlCenter;
-                    excelcells.VerticalAlignment = Constants.xlCenter;
-                    excelcells.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlMedium,
-                                            XlColorIndex.xlColorIndexAutomatic, 1);//обводим границы дня
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 8;
-
-                    excelcells = excelworksheet.get_Range("A2", "A2");
-                    excelcells.Value2 = "I неделя";
-                    excelcells.ColumnWidth = 9;
-                    excelcells.RowHeight = 30;
-                    excelcells = excelworksheet.get_Range("A" + (4 + days.Length), "A" + (4 + days.Length));
-                    excelcells.Value2 = "II неделя";
-                    excelcells.RowHeight = 30;
-                    for (int i = 0; i < days.Length; i++)
-                    {
-                        excelcells = excelworksheet.get_Range("A" + (3 + i), "A" + (3 + i));
-                        excelcells.RowHeight = 40;
-                        excelcells.Value2 = days[i];
-                        excelcells = excelworksheet.get_Range("A" + (5 + days.Length + i), "A" + (5 + days.Length + i));
-                        excelcells.RowHeight = 40;
-                        excelcells.Value2 = days[i];
-                    }
-                    for (int j = 0; j < times.Count; j++)
-                    {
-                        excelcells = excelworksheet.get_Range(simbols[j + 1] + 2, simbols[j + 1] + 2);
-                        excelcells.ColumnWidth = 15;
-                        excelcells.Value2 = times[j].Text;
-                        excelcells = excelworksheet.get_Range(simbols[j + 1] + (4 + days.Length), simbols[j + 1] + (4 + days.Length));
-                        excelcells.Value2 = times[j].Text;
-                    }
-                    #endregion
-                    #region тело
-
-                    var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel
-                    {
-                        ClassroomId = model.Classrooms[r - 1]
-                    });
-                    if (!resultSemester.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "ScheduleSemester not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var list = resultSemester.Result;
-
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        excelcells = excelworksheet.get_Range(simbols[list[i].Lesson + 1] + (list[i].Day + 3 + list[i].Week * 8),
-                            simbols[list[i].Lesson + 1] + (list[i].Day + 3 + list[i].Week * 8));
-                        excelcells.Value2 = list[i].Text;
-                    }
-                    #endregion
-                    #region аудитория
-                    excelcells = excelworksheet.get_Range("A1", simbols[times.Count] + "1");
-                    excelcells.Merge(Type.Missing);
-                    excelcells.Font.Bold = true;
-                    excelcells.Value2 = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0];
-                    excelcells.RowHeight = 25;
-                    excelcells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-                    excelcells.VerticalAlignment = XlVAlign.xlVAlignCenter;
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 14;
-                    #endregion
-                }
-
-                excel.Workbooks[1].Save();
-                excel.Quit();
-                return ResultService.Success();
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            catch (Exception ex)
+            var times = result.Result.List;
+
+            var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel());
+            if (!resultSemester.Succeeded)
             {
-                excel.Quit();
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService.Error("Error:", "ScheduleSemester not found", ResultServiceStatusCode.NotFound);
             }
+            var list = resultSemester.Result;
+
+            return ExportScheduleToExcel.ExportSemesterRecordExcel(times, list, model);
         }
 
         public ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model)
         {
-            try
+            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            if (!result.Succeeded)
             {
-                var excel = new Application();
-                if (File.Exists(model.FileName))
-                {
-                    excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing, Type.Missing);
-                }
-                else
-                {
-                    excel.SheetsInNewWorkbook = model.Classrooms.Count;
-                    excel.Workbooks.Add(Type.Missing);
-                    excel.Workbooks[1].SaveAs(model.FileName, XlFileFormat.xlExcel8, Type.Missing, Type.Missing, false, false,
-                        XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                }
-                Sheets excelsheets = excel.Workbooks[1].Worksheets;
-                for (int r = 1; r <= model.Classrooms.Count; r++)
-                {
-                    var excelworksheet = (Worksheet)excelsheets.get_Item(r);//Получаем ссылку на лист
-                    excelworksheet.Cells.Clear();
-                    excelworksheet.Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0];
-                    excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
-                    excelworksheet.PageSetup.RightMargin = 0;
-                    excelworksheet.PageSetup.LeftMargin = 0;
-                    excelworksheet.PageSetup.TopMargin = 0;
-                    excelworksheet.PageSetup.BottomMargin = 0;
-                    excelworksheet.PageSetup.CenterHorizontally = true;
-                    excelworksheet.PageSetup.CenterVertically = true;
-                    #region шапка
-                    var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
-                    var simbols = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
-                    var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-                    if (!result.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "LessonTime not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var times = result.Result.List;
-
-                    Range excelcells = excelworksheet.get_Range("A2", simbols[times.Count] + (2 + days.Length));
-                    excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
-                    excelcells.Borders.Weight = XlBorderWeight.xlThin;
-                    excelcells.HorizontalAlignment = Constants.xlCenter;
-                    excelcells.VerticalAlignment = Constants.xlCenter;
-                    excelcells.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlMedium,
-                                            XlColorIndex.xlColorIndexAutomatic, 1);//обводим границы дня
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 8;
-
-                    excelcells = excelworksheet.get_Range("A" + (4 + days.Length), simbols[times.Count] + (4 + days.Length * 2));
-                    excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
-                    excelcells.Borders.Weight = XlBorderWeight.xlThin;
-                    excelcells.HorizontalAlignment = Constants.xlCenter;
-                    excelcells.VerticalAlignment = Constants.xlCenter;
-                    excelcells.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlMedium,
-                                            XlColorIndex.xlColorIndexAutomatic, 1);//обводим границы дня
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 8;
-
-                    excelcells = excelworksheet.get_Range("A2", "A2");
-                    excelcells.Value2 = "I неделя";
-                    excelcells.ColumnWidth = 9;
-                    excelcells.RowHeight = 30;
-                    excelcells = excelworksheet.get_Range("A" + (4 + days.Length), "A" + (4 + days.Length));
-                    excelcells.Value2 = "II неделя";
-                    excelcells.RowHeight = 30;
-                    for (int i = 0; i < days.Length; i++)
-                    {
-                        excelcells = excelworksheet.get_Range("A" + (3 + i), "A" + (3 + i));
-                        excelcells.RowHeight = 40;
-                        excelcells.Value2 = days[i];
-                        excelcells = excelworksheet.get_Range("A" + (5 + days.Length + i), "A" + (5 + days.Length + i));
-                        excelcells.RowHeight = 40;
-                        excelcells.Value2 = days[i];
-                    }
-                    for (int j = 0; j < times.Count; j++)
-                    {
-                        excelcells = excelworksheet.get_Range(simbols[j + 1] + 2, simbols[j + 1] + 2);
-                        excelcells.ColumnWidth = 15;
-                        excelcells.Value2 = times[j].Text;
-                        excelcells = excelworksheet.get_Range(simbols[j + 1] + (4 + days.Length), simbols[j + 1] + (4 + days.Length));
-                        excelcells.Value2 = times[j].Text;
-                    }
-                    #endregion
-                    #region тело
-                    var resultOffset = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel { ClassroomId = model.Classrooms[r - 1] });
-                    if (!resultOffset.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "ScheduleOffset not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var list = resultOffset.Result;
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        excelcells = excelworksheet.get_Range(simbols[list[i].Lesson + 1] + (list[i].Day + 3 + list[i].Week * 8),
-                            simbols[list[i].Lesson + 1] + (list[i].Day + 3 + list[i].Week * 8));
-                        excelcells.Value2 = list[i].Text;
-                    }
-                    #endregion
-                    #region аудитория
-                    excelcells = excelworksheet.get_Range("A1", simbols[times.Count] + "1");
-                    excelcells.Merge(Type.Missing);
-                    excelcells.Font.Bold = true;
-                    excelcells.Value2 = model.Classrooms[r - 1];
-                    excelcells.RowHeight = 25;
-                    excelcells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-                    excelcells.VerticalAlignment = XlVAlign.xlVAlignCenter;
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 14;
-                    #endregion
-                }
-
-                excel.Workbooks[1].Save();
-                excel.Quit();
-                return ResultService.Success();
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            catch (Exception ex)
+            var times = result.Result.List;
+
+            var resultOffset = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel());
+            if (!resultOffset.Succeeded)
             {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService.Error("Error:", "ScheduleOffset not found", ResultServiceStatusCode.NotFound);
             }
+            var list = resultOffset.Result;
+
+            return ExportScheduleToExcel.ExportOffsetRecordExcel(times, list, model);
         }
 
         public ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model)
         {
-            try
+            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+            if (!result.Succeeded)
             {
-                var excel = new Application();
-
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-
-                var currentdate = Convert.ToDateTime(currentDates.DateBeginExamination);
-                var days = (Convert.ToDateTime(currentDates.DateEndExamination) - currentdate).Days;
-
-                if (File.Exists(model.FileName))
-                {
-                    excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing);
-                }
-                else
-                {
-                    excel.SheetsInNewWorkbook = model.Classrooms.Count;
-                    excel.Workbooks.Add(Type.Missing);
-                    excel.Workbooks[1].SaveAs(model.FileName, XlFileFormat.xlExcel8, Type.Missing, Type.Missing, false, false,
-                        XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                }
-                Sheets excelsheets = excel.Workbooks[1].Worksheets;
-                for (int r = 1; r <= model.Classrooms.Count; ++r)
-                {
-                    var excelworksheet = (Worksheet)excelsheets.get_Item(r);//Получаем ссылку на лист
-                    excelworksheet.Cells.Clear();
-                    excelworksheet.Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0];
-                    excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
-                    excelworksheet.PageSetup.RightMargin = 0;
-                    excelworksheet.PageSetup.LeftMargin = 0;
-                    excelworksheet.PageSetup.TopMargin = 0;
-                    excelworksheet.PageSetup.BottomMargin = 0;
-                    excelworksheet.PageSetup.CenterHorizontally = true;
-                    excelworksheet.PageSetup.CenterVertically = true;
-                    #region шапка
-                    var simbols = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
-                    var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-                    if (!result.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "LessonTime not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var times = result.Result.List;
-                    result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
-                    if (!result.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "LessonTime not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    times.AddRange(result.Result.List);
-
-                    Range excelcells = excelworksheet.get_Range("A2", simbols[times.Count] + (2 + days));
-                    excelcells.Borders.LineStyle = XlLineStyle.xlContinuous;
-                    excelcells.Borders.Weight = XlBorderWeight.xlThin;
-                    excelcells.HorizontalAlignment = Constants.xlCenter;
-                    excelcells.VerticalAlignment = Constants.xlCenter;
-                    excelcells.BorderAround(XlLineStyle.xlContinuous, XlBorderWeight.xlMedium,
-                                            XlColorIndex.xlColorIndexAutomatic, 1);//обводим границы дня
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 8;
-
-                    for (int i = 0; i < days; i++)
-                    {
-                        excelcells = excelworksheet.get_Range("A" + (3 + i), "A" + (3 + i));
-                        excelcells.ColumnWidth = 8;
-                        excelcells.RowHeight = 40;
-                        excelcells.Formula = "DD.MM.YYYY";
-                        excelcells.Value2 = currentdate.ToShortDateString();
-                        currentdate = currentdate.AddDays(1);
-                    }
-                    for (int i = 0; i < times.Count; i++)
-                    {
-                        excelcells = excelworksheet.get_Range(simbols[i + 1] + (2), simbols[i + 1] + (2));
-                        excelcells.ColumnWidth = 20;
-                        excelcells.RowHeight = 30;
-                        excelcells.Value2 = times[i].Text;
-                    }
-                    #endregion
-                    #region тело
-                    currentdate = Convert.ToDateTime(currentDates.DateBeginExamination);
-                    var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel { ClassroomId = model.Classrooms[r - 1] });
-                    if (!resultExamination.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "ScheduleExamination not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var list = resultExamination.Result;
-
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        if ((list[i].DateConsultation - currentdate).Days > -1 && (list[i].DateConsultation - currentdate).Days <= days)
-                        {
-                            for (int t = 0; t < times.Count; ++t)
-                            {
-                                if (list[i].DateConsultation.Hour == times[t].DateBeginLesson.Hour)
-                                {
-                                    excelcells = excelworksheet.get_Range(simbols[t + 1] + ((list[i].DateConsultation - currentdate).Days + 3),
-                                        simbols[t + 1] + ((list[i].DateConsultation - currentdate).Days + 3));
-                                    excelcells.Value2 = list[i].Text;
-                                    break;
-                                }
-                            }
-                        }
-                        if ((list[i].DateExamination - currentdate).Days > -1 && (list[i].DateExamination - currentdate).Days <= days)
-                        {
-                            for (int t = 0; t < times.Count; ++t)
-                            {
-                                if (list[i].DateExamination.Hour == times[t].DateBeginLesson.Hour)
-                                {
-                                    excelcells = excelworksheet.get_Range(simbols[t + 1] + ((list[i].DateConsultation - currentdate).Days + 3),
-                                        simbols[t + 1] + ((list[i].DateConsultation - currentdate).Days + 3));
-                                    excelcells.Value2 = list[i].Text;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    #endregion
-                    #region аудитория
-                    excelcells = excelworksheet.get_Range("A1", simbols[times.Count] + "1");
-                    excelcells.Merge(Type.Missing);
-                    excelcells.Font.Bold = true;
-                    excelcells.Value2 = model.Classrooms[r - 1];
-                    excelcells.RowHeight = 25;
-                    excelcells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-                    excelcells.VerticalAlignment = XlVAlign.xlVAlignCenter;
-                    excelcells.Font.Name = "Times New Roman";
-                    excelcells.Font.Size = 14;
-                    #endregion
-                }
-
-                excel.Workbooks[1].Save();
-                excel.Quit();
-                return ResultService.Success();
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            catch (Exception ex)
+            var times = result.Result.List;
+            result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+            if (!result.Succeeded)
             {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
+            times.AddRange(result.Result.List);
+
+            var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel());
+            if (!resultExamination.Succeeded)
+            {
+                return ResultService.Error("Error:", "ScheduleExamination not found", ResultServiceStatusCode.NotFound);
+            }
+            var list = resultExamination.Result;
+
+            return ExportScheduleToExcel.ExportExaminationRecordExcel(times, list, model);
         }
 
         public ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
-            try
+            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            if (!result.Succeeded)
             {
-                var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-                if (!result.Succeeded)
-                {
-                    return ResultService.Error("Error:", "LessonTime not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var times = result.Result.List;
-
-                for (int i = 0; i < model.Classrooms.Count; ++i)
-                {
-                    if (File.Exists(model.FilePath + "\\" +
-                        model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt"))
-                    {
-                        File.Delete(model.FilePath + "\\" +
-                            model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt");
-                    }
-                    var writer = new StreamWriter(new FileStream(model.FilePath + "\\" + model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_sem.txt",
-                        FileMode.Create));
-                    var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
-                    var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel
-                    {
-                        ClassroomId = model.Classrooms[i]
-                    });
-                    if (!resultSemester.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "ScheduleSemester not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var list = resultSemester.Result;
-
-                    #region тело
-                    writer.WriteLine(string.Format("<p class=\"rteright\">Дата обновления: {0} </ p >", DateTime.Now.ToShortDateString()));
-                    for (int j = 0; j < 2; j++)
-                    {
-                        writer.WriteLine("<table align='center' border='1' cellpadding='1' cellspacing='1'>\r\n\t<tbody>");
-                        writer.WriteLine("\t\t<tr>");
-                        writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
-                        if (j == 0)
-                        {
-                            writer.WriteLine("\t\t\t<span style='color:#ffffff;'>I</span><span style='color:#ffffff;'> неделя</span></td>");
-                        }
-                        else
-                        {
-                            writer.WriteLine("\t\t\t<span style='color:#ffffff;'>II</span><span style='color:#ffffff;'> неделя</span></td>");
-                        }
-                        for (int t = 0; t < times.Count; ++t)
-                        {
-                            writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
-                            writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
-                        }
-                        for (int k = 0; k < 6; k++)
-                        {
-                            writer.WriteLine("\t\t<tr style='height: 40px'>");
-                            writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(153, 0, 0)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;'>{0}</span></td>", days[k]));
-                            for (int r = 0; r < 8; r++)
-                            {
-                                if (r % 2 != 0)
-                                {
-                                    writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
-                                }
-                                else
-                                {
-                                    writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
-                                }
-                                if (list.Exists(rec => rec.Week == j && rec.Day == k && rec.Lesson == r))
-                                {
-                                    var record = list.Find(rec => rec.Week == j && rec.Day == k && rec.Lesson == r);
-                                    writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
-                                        record.LessonType, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                }
-                                else
-                                {
-                                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                }
-                            }
-                            writer.WriteLine("\t\t</tr>");
-                        }
-                        writer.WriteLine("\t</tbody>\r\n</table>\r\n<p>&nbsp;</p>");
-                    }
-                    #endregion
-                    writer.Close();
-                }
-                return ResultService.Success();
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            catch (Exception ex)
+            var times = result.Result.List;
+            var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel());
+            if (!resultSemester.Succeeded)
             {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService.Error("Error:", "ScheduleSemester not found", ResultServiceStatusCode.NotFound);
             }
+            var list = resultSemester.Result;
+
+            return ExportScheduleToHTML.ExportSemesterRecordHTML(times, list, model);
         }
 
         public ResultService ExportOffsetRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
-            try
+            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            if (!result.Succeeded)
             {
-                var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-                if (!result.Succeeded)
-                {
-                    return ResultService.Error("Error:", "LessonTime not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var times = result.Result.List;
-
-                for (int i = 0; i < model.Classrooms.Count; ++i)
-                {
-                    if (File.Exists(model.FilePath + "\\" +
-                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_off.txt"))
-                    {
-                        File.Delete(model.FilePath + "\\" +
-                        model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_off.txt");
-                    }
-                    var writer = new StreamWriter(new FileStream(model.FilePath + "\\" +
-                        model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_off.txt", FileMode.Create));
-                    var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
-                    var resultOffset = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel
-                    {
-                        ClassroomId = model.Classrooms[i]
-                    });
-                    if (!resultOffset.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "ScheduleOffset not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var list = resultOffset.Result;
-
-                    #region тело
-                    writer.WriteLine(string.Format("<p class=\"rteright\">Дата обновления: {0} </ p >", DateTime.Now.ToShortDateString()));
-                    for (int j = 0; j < 2; j++)
-                    {
-                        writer.WriteLine("<table align='center' border='1' cellpadding='1' cellspacing='1'>\r\n\t<tbody>");
-                        writer.WriteLine("\t\t<tr>");
-                        writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
-                        if (j == 0)
-                        {
-                            writer.WriteLine("\t\t\t<span style='color:#ffffff;'>I</span><span style='color:#ffffff;'> неделя</span></td>");
-                        }
-                        else
-                        {
-                            writer.WriteLine("\t\t\t<span style='color:#ffffff;'>II</span><span style='color:#ffffff;'> неделя</span></td>");
-                        }
-                        for (int t = 0; t < times.Count; ++t)
-                        {
-                            writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
-                            writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
-                        }
-                        for (int k = 0; k < 6; k++)
-                        {
-                            writer.WriteLine("\t\t<tr style='height: 40px'>");
-                            writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(153, 0, 0)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;'>{0}</span></td>", days[k]));
-                            for (int r = 0; r < 8; r++)
-                            {
-                                if (r % 2 != 0)
-                                {
-                                    writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
-                                }
-                                else
-                                {
-                                    writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
-                                }
-                                if (list.Exists(rec => rec.Week == j && rec.Day == k && rec.Lesson == r))
-                                {
-                                    var record = list.Find(rec => rec.Week == j && rec.Day == k && rec.Lesson == r);
-                                    writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>зач. {0}<br />{1}<br />{2}</span></td>",
-                                        record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                }
-                                else
-                                {
-                                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                }
-                            }
-                            writer.WriteLine("\t\t</tr>");
-                        }
-                        writer.WriteLine("\t</tbody>\r\n</table>\r\n<p>&nbsp;</p>");
-                    }
-                    #endregion
-                    writer.Close();
-                }
-                return ResultService.Success();
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            catch (Exception ex)
+            var times = result.Result.List;
+
+            var resultOffset = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel());
+            if (!resultOffset.Succeeded)
             {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService.Error("Error:", "ScheduleOffset not found", ResultServiceStatusCode.NotFound);
             }
+            var list = resultOffset.Result;
+
+            return ExportScheduleToHTML.ExportOffsetRecordHTML(times, list, model);
         }
 
         public ResultService ExportExaminationRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
-            try
+            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+            if (!result.Succeeded)
             {
-                var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-                if (!result.Succeeded)
-                {
-                    return ResultService.Error("Error:", "LessonTime not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var times = result.Result.List;
-                result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
-                if (!result.Succeeded)
-                {
-                    return ResultService.Error("Error:", "LessonTime not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                times.AddRange(result.Result.List);
-
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-
-                for (int i = 0; i < model.Classrooms.Count; ++i)
-                {
-                    if (File.Exists(model.FilePath + "\\" +
-                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_exa.txt"))
-                    {
-                        File.Delete(model.FilePath + "\\" +
-                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_exa.txt");
-                    }
-                    var writer = new StreamWriter(new FileStream(model.FilePath + "\\" +
-                    model.Classrooms[i].Split(new char[] { '\\', '/' })[0] + "_exa.txt", FileMode.Create));
-
-                    #region тело
-                    writer.WriteLine("<table align='center' border='1' cellpadding='1' cellspacing='1'>\r\n\t<tbody>");
-                    writer.WriteLine("\t\t<tr>");
-                    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
-                    writer.WriteLine("\t\t\t<span style='color:#ffffff;'>Сессия</span></td>");
-                    for (int t = 0; t < times.Count; ++t)
-                    {
-                        writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                        writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
-                        writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
-                    }
-
-
-                    var currentdate = Convert.ToDateTime(currentDates.DateBeginExamination);
-                    var days = (Convert.ToDateTime(currentDates.DateEndExamination) - currentdate).Days;
-
-                    var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel { ClassroomId = model.Classrooms[i] });
-                    if (!resultExamination.Succeeded)
-                    {
-                        return ResultService.Error("Error:", "ScheduleExamination not found",
-                            ResultServiceStatusCode.NotFound);
-                    }
-                    var list = resultExamination.Result;
-
-
-                    for (int k = 0; k < days; k++)
-                    {
-                        writer.WriteLine("\t\t<tr style='height: 40px'>");
-                        writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(153, 0, 0)'>");
-                        writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>" + currentdate.ToShortDateString() + "</span></td>");
-                        for (int r = 0; r < times.Count; r++)
-                        {
-                            if (r % 2 != 0)
-                            {
-                                writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
-                            }
-                            else
-                            {
-                                writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
-                            }
-                            switch (r)
-                            {
-                                case 0:
-                                    if (list.Exists(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                        times[0].DateBeginLesson.Hour))
-                                    {
-                                        var record = list.Find(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                                    times[0].DateBeginLesson.Hour);
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                                case 1:
-                                    if (list.Exists(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                        times[1].DateBeginLesson.Hour))
-                                    {
-                                        var record = list.Find(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                                    times[1].DateBeginLesson.Hour);
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                                case 2:
-                                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    break;
-                                case 3:
-                                    if (list.Exists(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                            times[3].DateBeginLesson.Hour))
-                                    {
-                                        var record = list.Find(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                                        times[3].DateBeginLesson.Hour);
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                                case 4:
-                                    if (list.Exists(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                            times[4].DateBeginLesson.Hour))
-                                    {
-                                        var record = list.Find(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                                        times[4].DateBeginLesson.Hour);
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                            }
-                        }
-                        writer.WriteLine("\t\t</tr>");
-                        currentdate = currentdate.AddDays(1);
-                    }
-                    writer.WriteLine("\t</tbody>\r\n</table>\r\n<p>&nbsp;</p>");
-                    #endregion
-                    writer.Close();
-                }
-                return ResultService.Success();
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            catch (Exception ex)
+            var times = result.Result.List;
+            result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+            if (!result.Succeeded)
             {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
+            times.AddRange(result.Result.List);
+            
+            var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel());
+            if (!resultExamination.Succeeded)
+            {
+                return ResultService.Error("Error:", "ScheduleExamination not found", ResultServiceStatusCode.NotFound);
+            }
+            var list = resultExamination.Result;
+
+            return ExportScheduleToHTML.ExportExaminationRecordHTML(times, list, model);
         }
         #endregion
 
         #region Import
+        public ResultService ImportHtml(ImportToSemesterFromHTMLBindingModel model)
+        {
+            return ParsingSite4SemesterSchedule.ImportHtml(_context, model);
+        }
+
         public ResultService ImportExcel(ImportToOffsetFromExcel model)
         {
-            try
-            {
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-
-                var excel = new Application();
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-
-                        var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
-                        var excelcell = excelworksheet.get_Range("A2", "A2");
-
-                        //while (true)
-                        //{
-                        while (excelcell.Value2 != null)
-                        {
-                            DateTime dateOffset = Convert.ToDateTime(excelcell.Value2);
-
-                            int week = (dateOffset - Convert.ToDateTime(currentDates.DateBeginOffset)).Days < 7 ? 0 : 1;
-                            int day = (dateOffset - Convert.ToDateTime(currentDates.DateBeginOffset)).Days + week * 7;
-                            int lesson = Convert.ToInt32(excelcell.get_Offset(0, 5).Value2) - 1;
-                            string studentGroupName = excelcell.get_Offset(0, 1).Value2;
-                            string disciplineName = excelcell.get_Offset(0, 2).Value2;
-                            string lecturerName = excelcell.get_Offset(0, 3).Value2;
-                            string classroomId = Convert.ToString(excelcell.get_Offset(0, 4).Value2);
-
-                            var classroom = _context.Classrooms.FirstOrDefault(c => c.Id.Contains(classroomId));
-
-                            var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lecturerName);
-
-                            var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
-
-                            // TODO
-                            //var disc = _context.d.Disciplines.SingleOrDefault(rec => rec.DisciplineShortName == disciplineName);
-                            //if (disc != null)
-                            //{
-                            //    discID = disc.Id;
-                            //}
-                            //else
-                            //{
-                            //    disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineFullName == disciplineName);
-                            //    if (disc != null)
-                            //    {
-                            //        discID = disc.Id;
-                            //    }
-                            //    else
-                            //    {
-                            //        disc = _db.Disciplines.SingleOrDefault(rec => rec.DisciplineOtherName == disciplineName);
-                            //        if (disc != null)
-                            //        {
-                            //            discID = disc.Id;
-                            //        }
-                            //        else
-                            //        {
-                            //            excelcell = excelcell.get_Offset(1, 0);
-                            //            continue;
-                            //        }
-                            //    }
-                            //}
-                            long? lecturerId = null;
-                            if (lecturer != null)
-                            {
-                                lecturerId = lecturer.Id;
-                            }
-                            long? studentGroupId = null;
-                            if (group != null)
-                            {
-                                studentGroupId = group.Id;
-                            }
-
-                            var result = _serviceOR.CreateOffsetRecord(new OffsetRecordRecordBindingModel
-                            {
-                                Week = week,
-                                Day = day,
-                                Lesson = lesson,
-                                LessonClassroom = classroomId,
-                                LessonDiscipline = disciplineName,
-                                LessonGroup = studentGroupName,
-                                LessonLecturer = lecturerName,
-                                ClassroomId = classroom != null ? classroom.Id : string.Empty,
-                                LecturerId = lecturerId,
-                                StudentGroupId = studentGroupId
-                            });
-                            if (!result.Succeeded)
-                            {
-                                excel.Quit();
-                                return result;
-                            }
-                            excelcell = excelcell.get_Offset(1, 0);
-                        }
-                        transaction.Commit();
-                        return ResultService.Success();
-                        //}
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        excel.Quit();
-                        throw;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
+            return ImportScheduleFromExcel.ImportOffsets(_context, _serviceOR, model);
         }
 
         public ResultService ImportExcel(ImportToExaminationFromExcel model)
         {
-            try
-            {
-                var resultCurrentDates = GetCurrentDates();
-                if (!resultCurrentDates.Succeeded)
-                {
-                    return ResultService.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
-                }
-                var currentDates = resultCurrentDates.Result;
-
-                var excel = new Application();
-
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-
-                        var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(1);//Получаем ссылку на лист 1
-                        var excelcell = excelworksheet.get_Range("A2", "A2");
-
-                        while (excelcell.Value2 != null)
-                        {
-                            DateTime dateConsult = Convert.ToDateTime(excelcell.Value2);
-                            DateTime dateExam = Convert.ToDateTime(excelcell.get_Offset(0, 1).Value2);
-
-                            string studentGroupName = excelcell.get_Offset(0, 2).Value2;
-                            string disciplineName = excelcell.get_Offset(0, 3).Value2;
-                            string lecturerName = excelcell.get_Offset(0, 4).Value2;
-                            string classroomId = excelcell.get_Offset(0, 5).Value2;
-
-                            var classroom = _context.Classrooms.FirstOrDefault(c => c.Id.Contains(classroomId));
-
-                            var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName.Contains(lecturerName));
-
-                            var group = _context.StudentGroups.SingleOrDefault(rec => rec.GroupName.Contains(studentGroupName));
-
-                            long? lecturerId = null;
-                            if (lecturer != null)
-                            {
-                                lecturerId = lecturer.Id;
-                            }
-                            long? studentGroupId = null;
-                            if (group != null)
-                            {
-                                studentGroupId = group.Id;
-                            }
-
-                            var result = _serviceER.CreateExaminationRecord(new ExaminationRecordRecordBindingModel
-                            {
-                                DateConsultation = dateConsult,
-                                DateExamination = dateExam,
-                                LessonClassroom = classroomId,
-                                LessonDiscipline = disciplineName,
-                                LessonGroup = studentGroupName,
-                                LessonLecturer = lecturerName,
-                                ClassroomId = classroom != null ? classroom.Id : string.Empty,
-                                LecturerId = lecturerId,
-                                StudentGroupId = studentGroupId
-                            });
-                            if (!result.Succeeded)
-                            {
-                                excel.Quit();
-                                return result;
-                            }
-                            excelcell = excelcell.get_Offset(1, 0);
-                        }
-                        transaction.Commit();
-                        return ResultService.Success();
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        excel.Quit();
-                        throw;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-        #endregion
-
-        #region парсинг страниц html
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="schedulrUrl"></param>
-        /// <param name="classrooms"></param>
-        private ResultService ParsingPage(string schedulrUrl, string groupName, SeasonDatesViewModel currentDates)
-        {
-            string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
-            WebClient web = new WebClient
-            {
-                Encoding = Encoding.Default
-            };
-            string pageHTML = web.DownloadString(schedulrUrl);
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(pageHTML);
-            var pageNodes = document.DocumentNode.SelectNodes("//table/tr/td");
-            int week = -1;
-            int day = -1;
-            int para = -1;
-            var resError = new ResultService();
-            foreach (var pageNode in pageNodes)
-            {
-                string text = pageNode.InnerText.Replace("\r\n", "").Replace(" ", "");
-                if (days.Contains(text))
-                {
-                    if (days[0].Contains(text))
-                    {
-                        week++;
-                        day = -1;
-                    }
-                    day++;
-                    para = -1;
-                }
-                if (week > -1)
-                {
-                    var elem = pageNode.ChildNodes.First().NextSibling;
-                    if (elem.Name.ToLower() == "font")
-                    {
-                        para++;
-                        var lesson = pageNode.InnerText.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (lesson[0] == "_")
-                        {
-                            // пустая пара, переходим к следующей
-                            continue;
-                        }
-                        var entityFirst = new SemesterRecordRecordBindingModel();
-                        var entitySecond = new SemesterRecordRecordBindingModel();
-
-                        entityFirst.Week = week;
-                        entityFirst.Day = day;
-                        entityFirst.Lesson = para;
-                        entityFirst.LessonGroup = groupName;
-                        entityFirst.SeasonDatesId = currentDates.Id;
-
-                        entitySecond.Week = week;
-                        entitySecond.Day = day;
-                        entitySecond.Lesson = para;
-                        entitySecond.LessonGroup = groupName;
-                        entitySecond.SeasonDatesId = currentDates.Id;
-                        AnalisString(pageNode.InnerText, entityFirst, entitySecond);
-                        var result = CheckNewSemesterRecordForConflictAndSave(entityFirst);
-                        if (!result.Succeeded)
-                        {
-                            foreach (var err in result.Errors)
-                            {
-                                resError.AddError(err.Key, err.Value);
-                            }
-                        }
-                        result = CheckNewSemesterRecordForConflictAndSave(entitySecond);
-                        if (!result.Succeeded)
-                        {
-                            foreach (var err in result.Errors)
-                            {
-                                resError.AddError(err.Key, err.Value);
-                            }
-                        }
-                    }
-                }
-            }
-            return resError;
-        }
-
-        private void AnalisString(string text, SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
-        {
-            recordFirst.NotParseRecord = recordSecond.NotParseRecord = text;
-            text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").Replace("\r\n", "").TrimStart();
-            // ищем в записе наличие аудиторий
-            var classroomMatches = Regex.Matches(text, @"а.(\w{0,2})[\d]+(\-\d)*(\/\d)*");
-            if (classroomMatches.Count == 0)
-            {
-                if (text.StartsWith("Физкультура"))
-                {
-                    recordFirst.LessonDiscipline = "Физкультура";
-                    recordFirst.LessonType = LessonTypes.нд.ToString();
-                    if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
-                    {
-                        var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
-                        if (group != null)
-                        {
-                            recordFirst.StudentGroupId = group.Id;
-                        }
-                    }
-                }
-                return;
-            }
-            for (int clM = 0; clM < classroomMatches.Count; ++clM)
-            {
-                var currentRecord = clM == 0 ? recordFirst : recordSecond;
-                currentRecord.LessonClassroom = classroomMatches[clM].Value;
-                var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
-                if (classroom != null)
-                {
-                    currentRecord.ClassroomId = classroom.Id;
-                }
-                // убираем из текста номер аудитории, остается предмет и преподаватель
-                var lessonText = text.Substring(0, text.IndexOf(currentRecord.LessonClassroom)).TrimEnd();
-
-                // маленький костыль для второй записи
-                if (lessonText.EndsWith("-"))
-                {
-                    lessonText = lessonText.Substring(0, lessonText.Length - 1).TrimEnd();
-                }
-                // вычисляем преподавателя
-                currentRecord.LessonLecturer = Regex.Match(lessonText, @"[\w]+(\ (\w(\.)?)?)?(\ (\w(\.)?)?)?$").Value;
-
-                if (!string.IsNullOrEmpty(currentRecord.LessonLecturer))
-                {
-                    var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
-                    string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
-                    string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
-                    var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
-                                            ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-                                            ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
-                    if (lecturer != null)
-                    {
-                        currentRecord.LecturerId = lecturer.Id;
-                    }
-                }
-                // оставляем только название предмета
-                currentRecord.LessonDiscipline = lessonText.Substring(0, lessonText.IndexOf(currentRecord.LessonLecturer)).TrimEnd();
-
-                currentRecord.LessonType = LessonTypes.нд.ToString();
-                if (currentRecord.LessonDiscipline.StartsWith("лек."))
-                {
-                    currentRecord.LessonType = LessonTypes.лек.ToString();
-                    currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
-                }
-                if (currentRecord.LessonDiscipline.StartsWith("пр."))
-                {
-                    currentRecord.LessonType = LessonTypes.пр.ToString();
-                    currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 3);
-                }
-                if (currentRecord.LessonDiscipline.StartsWith("лаб."))
-                {
-                    currentRecord.LessonType = LessonTypes.лаб.ToString();
-                    currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
-                }
-
-                // определяем дисциплину
-                if (!string.IsNullOrEmpty(currentRecord.LessonDiscipline))
-                {
-                    var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
-                    var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
-                    if (discipline != null)
-                    {
-                        currentRecord.DisciplineId = discipline.Id;
-                    }
-                }
-
-                //определяем группу
-                if (!string.IsNullOrEmpty(currentRecord.LessonGroup))
-                {
-                    var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
-                    if (group != null)
-                    {
-                        currentRecord.StudentGroupId = group.Id;
-                    }
-                }
-                text = text.Substring(text.IndexOf(currentRecord.LessonClassroom) + currentRecord.LessonClassroom.Length).TrimStart();
-            }
-        }
-
-        /// <summary>
-        /// Проверяем добавляемую пару на конфликты
-        /// </summary>
-        /// <param name="record"></param>
-        /// <param name="error"></param>
-        private ResultService CheckNewSemesterRecordForConflictAndSave(SemesterRecordRecordBindingModel record)
-        {
-            try
-            {
-                if (record.ClassroomId == null && record.StudentGroupId == null && record.LecturerId == null)
-                {
-                    return ResultService.Success();
-                }
-                //ищем занятие другой группы в этой аудитории
-                var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-                                        r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
-                                        r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
-                    if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
-                        exsistRecord.LessonLecturer == record.LessonLecturer &&
-                        exsistRecord.LessonType.ToString() == record.LessonType)
-                    {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
-                        record.IsStreaming = true;
-                        exsistRecord.IsStreaming = true;
-
-                        _context.Entry(exsistRecord).State = EntityState.Modified;
-                        _context.SaveChanges();
-
-                        return _serviceSR.CreateSemesterRecord(record);
-                    }
-                    else if (exsistRecord.LessonType == LessonTypes.удл)
-                    {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-                        var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = exsistRecord.Id });
-                        if (!result.Succeeded)
-                        {
-                            return result;
-                        }
-                        return _serviceSR.CreateSemesterRecord(record);
-                    }
-                    else
-                    {
-                        return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                            record.Week, record.Day, record.Lesson,
-                            exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                    }
-                }
-
-                //ищем занятие этой группы в другой аудитории
-                exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-                                              r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
-                                              r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой у этой группы уже есть занятие
-                    if (exsistRecord.LessonType.ToString() == record.LessonType ||
-                                        exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд.ToString())
-                    {//если совпадает тип занятия (или у одного из занятий неизвестен тип), но аудитории разные, то это лабораторные по подгруппам
-                        return _serviceSR.CreateSemesterRecord(record);
-                    }
-                    else if (exsistRecord.LessonType == LessonTypes.удл)
-                    {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
-                        var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = exsistRecord.Id });
-                        if (!result.Succeeded)
-                        {
-                            return result;
-                        }
-                        return _serviceSR.CreateSemesterRecord(record);
-                    }
-                    else
-                    {
-                        return ResultService.Error("Конфликт (группы):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                            record.Week, record.Day, record.Lesson,
-                            exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup), ResultServiceStatusCode.Error);
-                    }
-                }
-                if (record.StudentGroupId != null || record.ClassroomId != null || record.LecturerId != null)
-                {
-                    return _serviceSR.CreateSemesterRecord(record);
-                }
-                else
-                {
-                    return ResultService.Success();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return ImportScheduleFromExcel.ImportExaminations(_context, _serviceER, model);
         }
         #endregion
     }

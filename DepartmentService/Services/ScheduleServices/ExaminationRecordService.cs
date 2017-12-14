@@ -33,7 +33,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
 
                 var selectedRecords = _context.ExaminationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
@@ -133,7 +133,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по расписанию");
 				}
 
-				var seasonDate = ScheduleHelper.GetCurrentDates(_context);
+				var seasonDate = ScheduleHelper.GetCurrentDates();
 
 				var entry = _context.ExaminationRecords.FirstOrDefault(sr => sr.DateConsultation == model.DateConsultation && sr.DateExamination == model.DateExamination &&
 																				sr.ClassroomId == model.ClassroomId && sr.SeasonDatesId == seasonDate.Id);
@@ -229,7 +229,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
 
                 var selectedRecords = _context.ExaminationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 

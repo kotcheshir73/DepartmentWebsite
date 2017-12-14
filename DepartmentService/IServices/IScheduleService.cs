@@ -61,11 +61,11 @@ namespace DepartmentService.IServices
         ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
 
         /// <summary>
-        /// Загрузка арсписания по аудиториям
+        /// Загрузка расписания
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService LoadScheduleHTMLForClassrooms(ImportToSemesterFromHTMLBindingModel model);
+        ResultService ImportHtml(ImportToSemesterFromHTMLBindingModel model);
 
         /// <summary>
         /// Импорт зачетов из excel-файла

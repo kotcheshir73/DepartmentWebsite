@@ -33,7 +33,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
 
                 var selectedRecords = _context.OffsetRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
@@ -133,7 +133,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по расписанию");
 				}
 
-				var seasonDate = ScheduleHelper.GetCurrentDates(_context);
+				var seasonDate = ScheduleHelper.GetCurrentDates();
 
 				var entry = _context.OffsetRecords.FirstOrDefault(sr => sr.Week == model.Week && sr.Day == model.Day && sr.Lesson == model.Lesson &&
 																				sr.ClassroomId == model.ClassroomId &&
@@ -231,7 +231,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
 
                 var selectedRecords = _context.OffsetRecords.Where(sr => sr.SeasonDatesId == currentDates);
 

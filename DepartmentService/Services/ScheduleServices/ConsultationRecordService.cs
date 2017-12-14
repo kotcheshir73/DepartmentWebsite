@@ -33,7 +33,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
 
                 var selectedRecords = _context.ConsultationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
@@ -141,7 +141,7 @@ namespace DepartmentService.Services
 					};
                     var seasonDate = model.SeasonDateId.HasValue ? 
                                             _context.SeasonDates.FirstOrDefault(sd => sd.Id == model.SeasonDateId.Value) :
-                                            ScheduleHelper.GetCurrentDates(_context);
+                                            ScheduleHelper.GetCurrentDates();
                     ScheduleHelper.CheckCreateConsultation(_context, record, seasonDate);
 
                     result.Add(ModelFactoryToViewModel.CreateConsultationRecordShortViewModel(records[i], record));
@@ -197,7 +197,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по расписанию");
                 }
 
-                var seasonDate = ScheduleHelper.GetCurrentDates(_context);
+                var seasonDate = ScheduleHelper.GetCurrentDates();
 
                 ScheduleHelper.CheckCreateConsultation(_context, model, seasonDate);
 
@@ -288,7 +288,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по расписанию");
                 }
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates(_context).Id;
+                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
 
                 var selectedRecords = _context.ConsultationRecords.Where(sr => sr.SeasonDatesId == currentDates);
 

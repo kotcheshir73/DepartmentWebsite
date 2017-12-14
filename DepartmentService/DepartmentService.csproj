@@ -82,6 +82,10 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
     <Compile Include="Enums\ScheduleRecordTypeForDiscipline.cs" />
+    <Compile Include="Helpers\ExportScheduleToExcel.cs" />
+    <Compile Include="Helpers\ExportScheduleToHTML.cs" />
+    <Compile Include="Helpers\ImportScheduleFromExcel.cs" />
+    <Compile Include="Helpers\ParsingSite4SemesterSchedule.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
