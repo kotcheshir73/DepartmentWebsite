@@ -99,7 +99,8 @@
             // действияToolStripMenuItem
             // 
             this.действияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MakeTicketsToolStripMenuItem});
+            this.MakeTicketsToolStripMenuItem,
+            this.loadDistributionToolStripMenuItem});
             this.действияToolStripMenuItem.Name = "действияToolStripMenuItem";
             this.действияToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.действияToolStripMenuItem.Text = "Сервис";
@@ -153,8 +154,7 @@
             this.seasonDatesToolStripMenuItem,
             this.scheduleLessonTimeToolStripMenuItem,
             this.toolStripSeparator2,
-            this.academicPlansAndOtherToolStripMenuItem,
-            this.loadDistributionToolStripMenuItem});
+            this.academicPlansAndOtherToolStripMenuItem});
             this.educationalProcessToolStripMenuItem.Name = "educationalProcessToolStripMenuItem";
             this.educationalProcessToolStripMenuItem.Size = new System.Drawing.Size(118, 20);
             this.educationalProcessToolStripMenuItem.Text = "Учебный процесс";
