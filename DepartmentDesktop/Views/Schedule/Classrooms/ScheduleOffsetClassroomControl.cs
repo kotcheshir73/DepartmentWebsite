@@ -101,15 +101,17 @@ namespace DepartmentDesktop.Views.Schedule.Classrooms
 				}
 				var list = result.Result;
 				for (int r = 0; r < list.Count; ++r)
-				{
-					if (list[r].Week == 0)
+                {
+                    string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", "зач.", list[r].LessonDiscipline, list[r].LessonClassroom,
+                        Environment.NewLine, list[r].LessonLecturer, list[r].LessonGroup);
+                    if (list[r].Week == 0)
 					{
-						dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = list[r].Text;
+						dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
 						dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
 					}
 					if (list[r].Week == 1)
 					{
-						dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = list[r].Text;
+						dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
 						dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
 					}
 				}

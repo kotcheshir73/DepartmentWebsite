@@ -144,7 +144,7 @@ namespace DepartmentService.Services
 					return ResultService.Error("Error:", "Exsist OffsetRecord", ResultServiceStatusCode.ExsistItem);
 				}
 
-				var entity = ModelFacotryFromBindingModel.CreateOffsetRecord(model);
+				var entity = ModelFacotryFromBindingModel.CreateOffsetRecord(model, seasonDate: seasonDate);
 
 				_context.OffsetRecords.Add(entity);
 				_context.SaveChanges();

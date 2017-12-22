@@ -202,6 +202,7 @@
             this.dataGridViewSecondWeek.Size = new System.Drawing.Size(800, 205);
             this.dataGridViewSecondWeek.TabIndex = 0;
             this.dataGridViewSecondWeek.Tag = "1";
+            this.dataGridViewSecondWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             this.dataGridViewSecondWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
             // 
@@ -571,6 +572,7 @@
             this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 209);
             this.dataGridViewFirstWeek.TabIndex = 0;
             this.dataGridViewFirstWeek.Tag = "0";
+            this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
             // 
