@@ -405,12 +405,12 @@ namespace DepartmentService.Services
 
         public ResultService ImportExcel(ImportToOffsetFromExcel model)
         {
-            return ImportScheduleFromExcel.ImportOffsets(_context, _serviceOR, model);
+            return ImportScheduleFromExcel.ImportOffsets(_context, model);
         }
 
         public ResultService ImportExcel(ImportToExaminationFromExcel model)
         {
-            return ImportScheduleFromExcel.ImportExaminations(_context, _serviceER, model);
+            return ImportScheduleFromExcel.ImportExaminations(_context, model);
         }
         #endregion
     }

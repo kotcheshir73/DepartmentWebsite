@@ -45,13 +45,13 @@ namespace DepartmentService.Services
 					}
 					selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId);
 				}
-				if (!string.IsNullOrEmpty(model.GroupName))
+				if (!string.IsNullOrEmpty(model.StudentGroupName))
 				{
 					if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_группы, AccessType.View))
 					{
 						throw new Exception("Нет доступа на чтение данных по расписанию групп");
 					}
-					selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName);
+					selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.StudentGroupName);
 				}
 				if (model.LecturerId.HasValue)
 				{
@@ -243,13 +243,13 @@ namespace DepartmentService.Services
                     }
                     selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId);
                 }
-                if (!string.IsNullOrEmpty(model.GroupName))
+                if (!string.IsNullOrEmpty(model.StudentGroupName))
                 {
                     if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_группы, AccessType.View))
                     {
                         throw new Exception("Нет доступа на чтение данных по расписанию групп");
                     }
-                    selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.GroupName);
+                    selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.StudentGroupName);
                 }
                 if (model.LecturerId.HasValue)
                 {

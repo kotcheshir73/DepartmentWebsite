@@ -204,6 +204,7 @@ namespace DepartmentService.BindingModels
 			{
 				entity = new Classroom
 				{
+                    Id = model.Id,
 					IsDeleted = false
 				};
 			}
@@ -359,17 +360,38 @@ namespace DepartmentService.BindingModels
 		#region Schedule
         private static void CreateScheduleRecord(ScheduleRecordBindingModel model, ScheduleRecord entity = null)
         {
-            entity.LessonDiscipline = model.LessonDiscipline;
-            entity.LessonGroup = model.LessonGroup;
-            entity.LessonLecturer = model.LessonLecturer;
-            entity.LessonClassroom = model.LessonClassroom;
+            if (!string.IsNullOrEmpty(model.LessonClassroom))
+            {
+                entity.LessonClassroom = model.LessonClassroom;
+            }
+            if (!string.IsNullOrEmpty(model.LessonDiscipline))
+            {
+                entity.LessonDiscipline = model.LessonDiscipline;
+            }
+            if (!string.IsNullOrEmpty(model.LessonLecturer))
+            {
+                entity.LessonLecturer = model.LessonLecturer;
+            }
+            if (!string.IsNullOrEmpty(model.LessonGroup))
+            {
+                entity.LessonGroup = model.LessonGroup;
+            }
             if (!string.IsNullOrEmpty(model.ClassroomId))
             {
                 entity.ClassroomId = model.ClassroomId;
             }
-            entity.DisciplineId = model.DisciplineId;
-            entity.LecturerId = model.LecturerId;
-            entity.StudentGroupId = model.StudentGroupId;
+            if (model.DisciplineId.HasValue)
+            {
+                entity.DisciplineId = model.DisciplineId;
+            }
+            if (model.LecturerId.HasValue)
+            {
+                entity.LecturerId = model.LecturerId;
+            }
+            if (model.StudentGroupId.HasValue)
+            {
+                entity.StudentGroupId = model.StudentGroupId;
+            }
         }
 
 		public static SemesterRecord CreateSemesterRecord(SemesterRecordRecordBindingModel model, SemesterRecord entity = null, SeasonDates seasonDate = null)
@@ -490,10 +512,10 @@ namespace DepartmentService.BindingModels
 			}
 			entity.Login = model.Login;
 			entity.Avatar = model.Avatar;
-			entity.RoleId = model.RoleId;
 			entity.LecturerId = model.LecturerId;
 			entity.StudentId = model.StudentId;
-			if (entity.IsBanned != model.IsBanned)
+            entity.RoleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
+            if (entity.IsBanned != model.IsBanned)
 			{
 				entity.IsBanned = model.IsBanned;
 				if (model.IsBanned)

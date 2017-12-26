@@ -15,9 +15,6 @@ namespace DepartmentDAL.Models
         public string RoleName { get; set; }
 
         [ForeignKey("RoleId")]
-        public virtual List<User> Users { get; set; }
-
-        [ForeignKey("RoleId")]
         public virtual List<Access> Access { get; set; }
     }
 }

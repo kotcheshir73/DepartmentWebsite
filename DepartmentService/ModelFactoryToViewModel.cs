@@ -553,11 +553,14 @@ namespace DepartmentService.ViewModels
 				DateExamination = entity.DateExamination,
 				NotParseRecord = entity.NotParseRecord,
 				LessonClassroom = entity.LessonClassroom,
+                LessonConsultationClassroom = entity.LessonConsultationClassroom,
 				LessonGroup = entity.LessonGroup,
 				LessonDiscipline = entity.LessonDiscipline,
 				LessonLecturer = entity.LessonLecturer,
 				ClassroomId = entity.ClassroomId,
 				Classroom = entity.Classroom != null ? entity.Classroom.Id : "",
+                ConsultationClassroomId = entity.ConsultationClassroomId,
+                ConsultationClassroom = entity.ConsultationClassroomId != null ? entity.ConsultationClassroom.Id : "",
                 DisciplineId = entity.DisciplineId,
                 Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
                 LecturerId = entity.LecturerId,
@@ -577,8 +580,9 @@ namespace DepartmentService.ViewModels
 				LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
 				LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
 				LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-				LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-			};
+				LessonClassroom = ScheduleHelper.GetLessonClassroom(entity),
+                LessonConsultationClassroom = ScheduleHelper.GetLessonConsultationClassroom(entity)
+            };
 		}
 
 		public static IEnumerable<ExaminationRecordViewModel> CreateExaminationRecords(IEnumerable<ExaminationRecord> entities)
@@ -667,12 +671,11 @@ namespace DepartmentService.ViewModels
 			{
 				Id = entity.Id,
 				Login = entity.Login,
-				RoleId = entity.RoleId,
-				RoleName = entity.Role.RoleName,
 				StudentId = entity.StudentId,
 				LecturerId = entity.LecturerId,
 				Avatar = entity.Avatar != null && entity.Avatar.Length > 0 ? Image.FromStream(new MemoryStream(entity.Avatar)) : null,
-				IsBanned = entity.IsBanned,
+                RoleType = entity.RoleType.ToString(),
+                IsBanned = entity.IsBanned,
 				DateBanned = entity.DateBanned,
 				DateLastVisit = entity.DateLastVisit
 			};

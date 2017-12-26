@@ -250,6 +250,11 @@ namespace DepartmentService.Helpers
             return string.IsNullOrEmpty(entity.ClassroomId) ? entity.LessonClassroom : entity.ClassroomId;
         }
 
+        public static string GetLessonConsultationClassroom(ExaminationRecord entity)
+        {
+            return string.IsNullOrEmpty(entity.ConsultationClassroomId) ? entity.LessonConsultationClassroom : entity.ConsultationClassroomId;
+        }
+
         public static string CalcShortDisciplineName(string fullDiscipliineName)
         {
             // TODO избавиться от '-ия' и т.п.

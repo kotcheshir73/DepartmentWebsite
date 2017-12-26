@@ -12,11 +12,17 @@ namespace DepartmentService.BindingModels
 
         public string ClassroomId { get; set; }
 
-        public string GroupName { get; set; }
+        public string StudentGroupName { get; set; }
+
+        public long? StudentGroupId { get; set; }
+
+        public string DisciplineName { get; set; }
 
         public long? DisciplineId { get; set; }
 
-		public long? LecturerId { get; set; }
+        public string LecturerName { get; set; }
+
+        public long? LecturerId { get; set; }
 
         public DateTime? DateBegin { get; set; }
 
@@ -31,6 +37,8 @@ namespace DepartmentService.BindingModels
     public class ScheduleRecordBindingModel
     {
         public long Id;
+
+        public long? SeasonDatesId { get; set; }
 
         public string NotParseRecord { get; set; }
 

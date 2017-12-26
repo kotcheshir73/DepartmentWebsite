@@ -25,19 +25,6 @@ namespace DepartmentDesktop.Views.Administration.User
 
 		private void UserForm_Load(object sender, EventArgs e)
 		{
-			var resultR = _service.GetRoles(new RoleGetBindingModel { });
-			if (!resultR.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке ролей возникла ошибка: ", resultR.Errors);
-				return;
-			}
-
-			comboBoxRole.ValueMember = "Value";
-			comboBoxRole.DisplayMember = "Display";
-			comboBoxRole.DataSource = resultR.Result.List
-				.Select(d => new { Value = d.Id, Display = d.RoleName }).ToList();
-			comboBoxRole.SelectedItem = null;
-
 			var resultS = _service.GetStudents(new StudentGetBindingModel { StudentStatus = StudentState.Учится });
 			if (!resultS.Succeeded)
 			{
@@ -85,7 +72,6 @@ namespace DepartmentDesktop.Views.Administration.User
 			var entity = result.Result;
 
 			textBoxLogin.Text = entity.Login;
-			comboBoxRole.SelectedValue = entity.RoleId;
 			if (entity.StudentId != null)
 			{
 				comboBoxStudent.SelectedValue = entity.StudentId;
@@ -104,10 +90,6 @@ namespace DepartmentDesktop.Views.Administration.User
 				return false;
 			}
 			if (string.IsNullOrEmpty(textBoxPassword.Text) && textBoxPassword.Enabled)
-			{
-				return false;
-			}
-			if (comboBoxRole.SelectedValue == null)
 			{
 				return false;
 			}
@@ -136,7 +118,6 @@ namespace DepartmentDesktop.Views.Administration.User
 					{
 						Login = textBoxLogin.Text,
 						Password = textBoxPassword.Text,
-						RoleId = Convert.ToInt64(comboBoxRole.SelectedValue),
 						StudentId = studentId,
 						LecturerId = lecturerId,
 						Avatar = (byte[])converter.ConvertTo(pictureBoxAvatar.Image, typeof(byte[])),
@@ -149,7 +130,6 @@ namespace DepartmentDesktop.Views.Administration.User
 					{
 						Id = _id.Value,
 						Login = textBoxLogin.Text,
-						RoleId = Convert.ToInt64(comboBoxRole.SelectedValue),
 						StudentId = studentId,
 						LecturerId = lecturerId,
 						Avatar = (byte[])converter.ConvertTo(pictureBoxAvatar.Image, typeof(byte[])),

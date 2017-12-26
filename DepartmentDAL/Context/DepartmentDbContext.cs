@@ -52,12 +52,13 @@ namespace DepartmentDAL.Context
 		public virtual DbSet<StudentHistory> StudentHistorys { set; get; }
 		public virtual DbSet<TimeNorm> TimeNorms { get; set; }
 		public virtual DbSet<User> Users { set; get; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
 
-		/// <summary>
-		/// Перегружаем метод созранения изменений. Если возникла ошибка - очищаем все изменения
-		/// </summary>
-		/// <returns></returns>
-		public override int SaveChanges()
+        /// <summary>
+        /// Перегружаем метод созранения изменений. Если возникла ошибка - очищаем все изменения
+        /// </summary>
+        /// <returns></returns>
+        public override int SaveChanges()
 		{
 			try
 			{

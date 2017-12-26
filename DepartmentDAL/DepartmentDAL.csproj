@@ -61,6 +61,7 @@
     <Compile Include="Enums\KindOfLoadType.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\ResultServiceStatusCode.cs" />
+    <Compile Include="Enums\RoleType.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
@@ -284,6 +285,14 @@
     <Compile Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.Designer.cs">
       <DependentUpon>201712010539520_ChangeDisciplineAddShortName2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712151526516_MultuRolesFromUser.cs" />
+    <Compile Include="Migrations\201712151526516_MultuRolesFromUser.Designer.cs">
+      <DependentUpon>201712151526516_MultuRolesFromUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.cs" />
+    <Compile Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.Designer.cs">
+      <DependentUpon>201712230652013_AddConsultationClassroomIntoExaminationRecord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -324,6 +333,7 @@
     <Compile Include="Models\StudentHistory.cs" />
     <Compile Include="Models\TimeNorm.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultService.cs" />
   </ItemGroup>
@@ -496,6 +506,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.resx">
       <DependentUpon>201712010539520_ChangeDisciplineAddShortName2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712151526516_MultuRolesFromUser.resx">
+      <DependentUpon>201712151526516_MultuRolesFromUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.resx">
+      <DependentUpon>201712230652013_AddConsultationClassroomIntoExaminationRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

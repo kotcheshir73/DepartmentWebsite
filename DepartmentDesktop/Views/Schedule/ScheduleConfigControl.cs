@@ -142,7 +142,7 @@ namespace DepartmentDesktop.Views.Schedule
 			{
 				foreach (var elem in studentGroups)
 				{
-					var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { GroupName = elem });
+					var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { StudentGroupName = elem });
 
 					if (!result.Succeeded)
 					{
@@ -259,7 +259,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in studentGroups)
 					{
-						var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { GroupName = elem });
+						var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { StudentGroupName = elem });
 
 						if (!result.Succeeded)
 						{
@@ -308,7 +308,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-						var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel { GroupName = elem });
+						var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel { StudentGroupName = elem });
 
 						if (!result.Succeeded)
 						{
@@ -357,7 +357,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-						var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel { GroupName = elem });
+						var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel { StudentGroupName = elem });
 
 						if (!result.Succeeded)
 						{
@@ -407,7 +407,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-						var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel { GroupName = elem });
+						var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel { StudentGroupName = elem });
 
 						if (!result.Succeeded)
 						{

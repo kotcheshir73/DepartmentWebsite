@@ -29,7 +29,8 @@ namespace DepartmentService
 		/// <returns></returns>
 		public static bool CheckAccess(AccessOperation operation, AccessType type)
 		{
-			var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && a.RoleId == _user.RoleId);
+            var roles = _context.UserRoles.Where(ur => ur.UserId == _user.Id).Select(ur => ur.RoleId);
+			var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && roles.Contains(a.Role.Id));
 			if (access != null)
 			{
 				return access.AccessType >= type;
@@ -46,7 +47,7 @@ namespace DepartmentService
 		public static UserViewModel Login(string login, string password)
 		{
 			var passHash = GetPasswordHash(password);
-			var user = _context.Users.Include(u => u.Role).SingleOrDefault(u => u.Login == login && u.Password == passHash);
+			var user = _context.Users.SingleOrDefault(u => u.Login == login && u.Password == passHash);
 			if (user == null)
 			{
 				throw new Exception("Введен неверный логин/пароль");

@@ -33,15 +33,24 @@ namespace DepartmentDAL.Context
 				{
 					DateCreate = DateTime.Now,
 					Login = "admin",
-					Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty"))),
-					RoleId = role.Id
+					Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
 				};
 
 				context.Users.Add(user);
 
 				context.SaveChanges();
 
-				List<Access> accesses = new List<Access>{
+                UserRole ur = new UserRole
+                {
+                    RoleId = role.Id,
+                    UserId = user.Id
+                };
+
+                context.UserRoles.Add(ur);
+
+                context.SaveChanges();
+
+                List<Access> accesses = new List<Access>{
 					new Access
 					{
 						DateCreate = DateTime.Now,

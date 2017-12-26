@@ -121,7 +121,7 @@ namespace DepartmentDesktop
 		/// <param name="e"></param>
 		private void scheduleClassroomSemesterToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterControl>();
+			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
 			ApplyControl(control);
 			control.LoadData(0);
 		}
@@ -132,7 +132,7 @@ namespace DepartmentDesktop
 		/// <param name="e"></param>
 		private void scheduleClassroomOffsetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetControl>();
+			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
 			ApplyControl(control);
 			control.LoadData(0);
 		}
@@ -143,7 +143,7 @@ namespace DepartmentDesktop
 		/// <param name="e"></param>
 		private void scheduleClassroomExaminationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationControl>();
+			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
 			ApplyControl(control);
 			control.LoadData(0);
 		}
@@ -154,7 +154,7 @@ namespace DepartmentDesktop
 		/// <param name="e"></param>
 		private void scheduleClassroomConsultationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationControl>();
+			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
 			ApplyControl(control);
 			control.LoadData(0);
 		}
@@ -163,28 +163,28 @@ namespace DepartmentDesktop
 		#region Расписание - группы
 		private void scheduleStudentGroupSemesterToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterControl>();
+			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
 			ApplyControl(control);
 			control.LoadData(1);
 		}
 
 		private void scheduleStudentGroupOffsetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetControl>();
+			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
 			ApplyControl(control);
 			control.LoadData(1);
 		}
 
 		private void scheduleStudentGroupExaminationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationControl>();
+			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
 			ApplyControl(control);
 			control.LoadData(1);
 		}
 
 		private void scheduleStudentGroupConsultationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationControl>();
+			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
 			ApplyControl(control);
 			control.LoadData(1);
 		}
@@ -193,28 +193,28 @@ namespace DepartmentDesktop
 		#region Расписание - преподаватели
 		private void scheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterControl>();
+			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
 			ApplyControl(control);
 			control.LoadData(2);
 		}
 
 		private void scheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetControl>();
+			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
 			ApplyControl(control);
 			control.LoadData(2);
 		}
 
 		private void scheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationControl>();
+			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
 			ApplyControl(control);
 			control.LoadData(2);
 		}
 
 		private void scheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationControl>();
+			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
 			ApplyControl(control);
 			control.LoadData(2);
 		}

@@ -11,7 +11,9 @@ namespace DepartmentService.ViewModels
 
 		public DateTime DateExamination { get; set; }
 
-		public string Text
+        public string LessonConsultationClassroom { get; set; }
+
+        public string Text
 		{
 			get
 			{
@@ -28,5 +30,11 @@ namespace DepartmentService.ViewModels
 		public DateTime DateConsultation { get; set; }
 
 		public DateTime DateExamination { get; set; }
-	}
+
+        public string LessonConsultationClassroom { get; set; }
+
+        public string ConsultationClassroomId { get; set; }
+
+        public string ConsultationClassroom { get; set; }
+    }
 }

@@ -59,16 +59,17 @@ namespace DepartmentService.Services
 
 				int countPages = 0;
 				var query = _context.Users.Where(u => !u.IsDeleted);
-				if (model.RoleId.HasValue)
-				{
-					query = query.Where(u => u.RoleId == model.RoleId.Value);
-				}
+                if (!string.IsNullOrEmpty(model.RoleType))
+                {
+                    var roleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
+                    query = query.Where(u => u.RoleType == roleType);
+                }
 				if (model.IsBanned.HasValue)
 				{
 					query = query.Where(u => u.IsBanned == model.IsBanned.Value);
                 }
 
-                query = query.OrderBy(e => e.Role.RoleName).ThenBy(e => e.Login).ThenBy(e => e.DateLastVisit);
+                query = query.OrderBy(e => e.Login).ThenBy(e => e.DateLastVisit);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -77,8 +78,6 @@ namespace DepartmentService.Services
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
-
-				query = query.Include(u => u.Role);
 
 				var result = new UserPageViewModel
 				{

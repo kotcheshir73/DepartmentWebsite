@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentDAL.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +10,7 @@ namespace DepartmentDAL.Models
     /// </summary>
     public class User : BaseEntity
     {
-        public long RoleId { get; set; }
+        public RoleType RoleType { get; set; }
 
         public long? StudentId { get; set; }
 
@@ -41,8 +42,6 @@ namespace DepartmentDAL.Models
         public virtual Lecturer Lecturer { get; set; }
 
         public virtual Student Student { get; set; }
-
-        public virtual Role Role { get; set; }
 
         public virtual List<Message> Messages { get; set; }
     }

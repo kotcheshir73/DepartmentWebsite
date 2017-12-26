@@ -128,6 +128,7 @@
     <Compile Include="ParsingScheduleHTML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ScheduleHelper.cs" />
+    <Compile Include="Services\AdministrationProcessServer.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicYearService.cs" />

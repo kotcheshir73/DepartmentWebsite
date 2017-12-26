@@ -1,17 +1,17 @@
-﻿using DepartmentDesktop.Views.Schedule.Classrooms;
-using DepartmentDesktop.Views.Schedule.Lecturers;
-using DepartmentDesktop.Views.Schedule.StudentGroups;
-using DepartmentService.BindingModels;
+﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using System;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Schedule.Consultation
 {
-	public partial class ScheduleConsultationControl : UserControl
+    public partial class ScheduleConsultationControl : UserControl
     {
         private readonly IScheduleService _service;
 
         private readonly IConsultationRecordService _serviceCR;
+
+        private ScheduleGetBindingModel _model;
 
         public ScheduleConsultationControl(IScheduleService service, IConsultationRecordService serviceCR)
         {
@@ -20,109 +20,90 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
             _serviceCR = serviceCR;
         }
 
-        public void LoadData(int type)
+        public void LoadData(string title, ScheduleGetBindingModel model)
         {
-            tabControlSemester.TabPages.Clear();
+            _model = model;
+        }
 
-            switch (type)
+        private void LoadRecords()
+        {
+            var result = _serviceCR.GetConsultationSchedule(_model);
+            if (!result.Succeeded)
             {
-                case 0:
-                    var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { });
-					if (!resultClassrooms.Succeeded)
-					{
-						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);
-						return;
-					}
-					var classrooms = resultClassrooms.Result;
-					if (classrooms != null)
+                Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                return;
+            }
+            dataGridViewList.DataSource = result.Result;
+            if (dataGridViewList.Columns.Count > 0)
+            {
+                dataGridViewList.Columns[0].Visible = false;
+                dataGridViewList.Columns[1].HeaderText = "Неделя";
+                dataGridViewList.Columns[1].Width = 50;
+                dataGridViewList.Columns[2].HeaderText = "День";
+                dataGridViewList.Columns[2].Width = 50;
+                dataGridViewList.Columns[3].HeaderText = "Пара";
+                dataGridViewList.Columns[3].Width = 50;
+                dataGridViewList.Columns[4].HeaderText = "Дата";
+                dataGridViewList.Columns[4].Width = 100;
+                dataGridViewList.Columns[5].HeaderText = "Дисциплина";
+                dataGridViewList.Columns[5].Width = 150;
+                dataGridViewList.Columns[6].HeaderText = "Преподаватель";
+                dataGridViewList.Columns[6].Width = 150;
+                dataGridViewList.Columns[7].HeaderText = "Группа";
+                dataGridViewList.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewList.Columns[8].HeaderText = "Аудитория";
+                dataGridViewList.Columns[8].Width = 150;
+            }
+        }
+
+        private void toolStripButtonAdd_Click(object sender, EventArgs e)
+        {
+            var form = new ScheduleConsultationRecordForm(_serviceCR, _service);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadRecords();
+            }
+        }
+
+        private void toolStripButtonUpd_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewList.SelectedRows.Count == 1)
+            {
+                long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
+                var form = new ScheduleConsultationRecordForm(_serviceCR, _service, id);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadRecords();
+                }
+            }
+        }
+
+        private void toolStripButtonDel_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewList.SelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
                     {
-                        for (int i = 0; i < classrooms.List.Count; i++)
+                        long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
+                        var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
+                        if (result.Succeeded)
                         {
-                            TabPage tabpage = new TabPage
-                            {
-                                AutoScroll = true,
-                                Location = new System.Drawing.Point(23, 4),
-                                Name = "tabPageConsultation" + classrooms.List[i].Id,
-                                Padding = new Padding(3),
-                                Size = new System.Drawing.Size(1140, 611),
-                                Tag = i.ToString(),
-                                Text = "Аудитория " + classrooms.List[i].Id
-                            };
-                            tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleConsultationClassroomControl(_service, _serviceCR)
-                            {
-                                Dock = DockStyle.Fill
-                            };
-                            control.LoadData(classrooms.List[i].Id);
-                            tabControlSemester.TabPages[i].Controls.Add(control);
+                            LoadRecords();
                         }
-                    }
-                    break;
-                case 1:
-                    var resultStudentGroups = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
-					if (!resultStudentGroups.Succeeded)
-					{
-						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
-						return;
-					}
-					var studentGroups = resultStudentGroups.Result;
-					if (studentGroups != null)
-                    {
-                        for (int i = 0; i < studentGroups.List.Count; i++)
-                        {
-                            TabPage tabpage = new TabPage
-                            {
-                                AutoScroll = true,
-                                Location = new System.Drawing.Point(23, 4),
-                                Name = "tabPageConsultation" + studentGroups.List[i].Id,
-                                Padding = new Padding(3),
-                                Size = new System.Drawing.Size(1140, 611),
-                                Tag = i.ToString(),
-                                Text = studentGroups.List[i].GroupName
-                            };
-                            tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleConsultationStudentGroupControl(_service, _serviceCR)
-                            {
-                                Dock = DockStyle.Fill
-                            };
-                            control.LoadData(studentGroups.List[i].GroupName);
-                            tabControlSemester.TabPages[i].Controls.Add(control);
-                        }
-                    }
-                    break;
-				case 2://расписание по преподавателям
-					var resultLecturers = _service.GetLecturers(new LecturerGetBindingModel { });
-					if (!resultLecturers.Succeeded)
-					{
-						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultLecturers.Errors);
-						return;
-					}
-					var lecturers = resultLecturers.Result;
-					if (lecturers != null)
-					{
-						for (int i = 0; i < lecturers.List.Count; i++)
+                        else
 						{
-                            TabPage tabpage = new TabPage
-                            {
-                                AutoScroll = true,
-                                Location = new System.Drawing.Point(23, 4),
-                                Name = "tabPageSemester" + lecturers.List[i].Id,
-                                Padding = new Padding(3),
-                                Size = new System.Drawing.Size(1140, 611),
-                                Tag = i.ToString(),
-                                Text = lecturers.List[i].FullName
-                            };
-                            tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleConsultationLecturerControl(_service, _serviceCR)
-                            {
-                                Dock = DockStyle.Fill
-                            };
-                            control.LoadData(lecturers.List[i].Id, lecturers.List[i].FullName);
-							tabControlSemester.TabPages[i].Controls.Add(control);
+							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
 						}
-					}
-					break;
-			}
+                    }
+                }
+            }
+        }
+
+        private void toolStripButtonRef_Click(object sender, EventArgs e)
+        {
+            LoadRecords();
         }
     }
 }

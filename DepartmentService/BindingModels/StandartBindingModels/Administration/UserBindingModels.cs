@@ -8,8 +8,8 @@ namespace DepartmentService.BindingModels
 
 		public bool? IsBanned { get; set; }
 
-		public long? RoleId { get; set; }
-	}
+        public string RoleType { get; set; }
+    }
 
 	public class UserRecordBindingModel
 	{
@@ -22,13 +22,13 @@ namespace DepartmentService.BindingModels
 
 		public byte[] Avatar { get; set; }
 
-		[Required(ErrorMessage = "required")]
-		public long RoleId { get; set; }
-
 		public long? StudentId { get; set; }
 
 		public long? LecturerId { get; set; }
 
-		public bool IsBanned { get; set; }
+        [Required(ErrorMessage = "required")]
+        public string RoleType { get; set; }
+
+        public bool IsBanned { get; set; }
 	}
 }

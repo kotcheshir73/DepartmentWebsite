@@ -10,5 +10,9 @@ namespace DepartmentService.BindingModels
 
 		[Required(ErrorMessage = "required")]
 		public DateTime DateExamination { get; set; }
-	}
+        
+        public string LessonConsultationClassroom { get; set; }
+
+        public string ConsultationClassroomId { get; set; }
+    }
 }
