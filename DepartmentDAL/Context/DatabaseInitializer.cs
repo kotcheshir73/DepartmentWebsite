@@ -1,4 +1,5 @@
-﻿using DepartmentDAL.Models;
+﻿using DepartmentDAL.Enums;
+using DepartmentDAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -50,36 +51,18 @@ namespace DepartmentDAL.Context
 
                 context.SaveChanges();
 
-                List<Access> accesses = new List<Access>{
-					new Access
-					{
-						DateCreate = DateTime.Now,
-						AccessType = Enums.AccessType.Administrator,
-						Operation = Enums.AccessOperation.Администрирование,
+                List<Access> accesses = new List<Access>();
+                foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+                {
+                    accesses.Add(new Access
+                    {
+                        DateCreate = DateTime.Now,
+						AccessType = AccessType.Administrator,
+						Operation = elem,
 						RoleId = role.Id
-					},
-					new Access
-					{
-						DateCreate = DateTime.Now,
-						AccessType = Enums.AccessType.Administrator,
-						Operation = Enums.AccessOperation.Доступы,
-						RoleId = role.Id
-					},
-					new Access
-					{
-						DateCreate = DateTime.Now,
-						AccessType = Enums.AccessType.Administrator,
-						Operation = Enums.AccessOperation.Роли,
-						RoleId = role.Id
-					},
-					new Access
-					{
-						DateCreate = DateTime.Now,
-						AccessType = Enums.AccessType.Administrator,
-						Operation = Enums.AccessOperation.Пользователи,
-						RoleId = role.Id
-					}
-				};
+
+                    });
+                }
 
 				context.Accesses.AddRange(accesses);
 
