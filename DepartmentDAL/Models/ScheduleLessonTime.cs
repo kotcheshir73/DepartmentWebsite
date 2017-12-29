@@ -15,6 +15,9 @@ namespace DepartmentDAL.Models
         public string Title { get; set; }
 
         [Required]
+        public int Order { get; set; }
+
+        [Required]
         public DateTime DateBeginLesson { get; set; }
 
         [Required]

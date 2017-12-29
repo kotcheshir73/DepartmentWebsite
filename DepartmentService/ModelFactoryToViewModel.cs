@@ -418,6 +418,7 @@ namespace DepartmentService.ViewModels
 				Id = entity.Id,
 				Text = text,
 				Title = entity.Title,
+                Order = entity.Order,
 				TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
 				TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
 				DateBeginLesson = entity.DateBeginLesson,

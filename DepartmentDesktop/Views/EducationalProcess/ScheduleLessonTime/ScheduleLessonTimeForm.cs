@@ -32,6 +32,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
 				var entity = result.Result;
 
 				textBoxTitle.Text = entity.Title;
+                textBoxOrder.Text = entity.Order.ToString();
                 dateTimePickerDateBeginLesson.Value = entity.DateBeginLesson;
                 dateTimePickerDateEndLesson.Value = entity.DateEndLesson;
             }
@@ -40,6 +41,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
         private bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxOrder.Text))
+            {
+                return false;
+            }
+            int order = 0;
+            if (!int.TryParse(textBoxOrder.Text, out order))
             {
                 return false;
             }
@@ -56,6 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
                     result = _service.CreateScheduleLessonTime(new ScheduleLessonTimeRecordBindingModel
                     {
                         Title = textBoxTitle.Text,
+                        Order = Convert.ToInt32(textBoxOrder.Text),
                         DateBeginLesson = dateTimePickerDateBeginLesson.Value,
                         DateEndLesson = dateTimePickerDateEndLesson.Value
                     });
@@ -66,6 +77,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
                     {
                         Id = _id.Value,
                         Title = textBoxTitle.Text,
+                        Order = Convert.ToInt32(textBoxOrder.Text),
                         DateBeginLesson = dateTimePickerDateBeginLesson.Value,
                         DateEndLesson = dateTimePickerDateEndLesson.Value
                     });

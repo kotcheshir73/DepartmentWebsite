@@ -17,7 +17,10 @@ namespace DepartmentService.BindingModels
         [Required(ErrorMessage = "required")]
 		public string Title { get; set; }
 
-		[Required(ErrorMessage = "required")]
+        [Required(ErrorMessage = "required")]
+        public int Order { get; set; }
+
+        [Required(ErrorMessage = "required")]
 		public DateTime DateBeginLesson { get; set; }
 
 		[Required(ErrorMessage = "required")]

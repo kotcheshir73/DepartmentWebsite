@@ -293,6 +293,10 @@
     <Compile Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.Designer.cs">
       <DependentUpon>201712230652013_AddConsultationClassroomIntoExaminationRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.cs" />
+    <Compile Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.Designer.cs">
+      <DependentUpon>201712290504312_AddOrderInScheduleLessonTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -512,6 +516,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.resx">
       <DependentUpon>201712230652013_AddConsultationClassroomIntoExaminationRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.resx">
+      <DependentUpon>201712290504312_AddOrderInScheduleLessonTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

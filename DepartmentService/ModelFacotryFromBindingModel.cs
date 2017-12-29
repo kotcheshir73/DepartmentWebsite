@@ -351,6 +351,7 @@ namespace DepartmentService.BindingModels
 				entity = new ScheduleLessonTime();
 			}
 			entity.Title = model.Title;
+            entity.Order = model.Order;
 			entity.DateBeginLesson = model.DateBeginLesson;
 			entity.DateEndLesson = model.DateEndLesson;
 

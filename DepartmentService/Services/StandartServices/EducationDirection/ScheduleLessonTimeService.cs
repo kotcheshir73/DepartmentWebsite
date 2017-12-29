@@ -40,7 +40,7 @@ namespace DepartmentService.Services
                     query = query.Where(slt => slt.Title.Contains(model.Title));
                 }
 
-                query = query.OrderBy(e => e.Id);
+                query = query.OrderBy(e => e.Order).ThenBy(e => e.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {

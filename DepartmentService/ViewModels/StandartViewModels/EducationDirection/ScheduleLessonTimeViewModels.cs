@@ -12,6 +12,8 @@ namespace DepartmentService.ViewModels
 
 		public string Title { get; set; }
 
+        public int Order { get; set; }
+
 		public string TimeBeginLesson { get; set; }
 
 		public string TimeEndLesson { get; set; }

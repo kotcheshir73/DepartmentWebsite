@@ -20,6 +20,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "Title", Title = "Название", Width = 300, Visible = true },
+                new ColumnConfig { Name = "Order", Title = "Порядок", Width = 100, Visible = true },
                 new ColumnConfig { Name = "TimeBegin", Title = "Время окончания", Width = 100, Visible = true },
                 new ColumnConfig { Name = "TimeEnd", Title = "Время окончания", Width = 100, Visible = true }
             };
@@ -68,6 +69,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.Title,
+                    res.Order,
                     res.TimeBeginLesson,
                     res.TimeEndLesson
                 );
