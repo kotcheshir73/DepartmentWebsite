@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL;
+using DepartmentDesktop.Views.Schedule.Consultation;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
@@ -9,69 +10,69 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.Schedule.Offset
 {
     public partial class ScheduleOffsetControl : UserControl
-	{
-		private readonly IScheduleService _service;
+    {
+        private readonly IScheduleService _service;
 
-		private readonly IOffsetRecordService _serviceOR;
+        private readonly IOffsetRecordService _serviceOR;
 
-		private readonly IConsultationRecordService _serviceCR;
+        private readonly IConsultationRecordService _serviceCR;
 
         private ScheduleGetBindingModel _model;
 
         private DateTime _selectDate;
 
-		private SeasonDatesViewModel _dates;
+        private SeasonDatesViewModel _dates;
 
-		private Color _consultationColor = Color.Green;
+        private Color _consultationColor = Color.Green;
 
-		public ScheduleOffsetControl(IScheduleService service, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
-		{
-			InitializeComponent();
-			_service = service;
-			_serviceOR = serviceOR;
-			_serviceCR = serviceCR;
-			_selectDate = DateTime.Now;
+        public ScheduleOffsetControl(IScheduleService service, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
+        {
+            InitializeComponent();
+            _service = service;
+            _serviceOR = serviceOR;
+            _serviceCR = serviceCR;
+            _selectDate = DateTime.Now;
 
-			var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-			if (!result.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-			}
-			var lessons = result.Result.List;
-			if (lessons != null)
-			{
-				for (int i = 0; i < lessons.Count; ++i)
-				{
-					dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
-					dataGridViewSecondWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
-				}
-			}
-		}
+            var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+            }
+            var lessons = result.Result.List;
+            if (lessons != null)
+            {
+                for (int i = 0; i < lessons.Count; ++i)
+                {
+                    dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+                    dataGridViewSecondWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+                }
+            }
+        }
 
-		public void LoadData(string title, ScheduleGetBindingModel model)
-		{
-			try
-			{
+        public void LoadData(string title, ScheduleGetBindingModel model)
+        {
+            try
+            {
                 _model = model;
 
-				var resultCD = _service.GetCurrentDates();
-				if (!resultCD.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
-				}
-				_dates = resultCD.Result;
+                var resultCD = _service.GetCurrentDates();
+                if (!resultCD.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
+                }
+                _dates = resultCD.Result;
 
-				labelTop.Text = string.Format("{0} {1}", title, _dates.Title);
+                labelTop.Text = string.Format("{0} {1}", title, _dates.Title);
 
-                LoadRecrods();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
+                LoadRecords();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-        private void LoadRecrods()
+        private void LoadRecords()
         {
             try
             {
@@ -163,97 +164,253 @@ namespace DepartmentDesktop.Views.Schedule.Offset
             }
         }
 
-		private void dataGridView_Resize(object sender, EventArgs e)
-		{
-			for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
-			{
-				((DataGridView)sender).Rows[i].Height = (((DataGridView)sender).Height - 35) / ((DataGridView)sender).Rows.Count;
-			}
-		}
-
-		private void dataGridView_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode.ToString() == "Delete")
-				try
-				{
-					if (((DataGridView)sender).SelectedCells.Count > 0)
-						if (((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
-							if (((DataGridView)sender).SelectedCells[0].Tag != null)
-								if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-									DialogResult.Yes)
-								{
-									ResultService result;
-									if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
-									{
-										result = _serviceOR.DeleteOffsetRecord(
-											new ScheduleGetBindingModel
-                                            {
-												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
-											});
-									}
-									else
-									{
-										result = _serviceCR.DeleteConsultationRecord(
-											new ScheduleGetBindingModel
-                                            {
-												Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
-											});
-									}
-									if (!result.Succeeded)
-									{
-										Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-									}
-                                    LoadRecrods();
-								}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-		}
-
-		private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-		{
-			try
-			{
-				if (((DataGridView)sender).SelectedCells.Count > 0)
-					if (((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
-						if (((DataGridView)sender).SelectedCells[0].Tag != null)
-						{//если в Tag есть данные, то это id записи
-							if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
-							{
-								ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
-									Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
-								form.ShowDialog();
-                            }
-                            LoadRecrods();
-                        }
-						else
-						{//иначе пустая ячейка
-                         //string text = ((DataGridView)sender).Rows[((DataGridView)sender).SelectedCells[0].RowIndex].Cells[0].Value.ToString();
-                         //DateTime date = Convert.ToDateTime(text.Split('\n')[1]);
-                         //FormAddUpd form = new FormAddUpd(1, _classroomID, Convert.ToInt32(((DataGridView)sender).Tag),
-                         //    ((DataGridView)sender).SelectedCells[0].RowIndex, date,
-                         //    ((DataGridView)sender).SelectedCells[0].ColumnIndex - 1, null);
-                         //form.ShowDialog();
-                            LoadRecrods();
-                        }
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
-		}
-
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
-		{
-			ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service);
-			form.ShowDialog();
-		}
-
-		private void toolStripButtonRef_Click(object sender, EventArgs e)
+        private void DataGridView_Resize(object sender, EventArgs e)
         {
-            LoadRecrods();
+            for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
+            {
+                ((DataGridView)sender).Rows[i].Height = (((DataGridView)sender).Height - 35) / ((DataGridView)sender).Rows.Count;
+            }
         }
-	}
+
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == "Delete")
+            {
+                try
+                {
+                    if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0 && ((DataGridView)sender).SelectedCells[0].Tag != null)
+                    {
+                        if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            ResultService result;
+                            if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
+                            {
+                                result = _serviceOR.DeleteOffsetRecord(
+                                    new ScheduleGetBindingModel
+                                    {
+                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                    });
+                            }
+                            else
+                            {
+                                result = _serviceCR.DeleteConsultationRecord(
+                                    new ScheduleGetBindingModel
+                                    {
+                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                    });
+                            }
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                            LoadRecords();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
+                {
+                    if (((DataGridView)sender).SelectedCells[0].Tag != null)
+                    {//если в Tag есть данные, то это id записи
+                        if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
+                        {
+                            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
+                                Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                            form.ShowDialog();
+                        }
+                    }
+                    else
+                    {//иначе пустая ячейка
+                        int lesson =
+                            Convert.ToInt32(((DataGridView)sender).Tag) * 100 +
+                            ((DataGridView)sender).SelectedCells[0].RowIndex * 10 +
+                            ((DataGridView)sender).SelectedCells[0].ColumnIndex;
+                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service, lesson: lesson);
+                        form.ShowDialog();
+                    }
+                    LoadRecords();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ToolStripButtonAdd_Click(object sender, EventArgs e)
+        {
+            int? lesson = null;
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                lesson =
+                              Convert.ToInt32(dataGridViewFirstWeek.Tag) * 100 +
+                              dataGridViewFirstWeek.SelectedCells[0].RowIndex * 10 +
+                              dataGridViewFirstWeek.SelectedCells[0].ColumnIndex;
+            }
+            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                lesson =
+                              Convert.ToInt32(dataGridViewSecondWeek.Tag) * 100 +
+                              dataGridViewSecondWeek.SelectedCells[0].RowIndex * 10 +
+                              dataGridViewSecondWeek.SelectedCells[0].ColumnIndex;
+            }
+            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service, lesson: lesson);
+            form.ShowDialog();
+        }
+
+        private void ToolStripButtonUpd_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
+                {//если в Tag есть данные, то это id записи
+                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    {
+                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
+                            Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                        form.ShowDialog();
+                    }
+                    else
+                    {
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                           Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                        form.ShowDialog();
+                    }
+                    LoadRecords();
+                }
+            }
+            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                if (dataGridViewSecondWeek.SelectedCells[0].Tag != null)
+                {//если в Tag есть dataGridViewSecondWeek, то это id записи
+                    if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    {
+                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
+                            Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag));
+                        form.ShowDialog();
+                    }
+                    else
+                    {
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                           Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag));
+                        form.ShowDialog();
+                    }
+                    LoadRecords();
+                }
+            }
+        }
+
+        private void ToolStripButtonDel_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
+                {//если в Tag есть данные, то это id записи
+                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    {
+                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                        }
+                    }
+                }
+            }
+            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                if (dataGridViewSecondWeek.SelectedCells[0].Tag != null)
+                {//если в Tag есть dataGridViewSecondWeek, то это id записи
+                    if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    {
+                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            long id = Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag);
+                            var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            long id = Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag);
+                            var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                        }
+                    }
+                }
+            }
+            LoadRecords();
+        }
+
+        private void ToolStripButtonRef_Click(object sender, EventArgs e)
+        {
+            LoadRecords();
+        }
+
+        private void ToolStripButtonConsultation_Click(object sender, EventArgs e)
+        {
+            DateTime? datetime = null;
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
+                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+                }
+                var lessons = result.Result.List;
+                datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
+                                .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                form.ShowDialog();
+            }
+            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                datetime = _selectDate.Date.AddDays(dataGridViewSecondWeek.SelectedCells[0].RowIndex + 7);
+                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+                }
+                var lessons = result.Result.List;
+                datetime = datetime.Value.AddHours(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
+                                .AddMinutes(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                form.ShowDialog();
+            }
+        }
+    }
 }

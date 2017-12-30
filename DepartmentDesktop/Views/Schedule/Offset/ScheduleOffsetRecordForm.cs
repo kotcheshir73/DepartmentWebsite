@@ -16,12 +16,15 @@ namespace DepartmentDesktop.Views.Schedule.Offset
 
         private long? _id;
 
-        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleService serviceS, long? id = null)
+        private int? _lesson;
+
+        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleService serviceS, long? id = null, int? lesson = null)
         {
             InitializeComponent();
             _service = service;
             _serviceS = serviceS;
             _id = id;
+            _lesson = lesson;
         }
 
         private void ScheduleOffsetRecordForm_Load(object sender, EventArgs e)
@@ -82,7 +85,14 @@ namespace DepartmentDesktop.Views.Schedule.Offset
 			comboBoxClassroom.SelectedItem = null;
 			textBoxClassroom.Text = string.Empty;
 
-			if (_id.HasValue)
+            if (_lesson.HasValue)
+            {
+                comboBoxWeek.SelectedIndex = _lesson.Value / 100;
+                comboBoxDay.SelectedIndex = (_lesson.Value % 100) / 10;
+                comboBoxLesson.SelectedIndex = _lesson.Value % 10 - 1;
+            }
+
+            if (_id.HasValue)
             {
                 var result = _service.GetOffsetRecord(new ScheduleGetBindingModel { Id = _id.Value });
 				if (!result.Succeeded)

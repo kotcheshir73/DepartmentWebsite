@@ -201,7 +201,7 @@ namespace DepartmentService.Services
 
                 ScheduleHelper.CheckCreateConsultation(_context, model, seasonDate);
 
-                var entity = ModelFacotryFromBindingModel.CreateConsultationRecord(model);
+                var entity = ModelFacotryFromBindingModel.CreateConsultationRecord(model, seasonDate: seasonDate);
 
                 _context.ConsultationRecords.Add(entity);
 				_context.SaveChanges();

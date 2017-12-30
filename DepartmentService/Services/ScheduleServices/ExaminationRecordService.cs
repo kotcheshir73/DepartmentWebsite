@@ -142,7 +142,7 @@ namespace DepartmentService.Services
 				{
 					return ResultService.Error("Error:", "Exsist ExaminationRecord", ResultServiceStatusCode.ExsistItem);
 				}
-				var entity = ModelFacotryFromBindingModel.CreateExaminationRecord(model);
+				var entity = ModelFacotryFromBindingModel.CreateExaminationRecord(model, seasonDate: seasonDate);
 
 				_context.ExaminationRecords.Add(entity);
 				_context.SaveChanges();

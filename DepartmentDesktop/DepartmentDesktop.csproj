@@ -208,6 +208,24 @@
     <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.Designer.cs">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Schedule\CurrentClassroomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Schedule\CurrentClassroomControl.Designer.cs">
+      <DependentUpon>CurrentClassroomControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Schedule\CurrentLecturerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Schedule\CurrentLecturerControl.Designer.cs">
+      <DependentUpon>CurrentLecturerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Schedule\CurrentStudentGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Schedule\CurrentStudentGroupControl.Designer.cs">
+      <DependentUpon>CurrentStudentGroupControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Schedule\Examination\ScheduleExaminationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -231,6 +249,18 @@
     </Compile>
     <Compile Include="Views\Schedule\Semester\ScheduleSemesterRecordForm.Designer.cs">
       <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\DataBaseWork\ExportDataBaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\DataBaseWork\ExportDataBaseControl.Designer.cs">
+      <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\DataBaseWork\ImportDataBaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\DataBaseWork\ImportDataBaseControl.Designer.cs">
+      <DependentUpon>ImportDataBaseControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Services\LoadDistribution\LoadDistributionControl.cs">
       <SubType>UserControl</SubType>
@@ -534,6 +564,15 @@
     <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Schedule\CurrentClassroomControl.resx">
+      <DependentUpon>CurrentClassroomControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Schedule\CurrentLecturerControl.resx">
+      <DependentUpon>CurrentLecturerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Schedule\CurrentStudentGroupControl.resx">
+      <DependentUpon>CurrentStudentGroupControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Examination\ScheduleExaminationControl.resx">
       <DependentUpon>ScheduleExaminationControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -545,6 +584,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Semester\ScheduleSemesterRecordForm.resx">
       <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\DataBaseWork\ExportDataBaseControl.resx">
+      <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\DataBaseWork\ImportDataBaseControl.resx">
+      <DependentUpon>ImportDataBaseControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionControl.resx">
       <DependentUpon>LoadDistributionControl.cs</DependentUpon>

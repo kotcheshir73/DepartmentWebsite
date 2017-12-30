@@ -27,15 +27,15 @@ namespace DepartmentDesktop.Views.Schedule.Examination
 
         private Color _consultationColor = Color.Green;
 
-		private KeyValuePair<DateTime, int> _consultFirstIndex;
+        private KeyValuePair<DateTime, int> _consultFirstIndex;
 
-		private KeyValuePair<DateTime, int> _consultSecondIndex;
+        private KeyValuePair<DateTime, int> _consultSecondIndex;
 
-		private KeyValuePair<DateTime, int> _examFirstIndex;
+        private KeyValuePair<DateTime, int> _examFirstIndex;
 
-		private KeyValuePair<DateTime, int> _examSecondIndex;
+        private KeyValuePair<DateTime, int> _examSecondIndex;
 
-		public ScheduleExaminationControl(IScheduleService service, IExaminationRecordService serviceER,
+        public ScheduleExaminationControl(IScheduleService service, IExaminationRecordService serviceER,
             IConsultationRecordService serviceCR)
         {
             InitializeComponent();
@@ -44,39 +44,39 @@ namespace DepartmentDesktop.Views.Schedule.Examination
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
 
-			var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-			if(!result.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-			}
-			var lessons = result.Result.List;
-			result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
-			if (!result.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-			}
-			lessons.AddRange(result.Result.List);
+            var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+            }
+            var lessons = result.Result.List;
+            result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+            }
+            lessons.AddRange(result.Result.List);
             if (lessons != null)
             {
                 for (int i = 0; i < lessons.Count; ++i)
                 {
-					if(lessons[i].Text.Contains("Утренний"))
-					{
-						_examFirstIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
-					}
-					if (lessons[i].Text.Contains("Дневной"))
-					{
-						_examSecondIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
-					}
-					if (lessons[i].Text.Contains("Первая"))
-					{
-						_consultFirstIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
-					}
-					if (lessons[i].Text.Contains("Вторая"))
-					{
-						_consultSecondIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
-					}
-					dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
+                    if (lessons[i].Text.Contains("Утренний"))
+                    {
+                        _examFirstIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+                    }
+                    if (lessons[i].Text.Contains("Дневной"))
+                    {
+                        _examSecondIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+                    }
+                    if (lessons[i].Text.Contains("Первая"))
+                    {
+                        _consultFirstIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+                    }
+                    if (lessons[i].Text.Contains("Вторая"))
+                    {
+                        _consultSecondIndex = new KeyValuePair<DateTime, int>(Convert.ToDateTime(lessons[i].TimeBeginLesson), i + 1);
+                    }
+                    dataGridViewFirstWeek.Columns[i + 1].HeaderCell.Value = lessons[i].Text;
                 }
             }
         }
@@ -88,11 +88,11 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 _model = model;
 
                 var resultCD = _service.GetCurrentDates();
-				if(!resultCD.Succeeded)
-				{
-					Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
-				}
-				_dates = resultCD.Result;
+                if (!resultCD.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
+                }
+                _dates = resultCD.Result;
 
                 labelTop.Text = string.Format("{0} {1}", title, _dates.Title);
 
@@ -119,15 +119,26 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 }
                 var days = (dateEndExamination - dateBeginExamination).Days;
                 dataGridViewFirstWeek.Rows.Clear();
-                for (int j = 0; j < days; j++)
+                for (int j = 0; j <= days; j++)
                 {
                     dataGridViewFirstWeek.Rows.Add();//добавляем строки
                     dataGridViewFirstWeek.Rows[j].Height = 45;
                     dataGridViewFirstWeek.Rows[j].Cells[0].Value = string.Format("{0}{1}{2}", currentdate.ToShortDateString(), Environment.NewLine,
                        CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek));
                     if (currentdate.Date == DateTime.Now.Date)
+                    {
                         for (int i = 0; i < dataGridViewFirstWeek.Columns.Count; i++)
+                        {
                             dataGridViewFirstWeek.Rows[j].Cells[i].Style.BackColor = Color.Aqua;
+                        }
+                    }
+                    if (currentdate.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        for (int i = 0; i < dataGridViewFirstWeek.Columns.Count; i++)
+                        {
+                            dataGridViewFirstWeek.Rows[j].Cells[i].Style.BackColor = Color.Gray;
+                        }
+                    }
                     currentdate = currentdate.AddDays(1);
                 }
                 currentdate = dateBeginExamination;
@@ -202,8 +213,9 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 {
                     if (record.Day <= days)
                     {
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson].Value = record.Text;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson].Tag = record.Id;
+                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
+                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
                     }
                 }
             }
@@ -213,109 +225,88 @@ namespace DepartmentDesktop.Views.Schedule.Examination
             }
         }
 
-        private void dataGridView_Resize(object sender, EventArgs e)
+        private void toolStripButtonRef_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
-                ((DataGridView)sender).Rows[i].Height = 45;
+            LoadRecords();
         }
 
-        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void DataGridView_Resize(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
+            {
+                ((DataGridView)sender).Rows[i].Height = 45;
+            }
+        }
+
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode.ToString() == "Delete")
+            {
                 try
                 {
-                    if (((DataGridView)sender).SelectedCells.Count > 0)
-                        if (((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
-                            if (((DataGridView)sender).SelectedCells[0].Tag != null)
-                                if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                                    DialogResult.Yes)
-                                {
-                                    ResultService result;
-                                    if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 ||
-                                        ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
+                    if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0 && ((DataGridView)sender).SelectedCells[0].Tag != null)
+                        if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            ResultService result;
+                            if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 || ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
+                            {
+                                result = _serviceER.DeleteExaminationRecord(
+                                    new ScheduleGetBindingModel
                                     {
-                                        result = _serviceER.DeleteExaminationRecord(
-                                            new ScheduleGetBindingModel
-                                            {
-                                                Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
-                                            });
-                                    }
-                                    else
+                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                    });
+                            }
+                            else
+                            {
+                                result = _serviceCR.DeleteConsultationRecord(
+                                    new ScheduleGetBindingModel
                                     {
-                                        result = _serviceCR.DeleteConsultationRecord(
-                                            new ScheduleGetBindingModel
-                                            {
-                                                Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
-                                            });
-                                    }
-                                    if (!result.Succeeded)
-									{
-										Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-									}
-                                    LoadRecords();
-                                }
+                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                    });
+                            }
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                            LoadRecords();
+                        }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
         }
 
-        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
-                if (((DataGridView)sender).SelectedCells.Count > 0)
-                    if (((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
-                        if (((DataGridView)sender).SelectedCells[0].Tag != null)
-                        {//если в Tag есть данные, то это id записи
-                            if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 &&
-                                ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
-                            {
-                                ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
-                                    Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
-                                form.ShowDialog();
-                            }
-                            else
-                            {
-                                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                                      Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
-                                form.ShowDialog();
-                            }
-                            LoadRecords();
+                if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
+                {
+                    if (((DataGridView)sender).SelectedCells[0].Tag != null)
+                    {//если в Tag есть данные, то это id записи
+                        if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 && ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
+                        {
+                            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
+                                Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                            form.ShowDialog();
                         }
                         else
-                        {//иначе пустая ячейка
-                            //string text = ((DataGridView)sender).Rows[((DataGridView)sender).SelectedCells[0].RowIndex].Cells[0].Value.ToString();
-                            //DateTime date = Convert.ToDateTime(text);
-                            //if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 &&
-                            //    ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
-                            //{
-                            //    switch (((DataGridView)sender).SelectedCells[0].ColumnIndex)
-                            //    {
-                            //        case 1: date = date.AddHours(8 - date.Hour); break;
-                            //        case 2: date = date.AddHours(12 - date.Hour); break;
-                            //        case 5: date = date.AddHours(16 - date.Hour); break;
-                            //        case 6: date = date.AddHours(17 - date.Hour); break;
-                            //    }
-                            //    FormAddUpd form = new FormAddUpd(2, _classroomID, Convert.ToInt32(((DataGridView)sender).Tag),
-                            //        ((DataGridView)sender).SelectedCells[0].RowIndex, date,
-                            //        ((DataGridView)sender).SelectedCells[0].ColumnIndex - 1, null);
-                            //    form.ShowDialog();
-                            //}
-                            //else
-                            //{
-                            //    switch (((DataGridView)sender).SelectedCells[0].ColumnIndex)
-                            //    {
-                            //        case 3: date = date.AddHours(12 - date.Hour); break;
-                            //        case 4: date = date.AddHours(14 - date.Hour); break;
-                            //    }
-                            //    FormAddUpd form = new FormAddUpd(3, _classroomID, Convert.ToInt32(((DataGridView)sender).Tag),
-                            //        ((DataGridView)sender).SelectedCells[0].RowIndex, date, null, date);
-                            //    form.ShowDialog();
-                            //}
-                            //LoadData();
+                        {
+                            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                                  Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                            form.ShowDialog();
                         }
+                    }
+                    else
+                    {//иначе пустая ячейка
+                        DateTime datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
+                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service);
+                        form.ShowDialog();
+                    }
+                    LoadRecords();
+                }
             }
             catch (Exception ex)
             {
@@ -323,15 +314,109 @@ namespace DepartmentDesktop.Views.Schedule.Examination
             }
         }
 
-        private void toolStripButtonAdd_Click(object sender, EventArgs e)
+        private void ToolStripButtonAdd_Click(object sender, EventArgs e)
         {
+            //TODO
+            int? lesson = null;
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                lesson =
+                              Convert.ToInt32(dataGridViewFirstWeek.Tag) * 100 +
+                              dataGridViewFirstWeek.SelectedCells[0].RowIndex * 10 +
+                              dataGridViewFirstWeek.SelectedCells[0].ColumnIndex;
+            }
             ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service);
             form.ShowDialog();
         }
 
-        private void toolStripButtonRef_Click(object sender, EventArgs e)
+        private void ToolStripButtonUpd_Click(object sender, EventArgs e)
+        {
+            //TODO
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
+                {//если в Tag есть данные, то это id записи
+                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    {
+                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
+                            Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                        form.ShowDialog();
+                    }
+                    else
+                    {
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                           Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                        form.ShowDialog();
+                    }
+                    LoadRecords();
+                }
+            }
+        }
+
+        private void ToolStripButtonDel_Click(object sender, EventArgs e)
+        {
+            //TODO
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
+                {//если в Tag есть данные, то это id записи
+                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    {
+                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            var result = _serviceER.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = id });
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
+                            if (!result.Succeeded)
+                            {
+                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                            }
+                        }
+                    }
+                }
+            }
+            LoadRecords();
+        }
+
+        private void ToolStripButtonRef_Click(object sender, EventArgs e)
         {
             LoadRecords();
+        }
+
+        private void ToolStripButtonConsultation_Click(object sender, EventArgs e)
+        {
+            DateTime? datetime = null;
+            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            {
+                datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
+                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+                }
+                var lessons = result.Result.List;
+                result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+                }
+                lessons.AddRange(result.Result.List);
+                datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
+                                .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                form.ShowDialog();
+            }
         }
     }
 }

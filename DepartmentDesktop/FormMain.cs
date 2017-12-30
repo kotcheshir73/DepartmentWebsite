@@ -13,7 +13,6 @@ namespace DepartmentDesktop
 		public FormMain()
 		{
 			InitializeComponent();
-
 		}
 
 		private void ApplyControl(Control control)
@@ -33,70 +32,212 @@ namespace DepartmentDesktop
 			Controls.Add(control);
 		}
 
+        #region Сервис
+        /// <summary>
+        /// Генерация билетов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		private void MakeTicketsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = new Controllers.MakeTicketsUS();
 			ApplyControl(control);
 		}
+        /// <summary>
+        /// Расчет штатов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void LoadDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.LoadDistribution.LoadDistributionControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
 
-		private void UsersToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Работа с БД
+        /// <summary>
+        /// Сохранить
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImportDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.DataBaseWork.ImportDataBaseControl>();
+            ApplyControl(control);
+        }
+        /// <summary>
+        /// Загрузить
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
+            ApplyControl(control);
+        }
+        #endregion
+        #endregion
+
+        #region Администрирование
+        /// <summary>
+        /// Пользователи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UsersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.Administration.User.UsersControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
+        /// <summary>
+        /// Роли
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RolesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Administration.Role.RoleControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        #endregion
 
-		private void rolesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Administration.Role.RoleControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void educationDirectionToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Учебный процесс
+        /// <summary>
+        /// Направления
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EducationDirectionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.EducationDirection.EducationDirectionControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
-
-		private void studentGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Преподаватели
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void LecturerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Lecturer.LecturerControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+        /// <summary>
+        /// Блоки дисциплин
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void DisciplineBlockToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Discipline.DisciplineBlockControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+        /// <summary>
+        /// Дисциплины
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void DisciplineToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Discipline.DisciplineControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+        /// <summary>
+        /// Группы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void StudentGroupToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.StudentGroup.StudentGroupControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
-
-		private void classroomToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Classroom.ClassroomControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void seasonDatesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.SeasonDates.SeasonDatesControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void streamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Потоки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void StreamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.StreamingLesson.StreamingLessonControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
 
-		#region Расписание - настройки
-		/// <summary>
-		/// Настройки
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void scheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Студенты
+        /// <summary>
+        /// Учащиеся
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StudentsStudentToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.ScheduleConfigControl>();
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Учится);
+		}
+        /// <summary>
+        /// Завершившие обучение
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void StudentsGraduateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Завершил);
+		}
+        /// <summary>
+        /// В академическом отпуске
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void StudentsAcademToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Академ);
+		}
+        /// <summary>
+        /// Отчисленные
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void StudentsDeductionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
+			ApplyControl(control);
+			control.LoadData(StudentState.Отчислен);
+		}
+        #endregion
+
+        /// <summary>
+        /// Аудитории
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClassroomToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.Classroom.ClassroomControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+        /// <summary>
+        /// Даты семестра
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void SeasonDatesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.SeasonDates.SeasonDatesControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
@@ -105,212 +246,263 @@ namespace DepartmentDesktop
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void scheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
+		private void ScheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.ScheduleLessonTime.ScheduleLessonTimeControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
-		#endregion
 
-		#region Расписание - аудитории
-		/// <summary>
-		/// Расписание аудиторий на семестр
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void scheduleClassroomSemesterToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
-			ApplyControl(control);
-			control.LoadData(0);
-		}
-		/// <summary>
-		/// Расписание аудиторий на зачетную неделю
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void scheduleClassroomOffsetToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
-			ApplyControl(control);
-			control.LoadData(0);
-		}
-		/// <summary>
-		/// Расписание аудиторий на экзаменационную сессию
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void scheduleClassroomExaminationToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
-			ApplyControl(control);
-			control.LoadData(0);
-		}
-		/// <summary>
-		/// Расписание аудиторий по консультациям
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void scheduleClassroomConsultationToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
-			ApplyControl(control);
-			control.LoadData(0);
-		}
-		#endregion
-
-		#region Расписание - группы
-		private void scheduleStudentGroupSemesterToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
-			ApplyControl(control);
-			control.LoadData(1);
-		}
-
-		private void scheduleStudentGroupOffsetToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
-			ApplyControl(control);
-			control.LoadData(1);
-		}
-
-		private void scheduleStudentGroupExaminationToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
-			ApplyControl(control);
-			control.LoadData(1);
-		}
-
-		private void scheduleStudentGroupConsultationToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
-			ApplyControl(control);
-			control.LoadData(1);
-		}
-		#endregion
-
-		#region Расписание - преподаватели
-		private void scheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
-			ApplyControl(control);
-			control.LoadData(2);
-		}
-
-		private void scheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
-			ApplyControl(control);
-			control.LoadData(2);
-		}
-
-		private void scheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
-			ApplyControl(control);
-			control.LoadData(2);
-		}
-
-		private void scheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
-			ApplyControl(control);
-			control.LoadData(2);
-		}
-		#endregion
-
-		#region Студенты
-		private void studentsStudentToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
-			ApplyControl(control);
-			control.LoadData(StudentState.Учится);
-		}
-
-		private void studentsGraduateToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
-			ApplyControl(control);
-			control.LoadData(StudentState.Завершил);
-		}
-
-		private void studentsAcademToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
-			ApplyControl(control);
-			control.LoadData(StudentState.Академ);
-		}
-
-		private void studentsDeductionToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Student.StudentControl>();
-			ApplyControl(control);
-			control.LoadData(StudentState.Отчислен);
-		}
-		#endregion
-
-		private void kindOfLoadsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.KindOfLoad.KindOfLoadControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void academicPlansToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.AcademicPlanControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void academicYearsToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Учебные планы
+        /// <summary>
+        /// Учебные года
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void AcademicYearsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.AcademicYear.AcademicYearControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
-
-		private void contingentsToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Учебные планы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void AcademicPlansToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.AcademicPlanControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+        /// <summary>
+        /// Виды нагрузок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void KindOfLoadsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = Container.Resolve<Views.EducationalProcess.KindOfLoad.KindOfLoadControl>();
+			ApplyControl(control);
+			control.LoadData();
+		}
+        /// <summary>
+        /// Контингент
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void ContingentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.Contingent.ContingentControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
-
-		private void timeNormsToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Нормы времени
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void TimeNormsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.TimeNorm.TimeNormControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
+        #endregion
 
-		private void lecturerToolStripMenuItem_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Расписание
+
+        #region Расписание текущие
+        /// <summary>
+        /// Расписание аудитории по текущей дате
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleCurrentClassroomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.CurrentClassroomControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        /// <summary>
+        /// Расписание групп по текущей дате
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleCurrentStudentGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.CurrentStudentGroupControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        /// <summary>
+        /// Расписание преподавателей по текущей дате
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleCurrentLecturerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.CurrentLecturerControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        #endregion
+
+        #region Расписание - аудитории
+        /// <summary>
+        /// Расписание аудиторий на семестр
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleClassroomSemesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
+            ApplyControl(control);
+            control.LoadData(0);
+        }
+        /// <summary>
+        /// Расписание аудиторий на зачетную неделю
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleClassroomOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
+            ApplyControl(control);
+            control.LoadData(0);
+        }
+        /// <summary>
+        /// Расписание аудиторий на экзаменационную сессию
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleClassroomExaminationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
+            ApplyControl(control);
+            control.LoadData(0);
+        }
+        /// <summary>
+        /// Расписание аудиторий по консультациям
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleClassroomConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
+            ApplyControl(control);
+            control.LoadData(0);
+        }
+        #endregion
+
+        #region Расписание - группы
+        /// <summary>
+        /// Расписание групп на семестр
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleStudentGroupSemesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+        /// <summary>
+        /// Расписание групп на зачетную неделю
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleStudentGroupOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+        /// <summary>
+        /// Расписание групп на экзаменационную сессию
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleStudentGroupExaminationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+        /// <summary>
+        /// Расписание групп по консультациям
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleStudentGroupConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
+            ApplyControl(control);
+            control.LoadData(1);
+        }
+        #endregion
+
+        #region Расписание - преподаватели
+        /// <summary>
+        /// Расписание преподавателей на семестр
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void scheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
+            ApplyControl(control);
+            control.LoadData(2);
+        }
+        /// <summary>
+        /// Расписание преподавателей на зачетную неделю
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void scheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
+            ApplyControl(control);
+            control.LoadData(2);
+        }
+        /// <summary>
+        /// Расписание преподавателей на экзаменационную сессию
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void scheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
+            ApplyControl(control);
+            control.LoadData(2);
+        }
+        /// <summary>
+        /// Расписание преподавателей по консультациям
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void scheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
+            ApplyControl(control);
+            control.LoadData(2);
+        }
+        #endregion
+
+        /// <summary>
+        /// Настройки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.EducationalProcess.Lecturer.LecturerControl>();
+			var control = Container.Resolve<Views.Schedule.ScheduleConfigControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}
-
-		private void disciplineBlockToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Discipline.DisciplineBlockControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void disciplineToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Discipline.DisciplineControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-
-		private void loadDistributionToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.LoadDistribution.LoadDistributionControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-	}
+		#endregion
+    }
 }

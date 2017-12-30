@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,7 +42,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ColumnWeek1Lesson4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek1Lesson5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek1Lesson6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,54 +57,34 @@
             this.ColumnWeek2Lesson6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek2Lesson7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek2Lesson8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contextMenuStripSemester = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.отчисткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.полнаяОтчисткаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excelToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.xMLToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.импортВсегоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.xMLToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.экспортВсегоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excelToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.xMLToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.ColumnWeek1Lesson3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.labelTop = new System.Windows.Forms.Label();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.toolStripMenu = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.ColumnWeek1Lesson2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.dataGridViewFirstWeek = new System.Windows.Forms.DataGridView();
             this.ColumnWeek1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWeek1Lesson1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripMenu = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonUpd = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonConsultation = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSecondWeek)).BeginInit();
-            this.contextMenuStripSemester.SuspendLayout();
             this.panelTop.SuspendLayout();
-            this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).BeginInit();
+            this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // ColumnWeek1Lesson4
             // 
@@ -179,7 +157,6 @@
             this.ColumnWeek2Lesson6,
             this.ColumnWeek2Lesson7,
             this.ColumnWeek2Lesson8});
-            this.dataGridViewSecondWeek.ContextMenuStrip = this.contextMenuStripSemester;
             this.dataGridViewSecondWeek.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewSecondWeek.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewSecondWeek.MultiSelect = false;
@@ -202,9 +179,9 @@
             this.dataGridViewSecondWeek.Size = new System.Drawing.Size(800, 205);
             this.dataGridViewSecondWeek.TabIndex = 0;
             this.dataGridViewSecondWeek.Tag = "1";
-            this.dataGridViewSecondWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
-            this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
-            this.dataGridViewSecondWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
+            this.dataGridViewSecondWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
+            this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
+            this.dataGridViewSecondWeek.Resize += new System.EventHandler(this.DataGridView_Resize);
             // 
             // ColumnWeek2
             // 
@@ -285,143 +262,6 @@
             this.ColumnWeek2Lesson8.ReadOnly = true;
             this.ColumnWeek2Lesson8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // contextMenuStripSemester
-            // 
-            this.contextMenuStripSemester.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.отчисткаToolStripMenuItem,
-            this.полнаяОтчисткаToolStripMenuItem,
-            this.импортToolStripMenuItem,
-            this.экспортToolStripMenuItem,
-            this.импортВсегоToolStripMenuItem,
-            this.экспортВсегоToolStripMenuItem});
-            this.contextMenuStripSemester.Name = "contextMenuStrip";
-            this.contextMenuStripSemester.Size = new System.Drawing.Size(169, 136);
-            // 
-            // отчисткаToolStripMenuItem
-            // 
-            this.отчисткаToolStripMenuItem.Name = "отчисткаToolStripMenuItem";
-            this.отчисткаToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.отчисткаToolStripMenuItem.Tag = "0_1";
-            this.отчисткаToolStripMenuItem.Text = "Отчистка";
-            // 
-            // полнаяОтчисткаToolStripMenuItem
-            // 
-            this.полнаяОтчисткаToolStripMenuItem.Name = "полнаяОтчисткаToolStripMenuItem";
-            this.полнаяОтчисткаToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.полнаяОтчисткаToolStripMenuItem.Text = "Полная отчистка";
-            // 
-            // импортToolStripMenuItem
-            // 
-            this.импортToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.excelToolStripMenuItem1,
-            this.hTMLToolStripMenuItem1,
-            this.xMLToolStripMenuItem1});
-            this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
-            this.импортToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.импортToolStripMenuItem.Text = "Импорт";
-            // 
-            // excelToolStripMenuItem1
-            // 
-            this.excelToolStripMenuItem1.Name = "excelToolStripMenuItem1";
-            this.excelToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.excelToolStripMenuItem1.Text = "Excel";
-            // 
-            // hTMLToolStripMenuItem1
-            // 
-            this.hTMLToolStripMenuItem1.Name = "hTMLToolStripMenuItem1";
-            this.hTMLToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.hTMLToolStripMenuItem1.Text = "HTML";
-            // 
-            // xMLToolStripMenuItem1
-            // 
-            this.xMLToolStripMenuItem1.Name = "xMLToolStripMenuItem1";
-            this.xMLToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.xMLToolStripMenuItem1.Text = "XML";
-            // 
-            // экспортToolStripMenuItem
-            // 
-            this.экспортToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.excelToolStripMenuItem,
-            this.hTMLToolStripMenuItem,
-            this.xMLToolStripMenuItem});
-            this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
-            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.экспортToolStripMenuItem.Text = "Экспорт";
-            // 
-            // excelToolStripMenuItem
-            // 
-            this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
-            this.excelToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.excelToolStripMenuItem.Text = "Excel";
-            // 
-            // hTMLToolStripMenuItem
-            // 
-            this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.hTMLToolStripMenuItem.Text = "HTML";
-            // 
-            // xMLToolStripMenuItem
-            // 
-            this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.xMLToolStripMenuItem.Text = "XML";
-            // 
-            // импортВсегоToolStripMenuItem
-            // 
-            this.импортВсегоToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.excelToolStripMenuItem2,
-            this.hTMLToolStripMenuItem2,
-            this.xMLToolStripMenuItem2});
-            this.импортВсегоToolStripMenuItem.Name = "импортВсегоToolStripMenuItem";
-            this.импортВсегоToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.импортВсегоToolStripMenuItem.Text = "Импорт всего";
-            // 
-            // excelToolStripMenuItem2
-            // 
-            this.excelToolStripMenuItem2.Name = "excelToolStripMenuItem2";
-            this.excelToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
-            this.excelToolStripMenuItem2.Text = "Excel";
-            // 
-            // hTMLToolStripMenuItem2
-            // 
-            this.hTMLToolStripMenuItem2.Name = "hTMLToolStripMenuItem2";
-            this.hTMLToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
-            this.hTMLToolStripMenuItem2.Text = "HTML";
-            // 
-            // xMLToolStripMenuItem2
-            // 
-            this.xMLToolStripMenuItem2.Name = "xMLToolStripMenuItem2";
-            this.xMLToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
-            this.xMLToolStripMenuItem2.Text = "XML";
-            // 
-            // экспортВсегоToolStripMenuItem
-            // 
-            this.экспортВсегоToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.excelToolStripMenuItem3,
-            this.hTMLToolStripMenuItem3,
-            this.xMLToolStripMenuItem3});
-            this.экспортВсегоToolStripMenuItem.Name = "экспортВсегоToolStripMenuItem";
-            this.экспортВсегоToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.экспортВсегоToolStripMenuItem.Text = "Экспорт всего";
-            // 
-            // excelToolStripMenuItem3
-            // 
-            this.excelToolStripMenuItem3.Name = "excelToolStripMenuItem3";
-            this.excelToolStripMenuItem3.Size = new System.Drawing.Size(107, 22);
-            this.excelToolStripMenuItem3.Text = "Excel";
-            // 
-            // hTMLToolStripMenuItem3
-            // 
-            this.hTMLToolStripMenuItem3.Name = "hTMLToolStripMenuItem3";
-            this.hTMLToolStripMenuItem3.Size = new System.Drawing.Size(107, 22);
-            this.hTMLToolStripMenuItem3.Text = "HTML";
-            // 
-            // xMLToolStripMenuItem3
-            // 
-            this.xMLToolStripMenuItem3.Name = "xMLToolStripMenuItem3";
-            this.xMLToolStripMenuItem3.Size = new System.Drawing.Size(107, 22);
-            this.xMLToolStripMenuItem3.Text = "XML";
-            // 
             // ColumnWeek1Lesson3
             // 
             this.ColumnWeek1Lesson3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -461,36 +301,6 @@
             this.panelTop.Size = new System.Drawing.Size(800, 30);
             this.panelTop.TabIndex = 7;
             // 
-            // toolStripMenu
-            // 
-            this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonAdd,
-            this.toolStripSeparator1,
-            this.toolStripButtonRef});
-            this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
-            this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
-            this.toolStripMenu.TabIndex = 6;
-            this.toolStripMenu.Text = "Действия";
-            // 
-            // toolStripButtonAdd
-            // 
-            this.toolStripButtonAdd.Image = global::DepartmentDesktop.Properties.Resources.Add;
-            this.toolStripButtonAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAdd.Name = "toolStripButtonAdd";
-            this.toolStripButtonAdd.Size = new System.Drawing.Size(79, 22);
-            this.toolStripButtonAdd.Text = "Добавить";
-            this.toolStripButtonAdd.Click += new System.EventHandler(this.toolStripButtonAdd_Click);
-            // 
-            // toolStripButtonRef
-            // 
-            this.toolStripButtonRef.Image = global::DepartmentDesktop.Properties.Resources.Ref;
-            this.toolStripButtonRef.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonRef.Name = "toolStripButtonRef";
-            this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
-            this.toolStripButtonRef.Text = "Обновить";
-            this.toolStripButtonRef.Click += new System.EventHandler(this.toolStripButtonRef_Click);
-            // 
             // ColumnWeek1Lesson2
             // 
             this.ColumnWeek1Lesson2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -499,13 +309,8 @@
             this.ColumnWeek1Lesson2.ReadOnly = true;
             this.ColumnWeek1Lesson2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            // 
             // splitContainer
             // 
-            this.splitContainer.ContextMenuStrip = this.contextMenuStripSemester;
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer.Location = new System.Drawing.Point(0, 55);
             this.splitContainer.Name = "splitContainer";
@@ -572,9 +377,9 @@
             this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 209);
             this.dataGridViewFirstWeek.TabIndex = 0;
             this.dataGridViewFirstWeek.Tag = "0";
-            this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
-            this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
-            this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.dataGridView_Resize);
+            this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
+            this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
+            this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.DataGridView_Resize);
             // 
             // ColumnWeek1
             // 
@@ -593,7 +398,90 @@
             this.ColumnWeek1Lesson1.ReadOnly = true;
             this.ColumnWeek1Lesson1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // ScheduleOffsetClassroomControl
+            // toolStripMenu
+            // 
+            this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonAdd,
+            this.toolStripSeparator1,
+            this.toolStripButtonUpd,
+            this.toolStripSeparator2,
+            this.toolStripButtonDel,
+            this.toolStripSeparator3,
+            this.toolStripButtonRef,
+            this.toolStripSeparator4,
+            this.toolStripButtonConsultation});
+            this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
+            this.toolStripMenu.Name = "toolStripMenu";
+            this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
+            this.toolStripMenu.TabIndex = 0;
+            this.toolStripMenu.Text = "Действия";
+            // 
+            // toolStripButtonAdd
+            // 
+            this.toolStripButtonAdd.Image = global::DepartmentDesktop.Properties.Resources.Add;
+            this.toolStripButtonAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAdd.Name = "toolStripButtonAdd";
+            this.toolStripButtonAdd.Size = new System.Drawing.Size(79, 22);
+            this.toolStripButtonAdd.Text = "Добавить";
+            this.toolStripButtonAdd.Click += new System.EventHandler(this.ToolStripButtonAdd_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonUpd
+            // 
+            this.toolStripButtonUpd.Image = global::DepartmentDesktop.Properties.Resources.Upd;
+            this.toolStripButtonUpd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonUpd.Name = "toolStripButtonUpd";
+            this.toolStripButtonUpd.Size = new System.Drawing.Size(81, 22);
+            this.toolStripButtonUpd.Text = "Изменить";
+            this.toolStripButtonUpd.Click += new System.EventHandler(this.ToolStripButtonUpd_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonDel
+            // 
+            this.toolStripButtonDel.Image = global::DepartmentDesktop.Properties.Resources.Del;
+            this.toolStripButtonDel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDel.Name = "toolStripButtonDel";
+            this.toolStripButtonDel.Size = new System.Drawing.Size(71, 22);
+            this.toolStripButtonDel.Text = "Удалить";
+            this.toolStripButtonDel.Click += new System.EventHandler(this.ToolStripButtonDel_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonRef
+            // 
+            this.toolStripButtonRef.Image = global::DepartmentDesktop.Properties.Resources.Ref;
+            this.toolStripButtonRef.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRef.Name = "toolStripButtonRef";
+            this.toolStripButtonRef.Size = new System.Drawing.Size(81, 22);
+            this.toolStripButtonRef.Text = "Обновить";
+            this.toolStripButtonRef.Click += new System.EventHandler(this.ToolStripButtonRef_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonConsultation
+            // 
+            this.toolStripButtonConsultation.Image = global::DepartmentDesktop.Properties.Resources.Add;
+            this.toolStripButtonConsultation.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonConsultation.Name = "toolStripButtonConsultation";
+            this.toolStripButtonConsultation.Size = new System.Drawing.Size(104, 22);
+            this.toolStripButtonConsultation.Text = "Консультация";
+            this.toolStripButtonConsultation.Click += new System.EventHandler(this.ToolStripButtonConsultation_Click);
+            // 
+            // ScheduleOffsetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -601,26 +489,23 @@
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.toolStripMenu);
-            this.Name = "ScheduleOffsetClassroomControl";
+            this.Name = "ScheduleOffsetControl";
             this.Size = new System.Drawing.Size(800, 500);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSecondWeek)).EndInit();
-            this.contextMenuStripSemester.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
-            this.toolStripMenu.ResumeLayout(false);
-            this.toolStripMenu.PerformLayout();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).EndInit();
+            this.toolStripMenu.ResumeLayout(false);
+            this.toolStripMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson4;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson5;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson6;
@@ -636,38 +521,24 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek2Lesson6;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek2Lesson7;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek2Lesson8;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripSemester;
-        private System.Windows.Forms.ToolStripMenuItem отчисткаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem полнаяОтчисткаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem импортToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem hTMLToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hTMLToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem импортВсегоToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem hTMLToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem экспортВсегоToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem hTMLToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson3;
         private System.Windows.Forms.Panel panelBottom;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label labelTop;
         private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.ToolStrip toolStripMenu;
-        private System.Windows.Forms.ToolStripButton toolStripButtonAdd;
-        private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson2;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.DataGridView dataGridViewFirstWeek;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson1;
+        private System.Windows.Forms.ToolStrip toolStripMenu;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAdd;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonUpd;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton toolStripButtonRef;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton toolStripButtonConsultation;
     }
 }

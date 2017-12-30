@@ -144,7 +144,7 @@ namespace DepartmentService.Helpers
                 int day = ((int)(model.DateConsultation - dateBeginExamination).TotalDays);
                 int lesson = 2;
                 // получаем время экзаменов
-                var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен")).ToList();
+                var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("консультация")).ToList();
                 if (times == null || times.Count == 0)
                 {
                     throw new Exception("LessonTime not found");

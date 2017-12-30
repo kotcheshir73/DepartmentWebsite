@@ -16,12 +16,19 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 
         private long? _id;
 
-        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS, long? id = null)
+        private DateTime? _datetime;
+
+        private ScheduleGetBindingModel _model;
+
+        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS, long? id = null, DateTime? datetime = null,
+            ScheduleGetBindingModel model = null)
         {
             InitializeComponent();
             _service = service;
             _serviceS = serviceS;
             _id = id;
+            _datetime = datetime;
+            _model = model;
         }
 
         private void ScheduleConsultationRecordForm_Load(object sender, EventArgs e)
@@ -81,6 +88,26 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
             textBoxLessonGroup.Text = string.Empty;
+
+            if (_datetime.HasValue)
+            {
+                dateTimePickerDateConsultation.Value = _datetime.Value;
+            }
+            if (_model != null)
+            {
+                if(!string.IsNullOrEmpty(_model.ClassroomId))
+                {
+                    comboBoxClassroom.SelectedValue = _model.ClassroomId;
+                }
+                if (_model.LecturerId.HasValue)
+                {
+                    comboBoxLecturer.SelectedValue = _model.LecturerId;
+                }
+                if (_model.StudentGroupId.HasValue)
+                {
+                    comboBoxStudentGroup.SelectedValue = _model.StudentGroupId;
+                }
+            }
 
             if (_id.HasValue)
             {

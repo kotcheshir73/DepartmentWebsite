@@ -392,7 +392,6 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                             }
                         }
                     }
-                    LoadRecrods();
                 }
             }
             if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
@@ -423,9 +422,9 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                             }
                         }
                     }
-                    LoadRecrods();
                 }
             }
+            LoadRecrods();
         }
 
         private void ToolStripButtonRef_Click(object sender, EventArgs e)
@@ -435,24 +434,35 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private void ToolStripButtonConsultation_Click(object sender, EventArgs e)
         {
-            int? lesson = null;
+            DateTime? datetime = null;
             if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
             {
-                lesson =
-                              Convert.ToInt32(dataGridViewFirstWeek.Tag) * 100 +
-                              dataGridViewFirstWeek.SelectedCells[0].RowIndex * 10 +
-                              dataGridViewFirstWeek.SelectedCells[0].ColumnIndex;
+                datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
+                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+                }
+                var lessons = result.Result.List;
+                datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
+                                .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                form.ShowDialog();
             }
             if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
             {
-                lesson =
-                              Convert.ToInt32(dataGridViewSecondWeek.Tag) * 100 +
-                              dataGridViewSecondWeek.SelectedCells[0].RowIndex * 10 +
-                              dataGridViewSecondWeek.SelectedCells[0].ColumnIndex;
+                datetime = _selectDate.Date.AddDays(dataGridViewSecondWeek.SelectedCells[0].RowIndex + 7);
+                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
+                }
+                var lessons = result.Result.List;
+                datetime = datetime.Value.AddHours(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
+                                .AddMinutes(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                form.ShowDialog();
             }
-            //TODO передавать дату
-            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service);
-            form.ShowDialog();
         }
     }
 }

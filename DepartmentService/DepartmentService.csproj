@@ -47,6 +47,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,6 +87,7 @@
     <Compile Include="Helpers\ExportScheduleToHTML.cs" />
     <Compile Include="Helpers\ImportScheduleFromExcel.cs" />
     <Compile Include="Helpers\ParsingSite4SemesterSchedule.cs" />
+    <Compile Include="IServices\IAdministrationProcessServer.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
