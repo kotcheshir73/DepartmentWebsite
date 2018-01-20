@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DepartmentService.IServices;
+using System;
 using System.Windows.Forms;
-using DepartmentService.IServices;
 
 namespace DepartmentDesktop.Views.Services.DataBaseWork
 {
@@ -21,25 +14,48 @@ namespace DepartmentDesktop.Views.Services.DataBaseWork
             _service = service;
         }
 
-        private void ButtonFolderPath_Click(object sender, EventArgs e)
+        private void ButtonFolderPathJson_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                textBoxFolderPath.Text = fbd.SelectedPath;
+                textBoxFolderPathJson.Text = fbd.SelectedPath;
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonLoadJson_Click(object sender, EventArgs e)
         {
-            if (textBoxFolderPath.Text != "")
+            if (textBoxFolderPathJson.Text != "")
             {
-                var result = _service.ExportDataFromJson(textBoxFolderPath.Text);
+                var result = _service.ExportDataFromJson(textBoxFolderPathJson.Text);
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 }
-                MessageBox.Show("", "Сохранено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("", "Загружено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ButtonFileName_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "backup files(*.bak)|*.bak|all files(*.*)|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                textBoxFileNameBackUp.Text = ofd.FileName;
+            }
+        }
+
+        private void ButtonRestoreBackUp_Click(object sender, EventArgs e)
+        {
+            if (textBoxFileNameBackUp.Text != "")
+            {
+                var result = _service.RestoreBackUp(textBoxFileNameBackUp.Text);
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При восстановлении backup возникла ошибка: ", result.Errors);
+                }
+                MessageBox.Show("Восстановлено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
