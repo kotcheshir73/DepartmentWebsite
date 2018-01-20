@@ -85,10 +85,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
 			textBoxGroupName.Text = entity.GroupName;
 			textBoxKurs.Text = (Math.Log(entity.Course, 2.0) + 1).ToString();
-			if (!string.IsNullOrEmpty(entity.StewardId))
-			{
-				comboBoxSteward.SelectedValue = entity.StewardId;
-			}
+            //TODO
+			//if (!string.IsNullOrEmpty(entity.StewardName))
+			//{
+			//	comboBoxSteward.SelectedValue = entity.StewardId;
+			//}
 		}
 
 		private bool CheckFill()
@@ -144,7 +145,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
 						GroupName = textBoxGroupName.Text,
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0),
-						StewardId = StewardId
+                        StewardName = StewardId
 					});
 				}
 				if (result.Succeeded)

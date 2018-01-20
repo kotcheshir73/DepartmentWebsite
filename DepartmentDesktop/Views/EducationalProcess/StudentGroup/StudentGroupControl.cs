@@ -80,7 +80,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					res.GroupName,
 					Math.Log(res.Course, 2.0) + 1,
 					res.CountStudents,
-					res.Steward,
+					res.StewardName,
 					res.Curator
 				);
 			}

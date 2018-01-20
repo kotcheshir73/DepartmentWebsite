@@ -16,11 +16,9 @@
 
         public int CountStudents { get; set; }
 
-        public string StewardId { get; set; }
+        public string StewardName { get; set; }
 
         public long? CuratorId { get; set; }
-
-        public string Steward { get; set; }
 
         public string Curator { get; set; }
 	}

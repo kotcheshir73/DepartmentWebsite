@@ -83,7 +83,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по группам");
 				}
 
-				var entity = _context.StudentGroups.Include(s => s.EducationDirection).Include(s => s.Steward)
+				var entity = _context.StudentGroups.Include(s => s.EducationDirection)
 								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{

@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -297,6 +298,10 @@
     <Compile Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.Designer.cs">
       <DependentUpon>201712290504312_AddOrderInScheduleLessonTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712301712072_StudentGroupDeleteFieldSteward.cs" />
+    <Compile Include="Migrations\201712301712072_StudentGroupDeleteFieldSteward.Designer.cs">
+      <DependentUpon>201712301712072_StudentGroupDeleteFieldSteward.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicPlan.cs" />
     <Compile Include="Models\AcademicPlanRecord.cs" />
@@ -519,6 +524,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.resx">
       <DependentUpon>201712290504312_AddOrderInScheduleLessonTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712301712072_StudentGroupDeleteFieldSteward.resx">
+      <DependentUpon>201712301712072_StudentGroupDeleteFieldSteward.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

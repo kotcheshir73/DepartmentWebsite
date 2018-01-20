@@ -178,12 +178,13 @@ namespace DepartmentService.Services
 
 						_context.SaveChanges();
 
-						if (oldGroup != null && oldGroup.StewardId == numberofBook)
-						{
-							oldGroup.Steward = null;
-							newGroup.Steward = entity;
-							_context.SaveChanges();
-						}
+                        //TODO
+						//if (oldGroup != null && oldGroup.StewardId == numberofBook)
+						//{
+						//	oldGroup.Steward = null;
+						//	newGroup.Steward = entity;
+						//	_context.SaveChanges();
+						//}
 
 						var entityHistory = new StudentHistory
 						{
@@ -247,11 +248,12 @@ namespace DepartmentService.Services
 
 						_context.SaveChanges();
 
-						if (oldGroup.StewardId == numberofBook)
-						{
-							oldGroup.Steward = null;
-							_context.SaveChanges();
-						}
+                        //TODO
+						//if (oldGroup.StewardId == numberofBook)
+						//{
+						//	oldGroup.Steward = null;
+						//	_context.SaveChanges();
+						//}
 
 						var entityHistory = new StudentHistory
 						{
@@ -315,11 +317,8 @@ namespace DepartmentService.Services
 
 						_context.SaveChanges();
 
-						if (oldGroup.StewardId == numberofBook)
-						{
-							oldGroup.Steward = null;
-							_context.SaveChanges();
-						}
+                        //TODO
+
 
 						var entityHistory = new StudentHistory
 						{

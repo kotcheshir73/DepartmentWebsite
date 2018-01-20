@@ -20,7 +20,7 @@ namespace DepartmentService.BindingModels
         
         public int Course { get; set; }
 
-        public string StewardId { get; set; }
+        public string StewardName { get; set; }
 
         public long? CuratorId { get; set; }
 	}

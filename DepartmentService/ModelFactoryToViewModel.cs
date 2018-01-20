@@ -151,9 +151,7 @@ namespace DepartmentService.ViewModels
 				GroupName = entity.GroupName,
 				Course = (int)entity.Course,
 				CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
-				StewardId = entity.StewardId,
-				Steward = string.IsNullOrEmpty(entity.StewardId) ? string.Empty :
-							string.Format("{0} {1} {2}", entity.Steward.LastName, entity.Steward.FirstName, entity.Steward.Patronymic)
+                StewardName = entity.StewardName
 			};
 		}
 

@@ -122,9 +122,9 @@ namespace DepartmentService.BindingModels
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.GroupName = model.GroupName;
 			entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
-			if (!string.IsNullOrEmpty(model.StewardId))
+			if (!string.IsNullOrEmpty(model.StewardName))
 			{
-				entity.StewardId = model.StewardId;
+				entity.StewardName = model.StewardName;
 			}
 
 			return entity;
