@@ -15,9 +15,9 @@ namespace DepartmentDesktop.Views.Schedule.Examination
 
         private readonly IScheduleService _serviceS;
 
-        private long? _id;
+        private Guid? _id;
 
-        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleService serviceS, long? id = null)
+        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleService serviceS, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -101,7 +101,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
                 dateTimePickerDateExamination.Value = entity.DateExamination;
 
-                if (!string.IsNullOrEmpty(entity.ClassroomId))
+                if (entity.ClassroomId.HasValue)
                 {
                     comboBoxClassroom.SelectedValue = entity.ClassroomId;
                 }
@@ -180,20 +180,25 @@ namespace DepartmentDesktop.Views.Schedule.Examination
         {
             if (CheckFill())
             {
-                long? disciplineId = null;
+                Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
-                    disciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                    disciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                 }
-                long? lecturerId = null;
+                Guid? lecturerId = null;
                 if (comboBoxLecturer.SelectedValue != null)
                 {
-                    lecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                    lecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
                 }
-                long? studentGroupId = null;
+                Guid? studentGroupId = null;
                 if (comboBoxStudentGroup.SelectedValue != null)
                 {
-                    studentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue);
+                    studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
+                }
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                 }
                 ResultService result;
                 if (!_id.HasValue)
@@ -208,7 +213,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId
@@ -227,7 +232,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId

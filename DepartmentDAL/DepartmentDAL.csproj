@@ -66,283 +66,51 @@
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
-    <Compile Include="Migrations\201702031318461_InitialCreate.cs" />
-    <Compile Include="Migrations\201702031318461_InitialCreate.Designer.cs">
-      <DependentUpon>201702031318461_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702041043018_UpdateDirectionAndGroup.cs" />
-    <Compile Include="Migrations\201702041043018_UpdateDirectionAndGroup.Designer.cs">
-      <DependentUpon>201702041043018_UpdateDirectionAndGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702041426125_UpdateClassroom.cs" />
-    <Compile Include="Migrations\201702041426125_UpdateClassroom.Designer.cs">
-      <DependentUpon>201702041426125_UpdateClassroom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702051418517_AddSeasonDates.cs" />
-    <Compile Include="Migrations\201702051418517_AddSeasonDates.Designer.cs">
-      <DependentUpon>201702051418517_AddSeasonDates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702051428115_AddCurrentSettings.cs" />
-    <Compile Include="Migrations\201702051428115_AddCurrentSettings.Designer.cs">
-      <DependentUpon>201702051428115_AddCurrentSettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702051742276_UpdateSemestrRecord.cs" />
-    <Compile Include="Migrations\201702051742276_UpdateSemestrRecord.Designer.cs">
-      <DependentUpon>201702051742276_UpdateSemestrRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702052004534_UpdateSemestrRecord1.cs" />
-    <Compile Include="Migrations\201702052004534_UpdateSemestrRecord1.Designer.cs">
-      <DependentUpon>201702052004534_UpdateSemestrRecord1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702091307561_UpdateSemesterRecord.cs" />
-    <Compile Include="Migrations\201702091307561_UpdateSemesterRecord.Designer.cs">
-      <DependentUpon>201702091307561_UpdateSemesterRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702091355505_UpdateSemesterRecord1.cs" />
-    <Compile Include="Migrations\201702091355505_UpdateSemesterRecord1.Designer.cs">
-      <DependentUpon>201702091355505_UpdateSemesterRecord1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702091700011_UpdateSemesterRecord2.cs" />
-    <Compile Include="Migrations\201702091700011_UpdateSemesterRecord2.Designer.cs">
-      <DependentUpon>201702091700011_UpdateSemesterRecord2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121245517_AddStreamingLesson.cs" />
-    <Compile Include="Migrations\201702121245517_AddStreamingLesson.Designer.cs">
-      <DependentUpon>201702121245517_AddStreamingLesson.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121259478_UpdateSemesterRecord3.cs" />
-    <Compile Include="Migrations\201702121259478_UpdateSemesterRecord3.Designer.cs">
-      <DependentUpon>201702121259478_UpdateSemesterRecord3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702191000094_AddTableScheduleStopWords.cs" />
-    <Compile Include="Migrations\201702191000094_AddTableScheduleStopWords.Designer.cs">
-      <DependentUpon>201702191000094_AddTableScheduleStopWords.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702191307345_AddTableConsultationRecord.cs" />
-    <Compile Include="Migrations\201702191307345_AddTableConsultationRecord.Designer.cs">
-      <DependentUpon>201702191307345_AddTableConsultationRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702211543196_AddTableOffsetRecords.cs" />
-    <Compile Include="Migrations\201702211543196_AddTableOffsetRecords.Designer.cs">
-      <DependentUpon>201702211543196_AddTableOffsetRecords.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702211753070_UpdateConsultationRecord.cs" />
-    <Compile Include="Migrations\201702211753070_UpdateConsultationRecord.Designer.cs">
-      <DependentUpon>201702211753070_UpdateConsultationRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702211908460_AddTableExaminationRecord.cs" />
-    <Compile Include="Migrations\201702211908460_AddTableExaminationRecord.Designer.cs">
-      <DependentUpon>201702211908460_AddTableExaminationRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702231655085_DelIsStreamingInConsultation.cs" />
-    <Compile Include="Migrations\201702231655085_DelIsStreamingInConsultation.Designer.cs">
-      <DependentUpon>201702231655085_DelIsStreamingInConsultation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702241213462_AddTableScheduleLessonTimes.cs" />
-    <Compile Include="Migrations\201702241213462_AddTableScheduleLessonTimes.Designer.cs">
-      <DependentUpon>201702241213462_AddTableScheduleLessonTimes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702241441007_DelIsStreamingInOffsetRecord.cs" />
-    <Compile Include="Migrations\201702241441007_DelIsStreamingInOffsetRecord.Designer.cs">
-      <DependentUpon>201702241441007_DelIsStreamingInOffsetRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702251247341_UpdateStudentGroup.cs" />
-    <Compile Include="Migrations\201702251247341_UpdateStudentGroup.Designer.cs">
-      <DependentUpon>201702251247341_UpdateStudentGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703111226491_UpdateStudentNotRequiredPatronumic.cs" />
-    <Compile Include="Migrations\201703111226491_UpdateStudentNotRequiredPatronumic.Designer.cs">
-      <DependentUpon>201703111226491_UpdateStudentNotRequiredPatronumic.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703111316213_UpdateStudentTable.cs" />
-    <Compile Include="Migrations\201703111316213_UpdateStudentTable.Designer.cs">
-      <DependentUpon>201703111316213_UpdateStudentTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703111628237_UpdateStudentNotRequiredDesceription.cs" />
-    <Compile Include="Migrations\201703111628237_UpdateStudentNotRequiredDesceription.Designer.cs">
-      <DependentUpon>201703111628237_UpdateStudentNotRequiredDesceription.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.cs" />
-    <Compile Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.Designer.cs">
-      <DependentUpon>201703111950214_UpdateStudentNotRequiredPhoto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703131712440_AddStudentHistory.cs" />
-    <Compile Include="Migrations\201703131712440_AddStudentHistory.Designer.cs">
-      <DependentUpon>201703131712440_AddStudentHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703131716025_AddStudentStateToStudent.cs" />
-    <Compile Include="Migrations\201703131716025_AddStudentStateToStudent.Designer.cs">
-      <DependentUpon>201703131716025_AddStudentStateToStudent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703141712300_UpdateStudent.cs" />
-    <Compile Include="Migrations\201703141712300_UpdateStudent.Designer.cs">
-      <DependentUpon>201703141712300_UpdateStudent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703190642289_UpdateStudentNullStudentGroup.cs" />
-    <Compile Include="Migrations\201703190642289_UpdateStudentNullStudentGroup.Designer.cs">
-      <DependentUpon>201703190642289_UpdateStudentNullStudentGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703310705280_AddAcademicPlansAndOther.cs" />
-    <Compile Include="Migrations\201703310705280_AddAcademicPlansAndOther.Designer.cs">
-      <DependentUpon>201703310705280_AddAcademicPlansAndOther.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704010842013_AddAcademyYear.cs" />
-    <Compile Include="Migrations\201704010842013_AddAcademyYear.Designer.cs">
-      <DependentUpon>201704010842013_AddAcademyYear.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704010948531_AddContingent.cs" />
-    <Compile Include="Migrations\201704010948531_AddContingent.Designer.cs">
-      <DependentUpon>201704010948531_AddContingent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704041646532_UpdateKindOfLoad.cs" />
-    <Compile Include="Migrations\201704041646532_UpdateKindOfLoad.Designer.cs">
-      <DependentUpon>201704041646532_UpdateKindOfLoad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704041752105_AddTimeNorms.cs" />
-    <Compile Include="Migrations\201704041752105_AddTimeNorms.Designer.cs">
-      <DependentUpon>201704041752105_AddTimeNorms.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704051656085_AddLoadDistribution.cs" />
-    <Compile Include="Migrations\201704051656085_AddLoadDistribution.Designer.cs">
-      <DependentUpon>201704051656085_AddLoadDistribution.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704141817541_AddEmailToStudent.cs" />
-    <Compile Include="Migrations\201704141817541_AddEmailToStudent.Designer.cs">
-      <DependentUpon>201704141817541_AddEmailToStudent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704141824166_DontRequiredInLecturer.cs" />
-    <Compile Include="Migrations\201704141824166_DontRequiredInLecturer.Designer.cs">
-      <DependentUpon>201704141824166_DontRequiredInLecturer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704150616283_AddAbbreviationToLecturer.cs" />
-    <Compile Include="Migrations\201704150616283_AddAbbreviationToLecturer.Designer.cs">
-      <DependentUpon>201704150616283_AddAbbreviationToLecturer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704160842445_ChangeTimeNormAndKindOfLoad.cs" />
-    <Compile Include="Migrations\201704160842445_ChangeTimeNormAndKindOfLoad.Designer.cs">
-      <DependentUpon>201704160842445_ChangeTimeNormAndKindOfLoad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704160923217_ChangeStudentGroup.cs" />
-    <Compile Include="Migrations\201704160923217_ChangeStudentGroup.Designer.cs">
-      <DependentUpon>201704160923217_ChangeStudentGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704161036591_AddFiledLoadInLoadDistributionRecord.cs" />
-    <Compile Include="Migrations\201704161036591_AddFiledLoadInLoadDistributionRecord.Designer.cs">
-      <DependentUpon>201704161036591_AddFiledLoadInLoadDistributionRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704161304254_AddDisciplineBlocks.cs" />
-    <Compile Include="Migrations\201704161304254_AddDisciplineBlocks.Designer.cs">
-      <DependentUpon>201704161304254_AddDisciplineBlocks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.cs" />
-    <Compile Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.Designer.cs">
-      <DependentUpon>201704171702418_AddFieldFormulaInTimeNorm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705261010384_ChangeContingent.cs" />
-    <Compile Include="Migrations\201705261010384_ChangeContingent.Designer.cs">
-      <DependentUpon>201705261010384_ChangeContingent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709070419039_UpdateDLTasks.cs" />
-    <Compile Include="Migrations\201709070419039_UpdateDLTasks.Designer.cs">
-      <DependentUpon>201709070419039_UpdateDLTasks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711030420036_UpdateForSchedule.cs" />
-    <Compile Include="Migrations\201711030420036_UpdateForSchedule.Designer.cs">
-      <DependentUpon>201711030420036_UpdateForSchedule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711060923425_DeleteStopWords.cs" />
-    <Compile Include="Migrations\201711060923425_DeleteStopWords.Designer.cs">
-      <DependentUpon>201711060923425_DeleteStopWords.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711061349530_ChangeAccesses.cs" />
-    <Compile Include="Migrations\201711061349530_ChangeAccesses.Designer.cs">
-      <DependentUpon>201711061349530_ChangeAccesses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711111017397_ChangeAccess.cs" />
-    <Compile Include="Migrations\201711111017397_ChangeAccess.Designer.cs">
-      <DependentUpon>201711111017397_ChangeAccess.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711170942568_ChangeUser.cs" />
-    <Compile Include="Migrations\201711170942568_ChangeUser.Designer.cs">
-      <DependentUpon>201711170942568_ChangeUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711170944135_ChangeUserPassword.cs" />
-    <Compile Include="Migrations\201711170944135_ChangeUserPassword.Designer.cs">
-      <DependentUpon>201711170944135_ChangeUserPassword.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711170944530_ChangeUserAvatar.cs" />
-    <Compile Include="Migrations\201711170944530_ChangeUserAvatar.Designer.cs">
-      <DependentUpon>201711170944530_ChangeUserAvatar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711301119100_ChangeScheduleRecords.cs" />
-    <Compile Include="Migrations\201711301119100_ChangeScheduleRecords.Designer.cs">
-      <DependentUpon>201711301119100_ChangeScheduleRecords.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711301430317_ChangeDisciplineAddShortName.cs" />
-    <Compile Include="Migrations\201711301430317_ChangeDisciplineAddShortName.Designer.cs">
-      <DependentUpon>201711301430317_ChangeDisciplineAddShortName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.cs" />
-    <Compile Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.Designer.cs">
-      <DependentUpon>201712010539520_ChangeDisciplineAddShortName2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712151526516_MultuRolesFromUser.cs" />
-    <Compile Include="Migrations\201712151526516_MultuRolesFromUser.Designer.cs">
-      <DependentUpon>201712151526516_MultuRolesFromUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.cs" />
-    <Compile Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.Designer.cs">
-      <DependentUpon>201712230652013_AddConsultationClassroomIntoExaminationRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.cs" />
-    <Compile Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.Designer.cs">
-      <DependentUpon>201712290504312_AddOrderInScheduleLessonTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712301712072_StudentGroupDeleteFieldSteward.cs" />
-    <Compile Include="Migrations\201712301712072_StudentGroupDeleteFieldSteward.Designer.cs">
-      <DependentUpon>201712301712072_StudentGroupDeleteFieldSteward.cs</DependentUpon>
+    <Compile Include="Migrations\201801201947439_InitialCreate.cs" />
+    <Compile Include="Migrations\201801201947439_InitialCreate.Designer.cs">
+      <DependentUpon>201801201947439_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AcademicPlan.cs" />
-    <Compile Include="Models\AcademicPlanRecord.cs" />
-    <Compile Include="Models\AcademicYear.cs" />
-    <Compile Include="Models\Access.cs" />
+    <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
+    <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
+    <Compile Include="Models\BaseEnities\AcademicYear.cs" />
+    <Compile Include="Models\BaseEnities\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
-    <Compile Include="Models\Classroom.cs" />
-    <Compile Include="Models\ConsultationRecord.cs" />
-    <Compile Include="Models\Contingent.cs" />
+    <Compile Include="Models\BaseEnities\Classroom.cs" />
+    <Compile Include="Models\ScheduleRecords\ConsultationRecord.cs" />
+    <Compile Include="Models\BaseEnities\Contingent.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
-    <Compile Include="Models\Discipline.cs" />
-    <Compile Include="Models\DisciplineBlock.cs" />
-    <Compile Include="Models\DisciplineLesson.cs" />
-    <Compile Include="Models\DisciplineLessonStudentRecord.cs" />
-    <Compile Include="Models\DisciplineLessonTaskImageContext.cs" />
-    <Compile Include="Models\DisciplineLessonTaskStudentRecord.cs" />
-    <Compile Include="Models\DisciplineLessonTaskTextContext.cs" />
-    <Compile Include="Models\DisciplineLessonTask.cs" />
-    <Compile Include="Models\DisciplineLessonTaskContext.cs" />
-    <Compile Include="Models\DisciplineStudentRecord.cs" />
-    <Compile Include="Models\EducationDirection.cs" />
-    <Compile Include="Models\ExaminationRecord.cs" />
-    <Compile Include="Models\KindOfLoad.cs" />
-    <Compile Include="Models\Lecturer.cs" />
-    <Compile Include="Models\LoadDistribution.cs" />
-    <Compile Include="Models\LoadDistributionMission.cs" />
-    <Compile Include="Models\LoadDistributionRecord.cs" />
-    <Compile Include="Models\ScheduleLessonTime.cs" />
-    <Compile Include="Models\OffsetRecord.cs" />
+    <Compile Include="Models\BaseEnities\Discipline.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineBlock.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLesson.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskContext\DisciplineLessonTaskImageContext.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskContext\DisciplineLessonTaskTextContext.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTask.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskContext.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\EducationDirection.cs" />
+    <Compile Include="Models\ScheduleRecords\ExaminationRecord.cs" />
+    <Compile Include="Models\BaseEnities\KindOfLoad.cs" />
+    <Compile Include="Models\BaseEnities\Lecturer.cs" />
+    <Compile Include="Models\BaseEnities\LoadDistribution.cs" />
+    <Compile Include="Models\BaseEnities\LoadDistributionMission.cs" />
+    <Compile Include="Models\BaseEnities\LoadDistributionRecord.cs" />
+    <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
+    <Compile Include="Models\ScheduleRecords\OffsetRecord.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
-    <Compile Include="Models\SeasonDates.cs" />
-    <Compile Include="Models\SemesterRecord.cs" />
-    <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\StreamingLesson.cs" />
-    <Compile Include="Models\Student.cs" />
-    <Compile Include="Models\StudentGroup.cs" />
-    <Compile Include="Models\StudentHistory.cs" />
-    <Compile Include="Models\TimeNorm.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\BaseEnities\SeasonDates.cs" />
+    <Compile Include="Models\ScheduleRecords\SemesterRecord.cs" />
+    <Compile Include="Models\BaseEnities\Message.cs" />
+    <Compile Include="Models\BaseEnities\Role.cs" />
+    <Compile Include="Models\BaseEnities\StreamingLesson.cs" />
+    <Compile Include="Models\BaseEnities\Student.cs" />
+    <Compile Include="Models\BaseEnities\StudentGroup.cs" />
+    <Compile Include="Models\BaseEnities\StudentHistory.cs" />
+    <Compile Include="Models\BaseEnities\TimeNorm.cs" />
+    <Compile Include="Models\BaseEnities\User.cs" />
+    <Compile Include="Models\BaseEnities\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultService.cs" />
   </ItemGroup>
@@ -351,182 +119,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702031318461_InitialCreate.resx">
-      <DependentUpon>201702031318461_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702041043018_UpdateDirectionAndGroup.resx">
-      <DependentUpon>201702041043018_UpdateDirectionAndGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702041426125_UpdateClassroom.resx">
-      <DependentUpon>201702041426125_UpdateClassroom.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702051418517_AddSeasonDates.resx">
-      <DependentUpon>201702051418517_AddSeasonDates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702051428115_AddCurrentSettings.resx">
-      <DependentUpon>201702051428115_AddCurrentSettings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702051742276_UpdateSemestrRecord.resx">
-      <DependentUpon>201702051742276_UpdateSemestrRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702052004534_UpdateSemestrRecord1.resx">
-      <DependentUpon>201702052004534_UpdateSemestrRecord1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702091307561_UpdateSemesterRecord.resx">
-      <DependentUpon>201702091307561_UpdateSemesterRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702091355505_UpdateSemesterRecord1.resx">
-      <DependentUpon>201702091355505_UpdateSemesterRecord1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702091700011_UpdateSemesterRecord2.resx">
-      <DependentUpon>201702091700011_UpdateSemesterRecord2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121245517_AddStreamingLesson.resx">
-      <DependentUpon>201702121245517_AddStreamingLesson.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121259478_UpdateSemesterRecord3.resx">
-      <DependentUpon>201702121259478_UpdateSemesterRecord3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702191000094_AddTableScheduleStopWords.resx">
-      <DependentUpon>201702191000094_AddTableScheduleStopWords.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702191307345_AddTableConsultationRecord.resx">
-      <DependentUpon>201702191307345_AddTableConsultationRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702211543196_AddTableOffsetRecords.resx">
-      <DependentUpon>201702211543196_AddTableOffsetRecords.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702211753070_UpdateConsultationRecord.resx">
-      <DependentUpon>201702211753070_UpdateConsultationRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702211908460_AddTableExaminationRecord.resx">
-      <DependentUpon>201702211908460_AddTableExaminationRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702231655085_DelIsStreamingInConsultation.resx">
-      <DependentUpon>201702231655085_DelIsStreamingInConsultation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702241213462_AddTableScheduleLessonTimes.resx">
-      <DependentUpon>201702241213462_AddTableScheduleLessonTimes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702241441007_DelIsStreamingInOffsetRecord.resx">
-      <DependentUpon>201702241441007_DelIsStreamingInOffsetRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702251247341_UpdateStudentGroup.resx">
-      <DependentUpon>201702251247341_UpdateStudentGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703111226491_UpdateStudentNotRequiredPatronumic.resx">
-      <DependentUpon>201703111226491_UpdateStudentNotRequiredPatronumic.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703111316213_UpdateStudentTable.resx">
-      <DependentUpon>201703111316213_UpdateStudentTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703111628237_UpdateStudentNotRequiredDesceription.resx">
-      <DependentUpon>201703111628237_UpdateStudentNotRequiredDesceription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703111950214_UpdateStudentNotRequiredPhoto.resx">
-      <DependentUpon>201703111950214_UpdateStudentNotRequiredPhoto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703131712440_AddStudentHistory.resx">
-      <DependentUpon>201703131712440_AddStudentHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703131716025_AddStudentStateToStudent.resx">
-      <DependentUpon>201703131716025_AddStudentStateToStudent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703141712300_UpdateStudent.resx">
-      <DependentUpon>201703141712300_UpdateStudent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703190642289_UpdateStudentNullStudentGroup.resx">
-      <DependentUpon>201703190642289_UpdateStudentNullStudentGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703310705280_AddAcademicPlansAndOther.resx">
-      <DependentUpon>201703310705280_AddAcademicPlansAndOther.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704010842013_AddAcademyYear.resx">
-      <DependentUpon>201704010842013_AddAcademyYear.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704010948531_AddContingent.resx">
-      <DependentUpon>201704010948531_AddContingent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704041646532_UpdateKindOfLoad.resx">
-      <DependentUpon>201704041646532_UpdateKindOfLoad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704041752105_AddTimeNorms.resx">
-      <DependentUpon>201704041752105_AddTimeNorms.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704051656085_AddLoadDistribution.resx">
-      <DependentUpon>201704051656085_AddLoadDistribution.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704141817541_AddEmailToStudent.resx">
-      <DependentUpon>201704141817541_AddEmailToStudent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704141824166_DontRequiredInLecturer.resx">
-      <DependentUpon>201704141824166_DontRequiredInLecturer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704150616283_AddAbbreviationToLecturer.resx">
-      <DependentUpon>201704150616283_AddAbbreviationToLecturer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704160842445_ChangeTimeNormAndKindOfLoad.resx">
-      <DependentUpon>201704160842445_ChangeTimeNormAndKindOfLoad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704160923217_ChangeStudentGroup.resx">
-      <DependentUpon>201704160923217_ChangeStudentGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704161036591_AddFiledLoadInLoadDistributionRecord.resx">
-      <DependentUpon>201704161036591_AddFiledLoadInLoadDistributionRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704161304254_AddDisciplineBlocks.resx">
-      <DependentUpon>201704161304254_AddDisciplineBlocks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704171702418_AddFieldFormulaInTimeNorm.resx">
-      <DependentUpon>201704171702418_AddFieldFormulaInTimeNorm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705261010384_ChangeContingent.resx">
-      <DependentUpon>201705261010384_ChangeContingent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709070419039_UpdateDLTasks.resx">
-      <DependentUpon>201709070419039_UpdateDLTasks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711030420036_UpdateForSchedule.resx">
-      <DependentUpon>201711030420036_UpdateForSchedule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711060923425_DeleteStopWords.resx">
-      <DependentUpon>201711060923425_DeleteStopWords.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711061349530_ChangeAccesses.resx">
-      <DependentUpon>201711061349530_ChangeAccesses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711111017397_ChangeAccess.resx">
-      <DependentUpon>201711111017397_ChangeAccess.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711170942568_ChangeUser.resx">
-      <DependentUpon>201711170942568_ChangeUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711170944135_ChangeUserPassword.resx">
-      <DependentUpon>201711170944135_ChangeUserPassword.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711170944530_ChangeUserAvatar.resx">
-      <DependentUpon>201711170944530_ChangeUserAvatar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711301119100_ChangeScheduleRecords.resx">
-      <DependentUpon>201711301119100_ChangeScheduleRecords.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711301430317_ChangeDisciplineAddShortName.resx">
-      <DependentUpon>201711301430317_ChangeDisciplineAddShortName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712010539520_ChangeDisciplineAddShortName2.resx">
-      <DependentUpon>201712010539520_ChangeDisciplineAddShortName2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712151526516_MultuRolesFromUser.resx">
-      <DependentUpon>201712151526516_MultuRolesFromUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712230652013_AddConsultationClassroomIntoExaminationRecord.resx">
-      <DependentUpon>201712230652013_AddConsultationClassroomIntoExaminationRecord.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712290504312_AddOrderInScheduleLessonTime.resx">
-      <DependentUpon>201712290504312_AddOrderInScheduleLessonTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712301712072_StudentGroupDeleteFieldSteward.resx">
-      <DependentUpon>201712301712072_StudentGroupDeleteFieldSteward.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801201947439_InitialCreate.resx">
+      <DependentUpon>201801201947439_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

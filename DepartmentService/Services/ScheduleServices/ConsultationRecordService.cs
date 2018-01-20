@@ -39,14 +39,14 @@ namespace DepartmentService.Services
 
 				if (model.DateBegin.HasValue)
 				{
-					if (!string.IsNullOrEmpty(model.ClassroomId))
+					if (!string.IsNullOrEmpty(model.ClassroomNumber))
                     {
                         if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
                         {
                             throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
                         }
                         selectedRecords = selectedRecords
-							.Where(sr => sr.ClassroomId == model.ClassroomId &&
+							.Where(sr => sr.LessonClassroom == model.ClassroomNumber &&
 										sr.DateConsultation >= model.DateBegin.Value &&
 										sr.DateConsultation <= model.DateEnd.Value);
 					}
@@ -86,13 +86,13 @@ namespace DepartmentService.Services
                 }
 				else
 				{
-					if (!string.IsNullOrEmpty(model.ClassroomId))
+					if (!string.IsNullOrEmpty(model.ClassroomNumber))
                     {
                         if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
                         {
                             throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
                         }
-                        selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId);
+                        selectedRecords = selectedRecords.Where(sr => sr.LessonClassroom == model.ClassroomNumber);
 					}
 					if (!string.IsNullOrEmpty(model.StudentGroupName))
                     {
@@ -294,14 +294,14 @@ namespace DepartmentService.Services
 
                 if (model.DateBegin.HasValue)
                 {
-                    if (!string.IsNullOrEmpty(model.ClassroomId))
+                    if (!string.IsNullOrEmpty(model.ClassroomNumber))
                     {
                         if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
                         {
                             throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
                         }
                         selectedRecords = selectedRecords
-                            .Where(sr => sr.ClassroomId == model.ClassroomId &&
+                            .Where(sr => sr.LessonClassroom == model.ClassroomNumber &&
                                         sr.DateConsultation >= model.DateBegin.Value &&
                                         sr.DateConsultation <= model.DateEnd.Value);
                     }
@@ -341,7 +341,7 @@ namespace DepartmentService.Services
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(model.ClassroomId))
+                    if (!string.IsNullOrEmpty(model.ClassroomNumber))
                     {
                         if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
                         {
@@ -355,7 +355,7 @@ namespace DepartmentService.Services
                         {
                             throw new Exception("Нет доступа на чтение данных по расписанию групп");
                         }
-                        selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.StudentGroupName);
+                        selectedRecords = selectedRecords.Where(sr => sr.LessonClassroom == model.ClassroomNumber);
                     }
                     if (model.LecturerId.HasValue)
                     {

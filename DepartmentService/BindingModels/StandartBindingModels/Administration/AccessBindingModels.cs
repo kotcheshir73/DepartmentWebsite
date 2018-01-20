@@ -1,21 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
 	public class AccessGetBindingModel : PageSettingBinidingModel
 	{
-		public long? Id { get; set; }
+		public Guid? Id { get; set; }
 
-		public long? RoleId { get; set; }
+		public Guid? RoleId { get; set; }
 		
 		public string Operation { get; set; }
 	}
 
 	public class AccessRecordBindingModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long RoleId { get; set; }
+		public Guid RoleId { get; set; }
 
 		[Required(ErrorMessage = "required")]
 		public string Operation { get; set; }

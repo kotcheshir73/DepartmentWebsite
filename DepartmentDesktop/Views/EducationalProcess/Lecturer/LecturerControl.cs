@@ -100,8 +100,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 		{
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
-				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new LecturerForm(_service, id);
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = new LecturerForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
@@ -117,8 +117,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteLecturer(new LecturerGetBindingModel { Id = id });
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
+                        var result = _service.DeleteLecturer(new LecturerGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

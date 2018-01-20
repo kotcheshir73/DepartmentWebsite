@@ -8,7 +8,7 @@ namespace DepartmentService.ViewModels
 
 	public class LecturerViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string FirstName { get; set; }
 

@@ -88,7 +88,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 		{
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
-				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
+				Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
 				var form = new TimeNormForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -105,7 +105,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
 						var result = _service.DeleteTimeNorm(new TimeNormGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{

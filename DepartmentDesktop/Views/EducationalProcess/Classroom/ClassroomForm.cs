@@ -11,9 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
     {
         private readonly IClassroomService _service;
 
-        private string _id;
+        private Guid? _id;
 
-        public ClassroomForm(IClassroomService service, string id = null)
+        public ClassroomForm(IClassroomService service, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -28,7 +28,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
             }
             comboBoxTypeClassroom.SelectedIndex = 0;
 
-            if (!string.IsNullOrEmpty(_id))
+            if (_id.HasValue)
             {
 				LoadData();
 			}
@@ -36,7 +36,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
 		private void LoadData()
 		{
-			var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id });
+			var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -45,7 +45,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			var entity = result.Result;
 
 			comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
-			textBoxClassroom.Text = _id;
+			textBoxClassroom.Text = entity.Number;
 			textBoxCapacity.Text = entity.Capacity.ToString();
 		}
 
@@ -76,11 +76,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			if (CheckFill())
 			{
 				ResultService result;
-				if (string.IsNullOrEmpty(_id))
+				if (!_id.HasValue)
 				{
 					result = _service.CreateClassroom(new ClassroomRecordBindingModel
 					{
-						Id = textBoxClassroom.Text,
+						Number = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
 						Capacity = Convert.ToInt32(textBoxCapacity.Text)
 					});
@@ -89,7 +89,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				{
 					result = _service.UpdateClassroom(new ClassroomRecordBindingModel
 					{
-						Id = textBoxClassroom.Text,
+                        Id = _id.Value,
+						Number = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
 						Capacity = Convert.ToInt32(textBoxCapacity.Text)
 					});
@@ -98,9 +99,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is string)
+						if (result.Result is Guid)
 						{
-							_id = (string)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

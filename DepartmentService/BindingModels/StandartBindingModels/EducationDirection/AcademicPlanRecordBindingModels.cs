@@ -1,21 +1,23 @@
-﻿namespace DepartmentService.BindingModels
+﻿using System;
+
+namespace DepartmentService.BindingModels
 {
 	public class AcademicPlanRecordGetBindingModel : PageSettingBinidingModel
 	{
-		public long? Id { get; set; }
+		public Guid? Id { get; set; }
 
-		public long? AcademicPlanId { get; set; }
+		public Guid? AcademicPlanId { get; set; }
 	}
 
 	public class AcademicPlanRecordRecordBindingModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long AcademicPlanId { get; set; }
+		public Guid AcademicPlanId { get; set; }
 
-		public long DisciplineId { get; set; }
+		public Guid DisciplineId { get; set; }
 
-		public long KindOfLoadId { get; set; }
+		public Guid KindOfLoadId { get; set; }
 
 		public string Semester { get; set; }
 

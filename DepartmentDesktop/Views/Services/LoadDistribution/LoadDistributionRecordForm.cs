@@ -12,13 +12,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 	{
 		private readonly ILoadDistributionRecordService _service;
 
-		private long? _id = 0;
+		private Guid? _id;
 
-		private long _ldId = 0;
+		private Guid? _ldId;
 
-		private long _apId = 0;
+		private Guid? _apId;
 
-		public LoadDistributionRecordForm(ILoadDistributionRecordService service, long ldId, long apId, long? id = null)
+		public LoadDistributionRecordForm(ILoadDistributionRecordService service, Guid ldId, Guid apId, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -124,10 +124,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				{
 					result = _service.CreateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 					{
-						LoadDistributionId = _ldId,
-						AcademicPlanRecordId = Convert.ToInt64(comboBoxAcademicPlanRecord.SelectedValue),
-						ContingentId = Convert.ToInt64(comboBoxContingent.SelectedValue),
-						TimeNormId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue),
+						LoadDistributionId = _ldId.Value,
+						AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
+						ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+						TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
 						Load = Convert.ToDecimal(textBoxLoad.Text)
 					});
 				}
@@ -136,10 +136,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 					result = _service.UpdateLoadDistributionRecord(new LoadDistributionRecordRecordBindingModel
 					{
 						Id = _id.Value,
-						LoadDistributionId = _ldId,
-						AcademicPlanRecordId = Convert.ToInt64(comboBoxAcademicPlanRecord.SelectedValue),
-						ContingentId = Convert.ToInt64(comboBoxContingent.SelectedValue),
-						TimeNormId = Convert.ToInt64(comboBoxTimeNorm.SelectedValue),
+						LoadDistributionId = _ldId.Value,
+						AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
+						ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+						TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
 						Load = Convert.ToDecimal(textBoxLoad.Text)
 					});
 				}
@@ -147,9 +147,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

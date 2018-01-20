@@ -15,7 +15,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		private long _ldId;
+		private Guid _ldId;
 
 		private bool _showTimeNorms = true;
 
@@ -101,7 +101,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			}
 		}
 
-		public void LoadData(long ldId)
+		public void LoadData(Guid ldId)
 		{
 			_ldId = ldId;
 			LoadRecords();
@@ -160,7 +160,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 							{
 								if (dataGridViewList.Columns[i].Tag != null)
 								{
-									long timeNormId = Convert.ToInt64(dataGridViewList.Columns[i].Tag);
+                                    Guid timeNormId = new Guid(dataGridViewList.Columns[i].Tag.ToString());
 									var recordTimeNorm = resDisciplineRecord.FirstOrDefault(r => r.TimeNormId == timeNormId);
 									if (recordTimeNorm != null)
 									{
@@ -240,8 +240,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			{
 				if(dataGridViewList.SelectedCells[i].Tag != null)
 				{
-					var apId = Convert.ToInt64(dataGridViewList.SelectedCells[i].Tag.ToString().Split('_')[0]);
-					var id = Convert.ToInt64(dataGridViewList.SelectedCells[i].Tag.ToString().Split('_')[1]);
+                    Guid apId = new Guid(dataGridViewList.SelectedCells[i].Tag.ToString().Split('_')[0]);
+                    Guid id = new Guid(dataGridViewList.SelectedCells[i].Tag.ToString().Split('_')[1]);
 					var form = new LoadDistributionRecordForm(_service, id, apId);
 					form.ShowDialog();
 				}

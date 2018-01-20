@@ -13,11 +13,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 	{
 		private readonly IAcademicPlanRecordService _service;
 
-		private long? _id = 0;
+		private Guid? _id = null;
 
-		private long _apId = 0;
+		private Guid _apId;
 
-		public AcademicPlanRecordForm(IAcademicPlanRecordService service, long apId, long? id = null)
+		public AcademicPlanRecordForm(IAcademicPlanRecordService service, Guid apId, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -27,7 +27,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AcademicPlanRecordForm_Load(object sender, EventArgs e)
 		{
-			if(_apId == 0)
+			if(_apId == null)
 			{
 				MessageBox.Show("Неуказан учебный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
@@ -137,9 +137,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
 					{
-						AcademicPlanId = Convert.ToInt64(comboBoxAcademicPlan.SelectedValue),
-						DisciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue),
-						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
+						AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
+						DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
 						Semester = comboBoxSemester.Text,
 						Hours = Convert.ToInt32(textBoxHours.Text)
 					});
@@ -149,9 +149,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					result = _service.UpdateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
 					{
 						Id = _id.Value,
-						AcademicPlanId = Convert.ToInt64(comboBoxAcademicPlan.SelectedValue),
-						DisciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue),
-						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
+						AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
+						DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
 						Semester = comboBoxSemester.Text,
 						Hours = Convert.ToInt32(textBoxHours.Text)
 					});
@@ -160,9 +160,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

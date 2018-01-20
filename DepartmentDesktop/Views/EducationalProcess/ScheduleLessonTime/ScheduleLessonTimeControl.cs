@@ -90,7 +90,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
         {
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
-                long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
                 var form = new ScheduleLessonTimeForm(_service, id);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -107,7 +107,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
                 {
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
-                        long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
                         var result = _service.DeleteScheduleLessonTime(new ScheduleLessonTimeGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {

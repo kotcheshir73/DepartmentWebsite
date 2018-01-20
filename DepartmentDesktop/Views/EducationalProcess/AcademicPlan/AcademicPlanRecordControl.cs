@@ -13,7 +13,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		private long _apId;
+		private Guid _apId;
 
 		public AcademicPlanRecordControl(IAcademicPlanRecordService service, IEducationalProcessService serviceEP)
 		{
@@ -61,7 +61,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             });
         }
 
-		public void LoadData(long apId)
+		public void LoadData(Guid apId)
 		{
 			_apId = apId;
             standartControl.LoadPage();
@@ -102,7 +102,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 		{
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
-				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
 				var form = new AcademicPlanRecordForm(_service, _apId, id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -119,8 +119,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = id });
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[i].Value.ToString());
+                        var result = _service.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -133,9 +133,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void LoadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OpenFileDialog dialog = new OpenFileDialog();
-			dialog.Filter = "xml|*.xml";
-			if (dialog.ShowDialog() == DialogResult.OK)
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "xml|*.xml"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
 			{
 				var result = _serviceEP.LoadFromXMLAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
 				{

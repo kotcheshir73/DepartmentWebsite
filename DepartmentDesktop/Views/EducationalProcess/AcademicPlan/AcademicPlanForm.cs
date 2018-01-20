@@ -17,9 +17,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		private long? _id = 0;
+		private Guid? _id = null;
 
-		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, long? id = null)
+		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -157,8 +157,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					result = _service.CreateAcademicPlan(new AcademicPlanRecordBindingModel
 					{
-						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
-						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
+						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						AcademicLevel = comboBoxAcademicLevel.Text,
 						AcademicCourses = Convert.ToInt32(courses)
 					});
@@ -168,8 +168,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					result = _service.UpdateAcademicPlan(new AcademicPlanRecordBindingModel
 					{
 						Id = _id.Value,
-						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
-						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
+						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						AcademicLevel = comboBoxAcademicLevel.Text,
 						AcademicCourses = Convert.ToInt32(courses)
 					});
@@ -178,9 +178,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					if(result.Result != null)
 					{
-						if(result.Result is long)
+						if(result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

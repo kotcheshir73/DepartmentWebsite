@@ -150,7 +150,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 foreach (var record in list)
                 {
                     // для аудиторий: консультация может быть в одной аудитории, а экзамен в другой
-                    if (!string.IsNullOrEmpty(_model.ClassroomId) && !string.IsNullOrEmpty(record.LessonConsultationClassroom))
+                    if (_model.ClassroomId.HasValue && !string.IsNullOrEmpty(record.LessonConsultationClassroom))
                     {
                         int daysCons = (record.DateConsultation - dateBeginExamination).Days;
                         if (daysCons > -1 && daysCons <= days)
@@ -247,7 +247,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                                 result = _serviceER.DeleteExaminationRecord(
                                     new ScheduleGetBindingModel
                                     {
-                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                     });
                             }
                             else
@@ -255,7 +255,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                                 result = _serviceCR.DeleteConsultationRecord(
                                     new ScheduleGetBindingModel
                                     {
-                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                     });
                             }
                             if (!result.Succeeded)
@@ -283,13 +283,13 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                         {
                             ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
-                                Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                                new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
                         else
                         {
                             ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                                  Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                                  new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
                     }
@@ -333,13 +333,13 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
                         ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
-                            Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
                         ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                           Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                           new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     LoadRecords();
@@ -358,7 +358,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceER.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -370,7 +370,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {

@@ -15,11 +15,11 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private readonly IScheduleService _serviceS;
 
-        private long? _id;
+        private Guid? _id;
 
         private int? _lesson;
 
-        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, long? id = null, int? lesson = null)
+        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, Guid? id = null, int? lesson = null)
         {
             InitializeComponent();
             _service = service;
@@ -121,7 +121,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 comboBoxDay.SelectedIndex = entity.Day;
                 comboBoxLesson.SelectedIndex = entity.Lesson;
 
-                if (!string.IsNullOrEmpty(entity.ClassroomId))
+                if (entity.ClassroomId.HasValue)
                 {
                     comboBoxClassroom.SelectedValue = entity.ClassroomId;
                 }
@@ -218,18 +218,18 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             {
                 if (comboBoxClassroom.SelectedValue != null)
                 {
-                    model.ClassroomId = comboBoxClassroom.SelectedValue.ToString();
+                    model.ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                 }
                 if (!string.IsNullOrEmpty(textBoxClassroom.Text))
                 {
-                    model.ClassroomId = textBoxClassroom.Text;
+                    model.ClassroomNumber = textBoxClassroom.Text;
                 }
             }
             if (checkBoxDiscipline.Checked)
             {
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
-                    model.DisciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                    model.DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                 }
                 if (!string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
                 {
@@ -240,7 +240,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             {
                 if (comboBoxStudentGroup.SelectedValue != null)
                 {
-                    model.StudentGroupId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                    model.StudentGroupId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                 }
                 if (!string.IsNullOrEmpty(textBoxLessonGroup.Text))
                 {
@@ -251,7 +251,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             {
                 if (comboBoxLecturer.SelectedValue != null)
                 {
-                    model.LecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                    model.LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
                 }
                 if (!string.IsNullOrEmpty(textBoxLessonLecturer.Text))
                 {
@@ -283,25 +283,25 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 {
                     var model = new SemesterRecordRecordBindingModel
                     {
-                        Id = Convert.ToInt64(dataGridViewRecords.Rows[i].Cells[0].Value),
+                        Id = new Guid(dataGridViewRecords.Rows[i].Cells[0].Value.ToString()),
                         LessonType = comboBoxLessonType.Text,
                     };
                     if (checkBoxClassroom.Checked)
                     {
                         if (comboBoxClassroom.SelectedValue != null)
                         {
-                            model.ClassroomId = comboBoxClassroom.SelectedValue.ToString();
+                            model.ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                         }
                         if (!string.IsNullOrEmpty(textBoxClassroom.Text))
                         {
-                            model.ClassroomId = textBoxClassroom.Text;
+                            model.LessonClassroom = textBoxClassroom.Text;
                         }
                     }
                     if (checkBoxDiscipline.Checked)
                     {
                         if (comboBoxDiscipline.SelectedValue != null)
                         {
-                            model.DisciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                            model.DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                         }
                         if (!string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
                         {
@@ -312,7 +312,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (comboBoxStudentGroup.SelectedValue != null)
                         {
-                            model.StudentGroupId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                            model.StudentGroupId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                         }
                         if (!string.IsNullOrEmpty(textBoxLessonGroup.Text))
                         {
@@ -323,7 +323,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (comboBoxLecturer.SelectedValue != null)
                         {
-                            model.LecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                            model.LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
                         }
                         if (!string.IsNullOrEmpty(textBoxLessonLecturer.Text))
                         {
@@ -345,20 +345,25 @@ namespace DepartmentDesktop.Views.Schedule.Semester
         {
             if (CheckFill())
             {
-                long? disciplineId = null;
+                Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
-                    disciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                    disciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                 }
-                long? lecturerId = null;
+                Guid? lecturerId = null;
                 if (comboBoxLecturer.SelectedValue != null)
                 {
-                    lecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                    lecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
                 }
-                long? studentGroupId = null;
+                Guid? studentGroupId = null;
                 if (comboBoxStudentGroup.SelectedValue != null)
                 {
-                    studentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue);
+                    studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
+                }
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                 }
                 ResultService result;
                 if (!_id.HasValue)
@@ -376,7 +381,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId
@@ -406,20 +411,25 @@ namespace DepartmentDesktop.Views.Schedule.Semester
         {
             if (CheckFill())
             {
-                long? disciplineId = null;
+                Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
-                    disciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                    disciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                 }
-                long? lecturerId = null;
+                Guid? lecturerId = null;
                 if (comboBoxLecturer.SelectedValue != null)
                 {
-                    lecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                    lecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
                 }
-                long? studentGroupId = null;
+                Guid? studentGroupId = null;
                 if (comboBoxStudentGroup.SelectedValue != null)
                 {
-                    studentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue);
+                    studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
+                }
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                 }
                 ResultService result;
                 if (!_id.HasValue)
@@ -437,7 +447,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId
@@ -459,7 +469,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId

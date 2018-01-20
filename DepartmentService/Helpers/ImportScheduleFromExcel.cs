@@ -121,7 +121,7 @@ namespace DepartmentService.Helpers
                                                 for (int k = 0; k < classroomMatches.Count; ++k)
                                                 {
                                                     currentRecord.LessonClassroom = classroomMatches[k].Value;
-                                                    var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
+                                                    var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
                                                     if (classroom != null)
                                                     {
                                                         currentRecord.ClassroomId = classroom.Id;
@@ -307,7 +307,7 @@ namespace DepartmentService.Helpers
                                 {
                                     DateTime? dayConsult = null;
                                     string LessonConsultationClassroom = string.Empty;
-                                    string ConsultationClassroomId = string.Empty;
+                                    Guid? ConsultationClassroomId = null;
                                     // 3 недели экзаменов = 21 день, по 3 ячейки на день
                                     for (int i = 0; i < 21; ++i)
                                     {
@@ -339,7 +339,7 @@ namespace DepartmentService.Helpers
                                             {
                                                 currentRecord.LessonConsultationClassroom = LessonConsultationClassroom;
                                             }
-                                            if (!string.IsNullOrEmpty(ConsultationClassroomId))
+                                            if (ConsultationClassroomId.HasValue)
                                             {
                                                 currentRecord.ConsultationClassroomId = ConsultationClassroomId;
                                             }
@@ -395,7 +395,7 @@ namespace DepartmentService.Helpers
                                             if (classroomMatch.Success)
                                             {
                                                 currentRecord.LessonClassroom = classroomMatch.Value;
-                                                var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
+                                                var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
                                                 if (classroom != null)
                                                 {
                                                     currentRecord.ClassroomId = classroom.Id;
@@ -411,7 +411,7 @@ namespace DepartmentService.Helpers
                                             }
 
                                             LessonConsultationClassroom = string.Empty;
-                                            ConsultationClassroomId = string.Empty;
+                                            ConsultationClassroomId = null;
                                             dayConsult = null;
                                         }
                                         else
@@ -446,7 +446,7 @@ namespace DepartmentService.Helpers
                                                     if (classroomMatch.Success)
                                                     {
                                                         LessonConsultationClassroom = classroomMatch.Value;
-                                                        var classroom = _context.Classrooms.FirstOrDefault(c => LessonConsultationClassroom.Contains(c.Id) && !c.IsDeleted);
+                                                        var classroom = _context.Classrooms.FirstOrDefault(c => LessonConsultationClassroom.Contains(c.Number) && !c.IsDeleted);
                                                         if (classroom != null)
                                                         {
                                                             ConsultationClassroomId = classroom.Id;
@@ -502,8 +502,8 @@ namespace DepartmentService.Helpers
                 //ищем консультацию/экзамен другой группы в этой аудитории
                 var exsistRecord = _context.ExaminationRecords.FirstOrDefault(r =>
                                         ((r.DateConsultation == record.DateConsultation &&
-                                        ((r.ConsultationClassroomId == record.ConsultationClassroomId && !string.IsNullOrEmpty(record.ConsultationClassroomId)) ||
-                                        (r.LessonClassroom == record.LessonClassroom && string.IsNullOrEmpty(record.ConsultationClassroomId)))) ||
+                                        ((r.ConsultationClassroomId == record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
+                                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
                                         (r.DateExamination == record.DateExamination && r.LessonClassroom == record.LessonClassroom))
                                         && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup != record.LessonGroup);
                 if (exsistRecord != null)
@@ -516,8 +516,8 @@ namespace DepartmentService.Helpers
                 //ищем консультацию/экзамен этой группы в другой аудитории
                 exsistRecord = _context.ExaminationRecords.FirstOrDefault(r =>
                                         ((r.DateConsultation == record.DateConsultation &&
-                                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && !string.IsNullOrEmpty(record.ConsultationClassroomId)) ||
-                                        (r.LessonClassroom != record.LessonClassroom && string.IsNullOrEmpty(record.ConsultationClassroomId)))) ||
+                                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
+                                        (r.LessonClassroom != record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
                                         (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
                                         && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup == record.LessonGroup);
                 if (exsistRecord != null)

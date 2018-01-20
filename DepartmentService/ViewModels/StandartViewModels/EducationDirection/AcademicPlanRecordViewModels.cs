@@ -1,18 +1,20 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class AcademicPlanRecordPageViewModel : PageViewModel<AcademicPlanRecordViewModel> { }
 
 	public class AcademicPlanRecordViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long AcademicPlanId { get; set; }
+		public Guid AcademicPlanId { get; set; }
 
-		public long DisciplineId { get; set; }
+		public Guid DisciplineId { get; set; }
+
+		public Guid KindOfLoadId { get; set; }
 
 		public string Disciplne { get; set; }
-
-		public long KindOfLoadId { get; set; }
 
 		public string KindOfLoad { get; set; }
 

@@ -177,7 +177,7 @@ namespace DepartmentService.Services
                             var searchMatches = _context.SemesterRecords.FirstOrDefault(sr =>
         (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
         (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) &&
-        (sr.LessonClassroom == record.LessonClassroom || (sr.ClassroomId == record.ClassroomId && !string.IsNullOrEmpty(sr.ClassroomId))) &&
+        (sr.LessonClassroom == record.LessonClassroom || (sr.ClassroomId == record.ClassroomId && sr.ClassroomId.HasValue)) &&
         !sr.IsStreaming && sr.Id != record.Id);
                             if (searchMatches != null)
                             {

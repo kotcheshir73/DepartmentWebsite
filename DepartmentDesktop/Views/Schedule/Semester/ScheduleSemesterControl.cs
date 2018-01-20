@@ -235,7 +235,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                                         result = _serviceSR.DeleteSemesterRecord(
                                             new ScheduleGetBindingModel
                                             {
-                                                Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                                Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                             });
                                     }
                                     else
@@ -243,7 +243,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                                         result = _serviceCR.DeleteConsultationRecord(
                                             new ScheduleGetBindingModel
                                             {
-                                                Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                                Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                             });
                                     }
                                     if (!result.Succeeded)
@@ -271,13 +271,13 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                         {
                             ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
-                                Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                                new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
                         else
                         {
                             ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                               Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                               new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
                     }
@@ -329,13 +329,13 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
                         ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
-                            Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
                         ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                           Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                           new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                 LoadRecrods();
@@ -348,13 +348,13 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
                         ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
-                            Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag));
+                            new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
                         ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                           Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag));
+                           new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     LoadRecrods();
@@ -372,7 +372,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -384,7 +384,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -402,7 +402,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -414,7 +414,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {

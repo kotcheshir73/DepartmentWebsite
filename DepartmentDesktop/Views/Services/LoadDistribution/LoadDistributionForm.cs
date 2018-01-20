@@ -16,9 +16,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		private long? _id = 0;
+		private Guid? _id;
 
-		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP, long? id = null)
+		public LoadDistributionForm(ILoadDistributionService service, ILoadDistributionRecordService serviceLDR, IEducationalProcessService serviceEP, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -91,7 +91,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				{
 					result = _service.CreateLoadDistribution(new LoadDistributionRecordBindingModel
 					{
-						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue)
+						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString())
 					});
 				}
 				else
@@ -99,16 +99,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 					result = _service.UpdateLoadDistribution(new LoadDistributionRecordBindingModel
 					{
 						Id = _id.Value,
-						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue)
+						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString())
 					});
 				}
 				if (result.Succeeded)
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

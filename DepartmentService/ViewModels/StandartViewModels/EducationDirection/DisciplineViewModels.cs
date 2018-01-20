@@ -1,12 +1,14 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class DisciplinePageViewModel : PageViewModel<DisciplineViewModel> { }
 
 	public class DisciplineViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long DisciplineBlockId { get; set; }
+		public Guid DisciplineBlockId { get; set; }
 
 		public string DisciplineName { get; set; }
 

@@ -16,9 +16,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private long? _id;
+		private Guid? _id;
 
-		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, long? id = null)
+		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -79,7 +79,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				MessageBox.Show("Выберите группу перевода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			long newId = Convert.ToInt64(comboBoxNewStudentGroup.SelectedValue);
+            Guid newId = new Guid(comboBoxNewStudentGroup.SelectedValue.ToString());
 			var list = new List<StudentRecordBindingModel>();
 			for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
 			{

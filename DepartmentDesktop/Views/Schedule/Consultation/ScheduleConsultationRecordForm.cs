@@ -14,13 +14,13 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 
         private readonly IScheduleService _serviceS;
 
-        private long? _id;
+        private Guid? _id;
 
         private DateTime? _datetime;
 
         private ScheduleGetBindingModel _model;
 
-        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS, long? id = null, DateTime? datetime = null,
+        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS, Guid? id = null, DateTime? datetime = null,
             ScheduleGetBindingModel model = null)
         {
             InitializeComponent();
@@ -95,7 +95,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
             }
             if (_model != null)
             {
-                if(!string.IsNullOrEmpty(_model.ClassroomId))
+                if(_model.ClassroomId.HasValue)
                 {
                     comboBoxClassroom.SelectedValue = _model.ClassroomId;
                 }
@@ -126,7 +126,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
 
-                if (!string.IsNullOrEmpty(entity.ClassroomId))
+                if (entity.ClassroomId.HasValue)
                 {
                     comboBoxClassroom.SelectedValue = entity.ClassroomId;
                 }
@@ -205,20 +205,25 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
         {
             if (CheckFill())
             {
-                long? disciplineId = null;
+                Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
-                    disciplineId = Convert.ToInt64(comboBoxDiscipline.SelectedValue);
+                    disciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
                 }
-                long? lecturerId = null;
+                Guid? lecturerId = null;
                 if (comboBoxLecturer.SelectedValue != null)
                 {
-                    lecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+                    lecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
                 }
-                long? studentGroupId = null;
+                Guid? studentGroupId = null;
                 if (comboBoxStudentGroup.SelectedValue != null)
                 {
-                    studentGroupId = Convert.ToInt64(comboBoxStudentGroup.SelectedValue);
+                    studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
+                }
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                 }
                 ResultService result;
                 if (!_id.HasValue)
@@ -232,7 +237,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId
@@ -250,7 +255,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
 
-                        ClassroomId = comboBoxClassroom.SelectedValue != null ? comboBoxClassroom.SelectedValue.ToString() : string.Empty,
+                        ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
                         StudentGroupId = studentGroupId

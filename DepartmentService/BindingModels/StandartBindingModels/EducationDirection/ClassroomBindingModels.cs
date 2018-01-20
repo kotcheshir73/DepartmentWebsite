@@ -1,17 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
     public class ClassroomGetBindingModel : PageSettingBinidingModel
 	{
-		public string Id { get; set; }
+		public Guid Id { get; set; }
 	}
 
     public class ClassroomRecordBindingModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
-		[Required(ErrorMessage = "required")]
+        [Required(ErrorMessage = "required")]
+        public string Number { get; set; }
+
+        [Required(ErrorMessage = "required")]
         public string ClassroomType { get; set; }
 
         [Required(ErrorMessage = "required")]

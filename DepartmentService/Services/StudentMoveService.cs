@@ -112,7 +112,7 @@ namespace DepartmentService.Services
 
 						var entityHistory = new StudentHistory
 						{
-							StudentId = entity.NumberOfBook,
+							StudentId = entity.Id,
 							DateCreate = DateTime.Now,
 							TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroup.GroupName,
 							model.OrderNumber, model.OrderDate.ToShortDateString())
@@ -188,7 +188,7 @@ namespace DepartmentService.Services
 
 						var entityHistory = new StudentHistory
 						{
-							StudentId = entity.NumberOfBook,
+							StudentId = entity.Id,
 							DateCreate = DateTime.Now,
 							TextMessage = string.Format("Студент переведен в группу {0} на основании: {1} {2}", entity.StudentGroup.GroupName,
 								model.TransferReason, model.TransferDate.ToShortDateString())
@@ -257,7 +257,7 @@ namespace DepartmentService.Services
 
 						var entityHistory = new StudentHistory
 						{
-							StudentId = entity.NumberOfBook,
+							StudentId = entity.Id,
 							DateCreate = DateTime.Now,
 							TextMessage = string.Format("Студент отчислен на основании: {0}. Приказ №{1} от {2}",
 								model.DeductionReason, model.DeductionOrderNumber, model.DeductionDate.ToShortDateString())
@@ -322,7 +322,7 @@ namespace DepartmentService.Services
 
 						var entityHistory = new StudentHistory
 						{
-							StudentId = entity.NumberOfBook,
+							StudentId = entity.Id,
 							DateCreate = DateTime.Now,
 							TextMessage = string.Format("Студент ушел в академ на основании: {0}. Приказ №{1} от {2}",
 								model.ToAcademReason, model.ToAcademOrderNumber, model.ToAcademDate.ToShortDateString())

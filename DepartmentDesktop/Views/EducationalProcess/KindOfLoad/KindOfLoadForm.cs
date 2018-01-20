@@ -11,9 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 	{
 		private readonly IKindOfLoadService _service;
 
-		private long? _id;
+		private Guid? _id;
 
-		public KindOfLoadForm(IKindOfLoadService service, long? id = null)
+		public KindOfLoadForm(IKindOfLoadService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -86,9 +86,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

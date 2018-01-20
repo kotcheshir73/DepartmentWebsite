@@ -5,14 +5,14 @@ namespace DepartmentService.BindingModels
 {
     public class SeasonDatesGetBindingModel : PageSettingBinidingModel
 	{
-        public long? Id { get; set; }
+        public Guid? Id { get; set; }
 
         public string Title { get; set; }
 	}
 
     public class SeasonDatesRecordBindingModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Title { get; set; }

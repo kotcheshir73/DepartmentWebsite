@@ -7,11 +7,11 @@ namespace DepartmentService.ViewModels
 
     public class UserViewModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
-        public long? StudentId { get; set; }
+        public Guid? StudentId { get; set; }
 
-        public long? LecturerId { get; set; }
+        public Guid? LecturerId { get; set; }
 
         public string Login { get; set; }
 

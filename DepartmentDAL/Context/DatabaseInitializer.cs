@@ -22,7 +22,7 @@ namespace DepartmentDAL.Context
 			{
 				Role role = new Role
 				{
-					DateCreate = DateTime.Now,
+                    DateCreate = DateTime.Now,
 					RoleName = "Administrator"
 				};
 				context.Roles.Add(role);
@@ -32,7 +32,6 @@ namespace DepartmentDAL.Context
 				var md5 = new MD5CryptoServiceProvider();
 				User user = new User
 				{
-					DateCreate = DateTime.Now,
 					Login = "admin",
 					Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
 				};
@@ -56,11 +55,9 @@ namespace DepartmentDAL.Context
                 {
                     accesses.Add(new Access
                     {
-                        DateCreate = DateTime.Now,
 						AccessType = AccessType.Administrator,
 						Operation = elem,
 						RoleId = role.Id
-
                     });
                 }
 

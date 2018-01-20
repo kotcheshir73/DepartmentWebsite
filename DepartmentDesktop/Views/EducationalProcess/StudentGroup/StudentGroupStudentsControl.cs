@@ -14,7 +14,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private long _studentGroupId;
+		private Guid _studentGroupId;
 
         public StudentGroupStudentsControl(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM)
         {
@@ -24,7 +24,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			_serviceSM = serviceSM;
 		}
 
-        public void LoadData(long studentGroupId)
+        public void LoadData(Guid studentGroupId)
         {
             _studentGroupId = studentGroupId;
             var result = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = studentGroupId });
@@ -72,8 +72,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
         private void loadListOfStudentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "doc|*.doc|docx|*.docx";
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "doc|*.doc|docx|*.docx"
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _serviceSM.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _studentGroupId, FileName = dialog.FileName });

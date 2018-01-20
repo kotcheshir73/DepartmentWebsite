@@ -6,7 +6,7 @@ namespace DepartmentService.ViewModels
 
     public class ScheduleLessonTimeViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string Text { get; set; }
 

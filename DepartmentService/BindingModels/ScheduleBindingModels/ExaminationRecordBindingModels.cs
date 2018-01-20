@@ -13,6 +13,6 @@ namespace DepartmentService.BindingModels
         
         public string LessonConsultationClassroom { get; set; }
 
-        public string ConsultationClassroomId { get; set; }
+        public Guid? ConsultationClassroomId { get; set; }
     }
 }

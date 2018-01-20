@@ -1,19 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
     public class StudentGroupGetBindingModel : PageSettingBinidingModel
 	{
-        public long? Id { get; set; }
+        public Guid? Id { get; set; }
 
 		public string GroupName { get; set; }
 	}
 
 	public class StudentGroupRecordBindingModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
-        public long EducationDirectionId { get; set; }
+        public Guid EducationDirectionId { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string GroupName { get; set; }
@@ -22,6 +23,6 @@ namespace DepartmentService.BindingModels
 
         public string StewardName { get; set; }
 
-        public long? CuratorId { get; set; }
+        public Guid? CuratorId { get; set; }
 	}
 }

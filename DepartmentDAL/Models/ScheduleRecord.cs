@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
@@ -9,10 +11,23 @@ namespace DepartmentDAL.Models
     public class ScheduleRecord
     {
         [DataMember]
-        public long Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid Id { get; set; }
 
         [DataMember]
-        public long SeasonDatesId { get; set; }
+        public Guid SeasonDatesId { get; set; }
+
+        [DataMember]
+        public Guid? ClassroomId { get; set; }
+
+        [DataMember]
+        public Guid? StudentGroupId { get; set; }
+
+        [DataMember]
+        public Guid? LecturerId { get; set; }
+
+        [DataMember]
+        public Guid? DisciplineId { get; set; }
 
         [DataMember]
         public string NotParseRecord { get; set; }
@@ -29,17 +44,7 @@ namespace DepartmentDAL.Models
         [DataMember]
         public string LessonClassroom { get; set; }
 
-        [DataMember]
-        public string ClassroomId { get; set; }
-
-        [DataMember]
-        public long? StudentGroupId { get; set; }
-
-        [DataMember]
-        public long? LecturerId { get; set; }
-
-        [DataMember]
-        public long? DisciplineId { get; set; }
+        //-------------------------------------------------------------------------
 
         public virtual SeasonDates SeasonDates { get; set; }
 
@@ -50,5 +55,12 @@ namespace DepartmentDAL.Models
         public virtual Lecturer Lecturer { get; set; }
 
 		public virtual Discipline Discipline { get; set; }
-	}
+
+        //-------------------------------------------------------------------------
+
+        public ScheduleRecord()
+        {
+            Id = Guid.NewGuid();
+        }
+    }
 }

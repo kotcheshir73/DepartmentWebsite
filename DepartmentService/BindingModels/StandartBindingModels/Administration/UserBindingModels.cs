@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
 	public class UserGetBindingModel : PageSettingBinidingModel
 	{
-		public long? Id { get; set; }
+		public Guid? Id { get; set; }
 
 		public bool? IsBanned { get; set; }
 
@@ -13,7 +14,7 @@ namespace DepartmentService.BindingModels
 
 	public class UserRecordBindingModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
 		[Required(ErrorMessage = "required")]
 		public string Login { get; set; }
@@ -22,9 +23,9 @@ namespace DepartmentService.BindingModels
 
 		public byte[] Avatar { get; set; }
 
-		public long? StudentId { get; set; }
+		public Guid? StudentId { get; set; }
 
-		public long? LecturerId { get; set; }
+		public Guid? LecturerId { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string RoleType { get; set; }

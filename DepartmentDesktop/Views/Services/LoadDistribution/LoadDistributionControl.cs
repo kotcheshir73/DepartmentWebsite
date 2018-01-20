@@ -78,7 +78,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
-				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
+                Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
 				var form = new LoadDistributionForm(_service, _serviceLDR, _serviceEP, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
@@ -95,7 +95,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 				{
 					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
+						Guid id = new Guid(dataGridViewList.SelectedRows[i].Cells[0].Value.ToString());
 						var result = _service.DeleteLoadDistribution(new LoadDistributionGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{

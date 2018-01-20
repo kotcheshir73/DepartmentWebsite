@@ -35,9 +35,9 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 var query = _context.StudentHistorys.AsQueryable();
 
-                if (!string.IsNullOrEmpty(model.NumberOfBook))
+                if (model.StudetnId.HasValue)
                 {
-                    query = query.Where(e => e.StudentId == model.NumberOfBook);
+                    query = query.Where(e => e.StudentId == model.StudetnId);
                 }
 
                 query = query.OrderBy(c => c.DateCreate);

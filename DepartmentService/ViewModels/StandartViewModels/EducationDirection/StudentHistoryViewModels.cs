@@ -1,12 +1,14 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class StudentHistoryPageViewModel : PageViewModel<StudentHistoryViewModel> { }
 
 	public class StudentHistoryViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public string NumberOfBook { get; set; }
+		public Guid StudentId { get; set; }
 
 		public string DateCreate { get; set; }
 

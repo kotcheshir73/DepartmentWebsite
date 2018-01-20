@@ -1,19 +1,24 @@
 ﻿using DepartmentDAL.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
 	public class StudentGetBindingModel : PageSettingBinidingModel
-	{
+    {
+        public Guid? Id { get; set; }
+
         public string NumberOfBook { get; set; }
 
-        public long? StudentGroupId { get; set; }
+        public Guid? StudentGroupId { get; set; }
 
 		public StudentState? StudentStatus { get; set; }
     }
 
     public class StudentRecordBindingModel
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "required")]
         public string NumberOfBook { get; set; }
 
@@ -33,7 +38,7 @@ namespace DepartmentService.BindingModels
         [Required(ErrorMessage = "required")]
         public string StudentStatus { get; set; }
 
-        public long StudentGroupId { get; set; }
+        public Guid StudentGroupId { get; set; }
 
         public byte[] Photo { get; set; }
     }

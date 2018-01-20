@@ -1,10 +1,12 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class EducationDirectionPageViewModel : PageViewModel<EducationDirectionViewModel> { }
 
 	public class EducationDirectionViewModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Cipher { get; set; }
         

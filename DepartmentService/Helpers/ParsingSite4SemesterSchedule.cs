@@ -194,7 +194,7 @@ namespace DepartmentService.Helpers
             {
                 var currentRecord = clM == 0 ? recordFirst : recordSecond;
                 currentRecord.LessonClassroom = classroomMatches[clM].Value;
-                var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Id) && !c.IsDeleted);
+                var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
                 if (classroom != null)
                 {
                     currentRecord.ClassroomId = classroom.Id;

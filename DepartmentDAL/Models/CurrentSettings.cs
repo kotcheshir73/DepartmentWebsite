@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
@@ -10,6 +11,7 @@ namespace DepartmentDAL.Models
     public class CurrentSettings
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [DataMember]
         public string Key { get; set; }
 

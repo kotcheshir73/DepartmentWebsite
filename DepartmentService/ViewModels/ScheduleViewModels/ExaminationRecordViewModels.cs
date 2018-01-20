@@ -33,7 +33,7 @@ namespace DepartmentService.ViewModels
 
         public string LessonConsultationClassroom { get; set; }
 
-        public string ConsultationClassroomId { get; set; }
+        public Guid? ConsultationClassroomId { get; set; }
 
         public string ConsultationClassroom { get; set; }
     }

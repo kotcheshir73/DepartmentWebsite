@@ -1,17 +1,19 @@
-﻿namespace DepartmentService.BindingModels
+﻿using System;
+
+namespace DepartmentService.BindingModels
 {
 	public class ContingentGetBindingModel : PageSettingBinidingModel
 	{
-		public long? Id { get; set; }
+		public Guid? Id { get; set; }
 	}
 
 	public class ContingentRecordBindingModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long AcademicYearId { get; set; }
+		public Guid AcademicYearId { get; set; }
 
-		public long EducationDirectionId { get; set; }
+		public Guid EducationDirectionId { get; set; }
 
 		public int Course { get; set; }
 

@@ -5,12 +5,12 @@ namespace DepartmentService.BindingModels
 {
 	public class LecturerGetBindingModel : PageSettingBinidingModel
 	{
-		public long? Id { get; set; }
+		public Guid? Id { get; set; }
 	}
 
 	public class LecturerRecordBindingModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string FirstName { get; set; }
 		

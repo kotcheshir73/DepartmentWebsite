@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DepartmentService.BindingModels
 {
@@ -11,7 +12,7 @@ namespace DepartmentService.BindingModels
 
 		public List<string> Classrooms { get; set; }
 
-		public long SeasonDatesId { get; set; }
+		public Guid SeasonDatesId { get; set; }
 	}
 
 	/// <summary>
@@ -23,6 +24,6 @@ namespace DepartmentService.BindingModels
 
 		public List<string> Classrooms { get; set; }
 
-		public long SeasonDatesId { get; set; }
+		public Guid SeasonDatesId { get; set; }
 	}
 }

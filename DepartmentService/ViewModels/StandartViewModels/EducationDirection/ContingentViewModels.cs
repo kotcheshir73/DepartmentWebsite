@@ -1,14 +1,16 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class ContingentPageViewModel : PageViewModel<ContingentViewModel> { }
 
 	public class ContingentViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long AcademicYearId { get; set; }
+		public Guid AcademicYearId { get; set; }
 
-		public long EducationDirectionId { get; set; }
+		public Guid EducationDirectionId { get; set; }
 
 		public string EducationDirectionCipher { get; set; }
 

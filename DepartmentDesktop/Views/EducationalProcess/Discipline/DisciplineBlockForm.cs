@@ -10,9 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 	{
 		private readonly IDisciplineBlockService _service;
 
-		private long? _id;
+		private Guid? _id;
 
-		public DisciplineBlockForm(IDisciplineBlockService service, long? id = null)
+		public DisciplineBlockForm(IDisciplineBlockService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -73,9 +73,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

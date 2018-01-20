@@ -14,7 +14,7 @@ namespace DepartmentDesktop
 
 		public static UserViewModel User { get { return _user ?? null; } }
 
-		public static long? UserId { get { return _user?.Id ?? null; } }
+		public static Guid? UserId { get { return _user?.Id ?? null; } }
 
 		public static bool Login(string userName, string password)
 		{

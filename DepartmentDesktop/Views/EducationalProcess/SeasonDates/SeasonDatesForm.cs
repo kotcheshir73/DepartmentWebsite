@@ -10,9 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
     {
         private readonly ISeasonDatesService _service;
 
-        private long? _id = 0;
+        private Guid? _id;
 
-        public SeasonDatesForm(ISeasonDatesService service, long? id = null)
+        public SeasonDatesForm(ISeasonDatesService service, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -129,9 +129,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

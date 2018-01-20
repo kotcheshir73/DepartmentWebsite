@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
     public class EducationDirectionGetBindingModel : PageSettingBinidingModel
 	{
-        public long? Id { get; set; }
+        public Guid? Id { get; set; }
 	}
 
     public class EducationDirectionRecordBindingModel
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Cipher { get; set; }

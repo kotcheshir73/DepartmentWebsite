@@ -14,9 +14,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 	{
 		private readonly ITimeNormService _service;
 
-		private long? _id = 0;
+		private Guid? _id;
 
-		public TimeNormForm(ITimeNormService service, long? id = null)
+		public TimeNormForm(ITimeNormService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -141,7 +141,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				{
 					result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
 					{
-						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
+						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
 						Title = textBoxTitle.Text,
 						Formula = textBoxFormula.Text,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
@@ -152,7 +152,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 					result = _service.UpdateTimeNorm(new TimeNormRecordBindingModel
 					{
 						Id = _id.Value,
-						KindOfLoadId = Convert.ToInt64(comboBoxKindOfLoad.SelectedValue),
+						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
 						Title = textBoxTitle.Text,
 						Formula = textBoxFormula.Text,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
@@ -162,9 +162,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

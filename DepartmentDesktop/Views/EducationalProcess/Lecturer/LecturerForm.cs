@@ -11,9 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 	{
 		private readonly ILecturerService _service;
 
-		private long? _id;
+		private Guid? _id;
 
-		public LecturerForm(ILecturerService service, long? id = null)
+		public LecturerForm(ILecturerService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -138,9 +138,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

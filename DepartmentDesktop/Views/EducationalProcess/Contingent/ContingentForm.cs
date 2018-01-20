@@ -12,9 +12,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 	{
 		private readonly IContingentService _service;
 
-		private long? _id = 0;
+		private Guid? _id = null;
 
-		public ContingentForm(IContingentService service, long? id = null)
+		public ContingentForm(IContingentService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -119,8 +119,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 				{
 					result = _service.CreateContingent(new ContingentRecordBindingModel
 					{
-						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
-						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
 						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)
@@ -131,8 +131,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 					result = _service.UpdateContingent(new ContingentRecordBindingModel
 					{
 						Id = _id.Value,
-						AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
-						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
 						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)
@@ -142,9 +142,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

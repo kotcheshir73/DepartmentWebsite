@@ -16,9 +16,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private long? _id;
+		private Guid? _id;
 
-        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, long? id = null)
+        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -127,7 +127,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				{
 					result = _service.CreateStudentGroup(new StudentGroupRecordBindingModel
 					{
-						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						GroupName = textBoxGroupName.Text,
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0)
 					});
@@ -142,7 +142,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					result = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
 					{
 						Id = _id.Value,
-						EducationDirectionId = Convert.ToInt64(comboBoxEducationDirection.SelectedValue),
+						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						GroupName = textBoxGroupName.Text,
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0),
                         StewardName = StewardId
@@ -152,9 +152,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

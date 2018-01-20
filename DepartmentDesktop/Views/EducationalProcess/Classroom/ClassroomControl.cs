@@ -85,9 +85,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 		private void UpdRecord()
 		{
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
-			{
-				string id = Convert.ToString(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new ClassroomForm(_service, id);
+            {
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = new ClassroomForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
@@ -102,9 +102,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
-					{
-						string id = Convert.ToString(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteClassroom(new ClassroomGetBindingModel { Id = id });
+                    {
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
+                        var result = _service.DeleteClassroom(new ClassroomGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

@@ -8,27 +8,29 @@ namespace DepartmentService.BindingModels
 	/// </summary>
 	public class ScheduleGetBindingModel
     {
-        public long? Id;
+        public Guid? Id;
 
-        public string ClassroomId { get; set; }
+        public string ClassroomNumber { get; set; }
+
+        public Guid? ClassroomId { get; set; }
 
         public string StudentGroupName { get; set; }
 
-        public long? StudentGroupId { get; set; }
+        public Guid? StudentGroupId { get; set; }
 
         public string DisciplineName { get; set; }
 
-        public long? DisciplineId { get; set; }
+        public Guid? DisciplineId { get; set; }
 
         public string LecturerName { get; set; }
 
-        public long? LecturerId { get; set; }
+        public Guid? LecturerId { get; set; }
 
         public DateTime? DateBegin { get; set; }
 
         public DateTime? DateEnd { get; set; }
 
-        public long? SeasonDateId { get; set; }
+        public Guid? SeasonDateId { get; set; }
     }
 
     /// <summary>
@@ -36,9 +38,9 @@ namespace DepartmentService.BindingModels
     /// </summary>
     public class ScheduleRecordBindingModel
     {
-        public long Id;
+        public Guid Id;
 
-        public long? SeasonDatesId { get; set; }
+        public Guid? SeasonDatesId { get; set; }
 
         public string NotParseRecord { get; set; }
 
@@ -54,12 +56,12 @@ namespace DepartmentService.BindingModels
         [Required(ErrorMessage = "required")]
         public string LessonClassroom { get; set; }
 
-        public long? LecturerId { get; set; }
+        public Guid? LecturerId { get; set; }
 
-        public long? StudentGroupId { get; set; }
+        public Guid? StudentGroupId { get; set; }
 
-        public string ClassroomId { get; set; }
+        public Guid? ClassroomId { get; set; }
 
-        public long? DisciplineId { get; set; }
+        public Guid? DisciplineId { get; set; }
     }
 }

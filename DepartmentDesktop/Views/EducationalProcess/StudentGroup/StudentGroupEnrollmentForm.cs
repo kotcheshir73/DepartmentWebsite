@@ -12,9 +12,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private long? _id;
+		private Guid? _id;
 
-		public StudentGroupEnrollmentForm(IStudentGroupService service, IStudentMoveService serviceSM, long? id = null)
+		public StudentGroupEnrollmentForm(IStudentGroupService service, IStudentMoveService serviceSM, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;

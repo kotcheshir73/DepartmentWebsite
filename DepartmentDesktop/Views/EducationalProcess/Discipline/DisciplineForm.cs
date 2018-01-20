@@ -17,9 +17,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
         private readonly IEducationalProcessService _processE;
 
-        private long? _id;
+        private Guid? _id;
 
-        public DisciplineForm(IDisciplineService service, IEducationalProcessService processE, long? id = null)
+        public DisciplineForm(IDisciplineService service, IEducationalProcessService processE, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
@@ -121,7 +121,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                     {
                         DisciplineName = textBoxTitle.Text,
                         DisciplineShortName = textBoxDisciplineShortName.Text,
-                        DisciplineBlockId = Convert.ToInt64(comboBoxDisciplineBlock.SelectedValue)
+                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString())
                     });
                 }
                 else
@@ -131,16 +131,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                         Id = _id.Value,
                         DisciplineName = textBoxTitle.Text,
                         DisciplineShortName = textBoxDisciplineShortName.Text,
-                        DisciplineBlockId = Convert.ToInt64(comboBoxDisciplineBlock.SelectedValue)
+                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString())
                     });
                 }
                 if (result.Succeeded)
                 {
                     if (result.Result != null)
                     {
-                        if (result.Result is long)
+                        if (result.Result is Guid)
                         {
-                            _id = (long)result.Result;
+                            _id = (Guid)result.Result;
                         }
                     }
                     return true;
@@ -229,7 +229,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
         {
             var result = _processE.GetAcademicPlanRecordsForDiscipline(new AcademicPlanRecrodsForDiciplineBindingModel
             {
-                AcademicYearId = Convert.ToInt64(comboBoxAcademicYear.SelectedValue),
+                AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                 DisciplineId = _id.Value,
                 PageNumber = pageNumber,
                 PageSize = pageSize
@@ -283,7 +283,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
         {
             var result = _processE.GetScheduleRecordsForDiciplinePageViewModel(new ScheduleRecordsForDiciplineBindingModel
             {
-                SeasonDateId = Convert.ToInt64(comboBoxSeasonDate.SelectedValue),
+                SeasonDateId = new Guid(comboBoxSeasonDate.SelectedValue.ToString()),
                 DisciplineId = _id.Value,
                 PageNumber = pageNumber,
                 PageSize = pageSize

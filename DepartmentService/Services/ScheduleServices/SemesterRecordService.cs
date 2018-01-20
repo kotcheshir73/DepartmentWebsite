@@ -39,13 +39,13 @@ namespace DepartmentService.Services
 
                 var selectedRecords = _context.SemesterRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
-                if (!string.IsNullOrEmpty(model.ClassroomId))
+                if (!string.IsNullOrEmpty(model.ClassroomNumber))
                 {
                     if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
                     {
                         throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
                     }
-                    selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId);
+                    selectedRecords = selectedRecords.Where(sr => sr.LessonClassroom == model.ClassroomNumber);
                 }
                 if (!string.IsNullOrEmpty(model.DisciplineName))
                 {
@@ -100,7 +100,7 @@ namespace DepartmentService.Services
                 for (int i = 0; i < records.Count; ++i)
                 {
                     string groups = ScheduleHelper.GetLessonGroup(records[i]);
-                    if (records[i].IsStreaming && (!string.IsNullOrEmpty(model.ClassroomId) || model.LecturerId.HasValue))
+                    if (records[i].IsStreaming && (!string.IsNullOrEmpty(model.ClassroomNumber) || model.LecturerId.HasValue))
                     {//если потоковая пара
                         var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
                                                 rec.LessonClassroom == records[i].LessonClassroom && rec.IsStreaming).ToList();
@@ -302,13 +302,13 @@ namespace DepartmentService.Services
 
                 var selectedRecords = _context.SemesterRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
-                if (!string.IsNullOrEmpty(model.ClassroomId))
+                if (!string.IsNullOrEmpty(model.ClassroomNumber))
                 {
                     if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
                     {
                         throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
                     }
-                    selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId);
+                    selectedRecords = selectedRecords.Where(sr => sr.LessonClassroom == model.ClassroomNumber);
                 }
                 if (!string.IsNullOrEmpty(model.StudentGroupName))
                 {

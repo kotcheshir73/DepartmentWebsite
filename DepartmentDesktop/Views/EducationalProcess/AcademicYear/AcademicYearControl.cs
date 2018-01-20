@@ -83,9 +83,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 		private void UpdRecord()
 		{
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
-			{
-				long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-				var form = new AcademicYearForm(_service, id);
+            {
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = new AcademicYearForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -101,7 +101,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value);
+						Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
 						var result = _service.DeleteAcademicYear(new AcademicYearGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{

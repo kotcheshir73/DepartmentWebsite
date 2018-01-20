@@ -13,9 +13,9 @@ namespace DepartmentDesktop.Views.Administration.Role
 
 		private readonly IAccessService _serviceA;
 
-		private long? _id = 0;
+		private Guid? _id = null;
 
-		public RoleForm(IRoleService service, IAccessService serviceA, long? id = null)
+		public RoleForm(IRoleService service, IAccessService serviceA, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -25,16 +25,18 @@ namespace DepartmentDesktop.Views.Administration.Role
 
 		private void RoleForm_Load(object sender, EventArgs e)
 		{
-			var control = new AccessControl(_serviceA);
-			control.Left = 0;
-			control.Top = 0;
-			control.Height = Height - 60;
-			control.Width = Width - 15;
-			control.Anchor = (((AnchorStyles.Top
-						| AnchorStyles.Bottom)
-						| AnchorStyles.Left)
-						| AnchorStyles.Right);
-			tabPageAccesses.Controls.Add(control);
+            var control = new AccessControl(_serviceA)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right)
+            };
+            tabPageAccesses.Controls.Add(control);
 
 			if (_id.HasValue)
 			{
@@ -89,9 +91,9 @@ namespace DepartmentDesktop.Views.Administration.Role
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

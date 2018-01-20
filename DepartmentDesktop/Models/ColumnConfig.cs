@@ -1,8 +1,10 @@
-﻿namespace DepartmentDesktop.Models
+﻿using System;
+
+namespace DepartmentDesktop.Models
 {
 	public class ColumnConfig
 	{
-		public long? Id { get; set; }
+		public Guid? Id { get; set; }
 
 		public string Name { get; set; }
 

@@ -14,9 +14,9 @@ namespace DepartmentDesktop.Views.Administration.User
 	{
 		private readonly IUserService _service;
 
-		private long? _id = 0;
+		private Guid? _id = null;
 
-		public UserForm(IUserService service, long? id = null)
+		public UserForm(IUserService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -102,15 +102,15 @@ namespace DepartmentDesktop.Views.Administration.User
 			{
 				ImageConverter converter = new ImageConverter();
 				ResultService result;
-				long? studentId = null;
+                Guid? studentId = null;
 				if (comboBoxStudent.SelectedValue != null)
 				{
-					studentId = Convert.ToInt64(comboBoxStudent.SelectedValue);
+					studentId = new Guid(comboBoxStudent.SelectedValue.ToString());
 				}
-				long? lecturerId = null;
+                Guid? lecturerId = null;
 				if (comboBoxLecturer.SelectedValue != null)
 				{
-					lecturerId = Convert.ToInt64(comboBoxLecturer.SelectedValue);
+					lecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
 				}
 				if (!_id.HasValue)
 				{
@@ -140,9 +140,9 @@ namespace DepartmentDesktop.Views.Administration.User
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

@@ -88,8 +88,8 @@ namespace DepartmentDesktop.Views.Administration.User
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
-				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-				var form = new UserForm(_service, id);
+                Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
+                var form = new UserForm(_service, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();
@@ -105,8 +105,8 @@ namespace DepartmentDesktop.Views.Administration.User
 				{
 					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
-						var result = _service.DeleteUser(new UserGetBindingModel { Id = id });
+                        Guid id = new Guid(dataGridViewList.SelectedRows[i].Cells[0].Value.ToString());
+                        var result = _service.DeleteUser(new UserGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

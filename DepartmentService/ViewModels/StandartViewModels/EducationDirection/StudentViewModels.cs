@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Text;
 
 namespace DepartmentService.ViewModels
@@ -7,6 +8,10 @@ namespace DepartmentService.ViewModels
 
     public class StudentViewModel
     {
+        public Guid Id { get; set; }
+
+        public Guid? StudentGroupId { get; set; }
+
         public string NumberOfBook { get; set; }
 
         public string LastName { get; set; }
@@ -18,8 +23,6 @@ namespace DepartmentService.ViewModels
 		public string Email { get; set; }
 
 		public Image Photo { get; set; }
-
-        public long? StudentGroupId { get; set; }
 
         public string StudentGroup { get; set; }
 

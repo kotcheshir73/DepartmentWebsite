@@ -10,9 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 	{
 		private readonly IAcademicYearService _service;
 
-		private long? _id = 0;
+		private Guid? _id = null;
 
-		public AcademicYearForm(IAcademicYearService service, long? id = null)
+		public AcademicYearForm(IAcademicYearService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -73,9 +73,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

@@ -11,11 +11,11 @@ namespace DepartmentDesktop.Views.Administration.Access
 	{
 		private readonly IAccessService _service;
 
-		private long _roleId;
+		private Guid _roleId;
 
-		private long? _id;
+		private Guid? _id;
 
-		public AccessForm(IAccessService service, long roleId, long? id = null)
+		public AccessForm(IAccessService service, Guid roleId, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
@@ -98,9 +98,9 @@ namespace DepartmentDesktop.Views.Administration.Access
 				{
 					if (result.Result != null)
 					{
-						if (result.Result is long)
+						if (result.Result is Guid)
 						{
-							_id = (long)result.Result;
+							_id = (Guid)result.Result;
 						}
 					}
 					return true;

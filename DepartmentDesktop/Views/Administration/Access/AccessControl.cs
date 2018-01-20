@@ -12,7 +12,7 @@ namespace DepartmentDesktop.Views.Administration.Access
 	{
 		private readonly IAccessService _service;
 
-		private long _roleId;
+		private Guid _roleId;
 
 		public AccessControl(IAccessService service)
 		{
@@ -40,7 +40,7 @@ namespace DepartmentDesktop.Views.Administration.Access
 			}
 		}
 
-		public void LoadData(long roleId)
+		public void LoadData(Guid roleId)
 		{
 			_roleId = roleId;
 			LoadRecords();
@@ -78,9 +78,9 @@ namespace DepartmentDesktop.Views.Administration.Access
 		private void UpdRecord()
 		{
 			if (dataGridViewList.SelectedRows.Count == 1)
-			{
-				long id = Convert.ToInt64(dataGridViewList.SelectedRows[0].Cells[0].Value);
-				var form = new AccessForm(_service, _roleId, id);
+            {
+                Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
+                var form = new AccessForm(_service, _roleId, id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();
@@ -96,7 +96,7 @@ namespace DepartmentDesktop.Views.Administration.Access
 				{
 					for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
 					{
-						long id = Convert.ToInt64(dataGridViewList.SelectedRows[i].Cells[0].Value);
+                        Guid id = new Guid(dataGridViewList.SelectedRows[i].Cells[0].Value.ToString());
 						var result = _service.DeleteAccess(new AccessGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{

@@ -116,7 +116,7 @@ namespace DepartmentDesktop.Views.Schedule
             {
                 foreach (var elem in classrooms)
                 {
-                    var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { ClassroomId = elem });
+                    var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
                     if (!result.Succeeded)
                     {
@@ -235,7 +235,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-						var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { ClassroomId = elem });
+						var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
 						{
@@ -285,7 +285,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-                        var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel { ClassroomId = elem });
+                        var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
 						{
@@ -334,7 +334,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-						var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel { ClassroomId = elem });
+						var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
 						{
@@ -384,7 +384,7 @@ namespace DepartmentDesktop.Views.Schedule
 				{
 					foreach (var elem in classrooms)
 					{
-						var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel { ClassroomId = elem });
+						var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
 						{
@@ -437,7 +437,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     var result = _service.UpdateCurrentDates(new SeasonDatesGetBindingModel
                     {
-                        Id = Convert.ToInt64(comboBoxSeasonDates.SelectedValue),
+                        Id = new Guid(comboBoxSeasonDates.SelectedValue.ToString()),
                         Title = comboBoxSeasonDates.Text
                     });
 

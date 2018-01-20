@@ -10,7 +10,6 @@ namespace DepartmentDAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "DepartmentDAL.Context.DepartmentDbContext";
         }
 
         protected override void Seed(DepartmentDAL.Context.DepartmentDbContext context)

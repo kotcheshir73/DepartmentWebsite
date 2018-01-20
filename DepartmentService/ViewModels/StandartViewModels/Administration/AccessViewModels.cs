@@ -1,10 +1,12 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class AccessPageViewModel : PageViewModel<AccessViewModel> { }
 
 	public class AccessViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string Operation { get; set; }
 

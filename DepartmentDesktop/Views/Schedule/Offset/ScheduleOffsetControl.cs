@@ -188,7 +188,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                                 result = _serviceOR.DeleteOffsetRecord(
                                     new ScheduleGetBindingModel
                                     {
-                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                     });
                             }
                             else
@@ -196,7 +196,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                                 result = _serviceCR.DeleteConsultationRecord(
                                     new ScheduleGetBindingModel
                                     {
-                                        Id = Convert.ToInt32(((DataGridView)sender).SelectedCells[0].Tag)
+                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                     });
                             }
                             if (!result.Succeeded)
@@ -225,7 +225,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
                         {
                             ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
-                                Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));
+                                new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
                     }
@@ -277,13 +277,13 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
                         ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
-                            Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
                         ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                           Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag));
+                           new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     LoadRecords();
@@ -296,13 +296,13 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
                         ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
-                            Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag));
+                            new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
                         ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
-                           Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag));
+                           new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     LoadRecords();
@@ -320,7 +320,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -332,7 +332,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewFirstWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -350,7 +350,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {
@@ -362,7 +362,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            long id = Convert.ToInt64(dataGridViewSecondWeek.SelectedCells[0].Tag);
+                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
                             var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                             if (!result.Succeeded)
                             {

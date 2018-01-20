@@ -1,12 +1,14 @@
-﻿namespace DepartmentService.ViewModels
+﻿using System;
+
+namespace DepartmentService.ViewModels
 {
 	public class TimeNormPageViewModel : PageViewModel<TimeNormViewModel> { }
 
 	public class TimeNormViewModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
-		public long KindOfLoadId { get; set; }
+		public Guid KindOfLoadId { get; set; }
 
 		public string Title { get; set; }
 

@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
 	/// </summary>
 	public class StudentLoadDocBindingModel
 	{
-		public long Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string FileName { get; set; }
 	}
@@ -30,9 +30,9 @@ namespace DepartmentService.BindingModels
 	/// </summary>
 	public class StudentTransferBindingModel
 	{
-		public long? NewStudentGroupId { get; set; }
+		public Guid? NewStudentGroupId { get; set; }
 
-		public long? OldStudentGroupId { get; set; }
+		public Guid? OldStudentGroupId { get; set; }
 
 		public List<StudentRecordBindingModel> StudentList { get; set; }
 
@@ -48,7 +48,7 @@ namespace DepartmentService.BindingModels
 	{
 		public List<StudentRecordBindingModel> StudentList { get; set; }
 
-		public long StudentGroupId { get; set; }
+		public Guid StudentGroupId { get; set; }
 
 		public DateTime DeductionDate { get; set; }
 
@@ -64,7 +64,7 @@ namespace DepartmentService.BindingModels
 	{
 		public List<StudentRecordBindingModel> StudentList { get; set; }
 
-		public long StudentGroupId { get; set; }
+		public Guid StudentGroupId { get; set; }
 
 		public DateTime ToAcademDate { get; set; }
 
