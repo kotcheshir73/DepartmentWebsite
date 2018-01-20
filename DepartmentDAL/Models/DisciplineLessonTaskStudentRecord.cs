@@ -1,18 +1,27 @@
 ﻿using DepartmentDAL.Enums;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	public class DisciplineLessonTaskStudentRecord : BaseEntity
-	{
-		public DisciplineLessonTaskStudentResult Result { get; set; }
+    /// <summary>
+    /// Класс, хранящий информацию по сдаче студентом задания по занятию
+    /// </summary>
+    [DataContract]
+    public class DisciplineLessonTaskStudentRecord : BaseEntity
+    {
+        [DataMember]
+        public DisciplineLessonTaskStudentResult Result { get; set; }
 
-		public string Comment { get; set; }
+        [DataMember]
+        public string Comment { get; set; }
 
-		public long DisciplineLessonTaskId { get; set; }
+        [DataMember]
+        public long DisciplineLessonTaskId { get; set; }
+
+        [DataMember]
+        public string StudentId { get; set; }
 
 		public virtual DisciplineLessonTask DisciplineLessonTask { get; set; }
-
-		public string StudentId { get; set; }
 
 		public virtual Student Student { get; set; }
 	}

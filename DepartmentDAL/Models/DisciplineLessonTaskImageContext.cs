@@ -1,7 +1,14 @@
-﻿namespace DepartmentDAL.Models
+﻿using System.Runtime.Serialization;
+
+namespace DepartmentDAL.Models
 {
-	public class DisciplineLessonTaskImageContext : DisciplineLessonTaskContext
-	{
-		public byte[] Image { get; set; }
+    /// <summary>
+    /// Класс, хранящий контент к заданию (картинка)
+    /// </summary>
+    [DataContract]
+    public class DisciplineLessonTaskImageContext : DisciplineLessonTaskContext
+    {
+        [DataMember]
+        public byte[] Image { get; set; }
 	}
 }

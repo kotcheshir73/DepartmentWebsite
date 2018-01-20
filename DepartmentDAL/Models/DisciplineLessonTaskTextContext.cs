@@ -1,7 +1,14 @@
-﻿namespace DepartmentDAL.Models
+﻿using System.Runtime.Serialization;
+
+namespace DepartmentDAL.Models
 {
-	public class DisciplineLessonTaskTextContext : DisciplineLessonTaskContext
-	{
-		public string Text { get; set; }
+    /// <summary>
+    /// Класс, хранящий контент к заданию (текст)
+    /// </summary>
+    [DataContract]
+    public class DisciplineLessonTaskTextContext : DisciplineLessonTaskContext
+    {
+        [DataMember]
+        public string Text { get; set; }
 	}
 }

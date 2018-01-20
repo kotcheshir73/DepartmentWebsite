@@ -1,23 +1,27 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	/// <summary>
-	/// Класс, описывающий задачи к занятиям дисциплины
-	/// Это или лабораторная работа или практическое занятие
-	/// </summary>
-	public class DisciplineLessonTask : BaseEntity
-	{
-		public int VariantNumber { get; set; }
+    /// <summary>
+    /// Класс, описывающий задачи к занятиям дисциплины
+    /// Это или лабораторная работа или практическое занятие
+    /// </summary>
+    [DataContract]
+    public class DisciplineLessonTask : BaseEntity
+    {
+        [DataMember]
+        public int VariantNumber { get; set; }
 
-		public int Order { get; set; }
+        [DataMember]
+        public int Order { get; set; }
+        
+        [DataMember]
+        public decimal? MaxBall { get; set; }
 
-		[Display(Name = "Максимальный балл, который можно получить за занятие")]
-		public decimal? MaxBall { get; set; }
-
-		public long DisciplineLessonId { get; set; }
+        [DataMember]
+        public long DisciplineLessonId { get; set; }
 
 		public virtual DisciplineLesson DisciplineLesson { get; set; }
 

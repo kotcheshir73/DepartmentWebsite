@@ -1,24 +1,24 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
     /// <summary>
     /// Базовый набор для сущности
     /// </summary>
+    [DataContract]
     public class BaseEntity
     {
+        [DataMember]
         public long Id { get; set; }
-
-        [DataType(DataType.DateTime)]
-        [Display(Name = "Дата создания")]
+        
+        [DataMember]
         public DateTime DateCreate { get; set; }
-
-        [DataType(DataType.DateTime)]
-        [Display(Name = "Дата удаления")]
+        
+        [DataMember]
         public DateTime? DateDelete { get; set; }
-
-        [Display(Name = "Удален")]
+        
+        [DataMember]
         public bool IsDeleted { get; set; }
     }
 }

@@ -1,23 +1,30 @@
 ﻿using DepartmentDAL.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	/// <summary>
-	/// Класс, хранящий инорфмацио по контингенту
-	/// </summary>
-	public class Contingent : BaseEntity
-	{
-		public long AcademicYearId { get; set; }
+    /// <summary>
+    /// Класс, хранящий инорфмацио по контингенту
+    /// </summary>
+    [DataContract]
+    public class Contingent : BaseEntity
+    {
+        [DataMember]
+        public long AcademicYearId { get; set; }
 
-		public long EducationDirectionId { get; set; }
+        [DataMember]
+        public long EducationDirectionId { get; set; }
 
-		public AcademicCourse Course { get; set; }
+        [DataMember]
+        public AcademicCourse Course { get; set; }
 
-		public int CountStudetns { get; set; }
+        [DataMember]
+        public int CountStudetns { get; set; }
 
-		public int CountSubgroups { get; set; }
+        [DataMember]
+        public int CountSubgroups { get; set; }
 
 		public virtual AcademicYear AcademicYear {	get; set; }
 

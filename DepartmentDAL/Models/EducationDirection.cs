@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
+    [DataContract]
     public class EducationDirection : BaseEntity
     {
-        [Display(Name = "Код направления")]
         [MaxLength(10)]
         [Required]
+        [DataMember]
         public string Cipher { get; set; }
-
-        [Display(Name = "Название направления")]
+        
         [MaxLength(100)]
         [Required]
+        [DataMember]
         public string Title { get; set; }
-
-        [Display(Name = "Описание")]
+        
         [Required]
+        [DataMember]
         public string Description { get; set; }
 
         [ForeignKey("EducationDirectionId")]

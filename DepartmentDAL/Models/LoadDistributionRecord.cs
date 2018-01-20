@@ -1,22 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	/// <summary>
-	/// Класс, хранящий информацию по записи распределения нагрузки
-	/// </summary>
-	public class LoadDistributionRecord : BaseEntity
-	{
-		public long LoadDistributionId { get; set; }
+    /// <summary>
+    /// Класс, хранящий информацию по записи распределения нагрузки
+    /// </summary>
+    [DataContract]
+    public class LoadDistributionRecord : BaseEntity
+    {
+        [DataMember]
+        public long LoadDistributionId { get; set; }
 
-		public long AcademicPlanRecordId { get; set; }
+        [DataMember]
+        public long AcademicPlanRecordId { get; set; }
 
-		public long ContingentId { get; set; }
+        [DataMember]
+        public long ContingentId { get; set; }
 
-		public long TimeNormId { get; set; }
+        [DataMember]
+        public long TimeNormId { get; set; }
 
-		public decimal Load { get; set; }
+        [DataMember]
+        public decimal Load { get; set; }
 
 		public virtual LoadDistribution LoadDistribution { get; set; }
 

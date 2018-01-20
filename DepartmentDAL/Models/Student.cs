@@ -3,54 +3,59 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
+    [DataContract]
     public class Student
     {
         [Key]
         [MaxLength(10)]
         [Required]
+        [DataMember]
         public string NumberOfBook { get; set; }
 
         [DataType(DataType.DateTime)]
-        [Display(Name = "Дата создания")]
+        [DataMember]
         public DateTime DateCreate { get; set; }
 
         [DataType(DataType.DateTime)]
-        [Display(Name = "Дата удаления")]
+        [DataMember]
         public DateTime? DateDelete { get; set; }
-
-        [Display(Name = "Удален")]
+        
+        [DataMember]
         public bool IsDeleted { get; set; }
 
+        [DataMember]
         public long? StudentGroupId { get; set; }
-
-        [Display(Name = "Имя")]
+        
         [MaxLength(20)]
         [Required]
+        [DataMember]
         public string FirstName { get; set; }
-
-        [Display(Name = "Фамилия")]
+        
         [MaxLength(30)]
         [Required]
+        [DataMember]
         public string LastName { get; set; }
-
-        [Display(Name = "Отчество")]
+        
         [MaxLength(30)]
+        [DataMember]
         public string Patronymic { get; set; }
-
-		[Display(Name = "Почта")]
+        
 		[MaxLength(150)]
 		[Required]
-		public string Email { get; set; }
+        [DataMember]
+        public string Email { get; set; }
 
-		public StudentState StudentState { get; set; }
-
-        [Display(Name = "О себе")]
+        [DataMember]
+        public StudentState StudentState { get; set; }
+        
+        [DataMember]
         public string Description { get; set; }
-
-        [Display(Name = "Фото")]
+        
+        [DataMember]
         public byte[] Photo { get; set; }
 
         public virtual StudentGroup StudentGroup { get; set; }

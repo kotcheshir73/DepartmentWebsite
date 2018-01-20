@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	/// <summary>
-	///  Класс, описывающий занятие по дисциплине
-	///  Это может быть лекция, практическое занятие или лабораторная работа
-	/// </summary>
-	public class DisciplineLesson : BaseEntity
+    /// <summary>
+    ///  Класс, описывающий занятие по дисциплине
+    ///  Это может быть лекция, практическое занятие или лабораторная работа
+    /// </summary>
+    [DataContract]
+    public class DisciplineLesson : BaseEntity
 	{
 		[Required]
-		public LessonTypes LessonType { get; set; }
-
-		[Display(Name = "Тема занятия")]
+        [DataMember]
+        public LessonTypes LessonType { get; set; }
+        
 		[MaxLength(100)]
 		[Required]
-		public string Title { get; set; }
+        [DataMember]
+        public string Title { get; set; }
+        
+        [DataMember]
+        public string Description { get; set; }
 
-		[Display(Name = "Описание занятия")]
-		public string Description { get; set; }
-
-		public long DisciplineId { get; set; }
+        [DataMember]
+        public long DisciplineId { get; set; }
 
 		public virtual Discipline Discipline { get; set; }
 

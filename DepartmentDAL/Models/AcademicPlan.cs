@@ -1,22 +1,27 @@
 ﻿using DepartmentDAL.Enums;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	/// <summary>
-	/// Класс, описывающий учебный план
-	/// </summary>
-	public class AcademicPlan : BaseEntity
+    /// <summary>
+    /// Класс, описывающий учебный план
+    /// </summary>
+    [DataContract]
+    public class AcademicPlan : BaseEntity
 	{
-		public long EducationDirectionId { get; set; }
+        [DataMember]
+        public long EducationDirectionId { get; set; }
 
-		public long AcademicYearId { get; set; }
+        [DataMember]
+        public long AcademicYearId { get; set; }
 
-		public AcademicLevel AcademicLevel { get; set; }
+        [DataMember]
+        public AcademicLevel AcademicLevel { get; set; }
 
-		public AcademicCourse AcademicCourses { get; set; }
+        [DataMember]
+        public AcademicCourse AcademicCourses { get; set; }
 
 		public AcademicYear AcademicYear { get; set; }
 

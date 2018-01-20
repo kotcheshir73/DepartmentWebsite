@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace DepartmentDAL.Models
 {
-	/// <summary>
-	/// Класс, хранящий информацию по нормам времени
-	/// </summary>
-	public class TimeNorm : BaseEntity
+    /// <summary>
+    /// Класс, хранящий информацию по нормам времени
+    /// </summary>
+    [DataContract]
+    public class TimeNorm : BaseEntity
 	{
-		[Display(Name = "Норма времени")]
 		[MaxLength(50)]
 		[Required]
-		public string Title { get; set; }
+        [DataMember]
+        public string Title { get; set; }
 
-		public long KindOfLoadId { get; set; }
+        [DataMember]
+        public long KindOfLoadId { get; set; }
 
-		public string Formula { get; set; }
+        [DataMember]
+        public string Formula { get; set; }
 
-		public decimal Hours { get; set; }
+        [DataMember]
+        public decimal Hours { get; set; }
 
 		public virtual KindOfLoad KindOfLoad { get; set; }
 
