@@ -78,7 +78,7 @@ namespace DepartmentDesktop.Views.Schedule
                         tabControlClassroom.TabPages[i].Controls.Add(control);
                     }
                 }
-                else if (Convert.ToDateTime(_dates.DateBeginOffset).Date >= currentDate.Date && currentDate.Date <= Convert.ToDateTime(_dates.DateBeginExamination).Date)
+                else if (Convert.ToDateTime(_dates.DateBeginOffset).Date >= currentDate.Date && currentDate.Date < Convert.ToDateTime(_dates.DateBeginExamination).Date)
                 {
                     for (int i = 0; i < classrooms.Count; i++)
                     {
@@ -101,7 +101,7 @@ namespace DepartmentDesktop.Views.Schedule
                         tabControlClassroom.TabPages[i].Controls.Add(control);
                     }
                 }
-                else if (Convert.ToDateTime(_dates.DateBeginExamination).Date >= currentDate.Date)
+                else if (Convert.ToDateTime(_dates.DateEndExamination).Date >= currentDate.Date)
                 {
                     for (int i = 0; i < classrooms.Count; i++)
                     {

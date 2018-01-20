@@ -101,7 +101,7 @@ namespace DepartmentDesktop.Views.Schedule
                         tabControlLecturer.TabPages[i].Controls.Add(control);
                     }
                 }
-                else if (Convert.ToDateTime(_dates.DateBeginExamination).Date >= currentDate.Date)
+                else if (Convert.ToDateTime(_dates.DateEndExamination).Date >= currentDate.Date)
                 {
                     for (int i = 0; i < lecturers.Count; i++)
                     {

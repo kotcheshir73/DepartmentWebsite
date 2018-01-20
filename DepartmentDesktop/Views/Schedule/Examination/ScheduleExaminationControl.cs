@@ -35,8 +35,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
 
         private KeyValuePair<DateTime, int> _examSecondIndex;
 
-        public ScheduleExaminationControl(IScheduleService service, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR)
+        public ScheduleExaminationControl(IScheduleService service, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _service = service;
@@ -225,11 +224,6 @@ namespace DepartmentDesktop.Views.Schedule.Examination
             }
         }
 
-        private void toolStripButtonRef_Click(object sender, EventArgs e)
-        {
-            LoadRecords();
-        }
-
         private void DataGridView_Resize(object sender, EventArgs e)
         {
             for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
@@ -286,7 +280,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 {
                     if (((DataGridView)sender).SelectedCells[0].Tag != null)
                     {//если в Tag есть данные, то это id записи
-                        if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 && ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
+                        if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                         {
                             ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
                                 Convert.ToInt64(((DataGridView)sender).SelectedCells[0].Tag));

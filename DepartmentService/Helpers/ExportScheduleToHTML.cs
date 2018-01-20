@@ -251,14 +251,11 @@ namespace DepartmentService.Helpers
                                     }
                                     break;
                                 case 2:
-                                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    break;
-                                case 3:
                                     if (list.Exists(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                            times[3].DateBeginLesson.Hour))
+                                                                                                            times[2].DateBeginLesson.Hour))
                                     {
                                         var record = list.Find(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                                        times[3].DateBeginLesson.Hour);
+                                                                                                                        times[2].DateBeginLesson.Hour);
                                         writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
                                             record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
                                     }
@@ -267,12 +264,12 @@ namespace DepartmentService.Helpers
                                         writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
                                     }
                                     break;
-                                case 4:
+                                case 3:
                                     if (list.Exists(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                            times[4].DateBeginLesson.Hour))
+                                                                                                            times[3].DateBeginLesson.Hour))
                                     {
                                         var record = list.Find(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                                        times[4].DateBeginLesson.Hour);
+                                                                                                                        times[3].DateBeginLesson.Hour);
                                         writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
                                             record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
                                     }

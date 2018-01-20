@@ -144,7 +144,7 @@ namespace DepartmentService.Helpers
                 int day = ((int)(model.DateConsultation - dateBeginExamination).TotalDays);
                 int lesson = 2;
                 // получаем время экзаменов
-                var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("консультация")).ToList();
+                var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен")).ToList();
                 if (times == null || times.Count == 0)
                 {
                     throw new Exception("LessonTime not found");
@@ -167,7 +167,7 @@ namespace DepartmentService.Helpers
                 // ищем на какую пару выпадает консультация
                 for (int i = 0; i < lessons.Length - 1; ++i)
                 {
-                    if (lessons[i] >= model.DateConsultation && lessons[i + 1] >= model.DateConsultation)
+                    if (lessons[i] <= model.DateConsultation && lessons[i + 1] > model.DateConsultation)
                     {
                         lesson = i;
                         break;
