@@ -203,7 +203,6 @@ namespace DepartmentService.Services
                         }
                         name = name.Remove(name.Length - 1);
                     }
-                    _context.Database.ExecuteSqlCommand(string.Format("SET IDENTITY_INSERT DepartmentDatabase.dbo.{0}s ON", name));
                 }
 
                 List<T> records = (List<T>)jsonFormatter.ReadObject(fs);
@@ -221,7 +220,6 @@ namespace DepartmentService.Services
                         }
                         name = name.Remove(name.Length - 1);
                     }
-                    _context.Database.ExecuteSqlCommand(string.Format("SET IDENTITY_INSERT DepartmentDatabase.dbo.{0}s OFF", name));
                 }
 
                 _context.Configuration.AutoDetectChangesEnabled = true;
