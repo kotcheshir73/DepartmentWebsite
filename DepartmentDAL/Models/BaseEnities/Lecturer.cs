@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentDAL.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -55,14 +56,13 @@ namespace DepartmentDAL.Models
         [DataMember]
         public string HomeNumber { get; set; }
         
-        [MaxLength(50)]
         [Required]
         [DataMember]
-        public string Post { get; set; }
-        
-        [MaxLength(50)]
+        public Post Post { get; set; }
+
+        [Required]
         [DataMember]
-        public string Rank { get; set; }
+        public Rank Rank { get; set; }
         
         [DataMember]
         public string Description { get; set; }

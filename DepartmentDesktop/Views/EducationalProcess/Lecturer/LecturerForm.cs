@@ -1,4 +1,5 @@
 ﻿using DepartmentDAL;
+using DepartmentDAL.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -21,8 +22,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 		}
 
 		private void LecturerForm_Load(object sender, EventArgs e)
-		{
-			if (_id.HasValue)
+        {
+            foreach (var elem in Enum.GetValues(typeof(Post)))
+            {
+                comboBoxPost.Items.Add(elem.ToString());
+            }
+            comboBoxPost.SelectedIndex = 0;
+
+            foreach (var elem in Enum.GetValues(typeof(Rank)))
+            {
+                comboBoxRank.Items.Add(elem.ToString());
+            }
+            comboBoxRank.SelectedIndex = 0;
+
+            if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -47,8 +60,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 			textBoxEmail.Text = entity.Email;
 			textBoxMobileNumber.Text = entity.MobileNumber;
 			textBoxHomeNumber.Text = entity.HomeNumber;
-			textBoxPost.Text = entity.Post;
-			textBoxRank.Text = entity.Rank;
+            comboBoxPost.SelectedIndex = comboBoxPost.Items.IndexOf(entity.Post);
+            comboBoxRank.SelectedIndex = comboBoxRank.Items.IndexOf(entity.Rank);
 			textBoxDescription.Text = entity.Description;
 			if (entity.Photo != null)
 			{
@@ -81,11 +94,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 			if (string.IsNullOrEmpty(textBoxMobileNumber.Text))
 			{
 				return false;
-			}
-			if (string.IsNullOrEmpty(textBoxPost.Text))
-			{
-				return false;
-			}
+            }
+            if (string.IsNullOrEmpty(comboBoxPost.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(comboBoxRank.Text))
+            {
+                return false;
+            }
 			return true;
 		}
 
@@ -108,8 +125,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 						Email = textBoxEmail.Text,
 						MobileNumber = textBoxMobileNumber.Text,
 						HomeNumber = textBoxHomeNumber.Text,
-						Post = textBoxPost.Text,
-						Rank = textBoxRank.Text,
+						Post = comboBoxPost.Text,
+						Rank = comboBoxRank.Text,
 						Description = textBoxDescription.Text,
 						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
 					});
@@ -128,8 +145,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 						Email = textBoxEmail.Text,
 						MobileNumber = textBoxMobileNumber.Text,
 						HomeNumber = textBoxHomeNumber.Text,
-						Post = textBoxPost.Text,
-						Rank = textBoxRank.Text,
+						Post = comboBoxPost.Text,
+						Rank = comboBoxRank.Text,
 						Description = textBoxDescription.Text,
 						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
 					});

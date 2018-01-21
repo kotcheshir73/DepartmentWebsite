@@ -70,8 +70,8 @@ namespace DepartmentService.BindingModels
 			entity.Patronymic = model.Patronymic;
 			entity.Abbreviation = model.Abbreviation;
 			entity.DateBirth = model.DateBirth;
-			entity.Post = model.Post;
-			entity.Rank = model.Rank;
+			entity.Post = (Post)Enum.Parse(typeof(Post), model.Post);
+			entity.Rank = (Rank)Enum.Parse(typeof(Rank), model.Rank);
 			entity.Address = model.Address;
 			entity.HomeNumber = model.HomeNumber;
 			entity.MobileNumber = model.MobileNumber;
