@@ -42,17 +42,18 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Students.Where(e => !e.IsDeleted);
+				var query = _context.Students.Where(s => !s.IsDeleted).AsQueryable();
+
 				if (model.StudentGroupId.HasValue)
 				{
-					query = query.Where(e => e.StudentGroupId == model.StudentGroupId.Value);
+					query = query.Where(s => s.StudentGroupId == model.StudentGroupId.Value);
 				}
 				if (model.StudentStatus.HasValue)
 				{
-					query = query.Where(e => e.StudentState == model.StudentStatus.Value);
+					query = query.Where(s => s.StudentState == model.StudentStatus.Value);
                 }
 
-                query = query.OrderBy(c => c.StudentGroupId).ThenBy(s => s.LastName);
+                query = query.OrderBy(s => s.StudentGroupId).ThenBy(s => s.LastName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -91,8 +92,10 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по студентам");
 				}
 
-				var entity = _context.Students
-								.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
+				var entity = (string.IsNullOrEmpty(model.NumberOfBook)) ?
+                                        _context.Students.FirstOrDefault(s => s.NumberOfBook == model.NumberOfBook && !s.IsDeleted)
+                                        :
+                                        _context.Students.FirstOrDefault(s => s.Id == model.Id && !s.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<StudentViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -145,8 +148,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по студентам");
 				}
 
-				var entity = _context.Students
-								.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
+				var entity = _context.Students.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -176,8 +178,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по студентам");
 				}
 
-				var entity = _context.Students
-								.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
+				var entity = _context.Students.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

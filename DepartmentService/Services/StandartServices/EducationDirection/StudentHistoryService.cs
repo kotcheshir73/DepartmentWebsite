@@ -33,14 +33,14 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.StudentHistorys.AsQueryable();
+                var query = _context.StudentHistorys.Where(sh => !sh.IsDeleted).AsQueryable();
 
                 if (model.StudetnId.HasValue)
                 {
-                    query = query.Where(e => e.StudentId == model.StudetnId);
+                    query = query.Where(sh => sh.StudentId == model.StudetnId);
                 }
 
-                query = query.OrderBy(c => c.DateCreate);
+                query = query.OrderBy(sh => sh.DateCreate);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -50,7 +50,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(s => s.Student);
+                query = query.Include(sh => sh.Student);
 
                 var result = new StudentHistoryPageViewModel
                 {
@@ -80,7 +80,7 @@ namespace DepartmentService.Services
                 }
 
                 var entity = _context.StudentHistorys
-								.FirstOrDefault(e => e.Id == model.Id);
+								.FirstOrDefault(sh => sh.Id == model.Id && !sh.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService<StudentHistoryViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -133,8 +133,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по истории студента");
                 }
 
-                var entity = _context.StudentHistorys
-								.FirstOrDefault(e => e.Id == model.Id);
+                var entity = _context.StudentHistorys.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -164,16 +163,15 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по истории студента");
                 }
 
-                var entity = _context.StudentHistorys
-								.FirstOrDefault(e => e.Id == model.Id);
+                var entity = _context.StudentHistorys.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-				}
+                }
+                entity.IsDeleted = true;
+                entity.DateDelete = DateTime.Now;
 
-				_context.StudentHistorys.Remove(entity);
-
-				_context.SaveChanges();
+                _context.SaveChanges();
 
 				return ResultService.Success();
 			}

@@ -71,9 +71,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.LoadDistributionRecords.Where(c => !c.IsDeleted && c.LoadDistributionId == model.LoadDistributionId).AsQueryable();
+				var query = _context.LoadDistributionRecords.Where(ldr => !ldr.IsDeleted && ldr.LoadDistributionId == model.LoadDistributionId).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                query = query.OrderBy(ldr => ldr.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -89,15 +89,15 @@ namespace DepartmentService.Services
 					List = ModelFactoryToViewModel.CreateLoadDistributionRecords(query).ToList()
 				};
 
-				query = query.Include(e => e.AcademicPlanRecord)
-						.Include(e => e.Contingent)
-						.Include(e => e.TimeNorm)
-						.Include(e => e.AcademicPlanRecord.AcademicPlan.EducationDirection)
-						.Include(e => e.AcademicPlanRecord.Discipline)
-						.Include(e => e.AcademicPlanRecord.Discipline.DisciplineBlock)
-						.Include(e => e.AcademicPlanRecord.KindOfLoad)
-						.Include(e => e.Contingent.AcademicYear)
-						.Include(e => e.TimeNorm.KindOfLoad);
+				query = query.Include(ldr => ldr.AcademicPlanRecord)
+						.Include(ldr => ldr.Contingent)
+						.Include(ldr => ldr.TimeNorm)
+						.Include(ldr => ldr.AcademicPlanRecord.AcademicPlan.EducationDirection)
+						.Include(ldr => ldr.AcademicPlanRecord.Discipline)
+						.Include(ldr => ldr.AcademicPlanRecord.Discipline.DisciplineBlock)
+						.Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
+						.Include(ldr => ldr.Contingent.AcademicYear)
+						.Include(ldr => ldr.TimeNorm.KindOfLoad);
 
 				return ResultService<LoadDistributionRecordPageViewModel>.Success(result);
 			}
@@ -121,11 +121,14 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.LoadDistributionRecords
-						.Include(e => e.AcademicPlanRecord).Include(e => e.Contingent).Include(e => e.TimeNorm)
-						.Include(e => e.AcademicPlanRecord.Discipline).Include(e => e.AcademicPlanRecord.KindOfLoad)
-						.Include(e => e.Contingent.AcademicYear)
-						.Include(e => e.TimeNorm.KindOfLoad)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+						.Include(ldr => ldr.AcademicPlanRecord)
+                        .Include(ldr => ldr.Contingent)
+                        .Include(ldr => ldr.TimeNorm)
+						.Include(ldr => ldr.AcademicPlanRecord.Discipline)
+                        .Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
+						.Include(ldr => ldr.Contingent.AcademicYear)
+						.Include(ldr => ldr.TimeNorm.KindOfLoad)
+                        .FirstOrDefault(ldr => ldr.Id == model.Id && !ldr.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<LoadDistributionRecordViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -178,8 +181,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по записям расчета штата");
 				}
 
-				var entity = _context.LoadDistributionRecords
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.LoadDistributionRecords.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -209,8 +211,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по записям расчета штата");
 				}
 
-				var entity = _context.LoadDistributionRecords
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.LoadDistributionRecords.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

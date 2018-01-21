@@ -42,9 +42,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.LoadDistributions.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.LoadDistributions.Where(ld => !ld.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(e => e.AcademicYearId);
+                query = query.OrderBy(ld => ld.AcademicYearId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -54,7 +54,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(ap => ap.AcademicYear);
+				query = query.Include(ld => ld.AcademicYear);
 
 				var result = new LoadDistributionPageViewModel
 				{
@@ -83,8 +83,8 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по расчетам штатов");
 				}
 
-				var entity = _context.LoadDistributions.Include(ap => ap.AcademicYear)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.LoadDistributions.Include(ld => ld.AcademicYear)
+								.FirstOrDefault(ld => ld.Id == model.Id && !ld.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<LoadDistributionViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -137,8 +137,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по расчетам штатов");
 				}
 
-				var entity = _context.LoadDistributions
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.LoadDistributions.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found",
@@ -169,8 +168,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по расчетам штатов");
 				}
 
-				var entity = _context.LoadDistributions
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.LoadDistributions.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

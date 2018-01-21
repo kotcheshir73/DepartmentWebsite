@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Lecturers.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.Lecturers.Where(l => !l.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.LastName);
+                query = query.OrderBy(l => l.LastName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.Lecturers
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(l => l.Id == model.Id && !l.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<LecturerViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -125,8 +125,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по преподавателям");
 				}
 
-				var entity = _context.Lecturers
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Lecturers.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -156,8 +155,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по преподавателям");
 				}
 
-				var entity = _context.Lecturers
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Lecturers.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

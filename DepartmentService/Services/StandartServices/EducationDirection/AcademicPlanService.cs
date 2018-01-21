@@ -50,9 +50,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.AcademicPlans.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.AcademicPlans.Where(ap => !ap.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                query = query.OrderBy(ap => ap.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -62,7 +62,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection);
+				query = query.Include(ap => ap.AcademicYear).Include(ap => ap.EducationDirection);
 
 				var result = new AcademicPlanPageViewModel
 				{
@@ -91,8 +91,10 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по учебным планам");
 				}
 
-				var entity = _context.AcademicPlans.Include(ap => ap.AcademicYear).Include(ap => ap.EducationDirection)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.AcademicPlans
+                                .Include(ap => ap.AcademicYear)
+                                .Include(ap => ap.EducationDirection)
+								.FirstOrDefault(ap => ap.Id == model.Id && !ap.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<AcademicPlanViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -145,8 +147,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по учебным планам");
 				}
 
-				var entity = _context.AcademicPlans
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.AcademicPlans.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -177,8 +178,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по учебным планам");
 				}
 
-				var entity = _context.AcademicPlans
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.AcademicPlans.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

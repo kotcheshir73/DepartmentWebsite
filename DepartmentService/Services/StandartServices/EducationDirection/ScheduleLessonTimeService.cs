@@ -33,14 +33,14 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.ScheduleLessonTimes.AsQueryable();
+                var query = _context.ScheduleLessonTimes.Where(slt => !slt.IsDeleted).AsQueryable();
 
                 if (!string.IsNullOrEmpty(model.Title))
                 {
                     query = query.Where(slt => slt.Title.Contains(model.Title));
                 }
 
-                query = query.OrderBy(e => e.Order).ThenBy(e => e.Id);
+                query = query.OrderBy(slt => slt.Order).ThenBy(slt => slt.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -77,8 +77,8 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на чтение данных по расписанию пар");
                 }
 
-                var entity = string.IsNullOrEmpty(model.Title) ? _context.ScheduleLessonTimes.FirstOrDefault(e => e.Id == model.Id) :
-																_context.ScheduleLessonTimes.FirstOrDefault(e => e.Title == model.Title);
+                var entity = string.IsNullOrEmpty(model.Title) ? _context.ScheduleLessonTimes.FirstOrDefault(slt => slt.Id == model.Id && !slt.IsDeleted) :
+																_context.ScheduleLessonTimes.FirstOrDefault(slt => slt.Title == model.Title && !slt.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService<ScheduleLessonTimeViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -131,8 +131,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по расписанию пар");
                 }
 
-                var entity = _context.ScheduleLessonTimes
-								.FirstOrDefault(e => e.Id == model.Id);
+                var entity = _context.ScheduleLessonTimes.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -162,14 +161,14 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по расписанию пар");
                 }
 
-                var entity = _context.ScheduleLessonTimes
-								.FirstOrDefault(e => e.Id == model.Id);
+                var entity = _context.ScheduleLessonTimes.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-				}
-
-				_context.ScheduleLessonTimes.Remove(entity);
+                }
+                entity.IsDeleted = true;
+                entity.DateDelete = DateTime.Now;
+                
 				_context.SaveChanges();
 
 				return ResultService.Success();

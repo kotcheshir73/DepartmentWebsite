@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.Classrooms
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(c => c.Id == model.Id && !c.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<ClassroomViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -125,8 +125,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по аудиториям");
 				}
 
-				var entity = _context.Classrooms
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Classrooms.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -156,8 +155,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по аудиториям");
 				}
 
-				var entity = _context.Classrooms
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Classrooms.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

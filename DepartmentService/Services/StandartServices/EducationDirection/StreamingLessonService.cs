@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.StreamingLessons.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.StreamingLessons.Where(sl => !sl.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                query = query.OrderBy(sl => sl.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -54,13 +54,11 @@ namespace DepartmentService.Services
 			}
 			catch (DbEntityValidationException ex)
 			{
-				return ResultService<StreamingLessonPageViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<StreamingLessonPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 			catch (Exception ex)
 			{
-				return ResultService<StreamingLessonPageViewModel>.Error(ex,
-					ResultServiceStatusCode.Error);
+				return ResultService<StreamingLessonPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
@@ -74,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.StreamingLessons
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(sl => sl.Id == model.Id && !sl.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<StreamingLessonViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -127,8 +125,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по потокам");
 				}
 
-				var entity = _context.StreamingLessons
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.StreamingLessons.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -158,8 +155,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по потокам");
 				}
 
-				var entity = _context.StreamingLessons
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.StreamingLessons.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

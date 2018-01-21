@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.AcademicYears.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.AcademicYears.Where(ay => !ay.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                query = query.OrderBy(ay => ay.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.AcademicYears
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(ay => ay.Id == model.Id && !ay.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<AcademicYearViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -125,8 +125,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по учебным годам");
 				}
 
-				var entity = _context.AcademicYears
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.AcademicYears.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -157,8 +156,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по учебным годам");
 				}
 
-				var entity = _context.AcademicYears
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.AcademicYears.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

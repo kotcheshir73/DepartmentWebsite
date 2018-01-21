@@ -64,9 +64,9 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.AcademicPlanRecords.Where(c => !c.IsDeleted && c.AcademicPlanId == model.AcademicPlanId);
+                var query = _context.AcademicPlanRecords.Where(apr => !apr.IsDeleted && apr.AcademicPlanId == model.AcademicPlanId);
 
-                query = query.OrderBy(e => e.Semester).ThenBy(e => e.Discipline.DisciplineName);
+                query = query.OrderBy(apr => apr.Semester).ThenBy(apr => apr.Discipline.DisciplineName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -105,8 +105,10 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на чтение данных по записям учекбных планов");
                 }
 
-                var entity = _context.AcademicPlanRecords.Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad)
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                var entity = _context.AcademicPlanRecords
+                                .Include(apr => apr.Discipline)
+                                .Include(apr => apr.KindOfLoad)
+                                .FirstOrDefault(apr => apr.Id == model.Id && !apr.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService<AcademicPlanRecordViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -159,8 +161,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по записям учекбных планов");
                 }
 
-                var entity = _context.AcademicPlanRecords
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                var entity = _context.AcademicPlanRecords.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -190,8 +191,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по записям учекбных планов");
                 }
 
-                var entity = _context.AcademicPlanRecords
-                                .FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                var entity = _context.AcademicPlanRecords.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

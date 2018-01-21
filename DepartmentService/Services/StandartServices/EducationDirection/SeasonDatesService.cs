@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.SeasonDates.AsQueryable();
+				var query = _context.SeasonDates.Where(sd => !sd.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                query = query.OrderBy(sd => sd.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -72,8 +72,8 @@ namespace DepartmentService.Services
 				}
 
 				var entity = string.IsNullOrEmpty(model.Title) ?
-					_context.SeasonDates.FirstOrDefault(sd => sd.Id == model.Id) :
-					_context.SeasonDates.FirstOrDefault(sd => sd.Title == model.Title);
+					                    _context.SeasonDates.FirstOrDefault(sd => sd.Id == model.Id && !sd.IsDeleted) :
+					                    _context.SeasonDates.FirstOrDefault(sd => sd.Title == model.Title && !sd.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<SeasonDatesViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -126,8 +126,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по датам семестра");
 				}
 
-				var entity = _context.SeasonDates
-								.FirstOrDefault(e => e.Id == model.Id);
+				var entity = _context.SeasonDates.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -157,15 +156,15 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по датам семестра");
 				}
 
-				var entity = _context.SeasonDates
-								.FirstOrDefault(e => e.Id == model.Id);
+				var entity = _context.SeasonDates.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-				}
-				_context.SeasonDates.Remove(entity);
+                }
+                entity.IsDeleted = true;
+                entity.DateDelete = DateTime.Now;
 
-				_context.SaveChanges();
+                _context.SaveChanges();
 
 				return ResultService.Success();
 			}

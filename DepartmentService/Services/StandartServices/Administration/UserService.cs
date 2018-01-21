@@ -58,7 +58,8 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Users.Where(u => !u.IsDeleted);
+				var query = _context.Users.Where(u => !u.IsDeleted).AsQueryable();
+
                 if (!string.IsNullOrEmpty(model.RoleType))
                 {
                     var roleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
@@ -69,7 +70,7 @@ namespace DepartmentService.Services
 					query = query.Where(u => u.IsBanned == model.IsBanned.Value);
                 }
 
-                query = query.OrderBy(e => e.Login).ThenBy(e => e.DateLastVisit);
+                query = query.OrderBy(u => u.Login).ThenBy(u => u.DateLastVisit);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -160,8 +161,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по пользователям");
 				}
 
-				var entity = _context.Users
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Users.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -191,8 +191,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по пользователям");
 				}
 
-				var entity = _context.Users
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Users.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

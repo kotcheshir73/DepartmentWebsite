@@ -57,9 +57,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Disciplines.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.Disciplines.Where(d => !d.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.DisciplineBlockId).ThenBy(d => d.DisciplineName);
+                query = query.OrderBy(d => d.DisciplineBlockId).ThenBy(d => d.DisciplineName);
 
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -99,7 +99,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.Disciplines
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(d => d.Id == model.Id && !d.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<DisciplineViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -152,8 +152,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по дисциплинам");
 				}
 
-				var entity = _context.Disciplines
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Disciplines.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -183,8 +182,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по дисциплинам");
 				}
 
-				var entity = _context.Disciplines
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Disciplines.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.KindOfLoads.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.KindOfLoads.Where(kol => !kol.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(e => e.KindOfLoadType).ThenBy(e => e.KindOfLoadName);
+                query = query.OrderBy(kol => kol.KindOfLoadType).ThenBy(kol => kol.KindOfLoadName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.KindOfLoads
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(kol => kol.Id == model.Id && !kol.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<KindOfLoadViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -125,8 +125,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по видам нагрузки");
 				}
 
-				var entity = _context.KindOfLoads
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.KindOfLoads.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -156,8 +155,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по видам нагрузки");
 				}
 
-				var entity = _context.KindOfLoads
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.KindOfLoads.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

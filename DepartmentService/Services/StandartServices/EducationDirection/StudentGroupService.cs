@@ -42,9 +42,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.StudentGroups.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.StudentGroups.Where(sg => !sg.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(e => e.Course).ThenBy(e => e.EducationDirectionId);
+                query = query.OrderBy(sg => sg.Course).ThenBy(sg => sg.EducationDirectionId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -54,7 +54,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(s => s.EducationDirection).Include(s => s.Students);
+				query = query.Include(sg => sg.EducationDirection).Include(sg => sg.Students);
 
 				var result = new StudentGroupPageViewModel
 				{
@@ -83,8 +83,9 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по группам");
 				}
 
-				var entity = _context.StudentGroups.Include(s => s.EducationDirection)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.StudentGroups
+                                .Include(sg => sg.EducationDirection)
+								.FirstOrDefault(sg => sg.Id == model.Id && !sg.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<StudentGroupViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -137,8 +138,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по группам");
 				}
 
-				var entity = _context.StudentGroups
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.StudentGroups.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found",
@@ -169,8 +169,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по группам");
 				}
 
-				var entity = _context.StudentGroups
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.StudentGroups.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

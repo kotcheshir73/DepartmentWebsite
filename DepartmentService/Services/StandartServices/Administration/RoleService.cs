@@ -31,9 +31,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Roles.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.Roles.Where(r => !r.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(e => e.RoleName);
+                query = query.OrderBy(r => r.RoleName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -71,7 +71,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.Roles
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(r => r.Id == model.Id && !r.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<RoleViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -124,8 +124,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по ролям");
 				}
 
-				var entity = _context.Roles
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Roles.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -155,8 +154,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по ролям");
 				}
 
-				var entity = _context.Roles
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Roles.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

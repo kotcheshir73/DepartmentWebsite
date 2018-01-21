@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.EducationDirections.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.EducationDirections.Where(ed => !ed.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Cipher);
+                query = query.OrderBy(ed => ed.Cipher);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.EducationDirections
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(ed => ed.Id == model.Id && !ed.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<EducationDirectionViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -123,8 +123,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по направлениям");
 				}
 
-				var entity = _context.EducationDirections
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.EducationDirections.FirstOrDefault(ed => ed.Id == model.Id && !ed.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -154,8 +153,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по направлениям");
 				}
 
-				var entity = _context.EducationDirections
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.EducationDirections.FirstOrDefault(ed => ed.Id == model.Id && !ed.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

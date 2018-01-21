@@ -42,9 +42,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.TimeNorms.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.TimeNorms.Where(tn => !tn.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(e => e.KindOfLoad.KindOfLoadName).ThenBy(e => e.Title);
+                query = query.OrderBy(tn => tn.KindOfLoad.KindOfLoadName).ThenBy(tn => tn.Title);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -83,8 +83,9 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по нормам времени");
 				}
 
-				var entity = _context.TimeNorms.Include(tn => tn.KindOfLoad)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.TimeNorms
+                                .Include(tn => tn.KindOfLoad)
+								.FirstOrDefault(tn => tn.Id == model.Id && !tn.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<TimeNormViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -137,8 +138,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по нормам времени");
 				}
 
-				var entity = _context.TimeNorms
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.TimeNorms.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -168,8 +168,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по нормам времени");
 				}
 
-				var entity = _context.TimeNorms
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.TimeNorms.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

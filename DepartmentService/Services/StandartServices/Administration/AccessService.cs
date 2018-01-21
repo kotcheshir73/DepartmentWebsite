@@ -31,14 +31,14 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.Accesses.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.Accesses.Where(a => !a.IsDeleted).AsQueryable();
 
 				if (model.RoleId.HasValue)
 				{
-					query = query.Where(e => e.RoleId == model.RoleId);
+					query = query.Where(a => a.RoleId == model.RoleId);
 				}
 
-                query = query.OrderBy(e => e.Operation).ThenBy(e => e.AccessType);
+                query = query.OrderBy(a => a.Operation).ThenBy(a => a.AccessType);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -75,10 +75,13 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по доступам");
 				}
 
-				var entity = model.Id.HasValue ?_context.Accesses
-								.FirstOrDefault(e => e.Id == model.Id.Value && !e.IsDeleted) :
-								model.RoleId.HasValue && !string.IsNullOrEmpty(model.Operation) ? _context.Accesses
-								.FirstOrDefault(e => e.RoleId == model.RoleId.Value && e.Operation.ToString() == model.Operation && !e.IsDeleted) : null ;
+				var entity = model.Id.HasValue ?
+                                _context.Accesses.FirstOrDefault(a => a.Id == model.Id.Value && !a.IsDeleted) 
+                                :
+							model.RoleId.HasValue && !string.IsNullOrEmpty(model.Operation) ? 
+                                _context.Accesses.FirstOrDefault(a => a.RoleId == model.RoleId.Value && a.Operation.ToString() == model.Operation && !a.IsDeleted) 
+                                : 
+                                null;
 				if (entity == null)
 				{
 					return ResultService<AccessViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -131,8 +134,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по доступам");
 				}
 
-				var entity = _context.Accesses
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Accesses.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -162,8 +164,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по доступам");
 				}
 
-				var entity = _context.Accesses
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Accesses.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

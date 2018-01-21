@@ -52,7 +52,7 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Contingents.Where(c => !c.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(e => e.AcademicYearId).ThenBy(e => e.EducationDirectionId);
+                query = query.OrderBy(c => c.AcademicYearId).ThenBy(c => c.EducationDirectionId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -62,7 +62,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection);
+				query = query.Include(c => c.AcademicYear).Include(c => c.EducationDirection);
 
 				var result = new ContingentPageViewModel
 				{
@@ -91,8 +91,8 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на чтение данных по контингенту");
 				}
 
-				var entity = _context.Contingents.Include(ap => ap.AcademicYear).Include(s => s.EducationDirection)
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Contingents.Include(c => c.AcademicYear).Include(c => c.EducationDirection)
+								.FirstOrDefault(c => c.Id == model.Id && !c.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<ContingentViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -145,8 +145,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по контингенту");
 				}
 
-				var entity = _context.Contingents
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Contingents.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -176,8 +175,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по контингенту");
 				}
 
-				var entity = _context.Contingents
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.Contingents.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

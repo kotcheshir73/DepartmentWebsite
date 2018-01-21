@@ -32,9 +32,9 @@ namespace DepartmentService.Services
 				}
 
 				int countPages = 0;
-				var query = _context.DisciplineBlocks.Where(c => !c.IsDeleted).AsQueryable();
+				var query = _context.DisciplineBlocks.Where(db => !db.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                query = query.OrderBy(db => db.Id);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -72,7 +72,7 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.DisciplineBlocks
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+								.FirstOrDefault(db => db.Id == model.Id && !db.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<DisciplineBlockViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -125,8 +125,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на изменение данных по блокам дисциплин");
 				}
 
-				var entity = _context.DisciplineBlocks
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.DisciplineBlocks.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -156,8 +155,7 @@ namespace DepartmentService.Services
 					throw new Exception("Нет доступа на удаление данных по блокам дисциплин");
 				}
 
-				var entity = _context.DisciplineBlocks
-								.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+				var entity = _context.DisciplineBlocks.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
