@@ -61,6 +61,8 @@
     <Compile Include="Enums\DisciplineLessonTaskStudentResult.cs" />
     <Compile Include="Enums\KindOfLoadType.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
+    <Compile Include="Enums\Post.cs" />
+    <Compile Include="Enums\Rank.cs" />
     <Compile Include="Enums\ResultServiceStatusCode.cs" />
     <Compile Include="Enums\RoleType.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
@@ -69,6 +71,10 @@
     <Compile Include="Migrations\201801201947439_InitialCreate.cs" />
     <Compile Include="Migrations\201801201947439_InitialCreate.Designer.cs">
       <DependentUpon>201801201947439_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801211807077_UpdateLecturer.cs" />
+    <Compile Include="Migrations\201801211807077_UpdateLecturer.Designer.cs">
+      <DependentUpon>201801211807077_UpdateLecturer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
@@ -121,6 +127,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801201947439_InitialCreate.resx">
       <DependentUpon>201801201947439_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801211807077_UpdateLecturer.resx">
+      <DependentUpon>201801211807077_UpdateLecturer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
