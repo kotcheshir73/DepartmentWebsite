@@ -52,8 +52,8 @@ namespace DepartmentService.Services
 				var result = new ClassroomPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateClassrooms(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateClassroomViewModel).ToList()
+                };
 
 				return ResultService<ClassroomPageViewModel>.Success(result);
 			}

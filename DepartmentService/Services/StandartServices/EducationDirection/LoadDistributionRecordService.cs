@@ -83,12 +83,6 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				var result = new LoadDistributionRecordPageViewModel
-				{
-					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateLoadDistributionRecords(query).ToList()
-				};
-
 				query = query.Include(ldr => ldr.AcademicPlanRecord)
 						.Include(ldr => ldr.Contingent)
 						.Include(ldr => ldr.TimeNorm)
@@ -98,6 +92,12 @@ namespace DepartmentService.Services
 						.Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
 						.Include(ldr => ldr.Contingent.AcademicYear)
 						.Include(ldr => ldr.TimeNorm.KindOfLoad);
+
+				var result = new LoadDistributionRecordPageViewModel
+				{
+					MaxCount = countPages,
+                    List = query.Select(ModelFactoryToViewModel.CreateLoadDistributionRecordViewModel).ToList()
+                };
 
 				return ResultService<LoadDistributionRecordPageViewModel>.Success(result);
 			}

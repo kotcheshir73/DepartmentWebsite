@@ -67,8 +67,8 @@ namespace DepartmentService.Services
 				var result = new StudentGroupPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateStudentGroups(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateStudentGroupViewModel).ToList()
+                };
 
 				return ResultService<StudentGroupPageViewModel>.Success(result);
 			}

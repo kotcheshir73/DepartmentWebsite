@@ -25,11 +25,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<EducationDirectionViewModel> CreateEducationDirections(IEnumerable<EducationDirection> entities)
-        {
-            return entities.Select(e => CreateEducationDirectionViewModel(e));
-        }
-
         public static DisciplineBlockViewModel CreateDisciplineBlockViewModel(DisciplineBlock entity)
         {
             return new DisciplineBlockViewModel
@@ -37,11 +32,6 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 Title = entity.Title
             };
-        }
-
-        public static IEnumerable<DisciplineBlockViewModel> CreateDisciplineBlocks(IEnumerable<DisciplineBlock> entities)
-        {
-            return entities.Select(e => CreateDisciplineBlockViewModel(e));
         }
 
         public static LecturerPostViewModel CreateLecturerPostViewModel(LecturerPost entity)
@@ -52,11 +42,6 @@ namespace DepartmentService.ViewModels
                 PostTitle = entity.PostTitle,
                 Hours = entity.Hours
             };
-        }
-
-        public static IEnumerable<LecturerPostViewModel> CreateLecturerPosts(IEnumerable<LecturerPost> entities)
-        {
-            return entities.Select(e => CreateLecturerPostViewModel(e));
         }
 
 
@@ -72,11 +57,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<ClassroomViewModel> CreateClassrooms(IEnumerable<Classroom> entities)
-        {
-            return entities.Select(e => CreateClassroomViewModel(e));
-        }
-
         public static DisciplineViewModel CreateDisciplineViewModel(Discipline entity)
         {
             return new DisciplineViewModel
@@ -87,11 +67,6 @@ namespace DepartmentService.ViewModels
                 DisciplineShortName = entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock.Title
             };
-        }
-
-        public static IEnumerable<DisciplineViewModel> CreateDisciplines(IEnumerable<Discipline> entities)
-        {
-            return entities.Select(e => CreateDisciplineViewModel(e));
         }
 
         public static LecturerViewModel CreateLecturerViewModel(Lecturer entity)
@@ -118,11 +93,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<LecturerViewModel> CreateLecturers(IEnumerable<Lecturer> entities)
-        {
-            return entities.Select(e => CreateLecturerViewModel(e));
-        }
-
         public static StudentGroupViewModel CreateStudentGroupViewModel(StudentGroup entity)
         {
             return new StudentGroupViewModel
@@ -139,11 +109,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<StudentGroupViewModel> CreateStudentGroups(IEnumerable<StudentGroup> entities)
-        {
-            return entities.Select(e => CreateStudentGroupViewModel(e));
-        }
-
 
         public static KindOfLoadViewModel CreateKindOfLoadViewModel(KindOfLoad entity)
         {
@@ -153,11 +118,6 @@ namespace DepartmentService.ViewModels
                 KindOfLoadName = entity.KindOfLoadName,
                 KindOfLoadType = entity.KindOfLoadType.ToString()
             };
-        }
-
-        public static IEnumerable<KindOfLoadViewModel> CreateKindOfLoads(IEnumerable<KindOfLoad> entities)
-        {
-            return entities.Select(e => CreateKindOfLoadViewModel(e));
         }
 
         public static TimeNormViewModel CreateTimeNormViewModel(TimeNorm entity)
@@ -173,11 +133,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<TimeNormViewModel> CreateTimeNorms(IEnumerable<TimeNorm> entities)
-        {
-            return entities.Select(e => CreateTimeNormViewModel(e));
-        }
-
         public static ContingentViewModel CreateContingentViewModel(Contingent entity)
         {
             return new ContingentViewModel
@@ -191,11 +146,6 @@ namespace DepartmentService.ViewModels
                 CountStudents = entity.CountStudetns,
                 CountSubgroups = entity.CountSubgroups
             };
-        }
-
-        public static IEnumerable<ContingentViewModel> CreateContingents(IEnumerable<Contingent> entities)
-        {
-            return entities.Select(e => CreateContingentViewModel(e));
         }
 
 
@@ -239,11 +189,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<AcademicPlanViewModel> CreateAcademicPlans(IEnumerable<AcademicPlan> entities)
-        {
-            return entities.Select(e => CreateAcademicPlanViewModel(e));
-        }
-
         public static AcademicPlanRecordViewModel CreateAcademicPlanRecordViewModel(AcademicPlanRecord entity)
         {
             return new AcademicPlanRecordViewModel
@@ -259,11 +204,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<AcademicPlanRecordViewModel> CreateAcademicPlanRecords(IEnumerable<AcademicPlanRecord> entities)
-        {
-            return entities.Select(e => CreateAcademicPlanRecordViewModel(e));
-        }
-
         public static AcademicYearViewModel CreateAcademicYearViewModel(AcademicYear entity)
         {
             return new AcademicYearViewModel
@@ -271,11 +211,6 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 Title = entity.Title
             };
-        }
-
-        public static IEnumerable<AcademicYearViewModel> CreateAcademicYears(IEnumerable<AcademicYear> entities)
-        {
-            return entities.Select(e => CreateAcademicYearViewModel(e));
         }
 
 
@@ -297,11 +232,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<StudentViewModel> CreateStudents(IEnumerable<Student> entities)
-        {
-            return entities.Select(e => CreateStudentViewModel(e));
-        }
-
         public static StudentHistoryViewModel CreateStudentHistoryViewModel(StudentHistory entity)
         {
             return new StudentHistoryViewModel
@@ -311,11 +241,6 @@ namespace DepartmentService.ViewModels
                 DateCreate = entity.DateCreate.ToLongDateString(),
                 TextMessage = entity.TextMessage
             };
-        }
-
-        public static IEnumerable<StudentHistoryViewModel> CreateStudentHistorys(IEnumerable<StudentHistory> entities)
-        {
-            return entities.Select(e => CreateStudentHistoryViewModel(e));
         }
 
 
@@ -339,11 +264,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<SeasonDatesViewModel> CreateSeasonDaties(IEnumerable<SeasonDates> entities)
-        {
-            return entities.Select(e => CreateSeasonDatesViewModel(e));
-        }
-
         public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
         {
             return new StreamingLessonViewModel
@@ -352,11 +272,6 @@ namespace DepartmentService.ViewModels
                 IncomingGroups = entity.IncomingGroups,
                 StreamName = entity.StreamName
             };
-        }
-
-        public static IEnumerable<StreamingLessonViewModel> CreateStreamingLessons(IEnumerable<StreamingLesson> entities)
-        {
-            return entities.Select(e => CreateStreamingLessonViewModel(e));
         }
 
         public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
@@ -375,11 +290,6 @@ namespace DepartmentService.ViewModels
                 DateEndLesson = entity.DateEndLesson
             };
         }
-
-        public static IEnumerable<ScheduleLessonTimeViewModel> CreateScheduleLessonTimes(IEnumerable<ScheduleLessonTime> entities)
-        {
-            return entities.Select(e => CreateScheduleLessonTimeViewModel(e));
-        }
         #endregion
 
         #region LoadDistribution
@@ -391,11 +301,6 @@ namespace DepartmentService.ViewModels
                 AcademicYearId = entity.AcademicYearId,
                 AcademicYear = entity.AcademicYear.Title
             };
-        }
-
-        public static IEnumerable<LoadDistributionViewModel> CreateLoadDistributions(IEnumerable<LoadDistribution> entities)
-        {
-            return entities.Select(e => CreateLoadDistributionViewModel(e));
         }
 
         public static LoadDistributionRecordViewModel CreateLoadDistributionRecordViewModel(LoadDistributionRecord entity)
@@ -416,11 +321,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<LoadDistributionRecordViewModel> CreateLoadDistributionRecords(IEnumerable<LoadDistributionRecord> entities)
-        {
-            return entities.Select(e => CreateLoadDistributionRecordViewModel(e));
-        }
-
         public static LoadDistributionMissionViewModel CreateLoadDistributionMissionViewModel(LoadDistributionMission entity)
         {
             return new LoadDistributionMissionViewModel
@@ -430,11 +330,6 @@ namespace DepartmentService.ViewModels
                 LecturerId = entity.LecturerId,
                 Hours = entity.Hours
             };
-        }
-
-        public static IEnumerable<LoadDistributionMissionViewModel> CreateLoadDistributionMissions(IEnumerable<LoadDistributionMission> entities)
-        {
-            return entities.Select(e => CreateLoadDistributionMissionViewModel(e));
         }
         #endregion
 
@@ -453,11 +348,6 @@ namespace DepartmentService.ViewModels
                 Semester = entity.Semester.ToString(),
                 Hours = entity.Hours
             };
-        }
-
-        public static IEnumerable<AcademicPlanRecordForDiciplineViewModel> CreateAcademicPlanRecordForDiciplines(IEnumerable<AcademicPlanRecord> entities)
-        {
-            return entities.Select(e => CreateAcademicPlanRecordForDiciplineViewModel(e));
         }
 
         #region Schedule
@@ -506,11 +396,6 @@ namespace DepartmentService.ViewModels
                 StudentGroupId = entity.StudentGroupId,
                 StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
             };
-        }
-
-        public static IEnumerable<SemesterRecordViewModel> CreateSemesterRecords(IEnumerable<SemesterRecord> entities)
-        {
-            return entities.Select(e => CreateSemesterRecordViewModel(e));
         }
 
         public static SemesterRecordShortViewModel CreateSemesterRecordShortViewModel(SemesterRecord entity, string groups)
@@ -569,11 +454,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<OffsetRecordViewModel> CreateOffsetRecords(IEnumerable<OffsetRecord> entities)
-        {
-            return entities.Select(e => CreateOffsetRecordViewModel(e));
-        }
-
         public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
         {
             return new ExaminationRecordViewModel
@@ -615,11 +495,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<ExaminationRecordViewModel> CreateExaminationRecords(IEnumerable<ExaminationRecord> entities)
-        {
-            return entities.Select(e => CreateExaminationRecordViewModel(e));
-        }
-
         public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
         {
             return new ConsultationRecordViewModel
@@ -657,11 +532,6 @@ namespace DepartmentService.ViewModels
                 LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
             };
         }
-
-        public static IEnumerable<ConsultationRecordViewModel> CreateConsultationRecords(IEnumerable<ConsultationRecord> entities)
-        {
-            return entities.Select(e => CreateConsultationRecordViewModel(e));
-        }
         #endregion
 
         #region Administration
@@ -674,11 +544,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static IEnumerable<RoleViewModel> CreateRoles(IEnumerable<Role> entities)
-        {
-            return entities.Select(e => CreateRoleViewModel(e));
-        }
-
         public static AccessViewModel CreateAccessViewModel(Access entity)
         {
             return new AccessViewModel
@@ -688,11 +553,6 @@ namespace DepartmentService.ViewModels
                 Operation = entity.Operation.ToString(),
                 AccessType = entity.AccessType.ToString()
             };
-        }
-
-        public static IEnumerable<AccessViewModel> CreateAccesses(IEnumerable<Access> entities)
-        {
-            return entities.Select(e => CreateAccessViewModel(e));
         }
 
         public static UserViewModel CreateUserViewModel(User entity)
@@ -709,11 +569,6 @@ namespace DepartmentService.ViewModels
                 DateBanned = entity.DateBanned,
                 DateLastVisit = entity.DateLastVisit
             };
-        }
-
-        public static IEnumerable<UserViewModel> CreateUsers(IEnumerable<User> entities)
-        {
-            return entities.Select(e => CreateUserViewModel(e));
         }
         #endregion
     }

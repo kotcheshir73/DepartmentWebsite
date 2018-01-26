@@ -47,8 +47,8 @@ namespace DepartmentService.Services
 				var result = new AcademicYearPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateAcademicYears(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateAcademicYearViewModel).ToList()
+                };
 
 				return ResultService<AcademicYearPageViewModel>.Success(result);
 			}

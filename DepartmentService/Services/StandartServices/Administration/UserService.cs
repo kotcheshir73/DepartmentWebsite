@@ -83,8 +83,8 @@ namespace DepartmentService.Services
 				var result = new UserPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateUsers(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateUserViewModel).ToList()
+                };
 
 				return ResultService<UserPageViewModel>.Success(result);
 			}

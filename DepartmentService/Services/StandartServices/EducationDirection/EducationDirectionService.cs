@@ -47,8 +47,8 @@ namespace DepartmentService.Services
 				var result = new EducationDirectionPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateEducationDirections(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateEducationDirectionViewModel).ToList()
+                };
 
 				return ResultService<EducationDirectionPageViewModel>.Success(result);
 			}

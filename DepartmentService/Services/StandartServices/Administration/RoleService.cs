@@ -46,8 +46,8 @@ namespace DepartmentService.Services
 				var result = new RolePageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateRoles(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateRoleViewModel).ToList()
+                };
 
 				return ResultService<RolePageViewModel>.Success(result);
 			}

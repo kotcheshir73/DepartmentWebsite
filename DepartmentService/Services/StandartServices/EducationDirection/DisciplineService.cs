@@ -74,8 +74,8 @@ namespace DepartmentService.Services
 				var result = new DisciplinePageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateDisciplines(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateDisciplineViewModel).ToList()
+                };
 
 				return ResultService<DisciplinePageViewModel>.Success(result);
 			}

@@ -58,8 +58,8 @@ namespace DepartmentService.Services
 				var result = new LecturerPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateLecturers(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList()
+                };
 
 				return ResultService<LecturerPageViewModel>.Success(result);
 			}

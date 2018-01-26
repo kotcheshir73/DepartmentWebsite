@@ -59,8 +59,8 @@ namespace DepartmentService.Services
 				var result = new TimeNormPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateTimeNorms(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateTimeNormViewModel).ToList()
+                };
 
 				return ResultService<TimeNormPageViewModel>.Success(result);
 			}

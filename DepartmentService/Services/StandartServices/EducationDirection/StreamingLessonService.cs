@@ -47,8 +47,8 @@ namespace DepartmentService.Services
 				var result = new StreamingLessonPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateStreamingLessons(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateStreamingLessonViewModel).ToList()
+                };
 
 				return ResultService<StreamingLessonPageViewModel>.Success(result);
 			}

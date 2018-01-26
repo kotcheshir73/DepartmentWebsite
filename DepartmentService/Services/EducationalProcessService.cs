@@ -896,7 +896,7 @@ namespace DepartmentService.Services
             var result = new AcademicPlanRecordForDiciplinePageViewModel
             {
                 MaxCount = countPages,
-                List = ModelFactoryToViewModel.CreateAcademicPlanRecordForDiciplines(query).ToList()
+                List = query.Select(ModelFactoryToViewModel.CreateAcademicPlanRecordForDiciplineViewModel).ToList()
             };
 
             return ResultService<AcademicPlanRecordForDiciplinePageViewModel>.Success(result);

@@ -53,7 +53,7 @@ namespace DepartmentService.Services
                 var result = new ScheduleLessonTimePageViewModel
                 {
                     MaxCount = countPages,
-                    List = ModelFactoryToViewModel.CreateScheduleLessonTimes(query).ToList()
+                    List = query.Select(ModelFactoryToViewModel.CreateScheduleLessonTimeViewModel).ToList()
                 };
 
                 return ResultService<ScheduleLessonTimePageViewModel>.Success(result);

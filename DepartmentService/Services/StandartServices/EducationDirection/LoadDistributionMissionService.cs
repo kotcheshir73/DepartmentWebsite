@@ -55,8 +55,8 @@ namespace DepartmentService.Services
 				var result = new LoadDistributionMissionPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateLoadDistributionMissions(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateLoadDistributionMissionViewModel).ToList()
+                };
 
 				return ResultService<LoadDistributionMissionPageViewModel>.Success(result);
 			}

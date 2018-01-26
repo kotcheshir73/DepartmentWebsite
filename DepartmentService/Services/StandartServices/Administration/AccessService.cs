@@ -48,10 +48,10 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				var result = new AccessPageViewModel
-				{
-					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateAccesses(query).ToList()
+                var result = new AccessPageViewModel
+                {
+                    MaxCount = countPages,
+                    List = query.Select(ModelFactoryToViewModel.CreateAccessViewModel).ToList()
 				};
 
 				return ResultService<AccessPageViewModel>.Success(result);

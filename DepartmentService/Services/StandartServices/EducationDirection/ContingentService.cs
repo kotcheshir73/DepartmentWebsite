@@ -67,8 +67,8 @@ namespace DepartmentService.Services
 				var result = new ContingentPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateContingents(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateContingentViewModel).ToList()
+                };
 
 				return ResultService<ContingentPageViewModel>.Success(result);
 			}

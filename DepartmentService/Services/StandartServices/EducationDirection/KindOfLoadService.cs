@@ -47,8 +47,8 @@ namespace DepartmentService.Services
 				var result = new KindOfLoadPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateKindOfLoads(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateKindOfLoadViewModel).ToList()
+                };
 
 				return ResultService<KindOfLoadPageViewModel>.Success(result);
 			}

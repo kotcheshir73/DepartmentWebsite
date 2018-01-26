@@ -47,8 +47,8 @@ namespace DepartmentService.Services
 				var result = new SeasonDatesPageViewModel
 				{
 					MaxCount = countPages,
-					List = ModelFactoryToViewModel.CreateSeasonDaties(query).ToList()
-				};
+                    List = query.Select(ModelFactoryToViewModel.CreateSeasonDatesViewModel).ToList()
+                };
 
 				return ResultService<SeasonDatesPageViewModel>.Success(result);
 			}

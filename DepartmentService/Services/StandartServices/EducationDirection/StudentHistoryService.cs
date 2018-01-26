@@ -55,7 +55,7 @@ namespace DepartmentService.Services
                 var result = new StudentHistoryPageViewModel
                 {
                     MaxCount = countPages,
-                    List = ModelFactoryToViewModel.CreateStudentHistorys(query).ToList()
+                    List = query.Select(ModelFactoryToViewModel.CreateStudentHistoryViewModel).ToList()
                 };
 
                 return ResultService<StudentHistoryPageViewModel>.Success(result);

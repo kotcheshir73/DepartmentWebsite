@@ -80,7 +80,7 @@ namespace DepartmentService.Services
                 var result = new AcademicPlanRecordPageViewModel
                 {
                     MaxCount = countPages,
-                    List = ModelFactoryToViewModel.CreateAcademicPlanRecords(query).ToList()
+                    List = query.Select(ModelFactoryToViewModel.CreateAcademicPlanRecordViewModel).ToList()
                 };
 
                 return ResultService<AcademicPlanRecordPageViewModel>.Success(result);
