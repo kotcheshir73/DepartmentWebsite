@@ -55,7 +55,7 @@ namespace DepartmentDesktop.Views.Schedule
 
             if (classrooms != null)
             {
-                if (currentDate.Date <= Convert.ToDateTime(_dates.DateEndSemester).Date)
+                if (currentDate.Date <= Convert.ToDateTime(_dates.DateEndSecondHalfSemester).Date)
                 {
                     for (int i = 0; i < classrooms.Count; i++)
                     {
@@ -67,14 +67,14 @@ namespace DepartmentDesktop.Views.Schedule
                             Padding = new Padding(3),
                             Size = new Size(1140, 611),
                             Tag = i.ToString(),
-                            Text = "Аудитория " + classrooms[i].Id
+                            Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
                         var control = new ScheduleSemesterControl(_service, _serviceSR, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Id), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
                         tabControlClassroom.TabPages[i].Controls.Add(control);
                     }
                 }
@@ -90,14 +90,14 @@ namespace DepartmentDesktop.Views.Schedule
                             Padding = new Padding(3),
                             Size = new Size(1140, 611),
                             Tag = i.ToString(),
-                            Text = "Аудитория " + classrooms[i].Id
+                            Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
                         var control = new ScheduleOffsetControl(_service, _serviceOR, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Id), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
                         tabControlClassroom.TabPages[i].Controls.Add(control);
                     }
                 }
@@ -113,14 +113,14 @@ namespace DepartmentDesktop.Views.Schedule
                             Padding = new Padding(3),
                             Size = new Size(1140, 611),
                             Tag = i.ToString(),
-                            Text = "Аудитория " + classrooms[i].Id
+                            Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
                         var control = new ScheduleExaminationControl(_service, _serviceER, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Id), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
                         tabControlClassroom.TabPages[i].Controls.Add(control);
                     }
                 }

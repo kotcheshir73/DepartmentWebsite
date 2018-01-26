@@ -26,10 +26,9 @@ namespace DepartmentDesktop.Views.Schedule
 				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);
 				return;
 			}
-			var classrooms = resultC.Result;
-			foreach (var elem in classrooms.List)
+			foreach (var elem in resultC.Result.List)
             {
-                checkedListBoxClassrooms.Items.Add(elem.Id, true);
+                checkedListBoxClassrooms.Items.Add(elem.Number, true);
             }
 
             var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
@@ -38,13 +37,23 @@ namespace DepartmentDesktop.Views.Schedule
 				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
 				return;
 			}
-			var studentGroups = resultSG.Result.List;
-			foreach (var elem in studentGroups)
+			foreach (var elem in resultSG.Result.List)
             {
                 checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
             }
 
-			var resultSD = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { });
+            var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
+            if (!resultL.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultSG.Errors);
+                return;
+            }
+            foreach (var elem in resultL.Result.List)
+            {
+                checkedListBoxLecturers.Items.Add(elem.FullName, true);
+            }
+
+            var resultSD = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { });
 			if (!resultSD.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
@@ -72,7 +81,7 @@ namespace DepartmentDesktop.Views.Schedule
         /// Получение списка выбраных аудиторий
         /// </summary>
         /// <returns></returns>
-        private List<string> getListOfClassrooms()
+        private List<string> GetListOfClassrooms()
         {
             List<string> classrooms = new List<string>();
             foreach (var elem in checkedListBoxClassrooms.CheckedItems)
@@ -91,7 +100,7 @@ namespace DepartmentDesktop.Views.Schedule
         /// Получение списка выбраных групп
         /// </summary>
         /// <returns></returns>
-        private List<string> getListOfStudentGroups()
+        private List<string> GetListOfStudentGroups()
         {
             List<string> studentGroups = new List<string>();
             foreach (var elem in checkedListBoxStudentGroups.CheckedItems)
@@ -107,74 +116,22 @@ namespace DepartmentDesktop.Views.Schedule
         }
 
         /// <summary>
-        /// Отчистка аудиторий от пар
+        /// Получение списка выбраных преподавателей
         /// </summary>
-        /// <param name="classrooms"></param>
-        private void cleaningClassrooms(List<string> classrooms)
+        /// <returns></returns>
+        private List<string> GetListOfLecturers()
         {
-            if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            List<string> lecturers = new List<string>();
+            foreach (var elem in checkedListBoxLecturers.CheckedItems)
             {
-                foreach (var elem in classrooms)
-                {
-                    var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
-
-                    if (!result.Succeeded)
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                lecturers.Add(elem.ToString());
             }
-		}
-
-		/// <summary>
-		/// Отчистка аудиторий от пар
-		/// </summary>
-		/// <param name="classrooms"></param>
-		private void cleaningStudentGroups(List<string> studentGroups)
-		{
-			if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-			{
-				foreach (var elem in studentGroups)
-				{
-					var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { StudentGroupName = elem });
-
-					if (!result.Succeeded)
-					{
-						StringBuilder strRes = new StringBuilder();
-						foreach (var err in result.Errors)
-						{
-							strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-						}
-						MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
-							MessageBoxButtons.OK, MessageBoxIcon.Error);
-					}
-				}
-			}
-		}
-
-		private void checkRecordsIfNotComplite()
-        {
-            var result = _service.CheckSemesterRecordsIfNotComplite();
-            if (result.Succeeded)
+            if (lecturers.Count == 0)
             {
-                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Список преподавателей пуст!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
             }
-            else
-            {
-                StringBuilder strRes = new StringBuilder();
-                foreach (var err in result.Errors)
-                {
-                    strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                }
-                MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", strRes), "",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            return lecturers;
         }
 
         /// <summary>
@@ -184,17 +141,11 @@ namespace DepartmentDesktop.Views.Schedule
         /// <param name="e"></param>
         private void buttonMakeLoadHTMLScheduleForClassrooms_Click(object sender, EventArgs e)
         {
-            var classrooms = getListOfClassrooms();
-            var studentGroups = getListOfStudentGroups();
+            var classrooms = GetListOfClassrooms();
+            var studentGroups = GetListOfStudentGroups();
             if (classrooms == null && studentGroups == null)
             {
                 return;
-            }
-
-            if (checkBoxClearSchedule.Checked)
-            {
-                cleaningClassrooms(classrooms);
-				cleaningStudentGroups(studentGroups);
             }
 
             var result = _service.ImportHtml(new ImportToSemesterFromHTMLBindingModel
@@ -206,14 +157,7 @@ namespace DepartmentDesktop.Views.Schedule
 
             if (result.Succeeded)
             {
-                if (checkBoxCheckIfNotComplite.Checked)
-                {
-                    checkRecordsIfNotComplite();
-                }
-                else
-                {
-                    MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -228,7 +172,7 @@ namespace DepartmentDesktop.Views.Schedule
         /// <param name="e"></param>
         private void buttonClearSemesterRecordClassrooms_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms != null)
 			{
 				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -238,21 +182,14 @@ namespace DepartmentDesktop.Views.Schedule
 						var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
-						{
-							StringBuilder strRes = new StringBuilder();
-							foreach (var err in result.Errors)
-							{
-								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-							}
-							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        {
+                            Program.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
 						}
 					}
 				}
 			}
-
-
-			List<string> studentGroups = getListOfStudentGroups();
+            
+			List<string> studentGroups = GetListOfStudentGroups();
 			if (studentGroups != null)
 			{
 				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -263,22 +200,33 @@ namespace DepartmentDesktop.Views.Schedule
 
 						if (!result.Succeeded)
 						{
-							StringBuilder strRes = new StringBuilder();
-							foreach (var err in result.Errors)
-							{
-								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-							}
-							MessageBox.Show(string.Format("Не удалось отчистить расписание по группе {0}: {1}", elem, strRes), "",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Program.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
 						}
 					}
 				}
-			}
-		}
+            }
+
+            List<string> lecturers = GetListOfLecturers();
+            if (lecturers != null)
+            {
+                if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    foreach (var elem in lecturers)
+                    {
+                        var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel { LecturerName = elem });
+
+                        if (!result.Succeeded)
+                        {
+                            Program.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
+                        }
+                    }
+                }
+            }
+        }
 
         private void buttonClearOffsetRecordClassrooms_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms != null)
 			{
 				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -288,20 +236,14 @@ namespace DepartmentDesktop.Views.Schedule
                         var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
-						{
-							StringBuilder strRes = new StringBuilder();
-							foreach (var err in result.Errors)
-							{
-								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-							}
-							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}
+                        {
+                            Program.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
+                        }
 					}
 				}
 			}
 
-			List<string> studentGroups = getListOfStudentGroups();
+			List<string> studentGroups = GetListOfStudentGroups();
 			if (studentGroups != null)
 			{
 				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -327,7 +269,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonClearExaminationRecordClassrooms_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms != null)
             {
 				if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -337,20 +279,14 @@ namespace DepartmentDesktop.Views.Schedule
 						var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
-						{
-							StringBuilder strRes = new StringBuilder();
-							foreach (var err in result.Errors)
-							{
-								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-							}
-							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}
+                        {
+                            Program.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
+                        }
 					}
 				}
 			}
 			
-			List<string> studentGroups = getListOfStudentGroups();
+			List<string> studentGroups = GetListOfStudentGroups();
 			if (studentGroups != null)
 			{
 				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -376,7 +312,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonClearConsultationRecordClassrooms_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms != null)
 			{
 
@@ -387,20 +323,14 @@ namespace DepartmentDesktop.Views.Schedule
 						var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel { ClassroomNumber = elem });
 
 						if (!result.Succeeded)
-						{
-							StringBuilder strRes = new StringBuilder();
-							foreach (var err in result.Errors)
-							{
-								strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-							}
-							MessageBox.Show(string.Format("Не удалось отчистить расписание по аудитории {0}: {1}", elem, strRes), "",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}
+                        {
+                            Program.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
+                        }
 					}
 				}
 			}
 
-			List<string> studentGroups = getListOfStudentGroups();
+			List<string> studentGroups = GetListOfStudentGroups();
 			if (studentGroups != null)
 			{
 				if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -461,7 +391,21 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonCheckRecordsIfNotComplite_Click(object sender, EventArgs e)
         {
-            checkRecordsIfNotComplite();
+            var result = _service.CheckSemesterRecordsIfNotComplite();
+            if (result.Succeeded)
+            {
+                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                StringBuilder strRes = new StringBuilder();
+                foreach (var err in result.Errors)
+                {
+                    strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                }
+                MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", strRes), "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonImportOffsetFromExcel_Click(object sender, EventArgs e)
@@ -519,7 +463,7 @@ namespace DepartmentDesktop.Views.Schedule
         /// <param name="e"></param>
         private void buttonExportSemesterRecordExcel_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms == null)
             {
                 return;
@@ -548,7 +492,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonExportOffsetRecordExcel_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms == null)
             {
                 return;
@@ -577,7 +521,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonExportExaminationRecordExcel_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms == null)
             {
                 return;
@@ -611,7 +555,7 @@ namespace DepartmentDesktop.Views.Schedule
         /// <param name="e"></param>
         private void buttonExportSemesterRecordHTML_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms == null)
             {
                 return;
@@ -640,7 +584,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonExportOffsetRecordHTML_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms == null)
             {
                 return;
@@ -669,7 +613,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonExportExaminationRecordHTML_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = getListOfClassrooms();
+            List<string> classrooms = GetListOfClassrooms();
             if (classrooms == null)
             {
                 return;

@@ -7,6 +7,7 @@ using DepartmentService.ViewModels;
 using System;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Data.Entity;
 
 namespace DepartmentService.Services
 {
@@ -14,12 +15,20 @@ namespace DepartmentService.Services
 	{
 		private readonly DepartmentDbContext _context;
 
+        private readonly ILecturerPostSerivce _serviceLP;
+
 		private readonly AccessOperation _serviceOperation = AccessOperation.Преподаватели;
 
-		public LecturerService(DepartmentDbContext context)
+		public LecturerService(DepartmentDbContext context, ILecturerPostSerivce serviceLP)
 		{
 			_context = context;
-		}
+            _serviceLP = serviceLP;
+        }
+
+        public ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model)
+        {
+            return _serviceLP.GetLecturerPosts(model);
+        }
 
 
 		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
@@ -34,7 +43,7 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Lecturers.Where(l => !l.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(l => l.LastName);
+                query = query.OrderBy(l => l.LecturerPost.Hours).ThenBy(l => l.Post).ThenBy(l => l.LastName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -43,6 +52,8 @@ namespace DepartmentService.Services
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
+
+                query = query.Include(l => l.LecturerPost);
 
 				var result = new LecturerPageViewModel
 				{
@@ -72,7 +83,8 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.Lecturers
-								.FirstOrDefault(l => l.Id == model.Id && !l.IsDeleted);
+                                .Include(l => l.LecturerPost)
+                                .FirstOrDefault(l => l.Id == model.Id && !l.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<LecturerViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -175,5 +187,5 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
-	}
+    }
 }

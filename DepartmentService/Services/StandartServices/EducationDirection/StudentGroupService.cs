@@ -19,20 +19,28 @@ namespace DepartmentService.Services
 
 		private readonly IEducationDirectionService _serviceED;
 
-		public StudentGroupService(DepartmentDbContext context, IEducationDirectionService serviceED)
+        private readonly ILecturerService _serviceL;
+
+        public StudentGroupService(DepartmentDbContext context, IEducationDirectionService serviceED, ILecturerService serviceL)
 		{
 			_context = context;
 			_serviceED = serviceED;
-		}
+            _serviceL = serviceL;
+        }
 
 
 		public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
 		{
 			return _serviceED.GetEducationDirections(model);
-		}
+        }
+
+        public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+        {
+            return _serviceL.GetLecturers(model);
+        }
 
 
-		public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
+        public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
 		{
 			try
 			{
@@ -54,7 +62,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(sg => sg.EducationDirection).Include(sg => sg.Students);
+				query = query.Include(sg => sg.EducationDirection).Include(sg => sg.Curator);
 
 				var result = new StudentGroupPageViewModel
 				{
@@ -85,7 +93,8 @@ namespace DepartmentService.Services
 
 				var entity = _context.StudentGroups
                                 .Include(sg => sg.EducationDirection)
-								.FirstOrDefault(sg => sg.Id == model.Id && !sg.IsDeleted);
+                                .Include(sg => sg.Curator)
+                                .FirstOrDefault(sg => sg.Id == model.Id && !sg.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<StudentGroupViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -190,5 +199,5 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
-	}
+    }
 }

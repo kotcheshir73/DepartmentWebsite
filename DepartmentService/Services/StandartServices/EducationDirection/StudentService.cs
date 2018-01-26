@@ -127,7 +127,10 @@ namespace DepartmentService.Services
 				_context.Students.Add(entity);
 				_context.SaveChanges();
 
-				return ResultService.Success(entity.NumberOfBook);
+                SetSteward(model);
+
+
+                return ResultService.Success(entity.NumberOfBook);
 			}
 			catch (DbEntityValidationException ex)
 			{
@@ -155,7 +158,9 @@ namespace DepartmentService.Services
 				}
 				entity = ModelFacotryFromBindingModel.CreateStudent(model, entity);
 
-				_context.SaveChanges();
+                SetSteward(model);
+
+                _context.SaveChanges();
 
 				return ResultService.Success();
 			}
@@ -199,5 +204,23 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
+
+        /// <summary>
+        /// Доп функция установки старосты группы
+        /// </summary>
+        /// <param name="model"></param>
+        private void SetSteward(StudentRecordBindingModel model)
+        {
+            if(model.IsSteward)
+            {
+                var group = _context.StudentGroups.FirstOrDefault(sg => sg.Id == model.StudentGroupId && !sg.IsDeleted);
+                if (group != null && !group.StewardName.Contains(model.LastName))
+                {
+                    group.StewardName = string.Format("{0} {1} {2}", model.LastName, model.FirstName, model.Patronymic);
+
+                    _context.SaveChanges();
+                }
+            }
+        }
 	}
 }

@@ -13,12 +13,19 @@ namespace DepartmentService.IServices
 		/// <returns></returns>
 		ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка групп
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
+        /// <summary>
+        /// Получение списка преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
 
 		/// <summary>
 		/// Получения группы

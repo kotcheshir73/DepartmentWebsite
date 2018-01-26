@@ -16,11 +16,19 @@ namespace DepartmentDAL.Models
 
         [Required]
         [DataMember]
-        public DateTime DateBeginSemester { get; set; }
+        public DateTime DateBeginFirstHalfSemester { get; set; }
 
         [Required]
         [DataMember]
-        public DateTime DateEndSemester { get; set; }
+        public DateTime DateEndFirstHalfSemester { get; set; }
+
+        [Required]
+        [DataMember]
+        public DateTime DateBeginSecondHalfSemester { get; set; }
+
+        [Required]
+        [DataMember]
+        public DateTime DateEndSecondHalfSemester { get; set; }
 
         [Required]
         [DataMember]

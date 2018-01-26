@@ -5,39 +5,40 @@ using System.Data.Entity;
 
 namespace DepartmentDAL.Context
 {
-	[Table("DepartmentDatabase")]
-	public class DepartmentDbContext : DbContext
-	{
-		public DepartmentDbContext()
-		{//настройки конфигурации для entity
-			Configuration.ProxyCreationEnabled = false;
-			Configuration.LazyLoadingEnabled = false;
-			var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
-			Database.SetInitializer(new DatabaseInitializer());
-		}
+    [Table("DepartmentDatabase")]
+    public class DepartmentDbContext : DbContext
+    {
+        public DepartmentDbContext()
+        {//настройки конфигурации для entity
+            Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
+            var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+            Database.SetInitializer(new DatabaseInitializer());
+        }
 
-		public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
-		public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
-		public virtual DbSet<AcademicYear> AcademicYears { get; set; }
-		public virtual DbSet<Access> Accesses { set; get; }
-		public virtual DbSet<Classroom> Classrooms { set; get; }
-		public virtual DbSet<ConsultationRecord> ConsultationRecords { set; get; }
-		public virtual DbSet<Contingent> Contingents { get; set; }
-		public virtual DbSet<CurrentSettings> CurrentSettings { set; get; }
-		public virtual DbSet<Discipline> Disciplines { set; get; }
-		public virtual DbSet<DisciplineBlock> DisciplineBlocks { get; set; }
-		public virtual DbSet<DisciplineLesson> DisciplineLessons { get; set; }
-		public virtual DbSet<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
-		public virtual DbSet<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
-		public virtual DbSet<DisciplineLessonTaskImageContext> DisciplineLessonTaskImageContexts { get; set; }
-		public virtual DbSet<DisciplineLessonTaskTextContext> DisciplineLessonTaskTextContexts { get; set; }
-		public virtual DbSet<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
-		public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
-		public virtual DbSet<EducationDirection> EducationDirections { set; get; }
-		public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
-		public virtual DbSet<KindOfLoad> KindOfLoads { get; set; }
-		public virtual DbSet<Lecturer> Lecturers { set; get; }
-		public virtual DbSet<LoadDistribution> LoadDistributions { get; set; }
+        public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
+        public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
+        public virtual DbSet<AcademicYear> AcademicYears { get; set; }
+        public virtual DbSet<Access> Accesses { set; get; }
+        public virtual DbSet<Classroom> Classrooms { set; get; }
+        public virtual DbSet<ConsultationRecord> ConsultationRecords { set; get; }
+        public virtual DbSet<Contingent> Contingents { get; set; }
+        public virtual DbSet<CurrentSettings> CurrentSettings { set; get; }
+        public virtual DbSet<Discipline> Disciplines { set; get; }
+        public virtual DbSet<DisciplineBlock> DisciplineBlocks { get; set; }
+        public virtual DbSet<DisciplineLesson> DisciplineLessons { get; set; }
+        public virtual DbSet<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
+        public virtual DbSet<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
+        public virtual DbSet<DisciplineLessonTaskImageContext> DisciplineLessonTaskImageContexts { get; set; }
+        public virtual DbSet<DisciplineLessonTaskTextContext> DisciplineLessonTaskTextContexts { get; set; }
+        public virtual DbSet<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
+        public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
+        public virtual DbSet<EducationDirection> EducationDirections { set; get; }
+        public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
+        public virtual DbSet<KindOfLoad> KindOfLoads { get; set; }
+        public virtual DbSet<Lecturer> Lecturers { set; get; }
+        public virtual DbSet<LecturerPost> LecturerPosts { get; set; }
+        public virtual DbSet<LoadDistribution> LoadDistributions { get; set; }
 		public virtual DbSet<LoadDistributionMission> LoadDistributionMissions { get; set; }
 		public virtual DbSet<LoadDistributionRecord> LoadDistributionRecords { get; set; }
 		public virtual DbSet<Message> Messages { set; get; }

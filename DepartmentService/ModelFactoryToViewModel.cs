@@ -44,6 +44,21 @@ namespace DepartmentService.ViewModels
             return entities.Select(e => CreateDisciplineBlockViewModel(e));
         }
 
+        public static LecturerPostViewModel CreateLecturerPostViewModel(LecturerPost entity)
+        {
+            return new LecturerPostViewModel
+            {
+                Id = entity.Id,
+                PostTitle = entity.PostTitle,
+                Hours = entity.Hours
+            };
+        }
+
+        public static IEnumerable<LecturerPostViewModel> CreateLecturerPosts(IEnumerable<LecturerPost> entities)
+        {
+            return entities.Select(e => CreateLecturerPostViewModel(e));
+        }
+
 
         public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
         {
@@ -52,7 +67,8 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 Number = entity.Number,
                 ClassroomType = entity.ClassroomType.ToString(),
-                Capacity = entity.Capacity
+                Capacity = entity.Capacity,
+                NotUseInSchedule = entity.NotUseInSchedule
             };
         }
 
@@ -83,13 +99,16 @@ namespace DepartmentService.ViewModels
             return new LecturerViewModel
             {
                 Id = entity.Id,
+                LecturerPostId = entity.LecturerPostId,
                 LastName = entity.LastName,
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,
                 Abbreviation = entity.Abbreviation,
                 DateBirth = entity.DateBirth,
                 Post = entity.Post.ToString(),
+                LecturerPost = entity.LecturerPost.PostTitle,
                 Rank = entity.Rank.ToString(),
+                Rank2 = entity.Rank2.ToString(),
                 HomeNumber = entity.HomeNumber,
                 MobileNumber = entity.MobileNumber,
                 Email = entity.Email,
@@ -114,7 +133,9 @@ namespace DepartmentService.ViewModels
                 GroupName = entity.GroupName,
                 Course = (int)entity.Course,
                 CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
-                StewardName = entity.StewardName
+                StewardName = entity.StewardName,
+                Curator = entity.CuratorId.HasValue ? entity.Curator.ToString() : "",
+                CuratorId = entity.CuratorId
             };
         }
 
@@ -271,7 +292,8 @@ namespace DepartmentService.ViewModels
                 Description = entity.Description,
                 Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
                 StudentGroupId = entity.StudentGroupId,
-                StudentGroup = (entity.StudentGroup != null) ? entity.StudentGroup.GroupName : string.Empty
+                StudentGroup = (entity.StudentGroup != null) ? entity.StudentGroup.GroupName : string.Empty,
+                IsSteward = entity.IsSteward
             };
         }
 
@@ -305,10 +327,12 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 DateBeginExamination = entity.DateBeginExamination.ToLongDateString(),
                 DateBeginOffset = entity.DateBeginOffset.ToLongDateString(),
-                DateBeginSemester = entity.DateBeginSemester.ToLongDateString(),
+                DateBeginFirstHalfSemester = entity.DateBeginFirstHalfSemester.ToLongDateString(),
+                DateBeginSecondHalfSemester = entity.DateBeginSecondHalfSemester.ToLongDateString(),
                 DateEndExamination = entity.DateEndExamination.ToLongDateString(),
                 DateEndOffset = entity.DateEndOffset.ToLongDateString(),
-                DateEndSemester = entity.DateEndSemester.ToLongDateString(),
+                DateEndFirstHalfSemester = entity.DateEndFirstHalfSemester.ToLongDateString(),
+                DateEndSecondHalfSemester = entity.DateEndSecondHalfSemester.ToLongDateString(),
                 DateBeginPractice = entity.DateBeginPractice.HasValue ? entity.DateBeginPractice.Value.ToLongDateString() : "",
                 DateEndPractice = entity.DateEndPractice.HasValue ? entity.DateEndPractice.Value.ToLongDateString() : "",
                 Title = entity.Title

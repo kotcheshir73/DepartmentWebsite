@@ -117,6 +117,17 @@ namespace DepartmentDesktop
 			control.LoadData();
 		}
         /// <summary>
+        /// Должности преподавателей
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lecturerPostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.EducationalProcess.LecturerPost.LecturerPostControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        /// <summary>
         /// Преподаватели
         /// </summary>
         /// <param name="sender"></param>
@@ -503,6 +514,6 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
-		#endregion
+        #endregion
     }
 }

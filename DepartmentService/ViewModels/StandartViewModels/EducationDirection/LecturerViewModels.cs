@@ -10,6 +10,8 @@ namespace DepartmentService.ViewModels
 	{
 		public Guid Id { get; set; }
 
+        public Guid LecturerPostId { get; set; }
+
 		public string FirstName { get; set; }
 
 		public string LastName { get; set; }
@@ -30,9 +32,13 @@ namespace DepartmentService.ViewModels
 
 		public string Post { get; set; }
 
+        public string LecturerPost { get; set; }
+
 		public string Rank { get; set; }
 
-		public string Description { get; set; }
+        public string Rank2 { get; set; }
+
+        public string Description { get; set; }
 
 		public Image Photo { get; set; }
 

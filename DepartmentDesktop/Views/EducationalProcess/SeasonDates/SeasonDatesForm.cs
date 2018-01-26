@@ -40,11 +40,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 			textBoxTitle.Text = entity.Title;
 			dateTimePickerDateBeginExamination.Value = Convert.ToDateTime(entity.DateBeginExamination);
 			dateTimePickerDateBeginOffset.Value = Convert.ToDateTime(entity.DateBeginOffset);
-			dateTimePickerDateBeginSemester.Value = Convert.ToDateTime(entity.DateBeginSemester);
-			dateTimePickerDateEndExamination.Value = Convert.ToDateTime(entity.DateEndExamination);
+			dateTimePickerDateBeginFirstHalfSemester.Value = Convert.ToDateTime(entity.DateBeginFirstHalfSemester);
+            dateTimePickerDateBeginSecondHalfSemester.Value = Convert.ToDateTime(entity.DateBeginSecondHalfSemester);
+            dateTimePickerDateEndExamination.Value = Convert.ToDateTime(entity.DateEndExamination);
 			dateTimePickerDateEndOffset.Value = Convert.ToDateTime(entity.DateEndOffset);
-			dateTimePickerDateEndSemester.Value = Convert.ToDateTime(entity.DateEndSemester);
-			dateTimePickerDateBeginPractic.Enabled = !string.IsNullOrEmpty(entity.DateBeginPractice);
+			dateTimePickerDateEndFirstHalfSemester.Value = Convert.ToDateTime(entity.DateEndFirstHalfSemester);
+            dateTimePickerDateEndSecondHalfSemester.Value = Convert.ToDateTime(entity.DateEndSecondHalfSemester);
+            dateTimePickerDateBeginPractic.Enabled = !string.IsNullOrEmpty(entity.DateBeginPractice);
 			if (!string.IsNullOrEmpty(entity.DateBeginPractice))
 			{
 				dateTimePickerDateBeginPractic.Value = Convert.ToDateTime(entity.DateBeginPractice);
@@ -64,7 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
             {
                 return false;
             }
-            if (dateTimePickerDateBeginSemester.Value == dateTimePickerDateEndSemester.Value)
+            if (dateTimePickerDateBeginFirstHalfSemester.Value == dateTimePickerDateEndFirstHalfSemester.Value)
             {
                 return false;
             }
@@ -91,7 +93,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				}
 				if(checkBoxDateEndPractic.Checked)
 				{
-					dateBeginPractic = dateTimePickerDateEndPractic.Value;
+					dateEndPractic = dateTimePickerDateEndPractic.Value;
 				}
 				ResultService result;
 				if (!_id.HasValue)
@@ -101,11 +103,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 						Title = textBoxTitle.Text,
 						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
 						DateBeginOffset = dateTimePickerDateBeginOffset.Value,
-						DateBeginSemester = dateTimePickerDateBeginSemester.Value,
-						DateEndExamination = dateTimePickerDateEndExamination.Value,
+						DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
+                        DateBeginSecondHalfSemester = dateTimePickerDateBeginSecondHalfSemester.Value,
+                        DateEndExamination = dateTimePickerDateEndExamination.Value,
 						DateEndOffset = dateTimePickerDateEndOffset.Value,
-						DateEndSemester = dateTimePickerDateEndSemester.Value,
-						DateBeginPractice = dateBeginPractic,
+						DateEndFirstHalfSemester = dateTimePickerDateEndFirstHalfSemester.Value,
+                        DateEndSecondHalfSemester = dateTimePickerDateEndSecondHalfSemester.Value,
+                        DateBeginPractice = dateBeginPractic,
 						DateEndPractice = dateEndPractic
 					});
 				}
@@ -117,11 +121,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 						Title = textBoxTitle.Text,
 						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
 						DateBeginOffset = dateTimePickerDateBeginOffset.Value,
-						DateBeginSemester = dateTimePickerDateBeginSemester.Value,
-						DateEndExamination = dateTimePickerDateEndExamination.Value,
+                        DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
+                        DateBeginSecondHalfSemester = dateTimePickerDateBeginSecondHalfSemester.Value,
+                        DateEndExamination = dateTimePickerDateEndExamination.Value,
 						DateEndOffset = dateTimePickerDateEndOffset.Value,
-						DateEndSemester = dateTimePickerDateEndSemester.Value,
-						DateBeginPractice = dateBeginPractic,
+                        DateEndFirstHalfSemester = dateTimePickerDateEndFirstHalfSemester.Value,
+                        DateEndSecondHalfSemester = dateTimePickerDateEndSecondHalfSemester.Value,
+                        DateBeginPractice = dateBeginPractic,
 						DateEndPractice = dateEndPractic
 					});
 				}
@@ -172,5 +178,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 			DialogResult = DialogResult.Cancel;
 			Close();
 		}
-	}
+
+        private void checkBoxDateBeginPractic_CheckedChanged(object sender, EventArgs e)
+        {
+            dateTimePickerDateBeginPractic.Enabled = checkBoxDateBeginPractic.Checked;
+        }
+
+        private void checkBoxDateEndPractic_CheckedChanged(object sender, EventArgs e)
+        {
+            dateTimePickerDateEndPractic.Enabled = checkBoxDateEndPractic.Checked;
+        }
+    }
 }

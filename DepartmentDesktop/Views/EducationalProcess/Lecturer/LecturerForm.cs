@@ -4,6 +4,7 @@ using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
@@ -23,6 +24,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 
 		private void LecturerForm_Load(object sender, EventArgs e)
         {
+            var resultLP = _service.GetLecturerPosts(new LecturerPostGetBindingModel { });
+            if (!resultLP.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке должностей преподавателей возникла ошибка: ", resultLP.Errors);
+                return;
+            }
+            
             foreach (var elem in Enum.GetValues(typeof(Post)))
             {
                 comboBoxPost.Items.Add(elem.ToString());
@@ -34,6 +42,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
                 comboBoxRank.Items.Add(elem.ToString());
             }
             comboBoxRank.SelectedIndex = 0;
+
+            foreach (var elem in Enum.GetValues(typeof(Rank2)))
+            {
+                comboBoxRank2.Items.Add(elem.ToString());
+            }
+            comboBoxRank2.SelectedIndex = 0;
+            
+            comboBoxLecturerPost.ValueMember = "Value";
+            comboBoxLecturerPost.DisplayMember = "Display";
+            comboBoxLecturerPost.DataSource = resultLP.Result.List
+                .Select(lp => new { Value = lp.Id, Display = lp.PostTitle }).ToList();
+            comboBoxLecturerPost.SelectedItem = null;
 
             if (_id.HasValue)
 			{
@@ -62,7 +82,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 			textBoxHomeNumber.Text = entity.HomeNumber;
             comboBoxPost.SelectedIndex = comboBoxPost.Items.IndexOf(entity.Post);
             comboBoxRank.SelectedIndex = comboBoxRank.Items.IndexOf(entity.Rank);
-			textBoxDescription.Text = entity.Description;
+            comboBoxRank2.SelectedIndex = comboBoxRank2.Items.IndexOf(entity.Rank2);
+            comboBoxLecturerPost.SelectedValue = entity.LecturerPostId;
+            textBoxDescription.Text = entity.Description;
 			if (entity.Photo != null)
 			{
 				pictureBoxPhoto.Image = entity.Photo;
@@ -70,8 +92,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 		}
 
 		private bool CheckFill()
-		{
-			if (string.IsNullOrEmpty(textBoxLastName.Text))
+        {
+            if (comboBoxLecturerPost.SelectedValue == null)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxLastName.Text))
 			{
 				return false;
 			}
@@ -103,7 +129,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
             {
                 return false;
             }
-			return true;
+            if (string.IsNullOrEmpty(comboBoxRank2.Text))
+            {
+                return false;
+            }
+            return true;
 		}
 
 		private bool Save()
@@ -115,8 +145,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				if (!_id.HasValue)
 				{
 					result = _service.CreateLecturer(new LecturerRecordBindingModel
-					{
-						LastName = textBoxLastName.Text,
+                    {
+                        LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
+                        LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,
 						Abbreviation = textBoxAbbreviation.Text,
@@ -127,7 +158,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 						HomeNumber = textBoxHomeNumber.Text,
 						Post = comboBoxPost.Text,
 						Rank = comboBoxRank.Text,
-						Description = textBoxDescription.Text,
+                        Rank2 = comboBoxRank2.Text,
+                        Description = textBoxDescription.Text,
 						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
 					});
 				}
@@ -136,7 +168,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 					result = _service.UpdateLecturer(new LecturerRecordBindingModel
 					{
 						Id = _id.Value,
-						LastName = textBoxLastName.Text,
+                        LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
+                        LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,
 						Abbreviation = textBoxAbbreviation.Text,
@@ -147,7 +180,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 						HomeNumber = textBoxHomeNumber.Text,
 						Post = comboBoxPost.Text,
 						Rank = comboBoxRank.Text,
-						Description = textBoxDescription.Text,
+                        Rank2 = comboBoxRank2.Text,
+                        Description = textBoxDescription.Text,
 						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
 					});
 				}

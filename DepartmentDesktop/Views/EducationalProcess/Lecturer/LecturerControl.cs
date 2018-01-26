@@ -22,12 +22,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				new ColumnConfig { Name = "LastName", Title = "Фамилия", Width = 100, Visible = true },
 				new ColumnConfig { Name = "FirstName", Title = "Имя", Width = 100, Visible = true },
 				new ColumnConfig { Name = "Patronymic", Title = "Отчество", Width = 100, Visible = true },
-				new ColumnConfig { Name = "DateBirth", Title = "Дата рождения", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Email", Title = "Почта", Width = 100, Visible = true },
-				new ColumnConfig { Name = "Post", Title = "Должность", Width = 100, Visible = true },
-				new ColumnConfig { Name = "Rank", Title = "Звание", Width = 100, Visible = true },
-				new ColumnConfig { Name = "MobileNumber", Title = "Мобильный номер", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Address", Title = "Адрес", Width = 100, Visible = true }
+				new ColumnConfig { Name = "DateBirth", Title = "Дата рождения", Width = 100, Visible = true },
+				new ColumnConfig { Name = "Email", Title = "Почта", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Post", Title = "Должность", Width = 150, Visible = true },
+                new ColumnConfig { Name = "LecturerPost", Title = "Должность", Width = 150, Visible = true },
+                new ColumnConfig { Name = "Rank", Title = "Звание", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Rank2", Title = "Звание", Width = 100, Visible = true },
+                new ColumnConfig { Name = "MobileNumber", Title = "Мобильный номер", Width = 150, Visible = true },
+				new ColumnConfig { Name = "Address", Title = "Адрес", Width = 300, Visible = true }
 			};
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -79,8 +81,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 					res.DateBirth.ToShortDateString(),
 					res.Email,
 					res.Post,
-					res.Rank,
-					res.MobileNumber,
+                    res.LecturerPost,
+                    res.Rank,
+                    res.Rank2,
+                    res.MobileNumber,
 					res.Address
 				);
 			}

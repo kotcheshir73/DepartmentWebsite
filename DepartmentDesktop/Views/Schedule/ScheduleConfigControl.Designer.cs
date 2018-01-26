@@ -29,11 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBoxLoadHTMLScheduleForClassrooms = new System.Windows.Forms.GroupBox();
-            this.checkBoxCheckIfNotComplite = new System.Windows.Forms.CheckBox();
             this.textBoxLinkToHtml = new System.Windows.Forms.TextBox();
             this.labelLinkToHtml = new System.Windows.Forms.Label();
             this.buttonMakeLoadHTMLScheduleForClassrooms = new System.Windows.Forms.Button();
-            this.checkBoxClearSchedule = new System.Windows.Forms.CheckBox();
             this.checkedListBoxClassrooms = new System.Windows.Forms.CheckedListBox();
             this.groupBoxClassrooms = new System.Windows.Forms.GroupBox();
             this.groupBoxClearClassrooms = new System.Windows.Forms.GroupBox();
@@ -59,6 +57,8 @@
             this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
             this.groupBoxStudentGroups = new System.Windows.Forms.GroupBox();
             this.checkedListBoxStudentGroups = new System.Windows.Forms.CheckedListBox();
+            this.groupBoxLecturers = new System.Windows.Forms.GroupBox();
+            this.checkedListBoxLecturers = new System.Windows.Forms.CheckedListBox();
             this.groupBoxLoadHTMLScheduleForClassrooms.SuspendLayout();
             this.groupBoxClassrooms.SuspendLayout();
             this.groupBoxClearClassrooms.SuspendLayout();
@@ -67,31 +67,20 @@
             this.groupBoxCheckRecordsIfNotComplite.SuspendLayout();
             this.groupBoxImport.SuspendLayout();
             this.groupBoxStudentGroups.SuspendLayout();
+            this.groupBoxLecturers.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxLoadHTMLScheduleForClassrooms
             // 
-            this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.checkBoxCheckIfNotComplite);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.textBoxLinkToHtml);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.labelLinkToHtml);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.buttonMakeLoadHTMLScheduleForClassrooms);
-            this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.checkBoxClearSchedule);
-            this.groupBoxLoadHTMLScheduleForClassrooms.Location = new System.Drawing.Point(317, 0);
+            this.groupBoxLoadHTMLScheduleForClassrooms.Location = new System.Drawing.Point(359, 0);
             this.groupBoxLoadHTMLScheduleForClassrooms.Name = "groupBoxLoadHTMLScheduleForClassrooms";
-            this.groupBoxLoadHTMLScheduleForClassrooms.Size = new System.Drawing.Size(360, 165);
+            this.groupBoxLoadHTMLScheduleForClassrooms.Size = new System.Drawing.Size(360, 100);
             this.groupBoxLoadHTMLScheduleForClassrooms.TabIndex = 1;
             this.groupBoxLoadHTMLScheduleForClassrooms.TabStop = false;
             this.groupBoxLoadHTMLScheduleForClassrooms.Text = "Обновление расписания по аудиториям";
-            // 
-            // checkBoxCheckIfNotComplite
-            // 
-            this.checkBoxCheckIfNotComplite.AutoSize = true;
-            this.checkBoxCheckIfNotComplite.Location = new System.Drawing.Point(39, 95);
-            this.checkBoxCheckIfNotComplite.Name = "checkBoxCheckIfNotComplite";
-            this.checkBoxCheckIfNotComplite.Size = new System.Drawing.Size(296, 17);
-            this.checkBoxCheckIfNotComplite.TabIndex = 6;
-            this.checkBoxCheckIfNotComplite.Text = "Выполнить проверку записей с неполными данными";
-            this.checkBoxCheckIfNotComplite.UseVisualStyleBackColor = true;
             // 
             // textBoxLinkToHtml
             // 
@@ -112,23 +101,13 @@
             // 
             // buttonMakeLoadHTMLScheduleForClassrooms
             // 
-            this.buttonMakeLoadHTMLScheduleForClassrooms.Location = new System.Drawing.Point(275, 127);
+            this.buttonMakeLoadHTMLScheduleForClassrooms.Location = new System.Drawing.Point(275, 54);
             this.buttonMakeLoadHTMLScheduleForClassrooms.Name = "buttonMakeLoadHTMLScheduleForClassrooms";
             this.buttonMakeLoadHTMLScheduleForClassrooms.Size = new System.Drawing.Size(75, 30);
             this.buttonMakeLoadHTMLScheduleForClassrooms.TabIndex = 2;
             this.buttonMakeLoadHTMLScheduleForClassrooms.Text = "Обновить";
             this.buttonMakeLoadHTMLScheduleForClassrooms.UseVisualStyleBackColor = true;
             this.buttonMakeLoadHTMLScheduleForClassrooms.Click += new System.EventHandler(this.buttonMakeLoadHTMLScheduleForClassrooms_Click);
-            // 
-            // checkBoxClearSchedule
-            // 
-            this.checkBoxClearSchedule.AutoSize = true;
-            this.checkBoxClearSchedule.Location = new System.Drawing.Point(39, 63);
-            this.checkBoxClearSchedule.Name = "checkBoxClearSchedule";
-            this.checkBoxClearSchedule.Size = new System.Drawing.Size(141, 17);
-            this.checkBoxClearSchedule.TabIndex = 1;
-            this.checkBoxClearSchedule.Text = "Отчистить расписание";
-            this.checkBoxClearSchedule.UseVisualStyleBackColor = true;
             // 
             // checkedListBoxClassrooms
             // 
@@ -155,7 +134,7 @@
             this.groupBoxClearClassrooms.Controls.Add(this.buttonClearExaminationRecordClassrooms);
             this.groupBoxClearClassrooms.Controls.Add(this.buttonClearOffsetRecordClassrooms);
             this.groupBoxClearClassrooms.Controls.Add(this.buttonClearSemesterRecordClassrooms);
-            this.groupBoxClearClassrooms.Location = new System.Drawing.Point(477, 293);
+            this.groupBoxClearClassrooms.Location = new System.Drawing.Point(359, 106);
             this.groupBoxClearClassrooms.Name = "groupBoxClearClassrooms";
             this.groupBoxClearClassrooms.Size = new System.Drawing.Size(200, 204);
             this.groupBoxClearClassrooms.TabIndex = 2;
@@ -210,7 +189,7 @@
             this.groupBoxExport.Controls.Add(this.buttonExportOffsetRecordExcel);
             this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordExcel);
             this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordHTML);
-            this.groupBoxExport.Location = new System.Drawing.Point(683, 126);
+            this.groupBoxExport.Location = new System.Drawing.Point(769, 126);
             this.groupBoxExport.Name = "groupBoxExport";
             this.groupBoxExport.Size = new System.Drawing.Size(200, 280);
             this.groupBoxExport.TabIndex = 3;
@@ -282,16 +261,16 @@
             this.groupBoxSettings.Controls.Add(this.buttonSeasonDatesSave);
             this.groupBoxSettings.Controls.Add(this.comboBoxSeasonDates);
             this.groupBoxSettings.Controls.Add(this.labelSeasonDates);
-            this.groupBoxSettings.Location = new System.Drawing.Point(0, 362);
+            this.groupBoxSettings.Location = new System.Drawing.Point(3, 253);
             this.groupBoxSettings.Name = "groupBoxSettings";
-            this.groupBoxSettings.Size = new System.Drawing.Size(360, 70);
+            this.groupBoxSettings.Size = new System.Drawing.Size(350, 93);
             this.groupBoxSettings.TabIndex = 4;
             this.groupBoxSettings.TabStop = false;
             this.groupBoxSettings.Text = "Общие настройки";
             // 
             // buttonSeasonDatesSave
             // 
-            this.buttonSeasonDatesSave.Location = new System.Drawing.Point(275, 22);
+            this.buttonSeasonDatesSave.Location = new System.Drawing.Point(269, 55);
             this.buttonSeasonDatesSave.Name = "buttonSeasonDatesSave";
             this.buttonSeasonDatesSave.Size = new System.Drawing.Size(75, 30);
             this.buttonSeasonDatesSave.TabIndex = 2;
@@ -305,7 +284,7 @@
             this.comboBoxSeasonDates.FormattingEnabled = true;
             this.comboBoxSeasonDates.Location = new System.Drawing.Point(111, 28);
             this.comboBoxSeasonDates.Name = "comboBoxSeasonDates";
-            this.comboBoxSeasonDates.Size = new System.Drawing.Size(160, 21);
+            this.comboBoxSeasonDates.Size = new System.Drawing.Size(233, 21);
             this.comboBoxSeasonDates.TabIndex = 1;
             // 
             // labelSeasonDates
@@ -320,18 +299,18 @@
             // groupBoxCheckRecordsIfNotComplite
             // 
             this.groupBoxCheckRecordsIfNotComplite.Controls.Add(this.buttonCheckRecordsIfNotComplite);
-            this.groupBoxCheckRecordsIfNotComplite.Location = new System.Drawing.Point(0, 256);
+            this.groupBoxCheckRecordsIfNotComplite.Location = new System.Drawing.Point(565, 106);
             this.groupBoxCheckRecordsIfNotComplite.Name = "groupBoxCheckRecordsIfNotComplite";
-            this.groupBoxCheckRecordsIfNotComplite.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxCheckRecordsIfNotComplite.Size = new System.Drawing.Size(154, 100);
             this.groupBoxCheckRecordsIfNotComplite.TabIndex = 5;
             this.groupBoxCheckRecordsIfNotComplite.TabStop = false;
             this.groupBoxCheckRecordsIfNotComplite.Text = "Проверка на записи семестра с неполными данными";
             // 
             // buttonCheckRecordsIfNotComplite
             // 
-            this.buttonCheckRecordsIfNotComplite.Location = new System.Drawing.Point(25, 50);
+            this.buttonCheckRecordsIfNotComplite.Location = new System.Drawing.Point(6, 50);
             this.buttonCheckRecordsIfNotComplite.Name = "buttonCheckRecordsIfNotComplite";
-            this.buttonCheckRecordsIfNotComplite.Size = new System.Drawing.Size(150, 30);
+            this.buttonCheckRecordsIfNotComplite.Size = new System.Drawing.Size(138, 30);
             this.buttonCheckRecordsIfNotComplite.TabIndex = 4;
             this.buttonCheckRecordsIfNotComplite.Text = "Выполнить проверку";
             this.buttonCheckRecordsIfNotComplite.UseVisualStyleBackColor = true;
@@ -341,7 +320,7 @@
             // 
             this.groupBoxImport.Controls.Add(this.buttonImportExaminationFromExcel);
             this.groupBoxImport.Controls.Add(this.buttonImportOffsetFromExcel);
-            this.groupBoxImport.Location = new System.Drawing.Point(683, 0);
+            this.groupBoxImport.Location = new System.Drawing.Point(769, 0);
             this.groupBoxImport.Name = "groupBoxImport";
             this.groupBoxImport.Size = new System.Drawing.Size(200, 120);
             this.groupBoxImport.TabIndex = 6;
@@ -387,10 +366,30 @@
             this.checkedListBoxStudentGroups.Size = new System.Drawing.Size(104, 231);
             this.checkedListBoxStudentGroups.TabIndex = 0;
             // 
+            // groupBoxLecturers
+            // 
+            this.groupBoxLecturers.Controls.Add(this.checkedListBoxLecturers);
+            this.groupBoxLecturers.Location = new System.Drawing.Point(227, 0);
+            this.groupBoxLecturers.Name = "groupBoxLecturers";
+            this.groupBoxLecturers.Size = new System.Drawing.Size(126, 250);
+            this.groupBoxLecturers.TabIndex = 0;
+            this.groupBoxLecturers.TabStop = false;
+            this.groupBoxLecturers.Text = "Преподаватели";
+            // 
+            // checkedListBoxLecturers
+            // 
+            this.checkedListBoxLecturers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxLecturers.FormattingEnabled = true;
+            this.checkedListBoxLecturers.Location = new System.Drawing.Point(3, 16);
+            this.checkedListBoxLecturers.Name = "checkedListBoxLecturers";
+            this.checkedListBoxLecturers.Size = new System.Drawing.Size(120, 231);
+            this.checkedListBoxLecturers.TabIndex = 0;
+            // 
             // ScheduleConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxLecturers);
             this.Controls.Add(this.groupBoxStudentGroups);
             this.Controls.Add(this.groupBoxImport);
             this.Controls.Add(this.groupBoxCheckRecordsIfNotComplite);
@@ -411,6 +410,7 @@
             this.groupBoxCheckRecordsIfNotComplite.ResumeLayout(false);
             this.groupBoxImport.ResumeLayout(false);
             this.groupBoxStudentGroups.ResumeLayout(false);
+            this.groupBoxLecturers.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -418,7 +418,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBoxLoadHTMLScheduleForClassrooms;
-        private System.Windows.Forms.CheckBox checkBoxClearSchedule;
         private System.Windows.Forms.CheckedListBox checkedListBoxClassrooms;
         private System.Windows.Forms.Button buttonMakeLoadHTMLScheduleForClassrooms;
         private System.Windows.Forms.GroupBox groupBoxClassrooms;
@@ -433,7 +432,6 @@
         private System.Windows.Forms.Label labelSeasonDates;
         private System.Windows.Forms.Button buttonSeasonDatesSave;
         private System.Windows.Forms.ComboBox comboBoxSeasonDates;
-        private System.Windows.Forms.CheckBox checkBoxCheckIfNotComplite;
         private System.Windows.Forms.GroupBox groupBoxCheckRecordsIfNotComplite;
         private System.Windows.Forms.Button buttonCheckRecordsIfNotComplite;
         private System.Windows.Forms.GroupBox groupBoxImport;
@@ -448,5 +446,7 @@
         private System.Windows.Forms.Button buttonExportExaminationRecordHTML;
         private System.Windows.Forms.GroupBox groupBoxStudentGroups;
         private System.Windows.Forms.CheckedListBox checkedListBoxStudentGroups;
+        private System.Windows.Forms.GroupBox groupBoxLecturers;
+        private System.Windows.Forms.CheckedListBox checkedListBoxLecturers;
     }
 }

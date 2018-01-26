@@ -52,7 +52,7 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.AcademicPlans.Where(ap => !ap.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(ap => ap.Id);
+                query = query.OrderBy(ap => ap.AcademicYear.Title).ThenBy(ap => ap.EducationDirection.Cipher).ThenBy(ap => ap.AcademicCourses);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

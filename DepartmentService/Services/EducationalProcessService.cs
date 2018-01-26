@@ -106,7 +106,8 @@ namespace DepartmentService.Services
                     List<Semesters> semesters = new List<Semesters>();
                     foreach (var course in courses)
                     {
-                        int courseInt = (int)Math.Log((double)course, 2) + 1;
+                        int magistersCorrect = academicPlan.AcademicLevel == AcademicLevel.Магистратура ? 4 : 0;
+                        int courseInt = (int)Math.Log((double)course, 2) + 1 - magistersCorrect;
                         semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
                         semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
                     }

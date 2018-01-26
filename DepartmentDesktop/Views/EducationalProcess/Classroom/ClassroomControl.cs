@@ -18,10 +18,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
-				new ColumnConfig { Name = "Id", Title = "Аудитория", Width = 150, Visible = true },
-				new ColumnConfig { Name = "ClassroomType", Title = "Тип", Width = 100, Visible = true },
-				new ColumnConfig { Name = "Capacity", Title = "Вместимость", Width = 150, Visible = true }
-			};
+				new ColumnConfig { Name = "Id", Title = "Id", Width = 150, Visible = false },
+                new ColumnConfig { Name = "Number", Title = "Аудитория", Width = 150, Visible = true },
+                new ColumnConfig { Name = "ClassroomType", Title = "Тип", Width = 100, Visible = true },
+				new ColumnConfig { Name = "Capacity", Title = "Вместимость", Width = 150, Visible = true },
+                new ColumnConfig { Name = "NotUseInSchedule", Title = "Вне расписания", Width = 150, Visible = true }
+            };
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
@@ -66,8 +68,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			{
 				standartControl.GetDataGridViewRows.Add(
 					res.Id,
-					res.ClassroomType,
-					res.Capacity
+                    res.Number,
+                    res.ClassroomType,
+					res.Capacity,
+                    (res.NotUseInSchedule ? "Да" : "Нет")
 				);
 			}
 			return result.Result.MaxCount;

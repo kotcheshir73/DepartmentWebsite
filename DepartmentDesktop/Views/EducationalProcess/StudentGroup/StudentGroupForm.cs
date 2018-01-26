@@ -41,15 +41,26 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DataSource = resultED.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 
-			var control = new StudentGroupStudentsControl(_service, _serviceS, _serviceSM);
-            control.Left = 0;
-            control.Top = 0;
-            control.Height = Height - 60;
-            control.Width = Width - 15;
-            control.Anchor = (((((AnchorStyles.Top
-                        | AnchorStyles.Bottom)
-                        | AnchorStyles.Left)
-                        | AnchorStyles.Right)));
+            var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
+            if (!resultL.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
+                return;
+            }
+
+            comboBoxCurator.ValueMember = "Value";
+            comboBoxCurator.DisplayMember = "Display";
+            comboBoxCurator.DataSource = resultL.Result.List
+                .Select(l => new { Value = l.Id, Display = l.FullName }).ToList();
+
+            var control = new StudentGroupStudentsControl(_service, _serviceS, _serviceSM)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)))
+            };
             tabPageStudents.Controls.Add(control);
 
             if (_id.HasValue)
@@ -60,19 +71,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void LoadData()
 		{
-			var resultS = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id });
-			if (!resultS.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке студентов возникла ошибка: ", resultS.Errors);
-				return;
-			}
-
-			comboBoxSteward.ValueMember = "Value";
-			comboBoxSteward.DisplayMember = "Display";
-			comboBoxSteward.DataSource = resultS.Result.List
-				.Select(s => new { Value = s.NumberOfBook, Display = string.Format("{0} {1}", s.LastName, s.FirstName) }).ToList();
-			comboBoxSteward.SelectedItem = null;
-
 			(tabPageStudents.Controls[0] as StudentGroupStudentsControl).LoadData(_id.Value);
 			var result = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -85,11 +83,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
 			textBoxGroupName.Text = entity.GroupName;
 			textBoxKurs.Text = (Math.Log(entity.Course, 2.0) + 1).ToString();
-            //TODO
-			//if (!string.IsNullOrEmpty(entity.StewardName))
-			//{
-			//	comboBoxSteward.SelectedValue = entity.StewardId;
-			//}
+            textBoxSteward.Text = entity.StewardName;
+            if (entity.CuratorId.HasValue)
+            {
+                comboBoxCurator.SelectedValue = entity.CuratorId;
+            }
 		}
 
 		private bool CheckFill()
@@ -122,31 +120,34 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 		{
 			if (CheckFill())
 			{
-				ResultService result;
+                Guid? curatorId = null;
+                if (comboBoxCurator.SelectedValue != null)
+                {
+                    curatorId = new Guid(comboBoxCurator.SelectedValue.ToString());
+                }
+                ResultService result;
 				if (!_id.HasValue)
 				{
 					result = _service.CreateStudentGroup(new StudentGroupRecordBindingModel
 					{
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						GroupName = textBoxGroupName.Text,
-						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0)
-					});
+						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0),
+                        StewardName = textBoxSteward.Text,
+                        CuratorId = curatorId
+                    });
 				}
 				else
 				{
-					string StewardId = string.Empty;
-					if (comboBoxSteward.SelectedValue != null)
-					{
-						StewardId = comboBoxSteward.SelectedValue.ToString();
-					}
 					result = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
 					{
 						Id = _id.Value,
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						GroupName = textBoxGroupName.Text,
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxKurs.Text) - 1.0),
-                        StewardName = StewardId
-					});
+                        StewardName = textBoxSteward.Text,
+                        CuratorId = curatorId
+                    });
 				}
 				if (result.Succeeded)
 				{

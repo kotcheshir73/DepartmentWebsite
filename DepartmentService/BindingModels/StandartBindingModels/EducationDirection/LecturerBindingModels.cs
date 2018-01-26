@@ -12,6 +12,8 @@ namespace DepartmentService.BindingModels
 	{
 		public Guid Id { get; set; }
 
+        public Guid LecturerPostId { get; set; }
+
 		public string FirstName { get; set; }
 		
 		[Required(ErrorMessage = "required")]
@@ -38,10 +40,14 @@ namespace DepartmentService.BindingModels
 		
 		[Required(ErrorMessage = "required")]
 		public string Post { get; set; }
-		
-		public string Rank { get; set; }
-		
-		public string Description { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string Rank { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string Rank2 { get; set; }
+
+        public string Description { get; set; }
 		
 		public byte[] Photo { get; set; }
 	}

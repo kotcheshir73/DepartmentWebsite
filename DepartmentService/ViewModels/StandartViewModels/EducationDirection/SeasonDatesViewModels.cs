@@ -9,10 +9,14 @@ namespace DepartmentService.ViewModels
         public Guid Id { get; set; }
 
         public string Title { get; set; }
-
-        public string DateBeginSemester { get; set; }
-
-        public string DateEndSemester { get; set; }
+        
+        public string DateBeginFirstHalfSemester { get; set; }
+        
+        public string DateEndFirstHalfSemester { get; set; }
+        
+        public string DateBeginSecondHalfSemester { get; set; }
+        
+        public string DateEndSecondHalfSemester { get; set; }
 
         public string DateBeginOffset { get; set; }
 

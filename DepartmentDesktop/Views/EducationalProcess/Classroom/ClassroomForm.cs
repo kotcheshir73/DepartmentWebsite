@@ -47,6 +47,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
 			textBoxClassroom.Text = entity.Number;
 			textBoxCapacity.Text = entity.Capacity.ToString();
+            checkBoxNotUseInSchedule.Checked = entity.NotUseInSchedule;
 		}
 
 		private bool CheckFill()
@@ -82,7 +83,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 					{
 						Number = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
-						Capacity = Convert.ToInt32(textBoxCapacity.Text)
+						Capacity = Convert.ToInt32(textBoxCapacity.Text),
+                        NotUseInSchedule = checkBoxNotUseInSchedule.Checked
 					});
 				}
 				else
@@ -92,8 +94,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
                         Id = _id.Value,
 						Number = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
-						Capacity = Convert.ToInt32(textBoxCapacity.Text)
-					});
+						Capacity = Convert.ToInt32(textBoxCapacity.Text),
+                        NotUseInSchedule = checkBoxNotUseInSchedule.Checked
+                    });
 				}
 				if (result.Succeeded)
 				{

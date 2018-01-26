@@ -5,13 +5,21 @@ using DepartmentService.ViewModels;
 namespace DepartmentService.IServices
 {
 	public interface ILecturerService
-	{
-		/// <summary>
-		/// Получение списка преподавателей
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
+    {
+        /// <summary>
+        /// Получение списка должностей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model);
+
+
+        /// <summary>
+        /// Получение списка преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
 
 		/// <summary>
 		/// Получения преподавателя

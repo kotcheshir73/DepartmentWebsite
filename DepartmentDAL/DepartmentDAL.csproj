@@ -63,6 +63,7 @@
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\Post.cs" />
     <Compile Include="Enums\Rank.cs" />
+    <Compile Include="Enums\Rank2.cs" />
     <Compile Include="Enums\ResultServiceStatusCode.cs" />
     <Compile Include="Enums\RoleType.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
@@ -76,6 +77,26 @@
     <Compile Include="Migrations\201801211807077_UpdateLecturer.Designer.cs">
       <DependentUpon>201801211807077_UpdateLecturer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801220957184_UpdateLecturer2.cs" />
+    <Compile Include="Migrations\201801220957184_UpdateLecturer2.Designer.cs">
+      <DependentUpon>201801220957184_UpdateLecturer2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801221059082_AddFieldIsStewardIntoStudent.cs" />
+    <Compile Include="Migrations\201801221059082_AddFieldIsStewardIntoStudent.Designer.cs">
+      <DependentUpon>201801221059082_AddFieldIsStewardIntoStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801221221060_UpdateSeasonDatesAddesHalfs.cs" />
+    <Compile Include="Migrations\201801221221060_UpdateSeasonDatesAddesHalfs.Designer.cs">
+      <DependentUpon>201801221221060_UpdateSeasonDatesAddesHalfs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801221532101_UpdateClassroomSetFieldNotUseInSchedule.cs" />
+    <Compile Include="Migrations\201801221532101_UpdateClassroomSetFieldNotUseInSchedule.Designer.cs">
+      <DependentUpon>201801221532101_UpdateClassroomSetFieldNotUseInSchedule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801260942349_AddLecturerPosts.cs" />
+    <Compile Include="Migrations\201801260942349_AddLecturerPosts.Designer.cs">
+      <DependentUpon>201801260942349_AddLecturerPosts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
@@ -83,6 +104,7 @@
     <Compile Include="Models\BaseEnities\Access.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\BaseEnities\Classroom.cs" />
+    <Compile Include="Models\BaseEnities\LecturerPost.cs" />
     <Compile Include="Models\ScheduleRecords\ConsultationRecord.cs" />
     <Compile Include="Models\BaseEnities\Contingent.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
@@ -130,6 +152,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801211807077_UpdateLecturer.resx">
       <DependentUpon>201801211807077_UpdateLecturer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801220957184_UpdateLecturer2.resx">
+      <DependentUpon>201801220957184_UpdateLecturer2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801221059082_AddFieldIsStewardIntoStudent.resx">
+      <DependentUpon>201801221059082_AddFieldIsStewardIntoStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801221221060_UpdateSeasonDatesAddesHalfs.resx">
+      <DependentUpon>201801221221060_UpdateSeasonDatesAddesHalfs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801221532101_UpdateClassroomSetFieldNotUseInSchedule.resx">
+      <DependentUpon>201801221532101_UpdateClassroomSetFieldNotUseInSchedule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801260942349_AddLecturerPosts.resx">
+      <DependentUpon>201801260942349_AddLecturerPosts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

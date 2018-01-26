@@ -6,7 +6,9 @@ namespace DepartmentService.BindingModels
     public class ClassroomGetBindingModel : PageSettingBinidingModel
 	{
 		public Guid Id { get; set; }
-	}
+
+        public bool? NotUseInSchedule { get; set; }
+    }
 
     public class ClassroomRecordBindingModel
     {
@@ -20,5 +22,8 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public int Capacity { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public bool NotUseInSchedule { get; set; }
     }
 }

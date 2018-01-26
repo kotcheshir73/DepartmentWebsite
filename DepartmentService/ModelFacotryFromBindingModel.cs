@@ -32,8 +32,20 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
+        public static LecturerPost CreateLecturerPost(LecturerPostRecordBindingModel model, LecturerPost entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new LecturerPost();
+            }
+            entity.PostTitle = model.PostTitle;
+            entity.Hours = model.Hours;
 
-		public static Classroom CreateClassroom(ClassroomRecordBindingModel model, Classroom entity = null)
+            return entity;
+        }
+        
+
+        public static Classroom CreateClassroom(ClassroomRecordBindingModel model, Classroom entity = null)
 		{
 			if (entity == null)
 			{
@@ -42,6 +54,7 @@ namespace DepartmentService.BindingModels
             entity.Number = model.Number;
 			entity.Capacity = model.Capacity;
 			entity.ClassroomType = (ClassroomTypes)Enum.Parse(typeof(ClassroomTypes), model.ClassroomType);
+            entity.NotUseInSchedule = model.NotUseInSchedule;
 
 			return entity;
 		}
@@ -65,6 +78,7 @@ namespace DepartmentService.BindingModels
 			{
 				entity = new Lecturer();
 			}
+            entity.LecturerPostId = model.LecturerPostId;
 			entity.FirstName = model.FirstName;
 			entity.LastName = model.LastName;
 			entity.Patronymic = model.Patronymic;
@@ -72,7 +86,8 @@ namespace DepartmentService.BindingModels
 			entity.DateBirth = model.DateBirth;
 			entity.Post = (Post)Enum.Parse(typeof(Post), model.Post);
 			entity.Rank = (Rank)Enum.Parse(typeof(Rank), model.Rank);
-			entity.Address = model.Address;
+            entity.Rank2 = (Rank2)Enum.Parse(typeof(Rank2), model.Rank2);
+            entity.Address = model.Address;
 			entity.HomeNumber = model.HomeNumber;
 			entity.MobileNumber = model.MobileNumber;
 			entity.Email = model.Email;
@@ -91,10 +106,8 @@ namespace DepartmentService.BindingModels
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.GroupName = model.GroupName;
 			entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
-			if (!string.IsNullOrEmpty(model.StewardName))
-			{
-				entity.StewardName = model.StewardName;
-			}
+            entity.StewardName = model.StewardName;
+            entity.CuratorId = model.CuratorId;
 
 			return entity;
 		}
@@ -162,9 +175,10 @@ namespace DepartmentService.BindingModels
 			{
 				entity = new AcademicPlanRecord();
 			}
+            entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
 			entity.KindOfLoadId = model.KindOfLoadId;
-			entity.Semester = (Semesters)Enum.ToObject(typeof(Semesters), model.Semester);
+			entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
 			entity.Hours = model.Hours;
 
 			return entity;
@@ -195,6 +209,7 @@ namespace DepartmentService.BindingModels
 			entity.Email = model.Email;
 			entity.Description = model.Description;
 			entity.Photo = model.Photo;
+            entity.IsSteward = model.IsSteward;
 
 			return entity;
 		}
@@ -224,13 +239,15 @@ namespace DepartmentService.BindingModels
 			entity.DateBeginExamination = model.DateBeginExamination;
 			entity.DateBeginOffset = model.DateBeginOffset;
 			entity.DateBeginPractice = model.DateBeginPractice;
-			entity.DateBeginSemester = model.DateBeginSemester;
-			entity.DateEndExamination = model.DateEndExamination;
+			entity.DateBeginFirstHalfSemester = model.DateBeginFirstHalfSemester;
+            entity.DateBeginSecondHalfSemester = model.DateBeginSecondHalfSemester;
+            entity.DateEndExamination = model.DateEndExamination;
 			entity.DateEndOffset = model.DateEndOffset;
 			entity.DateEndPractice = model.DateEndPractice;
-			entity.DateEndSemester = model.DateEndSemester;
+			entity.DateEndFirstHalfSemester = model.DateEndFirstHalfSemester;
+            entity.DateEndSecondHalfSemester = model.DateEndSecondHalfSemester;
 
-			return entity;
+            return entity;
 		}
 
 		public static StreamingLesson CreateStreamingLesson(StreamingLessonRecordBindingModel model, StreamingLesson entity = null)

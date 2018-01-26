@@ -63,6 +63,7 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanBindingModels.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Helpers\ParsingSite4SemesterSchedule.cs" />
     <Compile Include="IServices\IAdministrationProcessServer.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
     <Compile Include="Services\ScheduleServices\ExaminationRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\KindOfLoadService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\LecturerPostSerivce.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionMissionService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionRecordService.cs" />
@@ -166,6 +169,7 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerPostViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\SemesterRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordViewModels.cs" />

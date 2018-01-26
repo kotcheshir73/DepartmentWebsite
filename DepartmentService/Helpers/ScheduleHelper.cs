@@ -36,8 +36,8 @@ namespace DepartmentService.Helpers
             DateTime[] lessons;
 
             #region консультация назначается в семестре, определяем неделю, день и пару
-            var dateBeginSemester = Convert.ToDateTime(seasonDate.DateBeginSemester);
-            var dateEndSemester = Convert.ToDateTime(seasonDate.DateEndSemester);
+            var dateBeginSemester = Convert.ToDateTime(seasonDate.DateBeginFirstHalfSemester);
+            var dateEndSemester = Convert.ToDateTime(seasonDate.DateEndSecondHalfSemester);
             if (dateBeginSemester < model.DateConsultation && dateEndSemester > model.DateConsultation)
             {
                 // по дате консультации определяем неделю, день и пару

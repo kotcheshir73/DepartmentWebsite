@@ -59,6 +59,7 @@ namespace DepartmentService.Services
 
         public ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model)
         {
+            model.NotUseInSchedule = true;
             return _serviceC.GetClassrooms(model);
         }
 
@@ -94,8 +95,17 @@ namespace DepartmentService.Services
                 var currentSetting = _context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
                 if (currentSetting == null)
                 {
-                    return ResultService<SeasonDatesViewModel>.Error("Error:", "CurrentSetting not found",
-                        ResultServiceStatusCode.NotFound);
+                    var seasonDates = _serviceSD.GetSeasonDaties(new SeasonDatesGetBindingModel());
+                    if (seasonDates.Succeeded)
+                    {
+                        currentSetting = new DepartmentDAL.Models.CurrentSettings { Key = "Даты семестра", Value = seasonDates.Result.List[0].Title };
+                        _context.CurrentSettings.Add(currentSetting);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return ResultService<SeasonDatesViewModel>.Error("Error:", "CurrentSetting not found", ResultServiceStatusCode.NotFound);
+                    }
                 }
                 return _serviceSD.GetSeasonDates(new SeasonDatesGetBindingModel { Title = currentSetting.Value });
             }

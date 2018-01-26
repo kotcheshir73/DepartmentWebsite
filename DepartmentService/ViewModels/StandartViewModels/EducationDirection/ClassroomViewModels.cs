@@ -13,5 +13,7 @@ namespace DepartmentService.ViewModels
 		public string ClassroomType { get; set; }
 
 		public int Capacity { get; set; }
-	}
+
+        public bool NotUseInSchedule { get; set; }
+    }
 }

@@ -46,6 +46,10 @@ namespace DepartmentDAL.Models
         [DataMember]
         public byte[] Photo { get; set; }
 
+        [Required]
+        [DataMember]
+        public bool IsSteward { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual StudentGroup StudentGroup { get; set; }

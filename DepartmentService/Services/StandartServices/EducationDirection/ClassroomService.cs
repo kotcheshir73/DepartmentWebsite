@@ -34,7 +34,12 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Classrooms.Where(c => !c.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(c => c.Id);
+                if (model.NotUseInSchedule.HasValue)
+                {
+                    query = query.Where(c => c.NotUseInSchedule == model.NotUseInSchedule.Value);
+                }
+
+                query = query.OrderBy(c => c.Number);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

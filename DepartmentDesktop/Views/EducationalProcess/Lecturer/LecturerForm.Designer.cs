@@ -57,35 +57,39 @@
             this.textBoxAbbreviation = new System.Windows.Forms.TextBox();
             this.comboBoxPost = new System.Windows.Forms.ComboBox();
             this.comboBoxRank = new System.Windows.Forms.ComboBox();
+            this.comboBoxRank2 = new System.Windows.Forms.ComboBox();
+            this.labelRank2 = new System.Windows.Forms.Label();
+            this.labelLecturerPost = new System.Windows.Forms.Label();
+            this.comboBoxLecturerPost = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(267, 401);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(267, 457);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 26;
+            this.buttonSaveAndClose.TabIndex = 30;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(414, 401);
+            this.buttonClose.Location = new System.Drawing.Point(414, 457);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 27;
+            this.buttonClose.TabIndex = 31;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(186, 401);
+            this.buttonSave.Location = new System.Drawing.Point(186, 457);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 25;
+            this.buttonSave.TabIndex = 29;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -95,7 +99,7 @@
             this.buttonUpload.Location = new System.Drawing.Point(367, 180);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(100, 25);
-            this.buttonUpload.TabIndex = 22;
+            this.buttonUpload.TabIndex = 26;
             this.buttonUpload.Text = "Загрузить";
             this.buttonUpload.UseVisualStyleBackColor = true;
             this.buttonUpload.Click += new System.EventHandler(this.buttonUpload_Click);
@@ -111,20 +115,20 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(125, 286);
+            this.textBoxDescription.Location = new System.Drawing.Point(125, 342);
             this.textBoxDescription.MaxLength = 30;
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(200, 107);
-            this.textBoxDescription.TabIndex = 21;
+            this.textBoxDescription.TabIndex = 25;
             // 
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(12, 289);
+            this.labelDescription.Location = new System.Drawing.Point(12, 345);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(45, 13);
-            this.labelDescription.TabIndex = 20;
+            this.labelDescription.TabIndex = 24;
             this.labelDescription.Text = "О себе:";
             // 
             // textBoxPatronymic
@@ -275,10 +279,10 @@
             // labelRank
             // 
             this.labelRank.AutoSize = true;
-            this.labelRank.Location = new System.Drawing.Point(11, 263);
+            this.labelRank.Location = new System.Drawing.Point(11, 291);
             this.labelRank.Name = "labelRank";
             this.labelRank.Size = new System.Drawing.Size(47, 13);
-            this.labelRank.TabIndex = 18;
+            this.labelRank.TabIndex = 20;
             this.labelRank.Text = "Звание:";
             // 
             // labelAbbreviation
@@ -287,16 +291,16 @@
             this.labelAbbreviation.Location = new System.Drawing.Point(336, 237);
             this.labelAbbreviation.Name = "labelAbbreviation";
             this.labelAbbreviation.Size = new System.Drawing.Size(81, 13);
-            this.labelAbbreviation.TabIndex = 23;
+            this.labelAbbreviation.TabIndex = 27;
             this.labelAbbreviation.Text = "Аббревиатура:";
             // 
             // textBoxAbbreviation
             // 
-            this.textBoxAbbreviation.Location = new System.Drawing.Point(339, 260);
+            this.textBoxAbbreviation.Location = new System.Drawing.Point(339, 261);
             this.textBoxAbbreviation.MaxLength = 10;
             this.textBoxAbbreviation.Name = "textBoxAbbreviation";
             this.textBoxAbbreviation.Size = new System.Drawing.Size(100, 20);
-            this.textBoxAbbreviation.TabIndex = 24;
+            this.textBoxAbbreviation.TabIndex = 28;
             // 
             // comboBoxPost
             // 
@@ -311,16 +315,56 @@
             // 
             this.comboBoxRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRank.FormattingEnabled = true;
-            this.comboBoxRank.Location = new System.Drawing.Point(125, 260);
+            this.comboBoxRank.Location = new System.Drawing.Point(125, 288);
             this.comboBoxRank.Name = "comboBoxRank";
             this.comboBoxRank.Size = new System.Drawing.Size(200, 21);
-            this.comboBoxRank.TabIndex = 19;
+            this.comboBoxRank.TabIndex = 21;
+            // 
+            // comboBoxRank2
+            // 
+            this.comboBoxRank2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRank2.FormattingEnabled = true;
+            this.comboBoxRank2.Location = new System.Drawing.Point(125, 315);
+            this.comboBoxRank2.Name = "comboBoxRank2";
+            this.comboBoxRank2.Size = new System.Drawing.Size(200, 21);
+            this.comboBoxRank2.TabIndex = 23;
+            // 
+            // labelRank2
+            // 
+            this.labelRank2.AutoSize = true;
+            this.labelRank2.Location = new System.Drawing.Point(11, 318);
+            this.labelRank2.Name = "labelRank2";
+            this.labelRank2.Size = new System.Drawing.Size(47, 13);
+            this.labelRank2.TabIndex = 22;
+            this.labelRank2.Text = "Звание:";
+            // 
+            // labelLecturerPost
+            // 
+            this.labelLecturerPost.AutoSize = true;
+            this.labelLecturerPost.Location = new System.Drawing.Point(11, 264);
+            this.labelLecturerPost.Name = "labelLecturerPost";
+            this.labelLecturerPost.Size = new System.Drawing.Size(72, 13);
+            this.labelLecturerPost.TabIndex = 18;
+            this.labelLecturerPost.Text = "Должность*:";
+            // 
+            // comboBoxLecturerPost
+            // 
+            this.comboBoxLecturerPost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLecturerPost.FormattingEnabled = true;
+            this.comboBoxLecturerPost.Location = new System.Drawing.Point(125, 261);
+            this.comboBoxLecturerPost.Name = "comboBoxLecturerPost";
+            this.comboBoxLecturerPost.Size = new System.Drawing.Size(200, 21);
+            this.comboBoxLecturerPost.TabIndex = 19;
             // 
             // LecturerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 432);
+            this.ClientSize = new System.Drawing.Size(499, 490);
+            this.Controls.Add(this.comboBoxLecturerPost);
+            this.Controls.Add(this.labelLecturerPost);
+            this.Controls.Add(this.comboBoxRank2);
+            this.Controls.Add(this.labelRank2);
             this.Controls.Add(this.comboBoxRank);
             this.Controls.Add(this.comboBoxPost);
             this.Controls.Add(this.textBoxAbbreviation);
@@ -391,5 +435,9 @@
 		private System.Windows.Forms.TextBox textBoxAbbreviation;
         private System.Windows.Forms.ComboBox comboBoxPost;
         private System.Windows.Forms.ComboBox comboBoxRank;
+        private System.Windows.Forms.ComboBox comboBoxRank2;
+        private System.Windows.Forms.Label labelRank2;
+        private System.Windows.Forms.Label labelLecturerPost;
+        private System.Windows.Forms.ComboBox comboBoxLecturerPost;
     }
 }

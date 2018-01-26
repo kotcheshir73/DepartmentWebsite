@@ -21,6 +21,10 @@ namespace DepartmentDAL.Models
         [DataMember]
         public int Capacity { get; set; }
 
+        [Required]
+        [DataMember]
+        public bool NotUseInSchedule { get; set; }
+
         //-------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------

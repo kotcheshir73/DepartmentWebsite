@@ -24,11 +24,13 @@ namespace DepartmentService.ViewModels
 
 		public Image Photo { get; set; }
 
+        public bool IsSteward { get; set; }
+
         public string StudentGroup { get; set; }
 
         public string Description { get; set; }
 
-		public string FullName
+        public string FullName
 		{
 			get
 			{

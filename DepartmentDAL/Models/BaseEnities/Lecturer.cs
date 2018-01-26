@@ -14,6 +14,10 @@ namespace DepartmentDAL.Models
     [DataContract]
     public class Lecturer : BaseEntity
     {
+        [Required]
+        [DataMember]
+        public Guid LecturerPostId { get; set; }
+
         [MaxLength(20)]
         [Required]
         [DataMember]
@@ -63,7 +67,11 @@ namespace DepartmentDAL.Models
         [Required]
         [DataMember]
         public Rank Rank { get; set; }
-        
+
+        [Required]
+        [DataMember]
+        public Rank2 Rank2 { get; set; }
+
         [DataMember]
         public string Description { get; set; }
         
@@ -71,6 +79,8 @@ namespace DepartmentDAL.Models
         public byte[] Photo { get; set; }
 
         //-------------------------------------------------------------------------
+
+        public virtual LecturerPost LecturerPost { get; set; }
 
         //-------------------------------------------------------------------------
 

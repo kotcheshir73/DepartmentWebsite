@@ -41,5 +41,7 @@ namespace DepartmentService.BindingModels
         public Guid StudentGroupId { get; set; }
 
         public byte[] Photo { get; set; }
+
+        public bool IsSteward { get; set; }
     }
 }

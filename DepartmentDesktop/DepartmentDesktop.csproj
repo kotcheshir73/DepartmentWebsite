@@ -130,6 +130,18 @@
     <Compile Include="Views\EducationalProcess\Contingent\ContingentControl.Designer.cs">
       <DependentUpon>ContingentControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.Designer.cs">
+      <DependentUpon>LecturerPostControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostForm.Designer.cs">
+      <DependentUpon>LecturerPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\TimeNorm\TimeNormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -492,12 +504,6 @@
     <Compile Include="Views\Schedule\Semester\ScheduleSemesterTabControl.Designer.cs">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.Designer.cs">
-      <DependentUpon>SeasonDatesElementControl.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Controllers\StandartControl.resx">
       <DependentUpon>StandartControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -524,6 +530,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Contingent\ContingentControl.resx">
       <DependentUpon>ContingentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.resx">
+      <DependentUpon>LecturerPostControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostForm.resx">
+      <DependentUpon>LecturerPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\TimeNorm\TimeNormControl.resx">
       <DependentUpon>TimeNormControl.cs</DependentUpon>
@@ -714,9 +726,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Semester\ScheduleSemesterTabControl.resx">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\SeasonDates\SeasonDatesElementControl.resx">
-      <DependentUpon>SeasonDatesElementControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

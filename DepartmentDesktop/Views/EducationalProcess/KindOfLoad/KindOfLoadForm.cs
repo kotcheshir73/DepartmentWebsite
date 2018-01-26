@@ -24,7 +24,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 		{
 			foreach (var elem in Enum.GetValues(typeof(KindOfLoadType)))
 			{
-				comboBoxKindOfLoadTypes.Items.Add(elem);
+				comboBoxKindOfLoadTypes.Items.Add(elem.ToString());
 			}
 			comboBoxKindOfLoadTypes.SelectedIndex = 0;
 			if (_id.HasValue)
@@ -44,7 +44,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			var entity = result.Result;
 
 			textBoxTitle.Text = entity.KindOfLoadName;
-			comboBoxKindOfLoadTypes.SelectedValue = entity.KindOfLoadType;
+			comboBoxKindOfLoadTypes.SelectedIndex = comboBoxKindOfLoadTypes.Items.IndexOf(entity.KindOfLoadType);
 		}
 
 		private bool CheckFill()

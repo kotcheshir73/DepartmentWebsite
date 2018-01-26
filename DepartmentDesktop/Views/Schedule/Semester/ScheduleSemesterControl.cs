@@ -79,8 +79,8 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             {
                 //Заполняем даты
                 DateTime currentdate = _selectDate;
-                var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
-                var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
+                var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginFirstHalfSemester);
+                var dateEndSemester = Convert.ToDateTime(_dates.DateEndSecondHalfSemester);
                 if (_selectDate.Date == DateTime.Now.Date)
                 {
                     currentdate = dateBeginSemester.AddDays(((DateTime.Now - dateBeginSemester).Days / 14) * 14);
@@ -194,7 +194,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
         private void ButtonPrevWeek_Click(object sender, EventArgs e)
         {
             DateTime date = _selectDate;
-            var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginSemester);
+            var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginFirstHalfSemester);
             if (date.AddDays(-14) >= dateBeginSemester.Date)
                 _selectDate = date.AddDays(-14);
             LoadRecrods();
@@ -203,7 +203,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
         private void ButtonNextWeek_Click(object sender, EventArgs e)
         {
             DateTime date = _selectDate;
-            var dateEndSemester = Convert.ToDateTime(_dates.DateEndSemester);
+            var dateEndSemester = Convert.ToDateTime(_dates.DateEndSecondHalfSemester);
             if (date.AddDays(14) <= dateEndSemester.Date)
                 _selectDate = date.AddDays(14);
             LoadRecrods();

@@ -18,10 +18,16 @@ namespace DepartmentService.BindingModels
         public string Title { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public DateTime DateBeginSemester { get; set; }
+        public DateTime DateBeginFirstHalfSemester { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public DateTime DateEndSemester { get; set; }
+        public DateTime DateEndFirstHalfSemester { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public DateTime DateBeginSecondHalfSemester { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public DateTime DateEndSecondHalfSemester { get; set; }
 
         [Required(ErrorMessage = "required")]
         public DateTime DateBeginOffset { get; set; }

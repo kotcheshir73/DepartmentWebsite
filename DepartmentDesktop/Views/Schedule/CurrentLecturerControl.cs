@@ -55,7 +55,7 @@ namespace DepartmentDesktop.Views.Schedule
 
             if (lecturers != null)
             {
-                if (currentDate.Date <= Convert.ToDateTime(_dates.DateEndSemester).Date)
+                if (currentDate.Date <= Convert.ToDateTime(_dates.DateEndSecondHalfSemester).Date)
                 {
                     for (int i = 0; i < lecturers.Count; i++)
                     {
