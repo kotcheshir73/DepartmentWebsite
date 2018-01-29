@@ -13,12 +13,19 @@ namespace DepartmentService.IServices
 		/// <returns></returns>
 		ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка норм времени
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model);
+        /// <summary>
+        /// Получение списка учебных годов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка норм времени
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model);
 
 		/// <summary>
 		/// Получения нормы времени

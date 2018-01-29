@@ -11,7 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 	{
 		private readonly ITimeNormService _service;
 
-		public TimeNormControl(ITimeNormService service)
+        private Guid _ayId;
+
+        public TimeNormControl(ITimeNormService service)
 		{
 			InitializeComponent();
 			_service = service;
@@ -49,14 +51,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
             });
         }
 
-		public void LoadData()
+		public void LoadData(Guid ayId)
         {
+            _ayId = ayId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetTimeNorms(new TimeNormGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetTimeNorms(new TimeNormGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -77,7 +80,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 
 		private void AddRecord()
 		{
-			var form = new TimeNormForm(_service);
+			var form = new TimeNormForm(_service, ayId: _ayId);
 			if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -89,7 +92,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
 				Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-				var form = new TimeNormForm(_service, id);
+				var form = new TimeNormForm(_service, ayId: _ayId, id: id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

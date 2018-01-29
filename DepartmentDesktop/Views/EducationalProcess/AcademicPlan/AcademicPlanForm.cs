@@ -19,14 +19,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private Guid? _id = null;
 
-		public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, Guid? id = null)
+        private Guid? _ayId = null;
+
+        public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, Guid? ayId = null, Guid ? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceAPR = serviceAPR;
 			_serviceEP = serviceEP;
 			_id = id;
-		}
+            _ayId = ayId;
+
+        }
 
 		private void AcademicPlanForm_Load(object sender, EventArgs e)
 		{
@@ -53,7 +57,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			comboBoxAcademicYear.DisplayMember = "Display";
 			comboBoxAcademicYear.DataSource = resultAY.Result.List
 				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
-			comboBoxAcademicYear.SelectedItem = null;
+			comboBoxAcademicYear.SelectedItem = _ayId;
 
 			comboBoxEducationDirection.ValueMember = "Value";
 			comboBoxEducationDirection.DisplayMember = "Display";
@@ -61,16 +65,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 			comboBoxEducationDirection.SelectedItem = null;
 
-			var control = new AcademicPlanRecordControl(_serviceAPR, _serviceEP);
-			control.Left = 0;
-			control.Top = 0;
-			control.Height = Height - 60;
-			control.Width = Width - 15;
-			control.Anchor = (((AnchorStyles.Top
-						| AnchorStyles.Bottom)
-						| AnchorStyles.Left)
-						| AnchorStyles.Right);
-			tabPageRecords.Controls.Add(control);
+            var control = new AcademicPlanRecordControl(_serviceAPR, _serviceEP)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right)
+            };
+            tabPageRecords.Controls.Add(control);
 
 			if (_id.HasValue)
 			{

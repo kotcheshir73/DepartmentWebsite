@@ -6,7 +6,9 @@ namespace DepartmentService.BindingModels
 	public class AcademicPlanGetBindingModel : PageSettingBinidingModel
 	{
 		public Guid? Id { get; set; }
-	}
+
+        public Guid? AcademicYearId { get; set; }
+    }
 
 	public class AcademicPlanRecordBindingModel
 	{

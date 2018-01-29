@@ -19,20 +19,29 @@ namespace DepartmentService.Services
 
 		private readonly IKindOfLoadService _serviceKL;
 
-		public TimeNormService(DepartmentDbContext context, IKindOfLoadService serviceKL)
+        private readonly IAcademicYearService _serviceAY;
+
+        public TimeNormService(DepartmentDbContext context, IKindOfLoadService serviceKL, IAcademicYearService serviceAY)
 		{
 			_context = context;
 			_serviceKL = serviceKL;
-		}
+            _serviceAY = serviceAY;
+
+        }
 
 
 		public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
 		{
 			return _serviceKL.GetKindOfLoads(model);
-		}
+        }
+
+        public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
+        {
+            return _serviceAY.GetAcademicYears(model);
+        }
 
 
-		public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
+        public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
 		{
 			try
 			{
@@ -44,6 +53,11 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.TimeNorms.Where(tn => !tn.IsDeleted).AsQueryable();
 
+                if (model.AcademicYearId.HasValue)
+                {
+                    query = query.Where(tn => tn.AcademicYearId == model.AcademicYearId);
+                }
+
                 query = query.OrderBy(tn => tn.KindOfLoad.KindOfLoadName).ThenBy(tn => tn.Title);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
@@ -54,7 +68,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(tn => tn.KindOfLoad);
+				query = query.Include(tn => tn.KindOfLoad).Include(tn => tn.AcademicYear);
 
 				var result = new TimeNormPageViewModel
 				{
@@ -85,7 +99,8 @@ namespace DepartmentService.Services
 
 				var entity = _context.TimeNorms
                                 .Include(tn => tn.KindOfLoad)
-								.FirstOrDefault(tn => tn.Id == model.Id && !tn.IsDeleted);
+                                .Include(tn => tn.AcademicYear)
+                                .FirstOrDefault(tn => tn.Id == model.Id && !tn.IsDeleted);
 				if (entity == null)
 				{
 					return ResultService<TimeNormViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -189,5 +204,5 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
-	}
+    }
 }

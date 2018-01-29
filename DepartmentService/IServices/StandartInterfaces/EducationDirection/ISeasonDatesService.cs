@@ -6,12 +6,19 @@ namespace DepartmentService.IServices
 {
 	public interface ISeasonDatesService
     {
-		/// <summary>
-		/// Получение списка дат семестра
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
+        /// <summary>
+        /// Получение списка учебных годов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка дат семестра
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
 
 		/// <summary>
 		/// Получить запись по датам семестра

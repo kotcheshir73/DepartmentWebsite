@@ -8,6 +8,10 @@ namespace DepartmentService.ViewModels
     {
         public Guid Id { get; set; }
 
+        public Guid AcademicYearId { get; set; }
+
+        public string AcademicYear { get; set; }
+
         public string Title { get; set; }
         
         public string DateBeginFirstHalfSemester { get; set; }

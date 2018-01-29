@@ -54,10 +54,10 @@
             // labelAcademicYear
             // 
             this.labelAcademicYear.AutoSize = true;
-            this.labelAcademicYear.Location = new System.Drawing.Point(12, 40);
+            this.labelAcademicYear.Location = new System.Drawing.Point(12, 13);
             this.labelAcademicYear.Name = "labelAcademicYear";
             this.labelAcademicYear.Size = new System.Drawing.Size(79, 13);
-            this.labelAcademicYear.TabIndex = 2;
+            this.labelAcademicYear.TabIndex = 0;
             this.labelAcademicYear.Text = "Учебный год*:";
             // 
             // labelAcademicLevel
@@ -217,28 +217,29 @@
             // comboBoxAcademicYear
             // 
             this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAcademicYear.Enabled = false;
             this.comboBoxAcademicYear.FormattingEnabled = true;
-            this.comboBoxAcademicYear.Location = new System.Drawing.Point(100, 37);
+            this.comboBoxAcademicYear.Location = new System.Drawing.Point(100, 10);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
             this.comboBoxAcademicYear.Size = new System.Drawing.Size(222, 21);
-            this.comboBoxAcademicYear.TabIndex = 3;
+            this.comboBoxAcademicYear.TabIndex = 1;
             // 
             // comboBoxEducationDirection
             // 
             this.comboBoxEducationDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEducationDirection.FormattingEnabled = true;
-            this.comboBoxEducationDirection.Location = new System.Drawing.Point(100, 10);
+            this.comboBoxEducationDirection.Location = new System.Drawing.Point(100, 37);
             this.comboBoxEducationDirection.Name = "comboBoxEducationDirection";
             this.comboBoxEducationDirection.Size = new System.Drawing.Size(222, 21);
-            this.comboBoxEducationDirection.TabIndex = 1;
+            this.comboBoxEducationDirection.TabIndex = 3;
             // 
             // labelEducationDirection
             // 
             this.labelEducationDirection.AutoSize = true;
-            this.labelEducationDirection.Location = new System.Drawing.Point(12, 13);
+            this.labelEducationDirection.Location = new System.Drawing.Point(12, 40);
             this.labelEducationDirection.Name = "labelEducationDirection";
             this.labelEducationDirection.Size = new System.Drawing.Size(82, 13);
-            this.labelEducationDirection.TabIndex = 0;
+            this.labelEducationDirection.TabIndex = 2;
             this.labelEducationDirection.Text = "Направление*:";
             // 
             // tabPageRecords

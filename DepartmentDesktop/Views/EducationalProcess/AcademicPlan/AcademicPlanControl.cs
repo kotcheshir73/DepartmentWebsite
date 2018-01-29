@@ -15,7 +15,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private readonly IEducationalProcessService _serviceEP;
 
-		public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
+        private Guid _ayId;
+
+        public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
 		{
 			InitializeComponent();
 			_service = service;
@@ -26,7 +28,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
-				new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 100, Visible = true },
 				new ColumnConfig { Name = "AcademicLevel", Title = "Уровень", Width = 150, Visible = true },
 				new ColumnConfig { Name = "AcademicCourses", Title = "Курсы", Width = 150, Visible = true }
 			};
@@ -56,14 +57,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             });
         }
 
-		public void LoadData()
+		public void LoadData(Guid ayId)
         {
+            _ayId = ayId;
             standartControl.LoadPage();
         }
 
 		private int LoadRecords(int pageNumber, int pageSize)
         {
-			var result = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+			var result = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -75,7 +77,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 standartControl.GetDataGridViewRows.Add(				
 					res.Id,
 					res.EducationDirection,
-					res.AcademicYear,
 					res.AcademicLevel,
 					res.AcademicCoursesStrings
 				);
@@ -85,7 +86,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AddRecord()
 		{
-			var form = new AcademicPlanForm(_service, _serviceAPR, _serviceEP);
+			var form = new AcademicPlanForm(_service, _serviceAPR, _serviceEP, ayId: _ayId);
 			if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -97,7 +98,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new AcademicPlanForm(_service, _serviceAPR, _serviceEP, id);
+                var form = new AcademicPlanForm(_service, _serviceAPR, _serviceEP, ayId: _ayId, id: id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

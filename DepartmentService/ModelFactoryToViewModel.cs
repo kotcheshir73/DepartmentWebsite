@@ -126,8 +126,10 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 KindOfLoadId = entity.KindOfLoadId,
+                AcademicYearId = entity.AcademicYearId,
                 Title = entity.Title,
                 KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+                AcademicYear = entity.AcademicYear.Title,
                 Formula = entity.Formula,
                 Hours = entity.Hours
             };

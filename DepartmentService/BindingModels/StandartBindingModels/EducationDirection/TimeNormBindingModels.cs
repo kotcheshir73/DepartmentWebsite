@@ -6,7 +6,9 @@ namespace DepartmentService.BindingModels
 	public class TimeNormGetBindingModel : PageSettingBinidingModel
 	{
 		public Guid? Id { get; set; }
-	}
+
+        public Guid? AcademicYearId { get; set; }
+    }
 
 	public class TimeNormRecordBindingModel
 	{
@@ -17,7 +19,9 @@ namespace DepartmentService.BindingModels
 
 		public Guid KindOfLoadId { get; set; }
 
-		public string Formula { get; set; }
+        public Guid AcademicYearId { get; set; }
+
+        public string Formula { get; set; }
 
 		public decimal Hours { get; set; }
 	}

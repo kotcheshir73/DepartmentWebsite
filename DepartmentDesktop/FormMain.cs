@@ -241,17 +241,6 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
-        /// <summary>
-        /// Даты семестра
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void SeasonDatesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.SeasonDates.SeasonDatesControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
 		/// <summary>
 		/// Интервалы пар
 		/// </summary>
@@ -277,17 +266,6 @@ namespace DepartmentDesktop
 			control.LoadData();
 		}
         /// <summary>
-        /// Учебные планы
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void AcademicPlansToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.AcademicPlan.AcademicPlanControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-        /// <summary>
         /// Виды нагрузок
         /// </summary>
         /// <param name="sender"></param>
@@ -295,28 +273,6 @@ namespace DepartmentDesktop
 		private void KindOfLoadsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			var control = Container.Resolve<Views.EducationalProcess.KindOfLoad.KindOfLoadControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-        /// <summary>
-        /// Контингент
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void ContingentsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.Contingent.ContingentControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
-        /// <summary>
-        /// Нормы времени
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void TimeNormsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.TimeNorm.TimeNormControl>();
 			ApplyControl(control);
 			control.LoadData();
 		}

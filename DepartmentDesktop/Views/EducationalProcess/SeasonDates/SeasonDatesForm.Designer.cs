@@ -53,150 +53,152 @@
             this.labelDateEndSecondHalfSemester = new System.Windows.Forms.Label();
             this.dateTimePickerDateBeginSecondHalfSemester = new System.Windows.Forms.DateTimePicker();
             this.labelDateBeginSecondHalfSemester = new System.Windows.Forms.Label();
+            this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
+            this.labelAcademicYear = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(12, 9);
+            this.labelTitle.Location = new System.Drawing.Point(12, 36);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(60, 13);
-            this.labelTitle.TabIndex = 0;
+            this.labelTitle.TabIndex = 2;
             this.labelTitle.Text = "Название:";
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(78, 6);
+            this.textBoxTitle.Location = new System.Drawing.Point(100, 33);
             this.textBoxTitle.MaxLength = 150;
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(241, 20);
-            this.textBoxTitle.TabIndex = 1;
+            this.textBoxTitle.Size = new System.Drawing.Size(222, 20);
+            this.textBoxTitle.TabIndex = 3;
             // 
             // dateTimePickerDateEndPractic
             // 
-            this.dateTimePickerDateEndPractic.Location = new System.Drawing.Point(218, 355);
+            this.dateTimePickerDateEndPractic.Location = new System.Drawing.Point(218, 382);
             this.dateTimePickerDateEndPractic.Name = "dateTimePickerDateEndPractic";
             this.dateTimePickerDateEndPractic.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateEndPractic.TabIndex = 21;
+            this.dateTimePickerDateEndPractic.TabIndex = 23;
             this.dateTimePickerDateEndPractic.Tag = "0_6";
             // 
             // dateTimePickerDateBeginPractic
             // 
-            this.dateTimePickerDateBeginPractic.Location = new System.Drawing.Point(218, 320);
+            this.dateTimePickerDateBeginPractic.Location = new System.Drawing.Point(218, 347);
             this.dateTimePickerDateBeginPractic.Name = "dateTimePickerDateBeginPractic";
             this.dateTimePickerDateBeginPractic.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateBeginPractic.TabIndex = 19;
+            this.dateTimePickerDateBeginPractic.TabIndex = 21;
             this.dateTimePickerDateBeginPractic.Tag = "0_6";
             // 
             // dateTimePickerDateEndExamination
             // 
-            this.dateTimePickerDateEndExamination.Location = new System.Drawing.Point(218, 285);
+            this.dateTimePickerDateEndExamination.Location = new System.Drawing.Point(218, 312);
             this.dateTimePickerDateEndExamination.Name = "dateTimePickerDateEndExamination";
             this.dateTimePickerDateEndExamination.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateEndExamination.TabIndex = 17;
+            this.dateTimePickerDateEndExamination.TabIndex = 19;
             this.dateTimePickerDateEndExamination.Tag = "0_6";
             // 
             // labelDateEndExamination
             // 
             this.labelDateEndExamination.AutoSize = true;
-            this.labelDateEndExamination.Location = new System.Drawing.Point(12, 290);
+            this.labelDateEndExamination.Location = new System.Drawing.Point(12, 317);
             this.labelDateEndExamination.Name = "labelDateEndExamination";
             this.labelDateEndExamination.Size = new System.Drawing.Size(148, 13);
-            this.labelDateEndExamination.TabIndex = 16;
+            this.labelDateEndExamination.TabIndex = 18;
             this.labelDateEndExamination.Text = "Дата окончания экзаменов";
             // 
             // dateTimePickerDateBeginExamination
             // 
-            this.dateTimePickerDateBeginExamination.Location = new System.Drawing.Point(218, 250);
+            this.dateTimePickerDateBeginExamination.Location = new System.Drawing.Point(218, 277);
             this.dateTimePickerDateBeginExamination.Name = "dateTimePickerDateBeginExamination";
             this.dateTimePickerDateBeginExamination.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateBeginExamination.TabIndex = 15;
+            this.dateTimePickerDateBeginExamination.TabIndex = 17;
             this.dateTimePickerDateBeginExamination.Tag = "0_5";
             // 
             // labelDateBeginExamination
             // 
             this.labelDateBeginExamination.AutoSize = true;
-            this.labelDateBeginExamination.Location = new System.Drawing.Point(12, 256);
+            this.labelDateBeginExamination.Location = new System.Drawing.Point(12, 283);
             this.labelDateBeginExamination.Name = "labelDateBeginExamination";
             this.labelDateBeginExamination.Size = new System.Drawing.Size(130, 13);
-            this.labelDateBeginExamination.TabIndex = 14;
+            this.labelDateBeginExamination.TabIndex = 16;
             this.labelDateBeginExamination.Text = "Дата начала экзаменов";
             // 
             // dateTimePickerDateEndOffset
             // 
-            this.dateTimePickerDateEndOffset.Location = new System.Drawing.Point(218, 215);
+            this.dateTimePickerDateEndOffset.Location = new System.Drawing.Point(218, 242);
             this.dateTimePickerDateEndOffset.Name = "dateTimePickerDateEndOffset";
             this.dateTimePickerDateEndOffset.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateEndOffset.TabIndex = 13;
+            this.dateTimePickerDateEndOffset.TabIndex = 15;
             this.dateTimePickerDateEndOffset.Tag = "0_4";
             // 
             // labelDateEndOffset
             // 
             this.labelDateEndOffset.AutoSize = true;
-            this.labelDateEndOffset.Location = new System.Drawing.Point(12, 219);
+            this.labelDateEndOffset.Location = new System.Drawing.Point(12, 246);
             this.labelDateEndOffset.Name = "labelDateEndOffset";
             this.labelDateEndOffset.Size = new System.Drawing.Size(132, 13);
-            this.labelDateEndOffset.TabIndex = 12;
+            this.labelDateEndOffset.TabIndex = 14;
             this.labelDateEndOffset.Text = "Дата окончания зачетов";
             // 
             // dateTimePickerDateBeginOffset
             // 
-            this.dateTimePickerDateBeginOffset.Location = new System.Drawing.Point(218, 180);
+            this.dateTimePickerDateBeginOffset.Location = new System.Drawing.Point(218, 207);
             this.dateTimePickerDateBeginOffset.Name = "dateTimePickerDateBeginOffset";
             this.dateTimePickerDateBeginOffset.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateBeginOffset.TabIndex = 11;
+            this.dateTimePickerDateBeginOffset.TabIndex = 13;
             this.dateTimePickerDateBeginOffset.Tag = "0_3";
             // 
             // labelDateBeginOffset
             // 
             this.labelDateBeginOffset.AutoSize = true;
-            this.labelDateBeginOffset.Location = new System.Drawing.Point(12, 185);
+            this.labelDateBeginOffset.Location = new System.Drawing.Point(12, 212);
             this.labelDateBeginOffset.Name = "labelDateBeginOffset";
             this.labelDateBeginOffset.Size = new System.Drawing.Size(114, 13);
-            this.labelDateBeginOffset.TabIndex = 10;
+            this.labelDateBeginOffset.TabIndex = 12;
             this.labelDateBeginOffset.Text = "Дата начала зачетов";
             // 
             // dateTimePickerDateEndFirstHalfSemester
             // 
-            this.dateTimePickerDateEndFirstHalfSemester.Location = new System.Drawing.Point(218, 75);
+            this.dateTimePickerDateEndFirstHalfSemester.Location = new System.Drawing.Point(218, 102);
             this.dateTimePickerDateEndFirstHalfSemester.Name = "dateTimePickerDateEndFirstHalfSemester";
             this.dateTimePickerDateEndFirstHalfSemester.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateEndFirstHalfSemester.TabIndex = 5;
+            this.dateTimePickerDateEndFirstHalfSemester.TabIndex = 7;
             this.dateTimePickerDateEndFirstHalfSemester.Tag = "0_2";
             // 
             // labelDateEndFirstHalfSemester
             // 
             this.labelDateEndFirstHalfSemester.AutoSize = true;
-            this.labelDateEndFirstHalfSemester.Location = new System.Drawing.Point(12, 78);
+            this.labelDateEndFirstHalfSemester.Location = new System.Drawing.Point(12, 105);
             this.labelDateEndFirstHalfSemester.Name = "labelDateEndFirstHalfSemester";
             this.labelDateEndFirstHalfSemester.Size = new System.Drawing.Size(201, 13);
-            this.labelDateEndFirstHalfSemester.TabIndex = 4;
+            this.labelDateEndFirstHalfSemester.TabIndex = 6;
             this.labelDateEndFirstHalfSemester.Text = "Дата окончания первого полупериода";
             // 
             // dateTimePickerDateBeginFirstHalfSemester
             // 
-            this.dateTimePickerDateBeginFirstHalfSemester.Location = new System.Drawing.Point(218, 40);
+            this.dateTimePickerDateBeginFirstHalfSemester.Location = new System.Drawing.Point(218, 67);
             this.dateTimePickerDateBeginFirstHalfSemester.Name = "dateTimePickerDateBeginFirstHalfSemester";
             this.dateTimePickerDateBeginFirstHalfSemester.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateBeginFirstHalfSemester.TabIndex = 3;
+            this.dateTimePickerDateBeginFirstHalfSemester.TabIndex = 5;
             this.dateTimePickerDateBeginFirstHalfSemester.Tag = "0_1";
             // 
             // labelDateBeginFirstHalfSemester
             // 
             this.labelDateBeginFirstHalfSemester.AutoSize = true;
-            this.labelDateBeginFirstHalfSemester.Location = new System.Drawing.Point(12, 44);
+            this.labelDateBeginFirstHalfSemester.Location = new System.Drawing.Point(12, 71);
             this.labelDateBeginFirstHalfSemester.Name = "labelDateBeginFirstHalfSemester";
             this.labelDateBeginFirstHalfSemester.Size = new System.Drawing.Size(183, 13);
-            this.labelDateBeginFirstHalfSemester.TabIndex = 2;
+            this.labelDateBeginFirstHalfSemester.TabIndex = 4;
             this.labelDateBeginFirstHalfSemester.Text = "Дата начала первого полупериода";
             // 
             // checkBoxDateBeginPractic
             // 
             this.checkBoxDateBeginPractic.AutoSize = true;
-            this.checkBoxDateBeginPractic.Location = new System.Drawing.Point(15, 321);
+            this.checkBoxDateBeginPractic.Location = new System.Drawing.Point(15, 348);
             this.checkBoxDateBeginPractic.Name = "checkBoxDateBeginPractic";
             this.checkBoxDateBeginPractic.Size = new System.Drawing.Size(140, 17);
-            this.checkBoxDateBeginPractic.TabIndex = 18;
+            this.checkBoxDateBeginPractic.TabIndex = 20;
             this.checkBoxDateBeginPractic.Text = "Дата начала практики";
             this.checkBoxDateBeginPractic.UseVisualStyleBackColor = true;
             this.checkBoxDateBeginPractic.CheckedChanged += new System.EventHandler(this.checkBoxDateBeginPractic_CheckedChanged);
@@ -204,83 +206,104 @@
             // checkBoxDateEndPractic
             // 
             this.checkBoxDateEndPractic.AutoSize = true;
-            this.checkBoxDateEndPractic.Location = new System.Drawing.Point(15, 356);
+            this.checkBoxDateEndPractic.Location = new System.Drawing.Point(15, 383);
             this.checkBoxDateEndPractic.Name = "checkBoxDateEndPractic";
             this.checkBoxDateEndPractic.Size = new System.Drawing.Size(158, 17);
-            this.checkBoxDateEndPractic.TabIndex = 20;
+            this.checkBoxDateEndPractic.TabIndex = 22;
             this.checkBoxDateEndPractic.Text = "Дата окончания практики";
             this.checkBoxDateEndPractic.UseVisualStyleBackColor = true;
             this.checkBoxDateEndPractic.CheckedChanged += new System.EventHandler(this.checkBoxDateEndPractic_CheckedChanged);
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(255, 391);
+            this.buttonClose.Location = new System.Drawing.Point(255, 418);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 24;
+            this.buttonClose.TabIndex = 26;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(27, 391);
+            this.buttonSave.Location = new System.Drawing.Point(27, 418);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 22;
+            this.buttonSave.TabIndex = 24;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(108, 391);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(108, 418);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 23;
+            this.buttonSaveAndClose.TabIndex = 25;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // dateTimePickerDateEndSecondHalfSemester
             // 
-            this.dateTimePickerDateEndSecondHalfSemester.Location = new System.Drawing.Point(218, 145);
+            this.dateTimePickerDateEndSecondHalfSemester.Location = new System.Drawing.Point(218, 172);
             this.dateTimePickerDateEndSecondHalfSemester.Name = "dateTimePickerDateEndSecondHalfSemester";
             this.dateTimePickerDateEndSecondHalfSemester.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateEndSecondHalfSemester.TabIndex = 9;
+            this.dateTimePickerDateEndSecondHalfSemester.TabIndex = 11;
             this.dateTimePickerDateEndSecondHalfSemester.Tag = "0_2";
             // 
             // labelDateEndSecondHalfSemester
             // 
             this.labelDateEndSecondHalfSemester.AutoSize = true;
-            this.labelDateEndSecondHalfSemester.Location = new System.Drawing.Point(12, 148);
+            this.labelDateEndSecondHalfSemester.Location = new System.Drawing.Point(12, 175);
             this.labelDateEndSecondHalfSemester.Name = "labelDateEndSecondHalfSemester";
             this.labelDateEndSecondHalfSemester.Size = new System.Drawing.Size(200, 13);
-            this.labelDateEndSecondHalfSemester.TabIndex = 8;
+            this.labelDateEndSecondHalfSemester.TabIndex = 10;
             this.labelDateEndSecondHalfSemester.Text = "Дата окончания второго полупериода";
             // 
             // dateTimePickerDateBeginSecondHalfSemester
             // 
-            this.dateTimePickerDateBeginSecondHalfSemester.Location = new System.Drawing.Point(218, 110);
+            this.dateTimePickerDateBeginSecondHalfSemester.Location = new System.Drawing.Point(218, 137);
             this.dateTimePickerDateBeginSecondHalfSemester.Name = "dateTimePickerDateBeginSecondHalfSemester";
             this.dateTimePickerDateBeginSecondHalfSemester.Size = new System.Drawing.Size(140, 20);
-            this.dateTimePickerDateBeginSecondHalfSemester.TabIndex = 7;
+            this.dateTimePickerDateBeginSecondHalfSemester.TabIndex = 9;
             this.dateTimePickerDateBeginSecondHalfSemester.Tag = "0_1";
             // 
             // labelDateBeginSecondHalfSemester
             // 
             this.labelDateBeginSecondHalfSemester.AutoSize = true;
-            this.labelDateBeginSecondHalfSemester.Location = new System.Drawing.Point(12, 114);
+            this.labelDateBeginSecondHalfSemester.Location = new System.Drawing.Point(12, 141);
             this.labelDateBeginSecondHalfSemester.Name = "labelDateBeginSecondHalfSemester";
             this.labelDateBeginSecondHalfSemester.Size = new System.Drawing.Size(182, 13);
-            this.labelDateBeginSecondHalfSemester.TabIndex = 6;
+            this.labelDateBeginSecondHalfSemester.TabIndex = 8;
             this.labelDateBeginSecondHalfSemester.Text = "Дата начала второго полупериода";
+            // 
+            // comboBoxAcademicYear
+            // 
+            this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAcademicYear.Enabled = false;
+            this.comboBoxAcademicYear.FormattingEnabled = true;
+            this.comboBoxAcademicYear.Location = new System.Drawing.Point(100, 6);
+            this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
+            this.comboBoxAcademicYear.Size = new System.Drawing.Size(222, 21);
+            this.comboBoxAcademicYear.TabIndex = 1;
+            // 
+            // labelAcademicYear
+            // 
+            this.labelAcademicYear.AutoSize = true;
+            this.labelAcademicYear.Location = new System.Drawing.Point(12, 9);
+            this.labelAcademicYear.Name = "labelAcademicYear";
+            this.labelAcademicYear.Size = new System.Drawing.Size(79, 13);
+            this.labelAcademicYear.TabIndex = 0;
+            this.labelAcademicYear.Text = "Учебный год*:";
             // 
             // SeasonDatesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(374, 423);
+            this.ClientSize = new System.Drawing.Size(374, 448);
+            this.Controls.Add(this.comboBoxAcademicYear);
+            this.Controls.Add(this.labelAcademicYear);
             this.Controls.Add(this.dateTimePickerDateEndSecondHalfSemester);
             this.Controls.Add(this.labelDateEndSecondHalfSemester);
             this.Controls.Add(this.dateTimePickerDateBeginSecondHalfSemester);
@@ -307,6 +330,7 @@
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.labelTitle);
             this.Name = "SeasonDatesForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Даты семестра";
             this.Load += new System.EventHandler(this.SeasonDatesForm_Load);
             this.ResumeLayout(false);
@@ -341,5 +365,7 @@
         private System.Windows.Forms.Label labelDateEndSecondHalfSemester;
         private System.Windows.Forms.DateTimePicker dateTimePickerDateBeginSecondHalfSemester;
         private System.Windows.Forms.Label labelDateBeginSecondHalfSemester;
+        private System.Windows.Forms.ComboBox comboBoxAcademicYear;
+        private System.Windows.Forms.Label labelAcademicYear;
     }
 }

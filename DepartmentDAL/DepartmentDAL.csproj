@@ -97,6 +97,14 @@
     <Compile Include="Migrations\201801260942349_AddLecturerPosts.Designer.cs">
       <DependentUpon>201801260942349_AddLecturerPosts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801290554453_ConnectAcademicYearWithTimeNorm.cs" />
+    <Compile Include="Migrations\201801290554453_ConnectAcademicYearWithTimeNorm.Designer.cs">
+      <DependentUpon>201801290554453_ConnectAcademicYearWithTimeNorm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801290620352_ConnectAcademicYearWithSeasonDates.cs" />
+    <Compile Include="Migrations\201801290620352_ConnectAcademicYearWithSeasonDates.Designer.cs">
+      <DependentUpon>201801290620352_ConnectAcademicYearWithSeasonDates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
@@ -167,6 +175,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801260942349_AddLecturerPosts.resx">
       <DependentUpon>201801260942349_AddLecturerPosts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801290554453_ConnectAcademicYearWithTimeNorm.resx">
+      <DependentUpon>201801290554453_ConnectAcademicYearWithTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801290620352_ConnectAcademicYearWithSeasonDates.resx">
+      <DependentUpon>201801290620352_ConnectAcademicYearWithSeasonDates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -16,7 +16,11 @@ namespace DepartmentDAL.Models
         [DataMember]
         public Guid KindOfLoadId { get; set; }
 
-		[MaxLength(50)]
+        [Required]
+        [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [MaxLength(50)]
 		[Required]
         [DataMember]
         public string Title { get; set; }
@@ -31,6 +35,8 @@ namespace DepartmentDAL.Models
         //-------------------------------------------------------------------------
 
         public virtual KindOfLoad KindOfLoad { get; set; }
+
+        public virtual AcademicYear AcademicYear { get; set; }
 
         //-------------------------------------------------------------------------
 

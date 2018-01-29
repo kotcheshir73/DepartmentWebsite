@@ -2,6 +2,7 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
@@ -12,15 +13,31 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
         private Guid? _id;
 
-        public SeasonDatesForm(ISeasonDatesService service, Guid? id = null)
+        private Guid? _ayId = null;
+
+        public SeasonDatesForm(ISeasonDatesService service, Guid? ayId = null, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
             _id = id;
+            _ayId = ayId;
         }
 
         private void SeasonDatesForm_Load(object sender, EventArgs e)
         {
+            var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (!resultAY.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
+                return;
+            }
+
+            comboBoxAcademicYear.ValueMember = "Value";
+            comboBoxAcademicYear.DisplayMember = "Display";
+            comboBoxAcademicYear.DataSource = resultAY.Result.List
+                .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
+            comboBoxAcademicYear.SelectedItem = _ayId;
+
             if (_id.HasValue)
             {
 				LoadData();
@@ -28,8 +45,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 		}
 
 		private void LoadData()
-		{
-			var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id.Value });
+        {
+            var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -99,8 +116,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				if (!_id.HasValue)
 				{
 					result = _service.CreateSeasonDates(new SeasonDatesRecordBindingModel
-					{
-						Title = textBoxTitle.Text,
+                    {
+                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                        Title = textBoxTitle.Text,
 						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
 						DateBeginOffset = dateTimePickerDateBeginOffset.Value,
 						DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
@@ -118,7 +136,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 					result = _service.UpdateSeasonDates(new SeasonDatesRecordBindingModel
 					{
 						Id = _id.Value,
-						Title = textBoxTitle.Text,
+                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                        Title = textBoxTitle.Text,
 						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
 						DateBeginOffset = dateTimePickerDateBeginOffset.Value,
                         DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,

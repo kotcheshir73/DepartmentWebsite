@@ -8,11 +8,15 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
 
         public string Title { get; set; }
-	}
+
+        public Guid? AcademicYearId { get; set; }
+    }
 
     public class SeasonDatesRecordBindingModel
     {
         public Guid Id { get; set; }
+
+        public Guid AcademicYearId { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Title { get; set; }

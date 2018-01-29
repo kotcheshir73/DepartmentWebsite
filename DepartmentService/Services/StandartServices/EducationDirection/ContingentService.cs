@@ -52,6 +52,11 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Contingents.Where(c => !c.IsDeleted).AsQueryable();
 
+                if(model.AcademicYearId.HasValue)
+                {
+                    query = query.Where(c => c.AcademicYearId == model.AcademicYearId);
+                }
+
                 query = query.OrderBy(c => c.AcademicYearId).ThenBy(c => c.EducationDirectionId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)

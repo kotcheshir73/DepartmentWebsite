@@ -10,11 +10,15 @@ namespace DepartmentService.ViewModels
 
 		public Guid KindOfLoadId { get; set; }
 
-		public string Title { get; set; }
+        public Guid AcademicYearId { get; set; }
+
+        public string Title { get; set; }
 
 		public string KindOfLoadName { get; set; }
 
-		public string Formula { get; set; }
+        public string AcademicYear { get; set; }
+
+        public string Formula { get; set; }
 
 		public decimal Hours { get; set; }
 	}

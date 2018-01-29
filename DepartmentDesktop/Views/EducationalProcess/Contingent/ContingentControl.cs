@@ -11,7 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 	{
 		private readonly IContingentService _service;
 
-		public ContingentControl(IContingentService service)
+        private Guid _ayId;
+
+        public ContingentControl(IContingentService service)
 		{
 			InitializeComponent();
 			_service = service;
@@ -19,7 +21,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 200, Visible = true },
 				new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
 				new ColumnConfig { Name = "StudentGroupName", Title = "Курс", Width = 100, Visible = true },
 				new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 200, Visible = true },
@@ -51,14 +52,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
             });
         }
 
-		public void LoadData()
+		public void LoadData(Guid ayId)
         {
+            _ayId = ayId;
             standartControl.LoadPage();
         }
 
 		private int LoadRecords(int pageNumber, int pageSize)
         {
-			var result = _service.GetContingents(new ContingentGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+			var result = _service.GetContingents(new ContingentGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -69,7 +71,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			{
                 standartControl.GetDataGridViewRows.Add(
 					res.Id,
-					res.AcademicYear,
 					res.EducationDirectionCipher,
 					Math.Log(res.Course, 2.0) + 1,
 					res.CountStudents,
@@ -81,7 +82,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 
 		private void AddRecord()
 		{
-			var form = new ContingentForm(_service);
+			var form = new ContingentForm(_service, ayId: _ayId);
 			if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -93,7 +94,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new ContingentForm(_service, id);
+                var form = new ContingentForm(_service, ayId: _ayId, id: id);
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

@@ -11,7 +11,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 	{
 		private readonly ISeasonDatesService _service;
 
-		public SeasonDatesControl(ISeasonDatesService service)
+        private Guid _ayId;
+
+        public SeasonDatesControl(ISeasonDatesService service)
 		{
 			InitializeComponent();
 			_service = service;
@@ -57,14 +59,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 			});
 		}
 
-		public void LoadData()
+		public void LoadData(Guid ayId)
 		{
-			standartControl.LoadPage();
+            _ayId = ayId;
+            standartControl.LoadPage();
 		}
 
 		private int LoadRecords(int pageNumber, int pageSize)
 		{
-			var result = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+			var result = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -93,7 +96,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
 		private void AddRecord()
 		{
-			var form = new SeasonDatesForm(_service);
+			var form = new SeasonDatesForm(_service, ayId: _ayId);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
@@ -105,7 +108,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new SeasonDatesForm(_service, id);
+                var form = new SeasonDatesForm(_service, ayId: _ayId, id: id);
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();

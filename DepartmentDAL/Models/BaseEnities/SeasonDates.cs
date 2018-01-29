@@ -12,6 +12,10 @@ namespace DepartmentDAL.Models
     {
         [Required]
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [Required]
+        [DataMember]
         public string Title { get; set; }
 
         [Required]
@@ -53,6 +57,8 @@ namespace DepartmentDAL.Models
         public DateTime? DateEndPractice { get; set; }
 
         //-------------------------------------------------------------------------
+
+        public virtual AcademicYear AcademicYear { get; set; }
 
         //-------------------------------------------------------------------------
     }

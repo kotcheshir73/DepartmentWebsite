@@ -14,12 +14,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 
 		private Guid? _id = null;
 
-		public ContingentForm(IContingentService service, Guid? id = null)
+        private Guid? _ayId = null;
+
+        public ContingentForm(IContingentService service, Guid? ayId = null, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_id = id;
-		}
+            _ayId = ayId;
+        }
 
 		private void ContingentForm_Load(object sender, EventArgs e)
 		{
@@ -41,7 +44,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			comboBoxAcademicYear.DisplayMember = "Display";
 			comboBoxAcademicYear.DataSource = resultAY.Result.List
 				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
-			comboBoxAcademicYear.SelectedItem = null;
+			comboBoxAcademicYear.SelectedItem = _ayId;
 
 			comboBoxEducationDirection.ValueMember = "Value";
 			comboBoxEducationDirection.DisplayMember = "Display";

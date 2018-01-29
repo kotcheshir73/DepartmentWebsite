@@ -16,23 +16,39 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 
 		private Guid? _id;
 
-		public TimeNormForm(ITimeNormService service, Guid? id = null)
+        private Guid? _ayId;
+
+        public TimeNormForm(ITimeNormService service, Guid? ayId = null, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_id = id;
-		}
+            _ayId = ayId;
+        }
 
 		private void TimeNormForm_Load(object sender, EventArgs e)
-		{
-			var resultKL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
+        {
+            var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (!resultAY.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
+                return;
+            }
+
+            var resultKL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
 			if (!resultKL.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке видов нагрузок возникла ошибка: ", resultKL.Errors);
 				return;
-			}
+            }
 
-			comboBoxKindOfLoad.ValueMember = "Value";
+            comboBoxAcademicYear.ValueMember = "Value";
+            comboBoxAcademicYear.DisplayMember = "Display";
+            comboBoxAcademicYear.DataSource = resultAY.Result.List
+                .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
+            comboBoxAcademicYear.SelectedItem = _ayId;
+
+            comboBoxKindOfLoad.ValueMember = "Value";
 			comboBoxKindOfLoad.DisplayMember = "Display";
 			comboBoxKindOfLoad.DataSource = resultKL.Result.List
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
@@ -142,7 +158,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 					result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
 					{
 						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
-						Title = textBoxTitle.Text,
+                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                        Title = textBoxTitle.Text,
 						Formula = textBoxFormula.Text,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
 					});
@@ -153,7 +170,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 					{
 						Id = _id.Value,
 						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
-						Title = textBoxTitle.Text,
+                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                        Title = textBoxTitle.Text,
 						Formula = textBoxFormula.Text,
 						Hours = Convert.ToDecimal(textBoxHours.Text)
 					});

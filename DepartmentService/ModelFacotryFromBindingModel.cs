@@ -133,6 +133,7 @@ namespace DepartmentService.BindingModels
 			}
 			entity.Title = model.Title;
 			entity.KindOfLoadId = model.KindOfLoadId;
+            entity.AcademicYearId = model.AcademicYearId;
 			entity.Formula = model.Formula;
 			entity.Hours = model.Hours;
 
@@ -236,6 +237,7 @@ namespace DepartmentService.BindingModels
 				entity = new SeasonDates();
 			}
 			entity.Title = model.Title;
+            entity.AcademicYearId = model.AcademicYearId;
 			entity.DateBeginExamination = model.DateBeginExamination;
 			entity.DateBeginOffset = model.DateBeginOffset;
 			entity.DateBeginPractice = model.DateBeginPractice;

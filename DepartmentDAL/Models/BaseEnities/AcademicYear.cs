@@ -25,5 +25,11 @@ namespace DepartmentDAL.Models
 
 		[ForeignKey("AcademicYearId")]
 		public virtual List<LoadDistribution> LoadDistributions { get; set; }
-	}
+
+        [ForeignKey("AcademicYearId")]
+        public virtual List<TimeNorm> TimeNorms { get; set; }
+
+        [ForeignKey("AcademicYearId")]
+        public virtual List<SeasonDates> SeasonDates { get; set; }
+    }
 }

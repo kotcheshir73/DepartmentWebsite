@@ -1,4 +1,8 @@
 ﻿using DepartmentDAL;
+using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
+using DepartmentDesktop.Views.EducationalProcess.Contingent;
+using DepartmentDesktop.Views.EducationalProcess.SeasonDates;
+using DepartmentDesktop.Views.EducationalProcess.TimeNorm;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -9,27 +13,102 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 	public partial class AcademicYearForm : Form
 	{
 		private readonly IAcademicYearService _service;
+ 
+		private readonly IAcademicPlanService _serviceAP;
+ 
+		private readonly ITimeNormService _serviceTM;
+	
+		private readonly IContingentService _serviceC;
 
-		private Guid? _id = null;
+        private readonly ISeasonDatesService _serviceSD;
 
-		public AcademicYearForm(IAcademicYearService service, Guid? id = null)
+        private readonly IAcademicPlanRecordService _serviceAPR;
+
+        private readonly IEducationalProcessService _serviceEP;
+
+        private Guid? _id = null;
+
+		public AcademicYearForm(IAcademicYearService service, IAcademicPlanService serviceAP, ITimeNormService serviceTM, IContingentService serviceC, 
+            ISeasonDatesService serviceSD, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
+            _serviceAP = serviceAP;
+            _serviceTM = serviceTM;
+            _serviceC = serviceC;
+            _serviceSD = serviceSD;
+            _serviceAPR = serviceAPR;
+            _serviceEP = serviceEP;
+            _id = id;
 		}
 
 		private void AcademicYearForm_Load(object sender, EventArgs e)
-		{
-			if (_id.HasValue)
+        {
+            var controlAP = new AcademicPlanControl(_serviceAP, _serviceAPR, _serviceEP)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right)
+            };
+            tabPageAcademicPlans.Controls.Add(controlAP);
+
+            var controlTN = new TimeNormControl(_serviceTM)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right)
+            };
+            tabPageTimeNorms.Controls.Add(controlTN);
+
+            var controlC = new ContingentControl(_serviceC)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right)
+            };
+            tabPageContingent.Controls.Add(controlC);
+
+            var controlSD = new SeasonDatesControl(_serviceSD)
+            {
+                Left = 0,
+                Top = 0,
+                Height = Height - 60,
+                Width = Width - 15,
+                Anchor = (((AnchorStyles.Top
+                        | AnchorStyles.Bottom)
+                        | AnchorStyles.Left)
+                        | AnchorStyles.Right)
+            };
+            tabPageSeasonDates.Controls.Add(controlSD);
+
+            if (_id.HasValue)
 			{
 				LoadData();
 			}
 		}
 
 		private void LoadData()
-		{
-			var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
+        {
+            (tabPageAcademicPlans.Controls[0] as AcademicPlanControl).LoadData(_id.Value);
+            (tabPageTimeNorms.Controls[0] as TimeNormControl).LoadData(_id.Value);
+            (tabPageContingent.Controls[0] as ContingentControl).LoadData(_id.Value);
+            (tabPageSeasonDates.Controls[0] as SeasonDatesControl).LoadData(_id.Value);
+            var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
