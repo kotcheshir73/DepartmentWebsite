@@ -46,14 +46,14 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                                 Padding = new Padding(3),
                                 Size = new Size(1140, 611),
                                 Tag = i.ToString(),
-                                Text = "Аудитория " + classrooms[i].Id
+                                Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
                             var control = new ScheduleSemesterControl(_service, _serviceSR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
-                            control.LoadData(string.Format("{0} аудитория.", classrooms[i].Id), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                            control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
                     }

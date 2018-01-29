@@ -12,6 +12,10 @@ namespace DepartmentDAL.Models
     {
         [Required]
         [DataMember]
+        public bool IsFirstHalfSemester { get; set; }
+
+        [Required]
+        [DataMember]
         public int Week { get; set; }
 
         [Required]

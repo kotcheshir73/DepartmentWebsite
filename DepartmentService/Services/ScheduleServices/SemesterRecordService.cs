@@ -302,6 +302,11 @@ namespace DepartmentService.Services
 
                 var selectedRecords = _context.SemesterRecords.Where(sr => sr.SeasonDatesId == currentDates);
 
+                if (model.IsFirstHalfSemester.HasValue)
+                {
+                    selectedRecords = selectedRecords.Where(sr => sr.IsFirstHalfSemester == model.IsFirstHalfSemester.Value);
+                }
+
                 if (!string.IsNullOrEmpty(model.ClassroomNumber))
                 {
                     if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))

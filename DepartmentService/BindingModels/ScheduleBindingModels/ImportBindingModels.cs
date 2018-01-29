@@ -9,9 +9,7 @@ namespace DepartmentService.BindingModels
 	{
 		public string ScheduleUrl { get; set; }
 
-		public List<string> Classrooms { get; set; }
-
-		public List<string> StudentGroups { get; set; }
+        public bool IsFirstHalfSemester { get; set; }
 	}
 	/// <summary>
 	/// Загружаем данные по зачетам

@@ -39,6 +39,8 @@ namespace DepartmentService.ViewModels
 
 		public string LessonType { get; set; }
 
-		public bool IsStreaming { get; set; }
+        public bool IsFirstHalfSemester { get; set; }
+
+        public bool IsStreaming { get; set; }
 	}
 }

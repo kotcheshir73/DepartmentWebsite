@@ -59,6 +59,7 @@
             this.checkedListBoxStudentGroups = new System.Windows.Forms.CheckedListBox();
             this.groupBoxLecturers = new System.Windows.Forms.GroupBox();
             this.checkedListBoxLecturers = new System.Windows.Forms.CheckedListBox();
+            this.checkBoxIsFirstHalfSemester = new System.Windows.Forms.CheckBox();
             this.groupBoxLoadHTMLScheduleForClassrooms.SuspendLayout();
             this.groupBoxClassrooms.SuspendLayout();
             this.groupBoxClearClassrooms.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             // groupBoxLoadHTMLScheduleForClassrooms
             // 
+            this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.checkBoxIsFirstHalfSemester);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.textBoxLinkToHtml);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.labelLinkToHtml);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.buttonMakeLoadHTMLScheduleForClassrooms);
@@ -385,6 +387,16 @@
             this.checkedListBoxLecturers.Size = new System.Drawing.Size(120, 231);
             this.checkedListBoxLecturers.TabIndex = 0;
             // 
+            // checkBoxIsFirstHalfSemester
+            // 
+            this.checkBoxIsFirstHalfSemester.AutoSize = true;
+            this.checkBoxIsFirstHalfSemester.Location = new System.Drawing.Point(16, 62);
+            this.checkBoxIsFirstHalfSemester.Name = "checkBoxIsFirstHalfSemester";
+            this.checkBoxIsFirstHalfSemester.Size = new System.Drawing.Size(128, 17);
+            this.checkBoxIsFirstHalfSemester.TabIndex = 5;
+            this.checkBoxIsFirstHalfSemester.Text = "Первый полупериод";
+            this.checkBoxIsFirstHalfSemester.UseVisualStyleBackColor = true;
+            // 
             // ScheduleConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,5 +460,6 @@
         private System.Windows.Forms.CheckedListBox checkedListBoxStudentGroups;
         private System.Windows.Forms.GroupBox groupBoxLecturers;
         private System.Windows.Forms.CheckedListBox checkedListBoxLecturers;
+        private System.Windows.Forms.CheckBox checkBoxIsFirstHalfSemester;
     }
 }

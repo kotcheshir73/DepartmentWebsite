@@ -4,6 +4,8 @@ namespace DepartmentService.BindingModels
 {
 	public class SemesterRecordRecordBindingModel : ScheduleRecordBindingModel
     {
+        public bool IsFirstHalfSemester { get; set; }
+
         [Required(ErrorMessage = "required")]
         public string LessonType { get; set; }
 

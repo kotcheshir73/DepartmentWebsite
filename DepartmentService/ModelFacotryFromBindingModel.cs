@@ -364,12 +364,13 @@ namespace DepartmentService.BindingModels
 					Week = model.Week,
 					Day = model.Day,
 					Lesson = model.Lesson,
-					NotParseRecord = model.NotParseRecord,
-					SeasonDatesId = seasonDate.Id,
-					IsStreaming = model.IsStreaming
+					SeasonDatesId = seasonDate.Id
 				};
 			}
 			entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
+            entity.IsFirstHalfSemester = model.IsFirstHalfSemester;
+            entity.IsStreaming = model.IsStreaming;
+            entity.NotParseRecord = model.NotParseRecord;
             CreateScheduleRecord(model, entity);
 
             return entity;

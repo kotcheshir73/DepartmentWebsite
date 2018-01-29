@@ -105,6 +105,10 @@
     <Compile Include="Migrations\201801290620352_ConnectAcademicYearWithSeasonDates.Designer.cs">
       <DependentUpon>201801290620352_ConnectAcademicYearWithSeasonDates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801290918288_IsFirstHalfSemester.cs" />
+    <Compile Include="Migrations\201801290918288_IsFirstHalfSemester.Designer.cs">
+      <DependentUpon>201801290918288_IsFirstHalfSemester.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801290620352_ConnectAcademicYearWithSeasonDates.resx">
       <DependentUpon>201801290620352_ConnectAcademicYearWithSeasonDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801290918288_IsFirstHalfSemester.resx">
+      <DependentUpon>201801290918288_IsFirstHalfSemester.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

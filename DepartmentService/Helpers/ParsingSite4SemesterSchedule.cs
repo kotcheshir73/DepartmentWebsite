@@ -5,6 +5,7 @@ using DepartmentDAL.Models;
 using DepartmentService.BindingModels;
 using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -18,6 +19,8 @@ namespace DepartmentService.Helpers
         private static DepartmentDbContext _context;
 
         private static SeasonDates _seasonDate;
+
+        private static List<SemesterRecord> _exsistRecords; 
 
         public static ResultService ImportHtml(DepartmentDbContext context, ImportToSemesterFromHTMLBindingModel model)
         {
@@ -37,6 +40,8 @@ namespace DepartmentService.Helpers
             var nodes = document.DocumentNode.SelectNodes("//table/tr/td");
             var resError = new ResultService();
 
+            _exsistRecords = _context.SemesterRecords.Where(sr => sr.SeasonDatesId == _seasonDate.Id && sr.IsFirstHalfSemester == model.IsFirstHalfSemester).ToList();
+
             foreach (var node in nodes)
             {
                 if (node.InnerText != "\r\n")
@@ -47,7 +52,7 @@ namespace DepartmentService.Helpers
                         try
                         {
                             var res = ParsingPage(model.ScheduleUrl + elem.Attributes.First().Value,
-                                                        (node.InnerText.Replace("\r\n", "").Replace(" ", "")));
+                                                        (node.InnerText.Replace("\r\n", "").Replace(" ", "")), model.IsFirstHalfSemester);
                             if (!res.Succeeded)
                             {
                                 foreach (var err in res.Errors)
@@ -65,6 +70,16 @@ namespace DepartmentService.Helpers
                 }
             }
 
+            if(_exsistRecords.Count > 0)
+            {
+                foreach(var searchExsist in _exsistRecords)
+                {
+                    var entity = _context.SemesterRecords.FirstOrDefault(sr => sr.Id == searchExsist.Id);
+                    entity.LessonType = LessonTypes.удл;
+                    _context.SaveChanges();
+                }
+            }
+
             return resError;
         }
 
@@ -76,7 +91,7 @@ namespace DepartmentService.Helpers
         /// </summary>
         /// <param name="schedulrUrl"></param>
         /// <param name="classrooms"></param>
-        private static ResultService ParsingPage(string schedulrUrl, string groupName)
+        private static ResultService ParsingPage(string schedulrUrl, string groupName, bool isFirstHalfSemester)
         {
             string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт" };
             WebClient web = new WebClient
@@ -122,7 +137,8 @@ namespace DepartmentService.Helpers
                             Day = day,
                             Lesson = para,
                             LessonGroup = groupName,
-                            SeasonDatesId = _seasonDate.Id
+                            SeasonDatesId = _seasonDate.Id,
+                            IsFirstHalfSemester = isFirstHalfSemester
                         };
 
                         var entitySecond = new SemesterRecordRecordBindingModel
@@ -131,7 +147,8 @@ namespace DepartmentService.Helpers
                             Day = day,
                             Lesson = para,
                             LessonGroup = groupName,
-                            SeasonDatesId = _seasonDate.Id
+                            SeasonDatesId = _seasonDate.Id,
+                            IsFirstHalfSemester = isFirstHalfSemester
                         };
 
                         AnalisString(pageNode.InnerText, entityFirst, entitySecond);
@@ -287,8 +304,8 @@ namespace DepartmentService.Helpers
                 }
 
                 //ищем занятие другой группы в этой аудитории
-                var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-                                        r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
+                var exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson && 
+                                        r.SeasonDatesId == record.SeasonDatesId && r.IsFirstHalfSemester == record.IsFirstHalfSemester &&
                                         r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
                 if (exsistRecord != null)
                 {//если на этой неделе в этот день этой парой в этой аудитории уже есть занятие
@@ -298,21 +315,11 @@ namespace DepartmentService.Helpers
                     {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
                         record.IsStreaming = true;
                         exsistRecord.IsStreaming = true;
-
-                        _context.SemesterRecords.Add(ModelFacotryFromBindingModel.CreateSemesterRecord(record, seasonDate: _seasonDate));
-                        _context.SaveChanges();
-
-                        return ResultService.Success();
                     }
                     else if (exsistRecord.LessonType == LessonTypes.удл)
                     {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
                         _context.SemesterRecords.Remove(exsistRecord);
                         _context.SaveChanges();
-
-                        _context.SemesterRecords.Add(ModelFacotryFromBindingModel.CreateSemesterRecord(record, seasonDate: _seasonDate));
-                        _context.SaveChanges();
-
-                        return ResultService.Success();
                     }
                     else
                     {
@@ -323,28 +330,19 @@ namespace DepartmentService.Helpers
                 }
 
                 //ищем занятие этой группы в другой аудитории
-                exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week &&
-                                              r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == record.SeasonDatesId &&
+                exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson && 
+                                              r.SeasonDatesId == record.SeasonDatesId && r.IsFirstHalfSemester == record.IsFirstHalfSemester &&
                                               r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
                 if (exsistRecord != null)
                 {//если на этой неделе в этот день этой парой у этой группы уже есть занятие
                     if (exsistRecord.LessonType.ToString() == record.LessonType ||
                                         exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд.ToString())
                     {//если совпадает тип занятия (или у одного из занятий неизвестен тип), но аудитории разные, то это лабораторные по подгруппам
-                        _context.SemesterRecords.Add(ModelFacotryFromBindingModel.CreateSemesterRecord(record, seasonDate: _seasonDate));
-                        _context.SaveChanges();
-
-                        return ResultService.Success();
                     }
                     else if (exsistRecord.LessonType == LessonTypes.удл)
                     {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
                         _context.SemesterRecords.Remove(exsistRecord);
                         _context.SaveChanges();
-
-                        _context.SemesterRecords.Add(ModelFacotryFromBindingModel.CreateSemesterRecord(record, seasonDate: _seasonDate));
-                        _context.SaveChanges();
-
-                        return ResultService.Success();
                     }
                     else
                     {
@@ -354,9 +352,42 @@ namespace DepartmentService.Helpers
                     }
                 }
 
+                //ищем занятие этого преподавателя в другой аудитории
+                exsistRecord = _context.SemesterRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson && 
+                                              r.SeasonDatesId == record.SeasonDatesId && r.IsFirstHalfSemester == record.IsFirstHalfSemester &&
+                                              r.LessonLecturer == record.LessonLecturer && r.LessonClassroom != record.LessonClassroom);
+                if (exsistRecord != null)
+                {//если на этой неделе в этот день этой парой у этой группы уже есть занятие
+                    if (exsistRecord.LessonType == LessonTypes.удл)
+                    {//занятие было помечено как удаленное, т.е. по факту пара не проводилась, так что просто удаляем ее
+                        _context.SemesterRecords.Remove(exsistRecord);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return ResultService.Error("Конфликт (преподаватель):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                            record.Week, record.Day, record.Lesson,
+                            exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup), ResultServiceStatusCode.Error);
+                    }
+                }
+
+                var searchExsist = _exsistRecords.FirstOrDefault(sr => sr.Week == record.Week && sr.Day == record.Day && sr.Lesson == sr.Lesson &&
+                                              sr.SeasonDatesId == record.SeasonDatesId && sr.IsFirstHalfSemester == record.IsFirstHalfSemester &&
+                                              sr.LessonClassroom == record.LessonClassroom && sr.LessonGroup == record.LessonGroup &&
+                                              sr.LessonLecturer == record.LessonLecturer);
+
                 var entity = ModelFacotryFromBindingModel.CreateSemesterRecord(record, seasonDate: _seasonDate);
 
-                _context.SemesterRecords.Add(entity);
+                if (searchExsist != null)
+                {
+                    entity = _context.SemesterRecords.FirstOrDefault(sr => sr.Id == searchExsist.Id);
+                    entity = ModelFacotryFromBindingModel.CreateSemesterRecord(record, entity: entity, seasonDate: _seasonDate);
+                    _exsistRecords.Remove(searchExsist);
+                }
+                else
+                {
+                    _context.SemesterRecords.Add(entity);
+                }
                 _context.SaveChanges();
 
                 return ResultService.Success();

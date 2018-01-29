@@ -383,6 +383,7 @@ namespace DepartmentService.ViewModels
                 Week = entity.Week,
                 Lesson = entity.Lesson,
                 NotParseRecord = entity.NotParseRecord,
+                IsFirstHalfSemester = entity.IsFirstHalfSemester,
                 IsStreaming = entity.IsStreaming,
                 LessonClassroom = entity.LessonClassroom,
                 LessonGroup = entity.LessonGroup,

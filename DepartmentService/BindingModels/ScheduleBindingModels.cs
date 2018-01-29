@@ -31,6 +31,8 @@ namespace DepartmentService.BindingModels
         public DateTime? DateEnd { get; set; }
 
         public Guid? SeasonDateId { get; set; }
+
+        public bool? IsFirstHalfSemester { get; set; }
     }
 
     /// <summary>
