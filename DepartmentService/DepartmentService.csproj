@@ -98,6 +98,11 @@
     <Compile Include="IServices\IAdministrationProcessServer.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="Migrations\201802031805181_InitMigration.cs" />
+    <Compile Include="Migrations\201802031805181_InitMigration.Designer.cs">
+      <DependentUpon>201802031805181_InitMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels.cs" />
@@ -212,6 +217,11 @@
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201802031805181_InitMigration.resx">
+      <DependentUpon>201802031805181_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
