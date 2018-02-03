@@ -1,5 +1,5 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.Xml;

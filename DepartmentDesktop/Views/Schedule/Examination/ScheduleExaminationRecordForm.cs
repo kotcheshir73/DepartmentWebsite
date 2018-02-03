@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -58,7 +58,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
 			comboBoxClassroom.ValueMember = "Value";
 			comboBoxClassroom.DisplayMember = "Display";
 			comboBoxClassroom.DataSource = resultS.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
+				.Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
 			comboBoxClassroom.SelectedItem = null;
 			textBoxClassroom.Text = string.Empty;
 

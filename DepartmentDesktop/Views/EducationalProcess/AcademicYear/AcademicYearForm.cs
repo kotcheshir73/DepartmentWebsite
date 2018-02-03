@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
 using DepartmentDesktop.Views.EducationalProcess.Contingent;
 using DepartmentDesktop.Views.EducationalProcess.SeasonDates;

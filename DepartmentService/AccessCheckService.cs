@@ -1,18 +1,17 @@
-﻿using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel.Enums;
+using DepartmentService.Context;
 using DepartmentService.ViewModels;
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace DepartmentService
 {
-	/// <summary>
-	/// Класс для проверки доступа пользователя к сервису
-	/// </summary>
-	public static class AccessCheckService
+    /// <summary>
+    /// Класс для проверки доступа пользователя к сервису
+    /// </summary>
+    public static class AccessCheckService
 	{
 		private static readonly DepartmentDbContext _context = new DepartmentDbContext();
 

@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentDesktop.Views.Administration.Access;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;

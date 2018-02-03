@@ -1,7 +1,7 @@
-﻿using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
+﻿using DepartmentModel.Enums;
+using DepartmentModel.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -257,6 +257,10 @@ namespace DepartmentService.Helpers
 
         public static string CalcShortDisciplineName(string fullDiscipliineName)
         {
+            if(string.IsNullOrEmpty(fullDiscipliineName))
+            {
+                return string.Empty;
+            }
             // TODO избавиться от '-ия' и т.п.
             StringBuilder sb = new StringBuilder();
             var glas = new List<char> { 'а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я' };

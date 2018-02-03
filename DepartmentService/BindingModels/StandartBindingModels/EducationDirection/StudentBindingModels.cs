@@ -1,4 +1,4 @@
-﻿using DepartmentDAL.Enums;
+﻿using DepartmentModel.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 

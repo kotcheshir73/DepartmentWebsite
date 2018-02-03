@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 
 namespace DepartmentService.IServices
 {

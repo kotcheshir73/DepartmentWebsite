@@ -1,5 +1,5 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using System;

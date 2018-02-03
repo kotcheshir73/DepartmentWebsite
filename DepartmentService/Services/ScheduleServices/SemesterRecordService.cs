@@ -1,7 +1,7 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
@@ -62,6 +62,14 @@ namespace DepartmentService.Services
                         throw new Exception("Нет доступа на чтение данных по расписанию групп");
                     }
                     selectedRecords = selectedRecords.Where(sr => sr.LessonGroup == model.StudentGroupName);
+                }
+                if (model.ClassroomId.HasValue)
+                {
+                    if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View))
+                    {
+                        throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
+                    }
+                    selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId.Value);
                 }
                 if (model.StudentGroupId.HasValue)
                 {
@@ -125,7 +133,7 @@ namespace DepartmentService.Services
                             var entity = ModelFacotryFromBindingModel.CreateStreamingLesson(new StreamingLessonRecordBindingModel
                             {
                                 IncomingGroups = groups,
-                                StreamName = ""
+                                StreamName = groups
                             });
 
                             _context.StreamingLessons.Add(entity);

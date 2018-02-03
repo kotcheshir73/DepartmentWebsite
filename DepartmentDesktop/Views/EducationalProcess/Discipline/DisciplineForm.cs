@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;

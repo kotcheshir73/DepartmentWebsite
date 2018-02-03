@@ -1,10 +1,8 @@
-﻿using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
+﻿using DepartmentModel.Enums;
+using DepartmentModel.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
-using DepartmentService.Services;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;

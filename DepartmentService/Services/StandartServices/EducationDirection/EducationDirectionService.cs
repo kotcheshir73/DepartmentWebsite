@@ -1,7 +1,7 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-	public class EducationDirectionService : IEducationDirectionService
+    public class EducationDirectionService : IEducationDirectionService
 	{
 		private readonly DepartmentDbContext _context;
 

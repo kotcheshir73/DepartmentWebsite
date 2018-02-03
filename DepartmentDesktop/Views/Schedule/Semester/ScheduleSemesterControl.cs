@@ -1,5 +1,5 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentDesktop.Views.Schedule.Consultation;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;

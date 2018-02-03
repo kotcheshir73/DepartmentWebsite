@@ -1,7 +1,7 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
+using DepartmentModel.Models;
+using DepartmentService.Context;
 using DepartmentService.IServices;
 using System;
 using System.Collections.Generic;

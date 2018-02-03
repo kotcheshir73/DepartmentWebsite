@@ -1,6 +1,6 @@
 ﻿namespace DepartmentService.BindingModels
 {
-	public class PageSettingBinidingModel
+    public class PageSettingBinidingModel
 	{
 		public int? PageNumber { get; set; }
 

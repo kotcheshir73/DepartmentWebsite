@@ -1,5 +1,5 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -67,7 +67,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             comboBoxClassroom.ValueMember = "Value";
             comboBoxClassroom.DisplayMember = "Display";
             comboBoxClassroom.DataSource = resultC.Result.List
-                .Select(ed => new { Value = ed.Id, Display = ed.Id }).ToList();
+                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
             comboBoxClassroom.SelectedItem = null;
             textBoxClassroom.Text = string.Empty;
 

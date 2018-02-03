@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;

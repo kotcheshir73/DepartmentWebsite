@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace DepartmentService.BindingModels
 {
-	/// <summary>
-	/// Загрузка студентов из файла
-	/// </summary>
-	public class StudentLoadDocBindingModel
+    /// <summary>
+    /// Загрузка студентов из файла
+    /// </summary>
+    public class StudentLoadDocBindingModel
 	{
 		public Guid Id { get; set; }
 

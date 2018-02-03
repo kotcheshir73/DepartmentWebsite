@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using DepartmentDAL.Context;
+﻿using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.Services;
 using Microsoft.Practices.Unity;
@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace DepartmentDesktop
 {
-	static class Program
+    static class Program
     {
         /// <summary>
         /// The main entry point for the application.

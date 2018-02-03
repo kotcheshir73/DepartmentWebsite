@@ -1,8 +1,8 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
+using DepartmentModel.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Linq;

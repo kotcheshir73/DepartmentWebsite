@@ -1,6 +1,5 @@
-﻿using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
-using DepartmentService.ViewModels;
+﻿using DepartmentModel.Enums;
+using DepartmentModel.Models;
 using System;
 
 namespace DepartmentService.BindingModels

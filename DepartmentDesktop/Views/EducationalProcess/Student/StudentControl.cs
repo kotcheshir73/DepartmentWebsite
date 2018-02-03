@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 using DepartmentService.IServices;
-using DepartmentDAL.Enums;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using System;
 using DepartmentDesktop.Models;

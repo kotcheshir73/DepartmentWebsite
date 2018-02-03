@@ -30,7 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +88,8 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
+    <Compile Include="Context\DatabaseInitializer.cs" />
+    <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\ScheduleRecordTypeForDiscipline.cs" />
     <Compile Include="Helpers\ExportScheduleToExcel.cs" />
     <Compile Include="Helpers\ExportScheduleToHTML.cs" />
@@ -198,13 +205,13 @@
     <Compile Include="ViewModels\StandartViewModels\Administration\UserViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\DepartmentDAL\DepartmentDAL.csproj">
-      <Project>{667cf75c-03ac-406c-9e64-e32f635f28f2}</Project>
-      <Name>DepartmentDAL</Name>
+    <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
+      <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
+      <Name>DepartmentModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

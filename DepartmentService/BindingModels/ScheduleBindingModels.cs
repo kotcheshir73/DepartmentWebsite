@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
-	/// <summary>
-	/// Получение расписания для аудитории, преподавателя или группы
-	/// </summary>
-	public class ScheduleGetBindingModel
+    /// <summary>
+    /// Получение расписания для аудитории, преподавателя или группы
+    /// </summary>
+    public class ScheduleGetBindingModel
     {
         public Guid? Id;
 

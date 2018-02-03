@@ -1,4 +1,4 @@
-﻿using DepartmentDAL.Enums;
+﻿using DepartmentModel.Enums;
 using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;

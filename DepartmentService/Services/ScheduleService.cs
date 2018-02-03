@@ -1,7 +1,7 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
@@ -98,7 +98,7 @@ namespace DepartmentService.Services
                     var seasonDates = _serviceSD.GetSeasonDaties(new SeasonDatesGetBindingModel());
                     if (seasonDates.Succeeded)
                     {
-                        currentSetting = new DepartmentDAL.Models.CurrentSettings { Key = "Даты семестра", Value = seasonDates.Result.List[0].Title };
+                        currentSetting = new DepartmentModel.Models.CurrentSettings { Key = "Даты семестра", Value = seasonDates.Result.List[0].Title };
                         _context.CurrentSettings.Add(currentSetting);
                         _context.SaveChanges();
                     }

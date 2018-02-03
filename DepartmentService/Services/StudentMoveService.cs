@@ -1,8 +1,8 @@
-﻿using DepartmentDAL;
-using DepartmentDAL.Context;
-using DepartmentDAL.Enums;
-using DepartmentDAL.Models;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
+using DepartmentModel.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using Microsoft.Office.Interop.Word;
@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-	public class StudentMoveService : IStudentMoveService
+    public class StudentMoveService : IStudentMoveService
 	{
 		private readonly DepartmentDbContext _context;
 

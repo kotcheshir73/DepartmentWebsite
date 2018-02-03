@@ -1,4 +1,4 @@
-﻿using DepartmentDAL;
+﻿using DepartmentModel;
 using DepartmentDesktop.Views.Schedule.Consultation;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
