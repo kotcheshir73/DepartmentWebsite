@@ -1,23 +1,30 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 {
-	public partial class DisciplineBlockForm : Form
-	{
-		private readonly IDisciplineBlockService _service;
+    public partial class DisciplineBlockForm : Form
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private Guid? _id;
+        private readonly IDisciplineBlockService _service;
+
+		private Guid? _id = null;
 
 		public DisciplineBlockForm(IDisciplineBlockService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void DisciplineBlockForm_Load(object sender, EventArgs e)
 		{

@@ -10,13 +10,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
     {
         private readonly IScheduleLessonTimeService _service;
 
-        private Guid? _id;
+        private Guid? _id = null;
 
         public ScheduleLessonTimeForm(IScheduleLessonTimeService service, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
-            _id = id;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void ScheduleLessonTimeForm_Load(object sender, EventArgs e)

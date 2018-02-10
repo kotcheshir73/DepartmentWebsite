@@ -2,23 +2,30 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 {
-	public partial class KindOfLoadForm : Form
-	{
-		private readonly IKindOfLoadService _service;
+    public partial class KindOfLoadForm : Form
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private Guid? _id;
+        private readonly IKindOfLoadService _service;
+
+		private Guid? _id = null;
 
 		public KindOfLoadForm(IKindOfLoadService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void KindOfLoadForm_Load(object sender, EventArgs e)
 		{

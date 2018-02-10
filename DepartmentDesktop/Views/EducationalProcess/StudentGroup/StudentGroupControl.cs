@@ -1,26 +1,24 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
-	public partial class StudentGroupControl : UserControl
-	{
-		private readonly IStudentGroupService _service;
+    public partial class StudentGroupControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private readonly IStudentService _serviceS;
+        private readonly IStudentGroupService _service;
 
-		private readonly IStudentMoveService _serviceSM;
-
-		public StudentGroupControl(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM)
+		public StudentGroupControl(IStudentGroupService service)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceS = serviceS;
-			_serviceSM = serviceSM;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -89,8 +87,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void AddRecord()
 		{
-			var form = new StudentGroupForm(_service, _serviceS, _serviceSM);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<StudentGroupForm>(
+                new ParameterOverrides
+                {
+                        { "id", Guid.Empty }
+                }
+                .OnType<StudentGroupForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -101,8 +104,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new StudentGroupForm(_service, _serviceS, _serviceSM, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<StudentGroupForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<StudentGroupForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

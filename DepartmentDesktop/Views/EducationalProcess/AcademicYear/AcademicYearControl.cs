@@ -1,39 +1,24 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 {
     public partial class AcademicYearControl : UserControl
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IAcademicYearService _service;
 
-        private readonly IAcademicPlanService _serviceAP;
-
-        private readonly ITimeNormService _serviceTM;
-
-        private readonly IContingentService _serviceC;
-
-        private readonly ISeasonDatesService _serviceSD;
-
-        private readonly IAcademicPlanRecordService _serviceAPR;
-
-        private readonly IEducationalProcessService _serviceEP;
-
-        public AcademicYearControl(IAcademicYearService service, IAcademicPlanService serviceAP, ITimeNormService serviceTM, IContingentService serviceC, 
-            ISeasonDatesService serviceSD, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
+        public AcademicYearControl(IAcademicYearService service)
         {
             InitializeComponent();
             _service = service;
-            _serviceAP = serviceAP;
-            _serviceTM = serviceTM;
-            _serviceC = serviceC;
-            _serviceSD = serviceSD;
-            _serviceAPR = serviceAPR;
-            _serviceEP = serviceEP;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
@@ -93,7 +78,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 
         private void AddRecord()
         {
-            var form = new AcademicYearForm(_service, _serviceAP, _serviceTM, _serviceC, _serviceSD, _serviceAPR, _serviceEP);
+            var form = Container.Resolve<AcademicYearForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<AcademicYearForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -105,7 +95,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new AcademicYearForm(_service, _serviceAP, _serviceTM, _serviceC, _serviceSD, _serviceAPR, _serviceEP, id);
+                var form = Container.Resolve<AcademicYearForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<AcademicYearForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

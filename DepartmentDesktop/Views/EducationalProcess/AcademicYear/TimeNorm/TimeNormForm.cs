@@ -14,16 +14,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 	{
 		private readonly ITimeNormService _service;
 
-		private Guid? _id;
+        private Guid _ayId;
 
-        private Guid? _ayId;
+		private Guid? _id = null;
 
-        public TimeNormForm(ITimeNormService service, Guid? ayId = null, Guid? id = null)
+        public TimeNormForm(ITimeNormService service, Guid ayId, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
             _ayId = ayId;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
 		private void TimeNormForm_Load(object sender, EventArgs e)

@@ -6,25 +6,34 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
+namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
-    public partial class LecturerPostControl : UserControl
+    public partial class AcademicPlanControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly ILecturerPostSerivce _service;
+        private readonly IAcademicPlanService _service;
 
-        public LecturerPostControl(ILecturerPostSerivce service)
+        private readonly IAcademicPlanRecordService _serviceAPR;
+
+        private readonly IEducationalProcessService _serviceEP;
+
+        private Guid _ayId;
+
+        public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
         {
             InitializeComponent();
             _service = service;
+            _serviceAPR = serviceAPR;
+            _serviceEP = serviceEP;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "PostTitle", Title = "Название", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+                new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
+                new ColumnConfig { Name = "AcademicLevel", Title = "Уровень", Width = 150, Visible = true },
+                new ColumnConfig { Name = "AcademicCourses", Title = "Курсы", Width = 150, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -36,7 +45,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
-            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
+            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
+            {
                 switch (e.KeyCode)
                 {
                     case Keys.Insert:
@@ -52,14 +62,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
             });
         }
 
-        public void LoadData()
+        public void LoadData(Guid ayId)
         {
+            _ayId = ayId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetLecturerPosts(new LecturerPostGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -70,8 +81,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.PostTitle,
-                    res.Hours
+                    res.EducationDirection,
+                    res.AcademicLevel,
+                    res.AcademicCoursesStrings
                 );
             }
             return result.Result.MaxCount;
@@ -79,12 +91,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
 
         private void AddRecord()
         {
-            var form = Container.Resolve<LecturerPostForm>(
+            var form = Container.Resolve<AcademicPlanForm>(
                 new ParameterOverrides
                 {
+                    { "ayId", _ayId },
                     { "id", Guid.Empty }
                 }
-                .OnType<LecturerPostForm>());
+                .OnType<AcademicPlanForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -96,12 +109,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<LecturerPostForm>(
+                var form = Container.Resolve<AcademicPlanForm>(
                     new ParameterOverrides
                     {
+                        { "ayId", _ayId },
                         { "id", id }
                     }
-                    .OnType<LecturerPostForm>());
+                    .OnType<AcademicPlanForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -118,7 +132,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteLecturerPost(new LecturerPostGetBindingModel { Id = id });
+                        var result = _service.DeleteAcademicPlan(new AcademicPlanGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

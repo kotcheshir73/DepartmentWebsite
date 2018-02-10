@@ -2,6 +2,7 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -10,17 +11,23 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 {
 	public partial class LecturerForm : Form
-	{
-		private readonly ILecturerService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private Guid? _id;
+        private readonly ILecturerService _service;
+
+		private Guid? _id = null;
 
 		public LecturerForm(ILecturerService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void LecturerForm_Load(object sender, EventArgs e)
         {

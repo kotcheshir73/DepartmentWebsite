@@ -2,6 +2,7 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Linq;
@@ -9,26 +10,26 @@ using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
-	public partial class AcademicPlanForm : Form
-	{
-		private readonly IAcademicPlanService _service;
+    public partial class AcademicPlanForm : Form
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private readonly IAcademicPlanRecordService _serviceAPR;
-
-		private readonly IEducationalProcessService _serviceEP;
+        private readonly IAcademicPlanService _service;
 
 		private Guid? _id = null;
 
         private Guid? _ayId = null;
 
-        public AcademicPlanForm(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, Guid? ayId = null, Guid ? id = null)
+        public AcademicPlanForm(IAcademicPlanService service, Guid? ayId = null, Guid ? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceAPR = serviceAPR;
-			_serviceEP = serviceEP;
-			_id = id;
             _ayId = ayId;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
 
         }
 
@@ -65,17 +66,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 			comboBoxEducationDirection.SelectedItem = null;
 
-            var control = new AcademicPlanRecordControl(_serviceAPR, _serviceEP)
-            {
-                Left = 0,
-                Top = 0,
-                Height = Height - 60,
-                Width = Width - 15,
-                Anchor = (((AnchorStyles.Top
-                        | AnchorStyles.Bottom)
-                        | AnchorStyles.Left)
-                        | AnchorStyles.Right)
-            };
+            var control = Container.Resolve<AcademicPlanRecordControl>();
+
+            control.Left = 0;
+            control.Top = 0;
+            control.Height = Height - 60;
+            control.Width = Width - 15;
+            control.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
             tabPageRecords.Controls.Add(control);
 
 			if (_id.HasValue)

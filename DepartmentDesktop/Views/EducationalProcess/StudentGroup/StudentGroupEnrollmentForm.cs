@@ -1,5 +1,6 @@
 ﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -7,20 +8,26 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
 	public partial class StudentGroupEnrollmentForm : Form
-	{
-		private readonly IStudentGroupService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IStudentGroupService _service;
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private Guid? _id;
+		private Guid? _id = null;
 
 		public StudentGroupEnrollmentForm(IStudentGroupService service, IStudentMoveService serviceSM, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
 			_serviceSM = serviceSM;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void buttonLoadFromFile_Click(object sender, EventArgs e)
 		{

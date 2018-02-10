@@ -2,6 +2,7 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
 
@@ -9,15 +10,21 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 {
     public partial class ClassroomForm : Form
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IClassroomService _service;
 
-        private Guid? _id;
+        private Guid? _id = null;
 
         public ClassroomForm(IClassroomService service, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
-            _id = id;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void ClassroomForm_Load(object sender, EventArgs e)

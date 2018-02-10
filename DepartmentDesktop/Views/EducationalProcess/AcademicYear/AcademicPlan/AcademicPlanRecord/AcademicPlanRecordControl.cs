@@ -1,15 +1,19 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
-	public partial class AcademicPlanRecordControl : UserControl
-	{
-		private readonly IAcademicPlanRecordService _service;
+    public partial class AcademicPlanRecordControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IAcademicPlanRecordService _service;
 
 		private readonly IEducationalProcessService _serviceEP;
 
@@ -91,8 +95,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AddRecord()
 		{
-			var form = new AcademicPlanRecordForm(_service, _apId);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<AcademicPlanRecordForm>(
+                new ParameterOverrides
+                {
+                    { "apId", _apId },
+                    { "id", Guid.Empty }
+                }
+                .OnType<AcademicPlanRecordForm>());
+            if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
             }
@@ -103,7 +113,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-				var form = new AcademicPlanRecordForm(_service, _apId, id);
+                var form = Container.Resolve<AcademicPlanRecordForm>(
+                    new ParameterOverrides
+                    {
+                        { "apId", _apId },
+                        { "id", id }
+                    }
+                    .OnType<AcademicPlanRecordForm>());
 				if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

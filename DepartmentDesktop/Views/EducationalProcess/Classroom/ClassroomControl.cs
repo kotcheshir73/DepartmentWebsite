@@ -1,15 +1,19 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 {
-	public partial class ClassroomControl : UserControl
-	{
-		private readonly IClassroomService _service;
+    public partial class ClassroomControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IClassroomService _service;
 
 		public ClassroomControl(IClassroomService service)
 		{
@@ -79,8 +83,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 
 		private void AddRecord()
 		{
-			var form = new ClassroomForm(_service);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<ClassroomForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<ClassroomForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -91,8 +100,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new ClassroomForm(_service, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<ClassroomForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<ClassroomForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

@@ -2,6 +2,7 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Linq;
@@ -10,8 +11,11 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
 	public partial class AcademicPlanRecordForm : Form
-	{
-		private readonly IAcademicPlanRecordService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IAcademicPlanRecordService _service;
 
 		private Guid? _id = null;
 
@@ -22,8 +26,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			InitializeComponent();
 			_service = service;
 			_apId = apId;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void AcademicPlanRecordForm_Load(object sender, EventArgs e)
 		{

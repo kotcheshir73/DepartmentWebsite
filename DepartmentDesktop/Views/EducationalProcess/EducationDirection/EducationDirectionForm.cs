@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
 
@@ -8,15 +9,21 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 {
     public partial class EducationDirectionForm : Form
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IEducationDirectionService _service;
 
-        private Guid? _id;
+        private Guid? _id = null;
 
         public EducationDirectionForm(IEducationDirectionService service, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
-            _id = id;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void EducationDirectionForm_Load(object sender, EventArgs e)

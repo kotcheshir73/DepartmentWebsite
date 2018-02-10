@@ -1,99 +1,87 @@
-﻿using DepartmentModel;
-using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
+﻿using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
 using DepartmentDesktop.Views.EducationalProcess.Contingent;
 using DepartmentDesktop.Views.EducationalProcess.SeasonDates;
 using DepartmentDesktop.Views.EducationalProcess.TimeNorm;
+using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 {
-	public partial class AcademicYearForm : Form
-	{
-		private readonly IAcademicYearService _service;
- 
-		private readonly IAcademicPlanService _serviceAP;
- 
-		private readonly ITimeNormService _serviceTM;
-	
-		private readonly IContingentService _serviceC;
+    public partial class AcademicYearForm : Form
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-        private readonly ISeasonDatesService _serviceSD;
-
-        private readonly IAcademicPlanRecordService _serviceAPR;
-
-        private readonly IEducationalProcessService _serviceEP;
+        private readonly IAcademicYearService _service;
 
         private Guid? _id = null;
 
-		public AcademicYearForm(IAcademicYearService service, IAcademicPlanService serviceAP, ITimeNormService serviceTM, IContingentService serviceC, 
-            ISeasonDatesService serviceSD, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP, Guid? id = null)
+		public AcademicYearForm(IAcademicYearService service, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-            _serviceAP = serviceAP;
-            _serviceTM = serviceTM;
-            _serviceC = serviceC;
-            _serviceSD = serviceSD;
-            _serviceAPR = serviceAPR;
-            _serviceEP = serviceEP;
-            _id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void AcademicYearForm_Load(object sender, EventArgs e)
         {
-            var controlAP = new AcademicPlanControl(_serviceAP, _serviceAPR, _serviceEP)
-            {
-                Left = 0,
-                Top = 0,
-                Height = Height - 60,
-                Width = Width - 15,
-                Anchor = (((AnchorStyles.Top
-                        | AnchorStyles.Bottom)
-                        | AnchorStyles.Left)
-                        | AnchorStyles.Right)
-            };
+            var controlAP = Container.Resolve<AcademicPlanControl>();
+
+            controlAP.Left = 0;
+            controlAP.Top = 0;
+            controlAP.Height = Height - 60;
+            controlAP.Width = Width - 15;
+            controlAP.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
             tabPageAcademicPlans.Controls.Add(controlAP);
 
-            var controlTN = new TimeNormControl(_serviceTM)
-            {
-                Left = 0,
-                Top = 0,
-                Height = Height - 60,
-                Width = Width - 15,
-                Anchor = (((AnchorStyles.Top
-                        | AnchorStyles.Bottom)
-                        | AnchorStyles.Left)
-                        | AnchorStyles.Right)
-            };
+            var controlTN = Container.Resolve<TimeNormControl>();
+
+            controlTN.Left = 0;
+            controlTN.Top = 0;
+            controlTN.Height = Height - 60;
+            controlTN.Width = Width - 15;
+            controlTN.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
             tabPageTimeNorms.Controls.Add(controlTN);
 
-            var controlC = new ContingentControl(_serviceC)
-            {
-                Left = 0,
-                Top = 0,
-                Height = Height - 60,
-                Width = Width - 15,
-                Anchor = (((AnchorStyles.Top
-                        | AnchorStyles.Bottom)
-                        | AnchorStyles.Left)
-                        | AnchorStyles.Right)
-            };
+            var controlC = Container.Resolve<ContingentControl>();
+
+            controlC.Left = 0;
+            controlC.Top = 0;
+            controlC.Height = Height - 60;
+            controlC.Width = Width - 15;
+            controlC.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
             tabPageContingent.Controls.Add(controlC);
 
-            var controlSD = new SeasonDatesControl(_serviceSD)
-            {
-                Left = 0,
-                Top = 0,
-                Height = Height - 60,
-                Width = Width - 15,
-                Anchor = (((AnchorStyles.Top
-                        | AnchorStyles.Bottom)
-                        | AnchorStyles.Left)
-                        | AnchorStyles.Right)
-            };
+            var controlSD = Container.Resolve<SeasonDatesControl>();
+
+            controlSD.Left = 0;
+            controlSD.Top = 0;
+            controlSD.Height = Height - 60;
+            controlSD.Width = Width - 15;
+            controlSD.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
             tabPageSeasonDates.Controls.Add(controlSD);
 
             if (_id.HasValue)

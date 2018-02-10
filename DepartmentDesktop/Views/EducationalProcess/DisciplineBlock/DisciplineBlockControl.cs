@@ -1,15 +1,19 @@
-﻿using System;
+﻿using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentDesktop.Models;
-using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 {
-	public partial class DisciplineBlockControl : UserControl
-	{
-		private readonly IDisciplineBlockService _service;
+    public partial class DisciplineBlockControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IDisciplineBlockService _service;
 
 		public DisciplineBlockControl(IDisciplineBlockService service)
 		{
@@ -73,8 +77,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void AddRecord()
 		{
-			var form = new DisciplineBlockForm(_service);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<DisciplineBlockForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<DisciplineBlockForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -85,8 +94,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new DisciplineBlockForm(_service, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<DisciplineBlockForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<DisciplineBlockForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

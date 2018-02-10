@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Linq;
@@ -10,21 +11,21 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
     public partial class StudentGroupForm : Form
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IStudentGroupService _service;
-    
-        private readonly IStudentService _serviceS;
 
-		private readonly IStudentMoveService _serviceSM;
+		private Guid? _id = null;
 
-		private Guid? _id;
-
-        public StudentGroupForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, Guid? id = null)
+        public StudentGroupForm(IStudentGroupService service, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
-            _serviceS = serviceS;
-			_serviceSM = serviceSM;
-			_id = id;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void StudentGroupForm_Load(object sender, EventArgs e)
@@ -53,14 +54,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxCurator.DataSource = resultL.Result.List
                 .Select(l => new { Value = l.Id, Display = l.FullName }).ToList();
 
-            var control = new StudentGroupStudentsControl(_service, _serviceS, _serviceSM)
-            {
-                Left = 0,
-                Top = 0,
-                Height = Height - 60,
-                Width = Width - 15,
-                Anchor = (((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)))
-            };
+            var control = Container.Resolve<StudentGroupStudentsControl>();
+
+            control.Left = 0;
+            control.Top = 0;
+            control.Height = Height - 60;
+            control.Width = Width - 15;
+            control.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
             tabPageStudents.Controls.Add(control);
 
             if (_id.HasValue)

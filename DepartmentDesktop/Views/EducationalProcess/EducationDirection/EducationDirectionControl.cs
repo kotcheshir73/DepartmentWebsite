@@ -1,15 +1,19 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 {
-	public partial class EducationDirectionControl : UserControl
-	{
-		private readonly IEducationDirectionService _service;
+    public partial class EducationDirectionControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IEducationDirectionService _service;
 
 		public EducationDirectionControl(IEducationDirectionService service)
 		{
@@ -78,8 +82,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 
 		private void AddRecord()
 		{
-			var form = new EducationDirectionForm(_service);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<EducationDirectionForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<EducationDirectionForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -90,8 +99,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new EducationDirectionForm(_service, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<EducationDirectionForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<EducationDirectionForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

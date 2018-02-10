@@ -1,19 +1,23 @@
-﻿using System;
+﻿using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentDesktop.Models;
-using DepartmentService.BindingModels;
 
-namespace DepartmentDesktop.Views.EducationalProcess.Contingent
+namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 {
-	public partial class ContingentControl : UserControl
-	{
-		private readonly IContingentService _service;
+    public partial class TimeNormControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly ITimeNormService _service;
 
         private Guid _ayId;
 
-        public ContingentControl(IContingentService service)
+        public TimeNormControl(ITimeNormService service)
 		{
 			InitializeComponent();
 			_service = service;
@@ -21,10 +25,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
-				new ColumnConfig { Name = "StudentGroupName", Title = "Курс", Width = 100, Visible = true },
-				new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 200, Visible = true },
-				new ColumnConfig { Name = "CountSubgroups", Title = "Количество подгрупп", Width = 200, Visible = true }
+				new ColumnConfig { Name = "KindOfLoadName", Title = "Вид нагрузки", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
+				new ColumnConfig { Name = "Formula", Title = "Формула", Width = 300, Visible = true }
 			};
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -58,32 +61,37 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
             standartControl.LoadPage();
         }
 
-		private int LoadRecords(int pageNumber, int pageSize)
+        private int LoadRecords(int pageNumber, int pageSize)
         {
-			var result = _service.GetContingents(new ContingentGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
-			if (!result.Succeeded)
-			{
-				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				return -1;
-			}
+            var result = _service.GetTimeNorms(new TimeNormGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
+            if (!result.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                return -1;
+            }
             standartControl.GetDataGridViewRows.Clear();
-			foreach (var res in result.Result.List)
-			{
+            foreach (var res in result.Result.List)
+            {
                 standartControl.GetDataGridViewRows.Add(
-					res.Id,
-					res.EducationDirectionCipher,
-					Math.Log(res.Course, 2.0) + 1,
-					res.CountStudents,
-					res.CountSubgroups
-				);
+                    res.Id,
+                    res.KindOfLoadName,
+                    res.Title,
+                    res.Formula
+                );
             }
             return result.Result.MaxCount;
         }
 
 		private void AddRecord()
 		{
-			var form = new ContingentForm(_service, ayId: _ayId);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<TimeNormForm>(
+                new ParameterOverrides
+                {
+                    { "ayId", _ayId },
+                    { "id", Guid.Empty }
+                }
+                .OnType<TimeNormForm>());
+            if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
             }
@@ -92,10 +100,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 		private void UpdRecord()
 		{
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
-            {
-                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new ContingentForm(_service, ayId: _ayId, id: id);
-				if (form.ShowDialog() == DialogResult.OK)
+			{
+				Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = Container.Resolve<TimeNormForm>(
+                    new ParameterOverrides
+                    {
+                        { "ayId", _ayId },
+                        { "id", id }
+                    }
+                    .OnType<TimeNormForm>());
+                if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
                 }
@@ -109,9 +123,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 				if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
-                    {
+					{
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteContingent(new ContingentGetBindingModel { Id = id });
+						var result = _service.DeleteTimeNorm(new TimeNormGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
 							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

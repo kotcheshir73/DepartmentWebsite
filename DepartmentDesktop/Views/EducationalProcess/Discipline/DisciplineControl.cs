@@ -1,15 +1,19 @@
-﻿using System;
+﻿using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentDesktop.Models;
-using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 {
-	public partial class DisciplineControl : UserControl
-	{
-		private readonly IDisciplineService _service;
+    public partial class DisciplineControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IDisciplineService _service;
 
         private readonly IEducationalProcessService _processE;
 
@@ -80,8 +84,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
 		private void AddRecord()
 		{
-			var form = new DisciplineForm(_service, _processE);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<DisciplineForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<DisciplineForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -92,8 +101,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new DisciplineForm(_service, _processE, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<DisciplineForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<DisciplineForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

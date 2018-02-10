@@ -1,15 +1,19 @@
-﻿using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
-using DepartmentDesktop.Models;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Student
 {
     public partial class StudentControl : UserControl
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IStudentService _service;
 
         private StudentState _state;
@@ -21,6 +25,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
+                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "NumberOfBook", Title = "Номер зачетки", Width = 150, Visible = true },
                 new ColumnConfig { Name = "LastName", Title = "Фамилия", Width = 100, Visible = true },
                 new ColumnConfig { Name = "FirstName", Title = "Имя", Width = 100, Visible = true },
@@ -85,6 +90,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
             foreach (var res in result.Result.List)
             {
                 standartControl.GetDataGridViewRows.Add(
+                    res.Id,
                     res.NumberOfBook,
                     res.LastName,
                     res.FirstName,
@@ -100,8 +106,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
         {
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
-                string id = Convert.ToString(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value);
-                var form = new StudentForm(_service, id);
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = Container.Resolve<StudentForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<StudentForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

@@ -1,15 +1,19 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 {
-	public partial class KindOfLoadControl : UserControl
-	{
-		private readonly IKindOfLoadService _service;
+    public partial class KindOfLoadControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IKindOfLoadService _service;
 
 		public KindOfLoadControl(IKindOfLoadService service)
 		{
@@ -75,8 +79,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 
 		private void AddRecord()
 		{
-			var form = new KindOfLoadForm(_service);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<KindOfLoadForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<KindOfLoadForm>());
+            if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
             }
@@ -87,8 +96,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new KindOfLoadForm(_service, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<KindOfLoadForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<KindOfLoadForm>());
+                if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
                 }

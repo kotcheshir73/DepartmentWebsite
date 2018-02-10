@@ -1,13 +1,18 @@
-﻿using System;
+﻿using DepartmentDesktop.Views.EducationalProcess.Student;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Text;
 using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
     public partial class StudentGroupStudentsControl : UserControl
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IStudentGroupService _service;
 
 		private readonly IStudentService _serviceS;
@@ -36,19 +41,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			dataGridViewList.DataSource = result.Result;
 			if (dataGridViewList.Columns.Count > 0)
             {
-                dataGridViewList.Columns[0].HeaderText = "Номер зачетки";
-                dataGridViewList.Columns[0].Width = 150;
-                dataGridViewList.Columns[1].HeaderText = "Фамилия";
+                dataGridViewList.Columns[0].Visible = false;
+                dataGridViewList.Columns[1].HeaderText = "Номер зачетки";
                 dataGridViewList.Columns[1].Width = 150;
-                dataGridViewList.Columns[2].HeaderText = "Имя";
+                dataGridViewList.Columns[2].HeaderText = "Фамилия";
                 dataGridViewList.Columns[2].Width = 150;
-                dataGridViewList.Columns[3].HeaderText = "Отчество";
+                dataGridViewList.Columns[3].HeaderText = "Имя";
                 dataGridViewList.Columns[3].Width = 150;
-                dataGridViewList.Columns[4].Visible = false;
+                dataGridViewList.Columns[4].HeaderText = "Отчество";
+                dataGridViewList.Columns[4].Width = 150;
                 dataGridViewList.Columns[5].Visible = false;
                 dataGridViewList.Columns[6].Visible = false;
-                dataGridViewList.Columns[7].HeaderText = "Описание";
-                dataGridViewList.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewList.Columns[7].Visible = false;
+                dataGridViewList.Columns[8].HeaderText = "Описание";
+                dataGridViewList.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
 
@@ -56,8 +62,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
         {
             if (dataGridViewList.SelectedRows.Count == 1)
             {
-                string id = dataGridViewList.SelectedRows[0].Cells[0].Value.ToString();
-                var form = new Student.StudentForm(_serviceS, id);
+                Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
+                var form = Container.Resolve<StudentForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<StudentForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData(_studentGroupId);
@@ -97,8 +108,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void enrollmentStudentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new StudentGroupEnrollmentForm(_service, _serviceSM, _studentGroupId);
-			if(form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<StudentGroupEnrollmentForm>(
+                new ParameterOverrides
+                {
+                    { "id", _studentGroupId }
+                }
+                .OnType<StudentGroupEnrollmentForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);
 			}
@@ -106,16 +122,26 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 
 		private void transferStudentsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var form = new StudentGroupTransferForm(_service, _serviceS, _serviceSM, _studentGroupId);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<StudentGroupTransferForm>(
+                new ParameterOverrides
+                {
+                    { "id", _studentGroupId }
+                }
+                .OnType<StudentGroupTransferForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);
 			}
 		}
 
 		private void deductionStudentsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var form = new StudentGroupDeductionForm(_service, _serviceS, _serviceSM, _studentGroupId);
+        {
+            var form = Container.Resolve<StudentGroupDeductionForm>(
+                new ParameterOverrides
+                {
+                    { "id", _studentGroupId }
+                }
+                .OnType<StudentGroupDeductionForm>());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);
@@ -123,8 +149,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 		}
 
 		private void toAcademStudentsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var form = new StudentGroupToAcademForm(_service, _serviceS, _serviceSM, _studentGroupId);
+        {
+            var form = Container.Resolve<StudentGroupToAcademForm>(
+                new ParameterOverrides
+                {
+                    { "id", _studentGroupId }
+                }
+                .OnType<StudentGroupToAcademForm>());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadData(_studentGroupId);

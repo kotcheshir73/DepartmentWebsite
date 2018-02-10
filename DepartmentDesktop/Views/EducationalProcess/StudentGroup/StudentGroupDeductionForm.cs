@@ -1,5 +1,6 @@
 ﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -7,14 +8,17 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
 	public partial class StudentGroupDeductionForm : Form
-	{
-		private readonly IStudentGroupService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IStudentGroupService _service;
 
 		private readonly IStudentService _serviceS;
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private Guid? _id;
+		private Guid? _id = null;
 
 		public StudentGroupDeductionForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, Guid? id = null)
 		{
@@ -22,8 +26,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 			_service = service;
 			_serviceS = serviceS;
 			_serviceSM = serviceSM;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void StudentGroupDeductionForm_Load(object sender, EventArgs e)
 		{

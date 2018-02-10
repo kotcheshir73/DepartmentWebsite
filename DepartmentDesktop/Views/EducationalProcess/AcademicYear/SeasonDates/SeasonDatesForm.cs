@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,18 +10,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 {
     public partial class SeasonDatesForm : Form
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly ISeasonDatesService _service;
 
-        private Guid? _id;
+        private Guid? _id = null;
 
-        private Guid? _ayId = null;
+        private Guid _ayId;
 
-        public SeasonDatesForm(ISeasonDatesService service, Guid? ayId = null, Guid? id = null)
+        public SeasonDatesForm(ISeasonDatesService service, Guid ayId, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
-            _id = id;
             _ayId = ayId;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void SeasonDatesForm_Load(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -9,6 +10,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
 {
     public partial class ScheduleLessonTimeControl : UserControl
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IScheduleLessonTimeService _service;
 
         public ScheduleLessonTimeControl(IScheduleLessonTimeService service)
@@ -79,7 +83,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
 
         private void AddRecord()
         {
-            var form = new ScheduleLessonTimeForm(_service);
+            var form = Container.Resolve<ScheduleLessonTimeForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<ScheduleLessonTimeForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -91,7 +100,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new ScheduleLessonTimeForm(_service, id);
+                var form = Container.Resolve<ScheduleLessonTimeForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<ScheduleLessonTimeForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();

@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Linq;
@@ -8,20 +9,26 @@ using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 {
-	public partial class ContingentForm : Form
-	{
-		private readonly IContingentService _service;
+    public partial class ContingentForm : Form
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IContingentService _service;
 
 		private Guid? _id = null;
 
-        private Guid? _ayId = null;
+        private Guid _ayId;
 
-        public ContingentForm(IContingentService service, Guid? ayId = null, Guid? id = null)
+        public ContingentForm(IContingentService service, Guid ayId, Guid? id = null)
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
             _ayId = ayId;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
 		private void ContingentForm_Load(object sender, EventArgs e)

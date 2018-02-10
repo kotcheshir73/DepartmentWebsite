@@ -1,5 +1,6 @@
 ﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,14 +10,17 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
 	public partial class StudentGroupTransferForm : Form
-	{
-		private readonly IStudentGroupService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IStudentGroupService _service;
 
 		private readonly IStudentService _serviceS;
 
 		private readonly IStudentMoveService _serviceSM;
 
-		private Guid? _id;
+		private Guid? _id = null;
 
 		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, IStudentMoveService serviceSM, Guid? id = null)
 		{

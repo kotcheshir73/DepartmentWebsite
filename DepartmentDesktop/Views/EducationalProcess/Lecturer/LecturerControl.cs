@@ -1,15 +1,19 @@
-﻿using System;
+﻿using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentDesktop.Models;
-using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 {
-	public partial class LecturerControl : UserControl
-	{
-		private readonly ILecturerService _service;
+    public partial class LecturerControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly ILecturerService _service;
 
 		public LecturerControl(ILecturerService service)
 		{
@@ -93,8 +97,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 
 		private void AddRecord()
 		{
-			var form = new LecturerForm(_service);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<LecturerForm>(
+                new ParameterOverrides
+                {
+                    { "id", Guid.Empty }
+                }
+                .OnType<LecturerForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -105,8 +114,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new LecturerForm(_service, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<LecturerForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id }
+                    }
+                    .OnType<LecturerForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

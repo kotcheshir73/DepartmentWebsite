@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Drawing;
@@ -11,16 +12,21 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 {
     public partial class StudentForm : Form
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IStudentService _service;
 
-        private string _id;
+        private Guid? _id = null;
 
-		public StudentForm(IStudentService service, string id = null)
+		public StudentForm(IStudentService service, Guid? id = null)
         {
-
 			InitializeComponent();
             _service = service;
-            _id = id;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void StudentForm_Load(object sender, EventArgs e)
@@ -38,7 +44,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
 
-            if (!string.IsNullOrEmpty(_id))
+            if (_id.HasValue)
             {
 				LoadData();
 			}
@@ -46,7 +52,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 
 		private void LoadData()
 		{
-			var result = _service.GetStudent(new StudentGetBindingModel { NumberOfBook = _id });
+			var result = _service.GetStudent(new StudentGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -54,7 +60,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 			}
 			var entity = result.Result;
 
-			textBoxNumberOfBook.Text = _id;
+			textBoxNumberOfBook.Text = entity.NumberOfBook;
 			textBoxNumberOfBook.Enabled = false;
 			textBoxLastName.Text = entity.LastName;
 			textBoxFirstName.Text = entity.FirstName;
@@ -99,10 +105,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 			{
 				ImageConverter converter = new ImageConverter();
 				ResultService result;
-				if (!string.IsNullOrEmpty(_id))
+				if (_id.HasValue)
 				{
 					result = _service.UpdateStudent(new StudentRecordBindingModel
 					{
+                        Id = _id.Value,
 						NumberOfBook = textBoxNumberOfBook.Text,
 						LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
@@ -112,9 +119,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
 					});
 					if (result.Succeeded)
-					{
-						return true;
-					}
+                    {
+                        if (result.Result != null)
+                        {
+                            if (result.Result is Guid)
+                            {
+                                _id = (Guid)result.Result;
+                            }
+                        }
+                        return true;
+                    }
 					else
 					{
 						Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);

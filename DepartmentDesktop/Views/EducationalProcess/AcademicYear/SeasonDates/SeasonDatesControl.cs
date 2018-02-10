@@ -1,15 +1,19 @@
-﻿using System;
-using System.Windows.Forms;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
-using DepartmentDesktop.Models;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 {
-	public partial class SeasonDatesControl : UserControl
-	{
-		private readonly ISeasonDatesService _service;
+    public partial class SeasonDatesControl : UserControl
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly ISeasonDatesService _service;
 
         private Guid _ayId;
 
@@ -96,8 +100,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
 		private void AddRecord()
 		{
-			var form = new SeasonDatesForm(_service, ayId: _ayId);
-			if (form.ShowDialog() == DialogResult.OK)
+            var form = Container.Resolve<SeasonDatesForm>(
+                new ParameterOverrides
+                {
+                    { "ayId", _ayId },
+                    { "id", Guid.Empty }
+                }
+                .OnType<SeasonDatesForm>());
+            if (form.ShowDialog() == DialogResult.OK)
 			{
 				standartControl.LoadPage();
 			}
@@ -108,8 +118,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
 			{
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = new SeasonDatesForm(_service, ayId: _ayId, id: id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<SeasonDatesForm>(
+                    new ParameterOverrides
+                    {
+                        { "ayId", _ayId },
+                        { "id", id }
+                    }
+                    .OnType<SeasonDatesForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					standartControl.LoadPage();
 				}

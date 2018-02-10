@@ -1,8 +1,9 @@
-﻿using DepartmentModel;
-using DepartmentDesktop.Models;
+﻿using DepartmentDesktop.Models;
+using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,18 +14,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 {
     public partial class DisciplineForm : Form
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IDisciplineService _service;
 
         private readonly IEducationalProcessService _processE;
 
-        private Guid? _id;
+        private Guid? _id = null;
 
         public DisciplineForm(IDisciplineService service, IEducationalProcessService processE, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
             _processE = processE;
-            _id = id;
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
         }
 
         private void DisciplineForm_Load(object sender, EventArgs e)
