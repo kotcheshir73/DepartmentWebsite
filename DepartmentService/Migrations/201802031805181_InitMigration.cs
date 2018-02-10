@@ -89,10 +89,10 @@ namespace DepartmentService.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AcademicPlanRecords", t => t.AcademicPlanRecordId, cascadeDelete: true)
-                .ForeignKey("dbo.Contingents", t => t.ContingentId, cascadeDelete: true)
+                .ForeignKey("dbo.AcademicPlanRecords", t => t.AcademicPlanRecordId, cascadeDelete: false)
+                .ForeignKey("dbo.Contingents", t => t.ContingentId, cascadeDelete: false)
                 .ForeignKey("dbo.LoadDistributions", t => t.LoadDistributionId, cascadeDelete: true)
-                .ForeignKey("dbo.TimeNorms", t => t.TimeNormId, cascadeDelete: true)
+                .ForeignKey("dbo.TimeNorms", t => t.TimeNormId, cascadeDelete: false)
                 .Index(t => t.LoadDistributionId)
                 .Index(t => t.AcademicPlanRecordId)
                 .Index(t => t.ContingentId)
@@ -114,7 +114,7 @@ namespace DepartmentService.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AcademicYears", t => t.AcademicYearId, cascadeDelete: true)
-                .ForeignKey("dbo.EducationDirections", t => t.EducationDirectionId, cascadeDelete: true)
+                .ForeignKey("dbo.EducationDirections", t => t.EducationDirectionId, cascadeDelete: false)
                 .Index(t => t.AcademicYearId)
                 .Index(t => t.EducationDirectionId);
             
@@ -415,7 +415,7 @@ namespace DepartmentService.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AcademicYears", t => t.AcademicYearId, cascadeDelete: true)
-                .ForeignKey("dbo.KindOfLoads", t => t.KindOfLoadId, cascadeDelete: true)
+                .ForeignKey("dbo.KindOfLoads", t => t.KindOfLoadId, cascadeDelete: false)
                 .Index(t => t.KindOfLoadId)
                 .Index(t => t.AcademicYearId);
             
