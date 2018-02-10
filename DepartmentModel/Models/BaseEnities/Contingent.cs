@@ -27,6 +27,10 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
+        public int CountGroups { get; set; }
+
+        [Required]
+        [DataMember]
         public int CountStudetns { get; set; }
 
         [Required]

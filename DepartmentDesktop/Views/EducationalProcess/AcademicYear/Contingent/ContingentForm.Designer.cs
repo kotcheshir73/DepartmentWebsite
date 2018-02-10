@@ -41,6 +41,8 @@
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.labelCourse = new System.Windows.Forms.Label();
             this.textBoxCourse = new System.Windows.Forms.TextBox();
+            this.labelCountGroups = new System.Windows.Forms.Label();
+            this.textBoxCountGroups = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // comboBoxAcademicYear
@@ -82,66 +84,66 @@
             // 
             // textBoxCountSubgroups
             // 
-            this.textBoxCountSubgroups.Location = new System.Drawing.Point(272, 86);
+            this.textBoxCountSubgroups.Location = new System.Drawing.Point(272, 112);
             this.textBoxCountSubgroups.MaxLength = 2;
             this.textBoxCountSubgroups.Name = "textBoxCountSubgroups";
             this.textBoxCountSubgroups.Size = new System.Drawing.Size(50, 20);
-            this.textBoxCountSubgroups.TabIndex = 9;
+            this.textBoxCountSubgroups.TabIndex = 11;
             this.textBoxCountSubgroups.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // labelCountSubgroups
             // 
             this.labelCountSubgroups.AutoSize = true;
-            this.labelCountSubgroups.Location = new System.Drawing.Point(144, 89);
+            this.labelCountSubgroups.Location = new System.Drawing.Point(144, 115);
             this.labelCountSubgroups.Name = "labelCountSubgroups";
             this.labelCountSubgroups.Size = new System.Drawing.Size(122, 13);
-            this.labelCountSubgroups.TabIndex = 8;
+            this.labelCountSubgroups.TabIndex = 10;
             this.labelCountSubgroups.Text = "Количество подгрупп*:";
             // 
             // labelCountStudents
             // 
             this.labelCountStudents.AutoSize = true;
-            this.labelCountStudents.Location = new System.Drawing.Point(139, 63);
+            this.labelCountStudents.Location = new System.Drawing.Point(139, 89);
             this.labelCountStudents.Name = "labelCountStudents";
             this.labelCountStudents.Size = new System.Drawing.Size(127, 13);
-            this.labelCountStudents.TabIndex = 6;
+            this.labelCountStudents.TabIndex = 8;
             this.labelCountStudents.Text = "Количество студентов*:";
             // 
             // textBoxCountStudents
             // 
-            this.textBoxCountStudents.Location = new System.Drawing.Point(272, 60);
+            this.textBoxCountStudents.Location = new System.Drawing.Point(272, 86);
             this.textBoxCountStudents.MaxLength = 3;
             this.textBoxCountStudents.Name = "textBoxCountStudents";
             this.textBoxCountStudents.Size = new System.Drawing.Size(50, 20);
-            this.textBoxCountStudents.TabIndex = 7;
+            this.textBoxCountStudents.TabIndex = 9;
             this.textBoxCountStudents.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(247, 112);
+            this.buttonClose.Location = new System.Drawing.Point(247, 138);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 12;
+            this.buttonClose.TabIndex = 14;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(19, 112);
+            this.buttonSave.Location = new System.Drawing.Point(19, 138);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 10;
+            this.buttonSave.TabIndex = 12;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 112);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 138);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 11;
+            this.buttonSaveAndClose.TabIndex = 13;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
@@ -164,11 +166,31 @@
             this.textBoxCourse.TabIndex = 5;
             this.textBoxCourse.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // labelCountGroups
+            // 
+            this.labelCountGroups.AutoSize = true;
+            this.labelCountGroups.Location = new System.Drawing.Point(162, 63);
+            this.labelCountGroups.Name = "labelCountGroups";
+            this.labelCountGroups.Size = new System.Drawing.Size(104, 13);
+            this.labelCountGroups.TabIndex = 6;
+            this.labelCountGroups.Text = "Количество групп*:";
+            // 
+            // textBoxCountGroups
+            // 
+            this.textBoxCountGroups.Location = new System.Drawing.Point(272, 60);
+            this.textBoxCountGroups.MaxLength = 3;
+            this.textBoxCountGroups.Name = "textBoxCountGroups";
+            this.textBoxCountGroups.Size = new System.Drawing.Size(50, 20);
+            this.textBoxCountGroups.TabIndex = 7;
+            this.textBoxCountGroups.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // ContingentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 142);
+            this.ClientSize = new System.Drawing.Size(334, 171);
+            this.Controls.Add(this.labelCountGroups);
+            this.Controls.Add(this.textBoxCountGroups);
             this.Controls.Add(this.textBoxCourse);
             this.Controls.Add(this.labelCourse);
             this.Controls.Add(this.buttonSaveAndClose);
@@ -206,5 +228,7 @@
 		private System.Windows.Forms.Button buttonSaveAndClose;
 		private System.Windows.Forms.Label labelCourse;
 		private System.Windows.Forms.TextBox textBoxCourse;
-	}
+        private System.Windows.Forms.Label labelCountGroups;
+        private System.Windows.Forms.TextBox textBoxCountGroups;
+    }
 }

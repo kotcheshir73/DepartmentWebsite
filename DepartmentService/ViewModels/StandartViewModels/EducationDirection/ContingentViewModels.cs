@@ -18,7 +18,9 @@ namespace DepartmentService.ViewModels
 
 		public int Course { get; set; }
 
-		public int CountStudents { get; set; }
+        public int CountGroups { get; set; }
+
+        public int CountStudents { get; set; }
 
 		public int CountSubgroups { get; set; }
 	}

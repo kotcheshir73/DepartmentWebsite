@@ -143,6 +143,7 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.EducationDirection.Cipher,
                 AcademicYear = entity.AcademicYear.Title,
                 Course = (int)entity.Course,
+                CountGroups = entity.CountGroups,
                 CountStudents = entity.CountStudetns,
                 CountSubgroups = entity.CountSubgroups
             };

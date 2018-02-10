@@ -148,6 +148,7 @@ namespace DepartmentService.BindingModels
 			entity.AcademicYearId = model.AcademicYearId;
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
+            entity.CountGroups = model.CountGroups;
 			entity.CountStudetns = model.CountStudents;
 			entity.CountSubgroups = model.CountSubgroups;
 

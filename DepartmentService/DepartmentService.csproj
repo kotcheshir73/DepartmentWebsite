@@ -106,6 +106,10 @@
     <Compile Include="Migrations\201802100933450_AddFieldIsSubgroupInSemesterRecords.Designer.cs">
       <DependentUpon>201802100933450_AddFieldIsSubgroupInSemesterRecords.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.cs" />
+    <Compile Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.Designer.cs">
+      <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -228,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802100933450_AddFieldIsSubgroupInSemesterRecords.resx">
       <DependentUpon>201802100933450_AddFieldIsSubgroupInSemesterRecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.resx">
+      <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

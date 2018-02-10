@@ -78,7 +78,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
 			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
 			textBoxCourse.Text = (Math.Log(entity.Course, 2.0) + 1).ToString();
-			textBoxCountStudents.Text = entity.CountStudents.ToString();
+            textBoxCountGroups.Text = entity.CountGroups.ToString();
+            textBoxCountStudents.Text = entity.CountStudents.ToString();
 			textBoxCountSubgroups.Text = entity.CountSubgroups.ToString();
 		}
 
@@ -95,8 +96,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			if (string.IsNullOrEmpty(textBoxCourse.Text))
 			{
 				return false;
-			}
-			if (string.IsNullOrEmpty(textBoxCountStudents.Text))
+            }
+            if (string.IsNullOrEmpty(textBoxCountGroups.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxCountStudents.Text))
 			{
 				return false;
 			}
@@ -108,8 +113,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			if (!int.TryParse(textBoxCourse.Text, out count))
 			{
 				return false;
-			}
-			if (!int.TryParse(textBoxCountStudents.Text, out count))
+            }
+            if (!int.TryParse(textBoxCountGroups.Text, out count))
+            {
+                return false;
+            }
+            if (!int.TryParse(textBoxCountStudents.Text, out count))
 			{
 				return false;
 			}
@@ -132,6 +141,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
+                        CountGroups = Convert.ToInt32(textBoxCountGroups.Text),
 						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)
 					});
@@ -144,7 +154,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
-						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
+                        CountGroups = Convert.ToInt32(textBoxCountGroups.Text),
+                        CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)
 					});
 				}
