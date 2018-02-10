@@ -59,7 +59,7 @@ namespace DepartmentService.Services
 
         public ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model)
         {
-            model.NotUseInSchedule = true;
+            model.NotUseInSchedule = false;
             return _serviceC.GetClassrooms(model);
         }
 

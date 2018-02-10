@@ -354,21 +354,25 @@ namespace DepartmentService.BindingModels
             }
         }
 
-		public static SemesterRecord CreateSemesterRecord(SemesterRecordRecordBindingModel model, SemesterRecord entity = null, SeasonDates seasonDate = null)
-		{
-			if (entity == null)
-			{
-				entity = new SemesterRecord()
-				{
-					Week = model.Week,
-					Day = model.Day,
-					Lesson = model.Lesson,
-					SeasonDatesId = seasonDate.Id
-				};
-			}
-			entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
+        public static SemesterRecord CreateSemesterRecord(SemesterRecordRecordBindingModel model, SemesterRecord entity = null, SeasonDates seasonDate = null)
+        {
+            if (entity == null)
+            {
+                entity = new SemesterRecord()
+                {
+                    Week = model.Week,
+                    Day = model.Day,
+                    Lesson = model.Lesson,
+                    SeasonDatesId = seasonDate.Id
+                };
+            }
+            if (model.LessonType != LessonTypes.нд.ToString())
+            {
+                entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
+            }
             entity.IsFirstHalfSemester = model.IsFirstHalfSemester;
             entity.IsStreaming = model.IsStreaming;
+            entity.IsSubgroup = model.IsSubgroup;
             entity.NotParseRecord = model.NotParseRecord;
             CreateScheduleRecord(model, entity);
 

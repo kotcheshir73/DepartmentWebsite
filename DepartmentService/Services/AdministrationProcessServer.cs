@@ -52,6 +52,7 @@ namespace DepartmentService.Services
                 SaveToFile<EducationDirection>(folderName);
                 SaveToFile<ExaminationRecord>(folderName);
                 SaveToFile<KindOfLoad>(folderName);
+                SaveToFile<LecturerPost>(folderName);
                 SaveToFile<Lecturer>(folderName);
                 SaveToFile<LoadDistribution>(folderName);
                 SaveToFile<LoadDistributionMission>(folderName);
@@ -85,14 +86,15 @@ namespace DepartmentService.Services
             _context.Configuration.ValidateOnSaveEnabled = false;
 
             LoadFromFile<CurrentSettings>(folderName);
-            LoadFromFile<SeasonDates>(folderName);
             LoadFromFile<ScheduleLessonTime>(folderName);
 
             LoadFromFile<EducationDirection>(folderName);
             LoadFromFile<AcademicYear>(folderName);
+            LoadFromFile<SeasonDates>(folderName);
             LoadFromFile<AcademicPlan>(folderName);
 
             LoadFromFile<Classroom>(folderName);
+            LoadFromFile<LecturerPost>(folderName);
             LoadFromFile<Lecturer>(folderName);
             LoadFromFile<StudentGroup>(folderName);
             LoadFromFile<StreamingLesson>(folderName);

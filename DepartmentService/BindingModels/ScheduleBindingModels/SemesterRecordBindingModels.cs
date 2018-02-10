@@ -16,5 +16,7 @@ namespace DepartmentService.BindingModels
 		public int Lesson { get; set; }
 
 		public bool IsStreaming { get; set; }
-	}
+
+        public bool IsSubgroup { get; set; }
+    }
 }

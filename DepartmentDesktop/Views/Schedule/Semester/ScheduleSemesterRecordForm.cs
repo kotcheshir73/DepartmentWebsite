@@ -19,13 +19,16 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private int? _lesson;
 
-        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, Guid? id = null, int? lesson = null)
+        private bool _isFirstHalfSemester;
+
+        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, bool isFirstHalfSemester, Guid? id = null, int? lesson = null)
         {
             InitializeComponent();
             _service = service;
             _serviceS = serviceS;
             _id = id;
             _lesson = lesson;
+            _isFirstHalfSemester = isFirstHalfSemester;
         }
 
         private void ScheduleSemesterRecordForm_Load(object sender, EventArgs e)
@@ -138,7 +141,13 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
                 }
 
+                _isFirstHalfSemester = entity.IsFirstHalfSemester;
+
                 panelDateTime.Enabled = false;
+            }
+            else
+            {
+
             }
         }
 
@@ -285,6 +294,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         Id = new Guid(dataGridViewRecords.Rows[i].Cells[0].Value.ToString()),
                         LessonType = comboBoxLessonType.Text,
+                        IsFirstHalfSemester = _isFirstHalfSemester
                     };
                     if (checkBoxClassroom.Checked)
                     {
@@ -327,7 +337,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         }
                         if (!string.IsNullOrEmpty(textBoxLessonLecturer.Text))
                         {
-                            model.LessonDiscipline = textBoxLessonLecturer.Text;
+                            model.LessonLecturer = textBoxLessonLecturer.Text;
                         }
                     }
                     var result = _service.UpdateSemesterRecord(model);
@@ -375,6 +385,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
                         NotParseRecord = textBoxNotParseRecord.Text,
+                        IsFirstHalfSemester = _isFirstHalfSemester,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
@@ -441,6 +452,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
                         NotParseRecord = textBoxNotParseRecord.Text,
+                        IsFirstHalfSemester = _isFirstHalfSemester,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
@@ -463,6 +475,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         Lesson = comboBoxLesson.SelectedIndex,
                         LessonType = comboBoxLessonType.Text,
                         NotParseRecord = textBoxNotParseRecord.Text,
+                        IsFirstHalfSemester = _isFirstHalfSemester,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,

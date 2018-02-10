@@ -17,7 +17,9 @@ namespace DepartmentService.ViewModels
 
 		public bool IsStreaming { get; set; }
 
-		public string Text
+        public bool IsSubgroup { get; set; }
+
+        public string Text
 		{
 			get
 			{
@@ -42,5 +44,7 @@ namespace DepartmentService.ViewModels
         public bool IsFirstHalfSemester { get; set; }
 
         public bool IsStreaming { get; set; }
-	}
+
+        public bool IsSubgroup { get; set; }
+    }
 }

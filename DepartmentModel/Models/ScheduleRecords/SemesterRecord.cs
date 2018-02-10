@@ -1,5 +1,6 @@
 ﻿using DepartmentModel.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace DepartmentModel.Models
@@ -35,5 +36,17 @@ namespace DepartmentModel.Models
         /// </summary>
         [DataMember]
         public bool IsStreaming { get; set; }
+
+        /// <summary>
+        /// Является ли пара подгрупповой
+        /// </summary>
+        [DataMember]
+        public bool IsSubgroup { get; set; }
+
+        /// <summary>
+        /// При загрузке расписания отметка, проверена пара или нет
+        /// </summary>
+        [NotMapped]
+        public bool Checked { get; set; }
     }
 }

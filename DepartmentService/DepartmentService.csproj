@@ -102,6 +102,10 @@
     <Compile Include="Migrations\201802031805181_InitMigration.Designer.cs">
       <DependentUpon>201802031805181_InitMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802100933450_AddFieldIsSubgroupInSemesterRecords.cs" />
+    <Compile Include="Migrations\201802100933450_AddFieldIsSubgroupInSemesterRecords.Designer.cs">
+      <DependentUpon>201802100933450_AddFieldIsSubgroupInSemesterRecords.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -221,6 +225,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201802031805181_InitMigration.resx">
       <DependentUpon>201802031805181_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802100933450_AddFieldIsSubgroupInSemesterRecords.resx">
+      <DependentUpon>201802100933450_AddFieldIsSubgroupInSemesterRecords.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

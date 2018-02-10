@@ -80,7 +80,9 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 //Заполняем даты
                 DateTime currentdate = _selectDate;
                 var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginFirstHalfSemester);
+                var dateEndFirstHalfSemester = Convert.ToDateTime(_dates.DateEndFirstHalfSemester);
                 var dateEndSemester = Convert.ToDateTime(_dates.DateEndSecondHalfSemester);
+                _model.IsFirstHalfSemester = _selectDate.Date < dateEndFirstHalfSemester.Date;
                 if (_selectDate.Date == DateTime.Now.Date)
                 {
                     currentdate = dateBeginSemester.AddDays(((DateTime.Now - dateBeginSemester).Days / 14) * 14);
@@ -121,6 +123,10 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         if (list[r].IsStreaming)
                         {
                             dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
+                        }
+                        if(list[r].IsSubgroup)
+                        {
+                            //TODO
                         }
                         if (list[r].LessonType == LessonTypes.нд.ToString())
                         {
@@ -270,7 +276,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {//если в Tag есть данные, то это id записи
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                         {
-                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
+                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, _model.IsFirstHalfSemester.Value,
                                 new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
@@ -287,7 +293,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                             Convert.ToInt32(((DataGridView)sender).Tag) * 100 +
                             ((DataGridView)sender).SelectedCells[0].RowIndex * 10 +
                             ((DataGridView)sender).SelectedCells[0].ColumnIndex;
-                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, lesson: lesson);
+                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, _model.IsFirstHalfSemester.Value, lesson: lesson);
                         form.ShowDialog();
                     }
                     LoadRecrods();
@@ -316,7 +322,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                               dataGridViewSecondWeek.SelectedCells[0].RowIndex * 10 +
                               dataGridViewSecondWeek.SelectedCells[0].ColumnIndex;
             }
-            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, lesson: lesson);
+            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, _model.IsFirstHalfSemester.Value, lesson: lesson);
             form.ShowDialog();
         }
 
@@ -328,7 +334,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 {//если в Tag есть данные, то это id записи
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
+                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, _model.IsFirstHalfSemester.Value,
                             new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
@@ -347,7 +353,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 {//если в Tag есть dataGridViewSecondWeek, то это id записи
                     if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service,
+                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _service, _model.IsFirstHalfSemester.Value,
                             new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
