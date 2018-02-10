@@ -75,7 +75,7 @@ namespace DepartmentDesktop.Views.Administration.User
             var form = Container.Resolve<UserForm>(
                     new ParameterOverrides
                     {
-                        { "id", Guid.Empty}
+                        { "id", Guid.Empty }
                     }
                     .OnType<UserForm>());
 			if (form.ShowDialog() == DialogResult.OK)
@@ -92,7 +92,7 @@ namespace DepartmentDesktop.Views.Administration.User
                 var form = Container.Resolve<UserForm>(
                         new ParameterOverrides
                         {
-                        { "id", id}
+                            { "id", id }
                         }
                         .OnType<UserForm>());
                 if (form.ShowDialog() == DialogResult.OK)

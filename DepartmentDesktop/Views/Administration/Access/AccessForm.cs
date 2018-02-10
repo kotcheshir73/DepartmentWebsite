@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Administration.Access
 {
-	public partial class AccessForm : Form
+    public partial class AccessForm : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -17,7 +17,7 @@ namespace DepartmentDesktop.Views.Administration.Access
 
 		private Guid _roleId;
 
-		private Guid? _id;
+		private Guid? _id = null;
 
 		public AccessForm(IAccessService service, Guid roleId, Guid? id = null)
 		{

@@ -1,10 +1,10 @@
-﻿using DepartmentModel;
-using DepartmentDesktop.Views.Administration.Access;
+﻿using DepartmentDesktop.Views.Administration.Access;
+using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
-using Microsoft.Practices.Unity;
 
 namespace DepartmentDesktop.Views.Administration.Role
 {

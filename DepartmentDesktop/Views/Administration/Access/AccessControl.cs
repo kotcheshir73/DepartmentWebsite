@@ -74,8 +74,8 @@ namespace DepartmentDesktop.Views.Administration.Access
             var form = Container.Resolve<AccessForm>(
                 new ParameterOverrides
                 {
-                    { "roleId", _roleId},
-                    { "id", Guid.Empty}
+                    { "roleId", _roleId },
+                    { "id", Guid.Empty }
                 }
                 .OnType<AccessForm>());
             if (form.ShowDialog() == DialogResult.OK)
@@ -92,8 +92,8 @@ namespace DepartmentDesktop.Views.Administration.Access
                 var form = Container.Resolve<AccessForm>(
                     new ParameterOverrides
                     {
-                        { "roleId", _roleId},
-                        { "id", id}
+                        { "roleId", _roleId },
+                        { "id", id }
                     }
                     .OnType<AccessForm>());
                 if (form.ShowDialog() == DialogResult.OK)

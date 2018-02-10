@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Administration.Role
 {
-	public partial class RoleControl : UserControl
+    public partial class RoleControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -69,7 +69,7 @@ namespace DepartmentDesktop.Views.Administration.Role
 			var form = Container.Resolve<RoleForm>(
                     new ParameterOverrides
                     {
-                        { "id", Guid.Empty}
+                        { "id", Guid.Empty }
                     }
                     .OnType<RoleForm>());
 			if (form.ShowDialog() == DialogResult.OK)
@@ -86,7 +86,7 @@ namespace DepartmentDesktop.Views.Administration.Role
                 var form = Container.Resolve<RoleForm>(
                     new ParameterOverrides
                     {
-                        { "id", id}
+                        { "id", id }
                     }
                     .OnType<RoleForm>());
 				if (form.ShowDialog() == DialogResult.OK)
