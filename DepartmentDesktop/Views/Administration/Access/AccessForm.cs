@@ -2,14 +2,18 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Administration.Access
 {
 	public partial class AccessForm : Form
-	{
-		private readonly IAccessService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IAccessService _service;
 
 		private Guid _roleId;
 
@@ -20,8 +24,11 @@ namespace DepartmentDesktop.Views.Administration.Access
 			InitializeComponent();
 			_service = service;
 			_roleId = roleId;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void AccessForm_Load(object sender, EventArgs e)
 		{
@@ -29,15 +36,15 @@ namespace DepartmentDesktop.Views.Administration.Access
 			{
 				comboBoxAccessOperation.Items.Add(elem.ToString());
 			}
-			comboBoxAccessOperation.SelectedIndex = 0;
+			comboBoxAccessOperation.SelectedItem = null;
 
 			foreach (var elem in Enum.GetValues(typeof(AccessType)))
 			{
 				comboBoxAccessType.Items.Add(elem.ToString());
 			}
-			comboBoxAccessType.SelectedIndex = 0;
+			comboBoxAccessType.SelectedItem = null;
 
-			if (_id.HasValue)
+            if (_id.HasValue)
 			{
 				LoadData();
 			}

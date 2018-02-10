@@ -1,6 +1,7 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -8,16 +9,16 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.Administration.Role
 {
 	public partial class RoleControl : UserControl
-	{
-		private readonly IRoleService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private readonly IAccessService _serviceA;
+        private readonly IRoleService _service;
 
-		public RoleControl(IRoleService service, IAccessService serviceA)
+		public RoleControl(IRoleService service)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceA = serviceA;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -65,7 +66,12 @@ namespace DepartmentDesktop.Views.Administration.Role
 
 		private void AddRecord()
 		{
-			var form = new RoleForm(_service, _serviceA);
+			var form = Container.Resolve<RoleForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", Guid.Empty}
+                    }
+                    .OnType<RoleForm>());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadRecords();
@@ -77,7 +83,12 @@ namespace DepartmentDesktop.Views.Administration.Role
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
                 Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
-				var form = new RoleForm(_service, _serviceA, id);
+                var form = Container.Resolve<RoleForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", id}
+                    }
+                    .OnType<RoleForm>());
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();

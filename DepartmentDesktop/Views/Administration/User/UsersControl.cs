@@ -1,6 +1,7 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -8,22 +9,16 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.Administration.User
 {
     public partial class UsersControl : UserControl
-	{
-		private readonly IUserService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
 
-		private readonly IRoleService _serviceR;
+        private readonly IUserService _service;
 
-		private readonly IStudentService _serviceS;
-
-		private readonly ILecturerService _serviceL;
-
-		public UsersControl(IUserService service, IRoleService serviceR, IStudentService serviceS, ILecturerService serviceL)
+		public UsersControl(IUserService service)
 		{
 			InitializeComponent();
 			_service = service;
-			_serviceR = serviceR;
-			_serviceS = serviceS;
-			_serviceL = serviceL;
 
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
@@ -76,8 +71,13 @@ namespace DepartmentDesktop.Views.Administration.User
 		}
 
 		private void AddRecord()
-		{
-			var form = new UserForm(_service);
+        {
+            var form = Container.Resolve<UserForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", Guid.Empty}
+                    }
+                    .OnType<UserForm>());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				LoadRecords();
@@ -89,8 +89,13 @@ namespace DepartmentDesktop.Views.Administration.User
 			if (dataGridViewList.SelectedRows.Count == 1)
 			{
                 Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
-                var form = new UserForm(_service, id);
-				if (form.ShowDialog() == DialogResult.OK)
+                var form = Container.Resolve<UserForm>(
+                        new ParameterOverrides
+                        {
+                        { "id", id}
+                        }
+                        .OnType<UserForm>());
+                if (form.ShowDialog() == DialogResult.OK)
 				{
 					LoadRecords();
 				}

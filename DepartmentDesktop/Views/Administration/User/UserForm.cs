@@ -2,6 +2,7 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
+using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Drawing;
@@ -11,8 +12,11 @@ using System.Windows.Forms;
 namespace DepartmentDesktop.Views.Administration.User
 {
     public partial class UserForm : Form
-	{
-		private readonly IUserService _service;
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly IUserService _service;
 
 		private Guid? _id = null;
 
@@ -20,8 +24,11 @@ namespace DepartmentDesktop.Views.Administration.User
 		{
 			InitializeComponent();
 			_service = service;
-			_id = id;
-		}
+            if (id != Guid.Empty)
+            {
+                _id = id;
+            }
+        }
 
 		private void UserForm_Load(object sender, EventArgs e)
 		{
