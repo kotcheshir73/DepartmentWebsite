@@ -7,6 +7,7 @@ using DepartmentService.ViewModels;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace DepartmentDesktop.Views.Schedule.Semester
 {
@@ -124,9 +125,26 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         {
                             dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
                         }
-                        if(list[r].IsSubgroup)
+                        if (list[r].IsSubgroup)
                         {
-                            //TODO
+                            if (dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value == null)
+                            {
+                                var lesson = list.Where(rec => rec.Week == list[r].Week && rec.Day == list[r].Day && rec.Lesson == list[r].Lesson &&
+                                                                            rec.Id != list[r].Id).FirstOrDefault();
+                                if (lesson != null)
+                                {
+                                    text = string.Format("{0} {1} {2}   {3} {4}{5}{6}   {7}{5}{8}", list[r].LessonType, list[r].LessonDiscipline,
+                                        list[r].LessonClassroom, lesson.LessonDiscipline, lesson.LessonClassroom,
+                                        Environment.NewLine, list[r].LessonLecturer, lesson.LessonLecturer, list[r].LessonGroup);
+                                }
+                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
+                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
+                            }
+                        }
+                        else
+                        {
+                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
+                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                         }
                         if (list[r].LessonType == LessonTypes.нд.ToString())
                         {
@@ -136,8 +154,6 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                         {
                             dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
                         }
-                        dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
-                        dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                     if (list[r].Week == 1)
                     {

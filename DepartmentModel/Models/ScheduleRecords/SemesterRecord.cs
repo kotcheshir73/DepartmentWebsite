@@ -48,5 +48,10 @@ namespace DepartmentModel.Models
         /// </summary>
         [NotMapped]
         public bool Checked { get; set; }
+
+        public SemesterRecord() : base()
+        {
+            Checked = false;
+        }
     }
 }
