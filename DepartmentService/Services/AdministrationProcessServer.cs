@@ -45,8 +45,6 @@ namespace DepartmentService.Services
                 SaveToFile<DisciplineLesson>(folderName);
                 SaveToFile<DisciplineLessonStudentRecord>(folderName);
                 SaveToFile<DisciplineLessonTask>(folderName);
-                SaveToFile<DisciplineLessonTaskImageContext>(folderName);
-                SaveToFile<DisciplineLessonTaskTextContext>(folderName);
                 SaveToFile<DisciplineLessonTaskStudentRecord>(folderName);
                 SaveToFile<DisciplineStudentRecord>(folderName);
                 SaveToFile<EducationDirection>(folderName);
@@ -122,8 +120,6 @@ namespace DepartmentService.Services
             LoadFromFile<DisciplineLesson>(folderName);
             LoadFromFile<DisciplineLessonStudentRecord>(folderName);
             LoadFromFile<DisciplineLessonTask>(folderName);
-            LoadFromFile<DisciplineLessonTaskImageContext>(folderName);
-            LoadFromFile<DisciplineLessonTaskTextContext>(folderName);
             LoadFromFile<DisciplineLessonTaskStudentRecord>(folderName);
             LoadFromFile<DisciplineStudentRecord>(folderName);
 

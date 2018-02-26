@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.Designer.cs">
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802261923159_updatedisciplinetable.cs" />
+    <Compile Include="Migrations\201802261923159_updatedisciplinetable.Designer.cs">
+      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -235,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.resx">
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802261923159_updatedisciplinetable.resx">
+      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

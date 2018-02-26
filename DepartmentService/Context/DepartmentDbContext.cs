@@ -33,8 +33,6 @@ namespace DepartmentService.Context
         public virtual DbSet<DisciplineLesson> DisciplineLessons { get; set; }
         public virtual DbSet<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
         public virtual DbSet<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
-        public virtual DbSet<DisciplineLessonTaskImageContext> DisciplineLessonTaskImageContexts { get; set; }
-        public virtual DbSet<DisciplineLessonTaskTextContext> DisciplineLessonTaskTextContexts { get; set; }
         public virtual DbSet<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
         public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }

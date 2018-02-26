@@ -19,7 +19,7 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public int VariantNumber { get; set; }
+        public int? VariantNumber { get; set; }
 
         [Required]
         [DataMember]
@@ -28,17 +28,22 @@ namespace DepartmentModel.Models
         [DataMember]
         public decimal? MaxBall { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        [DataMember]
+        public string DisciplineLessonName { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public byte[] Image { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual DisciplineLesson DisciplineLesson { get; set; }
 
         //-------------------------------------------------------------------------
-
-        [ForeignKey("DisciplineLessonTaskId")]
-		public virtual List<DisciplineLessonTaskImageContext> DisciplineLessonTaskImageContexts { get; set; }
-
-		[ForeignKey("DisciplineLessonTaskId")]
-		public virtual List<DisciplineLessonTaskTextContext> DisciplineLessonTaskTextContexts { get; set; }
 
 		[ForeignKey("DisciplineLessonTaskId")]
 		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
