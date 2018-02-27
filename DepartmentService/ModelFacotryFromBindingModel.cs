@@ -1,5 +1,6 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
+using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
 using System;
 
 namespace DepartmentService.BindingModels
@@ -71,7 +72,40 @@ namespace DepartmentService.BindingModels
             return entity;
 		}
 
-		public static Lecturer CreateLecturer(LecturerRecordBindingModel model, Lecturer entity = null)
+        public static DisciplineLesson CreateDisciplineLesson(DisciplineLessonRecordBindingModel model, DisciplineLesson entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLesson();
+            }
+            entity.DisciplineId = model.DisciplineId;
+            entity.LessonType = model.LessonType;
+            entity.Title = model.Title;
+            entity.Description = model.Description;
+            entity.Order = model.Order;
+            entity.DisciplineLessonFile = model.DisciplineLessonFile;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTask CreateDisciplineLessonTask(DisciplineLessonTaskRecordBindingModel model, DisciplineLessonTask entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTask();
+            }
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.VariantNumber = model.VariantNumber;
+            entity.Order = model.Order;
+            entity.MaxBall = model.MaxBall;
+            entity.DisciplineLessonName = model.DisciplineLessonName;
+            entity.Description = model.Description;
+            entity.Image = model.Image;
+
+            return entity;
+        }
+
+        public static Lecturer CreateLecturer(LecturerRecordBindingModel model, Lecturer entity = null)
 		{
 			if (entity == null)
 			{
