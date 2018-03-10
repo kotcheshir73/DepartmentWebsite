@@ -1,4 +1,6 @@
-﻿using DepartmentModel.Enums;
+﻿using DepartmentDesktop.Views.EducationalProcess.DisciplineLesson;
+using DepartmentDesktop.Views.EducationalProcess.LecturerCabinet;
+using DepartmentModel.Enums;
 using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
@@ -471,5 +473,11 @@ namespace DepartmentDesktop
 			control.LoadData();
 		}
         #endregion
+
+        private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<LecturerCabinetForm>();
+            form.ShowDialog();
+        }
     }
 }

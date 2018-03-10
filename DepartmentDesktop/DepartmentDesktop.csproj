@@ -130,6 +130,36 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.Designer.cs">
       <DependentUpon>ContingentControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsControl.Designer.cs">
+      <DependentUpon>DisciplineLessonsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonForm.Designer.cs">
+      <DependentUpon>DisciplineLessonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsForm.Designer.cs">
+      <DependentUpon>DisciplineLessonsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.Designer.cs">
+      <DependentUpon>LecturerCabinetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.Designer.cs">
+      <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -530,6 +560,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.resx">
       <DependentUpon>ContingentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsControl.resx">
+      <DependentUpon>DisciplineLessonsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonForm.resx">
+      <DependentUpon>DisciplineLessonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsForm.resx">
+      <DependentUpon>DisciplineLessonsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.resx">
+      <DependentUpon>LecturerCabinetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.resx">
+      <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.resx">
       <DependentUpon>LecturerPostControl.cs</DependentUpon>
