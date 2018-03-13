@@ -27,8 +27,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "KindOfLoadName", Title = "Вид нагрузки", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
-				new ColumnConfig { Name = "Formula", Title = "Формула", Width = 300, Visible = true }
-			};
+                //new ColumnConfig { Name = "Formula", Title = "Формула", Width = 300, Visible = true }
+                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true },
+                new ColumnConfig { Name = "NumKoef", Title = "Числовой коэффициент", Width = 100, Visible = true },
+                new ColumnConfig { Name = "TimeNormKoef", Title = "Коэффициент норм времени", Width = 100, Visible = true },
+                new ColumnConfig { Name = "KindOfLoadType", Title = "Тип нагрузки", Width = 100, Visible = true }
+
+            };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
@@ -76,7 +81,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
                     res.Id,
                     res.KindOfLoadName,
                     res.Title,
-                    res.Formula
+                    //res.Formula
+                    res.Hours,
+                    res.NumKoef,
+                    res.TimeNormKoef,
+                    res.KindOfLoadType
                 );
             }
             return result.Result.MaxCount;

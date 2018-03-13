@@ -17,16 +17,21 @@ namespace DepartmentModel.Models
         [DataMember]
         public string KindOfLoadName { get; set; }
 
+        /*[Required]
+        [DataMember]
+        public KindOfLoadType KindOfLoadType { get; set; }*/
+
+        [MaxLength(10)]
         [Required]
         [DataMember]
-        public KindOfLoadType KindOfLoadType { get; set; }
+        public string AttributeName { get; set; }
 
         //-------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------
 
-        [ForeignKey("KindOfLoadId")]
-		public virtual List<AcademicPlanRecord> AcademicPlanRecords { get; set; }
+        //[ForeignKey("KindOfLoadId")]
+		//public virtual List<AcademicPlanRecord> AcademicPlanRecords { get; set; }
 
 		[ForeignKey("KindOfLoadId")]
 		public virtual List<TimeNorm> TimeNorms { get; set; }

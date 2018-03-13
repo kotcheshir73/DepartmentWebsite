@@ -52,12 +52,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
 				return;
 			}
-			var resultKL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
+			/*var resultKL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
 			if (!resultKL.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке видов нагрузок возникла ошибка: ", resultKL.Errors);
 				return;
-			}
+			}*/
 
 			foreach (var elem in Enum.GetValues(typeof(Semesters)))
 			{
@@ -76,11 +76,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(d=> new { Value = d.Id, Display = d.DisciplineName }).ToList();
 			comboBoxDiscipline.SelectedItem = null;
 
-			comboBoxKindOfLoad.ValueMember = "Value";
+			/*comboBoxKindOfLoad.ValueMember = "Value";
 			comboBoxKindOfLoad.DisplayMember = "Display";
 			comboBoxKindOfLoad.DataSource = resultKL.Result.List
 				.Select(kl => new { Value = kl.Id, Display = kl.KindOfLoadName }).ToList();
-			comboBoxKindOfLoad.SelectedItem = null;
+			comboBoxKindOfLoad.SelectedItem = null;*/
 
 			if (_id.HasValue)
 			{
@@ -100,9 +100,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 			comboBoxAcademicPlan.SelectedValue = entity.AcademicPlanId;
 			comboBoxDiscipline.SelectedValue = entity.DisciplineId;
-			comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
+			//comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
 			comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
-			textBoxHours.Text = entity.Hours.ToString();
+			textBoxZet.Text = entity.Zet.ToString();
 		}
 
 		private bool CheckFill()
@@ -115,20 +115,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				return false;
 			}
-			if (comboBoxKindOfLoad.SelectedValue == null)
+			/*if (comboBoxKindOfLoad.SelectedValue == null)
 			{
 				return false;
-			}
+			}*/
 			if (string.IsNullOrEmpty(comboBoxSemester.Text))
 			{
 				return false;
 			}
-			if (string.IsNullOrEmpty(textBoxHours.Text))
+			if (string.IsNullOrEmpty(textBoxZet.Text))
 			{
 				return false;
 			}
-			int hours = 0;
-			if (!int.TryParse(textBoxHours.Text, out hours))
+			int zet = 0;
+			if (!int.TryParse(textBoxZet.Text, out zet))
 			{
 				return false;
 			}
@@ -146,9 +146,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
 						DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
+						//KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
 						Semester = comboBoxSemester.Text,
-						Hours = Convert.ToInt32(textBoxHours.Text)
+						Zet = Convert.ToInt32(textBoxZet.Text)
 					});
 				}
 				else
@@ -158,9 +158,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 						Id = _id.Value,
 						AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
 						DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
+						//KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
 						Semester = comboBoxSemester.Text,
-						Hours = Convert.ToInt32(textBoxHours.Text)
+						Zet = Convert.ToInt32(textBoxZet.Text)
 					});
 				}
 				if (result.Succeeded)

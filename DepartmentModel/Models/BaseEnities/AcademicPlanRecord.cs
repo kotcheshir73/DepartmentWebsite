@@ -21,17 +21,21 @@ namespace DepartmentModel.Models
         [DataMember]
         public Guid DisciplineId { get; set; }
 
-        [Required]
+        /*[Required]
         [DataMember]
-        public Guid KindOfLoadId { get; set; }
+        public Guid KindOfLoadId { get; set; }*/
 
         [Required]
         [DataMember]
         public Semesters Semester { get; set; }
 
+        /*[Required]
+        [DataMember]
+        public int Hours { get; set; }*/
+
         [Required]
         [DataMember]
-        public int Hours { get; set; }
+        public int Zet { get; set; }
 
         //-------------------------------------------------------------------------
 
@@ -39,7 +43,7 @@ namespace DepartmentModel.Models
 
 		public virtual Discipline Discipline { get; set; }
 
-		public virtual KindOfLoad KindOfLoad { get; set; }
+		//public virtual KindOfLoad KindOfLoad { get; set; }
 
         //-------------------------------------------------------------------------
 

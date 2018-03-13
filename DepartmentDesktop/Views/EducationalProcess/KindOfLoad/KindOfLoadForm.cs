@@ -29,11 +29,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 
 		private void KindOfLoadForm_Load(object sender, EventArgs e)
 		{
-			foreach (var elem in Enum.GetValues(typeof(KindOfLoadType)))
+			/*foreach (var elem in Enum.GetValues(typeof(KindOfLoadType)))
 			{
 				comboBoxKindOfLoadTypes.Items.Add(elem.ToString());
 			}
-			comboBoxKindOfLoadTypes.SelectedIndex = 0;
+			comboBoxKindOfLoadTypes.SelectedIndex = 0;*/
 			if (_id.HasValue)
 			{
 				LoadData();
@@ -51,20 +51,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			var entity = result.Result;
 
 			textBoxTitle.Text = entity.KindOfLoadName;
-			comboBoxKindOfLoadTypes.SelectedIndex = comboBoxKindOfLoadTypes.Items.IndexOf(entity.KindOfLoadType);
+			//comboBoxKindOfLoadTypes.SelectedIndex = comboBoxKindOfLoadTypes.Items.IndexOf(entity.KindOfLoadType);
 		}
 
 		private bool CheckFill()
 		{
-			if (string.IsNullOrEmpty(comboBoxKindOfLoadTypes.Text))
+			/*if (string.IsNullOrEmpty(comboBoxKindOfLoadTypes.Text))
 			{
 				return false;
-			}
+			}*/
 			if (string.IsNullOrEmpty(textBoxTitle.Text))
 			{
 				return false;
 			}
-			return true;
+            if (string.IsNullOrEmpty(textBoxAttributeName.Text))
+            {
+                return false;
+            }
+            return true;
 		}
 
 		private bool Save()
@@ -76,18 +80,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 				{
 					result = _service.CreateKindOfLoad(new KindOfLoadRecordBindingModel
 					{
-						KindOfLoadType = comboBoxKindOfLoadTypes.Text,
-						KindOfLoadName = textBoxTitle.Text
-					});
+						//KindOfLoadType = comboBoxKindOfLoadTypes.Text,
+						KindOfLoadName = textBoxTitle.Text,
+                        AttributeName = textBoxAttributeName.Text
+                    });
 				}
 				else
 				{
 					result = _service.UpdateKindOfLoad(new KindOfLoadRecordBindingModel
 					{
 						Id = _id.Value,
-						KindOfLoadType = comboBoxKindOfLoadTypes.Text,
-						KindOfLoadName = textBoxTitle.Text
-					});
+						//KindOfLoadType = comboBoxKindOfLoadTypes.Text,
+						KindOfLoadName = textBoxTitle.Text,
+                        AttributeName = textBoxAttributeName.Text
+                    });
 				}
 				if (result.Succeeded)
 				{

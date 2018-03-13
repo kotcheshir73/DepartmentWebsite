@@ -18,8 +18,14 @@ namespace DepartmentService.ViewModels
 
         public string AcademicYear { get; set; }
 
-        public string Formula { get; set; }
+        //public string Formula { get; set; }
 
-		public decimal Hours { get; set; }
-	}
+		public decimal? Hours { get; set; }
+
+        public decimal? NumKoef { get; set; }
+
+        public string KindOfLoadType { get; set; }
+
+        public string TimeNormKoef { get; set; }
+    }
 }

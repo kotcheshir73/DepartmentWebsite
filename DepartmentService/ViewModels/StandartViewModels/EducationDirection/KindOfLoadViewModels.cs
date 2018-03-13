@@ -9,7 +9,9 @@ namespace DepartmentService.ViewModels
 		public Guid Id { get; set; }
 
 		public string KindOfLoadName { get; set; }
-		
-		public string KindOfLoadType { get; set; }
-	}
+
+        //public string KindOfLoadType { get; set; }
+
+        public string AttributeName { get; set; }
+    }
 }

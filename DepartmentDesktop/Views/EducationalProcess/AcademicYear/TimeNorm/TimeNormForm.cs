@@ -69,7 +69,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 			}
 			comboBoxSelectKindOfLoadType.SelectedIndex = -1;
 
-			if (_id.HasValue)
+            foreach (var elem in Enum.GetValues(typeof(TimeNormKoef)))
+            {
+                comboBoxTimeNormKoef.Items.Add(elem);
+            }
+            comboBoxTimeNormKoef.SelectedIndex = -1;
+
+            if (_id.HasValue)
 			{
 				LoadData();
 			}
@@ -77,7 +83,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 
 		private void CreateFormula()
 		{
-			// делаем схему [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
+			/*// делаем схему [<Название вида нагрузки>]<*><число>*"поток/группа/студенты"
 			StringBuilder formula = new StringBuilder();
 			if(comboBoxSelectKindOfLoad.SelectedItem != null)
 			{
@@ -91,7 +97,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 			{
 				formula.Append(string.Format("\"{0}\"", comboBoxSelectKindOfLoadType.Text));
 			}
-			textBoxFormula.Text = formula.ToString();
+			textBoxFormula.Text = formula.ToString();*/
 		}
 
 		private void comboBoxSelectKindOfLoad_SelectedIndexChanged(object sender, EventArgs e)
@@ -121,9 +127,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 
 			comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
 			textBoxTitle.Text = entity.Title;
-			textBoxFormula.Text = entity.Formula;
+			//textBoxFormula.Text = entity.Formula;
 			textBoxHours.Text = entity.Hours.ToString();
-		}
+            textBoxNumKoef.Text = entity.NumKoef.ToString();
+        }
 
 		private bool CheckFill()
 		{
@@ -135,10 +142,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 			{
 				return false;
 			}
-			if (string.IsNullOrEmpty(textBoxFormula.Text))
+			/*if (string.IsNullOrEmpty(textBoxFormula.Text))
 			{
 				return false;
-			}
+			}*/
 			if (string.IsNullOrEmpty(textBoxHours.Text))
 			{
 				return false;
@@ -148,7 +155,26 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 			{
 				return false;
 			}
-			return true;
+
+            if (string.IsNullOrEmpty(textBoxNumKoef.Text))
+            {
+                return false;
+            }
+            decimal numKoef = 0;
+            if (!decimal.TryParse(textBoxNumKoef.Text, out numKoef))
+            {
+                return false;
+            }
+            
+            if (string.IsNullOrEmpty(comboBoxSelectKindOfLoadType.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(comboBoxTimeNormKoef.Text))
+            {
+                return false;
+            }
+            return true;
 		}
 
 		private bool Save()
@@ -158,14 +184,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
-					{
-						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
+                    result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
+                    {
+                        KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         Title = textBoxTitle.Text,
-						Formula = textBoxFormula.Text,
-						Hours = Convert.ToDecimal(textBoxHours.Text)
-					});
+                        //Formula = textBoxFormula.Text,
+                        Hours = Convert.ToDecimal(textBoxHours.Text),
+                        NumKoef = Convert.ToDecimal(textBoxNumKoef.Text),
+                        TimeNormKoef = comboBoxTimeNormKoef.Text,
+                        KindOfLoadType = comboBoxSelectKindOfLoadType.Text
+                    });
 				}
 				else
 				{
@@ -175,9 +204,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 						KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         Title = textBoxTitle.Text,
-						Formula = textBoxFormula.Text,
-						Hours = Convert.ToDecimal(textBoxHours.Text)
-					});
+						//Formula = textBoxFormula.Text,
+						Hours = Convert.ToDecimal(textBoxHours.Text),
+                        NumKoef = Convert.ToDecimal(textBoxNumKoef.Text),
+                        TimeNormKoef = comboBoxTimeNormKoef.Text,
+                        KindOfLoadType = comboBoxSelectKindOfLoadType.Text
+                    });
 				}
 				if (result.Succeeded)
 				{

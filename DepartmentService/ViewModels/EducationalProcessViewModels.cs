@@ -13,7 +13,7 @@ namespace DepartmentService.ViewModels
 
         public Guid DisciplineId { get; set; }
 
-        public Guid KindOfLoadId { get; set; }
+        //public Guid KindOfLoadId { get; set; }
 
         public string EducationDirectionCipher { get; set; }
 
@@ -21,11 +21,13 @@ namespace DepartmentService.ViewModels
 
         public string Disciplne { get; set; }
 
-        public string KindOfLoad { get; set; }
+        //public string KindOfLoad { get; set; }
 
         public string Semester { get; set; }
 
-        public int Hours { get; set; }
+        //public int Hours { get; set; }
+
+        public int Zet { get; set; }
     }
 
     public class ScheduleRecordsForDisciplinePageViewModel : PageViewModel<ScheduleRecordsForDisciplineViewModel> { }

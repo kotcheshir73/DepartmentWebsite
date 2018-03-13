@@ -89,7 +89,7 @@ namespace DepartmentService.Services
 						.Include(ldr => ldr.AcademicPlanRecord.AcademicPlan.EducationDirection)
 						.Include(ldr => ldr.AcademicPlanRecord.Discipline)
 						.Include(ldr => ldr.AcademicPlanRecord.Discipline.DisciplineBlock)
-						.Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
+						//.Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
 						.Include(ldr => ldr.Contingent.AcademicYear)
 						.Include(ldr => ldr.TimeNorm.KindOfLoad);
 
@@ -125,7 +125,7 @@ namespace DepartmentService.Services
                         .Include(ldr => ldr.Contingent)
                         .Include(ldr => ldr.TimeNorm)
 						.Include(ldr => ldr.AcademicPlanRecord.Discipline)
-                        .Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
+                        //.Include(ldr => ldr.AcademicPlanRecord.KindOfLoad)
 						.Include(ldr => ldr.Contingent.AcademicYear)
 						.Include(ldr => ldr.TimeNorm.KindOfLoad)
                         .FirstOrDefault(ldr => ldr.Id == model.Id && !ldr.IsDeleted);

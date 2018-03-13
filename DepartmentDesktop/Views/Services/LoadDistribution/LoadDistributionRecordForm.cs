@@ -52,7 +52,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			comboBoxAcademicPlanRecord.ValueMember = "Value";
 			comboBoxAcademicPlanRecord.DisplayMember = "Display";
 			comboBoxAcademicPlanRecord.DataSource = resultAPR.Result.List
-				.Select(apr => new { Value = apr.Id, Display = apr.Disciplne + "/" + apr.KindOfLoad }).ToList();
+				.Select(apr => new { Value = apr.Id, Display = apr.Disciplne/* + "/" + apr.KindOfLoad*/ }).ToList();
 			comboBoxAcademicPlanRecord.SelectedValue = _apId;
 
 			comboBoxContingent.ValueMember = "Value";

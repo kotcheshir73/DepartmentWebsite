@@ -21,6 +21,8 @@ namespace DepartmentService.BindingModels
 
 		public string Semester { get; set; }
 
-		public int Hours { get; set; }
-	}
+        //public int Hours { get; set; }
+
+        public int Zet { get; set; }
+    }
 }

@@ -445,7 +445,7 @@ namespace DepartmentService.Services
                                             var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                 apr.AcademicPlanId == model.AcademicPlanId &&
                                                 apr.DisciplineId == discipline.Id &&
-                                                apr.KindOfLoadId == kindOfLoad.Id &&
+                                                //apr.KindOfLoadId == kindOfLoad.Id &&
                                                 apr.Semester == sem &&
                                                 !apr.IsDeleted);
                                             if (record == null)
@@ -454,14 +454,14 @@ namespace DepartmentService.Services
                                                 {
                                                     AcademicPlanId = model.AcademicPlanId,
                                                     DisciplineId = discipline.Id,
-                                                    KindOfLoadId = kindOfLoad.Id,
+                                                    //KindOfLoadId = kindOfLoad.Id,
                                                     Semester = sem.ToString(),
-                                                    Hours = Convert.ToInt32(elementSemNodeAttribute.Value)
+                                                    //Hours = Convert.ToInt32(elementSemNodeAttribute.Value)
                                                 }));
                                             }
                                             else
                                             {
-                                                record.Hours = Convert.ToInt32(elementSemNodeAttribute.Value);
+                                                //record.Hours = Convert.ToInt32(elementSemNodeAttribute.Value);
                                                 _context.Entry(record).State = EntityState.Modified;
                                             }
                                             _context.SaveChanges();
@@ -569,7 +569,7 @@ namespace DepartmentService.Services
                     var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                             apr.AcademicPlanId == model.AcademicPlanId &&
                                                             apr.DisciplineId == discipline.Id &&
-                                                            apr.KindOfLoadId == kindOfLoad.Id &&
+                                                            //apr.KindOfLoadId == kindOfLoad.Id &&
                                                             apr.Semester == sem &&
                                                             !apr.IsDeleted);
                     if (record == null)
@@ -578,14 +578,14 @@ namespace DepartmentService.Services
                         {
                             AcademicPlanId = model.AcademicPlanId,
                             DisciplineId = discipline.Id,
-                            KindOfLoadId = kindOfLoad.Id,
+                            //KindOfLoadId = kindOfLoad.Id,
                             Semester = sem.ToString(),
-                            Hours = Convert.ToInt32(weekNumNode.Value)
+                            //Hours = Convert.ToInt32(weekNumNode.Value)
                         }));
                     }
                     else
                     {
-                        record.Hours = Convert.ToInt32(weekNumNode.Value);
+                        //record.Hours = Convert.ToInt32(weekNumNode.Value);
                         _context.Entry(record).State = EntityState.Modified;
                     }
                     _context.SaveChanges();
@@ -632,7 +632,7 @@ namespace DepartmentService.Services
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                     apr.AcademicPlanId == model.AcademicPlanId &&
                                                                     apr.DisciplineId == discipline.Id &&
-                                                                    apr.KindOfLoadId == kindOfLoad.Id &&
+                                                                    //apr.KindOfLoadId == kindOfLoad.Id &&
                                                                     apr.Semester == sem &&
                                                                     !apr.IsDeleted);
                         if (record == null)
@@ -641,14 +641,14 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
-                                KindOfLoadId = kindOfLoad.Id,
+                               // KindOfLoadId = kindOfLoad.Id,
                                 Semester = sem.ToString(),
-                                Hours = 1
+                               // Hours = 1
                             }));
                         }
                         else
                         {
-                            record.Hours = 1;
+                           // record.Hours = 1;
                             _context.Entry(record).State = EntityState.Modified;
                         }
                         _context.SaveChanges();
@@ -688,7 +688,7 @@ namespace DepartmentService.Services
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                     apr.AcademicPlanId == model.AcademicPlanId &&
                                                                     apr.DisciplineId == discipline.Id &&
-                                                                    apr.KindOfLoadId == kindOfLoad.Id &&
+                                                                    //apr.KindOfLoadId == kindOfLoad.Id &&
                                                                     apr.Semester == sem &&
                                                                     !apr.IsDeleted);
                         if (record == null)
@@ -697,14 +697,14 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
-                                KindOfLoadId = kindOfLoad.Id,
+                                //KindOfLoadId = kindOfLoad.Id,
                                 Semester = sem.ToString(),
-                                Hours = 1
+                                //Hours = 1
                             }));
                         }
                         else
                         {
-                            record.Hours = 1;
+                           // record.Hours = 1;
                             _context.Entry(record).State = EntityState.Modified;
                         }
                         _context.SaveChanges();
@@ -751,7 +751,7 @@ namespace DepartmentService.Services
                             semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
 
                             var apRecords = _context.AcademicPlanRecords
-                            .Include(apr => apr.KindOfLoad)
+                            //.Include(apr => apr.KindOfLoad)
                             .Where(apr => apr.AcademicPlanId == academicPlan.Id &&
                                         semesters.Contains(apr.Semester) &&
                                         !apr.IsDeleted);
@@ -764,7 +764,7 @@ namespace DepartmentService.Services
                             }
 
                             foreach (var apRecord in apRecords)
-                            {//идем по записям учебного плана
+                            {/*//идем по записям учебного плана
                                 var timeNorms = _context.TimeNorms.Where(tn => tn.KindOfLoadId == apRecord.KindOfLoadId);
                                 if (timeNorms.Count() == 0)
                                 {
@@ -772,8 +772,8 @@ namespace DepartmentService.Services
                                     return ResultService.Error("not_found", string.Format("Для вида нагрузок {0} отсуствуют нормы времени",
                                         _context.KindOfLoads.Single(kl => kl.Id == apRecord.KindOfLoadId).KindOfLoadName), ResultServiceStatusCode.NotFound);
                                 }
-                                foreach (var timeNorm in timeNorms)
-                                {//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
+                               foreach (var timeNorm in timeNorms)
+                                { //получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
                                  //их может быть от 1 до нескольких, на каждую нужно создать запись
                                     decimal load = CalcLoad(timeNorm.Formula, apRecords);
                                     var contingents = _context.Contingents
@@ -826,7 +826,7 @@ namespace DepartmentService.Services
                                         }
                                         _context.SaveChanges();
                                     }
-                                }
+                                }*/
                             }
 
                         }
@@ -867,11 +867,11 @@ namespace DepartmentService.Services
             if (match.Success)
             {// среди записей по этой дисциплине ищем вид нагрузки, если он там есть
                 var kindOfLoadName = Regex.Match(match.Value, @"[\w\ ]+").Value;
-                var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(kindOfLoadName));
+                /*var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(kindOfLoadName));
                 if (apR != null)
                 {
                     load *= apR.Hours;
-                }
+                }*/
             }
 
             return load;
@@ -891,7 +891,7 @@ namespace DepartmentService.Services
                             .Take(model.PageSize.Value);
             }
 
-            query = query.Include(ar => ar.AcademicPlan).Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad).Include(ar => ar.AcademicPlan.EducationDirection);
+            query = query.Include(ar => ar.AcademicPlan).Include(ar => ar.Discipline)/*.Include(ar => ar.KindOfLoad)*/.Include(ar => ar.AcademicPlan.EducationDirection);
 
             var result = new AcademicPlanRecordForDiciplinePageViewModel
             {
