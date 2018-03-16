@@ -575,5 +575,26 @@ namespace DepartmentService.ViewModels
             };
         }
         #endregion
+
+        #region LaboratoryHead
+        public static MaterialTechnicalValueViewModel CreateMaterialTechnicalValueViewModel(MaterialTechnicalValue entity)
+        {
+            return new MaterialTechnicalValueViewModel
+            {
+                Id = entity.Id,
+                DateInclude = entity.DateCreate,
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom.Number,
+                InventoryNumber = entity.InventoryNumber,
+                FullName = entity.FullName,
+                Description = entity.Description,
+                Location = entity.Location,
+                Cost = entity.Cost,
+                DateDelete = entity.DateDelete,
+                DeleteReason = entity.DeleteReason
+            };
+        }
+        #endregion
+
     }
 }

@@ -483,6 +483,26 @@ namespace DepartmentService.BindingModels
 			}
 			return entity;
 		}
-		#endregion
-	}
+        #endregion
+
+        #region LaboratoryHead
+        public static MaterialTechnicalValue CreateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model, MaterialTechnicalValue entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new MaterialTechnicalValue();
+            }
+            entity.DateCreate = model.DateInclude;
+            entity.ClassroomId = model.ClassroomId;
+            entity.InventoryNumber = model.InventoryNumber;
+            entity.FullName = model.FullName;
+            entity.Description = model.Description;
+            entity.Location = model.Location;
+            entity.Cost = model.Cost;
+            entity.DeleteReason = model.DeleteReason;
+
+            return entity;
+        }
+        #endregion
+    }
 }
