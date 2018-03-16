@@ -29,7 +29,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
-				//new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 150, Visible = true },
 				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
 				new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true }
 			};
@@ -85,7 +84,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 standartControl.GetDataGridViewRows.Add(
 					res.Id,
 					res.Disciplne,
-					//res.KindOfLoad,
 					res.Semester,
 					res.Zet
 				);

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentModel.Models
 {
+    /// <summary>
+    /// Класс, хранящий информацию о нагрузке по дисциплине в учебном плане
+    /// </summary>
     public class AcademicPlanRecordElement : BaseEntity
     {
         [Required]
@@ -21,6 +20,8 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public decimal Hours { get; set; }
+
+        //-------------------------------------------------------------------------
 
         public virtual AcademicPlanRecord AcademicPlanRecord { get; set; }
 

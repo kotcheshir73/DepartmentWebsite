@@ -17,11 +17,7 @@ namespace DepartmentService.BindingModels
 
 		public Guid DisciplineId { get; set; }
 
-		public Guid KindOfLoadId { get; set; }
-
 		public string Semester { get; set; }
-
-        //public int Hours { get; set; }
 
         public int Zet { get; set; }
     }

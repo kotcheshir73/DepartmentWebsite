@@ -15,9 +15,6 @@ namespace DepartmentService.BindingModels
 		[Required(ErrorMessage = "required")]
 		public string KindOfLoadName { get; set; }
 
-        /*[Required(ErrorMessage = "required")]
-		public string KindOfLoadType { get; set; }*/
-
         [Required(ErrorMessage = "required")]
         public string AttributeName { get; set; }
     }

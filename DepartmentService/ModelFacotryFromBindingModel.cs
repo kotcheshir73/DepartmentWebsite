@@ -119,7 +119,6 @@ namespace DepartmentService.BindingModels
 				entity = new KindOfLoad();
 			}
 			entity.KindOfLoadName = model.KindOfLoadName;
-            //entity.KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType);
             entity.AttributeName = model.AttributeName;
 
             return entity;
@@ -134,7 +133,6 @@ namespace DepartmentService.BindingModels
 			entity.Title = model.Title;
 			entity.KindOfLoadId = model.KindOfLoadId;
             entity.AcademicYearId = model.AcademicYearId;
-			//entity.Formula = model.Formula;
 			entity.Hours = model.Hours;
             entity.NumKoef = model.NumKoef;
             entity.TimeNormKoef = (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
@@ -182,9 +180,7 @@ namespace DepartmentService.BindingModels
 			}
             entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
-			//entity.KindOfLoadId = model.KindOfLoadId;
 			entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
-            //entity.Hours = model.Hours;
             entity.Zet = model.Zet;
 
             return entity;

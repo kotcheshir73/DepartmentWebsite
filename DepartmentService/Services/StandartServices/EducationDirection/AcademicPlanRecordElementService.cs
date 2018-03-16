@@ -5,12 +5,9 @@ using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentService.Services.StandartServices.EducationDirection
 {
@@ -37,11 +34,11 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
             return _serviceAPR.GetAcademicPlanRecords(model);
         }
 
-
         public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
         {
             return _serviceKL.GetKindOfLoads(model);
         }
+
 
         public ResultService<AcademicPlanRecordElementPageViewModel> GetAcademicPlanRecordElements(AcademicPlanRecordElementGetBindingModel model)
         {
@@ -53,9 +50,18 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
                 }
 
                 int countPages = 0;
-                var query = _context.AcademicPlanRecordElements.Where(d => !d.IsDeleted).AsQueryable();
+                var query = _context.AcademicPlanRecordElements.Where(apre => !apre.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(d => d.AcademicPlanRecordId).ThenBy(d => d.KindOfLoadId);
+                if(model.AcademicPlanRecordId.HasValue)
+                {
+                    query = query.Where(apre => apre.AcademicPlanRecordId == model.AcademicPlanRecordId);
+                }
+                if(model.KindOfLoadId.HasValue)
+                {
+                    query = query.Where(apre => apre.KindOfLoadId == model.KindOfLoadId);
+                }
+
+                query = query.OrderBy(apre => apre.AcademicPlanRecordId).ThenBy(apre => apre.KindOfLoadId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -65,7 +71,7 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(d => d.AcademicPlanRecord);
+                query = query.Include(apre => apre.AcademicPlanRecord).Include(apre => apre.KindOfLoad);
 
                 var result = new AcademicPlanRecordElementPageViewModel
                 {
@@ -91,11 +97,11 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
             {
                 if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
                 {
-                    throw new Exception("Нет доступа на чтение данных по элементам записей учебног плана");
+                    throw new Exception("Нет доступа на чтение данных по элементам записей учебного плана");
                 }
 
                 var entity = _context.AcademicPlanRecordElements
-                                .FirstOrDefault(d => d.Id == model.Id && !d.IsDeleted);
+                                .FirstOrDefault(apre => apre.Id == model.Id && !apre.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService<AcademicPlanRecordElementViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -119,7 +125,7 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
             {
                 if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
                 {
-                    throw new Exception("Нет доступа на изменение данных по дисциплинам");
+                    throw new Exception("Нет доступа на изменение данных по элементам записей учебного плана");
                 }
 
                 var entity = ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(model);
@@ -145,7 +151,7 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
             {
                 if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
                 {
-                    throw new Exception("Нет доступа на изменение данных по дисциплинам");
+                    throw new Exception("Нет доступа на изменение данных по элементам записей учебного плана");
                 }
 
                 var entity = _context.AcademicPlanRecordElements.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
@@ -175,7 +181,7 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
             {
                 if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
                 {
-                    throw new Exception("Нет доступа на удаление данных по дисциплинам");
+                    throw new Exception("Нет доступа на удаление данных по элементам записей учебного плана");
                 }
 
                 var entity = _context.AcademicPlanRecordElements.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);

@@ -116,6 +116,10 @@
     <Compile Include="Migrations\201803121441460_Migration1.Designer.cs">
       <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.cs" />
+    <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.Designer.cs">
+      <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -246,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803121441460_Migration1.resx">
       <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.resx">
+      <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

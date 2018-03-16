@@ -25,15 +25,10 @@ namespace DepartmentModel.Models
 		[Required]
         [DataMember]
         public string Title { get; set; }
-
-        /*[DataMember]
-        public string Formula { get; set; }*/
-
-        [Required]
+        
         [DataMember]
         public decimal? Hours { get; set; }
-
-        [Required]
+        
         [DataMember]
         public decimal? NumKoef { get; set; }
 
