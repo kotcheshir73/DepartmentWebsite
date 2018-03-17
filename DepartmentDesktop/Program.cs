@@ -64,6 +64,8 @@ namespace DepartmentDesktop
 			currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
+            currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
+
 
             currentContainer.RegisterType<IAdministrationProcessServer, AdministrationProcessServer>(new HierarchicalLifetimeManager());
 

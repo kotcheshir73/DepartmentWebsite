@@ -214,6 +214,18 @@
     <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.Designer.cs">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -572,6 +584,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.resx">
+      <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.resx">
+      <DependentUpon>MaterialTechnicalValueForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
