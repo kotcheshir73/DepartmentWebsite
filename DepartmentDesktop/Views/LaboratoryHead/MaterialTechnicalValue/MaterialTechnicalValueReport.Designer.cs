@@ -44,7 +44,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(981, 37);
+            this.panelTop.Size = new System.Drawing.Size(734, 37);
             this.panelTop.TabIndex = 0;
             // 
             // comboBoxClassroom
@@ -73,7 +73,7 @@
             this.reportViewerReport.Location = new System.Drawing.Point(0, 37);
             this.reportViewerReport.Name = "reportViewerReport";
             this.reportViewerReport.ServerReport.BearerToken = null;
-            this.reportViewerReport.Size = new System.Drawing.Size(981, 563);
+            this.reportViewerReport.Size = new System.Drawing.Size(734, 724);
             this.reportViewerReport.TabIndex = 1;
             // 
             // buttonGet
@@ -90,10 +90,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(981, 600);
+            this.ClientSize = new System.Drawing.Size(734, 761);
             this.Controls.Add(this.reportViewerReport);
             this.Controls.Add(this.panelTop);
             this.Name = "MaterialTechnicalValueReport";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сводка по аудитории";
             this.Load += new System.EventHandler(this.MaterialTechnicalValueReport_Load);
             this.panelTop.ResumeLayout(false);

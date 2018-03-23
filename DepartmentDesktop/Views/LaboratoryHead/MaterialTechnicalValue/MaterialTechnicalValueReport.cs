@@ -57,6 +57,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
                     ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString())
                 });
                 ReportDataSource source = new ReportDataSource("DataSetMTV", dataSource.Result.List);
+                reportViewerReport.LocalReport.DataSources.Clear();
                 reportViewerReport.LocalReport.DataSources.Add(source);
 
                 reportViewerReport.RefreshReport();
