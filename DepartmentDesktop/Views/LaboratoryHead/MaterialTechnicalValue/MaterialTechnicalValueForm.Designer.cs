@@ -38,7 +38,6 @@
             this.labelDescription = new System.Windows.Forms.Label();
             this.textBoxLocation = new System.Windows.Forms.TextBox();
             this.labelLocation = new System.Windows.Forms.Label();
-            this.textBoxCost = new System.Windows.Forms.TextBox();
             this.labelCost = new System.Windows.Forms.Label();
             this.textBoxDeleteReason = new System.Windows.Forms.TextBox();
             this.labelDeleteReason = new System.Windows.Forms.Label();
@@ -49,6 +48,7 @@
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.textBoxCost = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelClassroom
@@ -82,7 +82,7 @@
             // 
             this.textBoxInventoryNumber.Location = new System.Drawing.Point(136, 33);
             this.textBoxInventoryNumber.Name = "textBoxInventoryNumber";
-            this.textBoxInventoryNumber.Size = new System.Drawing.Size(480, 20);
+            this.textBoxInventoryNumber.Size = new System.Drawing.Size(210, 20);
             this.textBoxInventoryNumber.TabIndex = 5;
             // 
             // textBoxFullName
@@ -91,7 +91,7 @@
             this.textBoxFullName.Multiline = true;
             this.textBoxFullName.Name = "textBoxFullName";
             this.textBoxFullName.Size = new System.Drawing.Size(480, 40);
-            this.textBoxFullName.TabIndex = 7;
+            this.textBoxFullName.TabIndex = 9;
             // 
             // labelFullName
             // 
@@ -99,7 +99,7 @@
             this.labelFullName.Location = new System.Drawing.Point(12, 62);
             this.labelFullName.Name = "labelFullName";
             this.labelFullName.Size = new System.Drawing.Size(90, 13);
-            this.labelFullName.TabIndex = 6;
+            this.labelFullName.TabIndex = 8;
             this.labelFullName.Text = "Наименование*:";
             // 
             // textBoxDescription
@@ -108,7 +108,7 @@
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(480, 100);
-            this.textBoxDescription.TabIndex = 9;
+            this.textBoxDescription.TabIndex = 11;
             // 
             // labelDescription
             // 
@@ -116,7 +116,7 @@
             this.labelDescription.Location = new System.Drawing.Point(12, 108);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(60, 13);
-            this.labelDescription.TabIndex = 8;
+            this.labelDescription.TabIndex = 10;
             this.labelDescription.Text = "Описание:";
             // 
             // textBoxLocation
@@ -124,7 +124,7 @@
             this.textBoxLocation.Location = new System.Drawing.Point(136, 211);
             this.textBoxLocation.Name = "textBoxLocation";
             this.textBoxLocation.Size = new System.Drawing.Size(480, 20);
-            this.textBoxLocation.TabIndex = 11;
+            this.textBoxLocation.TabIndex = 13;
             // 
             // labelLocation
             // 
@@ -132,28 +132,21 @@
             this.labelLocation.Location = new System.Drawing.Point(12, 214);
             this.labelLocation.Name = "labelLocation";
             this.labelLocation.Size = new System.Drawing.Size(85, 13);
-            this.labelLocation.TabIndex = 10;
+            this.labelLocation.TabIndex = 12;
             this.labelLocation.Text = "Расположение:";
-            // 
-            // textBoxCost
-            // 
-            this.textBoxCost.Location = new System.Drawing.Point(136, 237);
-            this.textBoxCost.Name = "textBoxCost";
-            this.textBoxCost.Size = new System.Drawing.Size(210, 20);
-            this.textBoxCost.TabIndex = 13;
             // 
             // labelCost
             // 
             this.labelCost.AutoSize = true;
-            this.labelCost.Location = new System.Drawing.Point(12, 240);
+            this.labelCost.Location = new System.Drawing.Point(363, 36);
             this.labelCost.Name = "labelCost";
             this.labelCost.Size = new System.Drawing.Size(36, 13);
-            this.labelCost.TabIndex = 12;
+            this.labelCost.TabIndex = 6;
             this.labelCost.Text = "Цена:";
             // 
             // textBoxDeleteReason
             // 
-            this.textBoxDeleteReason.Location = new System.Drawing.Point(136, 263);
+            this.textBoxDeleteReason.Location = new System.Drawing.Point(136, 237);
             this.textBoxDeleteReason.Multiline = true;
             this.textBoxDeleteReason.Name = "textBoxDeleteReason";
             this.textBoxDeleteReason.Size = new System.Drawing.Size(210, 40);
@@ -163,7 +156,7 @@
             // labelDeleteReason
             // 
             this.labelDeleteReason.AutoSize = true;
-            this.labelDeleteReason.Location = new System.Drawing.Point(12, 266);
+            this.labelDeleteReason.Location = new System.Drawing.Point(12, 240);
             this.labelDeleteReason.Name = "labelDeleteReason";
             this.labelDeleteReason.Size = new System.Drawing.Size(104, 13);
             this.labelDeleteReason.TabIndex = 14;
@@ -187,7 +180,7 @@
             // 
             // dateTimePickerDateDelete
             // 
-            this.dateTimePickerDateDelete.Location = new System.Drawing.Point(476, 264);
+            this.dateTimePickerDateDelete.Location = new System.Drawing.Point(476, 238);
             this.dateTimePickerDateDelete.Name = "dateTimePickerDateDelete";
             this.dateTimePickerDateDelete.Size = new System.Drawing.Size(140, 20);
             this.dateTimePickerDateDelete.TabIndex = 17;
@@ -195,7 +188,7 @@
             // labelDateDelete
             // 
             this.labelDateDelete.AutoSize = true;
-            this.labelDateDelete.Location = new System.Drawing.Point(363, 266);
+            this.labelDateDelete.Location = new System.Drawing.Point(363, 240);
             this.labelDateDelete.Name = "labelDateDelete";
             this.labelDateDelete.Size = new System.Drawing.Size(87, 13);
             this.labelDateDelete.TabIndex = 16;
@@ -203,7 +196,7 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(377, 319);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(375, 290);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
             this.buttonSaveAndClose.TabIndex = 19;
@@ -213,7 +206,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(524, 319);
+            this.buttonClose.Location = new System.Drawing.Point(522, 290);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 20;
@@ -223,7 +216,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(296, 319);
+            this.buttonSave.Location = new System.Drawing.Point(294, 290);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 18;
@@ -231,11 +224,19 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // textBoxCost
+            // 
+            this.textBoxCost.Location = new System.Drawing.Point(406, 33);
+            this.textBoxCost.Name = "textBoxCost";
+            this.textBoxCost.Size = new System.Drawing.Size(210, 20);
+            this.textBoxCost.TabIndex = 7;
+            // 
             // MaterialTechnicalValueForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 356);
+            this.ClientSize = new System.Drawing.Size(634, 321);
+            this.Controls.Add(this.textBoxCost);
             this.Controls.Add(this.buttonSaveAndClose);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
@@ -245,7 +246,6 @@
             this.Controls.Add(this.labelDateInclude);
             this.Controls.Add(this.textBoxDeleteReason);
             this.Controls.Add(this.labelDeleteReason);
-            this.Controls.Add(this.textBoxCost);
             this.Controls.Add(this.labelCost);
             this.Controls.Add(this.textBoxLocation);
             this.Controls.Add(this.labelLocation);
@@ -258,6 +258,7 @@
             this.Controls.Add(this.comboBoxClassroom);
             this.Controls.Add(this.labelClassroom);
             this.Name = "MaterialTechnicalValueForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Материально-техническая ценность";
             this.Load += new System.EventHandler(this.MaterialTechnicalValueForm_Load);
             this.ResumeLayout(false);
@@ -277,7 +278,6 @@
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.TextBox textBoxLocation;
         private System.Windows.Forms.Label labelLocation;
-        private System.Windows.Forms.TextBox textBoxCost;
         private System.Windows.Forms.Label labelCost;
         private System.Windows.Forms.TextBox textBoxDeleteReason;
         private System.Windows.Forms.Label labelDeleteReason;
@@ -288,5 +288,6 @@
         private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.TextBox textBoxCost;
     }
 }

@@ -1,11 +1,12 @@
 ﻿using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.Services;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Windows.Forms;
+using Unity;
+using Unity.Lifetime;
 
 namespace DepartmentDesktop
 {
@@ -65,6 +66,7 @@ namespace DepartmentDesktop
 			currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILaboratoryProcessService, LaboratoryProcessService>(new HierarchicalLifetimeManager());
 
 
             currentContainer.RegisterType<IAdministrationProcessServer, AdministrationProcessServer>(new HierarchicalLifetimeManager());

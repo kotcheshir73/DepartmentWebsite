@@ -1,12 +1,13 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Student
 {
