@@ -40,7 +40,8 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "MakeCloneToolStripMenuItem", "Создать дубликат"}
+                    { "MakeCloneToolStripMenuItem", "Создать дубликат"},
+                    { "PrintReportToolStripMenuItem", "Распечатать по аудитории"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
@@ -50,6 +51,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("MakeCloneToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportToolStripMenuItem", ShowReportFormToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
                 switch (e.KeyCode)
@@ -166,6 +168,12 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
                     standartControl.LoadPage();
                 }
             }
+        }
+
+        private void ShowReportFormToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<MaterialTechnicalValueReport>();
+            form.Show();
         }
     }
 }
