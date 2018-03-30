@@ -503,6 +503,23 @@ namespace DepartmentService.BindingModels
 
             return entity;
         }
+
+        public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordRecordBindingModel model, SoftwareRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new SoftwareRecord();
+            }
+            entity.DateCreate = model.DateSetup;
+            entity.MaterialTechnicalValueId = model.MaterialTechnicalValueId;
+            entity.SoftwareName = model.SoftwareName;
+            entity.SoftwareDescription = model.SoftwareDescription;
+            entity.SoftwareKey = model.SoftwareKey;
+            entity.SoftwareK = model.SoftwareK;
+            entity.ClaimNumber = model.ClaimNumber;
+
+            return entity;
+        }
         #endregion
     }
 }

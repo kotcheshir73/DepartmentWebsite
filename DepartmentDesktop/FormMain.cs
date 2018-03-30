@@ -481,6 +481,13 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void softwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.SoftwareRecord.SoftwareRecordControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
         #endregion
     }
 }

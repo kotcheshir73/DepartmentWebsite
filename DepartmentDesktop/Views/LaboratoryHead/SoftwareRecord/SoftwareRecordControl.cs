@@ -8,18 +8,18 @@ using Unity;
 using Unity.Attributes;
 using Unity.Resolution;
 
-namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
+namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
 {
-    public partial class MaterialTechnicalValueControl : UserControl
+    public partial class SoftwareRecordControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IMaterialTechnicalValueService _service;
+        private readonly ISoftwareRecordService _service;
 
         private readonly ILaboratoryProcess _process;
 
-        public MaterialTechnicalValueControl(IMaterialTechnicalValueService service, ILaboratoryProcess process)
+        public SoftwareRecordControl(ISoftwareRecordService service, ILaboratoryProcess process)
         {
             InitializeComponent();
             _service = service;
@@ -28,20 +28,23 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 150, Visible = false },
-                new ColumnConfig { Name = "Classroom", Title = "Аудитория", Width = 100, Visible = true },
-                new ColumnConfig { Name = "DateInclude", Title = "Дата принятия", Width = 150, Visible = true },
-                new ColumnConfig { Name = "InventoryNumber", Title = "Инв. номер", Width = 150, Visible = true },
-                new ColumnConfig { Name = "FullName", Title = "Наименование", Width = 250, Visible = true },
-                new ColumnConfig { Name = "Location", Title = "Расположение", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Cost", Title = "Цена", Width = 150, Visible = true }
+                new ColumnConfig { Name = "InventoryNumber", Title = "Инв. номер", Width = 100, Visible = true },
+                new ColumnConfig { Name = "DateSetup", Title = "Дата устанвоки", Width = 150, Visible = true },
+                new ColumnConfig { Name = "SoftwareName", Title = "Название ПО", Width = 250, Visible = true },
+                new ColumnConfig { Name = "SoftwareDescription", Title = "Описание", Width = 350, Visible = true },
+                new ColumnConfig { Name = "SoftwareKey", Title = "Ключ", Width = 250, Visible = true },
+                new ColumnConfig { Name = "ClaimNumber", Title = "Номер заявки", Width = 200, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string>();
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "MakeCloneToolStripMenuItem", "Создать дубликат"},
-                    { "PrintReportToolStripMenuItem", "Распечатать по аудитории"}
+                    { "UpdateSoftwareRecordsToolStripMenuItem", "Изменить подобные"},
+                    { "AddClaimToolStripMenuItem", "Добавить заявку"},
+                    { "PrintReportForClassroomToolStripMenuItem", "Получить список ПО по аудитории"},
+                    { "PrintReportForClaimToolStripMenuItem", "Получить список ПО по заявке"},
+                    { "PrintReportForInventoryNumberToolStripMenuItem", "Получить список ПО по инв. номеру"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
@@ -50,8 +53,11 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("MakeCloneToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
-            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportToolStripMenuItem", ShowReportFormToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("AddClaimToolStripMenuItem", AddClaimToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("UpdateSoftwareRecordsToolStripMenuItem", UpdateSoftwareRecordsToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForClassroomToolStripMenuItem", PrintReportForClassroomToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForClaimToolStripMenuItem", PrintReportForClaimToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForInventoryNumberToolStripMenuItem", PrintReportForInventoryNumberToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
                 switch (e.KeyCode)
@@ -76,7 +82,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetMaterialTechnicalValues(new MaterialTechnicalValueGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetSoftwareRecords(new SoftwareRecordGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -87,12 +93,12 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.Classroom,
-                    res.DateInclude.ToShortDateString(),
                     res.InventoryNumber,
-                    res.FullName,
-                    res.Location,
-                    res.Cost.ToString("N2")
+                    res.DateSetup.ToShortDateString(),
+                    res.SoftwareName,
+                    res.SoftwareDescription,
+                    res.SoftwareKey,
+                    res.ClaimNumber
                 );
             }
             return result.Result.MaxCount;
@@ -100,12 +106,12 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
 
         private void AddRecord()
         {
-            var form = Container.Resolve<MaterialTechnicalValueForm>(
+            var form = Container.Resolve<SoftwareRecordForm>(
                 new ParameterOverrides
                 {
                     { "id", Guid.Empty }
                 }
-                .OnType<MaterialTechnicalValueForm>());
+                .OnType<SoftwareRecordForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -117,12 +123,12 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<MaterialTechnicalValueForm>(
+                var form = Container.Resolve<SoftwareRecordForm>(
                     new ParameterOverrides
                     {
                         { "id", id }
                     }
-                    .OnType<MaterialTechnicalValueForm>());
+                    .OnType<SoftwareRecordForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -139,7 +145,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteMaterialTechnicalValue(new MaterialTechnicalValueRecordBindingModel { Id = id });
+                        var result = _service.DeleteSoftwareRecord(new SoftwareRecordRecordBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -150,19 +156,19 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             }
         }
 
-        private void LoadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UpdateSoftwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (standartControl.GetDataGridViewSelectedRows.Count > 0)
             {
-                if (MessageBox.Show("Вы уверены, что хотите создать копию?", "Создание дубликата", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Вы уверены, что хотите изменить другие записи?", "Пакетное изменение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _process.MakeClone(new LaboratoryProcessMakeCloneBindingModel { Id = id });
+                        var result = _process.ApplyInfoByAnotherSoftwareReocrds(new LaboratoryProcessApplyInfoByAnotherSoftwareReocrdsBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
-                            Program.PrintErrorMessage("При клонировании возникла ошибка: ", result.Errors);
+                            Program.PrintErrorMessage("При изменении возникла ошибка: ", result.Errors);
                         }
                     }
                     standartControl.LoadPage();
@@ -170,9 +176,27 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
             }
         }
 
-        private void ShowReportFormToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddClaimToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<MaterialTechnicalValueReport>();
+            var form = Container.Resolve<SoftwareRecordAddClaimForm>();
+            form.Show();
+        }
+
+        private void PrintReportForClassroomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ReportSoftwareRecordsByClassroom>();
+            form.Show();
+        }
+
+        private void PrintReportForClaimToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ReportSoftwareRecordsByClaim>();
+            form.Show();
+        }
+
+        private void PrintReportForInventoryNumberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ReportSoftwareRecordsByInventoryNumber>();
             form.Show();
         }
     }

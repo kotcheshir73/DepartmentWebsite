@@ -1,13 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentService.BindingModels
 {
-    public class LaboratoryProcessMakeCloneBindingModels
+    public class LaboratoryProcessMakeCloneBindingModel
     {
         public Guid Id { get; set; }
+    }
+
+    public class LaboratoryProcessApplyInfoByAnotherSoftwareReocrdsBindingModel
+    {
+        public Guid Id { get; set; }
+    }
+
+    public class LaboratoryProcessGetSoftwareRecordsByClassroomBindingModel
+    {
+        public Guid ClassroomId { get; set; }
+
+        public string ClaimNumber { get; set; }
+
+        public string InventoryNumber { get; set; }
     }
 }

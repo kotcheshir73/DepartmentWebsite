@@ -85,6 +85,7 @@
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -517,7 +518,8 @@
             // laboratoryHeadToolStripMenuItem
             // 
             this.laboratoryHeadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.materialTechnicalValueToolStripMenuItem});
+            this.materialTechnicalValueToolStripMenuItem,
+            this.softwareRecordsToolStripMenuItem});
             this.laboratoryHeadToolStripMenuItem.Name = "laboratoryHeadToolStripMenuItem";
             this.laboratoryHeadToolStripMenuItem.Size = new System.Drawing.Size(123, 20);
             this.laboratoryHeadToolStripMenuItem.Text = "Зав. лабораторией";
@@ -528,6 +530,13 @@
             this.materialTechnicalValueToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
             this.materialTechnicalValueToolStripMenuItem.Text = "Материально-технические ценности";
             this.materialTechnicalValueToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueToolStripMenuItem_Click);
+            // 
+            // softwareRecordsToolStripMenuItem
+            // 
+            this.softwareRecordsToolStripMenuItem.Name = "softwareRecordsToolStripMenuItem";
+            this.softwareRecordsToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.softwareRecordsToolStripMenuItem.Text = "Список установленного ПО";
+            this.softwareRecordsToolStripMenuItem.Click += new System.EventHandler(this.softwareRecordsToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -606,6 +615,7 @@
         private System.Windows.Forms.ToolStripMenuItem lecturerPostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem laboratoryHeadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem softwareRecordsToolStripMenuItem;
     }
 }
 

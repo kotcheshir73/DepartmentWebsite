@@ -261,6 +261,42 @@
     <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.Designer.cs">
       <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.Designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.Designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.Designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.Designer.cs">
+      <DependentUpon>SoftwareRecordAddClaimForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.Designer.cs">
+      <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.Designer.cs">
+      <DependentUpon>SoftwareRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -630,6 +666,27 @@
       <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
+      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.resx">
+      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.resx">
+      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.resx">
+      <DependentUpon>SoftwareRecordAddClaimForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.resx">
+      <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.resx">
+      <DependentUpon>SoftwareRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -785,7 +842,10 @@
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueViewModel.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.SoftwareRecordViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

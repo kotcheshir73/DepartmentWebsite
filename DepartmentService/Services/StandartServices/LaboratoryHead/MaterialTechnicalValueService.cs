@@ -49,6 +49,11 @@ namespace DepartmentService.Services
                     query = query.Where(ap => ap.ClassroomId == model.ClassroomId);
                 }
 
+                if (!string.IsNullOrEmpty(model.InventoryNumber))
+                {
+                    query = query.Where(ap => ap.InventoryNumber.Contains(model.InventoryNumber));
+                }
+
                 query = query.OrderBy(ap => ap.Classroom.Number).ThenBy(ap => ap.InventoryNumber).ThenBy(ap => ap.DateCreate);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)

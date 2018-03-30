@@ -594,6 +594,22 @@ namespace DepartmentService.ViewModels
                 DeleteReason = entity.DeleteReason
             };
         }
+
+        public static SoftwareRecordViewModel CreateSoftwareRecordViewModel(SoftwareRecord entity)
+        {
+            return new SoftwareRecordViewModel
+            {
+                Id = entity.Id,
+                DateSetup = entity.DateCreate,
+                MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
+                InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
+                SoftwareName = entity.SoftwareName,
+                SoftwareDescription = entity.SoftwareDescription,
+                SoftwareKey = entity.SoftwareKey,
+                SoftwareK = entity.SoftwareK,
+                ClaimNumber = entity.ClaimNumber
+            };
+        }
         #endregion
 
     }
