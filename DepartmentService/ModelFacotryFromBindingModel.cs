@@ -504,6 +504,33 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static MaterialTechnicalValueGroup CreateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupRecordBindingModel model, MaterialTechnicalValueGroup entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new MaterialTechnicalValueGroup();
+            }
+            entity.GroupName = model.GroupName;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static MaterialTechnicalValueRecord CreateMaterialTechnicalValueRecord(MaterialTechnicalValueRecordRecordBindingModel model, MaterialTechnicalValueRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new MaterialTechnicalValueRecord();
+            }
+            entity.MaterialTechnicalValueId = model.MaterialTechnicalValueId;
+            entity.MaterialTechnicalValueGroupId = model.MaterialTechnicalValueGroupId;
+            entity.FieldName = model.FieldName;
+            entity.FieldValue = model.FieldValue;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
         public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordRecordBindingModel model, SoftwareRecord entity = null)
         {
             if (entity == null)
