@@ -2,15 +2,16 @@
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 {
-	public partial class LecturerForm : Form
+    public partial class LecturerForm : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }

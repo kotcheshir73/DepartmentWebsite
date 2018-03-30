@@ -33,32 +33,39 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -72,6 +79,27 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.2.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.7.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.5.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.7.3\lib\net45\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizationService.cs" />
@@ -88,6 +116,7 @@
       <DependentUpon>FormError.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ColumnConfig.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -213,6 +242,60 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.Designer.cs">
       <DependentUpon>LecturerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.Designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.Designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.Designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.Designer.cs">
+      <DependentUpon>SoftwareRecordAddClaimForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.Designer.cs">
+      <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.Designer.cs">
+      <DependentUpon>SoftwareRecordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.cs">
       <SubType>UserControl</SubType>
@@ -573,6 +656,37 @@
     <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.resx">
+      <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.resx">
+      <DependentUpon>MaterialTechnicalValueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.resx">
+      <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
+      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.resx">
+      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.resx">
+      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.resx">
+      <DependentUpon>SoftwareRecordAddClaimForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.resx">
+      <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.resx">
+      <DependentUpon>SoftwareRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -728,6 +842,10 @@
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueViewModel.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.SoftwareRecordViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -780,6 +898,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Right.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll" />
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll" />
+    <Content Include="SqlServerTypes\x86\msvcr120.dll" />
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
