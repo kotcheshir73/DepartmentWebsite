@@ -174,9 +174,9 @@ namespace DepartmentService.Services
         {
             try
             {
-                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
                 {
-                    throw new Exception("Нет доступа на изменение данных по материально-техническим ценностям");
+                    throw new Exception("Нет доступа на удаление данных по материально-техническим ценностям");
                 }
 
                 var entity = _context.MaterialTechnicalValues.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
