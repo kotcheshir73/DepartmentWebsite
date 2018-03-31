@@ -8,6 +8,8 @@ namespace DepartmentService.IServices
     {
         ResultService MakeClone(LaboratoryProcessMakeCloneBindingModel model);
 
+        ResultService ApplyMTVRecords(LaboratoryProcessApplyMTVRecordsBindingModel model);
+
         ResultService ApplyInfoByAnotherSoftwareReocrds(LaboratoryProcessApplyInfoByAnotherSoftwareReocrdsBindingModel model);
 
         ResultService<LaboratoryProcessSoftwareRecordPageViewModel> GetSoftwareRecordsByClassrooms(LaboratoryProcessGetSoftwareRecordsByClassroomBindingModel model);

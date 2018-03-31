@@ -614,6 +614,7 @@ namespace DepartmentService.ViewModels
                 InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
                 MaterialTechnicalValueGroupId = entity.MaterialTechnicalValueGroupId,
                 GroupName = entity.MaterialTechnicalValueGroup.GroupName,
+                GroupOrder = entity.MaterialTechnicalValueGroup.Order,
                 FieldName = entity.FieldName,
                 FieldValue = entity.FieldValue,
                 Order = entity.Order

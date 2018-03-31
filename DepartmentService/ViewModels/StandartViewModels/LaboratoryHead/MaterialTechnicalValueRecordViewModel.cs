@@ -16,6 +16,8 @@ namespace DepartmentService.ViewModels
 
         public string GroupName { get; set; }
 
+        public int GroupOrder { get; set; }
+
         public string FieldName { get; set; }
 
         public string FieldValue { get; set; }

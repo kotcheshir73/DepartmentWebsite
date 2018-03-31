@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 
-namespace DepartmentService.Services.StandartServices.LaboratoryHead
+namespace DepartmentService.Services
 {
     public class MaterialTechnicalValueRecordService : IMaterialTechnicalValueRecordService
     {
@@ -22,7 +22,6 @@ namespace DepartmentService.Services.StandartServices.LaboratoryHead
         private readonly IMaterialTechnicalValueService _serviceMTV;
 
         private readonly IMaterialTechnicalValueGroupService _serviceMTVG;
-        private object ap;
 
         public MaterialTechnicalValueRecordService(DepartmentDbContext context, IMaterialTechnicalValueService serviceMTV,
             IMaterialTechnicalValueGroupService serviceMTVG)
@@ -66,7 +65,7 @@ namespace DepartmentService.Services.StandartServices.LaboratoryHead
                     query = query.Where(x => x.MaterialTechnicalValueGroupId == model.MaterialTechnicalValueGroupId);
                 }
 
-                query = query.OrderBy(x => x.MaterialTechnicalValueGroupId).ThenBy(x => x.Order);
+                query = query.OrderBy(x => x.MaterialTechnicalValueGroup.Order).ThenBy(x => x.Order);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {

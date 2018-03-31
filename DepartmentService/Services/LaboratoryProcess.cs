@@ -58,6 +58,51 @@ namespace DepartmentService.Services
             }
         }
 
+        public ResultService ApplyMTVRecords(LaboratoryProcessApplyMTVRecordsBindingModel model)
+        {
+            try
+            {
+                if (!AccessCheckService.CheckAccess(AccessOperation.МатериальноТехническиеЦенности, AccessType.Change))
+                {
+                    throw new Exception("Нет доступа на изменение данных по материально-техническим ценностям");
+                }
+
+                var entities = _context.MaterialTechnicalValueRecords
+                                .Where(x => x.MaterialTechnicalValueId == model.Id && !x.IsDeleted);
+                if (entities == null || entities.Count() == 0)
+                {
+                    return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+                }
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    for(int i = 0; i < model.ApllyIds.Count; ++i)
+                    {
+                        foreach(var entity in entities)
+                        {
+                            var newEntity = new MaterialTechnicalValueRecord
+                            {
+                                MaterialTechnicalValueId = model.ApllyIds[i],
+                                MaterialTechnicalValueGroupId = entity.MaterialTechnicalValueGroupId,
+                                FieldName = entity.FieldName,
+                                FieldValue = entity.FieldValue,
+                                Order = entity.Order
+                            };
+
+                            _context.MaterialTechnicalValueRecords.Add(newEntity);
+                            _context.SaveChanges();
+                        }
+                    }
+                    transaction.Commit();
+                }
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService ApplyInfoByAnotherSoftwareReocrds(LaboratoryProcessApplyInfoByAnotherSoftwareReocrdsBindingModel model)
         {
             try

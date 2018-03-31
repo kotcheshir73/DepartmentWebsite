@@ -22,8 +22,7 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string FieldName { get; set; }
-
-        [Required(ErrorMessage = "required")]
+        
         public string FieldValue { get; set; }
 
         [Required(ErrorMessage = "required")]

@@ -1,4 +1,5 @@
-﻿using DepartmentModel;
+﻿using DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValueRecord;
+using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -31,6 +32,19 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
 
         private void MaterialTechnicalValueForm_Load(object sender, EventArgs e)
         {
+            var controlAP = Container.Resolve<MaterialTechnicalValueRecordControl>();
+
+            controlAP.Left = 0;
+            controlAP.Top = 0;
+            controlAP.Height = Height - 60;
+            controlAP.Width = Width - 15;
+            controlAP.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
+            tabPageMaterialTechnicalValueRecords.Controls.Add(controlAP);
+
             var resultC = _service.GetClassrooms(new ClassroomGetBindingModel { });
             if (!resultC.Succeeded)
             {
@@ -52,6 +66,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
 
         private void LoadData()
         {
+            (tabPageMaterialTechnicalValueRecords.Controls[0] as MaterialTechnicalValueRecordControl).LoadData(_id.Value);
             var result = _service.GetMaterialTechnicalValue(new MaterialTechnicalValueGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {

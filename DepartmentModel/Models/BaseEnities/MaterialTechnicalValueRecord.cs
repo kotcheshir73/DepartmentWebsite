@@ -17,8 +17,7 @@ namespace DepartmentModel.Models
 
         [DataMember]
         public string FieldName { get; set; }
-
-        [DataMember]
+        
         public string FieldValue { get; set; }
 
         [DataMember]

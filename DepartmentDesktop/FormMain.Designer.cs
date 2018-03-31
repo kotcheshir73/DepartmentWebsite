@@ -86,6 +86,7 @@
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -519,6 +520,7 @@
             // 
             this.laboratoryHeadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.materialTechnicalValueToolStripMenuItem,
+            this.materialTechnicalValueGroupToolStripMenuItem,
             this.softwareRecordsToolStripMenuItem});
             this.laboratoryHeadToolStripMenuItem.Name = "laboratoryHeadToolStripMenuItem";
             this.laboratoryHeadToolStripMenuItem.Size = new System.Drawing.Size(123, 20);
@@ -537,6 +539,13 @@
             this.softwareRecordsToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
             this.softwareRecordsToolStripMenuItem.Text = "Список установленного ПО";
             this.softwareRecordsToolStripMenuItem.Click += new System.EventHandler(this.softwareRecordsToolStripMenuItem_Click);
+            // 
+            // materialTechnicalValueGroupToolStripMenuItem
+            // 
+            this.materialTechnicalValueGroupToolStripMenuItem.Name = "materialTechnicalValueGroupToolStripMenuItem";
+            this.materialTechnicalValueGroupToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.materialTechnicalValueGroupToolStripMenuItem.Text = "Группы описаний для МТЦ";
+            this.materialTechnicalValueGroupToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueGroupToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -616,6 +625,7 @@
         private System.Windows.Forms.ToolStripMenuItem laboratoryHeadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softwareRecordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueGroupToolStripMenuItem;
     }
 }
 
