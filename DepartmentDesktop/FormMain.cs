@@ -474,10 +474,16 @@ namespace DepartmentDesktop
         #endregion
 
         #region Зав. лабораторией
-
         private void materialTechnicalValueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LaboratoryHead.MaterialTechnicalValue.MaterialTechnicalValueControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void materialTechnicalValueGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.MaterialTechnicalValueGroup.MaterialTechnicalValueGroupControl>();
             ApplyControl(control);
             control.LoadData();
         }

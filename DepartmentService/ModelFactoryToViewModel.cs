@@ -595,6 +595,32 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static MaterialTechnicalValueGroupViewModel CreateMaterialTechnicalValueGroupViewModel(MaterialTechnicalValueGroup entity)
+        {
+            return new MaterialTechnicalValueGroupViewModel
+            {
+                Id = entity.Id,
+                GroupName = entity.GroupName,
+                Order = entity.Order
+            };
+        }
+
+        public static MaterialTechnicalValueRecordViewModel CreateMaterialTechnicalValueRecordViewModel(MaterialTechnicalValueRecord entity)
+        {
+            return new MaterialTechnicalValueRecordViewModel
+            {
+                Id = entity.Id,
+                MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
+                InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
+                MaterialTechnicalValueGroupId = entity.MaterialTechnicalValueGroupId,
+                GroupName = entity.MaterialTechnicalValueGroup.GroupName,
+                GroupOrder = entity.MaterialTechnicalValueGroup.Order,
+                FieldName = entity.FieldName,
+                FieldValue = entity.FieldValue,
+                Order = entity.Order
+            };
+        }
+
         public static SoftwareRecordViewModel CreateSoftwareRecordViewModel(SoftwareRecord entity)
         {
             return new SoftwareRecordViewModel

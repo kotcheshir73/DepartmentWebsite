@@ -89,6 +89,8 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueGroupBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\SoftwareRecordBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
     <Compile Include="Context\DatabaseInitializer.cs" />
@@ -103,6 +105,8 @@
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\ISoftwareRecordService.cs" />
     <Compile Include="Migrations\201802031805181_InitMigration.cs" />
@@ -128,6 +132,10 @@
     <Compile Include="Migrations\201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.cs" />
     <Compile Include="Migrations\201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.Designer.cs">
       <DependentUpon>201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs" />
+    <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.Designer.cs">
+      <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -199,6 +207,8 @@
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentGroupService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentHistoryService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueGroupService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueRecordService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\SoftwareRecordService.cs" />
     <Compile Include="Services\StudentMoveService.cs" />
@@ -238,6 +248,8 @@
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\TimeNormViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\UserViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueGroupViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueRecordViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareRecordViewModel.cs" />
   </ItemGroup>
@@ -270,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.resx">
       <DependentUpon>201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.resx">
+      <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

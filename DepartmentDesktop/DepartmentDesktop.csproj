@@ -243,6 +243,42 @@
     <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.Designer.cs">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupForm.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueApplyTMCRecrodsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueApplyTMCRecrodsForm.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueApplyTMCRecrodsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValuePassport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValuePassport.Designer.cs">
+      <DependentUpon>MaterialTechnicalValuePassport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordControl.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordForm.Designer.cs">
+      <DependentUpon>MaterialTechnicalValueRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -656,6 +692,24 @@
     <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.resx">
+      <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupForm.resx">
+      <DependentUpon>MaterialTechnicalValueGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueApplyTMCRecrodsForm.resx">
+      <DependentUpon>MaterialTechnicalValueApplyTMCRecrodsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValuePassport.resx">
+      <DependentUpon>MaterialTechnicalValuePassport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordControl.resx">
+      <DependentUpon>MaterialTechnicalValueRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordForm.resx">
+      <DependentUpon>MaterialTechnicalValueRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.resx">
       <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -666,6 +720,7 @@
       <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValuePassport.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
       <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
@@ -844,6 +899,7 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueRecordViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.SoftwareRecordViewModel.datasource" />
     <None Include="Properties\Settings.settings">
@@ -906,6 +962,7 @@
     <Content Include="SqlServerTypes\x86\msvcr120.dll" />
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

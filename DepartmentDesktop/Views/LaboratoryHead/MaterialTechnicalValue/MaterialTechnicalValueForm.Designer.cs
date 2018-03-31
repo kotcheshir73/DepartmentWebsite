@@ -49,12 +49,17 @@
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxCost = new System.Windows.Forms.TextBox();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPageConfig = new System.Windows.Forms.TabPage();
+            this.tabPageMaterialTechnicalValueRecords = new System.Windows.Forms.TabPage();
+            this.tabControl.SuspendLayout();
+            this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelClassroom
             // 
             this.labelClassroom.AutoSize = true;
-            this.labelClassroom.Location = new System.Drawing.Point(12, 9);
+            this.labelClassroom.Location = new System.Drawing.Point(15, 12);
             this.labelClassroom.Name = "labelClassroom";
             this.labelClassroom.Size = new System.Drawing.Size(67, 13);
             this.labelClassroom.TabIndex = 0;
@@ -64,7 +69,7 @@
             // 
             this.comboBoxClassroom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxClassroom.FormattingEnabled = true;
-            this.comboBoxClassroom.Location = new System.Drawing.Point(136, 6);
+            this.comboBoxClassroom.Location = new System.Drawing.Point(139, 9);
             this.comboBoxClassroom.Name = "comboBoxClassroom";
             this.comboBoxClassroom.Size = new System.Drawing.Size(210, 21);
             this.comboBoxClassroom.TabIndex = 1;
@@ -72,7 +77,7 @@
             // labelInventoryNumber
             // 
             this.labelInventoryNumber.AutoSize = true;
-            this.labelInventoryNumber.Location = new System.Drawing.Point(12, 36);
+            this.labelInventoryNumber.Location = new System.Drawing.Point(15, 39);
             this.labelInventoryNumber.Name = "labelInventoryNumber";
             this.labelInventoryNumber.Size = new System.Drawing.Size(118, 13);
             this.labelInventoryNumber.TabIndex = 4;
@@ -80,14 +85,14 @@
             // 
             // textBoxInventoryNumber
             // 
-            this.textBoxInventoryNumber.Location = new System.Drawing.Point(136, 33);
+            this.textBoxInventoryNumber.Location = new System.Drawing.Point(139, 36);
             this.textBoxInventoryNumber.Name = "textBoxInventoryNumber";
             this.textBoxInventoryNumber.Size = new System.Drawing.Size(210, 20);
             this.textBoxInventoryNumber.TabIndex = 5;
             // 
             // textBoxFullName
             // 
-            this.textBoxFullName.Location = new System.Drawing.Point(136, 59);
+            this.textBoxFullName.Location = new System.Drawing.Point(139, 62);
             this.textBoxFullName.Multiline = true;
             this.textBoxFullName.Name = "textBoxFullName";
             this.textBoxFullName.Size = new System.Drawing.Size(480, 40);
@@ -96,7 +101,7 @@
             // labelFullName
             // 
             this.labelFullName.AutoSize = true;
-            this.labelFullName.Location = new System.Drawing.Point(12, 62);
+            this.labelFullName.Location = new System.Drawing.Point(15, 65);
             this.labelFullName.Name = "labelFullName";
             this.labelFullName.Size = new System.Drawing.Size(90, 13);
             this.labelFullName.TabIndex = 8;
@@ -104,7 +109,7 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(136, 105);
+            this.textBoxDescription.Location = new System.Drawing.Point(139, 108);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(480, 100);
@@ -113,7 +118,7 @@
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(12, 108);
+            this.labelDescription.Location = new System.Drawing.Point(15, 111);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(60, 13);
             this.labelDescription.TabIndex = 10;
@@ -121,7 +126,7 @@
             // 
             // textBoxLocation
             // 
-            this.textBoxLocation.Location = new System.Drawing.Point(136, 211);
+            this.textBoxLocation.Location = new System.Drawing.Point(139, 214);
             this.textBoxLocation.Name = "textBoxLocation";
             this.textBoxLocation.Size = new System.Drawing.Size(480, 20);
             this.textBoxLocation.TabIndex = 13;
@@ -129,7 +134,7 @@
             // labelLocation
             // 
             this.labelLocation.AutoSize = true;
-            this.labelLocation.Location = new System.Drawing.Point(12, 214);
+            this.labelLocation.Location = new System.Drawing.Point(15, 217);
             this.labelLocation.Name = "labelLocation";
             this.labelLocation.Size = new System.Drawing.Size(85, 13);
             this.labelLocation.TabIndex = 12;
@@ -138,7 +143,7 @@
             // labelCost
             // 
             this.labelCost.AutoSize = true;
-            this.labelCost.Location = new System.Drawing.Point(363, 36);
+            this.labelCost.Location = new System.Drawing.Point(366, 39);
             this.labelCost.Name = "labelCost";
             this.labelCost.Size = new System.Drawing.Size(36, 13);
             this.labelCost.TabIndex = 6;
@@ -146,7 +151,7 @@
             // 
             // textBoxDeleteReason
             // 
-            this.textBoxDeleteReason.Location = new System.Drawing.Point(136, 237);
+            this.textBoxDeleteReason.Location = new System.Drawing.Point(139, 240);
             this.textBoxDeleteReason.Multiline = true;
             this.textBoxDeleteReason.Name = "textBoxDeleteReason";
             this.textBoxDeleteReason.Size = new System.Drawing.Size(210, 40);
@@ -156,7 +161,7 @@
             // labelDeleteReason
             // 
             this.labelDeleteReason.AutoSize = true;
-            this.labelDeleteReason.Location = new System.Drawing.Point(12, 240);
+            this.labelDeleteReason.Location = new System.Drawing.Point(15, 243);
             this.labelDeleteReason.Name = "labelDeleteReason";
             this.labelDeleteReason.Size = new System.Drawing.Size(104, 13);
             this.labelDeleteReason.TabIndex = 14;
@@ -165,7 +170,7 @@
             // labelDateInclude
             // 
             this.labelDateInclude.AutoSize = true;
-            this.labelDateInclude.Location = new System.Drawing.Point(363, 9);
+            this.labelDateInclude.Location = new System.Drawing.Point(366, 12);
             this.labelDateInclude.Name = "labelDateInclude";
             this.labelDateInclude.Size = new System.Drawing.Size(107, 13);
             this.labelDateInclude.TabIndex = 2;
@@ -173,14 +178,14 @@
             // 
             // dateTimePickerDateInclude
             // 
-            this.dateTimePickerDateInclude.Location = new System.Drawing.Point(476, 7);
+            this.dateTimePickerDateInclude.Location = new System.Drawing.Point(479, 10);
             this.dateTimePickerDateInclude.Name = "dateTimePickerDateInclude";
             this.dateTimePickerDateInclude.Size = new System.Drawing.Size(140, 20);
             this.dateTimePickerDateInclude.TabIndex = 3;
             // 
             // dateTimePickerDateDelete
             // 
-            this.dateTimePickerDateDelete.Location = new System.Drawing.Point(476, 238);
+            this.dateTimePickerDateDelete.Location = new System.Drawing.Point(479, 241);
             this.dateTimePickerDateDelete.Name = "dateTimePickerDateDelete";
             this.dateTimePickerDateDelete.Size = new System.Drawing.Size(140, 20);
             this.dateTimePickerDateDelete.TabIndex = 17;
@@ -188,7 +193,7 @@
             // labelDateDelete
             // 
             this.labelDateDelete.AutoSize = true;
-            this.labelDateDelete.Location = new System.Drawing.Point(363, 240);
+            this.labelDateDelete.Location = new System.Drawing.Point(366, 243);
             this.labelDateDelete.Name = "labelDateDelete";
             this.labelDateDelete.Size = new System.Drawing.Size(87, 13);
             this.labelDateDelete.TabIndex = 16;
@@ -196,7 +201,7 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(375, 290);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(378, 293);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
             this.buttonSaveAndClose.TabIndex = 19;
@@ -206,7 +211,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(522, 290);
+            this.buttonClose.Location = new System.Drawing.Point(525, 293);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 20;
@@ -216,7 +221,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(294, 290);
+            this.buttonSave.Location = new System.Drawing.Point(297, 293);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 18;
@@ -226,43 +231,77 @@
             // 
             // textBoxCost
             // 
-            this.textBoxCost.Location = new System.Drawing.Point(406, 33);
+            this.textBoxCost.Location = new System.Drawing.Point(409, 36);
             this.textBoxCost.Name = "textBoxCost";
             this.textBoxCost.Size = new System.Drawing.Size(210, 20);
             this.textBoxCost.TabIndex = 7;
+            // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPageConfig);
+            this.tabControl.Controls.Add(this.tabPageMaterialTechnicalValueRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(730, 370);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabPageConfig
+            // 
+            this.tabPageConfig.Controls.Add(this.labelClassroom);
+            this.tabPageConfig.Controls.Add(this.textBoxCost);
+            this.tabPageConfig.Controls.Add(this.comboBoxClassroom);
+            this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
+            this.tabPageConfig.Controls.Add(this.labelInventoryNumber);
+            this.tabPageConfig.Controls.Add(this.buttonClose);
+            this.tabPageConfig.Controls.Add(this.textBoxInventoryNumber);
+            this.tabPageConfig.Controls.Add(this.buttonSave);
+            this.tabPageConfig.Controls.Add(this.labelFullName);
+            this.tabPageConfig.Controls.Add(this.dateTimePickerDateDelete);
+            this.tabPageConfig.Controls.Add(this.textBoxFullName);
+            this.tabPageConfig.Controls.Add(this.labelDateDelete);
+            this.tabPageConfig.Controls.Add(this.labelDescription);
+            this.tabPageConfig.Controls.Add(this.dateTimePickerDateInclude);
+            this.tabPageConfig.Controls.Add(this.textBoxDescription);
+            this.tabPageConfig.Controls.Add(this.labelDateInclude);
+            this.tabPageConfig.Controls.Add(this.labelLocation);
+            this.tabPageConfig.Controls.Add(this.textBoxDeleteReason);
+            this.tabPageConfig.Controls.Add(this.textBoxLocation);
+            this.tabPageConfig.Controls.Add(this.labelDeleteReason);
+            this.tabPageConfig.Controls.Add(this.labelCost);
+            this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
+            this.tabPageConfig.Name = "tabPageConfig";
+            this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageConfig.Size = new System.Drawing.Size(643, 344);
+            this.tabPageConfig.TabIndex = 0;
+            this.tabPageConfig.Text = "Настройки";
+            this.tabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // tabPageMaterialTechnicalValueRecords
+            // 
+            this.tabPageMaterialTechnicalValueRecords.Location = new System.Drawing.Point(4, 22);
+            this.tabPageMaterialTechnicalValueRecords.Name = "tabPageMaterialTechnicalValueRecords";
+            this.tabPageMaterialTechnicalValueRecords.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMaterialTechnicalValueRecords.Size = new System.Drawing.Size(722, 344);
+            this.tabPageMaterialTechnicalValueRecords.TabIndex = 1;
+            this.tabPageMaterialTechnicalValueRecords.Text = "Характеристики";
+            this.tabPageMaterialTechnicalValueRecords.UseVisualStyleBackColor = true;
             // 
             // MaterialTechnicalValueForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 321);
-            this.Controls.Add(this.textBoxCost);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.dateTimePickerDateDelete);
-            this.Controls.Add(this.labelDateDelete);
-            this.Controls.Add(this.dateTimePickerDateInclude);
-            this.Controls.Add(this.labelDateInclude);
-            this.Controls.Add(this.textBoxDeleteReason);
-            this.Controls.Add(this.labelDeleteReason);
-            this.Controls.Add(this.labelCost);
-            this.Controls.Add(this.textBoxLocation);
-            this.Controls.Add(this.labelLocation);
-            this.Controls.Add(this.textBoxDescription);
-            this.Controls.Add(this.labelDescription);
-            this.Controls.Add(this.textBoxFullName);
-            this.Controls.Add(this.labelFullName);
-            this.Controls.Add(this.textBoxInventoryNumber);
-            this.Controls.Add(this.labelInventoryNumber);
-            this.Controls.Add(this.comboBoxClassroom);
-            this.Controls.Add(this.labelClassroom);
+            this.ClientSize = new System.Drawing.Size(730, 370);
+            this.Controls.Add(this.tabControl);
             this.Name = "MaterialTechnicalValueForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Материально-техническая ценность";
             this.Load += new System.EventHandler(this.MaterialTechnicalValueForm_Load);
+            this.tabControl.ResumeLayout(false);
+            this.tabPageConfig.ResumeLayout(false);
+            this.tabPageConfig.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -289,5 +328,8 @@
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TextBox textBoxCost;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageConfig;
+        private System.Windows.Forms.TabPage tabPageMaterialTechnicalValueRecords;
     }
 }

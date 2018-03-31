@@ -26,12 +26,16 @@ namespace DepartmentModel.Models
         [DataMember]
         public string FullName { get; set; }
 
+        [DataMember]
         public string Description { get; set; }
 
+        [DataMember]
         public string Location { get; set; }
 
+        [DataMember]
         public decimal Cost { get; set; }
 
+        [DataMember]
         public string DeleteReason { get; set; }
 
         //-------------------------------------------------------------------------
@@ -39,6 +43,9 @@ namespace DepartmentModel.Models
         public virtual Classroom Classroom { get; set; }
 
         //-------------------------------------------------------------------------
+
+        [ForeignKey("MaterialTechnicalValueId")]
+        public virtual List<MaterialTechnicalValueRecord> MaterialTechnicalValueRecords { get; set; }
 
         [ForeignKey("MaterialTechnicalValueId")]
         public virtual List<SoftwareRecord> SoftwareRecords { get; set; }

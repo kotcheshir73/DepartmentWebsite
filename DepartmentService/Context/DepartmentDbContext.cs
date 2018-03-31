@@ -46,6 +46,8 @@ namespace DepartmentService.Context
         public virtual DbSet<LoadDistributionMission> LoadDistributionMissions { get; set; }
         public virtual DbSet<LoadDistributionRecord> LoadDistributionRecords { get; set; }
         public virtual DbSet<MaterialTechnicalValue> MaterialTechnicalValues { set; get; }
+        public virtual DbSet<MaterialTechnicalValueGroup> MaterialTechnicalValueGroups { set; get; }
+        public virtual DbSet<MaterialTechnicalValueRecord> MaterialTechnicalValueRecords { set; get; }
         public virtual DbSet<Message> Messages { set; get; }
         public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }

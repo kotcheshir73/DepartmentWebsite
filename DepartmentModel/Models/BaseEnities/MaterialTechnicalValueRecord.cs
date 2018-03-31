@@ -4,32 +4,30 @@ using System.Runtime.Serialization;
 namespace DepartmentModel.Models
 {
     /// <summary>
-    /// Класс, описывающий ПО, установленное на ПК
+    /// Класс, описывающий сведение по мат тех ценности
     /// </summary>
     [DataContract]
-    public class SoftwareRecord : BaseEntity
+    public class MaterialTechnicalValueRecord : BaseEntity
     {
         [DataMember]
         public Guid MaterialTechnicalValueId { get; set; }
 
         [DataMember]
-        public string SoftwareName { get; set; }
+        public Guid MaterialTechnicalValueGroupId { get; set; }
 
         [DataMember]
-        public string SoftwareDescription { get; set; }
+        public string FieldName { get; set; }
+        
+        public string FieldValue { get; set; }
 
         [DataMember]
-        public string SoftwareKey { get; set; }
-
-        [DataMember]
-        public string SoftwareK { get; set; }
-
-        [DataMember]
-        public string ClaimNumber { get; set; }
+        public int Order { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual MaterialTechnicalValue MaterialTechnicalValue { get; set; }
+
+        public virtual MaterialTechnicalValueGroup MaterialTechnicalValueGroup { get; set; }
 
         //-------------------------------------------------------------------------
     }
