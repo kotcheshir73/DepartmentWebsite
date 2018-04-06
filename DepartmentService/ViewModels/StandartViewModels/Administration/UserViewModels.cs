@@ -21,8 +21,6 @@ namespace DepartmentService.ViewModels
 
         public DateTime? DateBanned { get; set; }
 
-        public string RoleType { get; set; }
-
         public bool IsBanned { get; set; }
     }
 }

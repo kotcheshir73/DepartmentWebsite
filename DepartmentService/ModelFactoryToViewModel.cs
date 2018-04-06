@@ -568,7 +568,6 @@ namespace DepartmentService.ViewModels
                 StudentId = entity.StudentId,
                 LecturerId = entity.LecturerId,
                 Avatar = entity.Avatar != null && entity.Avatar.Length > 0 ? Image.FromStream(new MemoryStream(entity.Avatar)) : null,
-                RoleType = entity.RoleType.ToString(),
                 IsBanned = entity.IsBanned,
                 DateBanned = entity.DateBanned,
                 DateLastVisit = entity.DateLastVisit

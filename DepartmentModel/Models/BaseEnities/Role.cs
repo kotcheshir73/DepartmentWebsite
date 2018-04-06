@@ -22,5 +22,8 @@ namespace DepartmentModel.Models
 
         [ForeignKey("RoleId")]
         public virtual List<Access> Access { get; set; }
+
+        [ForeignKey("RoleId")]
+        public virtual List<UserRole> UserRoles { get; set; }
     }
 }

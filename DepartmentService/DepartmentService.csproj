@@ -136,6 +136,10 @@
     <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.Designer.cs">
       <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804061433246_ChangeUserRemoveRoleType.cs" />
+    <Compile Include="Migrations\201804061433246_ChangeUserRemoveRoleType.Designer.cs">
+      <DependentUpon>201804061433246_ChangeUserRemoveRoleType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -284,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.resx">
       <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061433246_ChangeUserRemoveRoleType.resx">
+      <DependentUpon>201804061433246_ChangeUserRemoveRoleType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

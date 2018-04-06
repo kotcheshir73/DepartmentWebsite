@@ -27,9 +27,6 @@ namespace DepartmentService.BindingModels
 
 		public Guid? LecturerId { get; set; }
 
-        [Required(ErrorMessage = "required")]
-        public string RoleType { get; set; }
-
         public bool IsBanned { get; set; }
 	}
 }

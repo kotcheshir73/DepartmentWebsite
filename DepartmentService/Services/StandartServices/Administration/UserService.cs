@@ -60,11 +60,12 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Users.Where(u => !u.IsDeleted).AsQueryable();
 
-                if (!string.IsNullOrEmpty(model.RoleType))
-                {
-                    var roleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
-                    query = query.Where(u => u.RoleType == roleType);
-                }
+                // TODO
+                //if (!string.IsNullOrEmpty(model.RoleType))
+                //{
+                //    var roleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
+                //    query = query.Where(u => u.RoleType == roleType);
+                //}
 				if (model.IsBanned.HasValue)
 				{
 					query = query.Where(u => u.IsBanned == model.IsBanned.Value);

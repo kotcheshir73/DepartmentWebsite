@@ -27,10 +27,20 @@ namespace DepartmentService.Services
         {
             try
             {
-                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Administrator");
+                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Администратор");
                 if (role == null)
                 {
                     CreateAdministrationRoleAndUserWithAllAccess();
+                }
+                role = _context.Roles.FirstOrDefault(x => x.RoleName == "Преподаватель");
+                if (role == null)
+                {
+                    CreateLecturerRolesWithAllAccess();
+                }
+                role = _context.Roles.FirstOrDefault(x => x.RoleName == "Студент");
+                if (role == null)
+                {
+                    CreateStudentRolesWithAllAccess();
                 }
             }
             catch (Exception ex)
@@ -55,9 +65,20 @@ namespace DepartmentService.Services
             return ResultService.Success();
         }
 
-        public ResultService CheckAllUsersStatus()
+        public ResultService SynchronizationUsers()
         {
+            try
+            {
+                CheckAdminUsers();
 
+                CheckTeacherUsers();
+
+                CheckStudentUsers();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
 
             return ResultService.Success();
         }
@@ -195,9 +216,9 @@ namespace DepartmentService.Services
         {
             try
             {
-               // _context.Database.Delete();
-               // var masterContext = new MasterDbContext();
-               // masterContext.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format("RESTORE DATABASE [DepartmentDatabase] FROM DISK='{0}'", fileName));
+                // _context.Database.Delete();
+                // var masterContext = new MasterDbContext();
+                // masterContext.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format("RESTORE DATABASE [DepartmentDatabase] FROM DISK='{0}'", fileName));
             }
             catch (Exception ex)
             {
@@ -212,8 +233,7 @@ namespace DepartmentService.Services
             {
                 Role role = new Role
                 {
-                    DateCreate = DateTime.Now,
-                    RoleName = "Administrator"
+                    RoleName = "Администратор"
                 };
                 _context.Roles.Add(role);
                 _context.SaveChanges();
@@ -252,9 +272,65 @@ namespace DepartmentService.Services
             }
         }
 
+        private void CreateLecturerRolesWithAllAccess()
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                Role role = new Role
+                {
+                    RoleName = "Преподаватель"
+                };
+                _context.Roles.Add(role);
+                _context.SaveChanges();
+
+                //List<Access> accesses = new List<Access>();
+                //foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+                //{
+                //    accesses.Add(new Access
+                //    {
+                //        AccessType = AccessType.Administrator,
+                //        Operation = elem,
+                //        RoleId = role.Id
+                //    });
+                //}
+                //_context.Accesses.AddRange(accesses);
+                //_context.SaveChanges();
+
+                transaction.Commit();
+            }
+        }
+
+        private void CreateStudentRolesWithAllAccess()
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                Role role = new Role
+                {
+                    RoleName = "Студент"
+                };
+                _context.Roles.Add(role);
+                _context.SaveChanges();
+
+                //List<Access> accesses = new List<Access>();
+                //foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+                //{
+                //    accesses.Add(new Access
+                //    {
+                //        AccessType = AccessType.Administrator,
+                //        Operation = elem,
+                //        RoleId = role.Id
+                //    });
+                //}
+                //_context.Accesses.AddRange(accesses);
+                //_context.SaveChanges();
+
+                transaction.Commit();
+            }
+        }
+
         private void CheckAdministrationAccesses()
         {
-            var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Administrator");
+            var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Администратор");
             if (role == null)
             {
                 throw new Exception("Остуствует роль \"Администратор\"");
@@ -286,6 +362,255 @@ namespace DepartmentService.Services
 
                 _context.SaveChanges();
 
+                transaction.Commit();
+            }
+        }
+
+        private void CheckAdminUsers()
+        {
+            //TODO Все админы должны быть зарегестрированными в системе пользователями с ролью - админ
+        }
+
+        private void CheckTeacherUsers()
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Преподаватель");
+                if (role == null)
+                {
+                    throw new Exception("Отсутствует роль \"Преподаватель\"");
+                }
+                var md5 = new MD5CryptoServiceProvider();
+                #region Действующие преподаватели
+                var lecturers = _context.Lecturers.Where(x => !x.IsDeleted).ToList();
+                foreach (var lecturer in lecturers)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.LecturerId == lecturer.Id);
+                    if (user == null)
+                    {
+                        user = new User
+                        {
+                            Login = lecturer.ToString(),
+                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.ToString()))),
+                            LecturerId = lecturer.Id
+                        };
+                        _context.Users.Add(user);
+                        _context.SaveChanges();
+
+                        var userRole = new UserRole
+                        {
+                            RoleId = role.Id,
+                            UserId = user.Id
+                        };
+                        _context.UserRoles.Add(userRole);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
+                        if (userRole == null)
+                        {
+                            userRole = new UserRole
+                            {
+                                RoleId = role.Id,
+                                UserId = user.Id
+                            };
+                            _context.UserRoles.Add(userRole);
+                            _context.SaveChanges();
+                        }
+                        user.IsBanned = false;
+                        user.DateBanned = null;
+                        user.IsDeleted = false;
+                        user.DateDelete = null;
+                        _context.SaveChanges();
+                    }
+                }
+                #endregion
+                #region Удаленные преподаватели
+                var delLecturers = _context.Lecturers.Where(x => x.IsDeleted).ToList();
+                foreach (var lecturer in delLecturers)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.LecturerId == lecturer.Id);
+                    if (user != null)
+                    {
+                        if (!user.IsDeleted)
+                        {
+                            user.IsDeleted = true;
+                            user.DateDelete = DateTime.Now;
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                #endregion
+                transaction.Commit();
+            }
+        }
+
+        private void CheckStudentUsers()
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Студент");
+                if (role == null)
+                {
+                    throw new Exception("Отсутствует роль \"Студент\"");
+                }
+                var md5 = new MD5CryptoServiceProvider();
+                #region Действующие студенты
+                var students = _context.Students.Where(x => !x.IsDeleted && x.StudentState == StudentState.Учится).ToList();
+                foreach (var student in students)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
+                    if (user == null)
+                    {
+                        user = new User
+                        {
+                            Login = student.ToString(),
+                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            StudentId = student.Id
+                        };
+                        _context.Users.Add(user);
+                        _context.SaveChanges();
+
+                        var userRole = new UserRole
+                        {
+                            RoleId = role.Id,
+                            UserId = user.Id
+                        };
+                        _context.UserRoles.Add(userRole);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
+                        if (userRole == null)
+                        {
+                            userRole = new UserRole
+                            {
+                                RoleId = role.Id,
+                                UserId = user.Id
+                            };
+                            _context.UserRoles.Add(userRole);
+                            _context.SaveChanges();
+                        }
+                        user.IsBanned = false;
+                        user.DateBanned = null;
+                        user.IsDeleted = false;
+                        user.DateDelete = null;
+                        _context.SaveChanges();
+                    }
+                }
+                #endregion
+                #region Студенты отчисленные или в академе
+                var bannedStudents = _context.Students.Where(x => !x.IsDeleted && (x.StudentState == StudentState.Академ || x.StudentState == StudentState.Отчислен)).ToList();
+                foreach (var student in bannedStudents)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
+                    if (user == null)
+                    {
+                        user = new User
+                        {
+                            Login = student.ToString(),
+                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            StudentId = student.Id
+                        };
+                        _context.Users.Add(user);
+                        _context.SaveChanges();
+
+                        var userRole = new UserRole
+                        {
+                            RoleId = role.Id,
+                            UserId = user.Id
+                        };
+                        _context.UserRoles.Add(userRole);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
+                        if (userRole == null)
+                        {
+                            userRole = new UserRole
+                            {
+                                RoleId = role.Id,
+                                UserId = user.Id
+                            };
+                            _context.UserRoles.Add(userRole);
+                            _context.SaveChanges();
+                        }
+                    }
+                    if (!user.IsBanned)
+                    {
+                        user.IsBanned = false;
+                        user.DateBanned = DateTime.Now;
+                    }
+                    user.IsDeleted = false;
+                    user.DateDelete = null;
+                    _context.SaveChanges();
+                }
+                #endregion
+                #region Студенты, завершившие обучение
+                var finishStudents = _context.Students.Where(x => !x.IsDeleted && x.StudentState == StudentState.Завершил).ToList();
+                foreach (var student in finishStudents)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
+                    if (user == null)
+                    {
+                        user = new User
+                        {
+                            Login = student.ToString(),
+                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            StudentId = student.Id
+                        };
+                        _context.Users.Add(user);
+                        _context.SaveChanges();
+
+                        var userRole = new UserRole
+                        {
+                            RoleId = role.Id,
+                            UserId = user.Id
+                        };
+                        _context.UserRoles.Add(userRole);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
+                        if (userRole == null)
+                        {
+                            userRole = new UserRole
+                            {
+                                RoleId = role.Id,
+                                UserId = user.Id
+                            };
+                            _context.UserRoles.Add(userRole);
+                            _context.SaveChanges();
+                        }
+                    }
+                    if (!user.IsDeleted)
+                    {
+                        user.IsDeleted = false;
+                        user.DateDelete = null;
+                        _context.SaveChanges();
+                    }
+                }
+                #endregion
+                #region Удаленные студенты
+                var delStudents = _context.Students.Where(x => x.IsDeleted).ToList();
+                foreach (var student in delStudents)
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
+                    if (user != null)
+                    {
+                        if (!user.IsDeleted)
+                        {
+                            user.IsDeleted = true;
+                            user.DateDelete = DateTime.Now;
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                #endregion
                 transaction.Commit();
             }
         }

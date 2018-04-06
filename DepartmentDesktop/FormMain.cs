@@ -63,7 +63,18 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void SynchronizationRolesAndAccessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.SynchronizationRoles.SynchronizationRolesControl>();
+            var control = Container.Resolve<Views.Services.Synchronization.SynchronizationRolesControl>();
+            ApplyControl(control);
+        }
+        
+        /// <summary>
+        /// Синхронизация пользователей
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SynchronizationUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.Synchronization.SynchronizationUsersControl>();
             ApplyControl(control);
         }
 

@@ -4,11 +4,11 @@ namespace DepartmentService.IServices
 {
     public interface IAdministrationProcess
     {
-        ResultService CheckAllUsersStatus();
-
         ResultService CheckExsistData();
 
         ResultService SynchronizationRolesAndAccess();
+
+        ResultService SynchronizationUsers();
 
         ResultService ImportDataToJson(string folderName);
 

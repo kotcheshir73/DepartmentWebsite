@@ -623,11 +623,17 @@
     <Compile Include="Views\Schedule\Semester\ScheduleSemesterTabControl.Designer.cs">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\SynchronizationRoles\SynchronizationRolesControl.cs">
+    <Compile Include="Views\Services\Synchronization\SynchronizationRolesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Services\SynchronizationRoles\SynchronizationRolesControl.Designer.cs">
+    <Compile Include="Views\Services\Synchronization\SynchronizationRolesControl.Designer.cs">
       <DependentUpon>SynchronizationRolesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Services\Synchronization\SynchronizationUsersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Services\Synchronization\SynchronizationUsersControl.Designer.cs">
+      <DependentUpon>SynchronizationUsersControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controllers\StandartControl.resx">
       <DependentUpon>StandartControl.cs</DependentUpon>
@@ -902,8 +908,11 @@
     <EmbeddedResource Include="Views\Schedule\Semester\ScheduleSemesterTabControl.resx">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\SynchronizationRoles\SynchronizationRolesControl.resx">
+    <EmbeddedResource Include="Views\Services\Synchronization\SynchronizationRolesControl.resx">
       <DependentUpon>SynchronizationRolesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\Synchronization\SynchronizationUsersControl.resx">
+      <DependentUpon>SynchronizationUsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
