@@ -6,9 +6,9 @@ namespace DepartmentDesktop.Views.Services.DataBaseWork
 {
     public partial class ImportDataBaseControl : UserControl
     {
-        private readonly IAdministrationProcessServer _service;
+        private readonly IAdministrationProcess _service;
 
-        public ImportDataBaseControl(IAdministrationProcessServer service)
+        public ImportDataBaseControl(IAdministrationProcess service)
         {
             InitializeComponent();
             _service = service;

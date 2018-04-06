@@ -6,9 +6,9 @@ namespace DepartmentDesktop.Views.Services.DataBaseWork
 {
     public partial class ExportDataBaseControl : UserControl
     {
-        private readonly IAdministrationProcessServer _service;
+        private readonly IAdministrationProcess _service;
 
-        public ExportDataBaseControl(IAdministrationProcessServer service)
+        public ExportDataBaseControl(IAdministrationProcess service)
         {
             InitializeComponent();
             _service = service;

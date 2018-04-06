@@ -85,8 +85,9 @@
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SynchronizationRolesAndAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +110,8 @@
             this.действияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MakeTicketsToolStripMenuItem,
             this.loadDistributionToolStripMenuItem,
-            this.DataBaseWorkToolStripMenuItem});
+            this.DataBaseWorkToolStripMenuItem,
+            this.SynchronizationRolesAndAccessToolStripMenuItem});
             this.действияToolStripMenuItem.Name = "действияToolStripMenuItem";
             this.действияToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.действияToolStripMenuItem.Text = "Сервис";
@@ -117,14 +119,14 @@
             // MakeTicketsToolStripMenuItem
             // 
             this.MakeTicketsToolStripMenuItem.Name = "MakeTicketsToolStripMenuItem";
-            this.MakeTicketsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MakeTicketsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.MakeTicketsToolStripMenuItem.Text = "Генерация билетов";
             this.MakeTicketsToolStripMenuItem.Click += new System.EventHandler(this.MakeTicketsToolStripMenuItem_Click);
             // 
             // loadDistributionToolStripMenuItem
             // 
             this.loadDistributionToolStripMenuItem.Name = "loadDistributionToolStripMenuItem";
-            this.loadDistributionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadDistributionToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.loadDistributionToolStripMenuItem.Text = "Расчет штатов";
             this.loadDistributionToolStripMenuItem.Click += new System.EventHandler(this.LoadDistributionToolStripMenuItem_Click);
             // 
@@ -134,7 +136,7 @@
             this.ImportDataBaseToolStripMenuItem,
             this.ExportDataBaseToolStripMenuItem});
             this.DataBaseWorkToolStripMenuItem.Name = "DataBaseWorkToolStripMenuItem";
-            this.DataBaseWorkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DataBaseWorkToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.DataBaseWorkToolStripMenuItem.Text = "Работа с БД";
             // 
             // ImportDataBaseToolStripMenuItem
@@ -533,6 +535,13 @@
             this.materialTechnicalValueToolStripMenuItem.Text = "Материально-технические ценности";
             this.materialTechnicalValueToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueToolStripMenuItem_Click);
             // 
+            // materialTechnicalValueGroupToolStripMenuItem
+            // 
+            this.materialTechnicalValueGroupToolStripMenuItem.Name = "materialTechnicalValueGroupToolStripMenuItem";
+            this.materialTechnicalValueGroupToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.materialTechnicalValueGroupToolStripMenuItem.Text = "Группы описаний для МТЦ";
+            this.materialTechnicalValueGroupToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueGroupToolStripMenuItem_Click);
+            // 
             // softwareRecordsToolStripMenuItem
             // 
             this.softwareRecordsToolStripMenuItem.Name = "softwareRecordsToolStripMenuItem";
@@ -540,12 +549,12 @@
             this.softwareRecordsToolStripMenuItem.Text = "Список установленного ПО";
             this.softwareRecordsToolStripMenuItem.Click += new System.EventHandler(this.softwareRecordsToolStripMenuItem_Click);
             // 
-            // materialTechnicalValueGroupToolStripMenuItem
+            // SynchronizationRolesAndAccessToolStripMenuItem
             // 
-            this.materialTechnicalValueGroupToolStripMenuItem.Name = "materialTechnicalValueGroupToolStripMenuItem";
-            this.materialTechnicalValueGroupToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.materialTechnicalValueGroupToolStripMenuItem.Text = "Группы описаний для МТЦ";
-            this.materialTechnicalValueGroupToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueGroupToolStripMenuItem_Click);
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Name = "SynchronizationRolesAndAccessToolStripMenuItem";
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Text = "Синхронизация ролей";
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Click += new System.EventHandler(this.SynchronizationRolesAndAccessToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -626,6 +635,7 @@
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softwareRecordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueGroupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SynchronizationRolesAndAccessToolStripMenuItem;
     }
 }
 

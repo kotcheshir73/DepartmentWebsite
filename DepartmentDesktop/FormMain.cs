@@ -56,6 +56,17 @@ namespace DepartmentDesktop
 			control.LoadData();
 		}
 
+        /// <summary>
+        /// Синхронизация ролей и доступов по ним
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SynchronizationRolesAndAccessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.Services.SynchronizationRoles.SynchronizationRolesControl>();
+            ApplyControl(control);
+        }
+
         #region Работа с БД
         /// <summary>
         /// Сохранить

@@ -7,17 +7,52 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Json;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DepartmentService.Services
 {
-    public class AdministrationProcessServer : IAdministrationProcessServer
+    public class AdministrationProcess : IAdministrationProcess
     {
         private readonly DepartmentDbContext _context;
 
-        public AdministrationProcessServer(DepartmentDbContext context)
+        public AdministrationProcess(DepartmentDbContext context)
         {
             _context = context;
+        }
+
+        public ResultService CheckExsistData()
+        {
+            try
+            {
+                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Administrator");
+                if (role == null)
+                {
+                    CreateAdministrationRoleAndUserWithAllAccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+
+            return ResultService.Success();
+        }
+
+        public ResultService SynchronizationRolesAndAccess()
+        {
+            try
+            {
+                CheckAdministrationAccesses();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+
+            return ResultService.Success();
         }
 
         public ResultService CheckAllUsersStatus()
@@ -169,6 +204,90 @@ namespace DepartmentService.Services
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
             return ResultService.Success();
+        }
+
+        private void CreateAdministrationRoleAndUserWithAllAccess()
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                Role role = new Role
+                {
+                    DateCreate = DateTime.Now,
+                    RoleName = "Administrator"
+                };
+                _context.Roles.Add(role);
+                _context.SaveChanges();
+
+                List<Access> accesses = new List<Access>();
+                foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+                {
+                    accesses.Add(new Access
+                    {
+                        AccessType = AccessType.Administrator,
+                        Operation = elem,
+                        RoleId = role.Id
+                    });
+                }
+                _context.Accesses.AddRange(accesses);
+                _context.SaveChanges();
+
+                var md5 = new MD5CryptoServiceProvider();
+                User user = new User
+                {
+                    Login = "admin",
+                    Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
+                };
+                _context.Users.Add(user);
+                _context.SaveChanges();
+
+                UserRole ur = new UserRole
+                {
+                    RoleId = role.Id,
+                    UserId = user.Id
+                };
+                _context.UserRoles.Add(ur);
+                _context.SaveChanges();
+
+                transaction.Commit();
+            }
+        }
+
+        private void CheckAdministrationAccesses()
+        {
+            var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Administrator");
+            if (role == null)
+            {
+                throw new Exception("Остуствует роль \"Администратор\"");
+            }
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                List<Access> accesses = new List<Access>();
+                var accessInBD = _context.Accesses.Where(x => x.RoleId == role.Id).ToList();
+                foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+                {
+                    if (!accessInBD.Exists(x => x.Operation == elem))
+                    {
+                        accesses.Add(new Access
+                        {
+                            AccessType = AccessType.Administrator,
+                            Operation = elem,
+                            RoleId = role.Id
+                        });
+                    }
+                    else if (!accessInBD.Exists(x => x.Operation == elem && x.AccessType == AccessType.Administrator))
+                    {
+                        var access = _context.Accesses.FirstOrDefault(x => x.Operation == elem && x.RoleId == role.Id);
+                        access.AccessType = AccessType.Administrator;
+                        _context.SaveChanges();
+                    }
+                }
+
+                _context.Accesses.AddRange(accesses);
+
+                _context.SaveChanges();
+
+                transaction.Commit();
+            }
         }
 
         private void SaveToFile<T>(string folderName) where T : class, new()

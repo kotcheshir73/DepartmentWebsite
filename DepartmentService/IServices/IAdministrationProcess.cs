@@ -2,9 +2,13 @@
 
 namespace DepartmentService.IServices
 {
-    public interface IAdministrationProcessServer
+    public interface IAdministrationProcess
     {
         ResultService CheckAllUsersStatus();
+
+        ResultService CheckExsistData();
+
+        ResultService SynchronizationRolesAndAccess();
 
         ResultService ImportDataToJson(string folderName);
 
