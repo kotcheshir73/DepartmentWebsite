@@ -419,10 +419,7 @@ namespace DepartmentService.Services
                                             var kindOfLoadnode = _context.KindOfLoads.FirstOrDefault(kl =>
                                       kl.AttributeName.Contains(elementSemNodeAttribute.Value) &&
                                                      !kl.IsDeleted);
-                                            /*
-                                            var kindOfLoadnode = _context.KindOfLoads
-                                     .FirstOrDefault(d => d.AttributeName == KindOfLoadName.Contains(discipline.DisciplineName) &&
-                                                     !d.IsDeleted);*/
+                                            
                                             if (kindOfLoadnode == null)
                                             {
                                                 model.Result.AddError("Not_Found", string.Format("Вид нагрузки не найден. Строка {0}", model.Counter));
