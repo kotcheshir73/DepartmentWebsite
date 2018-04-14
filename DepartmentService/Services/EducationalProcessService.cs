@@ -373,84 +373,31 @@ namespace DepartmentService.Services
 
 
                                     //ищем вид нагрузки
-                                    /* foreach (XmlNode elementSemNodeAttribute in elementSemNodeAttributes)
-                                     {
-                                         var kindOfLoad = _context.KindOfLoads
-                                  .FirstOrDefault(d => d.AttributeName == elementSemNodeAttribute.Value &&
-                                                  !d.IsDeleted);
-                                         if (kindOfLoad == null)
-                                         {
-                                             model.Result.AddError("Not_Found", string.Format("Вид нагрузки не найден. Строка {0}", model.Counter));
-                                             continue;
-                                         }
-                                         XmlNode hoursnode = elementSemNodeAttributes.GetNamedItem(kindOfLoad.AttributeName);
-                                         if (hoursnode == null)
-                                         {
-                                             model.Result.AddError("Not_Found", string.Format("Не найдено количество часов. Строка {0}", model.Counter));
-                                             return;
-                                         }
-                                         var hours = Convert.ToInt32(hoursnode.Value);
-                                         var recordelement = _context.AcademicPlanRecordElements.FirstOrDefault(apre =>
-                                            apre.AcademicPlanRecordId == record.Id &&
-                                            apre.KindOfLoadId == kindOfLoad.Id &&
-                                            apre.Hours == hours &&
-                                            !apre.IsDeleted);
-                                         if (recordelement == null)
-                                         {
-                                             _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
-                                             {
-                                                 AcademicPlanRecordId = record.Id,
-                                                 KindOfLoadId = kindOfLoad.Id,
-                                                 Hours =hours
-                                             }));
-
-                                         }
-                                         else
-                                         {
-                                             recordelement.Hours = hours;
-                                             _context.Entry(record).State = EntityState.Modified;
-                                         }
-                                         _context.SaveChanges();
-                                     }*/
-                                    foreach (var kindOfLoad in _context.KindOfLoads)
+                                   
+                                    foreach (KindOfLoad kindOfLoadElem in _context.KindOfLoads)
                                     {
-                                        foreach (XmlNode elementSemNodeAttribute in elementSemNodeAttributes)
+                                        XmlNode elemNode = elementSemNodeAttributes.GetNamedItem(kindOfLoadElem.AttributeName);
+                                        if (elemNode != null)
                                         {
-                                            var kindOfLoadnode = _context.KindOfLoads.FirstOrDefault(kl =>
-                                      kl.AttributeName.Contains(elementSemNodeAttribute.Value) &&
-                                                     !kl.IsDeleted);
-                                            
-                                            if (kindOfLoadnode == null)
-                                            {
-                                                model.Result.AddError("Not_Found", string.Format("Вид нагрузки не найден. Строка {0}", model.Counter));
-                                                return;
-                                            }
-                                            XmlNode hoursnode = elementSemNodeAttributes.GetNamedItem(kindOfLoad.AttributeName);
-                                            if (hoursnode == null)
-                                            {
-                                                model.Result.AddError("Not_Found", string.Format("Не найдено количество часов. Строка {0}", model.Counter));
-                                                return;
-                                            }
-                                            int hours = Convert.ToInt32(hoursnode.Value);
+                                            int hours = Convert.ToInt32(elemNode.Value);
                                             var recordelement = _context.AcademicPlanRecordElements.FirstOrDefault(apre =>
-                                               apre.AcademicPlanRecordId == record.Id &&
-                                               apre.KindOfLoadId == kindOfLoad.Id &&
-                                               apre.Hours == hours &&
-                                               !apre.IsDeleted);
+                                                apre.AcademicPlanRecordId == record.Id &&
+                                                apre.KindOfLoadId == kindOfLoadElem.Id &&
+                                                apre.Hours == hours &&
+                                                !apre.IsDeleted);
                                             if (recordelement == null)
-                                            {
-                                                _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
-                                                {
-                                                    AcademicPlanRecordId = record.Id,
-                                                    KindOfLoadId = kindOfLoad.Id,
-                                                    Hours = hours
-                                                }));
-
+                                             {
+                                                 _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                                                 {
+                                                     AcademicPlanRecordId = record.Id,
+                                                     KindOfLoadId = kindOfLoadElem.Id,
+                                                     Hours = hours
+                                                 }));
                                             }
                                             else
                                             {
-                                                recordelement.Hours = hours;
-                                                _context.Entry(record).State = EntityState.Modified;
+                                               recordelement.Hours = hours;
+                                               _context.Entry(recordelement).State = EntityState.Modified;
                                             }
                                             _context.SaveChanges();
                                         }
@@ -462,7 +409,6 @@ namespace DepartmentService.Services
                                         model.Counter));
                                     continue;
                                 }
-
                             }
                         }
                     }
