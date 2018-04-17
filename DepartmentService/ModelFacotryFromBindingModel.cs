@@ -495,6 +495,70 @@ namespace DepartmentService.BindingModels
 			}
 			return entity;
 		}
-		#endregion
-	}
+        #endregion
+
+        #region LaboratoryHead
+        public static MaterialTechnicalValue CreateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model, MaterialTechnicalValue entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new MaterialTechnicalValue();
+            }
+            entity.DateCreate = model.DateInclude;
+            entity.ClassroomId = model.ClassroomId;
+            entity.InventoryNumber = model.InventoryNumber;
+            entity.FullName = model.FullName;
+            entity.Description = model.Description;
+            entity.Location = model.Location;
+            entity.Cost = model.Cost;
+            entity.DeleteReason = model.DeleteReason;
+
+            return entity;
+        }
+
+        public static MaterialTechnicalValueGroup CreateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupRecordBindingModel model, MaterialTechnicalValueGroup entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new MaterialTechnicalValueGroup();
+            }
+            entity.GroupName = model.GroupName;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static MaterialTechnicalValueRecord CreateMaterialTechnicalValueRecord(MaterialTechnicalValueRecordRecordBindingModel model, MaterialTechnicalValueRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new MaterialTechnicalValueRecord();
+            }
+            entity.MaterialTechnicalValueId = model.MaterialTechnicalValueId;
+            entity.MaterialTechnicalValueGroupId = model.MaterialTechnicalValueGroupId;
+            entity.FieldName = model.FieldName;
+            entity.FieldValue = model.FieldValue;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordRecordBindingModel model, SoftwareRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new SoftwareRecord();
+            }
+            entity.DateCreate = model.DateSetup;
+            entity.MaterialTechnicalValueId = model.MaterialTechnicalValueId;
+            entity.SoftwareName = model.SoftwareName;
+            entity.SoftwareDescription = model.SoftwareDescription;
+            entity.SoftwareKey = model.SoftwareKey;
+            entity.SoftwareK = model.SoftwareK;
+            entity.ClaimNumber = model.ClaimNumber;
+
+            return entity;
+        }
+        #endregion
+    }
 }

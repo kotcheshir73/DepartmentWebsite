@@ -5,6 +5,7 @@ using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 
@@ -47,6 +48,8 @@ namespace DepartmentService.Services
 								.Skip(model.PageSize.Value * model.PageNumber.Value)
 								.Take(model.PageSize.Value);
 				}
+
+                query = query.Include(a => a.Role);
 
                 var result = new AccessPageViewModel
                 {

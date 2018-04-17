@@ -1,9 +1,10 @@
 ﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
