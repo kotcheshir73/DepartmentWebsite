@@ -383,7 +383,6 @@ namespace DepartmentService.Services
                                             var recordelement = _context.AcademicPlanRecordElements.FirstOrDefault(apre =>
                                                 apre.AcademicPlanRecordId == record.Id &&
                                                 apre.KindOfLoadId == kindOfLoadElem.Id &&
-                                                apre.Hours == hours &&
                                                 !apre.IsDeleted);
                                             if (recordelement == null)
                                              {
