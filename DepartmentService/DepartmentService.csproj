@@ -126,6 +126,7 @@
     <Compile Include="Migrations\201803121441460_Migration1.cs" />
     <Compile Include="Migrations\201803121441460_Migration1.Designer.cs">
       <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.cs" />
     <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.Designer.cs">
       <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
@@ -133,6 +134,7 @@
     <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.cs" />
     <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.Designer.cs">
       <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201803290606145_AddTableSoftwareRecord.cs" />
     <Compile Include="Migrations\201803290606145_AddTableSoftwareRecord.Designer.cs">
       <DependentUpon>201803290606145_AddTableSoftwareRecord.cs</DependentUpon>
