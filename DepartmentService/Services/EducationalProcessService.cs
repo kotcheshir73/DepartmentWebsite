@@ -331,13 +331,6 @@ namespace DepartmentService.Services
                                 Semesters sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value));
                                 if (model.Semesters.Contains(sem))
                                 {
-                                    /*XmlNode hoursnode = elementSemNodeAttributes.GetNamedItem(kindOfLoad.AttributeName);
-                                        if (hoursnode == null)
-                                        {
-                                            model.Result.AddError("Not_Found", string.Format("Не найдено количество часов. Строка {0}", model.Counter));
-                                            return;
-                                        }
-                                        var hours = Convert.ToInt32(hoursnode.Value);*/
                                     // извлекаем зет
 
                                     XmlNode zetNode = elementSemNodeAttributes.GetNamedItem("ЗЕТ");
@@ -502,7 +495,6 @@ namespace DepartmentService.Services
                     var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                             apr.AcademicPlanId == model.AcademicPlanId &&
                                                             apr.DisciplineId == discipline.Id &&
-                                                            //apr.KindOfLoadId == kindOfLoad.Id &&
                                                             apr.Semester == sem &&
                                                             !apr.IsDeleted);
                     if (record == null)
@@ -511,14 +503,11 @@ namespace DepartmentService.Services
                         {
                             AcademicPlanId = model.AcademicPlanId,
                             DisciplineId = discipline.Id,
-                            //KindOfLoadId = kindOfLoad.Id,
-                            Semester = sem.ToString(),
-                            //Hours = Convert.ToInt32(weekNumNode.Value)
+                            Semester = sem.ToString()
                         }));
                     }
                     else
                     {
-                        //record.Hours = Convert.ToInt32(weekNumNode.Value);
                         _context.Entry(record).State = EntityState.Modified;
                     }
                     _context.SaveChanges();
@@ -565,7 +554,6 @@ namespace DepartmentService.Services
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                     apr.AcademicPlanId == model.AcademicPlanId &&
                                                                     apr.DisciplineId == discipline.Id &&
-                                                                    //apr.KindOfLoadId == kindOfLoad.Id &&
                                                                     apr.Semester == sem &&
                                                                     !apr.IsDeleted);
                         if (record == null)
@@ -574,14 +562,11 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
-                                // KindOfLoadId = kindOfLoad.Id,
-                                Semester = sem.ToString(),
-                                // Hours = 1
+                                Semester = sem.ToString()
                             }));
                         }
                         else
                         {
-                            // record.Hours = 1;
                             _context.Entry(record).State = EntityState.Modified;
                         }
                         _context.SaveChanges();
@@ -621,7 +606,6 @@ namespace DepartmentService.Services
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                     apr.AcademicPlanId == model.AcademicPlanId &&
                                                                     apr.DisciplineId == discipline.Id &&
-                                                                    //apr.KindOfLoadId == kindOfLoad.Id &&
                                                                     apr.Semester == sem &&
                                                                     !apr.IsDeleted);
                         if (record == null)
@@ -630,14 +614,11 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
-                                //KindOfLoadId = kindOfLoad.Id,
-                                Semester = sem.ToString(),
-                                //Hours = 1
+                                Semester = sem.ToString()
                             }));
                         }
                         else
                         {
-                            // record.Hours = 1;
                             _context.Entry(record).State = EntityState.Modified;
                         }
                         _context.SaveChanges();
@@ -684,7 +665,6 @@ namespace DepartmentService.Services
                             semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
 
                             var apRecords = _context.AcademicPlanRecords
-                            //.Include(apr => apr.KindOfLoad)
                             .Where(apr => apr.AcademicPlanId == academicPlan.Id &&
                                         semesters.Contains(apr.Semester) &&
                                         !apr.IsDeleted);

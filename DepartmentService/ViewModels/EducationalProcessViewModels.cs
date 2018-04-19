@@ -13,19 +13,13 @@ namespace DepartmentService.ViewModels
 
         public Guid DisciplineId { get; set; }
 
-        //public Guid KindOfLoadId { get; set; }
-
         public string EducationDirectionCipher { get; set; }
 
         public string Semesters { get; set; }
 
         public string Disciplne { get; set; }
 
-        //public string KindOfLoad { get; set; }
-
         public string Semester { get; set; }
-
-        //public int Hours { get; set; }
 
         public int Zet { get; set; }
     }

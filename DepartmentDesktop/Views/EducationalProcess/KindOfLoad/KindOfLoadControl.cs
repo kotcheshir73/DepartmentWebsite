@@ -73,7 +73,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.KindOfLoadName,
-                    //res.KindOfLoadType
                     res.AttributeName
                 );
             }

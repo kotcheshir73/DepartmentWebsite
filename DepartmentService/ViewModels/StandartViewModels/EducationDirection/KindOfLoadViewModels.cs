@@ -10,8 +10,6 @@ namespace DepartmentService.ViewModels
 
 		public string KindOfLoadName { get; set; }
 
-        //public string KindOfLoadType { get; set; }
-
         public string AttributeName { get; set; }
     }
 }

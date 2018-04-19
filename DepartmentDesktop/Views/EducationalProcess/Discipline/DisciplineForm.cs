@@ -254,8 +254,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                      res.Id,
                      res.EducationDirectionCipher,
                      res.Semester
-                     //res.KindOfLoad,
-                     //res.Hours
                 );
             }
             return result.Result.MaxCount;

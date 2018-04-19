@@ -75,7 +75,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(ar => ar.Discipline)/*.Include(ar => ar.KindOfLoad)*/;
+                query = query.Include(ar => ar.Discipline);
 
                 var result = new AcademicPlanRecordPageViewModel
                 {
@@ -106,7 +106,6 @@ namespace DepartmentService.Services
 
                 var entity = _context.AcademicPlanRecords
                                 .Include(apr => apr.Discipline)
-                               // .Include(apr => apr.KindOfLoad)
                                 .FirstOrDefault(apr => apr.Id == model.Id && !apr.IsDeleted);
                 if (entity == null)
                 {

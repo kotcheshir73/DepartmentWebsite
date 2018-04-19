@@ -354,11 +354,7 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.AcademicPlan.EducationDirection.Cipher,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
-                //KindOfLoadId = entity.KindOfLoadId,
-                //KindOfLoad = entity.KindOfLoad.KindOfLoadName,
-                Semester = entity.Semester.ToString(),
-                //Hours = entity.Hours
-               // Zet = entity.Zet
+                Semester = entity.Semester.ToString()
             };
         }
 
