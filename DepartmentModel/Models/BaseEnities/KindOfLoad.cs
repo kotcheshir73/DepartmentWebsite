@@ -1,5 +1,4 @@
-﻿using DepartmentModel.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -17,18 +16,19 @@ namespace DepartmentModel.Models
         [DataMember]
         public string KindOfLoadName { get; set; }
 
+        [MaxLength(10)]
         [Required]
         [DataMember]
-        public KindOfLoadType KindOfLoadType { get; set; }
+        public string AttributeName { get; set; }
 
         //-------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------
 
         [ForeignKey("KindOfLoadId")]
-		public virtual List<AcademicPlanRecord> AcademicPlanRecords { get; set; }
+        public virtual List<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
 
-		[ForeignKey("KindOfLoadId")]
+        [ForeignKey("KindOfLoadId")]
 		public virtual List<TimeNorm> TimeNorms { get; set; }
 	}
 }

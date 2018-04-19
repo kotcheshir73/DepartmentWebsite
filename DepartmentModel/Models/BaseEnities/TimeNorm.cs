@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentModel.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,13 +25,20 @@ namespace DepartmentModel.Models
 		[Required]
         [DataMember]
         public string Title { get; set; }
-
+        
         [DataMember]
-        public string Formula { get; set; }
+        public decimal? Hours { get; set; }
+        
+        [DataMember]
+        public decimal? NumKoef { get; set; }
 
         [Required]
         [DataMember]
-        public decimal Hours { get; set; }
+        public KindOfLoadType KindOfLoadType { get; set; }
+
+        [Required]
+        [DataMember]
+        public TimeNormKoef TimeNormKoef { get; set; }
 
         //-------------------------------------------------------------------------
 

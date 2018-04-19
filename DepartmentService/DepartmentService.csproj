@@ -69,6 +69,7 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="IServices\IAdministrationProcessServer.cs" />
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueRecordService.cs" />
@@ -121,9 +123,17 @@
     <Compile Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.Designer.cs">
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803121441460_Migration1.cs" />
+    <Compile Include="Migrations\201803121441460_Migration1.Designer.cs">
+      <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.cs" />
     <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.Designer.cs">
       <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.cs" />
+    <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.Designer.cs">
+      <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201803290606145_AddTableSoftwareRecord.cs" />
     <Compile Include="Migrations\201803290606145_AddTableSoftwareRecord.Designer.cs">
@@ -179,6 +189,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ScheduleHelper.cs" />
     <Compile Include="Services\AdministrationProcessServer.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordElementService.cs" />
     <Compile Include="Services\LaboratoryProcess.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanService.cs" />
@@ -221,6 +232,7 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerPostViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\SemesterRecordViewModels.cs" />
@@ -274,8 +286,14 @@
     <EmbeddedResource Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.resx">
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803121441460_Migration1.resx">
+      <DependentUpon>201803121441460_Migration1.cs</DependentUpon>   
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.resx">
       <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.resx">
+      <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803290606145_AddTableSoftwareRecord.resx">
       <DependentUpon>201803290606145_AddTableSoftwareRecord.cs</DependentUpon>

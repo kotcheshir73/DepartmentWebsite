@@ -35,153 +35,121 @@
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
-            this.labelFormula = new System.Windows.Forms.Label();
-            this.textBoxFormula = new System.Windows.Forms.TextBox();
-            this.labelSelectKindOfLoad = new System.Windows.Forms.Label();
-            this.comboBoxSelectKindOfLoad = new System.Windows.Forms.ComboBox();
             this.labelSelectKindOfLoadType = new System.Windows.Forms.Label();
             this.comboBoxSelectKindOfLoadType = new System.Windows.Forms.ComboBox();
             this.labelHours = new System.Windows.Forms.Label();
             this.textBoxHours = new System.Windows.Forms.TextBox();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelAcademicYear = new System.Windows.Forms.Label();
+            this.comboBoxTimeNormKoef = new System.Windows.Forms.ComboBox();
+            this.labelTimeNormKoef = new System.Windows.Forms.Label();
+            this.textBoxNumKoef = new System.Windows.Forms.TextBox();
+            this.labelNumKoef = new System.Windows.Forms.Label();
+            this.groupBoxMult1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxMult2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxMult3 = new System.Windows.Forms.GroupBox();
+            this.groupBoxMult1.SuspendLayout();
+            this.groupBoxMult2.SuspendLayout();
+            this.groupBoxMult3.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBoxKindOfLoad
             // 
             this.comboBoxKindOfLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxKindOfLoad.FormattingEnabled = true;
-            this.comboBoxKindOfLoad.Location = new System.Drawing.Point(176, 33);
+            this.comboBoxKindOfLoad.Location = new System.Drawing.Point(176, 59);
             this.comboBoxKindOfLoad.Name = "comboBoxKindOfLoad";
             this.comboBoxKindOfLoad.Size = new System.Drawing.Size(220, 21);
-            this.comboBoxKindOfLoad.TabIndex = 3;
+            this.comboBoxKindOfLoad.TabIndex = 5;
             // 
             // labelKindOfLoad
             // 
             this.labelKindOfLoad.AutoSize = true;
-            this.labelKindOfLoad.Location = new System.Drawing.Point(12, 36);
+            this.labelKindOfLoad.Location = new System.Drawing.Point(12, 62);
             this.labelKindOfLoad.Name = "labelKindOfLoad";
-            this.labelKindOfLoad.Size = new System.Drawing.Size(153, 13);
-            this.labelKindOfLoad.TabIndex = 2;
-            this.labelKindOfLoad.Text = "Привязать к виду нагрузки*:";
+            this.labelKindOfLoad.Size = new System.Drawing.Size(82, 13);
+            this.labelKindOfLoad.TabIndex = 4;
+            this.labelKindOfLoad.Text = "Вид нагрузки*:";
             // 
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(12, 63);
+            this.labelTitle.Location = new System.Drawing.Point(12, 36);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(64, 13);
-            this.labelTitle.TabIndex = 4;
+            this.labelTitle.TabIndex = 2;
             this.labelTitle.Text = "Название*:";
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(176, 60);
+            this.textBoxTitle.Location = new System.Drawing.Point(176, 33);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(220, 20);
-            this.textBoxTitle.TabIndex = 5;
+            this.textBoxTitle.TabIndex = 3;
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(287, 201);
+            this.buttonClose.Location = new System.Drawing.Point(286, 275);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 16;
+            this.buttonClose.TabIndex = 11;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(59, 201);
+            this.buttonSave.Location = new System.Drawing.Point(58, 275);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 14;
+            this.buttonSave.TabIndex = 9;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(140, 201);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(140, 275);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 15;
+            this.buttonSaveAndClose.TabIndex = 10;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
-            // labelFormula
-            // 
-            this.labelFormula.AutoSize = true;
-            this.labelFormula.Location = new System.Drawing.Point(12, 89);
-            this.labelFormula.Name = "labelFormula";
-            this.labelFormula.Size = new System.Drawing.Size(62, 13);
-            this.labelFormula.TabIndex = 6;
-            this.labelFormula.Text = "Формула*:";
-            // 
-            // textBoxFormula
-            // 
-            this.textBoxFormula.Enabled = false;
-            this.textBoxFormula.Location = new System.Drawing.Point(176, 86);
-            this.textBoxFormula.Name = "textBoxFormula";
-            this.textBoxFormula.Size = new System.Drawing.Size(220, 20);
-            this.textBoxFormula.TabIndex = 7;
-            // 
-            // labelSelectKindOfLoad
-            // 
-            this.labelSelectKindOfLoad.AutoSize = true;
-            this.labelSelectKindOfLoad.Location = new System.Drawing.Point(12, 115);
-            this.labelSelectKindOfLoad.Name = "labelSelectKindOfLoad";
-            this.labelSelectKindOfLoad.Size = new System.Drawing.Size(158, 13);
-            this.labelSelectKindOfLoad.TabIndex = 8;
-            this.labelSelectKindOfLoad.Text = "Выбрать нагрузку в формулу:";
-            // 
-            // comboBoxSelectKindOfLoad
-            // 
-            this.comboBoxSelectKindOfLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSelectKindOfLoad.FormattingEnabled = true;
-            this.comboBoxSelectKindOfLoad.Location = new System.Drawing.Point(176, 112);
-            this.comboBoxSelectKindOfLoad.Name = "comboBoxSelectKindOfLoad";
-            this.comboBoxSelectKindOfLoad.Size = new System.Drawing.Size(220, 21);
-            this.comboBoxSelectKindOfLoad.TabIndex = 9;
-            this.comboBoxSelectKindOfLoad.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectKindOfLoad_SelectedIndexChanged);
-            // 
             // labelSelectKindOfLoadType
             // 
             this.labelSelectKindOfLoadType.AutoSize = true;
-            this.labelSelectKindOfLoadType.Location = new System.Drawing.Point(12, 168);
+            this.labelSelectKindOfLoadType.Location = new System.Drawing.Point(9, 22);
             this.labelSelectKindOfLoadType.Name = "labelSelectKindOfLoadType";
-            this.labelSelectKindOfLoadType.Size = new System.Drawing.Size(123, 13);
-            this.labelSelectKindOfLoadType.TabIndex = 12;
-            this.labelSelectKindOfLoadType.Text = "Выбрать тип нагрузки:";
+            this.labelSelectKindOfLoadType.Size = new System.Drawing.Size(82, 13);
+            this.labelSelectKindOfLoadType.TabIndex = 0;
+            this.labelSelectKindOfLoadType.Text = "Тип нагрузки*:";
             // 
             // comboBoxSelectKindOfLoadType
             // 
             this.comboBoxSelectKindOfLoadType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSelectKindOfLoadType.FormattingEnabled = true;
-            this.comboBoxSelectKindOfLoadType.Location = new System.Drawing.Point(176, 165);
+            this.comboBoxSelectKindOfLoadType.Location = new System.Drawing.Point(172, 19);
             this.comboBoxSelectKindOfLoadType.Name = "comboBoxSelectKindOfLoadType";
             this.comboBoxSelectKindOfLoadType.Size = new System.Drawing.Size(220, 21);
-            this.comboBoxSelectKindOfLoadType.TabIndex = 13;
-            this.comboBoxSelectKindOfLoadType.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectKindOfLoadType_SelectedIndexChanged);
+            this.comboBoxSelectKindOfLoadType.TabIndex = 1;
             // 
             // labelHours
             // 
             this.labelHours.AutoSize = true;
-            this.labelHours.Location = new System.Drawing.Point(12, 142);
+            this.labelHours.Location = new System.Drawing.Point(8, 18);
             this.labelHours.Name = "labelHours";
-            this.labelHours.Size = new System.Drawing.Size(42, 13);
-            this.labelHours.TabIndex = 10;
-            this.labelHours.Text = "Часы*:";
+            this.labelHours.Size = new System.Drawing.Size(38, 13);
+            this.labelHours.TabIndex = 0;
+            this.labelHours.Text = "Часы:";
             // 
             // textBoxHours
             // 
-            this.textBoxHours.Location = new System.Drawing.Point(176, 139);
+            this.textBoxHours.Location = new System.Drawing.Point(172, 15);
             this.textBoxHours.Name = "textBoxHours";
             this.textBoxHours.Size = new System.Drawing.Size(220, 20);
-            this.textBoxHours.TabIndex = 11;
-            this.textBoxHours.Leave += new System.EventHandler(this.textBoxHours_Leave);
+            this.textBoxHours.TabIndex = 1;
             // 
             // comboBoxAcademicYear
             // 
@@ -202,21 +170,85 @@
             this.labelAcademicYear.TabIndex = 0;
             this.labelAcademicYear.Text = "Учебный год*:";
             // 
+            // comboBoxTimeNormKoef
+            // 
+            this.comboBoxTimeNormKoef.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxTimeNormKoef.FormattingEnabled = true;
+            this.comboBoxTimeNormKoef.Location = new System.Drawing.Point(172, 45);
+            this.comboBoxTimeNormKoef.Name = "comboBoxTimeNormKoef";
+            this.comboBoxTimeNormKoef.Size = new System.Drawing.Size(220, 21);
+            this.comboBoxTimeNormKoef.TabIndex = 3;
+            // 
+            // labelTimeNormKoef
+            // 
+            this.labelTimeNormKoef.AutoSize = true;
+            this.labelTimeNormKoef.Location = new System.Drawing.Point(8, 48);
+            this.labelTimeNormKoef.Name = "labelTimeNormKoef";
+            this.labelTimeNormKoef.Size = new System.Drawing.Size(160, 13);
+            this.labelTimeNormKoef.TabIndex = 2;
+            this.labelTimeNormKoef.Text = "Коэффициент норм времени*:";
+            // 
+            // textBoxNumKoef
+            // 
+            this.textBoxNumKoef.Location = new System.Drawing.Point(172, 19);
+            this.textBoxNumKoef.Name = "textBoxNumKoef";
+            this.textBoxNumKoef.Size = new System.Drawing.Size(220, 20);
+            this.textBoxNumKoef.TabIndex = 1;
+            // 
+            // labelNumKoef
+            // 
+            this.labelNumKoef.AutoSize = true;
+            this.labelNumKoef.Location = new System.Drawing.Point(8, 22);
+            this.labelNumKoef.Name = "labelNumKoef";
+            this.labelNumKoef.Size = new System.Drawing.Size(132, 13);
+            this.labelNumKoef.TabIndex = 0;
+            this.labelNumKoef.Text = "Числовой коэффициент:";
+            // 
+            // groupBoxMult1
+            // 
+            this.groupBoxMult1.Controls.Add(this.comboBoxSelectKindOfLoadType);
+            this.groupBoxMult1.Controls.Add(this.labelSelectKindOfLoadType);
+            this.groupBoxMult1.Location = new System.Drawing.Point(4, 88);
+            this.groupBoxMult1.Name = "groupBoxMult1";
+            this.groupBoxMult1.Size = new System.Drawing.Size(401, 50);
+            this.groupBoxMult1.TabIndex = 6;
+            this.groupBoxMult1.TabStop = false;
+            this.groupBoxMult1.Text = "Множитель 1 - кол-во объектов";
+            // 
+            // groupBoxMult2
+            // 
+            this.groupBoxMult2.Controls.Add(this.textBoxHours);
+            this.groupBoxMult2.Controls.Add(this.labelHours);
+            this.groupBoxMult2.Location = new System.Drawing.Point(4, 144);
+            this.groupBoxMult2.Name = "groupBoxMult2";
+            this.groupBoxMult2.Size = new System.Drawing.Size(401, 41);
+            this.groupBoxMult2.TabIndex = 7;
+            this.groupBoxMult2.TabStop = false;
+            this.groupBoxMult2.Text = "Множитель 2 - Кол-во часов (пусто - значит из УП)";
+            // 
+            // groupBoxMult3
+            // 
+            this.groupBoxMult3.Controls.Add(this.textBoxNumKoef);
+            this.groupBoxMult3.Controls.Add(this.labelNumKoef);
+            this.groupBoxMult3.Controls.Add(this.labelTimeNormKoef);
+            this.groupBoxMult3.Controls.Add(this.comboBoxTimeNormKoef);
+            this.groupBoxMult3.Location = new System.Drawing.Point(4, 191);
+            this.groupBoxMult3.Name = "groupBoxMult3";
+            this.groupBoxMult3.Size = new System.Drawing.Size(401, 78);
+            this.groupBoxMult3.TabIndex = 8;
+            this.groupBoxMult3.TabStop = false;
+            this.groupBoxMult3.Text = "Множитель 3 - Коэф (пусто - значит нет)";
+            // 
             // TimeNormForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 234);
+            this.ClientSize = new System.Drawing.Size(408, 306);
+            this.Controls.Add(this.groupBoxMult3);
+            this.Controls.Add(this.groupBoxMult2);
+            this.Controls.Add(this.groupBoxMult1);
             this.Controls.Add(this.comboBoxAcademicYear);
             this.Controls.Add(this.labelAcademicYear);
-            this.Controls.Add(this.textBoxHours);
-            this.Controls.Add(this.labelHours);
-            this.Controls.Add(this.comboBoxSelectKindOfLoadType);
-            this.Controls.Add(this.labelSelectKindOfLoadType);
-            this.Controls.Add(this.comboBoxSelectKindOfLoad);
-            this.Controls.Add(this.labelSelectKindOfLoad);
-            this.Controls.Add(this.textBoxFormula);
-            this.Controls.Add(this.labelFormula);
             this.Controls.Add(this.buttonSaveAndClose);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
@@ -228,6 +260,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Норма времени";
             this.Load += new System.EventHandler(this.TimeNormForm_Load);
+            this.groupBoxMult1.ResumeLayout(false);
+            this.groupBoxMult1.PerformLayout();
+            this.groupBoxMult2.ResumeLayout(false);
+            this.groupBoxMult2.PerformLayout();
+            this.groupBoxMult3.ResumeLayout(false);
+            this.groupBoxMult3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,15 +280,18 @@
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Button buttonSaveAndClose;
-		private System.Windows.Forms.Label labelFormula;
-		private System.Windows.Forms.TextBox textBoxFormula;
-		private System.Windows.Forms.Label labelSelectKindOfLoad;
-		private System.Windows.Forms.ComboBox comboBoxSelectKindOfLoad;
 		private System.Windows.Forms.Label labelSelectKindOfLoadType;
 		private System.Windows.Forms.ComboBox comboBoxSelectKindOfLoadType;
 		private System.Windows.Forms.Label labelHours;
 		private System.Windows.Forms.TextBox textBoxHours;
         private System.Windows.Forms.ComboBox comboBoxAcademicYear;
         private System.Windows.Forms.Label labelAcademicYear;
+        private System.Windows.Forms.ComboBox comboBoxTimeNormKoef;
+        private System.Windows.Forms.Label labelTimeNormKoef;
+        private System.Windows.Forms.TextBox textBoxNumKoef;
+        private System.Windows.Forms.Label labelNumKoef;
+        private System.Windows.Forms.GroupBox groupBoxMult1;
+        private System.Windows.Forms.GroupBox groupBoxMult2;
+        private System.Windows.Forms.GroupBox groupBoxMult3;
     }
 }

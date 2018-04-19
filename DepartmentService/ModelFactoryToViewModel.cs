@@ -114,7 +114,7 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 KindOfLoadName = entity.KindOfLoadName,
-                KindOfLoadType = entity.KindOfLoadType.ToString()
+                AttributeName = entity.AttributeName
             };
         }
 
@@ -126,10 +126,12 @@ namespace DepartmentService.ViewModels
                 KindOfLoadId = entity.KindOfLoadId,
                 AcademicYearId = entity.AcademicYearId,
                 Title = entity.Title,
-                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
                 AcademicYear = entity.AcademicYear.Title,
-                Formula = entity.Formula,
-                Hours = entity.Hours
+                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+                Hours = entity.Hours,
+                NumKoef = entity.NumKoef,
+                TimeNormKoef = entity.TimeNormKoef.ToString(),
+                KindOfLoadType = entity.KindOfLoadType.ToString()
             };
         }
 
@@ -198,10 +200,18 @@ namespace DepartmentService.ViewModels
                 AcademicPlanId = entity.AcademicPlanId,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
+                Semester = entity.Semester.ToString()
+            };
+        }
+
+        public static AcademicPlanRecordElementViewModel CreateAcademicPlanRecordElementViewModel(AcademicPlanRecordElement entity)
+        {
+            return new AcademicPlanRecordElementViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
                 KindOfLoadId = entity.KindOfLoadId,
-                KindOfLoad = entity.KindOfLoad.KindOfLoadName,
-                Semester = entity.Semester.ToString(),
-                Hours = entity.Hours
+                Hours = entity.Hours,
             };
         }
 
@@ -344,10 +354,7 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.AcademicPlan.EducationDirection.Cipher,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
-                KindOfLoadId = entity.KindOfLoadId,
-                KindOfLoad = entity.KindOfLoad.KindOfLoadName,
-                Semester = entity.Semester.ToString(),
-                Hours = entity.Hours
+                Semester = entity.Semester.ToString()
             };
         }
 
