@@ -1,4 +1,5 @@
-﻿using DepartmentModel;
+﻿using DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.AcademicPlanRecord.AcademicPlanRecordElement;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
@@ -71,15 +72,29 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(d=> new { Value = d.Id, Display = d.DisciplineName }).ToList();
 			comboBoxDiscipline.SelectedItem = null;
 
-			if (_id.HasValue)
+            var control = Container.Resolve<AcademicPlanRecordElementControl>();
+
+            control.Left = 0;
+            control.Top = 0;
+            control.Height = Height - 60;
+            control.Width = Width - 15;
+            control.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
+            tabPageRecords.Controls.Add(control);
+
+            if (_id.HasValue)
 			{
 				LoadData();
 			}
 		}
 
 		private void LoadData()
-		{
-			var result = _service.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = _id });
+        {
+            (tabPageRecords.Controls[0] as AcademicPlanRecordElementControl).LoadData(_id.Value);
+            var result = _service.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = _id });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

@@ -9,9 +9,9 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 
-namespace DepartmentService.Services.StandartServices.EducationDirection
+namespace DepartmentService.Services
 {
-    class AcademicPlanRecordElementService : IAcademicPlanRecordElementService
+    public class AcademicPlanRecordElementService : IAcademicPlanRecordElementService
     {
         private readonly DepartmentDbContext _context;
 
@@ -71,7 +71,7 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(apre => apre.AcademicPlanRecord).Include(apre => apre.KindOfLoad);
+                query = query.Include(apre => apre.AcademicPlanRecord).Include(apre => apre.AcademicPlanRecord.Discipline).Include(apre => apre.KindOfLoad);
 
                 var result = new AcademicPlanRecordElementPageViewModel
                 {

@@ -31,8 +31,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
-
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30);
+            
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });

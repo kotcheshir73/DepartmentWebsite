@@ -200,7 +200,8 @@ namespace DepartmentService.ViewModels
                 AcademicPlanId = entity.AcademicPlanId,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
-                Semester = entity.Semester.ToString()
+                Semester = entity.Semester.ToString(),
+                Zet = entity.Zet
             };
         }
 
@@ -211,6 +212,8 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 AcademicPlanRecordId = entity.AcademicPlanRecordId,
                 KindOfLoadId = entity.KindOfLoadId,
+                Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
+                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
                 Hours = entity.Hours,
             };
         }

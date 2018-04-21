@@ -135,6 +135,18 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.Designer.cs">
       <DependentUpon>AcademicPlanRecordControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.Designer.cs">
+      <DependentUpon>AcademicPlanRecordElementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.Designer.cs">
+      <DependentUpon>AcademicPlanRecordElementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -637,6 +649,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.resx">
       <DependentUpon>AcademicPlanRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.resx">
+      <DependentUpon>AcademicPlanRecordElementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.resx">
+      <DependentUpon>AcademicPlanRecordElementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.resx">
       <DependentUpon>AcademicPlanRecordForm.cs</DependentUpon>

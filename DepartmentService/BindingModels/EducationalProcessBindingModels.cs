@@ -17,28 +17,9 @@ namespace DepartmentService.BindingModels
     {
         public Guid AcademicPlanId { get; set; }
 
-        public XmlNode Node { get; set; }
-
-        public int Counter { get; set; }
-
-        public string KafedraNumber { get; set; }
-
-        public ResultService Result { get; set; }
-
-        public Guid DisciplineBlockId { get; set; }
-
-        public List<Semesters> Semesters { get; set; }
-    }
-
-    public class ParsePracticBindingModel
-    {
-        public Guid AcademicPlanId { get; set; }
-
         public Guid DisciplineBlockId { get; set; }
 
         public int Counter { get; set; }
-
-        public string PracticName { get; set; }
 
         public XmlNode Node { get; set; }
 
