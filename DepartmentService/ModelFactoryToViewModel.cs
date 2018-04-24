@@ -227,6 +227,34 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static StreamLessonViewModel CreateStreamLessonViewModel(StreamLesson entity)
+        {
+            return new StreamLessonViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                AcademicYear = entity.AcademicYear.Title,
+                StreamLessonName = entity.StreamLessonName
+            };
+        }
+
+        public static StreamLessonRecordViewModel CreateStreamLessonRecordViewModel(StreamLessonRecord entity)
+        {
+            return new StreamLessonRecordViewModel
+            {
+                Id = entity.Id,
+                StreamLessonId = entity.StreamLessonId,
+                AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                StreamLessonName = entity.StreamLesson.StreamLessonName,
+                AcademicPlanRecordElementText =string.Format("{0} {1} {2}",
+                    entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher,
+                    entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
+                    entity.AcademicPlanRecordElement.KindOfLoad.KindOfLoadName),
+                Hours = entity.Hours,
+                IsMain = entity.IsMain
+            };
+        }
+
 
         public static StudentViewModel CreateStudentViewModel(Student entity)
         {

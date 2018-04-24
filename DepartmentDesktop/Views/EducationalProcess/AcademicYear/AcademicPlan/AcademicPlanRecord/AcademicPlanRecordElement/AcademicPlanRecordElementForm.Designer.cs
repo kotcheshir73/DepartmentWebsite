@@ -137,6 +137,7 @@
             this.Controls.Add(this.comboBoxAcademicPlanRecord);
             this.Controls.Add(this.labelAcademicPlanRecord);
             this.Name = "AcademicPlanRecordElementForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Нагрузка по виду нагрузок";
             this.Load += new System.EventHandler(this.AcademicPlanRecordElementForm_Load);
             this.ResumeLayout(false);

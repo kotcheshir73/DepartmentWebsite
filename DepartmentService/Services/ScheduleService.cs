@@ -352,7 +352,8 @@ namespace DepartmentService.Services
                 return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
             var times = result.Result.List;
-            var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel());
+            // TODO определить период
+            var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel { IsFirstHalfSemester = false });
             if (!resultSemester.Succeeded)
             {
                 return ResultService.Error("Error:", "ScheduleSemester not found", ResultServiceStatusCode.NotFound);

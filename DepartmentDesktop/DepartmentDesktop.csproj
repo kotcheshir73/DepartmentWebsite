@@ -171,6 +171,30 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.Designer.cs">
       <DependentUpon>ContingentControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.Designer.cs">
+      <DependentUpon>StreamLessonControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.Designer.cs">
+      <DependentUpon>StreamLessonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.Designer.cs">
+      <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.Designer.cs">
+      <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -667,6 +691,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.resx">
       <DependentUpon>ContingentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.resx">
+      <DependentUpon>StreamLessonControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.resx">
+      <DependentUpon>StreamLessonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.resx">
+      <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.resx">
+      <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.resx">
       <DependentUpon>LecturerPostControl.cs</DependentUpon>

@@ -36,7 +36,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
         {
             if (_aprId == null)
             {
-                MessageBox.Show("Неуказан учебный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Неуказана запись учебного плана", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             var resultAPR = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { });
