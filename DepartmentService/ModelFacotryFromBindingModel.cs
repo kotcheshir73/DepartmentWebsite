@@ -119,9 +119,9 @@ namespace DepartmentService.BindingModels
 				entity = new KindOfLoad();
 			}
 			entity.KindOfLoadName = model.KindOfLoadName;
-			entity.KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType);
+            entity.AttributeName = model.AttributeName;
 
-			return entity;
+            return entity;
 		}
 
 		public static TimeNorm CreateTimeNorm(TimeNormRecordBindingModel model, TimeNorm entity = null)
@@ -133,10 +133,12 @@ namespace DepartmentService.BindingModels
 			entity.Title = model.Title;
 			entity.KindOfLoadId = model.KindOfLoadId;
             entity.AcademicYearId = model.AcademicYearId;
-			entity.Formula = model.Formula;
 			entity.Hours = model.Hours;
+            entity.NumKoef = model.NumKoef;
+            entity.TimeNormKoef = (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
+            entity.KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType);
 
-			return entity;
+            return entity;
 		}
 
 		public static Contingent CreateContingent(ContingentRecordBindingModel model, Contingent entity = null)
@@ -178,14 +180,25 @@ namespace DepartmentService.BindingModels
 			}
             entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
-			entity.KindOfLoadId = model.KindOfLoadId;
 			entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
-			entity.Hours = model.Hours;
+            entity.Zet = model.Zet;
 
-			return entity;
+            return entity;
 		}
 
-		public static AcademicYear CreateAcademicYear(AcademicYearRecordBindingModel model, AcademicYear entity = null)
+        public static AcademicPlanRecordElement CreateAcademicPlanRecordElement(AcademicPlanRecordElementRecordBindingModel model, AcademicPlanRecordElement entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new AcademicPlanRecordElement();
+            }
+            entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
+            entity.KindOfLoadId = model.KindOfLoadId;
+            entity.Hours = model.Hours;
+            return entity;
+        }
+
+        public static AcademicYear CreateAcademicYear(AcademicYearRecordBindingModel model, AcademicYear entity = null)
 		{
 			if (entity == null)
 			{
@@ -196,8 +209,35 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
+        public static StreamLesson CreateStreamLesson(StreamLessonRecordBindingModel model, StreamLesson entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StreamLesson();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.StreamLessonName = model.StreamLessonName;
 
-		public static Student CreateStudent(StudentRecordBindingModel model, Student entity = null)
+            return entity;
+        }
+
+        public static StreamLessonRecord CreateStreamLessonRecord(StreamLessonRecordRecordBindingModel model, StreamLessonRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StreamLessonRecord();
+            }
+            entity.StreamLessonId = model.StreamLessonId;
+            entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
+            entity.Hours = model.Hours;
+            entity.IsMain = model.IsMain;
+
+            return entity;
+        }
+
+
+
+        public static Student CreateStudent(StudentRecordBindingModel model, Student entity = null)
 		{
 			if (entity == null)
 			{

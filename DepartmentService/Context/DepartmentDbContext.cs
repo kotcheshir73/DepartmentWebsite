@@ -1,18 +1,14 @@
 ﻿using DepartmentModel.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentService.Context
 {
     [Table("DepartmentDatabase")]
     public class DepartmentDbContext : DbContext
     {
-        public DepartmentDbContext()
+        public DepartmentDbContext() : base("DepartmentDatabase")
         {//настройки конфигурации для entity
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
@@ -22,6 +18,7 @@ namespace DepartmentService.Context
 
         public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
         public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
+        public virtual DbSet<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
         public virtual DbSet<AcademicYear> AcademicYears { get; set; }
         public virtual DbSet<Access> Accesses { set; get; }
         public virtual DbSet<Classroom> Classrooms { set; get; }
@@ -54,6 +51,8 @@ namespace DepartmentService.Context
         public virtual DbSet<SoftwareRecord> SoftwareRecords { get; set; }
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
+        public virtual DbSet<StreamLesson> StreamLessons { set; get; }
+        public virtual DbSet<StreamLessonRecord> StreamLessonRecords { set; get; }
         public virtual DbSet<Role> Roles { set; get; }
         public virtual DbSet<ScheduleLessonTime> ScheduleLessonTimes { set; get; }
         public virtual DbSet<Student> Students { set; get; }

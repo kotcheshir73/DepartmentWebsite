@@ -31,5 +31,8 @@ namespace DepartmentModel.Models
 
         [ForeignKey("AcademicYearId")]
         public virtual List<SeasonDates> SeasonDates { get; set; }
+
+        [ForeignKey("AcademicYearId")]
+        public virtual List<StreamLesson> StreamLessons { get; set; }
     }
 }

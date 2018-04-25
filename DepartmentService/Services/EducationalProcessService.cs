@@ -113,7 +113,7 @@ namespace DepartmentService.Services
                     }
                     //Получаем номер кафедры
                     var currentSetting = _context.CurrentSettings
-                        .FirstOrDefault(cs => cs.Key == "Кафедра");
+                         .FirstOrDefault(cs => cs.Key == "Кафедра");
                     if (currentSetting == null)
                     {
                         return ResultService.Error("Error:", "CurrentSetting not found",
@@ -171,31 +171,14 @@ namespace DepartmentService.Services
                             return ResultService.Error("Error:", "disciplineBlock(Практика) not found",
                                 ResultServiceStatusCode.NotFound);
                         }
-                        XmlNode studyPracticNode = mainRootElementNode.SelectSingleNode("УчебПрактики");
-                        if (studyPracticNode != null)
+                        XmlNodeList practicsNodes = mainRootElementNode.ChildNodes;
+                        foreach (XmlNode practicElemNode in practicsNodes)
                         {
-                            XmlNode practicNode = studyPracticNode.SelectSingleNode("ПрочаяПрактика");
-                            ParsePractic(new ParsePracticBindingModel
+                            if (practicElemNode.Name.Contains("Практик"))
                             {
-                                PracticName = "Учебная практика",
-                                Result = result,
-                                Node = practicNode,
-                                Counter = counter,
-                                KafedraNumber = currentSetting.Value,
-                                AcademicPlanId = model.Id,
-                                DisciplineBlockId = disciplineBlockPractic.Id,
-                                Semesters = semesters
-                            });
-                        }
-                        XmlNode practicsNode = mainRootElementNode.SelectSingleNode("ПрочиеПрактики");
-                        if (practicsNode != null)
-                        {
-                            XmlNodeList practicsNodes = practicsNode.SelectNodes("ПрочаяПрактика");
-                            foreach (XmlNode practicNode in practicsNodes)
-                            {
-                                ParsePractic(new ParsePracticBindingModel
+                                XmlNode practicNode = practicElemNode.SelectSingleNode("ПрочаяПрактика");
+                                ParsePractic(new ParseDisciplineBindingModel
                                 {
-                                    PracticName = "Производственная практика",
                                     Result = result,
                                     Node = practicNode,
                                     Counter = counter,
@@ -316,167 +299,7 @@ namespace DepartmentService.Services
                     XmlNodeList elementSemNodes = elementNode.SelectNodes("Сем");
                     if (elementsMainNode != null)
                     {
-                        foreach (XmlNode elementSemNode in elementSemNodes)
-                        {//идем по семестрам (тегам "Сем"), смотрим их атрибуты
-                            XmlAttributeCollection elementSemNodeAttributes = elementSemNode.Attributes;
-                            if (elementSemNodeAttributes != null)
-                            {
-                                // извлекаем номер семестра
-                                XmlNode semNode = elementSemNodeAttributes.GetNamedItem("Ном");
-                                if (semNode == null)
-                                {
-                                    model.Result.AddError("Not_Found", string.Format("Семестр не найден. Строка {0}", model.Counter));
-                                    continue;
-                                }
-                                Semesters sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value));
-                                if (model.Semesters.Contains(sem))
-                                {
-                                    #region Записи по видам нагрузок
-                                    // извлекаем все записи по нагрузкам, которые фигурируют по дисиуцплине в этом семестра
-                                    foreach (XmlAttribute elementSemNodeAttribute in elementSemNodeAttributes)
-                                    {
-                                        KindOfLoad kindOfLoad = null;
-                                        switch (elementSemNodeAttribute.Name)
-                                        {
-                                            case "Лек"://Лекции
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                      kl.KindOfLoadName.Contains("Лекц"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Лекция' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "Пр"://Практика
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Практ"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Практика' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "Лаб"://Лабораторные
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Лаборатор"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Лабораторные' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "КР"://Курсовая работа
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Курсовая работа"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Курсовая работа' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "КП"://Курсовой проект
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Курсовой проект"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Курсовой проект' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "Реф"://Реферат
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Реферат"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Реферат' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "РГР"://РГР
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("РГР"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'РГР' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "Зач"://Зачет
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Зачет"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Зачет' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "ЗачО"://Зачет с оценкой
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Зачет с оценкой"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Зачет с оценкой' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                            case "Экз"://Экзамен
-                                                {
-                                                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                                    kl.KindOfLoadName.Contains("Экзамен"));
-                                                    if (kindOfLoad == null)
-                                                    {
-                                                        model.Result.AddError("Not_Found", string.Format("Вид нагрузки 'Экзамен' не найден"));
-                                                    }
-                                                }
-                                                break;
-                                        }
-                                        // если нашли один из видов нагрузки - создаем запись
-                                        if (kindOfLoad != null)
-                                        {
-                                            var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
-                                                apr.AcademicPlanId == model.AcademicPlanId &&
-                                                apr.DisciplineId == discipline.Id &&
-                                                apr.KindOfLoadId == kindOfLoad.Id &&
-                                                apr.Semester == sem &&
-                                                !apr.IsDeleted);
-                                            if (record == null)
-                                            {
-                                                _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
-                                                {
-                                                    AcademicPlanId = model.AcademicPlanId,
-                                                    DisciplineId = discipline.Id,
-                                                    KindOfLoadId = kindOfLoad.Id,
-                                                    Semester = sem.ToString(),
-                                                    Hours = Convert.ToInt32(elementSemNodeAttribute.Value)
-                                                }));
-                                            }
-                                            else
-                                            {
-                                                record.Hours = Convert.ToInt32(elementSemNodeAttribute.Value);
-                                                _context.Entry(record).State = EntityState.Modified;
-                                            }
-                                            _context.SaveChanges();
-                                        }
-                                    }
-                                    #endregion
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        model.Result.AddError("Not_found", string.Format("Семестры не найдены в строке {0}",
-                            model.Counter));
-                        continue;
+                        CreateAPR(elementSemNodes, model, discipline.Id);
                     }
                 }
             }
@@ -490,15 +313,8 @@ namespace DepartmentService.Services
         /// Парсим практики из xml
         /// </summary>
         /// <param name="model"></param>
-        private void ParsePractic(ParsePracticBindingModel model)
+        private void ParsePractic(ParseDisciplineBindingModel model)
         {
-            var kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                              kl.KindOfLoadName.Contains(model.PracticName));
-            if (kindOfLoad == null)
-            {
-                model.Result.AddError("Not_Found", string.Format("Нагрузка под практику не найдена"));
-                return;
-            }
             XmlNode disciplineAttributes = model.Node.Attributes.GetNamedItem("Наименование");
             if (disciplineAttributes == null)
             {
@@ -531,65 +347,15 @@ namespace DepartmentService.Services
                                                 disciplineAttributes.Value);
                 }
 
-                if (discipline.DisciplineName == "Преддипломная практика")
-                {
-                    kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                              kl.KindOfLoadName.Contains(discipline.DisciplineName));
-                    if (kindOfLoad == null)
-                    {
-                        model.Result.AddError("Not_Found", string.Format("Практика не найдена. Строка {0}", model.Counter));
-                        return;
-                    }
-                }
-
-                XmlNode semesterNode = model.Node.SelectSingleNode("Семестр");
+                XmlNodeList semesterNode = model.Node.SelectNodes("Семестр");
                 if (semesterNode == null)
                 {
                     model.Result.AddError("Not_Found", string.Format("Не найден тег семестр. Практика {0}",
                         disciplineAttributes.Value));
                     return;
                 }
-                XmlNode semNode = semesterNode.Attributes.GetNamedItem("Ном");
-                if (semNode == null)
-                {
-                    model.Result.AddError("Not_Found", string.Format("Не найден номер семестра. Практика {0}",
-                        disciplineAttributes.Value));
-                    return;
-                }
-                var sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value));
-                if (model.Semesters.Contains(sem))
-                {
-                    XmlNode weekNumNode = semesterNode.Attributes.GetNamedItem("ПланНед");
-                    if (weekNumNode == null)
-                    {
-                        model.Result.AddError("Not_Found", string.Format("Не найдено количество недель. Практика {0}",
-                            disciplineAttributes.Value));
-                        return;
-                    }
-                    var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
-                                                            apr.AcademicPlanId == model.AcademicPlanId &&
-                                                            apr.DisciplineId == discipline.Id &&
-                                                            apr.KindOfLoadId == kindOfLoad.Id &&
-                                                            apr.Semester == sem &&
-                                                            !apr.IsDeleted);
-                    if (record == null)
-                    {
-                        _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
-                        {
-                            AcademicPlanId = model.AcademicPlanId,
-                            DisciplineId = discipline.Id,
-                            KindOfLoadId = kindOfLoad.Id,
-                            Semester = sem.ToString(),
-                            Hours = Convert.ToInt32(weekNumNode.Value)
-                        }));
-                    }
-                    else
-                    {
-                        record.Hours = Convert.ToInt32(weekNumNode.Value);
-                        _context.Entry(record).State = EntityState.Modified;
-                    }
-                    _context.SaveChanges();
-                }
+
+                CreateAPR(semesterNode, model, discipline.Id);
             }
         }
 
@@ -603,36 +369,34 @@ namespace DepartmentService.Services
             XmlNode vkrNode = model.Node.SelectSingleNode("ВКР");
             if (vkrNode != null)
             {
-                string[] disciplineNames = new string[]
+                Dictionary<string, string> disciplineNames = new Dictionary<string, string>
                 {
-                                    string.Format("Руководство ВКР {0}", model.AcademicLevel),
-                                    string.Format("Работа в ГЭК (защита ВКР {0})", model.AcademicLevel),
-                                    "Нормоконтроль на тех. направлениях"
+                    { "Руководство", string.Format("Руководство ВКР {0}", model.AcademicLevel) },
+                    { "ГАК", string.Format("Работа в ГЭК (защита ВКР {0})", model.AcademicLevel) },
+                    { "Консультации", "Нормоконтроль на тех. направлениях" },
                 };
-                foreach (var discpName in disciplineNames)
+
+                foreach (XmlNode elemNode in vkrNode.ChildNodes)
                 {
-                    var kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                      kl.KindOfLoadName.Contains(discpName));
-                    if (kindOfLoad != null)
+                    if (disciplineNames.ContainsKey(elemNode.Name))
                     {
-                        var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
+                        var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == disciplineNames[elemNode.Name]);
                         if (discipline == null)
                         {
                             _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
                             {
                                 DisciplineBlockId = model.DisciplineBlockId,
-                                DisciplineName = discpName
+                                DisciplineName = disciplineNames[elemNode.Name]
                             }));
                             _context.SaveChanges();
 
-                            discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
+                            discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == disciplineNames[elemNode.Name]);
                         }
 
                         var sem = (Semesters)Enum.ToObject(typeof(Semesters), model.SemesterNumber);
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                     apr.AcademicPlanId == model.AcademicPlanId &&
                                                                     apr.DisciplineId == discipline.Id &&
-                                                                    apr.KindOfLoadId == kindOfLoad.Id &&
                                                                     apr.Semester == sem &&
                                                                     !apr.IsDeleted);
                         if (record == null)
@@ -641,18 +405,24 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
-                                KindOfLoadId = kindOfLoad.Id,
                                 Semester = sem.ToString(),
-                                Hours = 1
+                                Zet = 0
                             }));
                         }
                         else
                         {
-                            record.Hours = 1;
                             _context.Entry(record).State = EntityState.Modified;
                         }
                         _context.SaveChanges();
 
+                        if (elemNode.Name != "ГАК")
+                        {
+                            CreateAPRE(elemNode.ChildNodes.Item(0).Attributes, record.Id);
+                        }
+                        else
+                        {
+                            CreateAPRE(elemNode.Attributes, record.Id);
+                        }
                     }
                 }
             }
@@ -668,50 +438,159 @@ namespace DepartmentService.Services
                 };
                 foreach (var discpName in disciplineNames)
                 {
-                    var kindOfLoad = _context.KindOfLoads.FirstOrDefault(kl =>
-                                  kl.KindOfLoadName.Contains(discpName));
-                    if (kindOfLoad != null)
+                    var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
+                    if (discipline == null)
                     {
-                        var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
-                        if (discipline == null)
+                        _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
                         {
-                            _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
-                            {
-                                DisciplineBlockId = model.DisciplineBlockId,
-                                DisciplineName = discpName
-                            }));
-                            _context.SaveChanges();
+                            DisciplineBlockId = model.DisciplineBlockId,
+                            DisciplineName = discpName
+                        }));
+                        _context.SaveChanges();
 
-                            discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
+                        discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
+                    }
+                    var sem = (Semesters)Enum.ToObject(typeof(Semesters), model.SemesterNumber);
+                    var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+                                                                apr.AcademicPlanId == model.AcademicPlanId &&
+                                                                apr.DisciplineId == discipline.Id &&
+                                                                apr.Semester == sem &&
+                                                                !apr.IsDeleted);
+                    if (record == null)
+                    {
+                        _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                        {
+                            AcademicPlanId = model.AcademicPlanId,
+                            DisciplineId = discipline.Id,
+                            Semester = sem.ToString(),
+                            Zet = 0
+                        }));
+                    }
+                    _context.SaveChanges();
+
+                    var kindOfLoad = _context.KindOfLoads.FirstOrDefault(x => x.KindOfLoadName == discpName);
+
+                    var recordelement = _context.AcademicPlanRecordElements.FirstOrDefault(apre =>
+                        apre.AcademicPlanRecordId == record.Id &&
+                        apre.KindOfLoadId == kindOfLoad.Id &&
+                        !apre.IsDeleted);
+                    if (recordelement == null)
+                    {
+                        _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                        {
+                            AcademicPlanRecordId = record.Id,
+                            KindOfLoadId = kindOfLoad.Id,
+                            Hours = 1
+                        }));
+                    }
+                    _context.SaveChanges();
+                }
+            }
+            #endregion
+        }
+
+        private void CreateAPR(XmlNodeList elementSemNodes, ParseDisciplineBindingModel model, Guid disciplineId)
+        {
+            foreach (XmlNode elementSemNode in elementSemNodes)
+            {//идем по семестрам (тегам "Сем"), смотрим их атрибуты
+                XmlAttributeCollection elementSemNodeAttributes = elementSemNode.Attributes;
+                if (elementSemNodeAttributes != null)
+                {
+                    // извлекаем номер семестра
+                    XmlNode semNode = elementSemNodeAttributes.GetNamedItem("Ном");
+                    if (semNode == null)
+                    {
+                        model.Result.AddError("Not_Found", string.Format("Семестр не найден. Строка {0}", model.Counter));
+                        continue;
+                    }
+                    Semesters sem = (Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(semNode.Value));
+                    if (model.Semesters.Contains(sem))
+                    {
+                        // извлекаем зет
+
+                        XmlNode zetNode = elementSemNodeAttributes.GetNamedItem("ЗЕТ");
+                        if (zetNode == null)
+                        {
+                            zetNode = elementSemNodeAttributes.GetNamedItem("ПланЗЕТ");
+                            if (zetNode == null)
+                            {
+                                model.Result.AddError("Not_Found", string.Format("Зет не найдено. Строка {0}", model.Counter));
+                                continue;
+                            }
                         }
-                        var sem = (Semesters)Enum.ToObject(typeof(Semesters), model.SemesterNumber);
+                        var zet = Convert.ToInt32(zetNode.Value);
+
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
-                                                                    apr.AcademicPlanId == model.AcademicPlanId &&
-                                                                    apr.DisciplineId == discipline.Id &&
-                                                                    apr.KindOfLoadId == kindOfLoad.Id &&
-                                                                    apr.Semester == sem &&
-                                                                    !apr.IsDeleted);
+                            apr.AcademicPlanId == model.AcademicPlanId &&
+                            apr.DisciplineId == disciplineId &&
+                            apr.Semester == sem &&
+                            !apr.IsDeleted);
                         if (record == null)
                         {
                             _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
                             {
                                 AcademicPlanId = model.AcademicPlanId,
-                                DisciplineId = discipline.Id,
-                                KindOfLoadId = kindOfLoad.Id,
+                                DisciplineId = disciplineId,
                                 Semester = sem.ToString(),
-                                Hours = 1
+                                Zet = zet
                             }));
                         }
                         else
                         {
-                            record.Hours = 1;
+                            record.Zet = zet;
                             _context.Entry(record).State = EntityState.Modified;
                         }
                         _context.SaveChanges();
+
+                        record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
+                            apr.AcademicPlanId == model.AcademicPlanId &&
+                            apr.DisciplineId == disciplineId &&
+                            apr.Semester == sem &&
+                            !apr.IsDeleted);
+
+                        CreateAPRE(elementSemNodeAttributes, record.Id);
+
+                    }
+                    else
+                    {
+                        //model.Result.AddError("Not_found", string.Format("Семестры не найдены в строке {0}",
+                        //    model.Counter));
+                        continue;
                     }
                 }
             }
-            #endregion
+        }
+
+        private void CreateAPRE(XmlAttributeCollection elementSemNodeAttributes, Guid apreId)
+        {
+            //ищем вид нагрузки
+            foreach (KindOfLoad kindOfLoadElem in _context.KindOfLoads)
+            {
+                XmlNode elemNode = elementSemNodeAttributes.GetNamedItem(kindOfLoadElem.AttributeName);
+                if (elemNode != null)
+                {
+                    int hours = Convert.ToInt32(elemNode.Value);
+                    var recordelement = _context.AcademicPlanRecordElements.FirstOrDefault(apre =>
+                        apre.AcademicPlanRecordId == apreId &&
+                        apre.KindOfLoadId == kindOfLoadElem.Id &&
+                        !apre.IsDeleted);
+                    if (recordelement == null)
+                    {
+                        _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                        {
+                            AcademicPlanRecordId = apreId,
+                            KindOfLoadId = kindOfLoadElem.Id,
+                            Hours = hours
+                        }));
+                    }
+                    else
+                    {
+                        recordelement.Hours = hours;
+                        _context.Entry(recordelement).State = EntityState.Modified;
+                    }
+                    _context.SaveChanges();
+                }
+            }
         }
         #endregion
 
@@ -751,7 +630,6 @@ namespace DepartmentService.Services
                             semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
 
                             var apRecords = _context.AcademicPlanRecords
-                            .Include(apr => apr.KindOfLoad)
                             .Where(apr => apr.AcademicPlanId == academicPlan.Id &&
                                         semesters.Contains(apr.Semester) &&
                                         !apr.IsDeleted);
@@ -764,7 +642,7 @@ namespace DepartmentService.Services
                             }
 
                             foreach (var apRecord in apRecords)
-                            {//идем по записям учебного плана
+                            {/*// идем по записям учебного плана
                                 var timeNorms = _context.TimeNorms.Where(tn => tn.KindOfLoadId == apRecord.KindOfLoadId);
                                 if (timeNorms.Count() == 0)
                                 {
@@ -772,8 +650,8 @@ namespace DepartmentService.Services
                                     return ResultService.Error("not_found", string.Format("Для вида нагрузок {0} отсуствуют нормы времени",
                                         _context.KindOfLoads.Single(kl => kl.Id == apRecord.KindOfLoadId).KindOfLoadName), ResultServiceStatusCode.NotFound);
                                 }
-                                foreach (var timeNorm in timeNorms)
-                                {//получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
+                               foreach (var timeNorm in timeNorms)
+                                { //получаем список норм времени, привязанных к виду нагрузки по записи учебного плана.
                                  //их может быть от 1 до нескольких, на каждую нужно создать запись
                                     decimal load = CalcLoad(timeNorm.Formula, apRecords);
                                     var contingents = _context.Contingents
@@ -826,7 +704,7 @@ namespace DepartmentService.Services
                                         }
                                         _context.SaveChanges();
                                     }
-                                }
+                                }*/
                             }
 
                         }
@@ -867,11 +745,11 @@ namespace DepartmentService.Services
             if (match.Success)
             {// среди записей по этой дисциплине ищем вид нагрузки, если он там есть
                 var kindOfLoadName = Regex.Match(match.Value, @"[\w\ ]+").Value;
-                var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(kindOfLoadName));
+                /*var apR = apRecords.FirstOrDefault(kol => kol.KindOfLoad.KindOfLoadName.Contains(kindOfLoadName));
                 if (apR != null)
                 {
                     load *= apR.Hours;
-                }
+                }*/
             }
 
             return load;
@@ -891,7 +769,7 @@ namespace DepartmentService.Services
                             .Take(model.PageSize.Value);
             }
 
-            query = query.Include(ar => ar.AcademicPlan).Include(ar => ar.Discipline).Include(ar => ar.KindOfLoad).Include(ar => ar.AcademicPlan.EducationDirection);
+            query = query.Include(ar => ar.AcademicPlan).Include(ar => ar.Discipline)/*.Include(ar => ar.KindOfLoad)*/.Include(ar => ar.AcademicPlan.EducationDirection);
 
             var result = new AcademicPlanRecordForDiciplinePageViewModel
             {

@@ -253,9 +253,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                 standartControlAcademicPlanRecords.GetDataGridViewRows.Add(
                      res.Id,
                      res.EducationDirectionCipher,
-                     res.Semester,
-                     res.KindOfLoad,
-                     res.Hours
+                     res.Semester
                 );
             }
             return result.Result.MaxCount;
