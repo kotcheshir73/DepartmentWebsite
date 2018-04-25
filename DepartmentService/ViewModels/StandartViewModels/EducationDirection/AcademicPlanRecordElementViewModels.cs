@@ -12,6 +12,10 @@ namespace DepartmentService.ViewModels
 
         public Guid KindOfLoadId { get; set; }
 
+        public string Disciplne { get; set; }
+
+        public string KindOfLoadName { get; set; }
+
         public decimal Hours { get; set; }
     }
 }

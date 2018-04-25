@@ -8,37 +8,39 @@ using Unity;
 using Unity.Attributes;
 using Unity.Resolution;
 
-namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
+namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
 {
-    public partial class KindOfLoadControl : UserControl
+    public partial class StreamLessonControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IKindOfLoadService _service;
+        private readonly IStreamLessonService _service;
 
-		public KindOfLoadControl(IKindOfLoadService service)
-		{
-			InitializeComponent();
-			_service = service;
+        private Guid _ayId;
 
-			List<ColumnConfig> columns = new List<ColumnConfig>
-			{
-				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "KindOfLoadName", Title = "Название", Width = 200, Visible = true },
-				new ColumnConfig { Name = "AttributeName", Title = "Имя атрибута", Width = 100, Visible = true }
-			};
+        public StreamLessonControl(IStreamLessonService service)
+        {
+            InitializeComponent();
+            _service = service;
+
+            List<ColumnConfig> columns = new List<ColumnConfig>
+            {
+                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+                new ColumnConfig { Name = "StreamLessonName", Title = "Название потока", Width = 250, Visible = true }
+            };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
-            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30);
-            
+            standartControl.Configurate(columns, hideToolStripButtons);
+
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
-            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
+            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
+            {
                 switch (e.KeyCode)
                 {
                     case Keys.Insert:
@@ -54,14 +56,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
             });
         }
 
-		public void LoadData()
+        public void LoadData(Guid ayId)
         {
+            _ayId = ayId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -72,63 +75,64 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.KindOfLoadName,
-                    res.AttributeName
+                    res.StreamLessonName
                 );
             }
             return result.Result.MaxCount;
         }
 
-		private void AddRecord()
-		{
-            var form = Container.Resolve<KindOfLoadForm>(
+        private void AddRecord()
+        {
+            var form = Container.Resolve<StreamLessonForm>(
                 new ParameterOverrides
                 {
+                    { "ayId", _ayId },
                     { "id", Guid.Empty }
                 }
-                .OnType<KindOfLoadForm>());
+                .OnType<StreamLessonForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
             }
-		}
+        }
 
-		private void UpdRecord()
-		{
-			if (standartControl.GetDataGridViewSelectedRows.Count == 1)
-			{
+        private void UpdRecord()
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<KindOfLoadForm>(
+                var form = Container.Resolve<StreamLessonForm>(
                     new ParameterOverrides
                     {
+                        { "ayId", _ayId },
                         { "id", id }
                     }
-                    .OnType<KindOfLoadForm>());
+                    .OnType<StreamLessonForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
                 }
-			}
-		}
+            }
+        }
 
-		private void DelRecord()
-		{
-			if (standartControl.GetDataGridViewSelectedRows.Count > 0)
-			{
-				if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-				{
-					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
-					{
+        private void DelRecord()
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+                    {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteKindOfLoad(new KindOfLoadGetBindingModel { Id = id });
-						if (!result.Succeeded)
-						{
-							Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-						}
+                        var result = _service.DeleteStreamLesson(new StreamLessonGetBindingModel { Id = id });
+                        if (!result.Succeeded)
+                        {
+                            Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                        }
                     }
                     standartControl.LoadPage();
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 }

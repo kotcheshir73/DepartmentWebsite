@@ -208,7 +208,35 @@ namespace DepartmentService.BindingModels
 
 			return entity;
 		}
-        
+
+        public static StreamLesson CreateStreamLesson(StreamLessonRecordBindingModel model, StreamLesson entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StreamLesson();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.StreamLessonName = model.StreamLessonName;
+
+            return entity;
+        }
+
+        public static StreamLessonRecord CreateStreamLessonRecord(StreamLessonRecordRecordBindingModel model, StreamLessonRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StreamLessonRecord();
+            }
+            entity.StreamLessonId = model.StreamLessonId;
+            entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
+            entity.Hours = model.Hours;
+            entity.IsMain = model.IsMain;
+
+            return entity;
+        }
+
+
+
         public static Student CreateStudent(StudentRecordBindingModel model, Student entity = null)
 		{
 			if (entity == null)

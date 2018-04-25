@@ -135,6 +135,18 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.Designer.cs">
       <DependentUpon>AcademicPlanRecordControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.Designer.cs">
+      <DependentUpon>AcademicPlanRecordElementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.Designer.cs">
+      <DependentUpon>AcademicPlanRecordElementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +170,30 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.Designer.cs">
       <DependentUpon>ContingentControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.Designer.cs">
+      <DependentUpon>StreamLessonControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.Designer.cs">
+      <DependentUpon>StreamLessonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.Designer.cs">
+      <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.Designer.cs">
+      <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.cs">
       <SubType>UserControl</SubType>
@@ -638,6 +674,12 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.resx">
       <DependentUpon>AcademicPlanRecordControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.resx">
+      <DependentUpon>AcademicPlanRecordElementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.resx">
+      <DependentUpon>AcademicPlanRecordElementForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.resx">
       <DependentUpon>AcademicPlanRecordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -649,6 +691,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.resx">
       <DependentUpon>ContingentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.resx">
+      <DependentUpon>StreamLessonControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.resx">
+      <DependentUpon>StreamLessonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.resx">
+      <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.resx">
+      <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.resx">
       <DependentUpon>LecturerPostControl.cs</DependentUpon>

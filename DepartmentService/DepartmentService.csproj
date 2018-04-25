@@ -88,6 +88,8 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamLessonBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamLessonRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueGroupBindingModels.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueService.cs" />
@@ -146,6 +150,10 @@
     <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs" />
     <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.Designer.cs">
       <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804211915535_AddStreamLessons.cs" />
+    <Compile Include="Migrations\201804211915535_AddStreamLessons.Designer.cs">
+      <DependentUpon>201804211915535_AddStreamLessons.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -216,6 +224,8 @@
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StreamLessonRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StreamLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentGroupService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentHistoryService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueGroupService.cs" />
@@ -254,6 +264,8 @@
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentHistoryViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamingLessonViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentGroupViewModels.cs" />
@@ -287,7 +299,7 @@
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803121441460_Migration1.resx">
-      <DependentUpon>201803121441460_Migration1.cs</DependentUpon>   
+      <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.resx">
       <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
@@ -303,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.resx">
       <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804211915535_AddStreamLessons.resx">
+      <DependentUpon>201804211915535_AddStreamLessons.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
