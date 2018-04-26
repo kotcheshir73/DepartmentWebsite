@@ -41,9 +41,11 @@ namespace DepartmentDesktop.Controllers
         /// <param name="e"></param>
         private void buttonLoadTemplate_Click(object sender, EventArgs e)
         {
-            _ofd = new OpenFileDialog();
-            _ofd.Filter = "doc|*.doc|docx|*.docx";
-            if (_ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            _ofd = new OpenFileDialog
+            {
+                Filter = "doc|*.doc|docx|*.docx"
+            };
+            if (_ofd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
@@ -69,11 +71,11 @@ namespace DepartmentDesktop.Controllers
                         }
                         _listQuestions = new Dictionary<string, List<string>>();
                         _listCountQuestions = new Dictionary<string, int>();
-                        XmlSerializer ser = new XmlSerializer(typeof(ParagraphFormat));
+                       // XmlSerializer ser = new XmlSerializer(typeof(ParagraphFormat));
                         StreamWriter writer = new StreamWriter(_ofd.FileName+".xml");
                         for (int i = 0; i < wordparagraphs.Count; ++i)
                         {
-                            ser.Serialize(writer, wordparagraphs[i + 1].Range.ParagraphFormat);
+                           // ser.Serialize(writer, wordparagraphs[i + 1].Range.ParagraphFormat);
                             string str = wordparagraphs[i + 1].Range.Text;
                             if (str.Contains('#') && str.Contains('{') && str.Contains('}'))
                             {//ищем строчки с шаблонным текстом
@@ -139,10 +141,10 @@ namespace DepartmentDesktop.Controllers
                         listBox.Height = tabPage.Height - 35;
                         listBox.Left = 5;
                         listBox.Top = 35;
-                        listBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top
-                            | System.Windows.Forms.AnchorStyles.Bottom)
-                            | System.Windows.Forms.AnchorStyles.Left)
-                            | System.Windows.Forms.AnchorStyles.Right)));
+                        listBox.Anchor = ((AnchorStyles)((((AnchorStyles.Top
+                            | AnchorStyles.Bottom)
+                            | AnchorStyles.Left)
+                            | AnchorStyles.Right)));
                         tabPage.Controls.Add(listBox);
 
                         tabControlTemplates.TabPages.Add(tabPage);
@@ -164,7 +166,7 @@ namespace DepartmentDesktop.Controllers
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "txt file|*.txt";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
                 int tag = Convert.ToInt32(((Button)sender).Tag);
                 ListBox lb = (ListBox)tabControlTemplates.TabPages[tag].Controls[1];

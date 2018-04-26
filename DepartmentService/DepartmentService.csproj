@@ -153,10 +153,14 @@
     <Compile Include="Migrations\201804061433246_ChangeUserRemoveRoleType.cs" />
     <Compile Include="Migrations\201804061433246_ChangeUserRemoveRoleType.Designer.cs">
       <DependentUpon>201804061433246_ChangeUserRemoveRoleType.cs</DependentUpon>
-       </Compile>
+    </Compile>
     <Compile Include="Migrations\201804211915535_AddStreamLessons.cs" />
     <Compile Include="Migrations\201804211915535_AddStreamLessons.Designer.cs">
       <DependentUpon>201804211915535_AddStreamLessons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.cs" />
+    <Compile Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.Designer.cs">
+      <DependentUpon>201804251441160_UpdateUserTableRemoveColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -321,9 +325,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804061433246_ChangeUserRemoveRoleType.resx">
       <DependentUpon>201804061433246_ChangeUserRemoveRoleType.cs</DependentUpon>
-       </EmbeddedResource>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804211915535_AddStreamLessons.resx">
       <DependentUpon>201804211915535_AddStreamLessons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.resx">
+      <DependentUpon>201804251441160_UpdateUserTableRemoveColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
