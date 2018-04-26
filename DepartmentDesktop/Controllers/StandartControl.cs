@@ -214,7 +214,9 @@ namespace DepartmentDesktop.Controllers
 		{
 			if (e.KeyData == Keys.Enter)
 			{
-				if (int.TryParse(toolStripTextBoxPage.Text, out int tempPage))
+                int tempPage;
+
+                if (int.TryParse(toolStripTextBoxPage.Text, out tempPage))
 				{
 					_currentPage = tempPage;
 					LoadPage();

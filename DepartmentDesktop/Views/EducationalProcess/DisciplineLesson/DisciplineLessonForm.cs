@@ -4,14 +4,8 @@ using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
 using DepartmentService.IServices.StandartInterfaces.EducationDirection;
 using Microsoft.Practices.Unity;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson

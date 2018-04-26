@@ -98,7 +98,6 @@ namespace DepartmentService.BindingModels
             entity.VariantNumber = model.VariantNumber;
             entity.Order = model.Order;
             entity.MaxBall = model.MaxBall;
-            entity.DisciplineLessonName = model.DisciplineLessonName;
             entity.Description = model.Description;
             entity.Image = model.Image;
 

@@ -28,11 +28,6 @@ namespace DepartmentModel.Models
         [DataMember]
         public decimal? MaxBall { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        [DataMember]
-        public string DisciplineLessonName { get; set; }
-
         [DataMember]
         public string Description { get; set; }
 

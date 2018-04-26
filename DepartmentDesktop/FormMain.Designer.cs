@@ -35,6 +35,7 @@
             this.DataBaseWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImportDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.progressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +84,6 @@
             this.scheduleLecturerConsultationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.личныйКабинетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,7 +106,7 @@
             this.MakeTicketsToolStripMenuItem,
             this.loadDistributionToolStripMenuItem,
             this.DataBaseWorkToolStripMenuItem,
-            this.личныйКабинетToolStripMenuItem});
+            this.progressToolStripMenuItem});
             this.действияToolStripMenuItem.Name = "действияToolStripMenuItem";
             this.действияToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.действияToolStripMenuItem.Text = "Сервис";
@@ -147,6 +147,13 @@
             this.ExportDataBaseToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.ExportDataBaseToolStripMenuItem.Text = "Загрузить";
             this.ExportDataBaseToolStripMenuItem.Click += new System.EventHandler(this.ExportDataBaseToolStripMenuItem_Click);
+            // 
+            // progressToolStripMenuItem
+            // 
+            this.progressToolStripMenuItem.Name = "progressToolStripMenuItem";
+            this.progressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.progressToolStripMenuItem.Text = "Успеваемость";
+            this.progressToolStripMenuItem.Click += new System.EventHandler(this.progressToolStripMenuItem_Click);
             // 
             // AdminToolStripMenuItem
             // 
@@ -513,13 +520,6 @@
             this.scheduleConfigToolStripMenuItem.Text = "Настройки";
             this.scheduleConfigToolStripMenuItem.Click += new System.EventHandler(this.ScheduleConfigToolStripMenuItem_Click);
             // 
-            // личныйКабинетToolStripMenuItem
-            // 
-            this.личныйКабинетToolStripMenuItem.Name = "личныйКабинетToolStripMenuItem";
-            this.личныйКабинетToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.личныйКабинетToolStripMenuItem.Text = "Личный кабинет";
-            this.личныйКабинетToolStripMenuItem.Click += new System.EventHandler(this.личныйКабинетToolStripMenuItem_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -595,7 +595,7 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleCurrentStudentGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem lecturerPostToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem личныйКабинетToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem progressToolStripMenuItem;
     }
 }
 

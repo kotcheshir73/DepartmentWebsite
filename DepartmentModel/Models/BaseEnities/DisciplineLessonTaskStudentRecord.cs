@@ -26,6 +26,10 @@ namespace DepartmentModel.Models
         [DataMember]
         public string Comment { get; set; }
 
+        [Required]
+        [DataMember]
+        public int Score { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual DisciplineLessonTask DisciplineLessonTask { get; set; }

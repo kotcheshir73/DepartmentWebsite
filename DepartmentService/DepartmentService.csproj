@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201802261923159_updatedisciplinetable.Designer.cs">
       <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803310905075_updatedDLSR.cs" />
+    <Compile Include="Migrations\201803310905075_updatedDLSR.Designer.cs">
+      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -250,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802261923159_updatedisciplinetable.resx">
       <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803310905075_updatedDLSR.resx">
+      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

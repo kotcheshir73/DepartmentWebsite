@@ -1,5 +1,6 @@
 ﻿using DepartmentDesktop.Views.EducationalProcess.DisciplineLesson;
 using DepartmentDesktop.Views.EducationalProcess.LecturerCabinet;
+using DepartmentDesktop.Views.EducationalProcess.Progress;
 using DepartmentModel.Enums;
 using Microsoft.Practices.Unity;
 using System;
@@ -56,6 +57,17 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+        /// <summary>
+        /// Успеваемость
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void progressToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ProgressForm>();
+            form.ShowDialog();
+        }
 
         #region Работа с БД
         /// <summary>
@@ -474,10 +486,5 @@ namespace DepartmentDesktop
 		}
         #endregion
 
-        private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<LecturerCabinetForm>();
-            form.ShowDialog();
-        }
     }
 }

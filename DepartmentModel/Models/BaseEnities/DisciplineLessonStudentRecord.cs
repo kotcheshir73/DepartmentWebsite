@@ -19,6 +19,9 @@ namespace DepartmentModel.Models
         [DataMember]
         public Guid StudentId { get; set; }
 
+        [DataMember]
+        public string Comment { get; set; }
+
         [Required]
         [DataMember]
         public DisciplineLessonStudentStatus Status { get; set; }
