@@ -1,10 +1,12 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
+using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 {
@@ -29,9 +31,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
-				new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 150, Visible = true },
 				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+				new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true }
 			};
 
             List<string> hideToolStripButtons = new List<string> { };
@@ -85,9 +86,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 standartControl.GetDataGridViewRows.Add(
 					res.Id,
 					res.Disciplne,
-					res.KindOfLoad,
 					res.Semester,
-					res.Hours
+					res.Zet
 				);
             }
             return result.Result.MaxCount;

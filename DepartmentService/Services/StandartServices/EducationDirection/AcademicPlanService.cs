@@ -178,9 +178,9 @@ namespace DepartmentService.Services
 		{
 			try
 			{
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Change))
+				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.Delete))
 				{
-					throw new Exception("Нет доступа на изменение данных по учебным планам");
+					throw new Exception("Нет доступа на удаление данных по учебным планам");
 				}
 
 				var entity = _context.AcademicPlans.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);

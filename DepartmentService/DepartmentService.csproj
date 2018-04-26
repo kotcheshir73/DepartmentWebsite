@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessCheckService.cs" />
+    <Compile Include="BindingModels\LaboratoryProcessBindingModels.cs" />
     <Compile Include="BindingModels\PageSettingBinidingModel.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ConsultationRecordBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ExaminationRecordBindingModels.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonTaskBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
@@ -88,20 +90,35 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamLessonBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamLessonRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueGroupBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\SoftwareRecordBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
     <Compile Include="Context\DatabaseInitializer.cs" />
     <Compile Include="Context\DepartmentDbContext.cs" />
     <Compile Include="Enums\ScheduleRecordTypeForDiscipline.cs" />
+    <Compile Include="Helpers\Comparers.cs" />
     <Compile Include="Helpers\ExportScheduleToExcel.cs" />
     <Compile Include="Helpers\ExportScheduleToHTML.cs" />
     <Compile Include="Helpers\ImportScheduleFromExcel.cs" />
     <Compile Include="Helpers\ParsingSite4SemesterSchedule.cs" />
     <Compile Include="IServices\IAdministrationProcessServer.cs" />
+    <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\ISoftwareRecordService.cs" />
     <Compile Include="Migrations\201802031805181_InitMigration.cs" />
     <Compile Include="Migrations\201802031805181_InitMigration.Designer.cs">
       <DependentUpon>201802031805181_InitMigration.cs</DependentUpon>
@@ -116,11 +133,39 @@
     </Compile>
     <Compile Include="Migrations\201802261923159_updatedisciplinetable.cs" />
     <Compile Include="Migrations\201802261923159_updatedisciplinetable.Designer.cs">
-      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>
+      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>    </Compile>
+
+    <Compile Include="Migrations\201803121441460_Migration1.cs" />
+    <Compile Include="Migrations\201803121441460_Migration1.Designer.cs">
+      <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201803310905075_updatedDLSR.cs" />
     <Compile Include="Migrations\201803310905075_updatedDLSR.Designer.cs">
-      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>
+      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>    </Compile>
+
+    <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.cs" />
+    <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.Designer.cs">
+      <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.cs" />
+    <Compile Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.Designer.cs">
+      <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803290606145_AddTableSoftwareRecord.cs" />
+    <Compile Include="Migrations\201803290606145_AddTableSoftwareRecord.Designer.cs">
+      <DependentUpon>201803290606145_AddTableSoftwareRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.cs" />
+    <Compile Include="Migrations\201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.Designer.cs">
+      <DependentUpon>201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs" />
+    <Compile Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.Designer.cs">
+      <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804211915535_AddStreamLessons.cs" />
+    <Compile Include="Migrations\201804211915535_AddStreamLessons.Designer.cs">
+      <DependentUpon>201804211915535_AddStreamLessons.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -164,6 +209,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ScheduleHelper.cs" />
     <Compile Include="Services\AdministrationProcessServer.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordElementService.cs" />
+    <Compile Include="Services\LaboratoryProcess.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicYearService.cs" />
@@ -191,18 +238,26 @@
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StreamLessonRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StreamLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentGroupService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentHistoryService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueGroupService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueRecordService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\SoftwareRecordService.cs" />
     <Compile Include="Services\StudentMoveService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\TimeNormService.cs" />
     <Compile Include="Services\StandartServices\Administration\UserService.cs" />
     <Compile Include="ViewModels\EducationalProcessViewModels.cs" />
+    <Compile Include="ViewModels\LaboratoryProcessViewModels.cs" />
     <Compile Include="ViewModels\ScheduleRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonVeiwModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerPostViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
@@ -225,16 +280,23 @@
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentHistoryViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamingLessonViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentGroupViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\TimeNormViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\UserViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueGroupViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueRecordViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareRecordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
@@ -253,10 +315,31 @@
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802261923159_updatedisciplinetable.resx">
-      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>
+      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>    </EmbeddedResource>
+
+    <EmbeddedResource Include="Migrations\201803121441460_Migration1.resx">
+      <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803310905075_updatedDLSR.resx">
-      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>
+      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>    </EmbeddedResource>
+
+    <EmbeddedResource Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.resx">
+      <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803160532153_NotRequerdInTimeNormMigration.resx">
+      <DependentUpon>201803160532153_NotRequerdInTimeNormMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803290606145_AddTableSoftwareRecord.resx">
+      <DependentUpon>201803290606145_AddTableSoftwareRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.resx">
+      <DependentUpon>201803300809209_AddFieldSoftwareDescriptionInTableSoftwareRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.resx">
+      <DependentUpon>201803301438045_AddMaterialTechnicalValueGroupAndMaterialTechnicalValueRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804211915535_AddStreamLessons.resx">
+      <DependentUpon>201804211915535_AddStreamLessons.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

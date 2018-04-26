@@ -3,11 +3,12 @@ using DepartmentService.IServices;
 using DepartmentService.IServices.StandartInterfaces.EducationDirection;
 using DepartmentService.Services;
 using DepartmentService.Services.StandartServices.EducationDirection;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Windows.Forms;
+using Unity;
+using Unity.Lifetime;
 
 namespace DepartmentDesktop
 {
@@ -60,13 +61,22 @@ namespace DepartmentDesktop
 			currentContainer.RegisterType<IAcademicYearService, AcademicYearService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAcademicPlanService, AcademicPlanService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAcademicPlanRecordService, AcademicPlanRecordService>(new HierarchicalLifetimeManager());
-			currentContainer.RegisterType<ILoadDistributionService, LoadDistributionService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IAcademicPlanRecordElementService, AcademicPlanRecordElementService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILoadDistributionService, LoadDistributionService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<ILoadDistributionRecordService, LoadDistributionRecordService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<ILoadDistributionMissionService, LoadDistributionMissionService>(new HierarchicalLifetimeManager());
-			
-			currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStreamLessonService, StreamLessonService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMaterialTechnicalValueGroupService, MaterialTechnicalValueGroupService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMaterialTechnicalValueRecordService, MaterialTechnicalValueRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISoftwareRecordService, SoftwareRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILaboratoryProcess, LaboratoryProcess>(new HierarchicalLifetimeManager());
 
 
             currentContainer.RegisterType<IAdministrationProcessServer, AdministrationProcessServer>(new HierarchicalLifetimeManager());

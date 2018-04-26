@@ -214,7 +214,7 @@ namespace DepartmentDesktop.Controllers
 		{
 			if (e.KeyData == Keys.Enter)
 			{
-                int tempPage;
+                int tempPage = 0;
 
                 if (int.TryParse(toolStripTextBoxPage.Text, out tempPage))
 				{

@@ -143,7 +143,7 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 KindOfLoadName = entity.KindOfLoadName,
-                KindOfLoadType = entity.KindOfLoadType.ToString()
+                AttributeName = entity.AttributeName
             };
         }
 
@@ -155,10 +155,12 @@ namespace DepartmentService.ViewModels
                 KindOfLoadId = entity.KindOfLoadId,
                 AcademicYearId = entity.AcademicYearId,
                 Title = entity.Title,
-                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
                 AcademicYear = entity.AcademicYear.Title,
-                Formula = entity.Formula,
-                Hours = entity.Hours
+                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+                Hours = entity.Hours,
+                NumKoef = entity.NumKoef,
+                TimeNormKoef = entity.TimeNormKoef.ToString(),
+                KindOfLoadType = entity.KindOfLoadType.ToString()
             };
         }
 
@@ -227,10 +229,21 @@ namespace DepartmentService.ViewModels
                 AcademicPlanId = entity.AcademicPlanId,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
-                KindOfLoadId = entity.KindOfLoadId,
-                KindOfLoad = entity.KindOfLoad.KindOfLoadName,
                 Semester = entity.Semester.ToString(),
-                Hours = entity.Hours
+                Zet = entity.Zet
+            };
+        }
+
+        public static AcademicPlanRecordElementViewModel CreateAcademicPlanRecordElementViewModel(AcademicPlanRecordElement entity)
+        {
+            return new AcademicPlanRecordElementViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
+                KindOfLoadId = entity.KindOfLoadId,
+                Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
+                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+                Hours = entity.Hours,
             };
         }
 
@@ -240,6 +253,34 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 Title = entity.Title
+            };
+        }
+
+        public static StreamLessonViewModel CreateStreamLessonViewModel(StreamLesson entity)
+        {
+            return new StreamLessonViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                AcademicYear = entity.AcademicYear.Title,
+                StreamLessonName = entity.StreamLessonName
+            };
+        }
+
+        public static StreamLessonRecordViewModel CreateStreamLessonRecordViewModel(StreamLessonRecord entity)
+        {
+            return new StreamLessonRecordViewModel
+            {
+                Id = entity.Id,
+                StreamLessonId = entity.StreamLessonId,
+                AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                StreamLessonName = entity.StreamLesson.StreamLessonName,
+                AcademicPlanRecordElementText =string.Format("{0} {1} {2}",
+                    entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher,
+                    entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
+                    entity.AcademicPlanRecordElement.KindOfLoad.KindOfLoadName),
+                Hours = entity.Hours,
+                IsMain = entity.IsMain
             };
         }
 
@@ -373,10 +414,7 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.AcademicPlan.EducationDirection.Cipher,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
-                KindOfLoadId = entity.KindOfLoadId,
-                KindOfLoad = entity.KindOfLoad.KindOfLoadName,
-                Semester = entity.Semester.ToString(),
-                Hours = entity.Hours
+                Semester = entity.Semester.ToString()
             };
         }
 
@@ -604,5 +642,68 @@ namespace DepartmentService.ViewModels
             };
         }
         #endregion
+
+        #region LaboratoryHead
+        public static MaterialTechnicalValueViewModel CreateMaterialTechnicalValueViewModel(MaterialTechnicalValue entity)
+        {
+            return new MaterialTechnicalValueViewModel
+            {
+                Id = entity.Id,
+                DateInclude = entity.DateCreate,
+                ClassroomId = entity.ClassroomId,
+                Classroom = entity.Classroom.Number,
+                InventoryNumber = entity.InventoryNumber,
+                FullName = entity.FullName,
+                Description = entity.Description,
+                Location = entity.Location,
+                Cost = entity.Cost,
+                DateDelete = entity.DateDelete,
+                DeleteReason = entity.DeleteReason
+            };
+        }
+
+        public static MaterialTechnicalValueGroupViewModel CreateMaterialTechnicalValueGroupViewModel(MaterialTechnicalValueGroup entity)
+        {
+            return new MaterialTechnicalValueGroupViewModel
+            {
+                Id = entity.Id,
+                GroupName = entity.GroupName,
+                Order = entity.Order
+            };
+        }
+
+        public static MaterialTechnicalValueRecordViewModel CreateMaterialTechnicalValueRecordViewModel(MaterialTechnicalValueRecord entity)
+        {
+            return new MaterialTechnicalValueRecordViewModel
+            {
+                Id = entity.Id,
+                MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
+                InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
+                MaterialTechnicalValueGroupId = entity.MaterialTechnicalValueGroupId,
+                GroupName = entity.MaterialTechnicalValueGroup.GroupName,
+                GroupOrder = entity.MaterialTechnicalValueGroup.Order,
+                FieldName = entity.FieldName,
+                FieldValue = entity.FieldValue,
+                Order = entity.Order
+            };
+        }
+
+        public static SoftwareRecordViewModel CreateSoftwareRecordViewModel(SoftwareRecord entity)
+        {
+            return new SoftwareRecordViewModel
+            {
+                Id = entity.Id,
+                DateSetup = entity.DateCreate,
+                MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
+                InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
+                SoftwareName = entity.SoftwareName,
+                SoftwareDescription = entity.SoftwareDescription,
+                SoftwareKey = entity.SoftwareKey,
+                SoftwareK = entity.SoftwareK,
+                ClaimNumber = entity.ClaimNumber
+            };
+        }
+        #endregion
+
     }
 }

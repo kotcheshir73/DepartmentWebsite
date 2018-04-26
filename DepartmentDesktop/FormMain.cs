@@ -2,9 +2,10 @@
 using DepartmentDesktop.Views.EducationalProcess.LecturerCabinet;
 using DepartmentDesktop.Views.EducationalProcess.Progress;
 using DepartmentModel.Enums;
-using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop
 {
@@ -484,6 +485,29 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+        #endregion
+
+        #region Зав. лабораторией
+        private void materialTechnicalValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.MaterialTechnicalValue.MaterialTechnicalValueControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void materialTechnicalValueGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.MaterialTechnicalValueGroup.MaterialTechnicalValueGroupControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void softwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.SoftwareRecord.SoftwareRecordControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
         #endregion
 
     }

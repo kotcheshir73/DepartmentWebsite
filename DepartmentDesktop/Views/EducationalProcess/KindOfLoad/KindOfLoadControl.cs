@@ -1,10 +1,12 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
+using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 {
@@ -24,13 +26,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "KindOfLoadName", Title = "Название", Width = 200, Visible = true },
-				new ColumnConfig { Name = "KindOfLoadType", Title = "Тип", Width = 100, Visible = true }
+				new ColumnConfig { Name = "AttributeName", Title = "Имя атрибута", Width = 100, Visible = true }
 			};
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
-
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30);
+            
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
@@ -71,7 +73,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.KindOfLoad
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.KindOfLoadName,
-                    res.KindOfLoadType
+                    res.AttributeName
                 );
             }
             return result.Result.MaxCount;

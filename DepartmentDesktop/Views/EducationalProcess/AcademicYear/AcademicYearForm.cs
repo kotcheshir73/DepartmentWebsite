@@ -1,13 +1,15 @@
 ﻿using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
+using DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson;
 using DepartmentDesktop.Views.EducationalProcess.Contingent;
 using DepartmentDesktop.Views.EducationalProcess.SeasonDates;
 using DepartmentDesktop.Views.EducationalProcess.TimeNorm;
 using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 {
@@ -44,6 +46,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
                     | AnchorStyles.Right);
 
             tabPageAcademicPlans.Controls.Add(controlAP);
+
+
+            var controlSL = Container.Resolve<StreamLessonControl>();
+
+            controlSL.Left = 0;
+            controlSL.Top = 0;
+            controlSL.Height = Height - 60;
+            controlSL.Width = Width - 15;
+            controlSL.Anchor = (((AnchorStyles.Top
+                    | AnchorStyles.Bottom)
+                    | AnchorStyles.Left)
+                    | AnchorStyles.Right);
+
+            tabPageStreamLessons.Controls.Add(controlSL);
 
             var controlTN = Container.Resolve<TimeNormControl>();
 
@@ -93,6 +109,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 		private void LoadData()
         {
             (tabPageAcademicPlans.Controls[0] as AcademicPlanControl).LoadData(_id.Value);
+            (tabPageStreamLessons.Controls[0] as StreamLessonControl).LoadData(_id.Value);
             (tabPageTimeNorms.Controls[0] as TimeNormControl).LoadData(_id.Value);
             (tabPageContingent.Controls[0] as ContingentControl).LoadData(_id.Value);
             (tabPageSeasonDates.Controls[0] as SeasonDatesControl).LoadData(_id.Value);
