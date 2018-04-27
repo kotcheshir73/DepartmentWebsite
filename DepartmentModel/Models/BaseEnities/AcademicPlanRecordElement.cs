@@ -9,6 +9,7 @@ namespace DepartmentModel.Models
     /// <summary>
     /// Класс, хранящий информацию о нагрузке по дисциплине в учебном плане
     /// </summary>
+    [DataContract]
     public class AcademicPlanRecordElement : BaseEntity
     {
         [Required]

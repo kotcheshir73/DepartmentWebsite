@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
@@ -87,45 +88,16 @@ namespace DepartmentService.Services
         {
             try
             {
-                // TODO
-                SaveToFile<AcademicPlan>(folderName);
-                SaveToFile<AcademicPlanRecord>(folderName);
-                SaveToFile<AcademicYear>(folderName);
-                SaveToFile<Access>(folderName);
-                SaveToFile<Classroom>(folderName);
-                SaveToFile<ConsultationRecord>(folderName);
-                SaveToFile<Contingent>(folderName);
-                SaveToFile<CurrentSettings>(folderName);
-                SaveToFile<Discipline>(folderName);
-                SaveToFile<DisciplineBlock>(folderName);
-                SaveToFile<DisciplineLesson>(folderName);
-                SaveToFile<DisciplineLessonStudentRecord>(folderName);
-                SaveToFile<DisciplineLessonTask>(folderName);
-                SaveToFile<DisciplineLessonTaskImageContext>(folderName);
-                SaveToFile<DisciplineLessonTaskTextContext>(folderName);
-                SaveToFile<DisciplineLessonTaskStudentRecord>(folderName);
-                SaveToFile<DisciplineStudentRecord>(folderName);
-                SaveToFile<EducationDirection>(folderName);
-                SaveToFile<ExaminationRecord>(folderName);
-                SaveToFile<KindOfLoad>(folderName);
-                SaveToFile<LecturerPost>(folderName);
-                SaveToFile<Lecturer>(folderName);
-                SaveToFile<LoadDistribution>(folderName);
-                SaveToFile<LoadDistributionMission>(folderName);
-                SaveToFile<LoadDistributionRecord>(folderName);
-                SaveToFile<Message>(folderName);
-                SaveToFile<OffsetRecord>(folderName);
-                SaveToFile<SeasonDates>(folderName);
-                SaveToFile<SemesterRecord>(folderName);
-                SaveToFile<StreamingLesson>(folderName);
-                SaveToFile<Role>(folderName);
-                SaveToFile<ScheduleLessonTime>(folderName);
-                SaveToFile<Student>(folderName);
-                SaveToFile<StudentGroup>(folderName);
-                SaveToFile<StudentHistory>(folderName);
-                SaveToFile<TimeNorm>(folderName);
-                SaveToFile<User>(folderName);
-                SaveToFile<UserRole>(folderName);
+                Assembly assem = typeof(BaseEntity).Assembly;
+                Type type = _context.GetType();
+                var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("System.Data.Entity.DbSet")).ToList();
+                MethodInfo method = GetType().GetTypeInfo().GetDeclaredMethod("SaveToFile");
+                foreach (var set in dbsets)
+                {
+                    var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
+                    MethodInfo generic = method.MakeGenericMethod(elem.GetType());
+                    generic.Invoke(this, new object[] { folderName });
+                }
             }
             catch (Exception ex)
             {
@@ -141,57 +113,75 @@ namespace DepartmentService.Services
             _context.Configuration.AutoDetectChangesEnabled = false;
             _context.Configuration.ValidateOnSaveEnabled = false;
 
-            LoadFromFile<CurrentSettings>(folderName);
-            LoadFromFile<ScheduleLessonTime>(folderName);
+            Assembly assem = typeof(BaseEntity).Assembly;
+            Type type = _context.GetType();
+            var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("System.Data.Entity.DbSet")).ToList();
 
-            LoadFromFile<EducationDirection>(folderName);
-            LoadFromFile<AcademicYear>(folderName);
-            LoadFromFile<SeasonDates>(folderName);
-            LoadFromFile<AcademicPlan>(folderName);
+            #region Формируем словарь с зависимостями между данными
+            Dictionary<string, int> levelDbSets = new Dictionary<string, int>();
+            while (levelDbSets.Count != dbsets.Count)
+            {
+                foreach (var set in dbsets)
+                {
+                    var elemType = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName).GetType();
+                    if (!levelDbSets.ContainsKey(elemType.Name))
+                    {
+                        bool flag = true;
+                        int maxLevel = 0;
+                        var properties = elemType.GetProperties().Where(x => x.GetMethod.IsVirtual);
+                        foreach (var prop in properties)
+                        {
+                            if (prop.PropertyType.Name == "List`1")
+                            {
+                                continue;
+                            }
+                            if (!levelDbSets.ContainsKey(prop.PropertyType.Name))
+                            {
+                                flag = false;
+                                break;
+                            }
+                            else if (levelDbSets[prop.PropertyType.Name] >= maxLevel)
+                            {
+                                maxLevel = levelDbSets[prop.PropertyType.Name] + 1;
+                            }
+                        }
+                        if (flag)
+                        {
+                            levelDbSets.Add(elemType.Name, maxLevel);
+                        }
+                    }
+                }
+            }
+            #endregion
 
-            LoadFromFile<Classroom>(folderName);
-            LoadFromFile<LecturerPost>(folderName);
-            LoadFromFile<Lecturer>(folderName);
-            LoadFromFile<StudentGroup>(folderName);
-            LoadFromFile<StreamingLesson>(folderName);
+            #region Удаляем записи сначала из тех, на которые никкто не ссылается и в последнюю оередь, те, на которые все ссылаются
+            var deleteOrder = levelDbSets.OrderByDescending(x => x.Value);
+            MethodInfo delMethod = GetType().GetTypeInfo().GetDeclaredMethod("DeleteFromDB");
+            foreach (var delElem in deleteOrder)
+            {
+                var set = dbsets.FirstOrDefault(x => x.PropertyType.GenericTypeArguments[0].FullName.EndsWith(delElem.Key));
+                if (set != null)
+                {
+                    var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
+                    MethodInfo generic = delMethod.MakeGenericMethod(elem.GetType());
+                    generic.Invoke(this, null);
+                }
+            }
+            #endregion
 
-            LoadFromFile<DisciplineBlock>(folderName);
-            LoadFromFile<Discipline>(folderName);
-
-            LoadFromFile<KindOfLoad>(folderName);
-            LoadFromFile<TimeNorm>(folderName);
-            LoadFromFile<Contingent>(folderName);
-
-            LoadFromFile<Role>(folderName);
-            LoadFromFile<Access>(folderName);
-
-            LoadFromFile<Student>(folderName);
-            LoadFromFile<StudentHistory>(folderName);
-
-            LoadFromFile<AcademicPlanRecord>(folderName);
-
-            LoadFromFile<ConsultationRecord>(folderName);
-            LoadFromFile<ExaminationRecord>(folderName);
-            LoadFromFile<OffsetRecord>(folderName);
-            LoadFromFile<SemesterRecord>(folderName);
-
-            LoadFromFile<DisciplineLesson>(folderName);
-            LoadFromFile<DisciplineLessonStudentRecord>(folderName);
-            LoadFromFile<DisciplineLessonTask>(folderName);
-            LoadFromFile<DisciplineLessonTaskImageContext>(folderName);
-            LoadFromFile<DisciplineLessonTaskTextContext>(folderName);
-            LoadFromFile<DisciplineLessonTaskStudentRecord>(folderName);
-            LoadFromFile<DisciplineStudentRecord>(folderName);
-
-            LoadFromFile<LoadDistribution>(folderName);
-            LoadFromFile<LoadDistributionMission>(folderName);
-            LoadFromFile<LoadDistributionRecord>(folderName);
-
-            LoadFromFile<User>(folderName);
-            LoadFromFile<UserRole>(folderName);
-
-            LoadFromFile<Message>(folderName);
-
+            #region Заполняем в порядке - сначала те, у которых нет родителей, потом их потомство
+            MethodInfo method = GetType().GetTypeInfo().GetDeclaredMethod("LoadFromFile");
+            foreach (var delElem in levelDbSets)
+            {
+                var set = dbsets.FirstOrDefault(x => x.PropertyType.GenericTypeArguments[0].FullName.EndsWith(delElem.Key));
+                if (set != null)
+                {
+                    var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
+                    MethodInfo generic = method.MakeGenericMethod(elem.GetType());
+                    generic.Invoke(this, new object[] { folderName });
+                }
+            }
+            #endregion
 
             _context.Configuration.AutoDetectChangesEnabled = true;
             _context.Configuration.ValidateOnSaveEnabled = true;
@@ -627,49 +617,24 @@ namespace DepartmentService.Services
             }
         }
 
+        private void DeleteFromDB<T>() where T : class, new()
+        {
+            _context.Set<T>().RemoveRange(_context.Set<T>());
+            _context.SaveChanges();
+        }
+
         private void LoadFromFile<T>(string folderName) where T : class, new()
         {
             T obj = new T();
-            _context.Set<T>().RemoveRange(_context.Set<T>());
-            _context.SaveChanges();
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<T>));
-            using (FileStream fs = new FileStream(string.Format("{0}/{1}.json", folderName, obj.GetType().Name), FileMode.OpenOrCreate))
+            if (File.Exists(string.Format("{0}/{1}.json", folderName, obj.GetType().Name)))
             {
-                _context.Configuration.AutoDetectChangesEnabled = false;
-                _context.Configuration.ValidateOnSaveEnabled = false;
-                var propInfo = obj.GetType().GetProperty("Id");
-                if (propInfo != null && propInfo.PropertyType.Name != "String")
+                DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<T>));
+                using (FileStream fs = new FileStream(string.Format("{0}/{1}.json", folderName, obj.GetType().Name), FileMode.Open))
                 {
-                    var name = obj.GetType().Name;
-                    if (name.EndsWith("s"))
-                    {
-                        if (name == "Access")
-                        {
-                            name = "Accesses";
-                        }
-                        name = name.Remove(name.Length - 1);
-                    }
+                    List<T> records = (List<T>)jsonFormatter.ReadObject(fs);
+                    _context.Set<T>().AddRange(records);
+                    _context.SaveChanges();
                 }
-
-                List<T> records = (List<T>)jsonFormatter.ReadObject(fs);
-                _context.Set<T>().AddRange(records);
-                _context.SaveChanges();
-
-                if (propInfo != null && propInfo.PropertyType.Name != "String")
-                {
-                    var name = obj.GetType().Name;
-                    if (name.EndsWith("s"))
-                    {
-                        if (name == "Access")
-                        {
-                            name = "Accesses";
-                        }
-                        name = name.Remove(name.Length - 1);
-                    }
-                }
-
-                _context.Configuration.AutoDetectChangesEnabled = true;
-                _context.Configuration.ValidateOnSaveEnabled = true;
             }
         }
     }
