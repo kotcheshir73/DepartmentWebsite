@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace DepartmentModel.Models
 {
@@ -67,5 +68,25 @@ namespace DepartmentModel.Models
 
 		[ForeignKey("StudentId")]
 		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
-	}
+
+        //-------------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder(LastName);
+            if (!string.IsNullOrEmpty(FirstName))
+            {
+                result.Append(" ");
+                result.Append(FirstName[0]);
+                result.Append(".");
+            }
+            if (!string.IsNullOrEmpty(Patronymic))
+            {
+                result.Append(" ");
+                result.Append(Patronymic[0]);
+                result.Append(".");
+            }
+            return result.ToString();
+        }
+    }
 }

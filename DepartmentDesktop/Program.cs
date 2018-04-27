@@ -19,10 +19,17 @@ namespace DepartmentDesktop
         static void Main()
         {
             var container = BuildUnityContainer();
-			AuthorizationService.Login("admin", "qwerty");
+
+            IAdministrationProcess administrationProcess = container.Resolve<IAdministrationProcess>();
+            var result = administrationProcess.CheckExsistData();
+            if (!result.Succeeded)
+            {
+                PrintErrorMessage("Не удалось восстановить данные. {0}", result.Errors);
+            }
 
 			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+			AuthorizationService.Login("admin", "qwerty");
 
             Application.Run(container.Resolve<FormMain>());
         }
@@ -75,7 +82,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<ILaboratoryProcess, LaboratoryProcess>(new HierarchicalLifetimeManager());
 
 
-            currentContainer.RegisterType<IAdministrationProcessServer, AdministrationProcessServer>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
 
             currentContainer
         .RegisterType<FormMain>()

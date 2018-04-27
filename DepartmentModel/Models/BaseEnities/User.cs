@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace DepartmentModel.Models
@@ -17,10 +18,6 @@ namespace DepartmentModel.Models
 
         [DataMember]
         public Guid? LecturerId { get; set; }
-
-        [Required]
-        [DataMember]
-        public RoleType RoleType { get; set; }
 
         [MaxLength(100)]
         [Required]
@@ -52,5 +49,8 @@ namespace DepartmentModel.Models
         //-------------------------------------------------------------------------
 
         public virtual List<Message> Messages { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual List<UserRole> UserRoles { get; set; }
     }
 }

@@ -512,7 +512,6 @@ namespace DepartmentService.BindingModels
 			entity.Avatar = model.Avatar;
 			entity.LecturerId = model.LecturerId;
 			entity.StudentId = model.StudentId;
-            entity.RoleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
             if (entity.IsBanned != model.IsBanned)
 			{
 				entity.IsBanned = model.IsBanned;

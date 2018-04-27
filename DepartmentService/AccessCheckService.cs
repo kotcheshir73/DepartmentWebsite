@@ -46,7 +46,7 @@ namespace DepartmentService
 		public static UserViewModel Login(string login, string password)
 		{
 			var passHash = GetPasswordHash(password);
-			var user = _context.Users.SingleOrDefault(u => u.Login == login && u.Password == passHash);
+			var user = _context.Users.FirstOrDefault(u => u.Login == login && u.Password == passHash);
 			if (user == null)
 			{
 				throw new Exception("Введен неверный логин/пароль");

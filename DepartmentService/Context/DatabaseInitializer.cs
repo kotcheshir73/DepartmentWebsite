@@ -23,7 +23,7 @@ namespace DepartmentService.Context
                 Role role = new Role
                 {
                     DateCreate = DateTime.Now,
-                    RoleName = "Administrator"
+                    RoleName = "Администратор"
                 };
                 context.Roles.Add(role);
 

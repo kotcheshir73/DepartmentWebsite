@@ -26,7 +26,6 @@ namespace DepartmentDesktop.Views.Administration.User
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Login", Title = "Логин", Width = 200, Visible = true },
-                new ColumnConfig { Name = "RoleType", Title = "Тип роли", Width = 200, Visible = true },
                 new ColumnConfig { Name = "DateVisit", Title = "Дата посещения", Width = 300, Visible = true },
 				new ColumnConfig { Name = "IsBanned", Title = "Забаннен", Width = 100, Visible = true }
 			};
@@ -65,7 +64,6 @@ namespace DepartmentDesktop.Views.Administration.User
 				{
 					res.Id,
 					res.Login,
-                    res.RoleType,
 					res.DateLastVisit?.ToShortDateString() ?? "",
 					res.IsBanned ? "Да" : "Нет"
 				});

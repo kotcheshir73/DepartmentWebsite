@@ -35,6 +35,9 @@
             this.DataBaseWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImportDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SynchronizationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SynchronizationRolesAndAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SynchronizationUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,8 +88,8 @@
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +112,8 @@
             this.действияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MakeTicketsToolStripMenuItem,
             this.loadDistributionToolStripMenuItem,
-            this.DataBaseWorkToolStripMenuItem});
+            this.DataBaseWorkToolStripMenuItem,
+            this.SynchronizationToolStripMenuItem});
             this.действияToolStripMenuItem.Name = "действияToolStripMenuItem";
             this.действияToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.действияToolStripMenuItem.Text = "Сервис";
@@ -150,6 +154,29 @@
             this.ExportDataBaseToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.ExportDataBaseToolStripMenuItem.Text = "Загрузить";
             this.ExportDataBaseToolStripMenuItem.Click += new System.EventHandler(this.ExportDataBaseToolStripMenuItem_Click);
+            // 
+            // SynchronizationToolStripMenuItem
+            // 
+            this.SynchronizationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SynchronizationRolesAndAccessToolStripMenuItem,
+            this.SynchronizationUsersToolStripMenuItem});
+            this.SynchronizationToolStripMenuItem.Name = "SynchronizationToolStripMenuItem";
+            this.SynchronizationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SynchronizationToolStripMenuItem.Text = "Синхронизация";
+            // 
+            // SynchronizationRolesAndAccessToolStripMenuItem
+            // 
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Name = "SynchronizationRolesAndAccessToolStripMenuItem";
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Text = "Синхронизация ролей";
+            this.SynchronizationRolesAndAccessToolStripMenuItem.Click += new System.EventHandler(this.SynchronizationRolesAndAccessToolStripMenuItem_Click);
+            // 
+            // SynchronizationUsersToolStripMenuItem
+            // 
+            this.SynchronizationUsersToolStripMenuItem.Name = "SynchronizationUsersToolStripMenuItem";
+            this.SynchronizationUsersToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.SynchronizationUsersToolStripMenuItem.Text = "Синхронизация пользователей";
+            this.SynchronizationUsersToolStripMenuItem.Click += new System.EventHandler(this.SynchronizationUsersToolStripMenuItem_Click);
             // 
             // AdminToolStripMenuItem
             // 
@@ -533,19 +560,19 @@
             this.materialTechnicalValueToolStripMenuItem.Text = "Материально-технические ценности";
             this.materialTechnicalValueToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueToolStripMenuItem_Click);
             // 
-            // softwareRecordsToolStripMenuItem
-            // 
-            this.softwareRecordsToolStripMenuItem.Name = "softwareRecordsToolStripMenuItem";
-            this.softwareRecordsToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.softwareRecordsToolStripMenuItem.Text = "Список установленного ПО";
-            this.softwareRecordsToolStripMenuItem.Click += new System.EventHandler(this.softwareRecordsToolStripMenuItem_Click);
-            // 
             // materialTechnicalValueGroupToolStripMenuItem
             // 
             this.materialTechnicalValueGroupToolStripMenuItem.Name = "materialTechnicalValueGroupToolStripMenuItem";
             this.materialTechnicalValueGroupToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
             this.materialTechnicalValueGroupToolStripMenuItem.Text = "Группы описаний для МТЦ";
             this.materialTechnicalValueGroupToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueGroupToolStripMenuItem_Click);
+            // 
+            // softwareRecordsToolStripMenuItem
+            // 
+            this.softwareRecordsToolStripMenuItem.Name = "softwareRecordsToolStripMenuItem";
+            this.softwareRecordsToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.softwareRecordsToolStripMenuItem.Text = "Список установленного ПО";
+            this.softwareRecordsToolStripMenuItem.Click += new System.EventHandler(this.softwareRecordsToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -626,6 +653,9 @@
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softwareRecordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueGroupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SynchronizationRolesAndAccessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SynchronizationUsersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SynchronizationToolStripMenuItem;
     }
 }
 
