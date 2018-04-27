@@ -53,9 +53,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
 				return;
-			}
+            }
 
-			foreach (var elem in Enum.GetValues(typeof(Semesters)))
+            var resultC = _service.GetContingents(new ContingentGetBindingModel { });
+            if (!resultC.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке контингента возникла ошибка: ", resultC.Errors);
+                return;
+            }
+
+            foreach (var elem in Enum.GetValues(typeof(Semesters)))
 			{
 				comboBoxSemester.Items.Add(elem.ToString());
 			}
@@ -71,6 +78,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			comboBoxDiscipline.DataSource = resultD.Result.List
 				.Select(d=> new { Value = d.Id, Display = d.DisciplineName }).ToList();
 			comboBoxDiscipline.SelectedItem = null;
+
+            comboBoxContingent.ValueMember = "Value";
+            comboBoxContingent.DisplayMember = "Display";
+            comboBoxContingent.DataSource = resultC.Result.List
+                .Select(d => new { Value = d.Id, Display = d.EducationDirectionCipher }).ToList();
+            comboBoxContingent.SelectedItem = null;
 
             var control = Container.Resolve<AcademicPlanRecordElementControl>();
 
@@ -117,8 +130,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			if (comboBoxDiscipline.SelectedValue == null)
 			{
 				return false;
-			}
-			if (string.IsNullOrEmpty(comboBoxSemester.Text))
+            }
+            if (comboBoxContingent.SelectedValue == null)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(comboBoxSemester.Text))
 			{
 				return false;
 			}
@@ -145,7 +162,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					{
 						AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
 						DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-						Semester = comboBoxSemester.Text,
+                        ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+                        Semester = comboBoxSemester.Text,
 						Zet = Convert.ToInt32(textBoxZet.Text)
 					});
 				}
@@ -156,7 +174,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 						Id = _id.Value,
 						AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
 						DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-						Semester = comboBoxSemester.Text,
+                        ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+                        Semester = comboBoxSemester.Text,
 						Zet = Convert.ToInt32(textBoxZet.Text)
 					});
 				}

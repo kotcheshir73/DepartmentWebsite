@@ -12,8 +12,6 @@ namespace DepartmentService.ViewModels
 
 		public Guid AcademicPlanRecordId { get; set; }
 
-		public Guid ContingentId { get; set; }
-
 		public Guid TimeNormId { get; set; }
 
 		public string LoadDistributionAcademicYear { get; set; }

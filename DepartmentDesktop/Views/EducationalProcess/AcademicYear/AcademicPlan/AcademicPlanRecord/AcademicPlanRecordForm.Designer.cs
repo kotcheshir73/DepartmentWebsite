@@ -42,6 +42,8 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.labelContingent = new System.Windows.Forms.Label();
+            this.comboBoxContingent = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
@@ -68,7 +70,7 @@
             // labelSemester
             // 
             this.labelSemester.AutoSize = true;
-            this.labelSemester.Location = new System.Drawing.Point(17, 65);
+            this.labelSemester.Location = new System.Drawing.Point(17, 94);
             this.labelSemester.Name = "labelSemester";
             this.labelSemester.Size = new System.Drawing.Size(58, 13);
             this.labelSemester.TabIndex = 6;
@@ -78,7 +80,7 @@
             // 
             this.comboBoxSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSemester.FormattingEnabled = true;
-            this.comboBoxSemester.Location = new System.Drawing.Point(109, 63);
+            this.comboBoxSemester.Location = new System.Drawing.Point(109, 92);
             this.comboBoxSemester.Name = "comboBoxSemester";
             this.comboBoxSemester.Size = new System.Drawing.Size(220, 21);
             this.comboBoxSemester.TabIndex = 7;
@@ -86,7 +88,7 @@
             // labelZet
             // 
             this.labelZet.AutoSize = true;
-            this.labelZet.Location = new System.Drawing.Point(17, 93);
+            this.labelZet.Location = new System.Drawing.Point(17, 123);
             this.labelZet.Name = "labelZet";
             this.labelZet.Size = new System.Drawing.Size(32, 13);
             this.labelZet.TabIndex = 8;
@@ -94,7 +96,7 @@
             // 
             // textBoxZet
             // 
-            this.textBoxZet.Location = new System.Drawing.Point(109, 89);
+            this.textBoxZet.Location = new System.Drawing.Point(109, 119);
             this.textBoxZet.MaxLength = 3;
             this.textBoxZet.Name = "textBoxZet";
             this.textBoxZet.Size = new System.Drawing.Size(100, 20);
@@ -102,7 +104,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(253, 121);
+            this.buttonClose.Location = new System.Drawing.Point(253, 151);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 12;
@@ -112,7 +114,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(25, 121);
+            this.buttonSave.Location = new System.Drawing.Point(25, 151);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 10;
@@ -140,7 +142,7 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(106, 121);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(106, 151);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
             this.buttonSaveAndClose.TabIndex = 11;
@@ -161,6 +163,8 @@
             // 
             // tabPageConfig
             // 
+            this.tabPageConfig.Controls.Add(this.labelContingent);
+            this.tabPageConfig.Controls.Add(this.comboBoxContingent);
             this.tabPageConfig.Controls.Add(this.labelAcademicPlan);
             this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
             this.tabPageConfig.Controls.Add(this.comboBoxAcademicPlan);
@@ -189,6 +193,24 @@
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Распределение часов";
             this.tabPageRecords.UseVisualStyleBackColor = true;
+            // 
+            // labelContingent
+            // 
+            this.labelContingent.AutoSize = true;
+            this.labelContingent.Location = new System.Drawing.Point(17, 67);
+            this.labelContingent.Name = "labelContingent";
+            this.labelContingent.Size = new System.Drawing.Size(72, 13);
+            this.labelContingent.TabIndex = 4;
+            this.labelContingent.Text = "Контингент*:";
+            // 
+            // comboBoxContingent
+            // 
+            this.comboBoxContingent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxContingent.FormattingEnabled = true;
+            this.comboBoxContingent.Location = new System.Drawing.Point(109, 65);
+            this.comboBoxContingent.Name = "comboBoxContingent";
+            this.comboBoxContingent.Size = new System.Drawing.Size(220, 21);
+            this.comboBoxContingent.TabIndex = 5;
             // 
             // AcademicPlanRecordForm
             // 
@@ -223,5 +245,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageConfig;
         private System.Windows.Forms.TabPage tabPageRecords;
+        private System.Windows.Forms.Label labelContingent;
+        private System.Windows.Forms.ComboBox comboBoxContingent;
     }
 }

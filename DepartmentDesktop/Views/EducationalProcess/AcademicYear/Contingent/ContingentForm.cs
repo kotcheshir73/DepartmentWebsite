@@ -78,6 +78,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 
 			comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
 			comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
+            textBoxContingentName.Text = entity.ContingentName;
 			textBoxCourse.Text = (Math.Log(entity.Course, 2.0) + 1).ToString();
             textBoxCountGroups.Text = entity.CountGroups.ToString();
             textBoxCountStudents.Text = entity.CountStudents.ToString();
@@ -93,8 +94,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			if (comboBoxEducationDirection.SelectedValue == null)
 			{
 				return false;
-			}
-			if (string.IsNullOrEmpty(textBoxCourse.Text))
+            }
+            if (string.IsNullOrEmpty(textBoxContingentName.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxCourse.Text))
 			{
 				return false;
             }
@@ -141,6 +146,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 					{
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+                        ContingentName = textBoxContingentName.Text,
 						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
                         CountGroups = Convert.ToInt32(textBoxCountGroups.Text),
 						CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
@@ -154,7 +160,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 						Id = _id.Value,
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
-						Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
+                        ContingentName = textBoxContingentName.Text,
+                        Course = (int)Math.Pow(2.0, Convert.ToDouble(textBoxCourse.Text) - 1.0),
                         CountGroups = Convert.ToInt32(textBoxCountGroups.Text),
                         CountStudents = Convert.ToInt32(textBoxCountStudents.Text),
 						CountSubgroups = Convert.ToInt32(textBoxCountSubgroups.Text)

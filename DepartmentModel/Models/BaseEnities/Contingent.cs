@@ -23,6 +23,10 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
+        public string ContingentName { get; set; }
+
+        [Required]
+        [DataMember]
         public AcademicCourse Course { get; set; }
 
         [Required]
@@ -46,6 +50,6 @@ namespace DepartmentModel.Models
         //-------------------------------------------------------------------------
 
         [ForeignKey("ContingentId")]
-		public virtual List<LoadDistributionRecord> LoadDistributionRecord { get; set; }
+		public virtual List<AcademicPlanRecord> AcademicPlanRecords { get; set; }
 	}
 }

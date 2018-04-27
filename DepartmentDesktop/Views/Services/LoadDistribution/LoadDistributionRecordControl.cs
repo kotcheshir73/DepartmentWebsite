@@ -141,40 +141,40 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 		{
 			foreach (var resSemesterRecord in resultSemesterGroups)
 			{
-				var resultContingentGroups = resSemesterRecord.GroupBy(r => r.ContingentId);
-				foreach(var resultContingentRecord in resultContingentGroups)
-				{
-					var resultDisciplineGroups = resultContingentRecord.GroupBy(r => r.Disciplne);
-					foreach (var resDisciplineRecord in resultDisciplineGroups)
-					{
-						var firstRecord = resDisciplineRecord.First();
-						dataGridViewList.Rows.Add();
-						int index = dataGridViewList.Rows.Count - 1;
-						dataGridViewList.Rows[index].Cells[0].Value = semester;
-						dataGridViewList.Rows[index].Cells[1].Value = firstRecord.EducationDirectionCipher;
-						dataGridViewList.Rows[index].Cells[2].Value = resDisciplineRecord.Key;
-						int columnIndex = 2;
-						if (_showTimeNorms)
-						{
-							for (int i = 3; i < _countTimeNormColumns + 3; ++i)
-							{
-								if (dataGridViewList.Columns[i].Tag != null)
-								{
-                                    Guid timeNormId = new Guid(dataGridViewList.Columns[i].Tag.ToString());
-									var recordTimeNorm = resDisciplineRecord.FirstOrDefault(r => r.TimeNormId == timeNormId);
-									if (recordTimeNorm != null)
-									{
-										dataGridViewList.Rows[index].Cells[i].Value = recordTimeNorm.Load;
-										dataGridViewList.Rows[index].Cells[i].Tag = 
-											recordTimeNorm.AcademicPlanRecordId + "_" +  recordTimeNorm.Id;
-									}
-								}
-							}
-							columnIndex += _countTimeNormColumns;
-						}
-						dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
-					}
-				}
+				//var resultContingentGroups = resSemesterRecord.GroupBy(r => r.ContingentId);
+				//foreach(var resultContingentRecord in resultContingentGroups)
+				//{
+				//	var resultDisciplineGroups = resultContingentRecord.GroupBy(r => r.Disciplne);
+				//	foreach (var resDisciplineRecord in resultDisciplineGroups)
+				//	{
+				//		var firstRecord = resDisciplineRecord.First();
+				//		dataGridViewList.Rows.Add();
+				//		int index = dataGridViewList.Rows.Count - 1;
+				//		dataGridViewList.Rows[index].Cells[0].Value = semester;
+				//		dataGridViewList.Rows[index].Cells[1].Value = firstRecord.EducationDirectionCipher;
+				//		dataGridViewList.Rows[index].Cells[2].Value = resDisciplineRecord.Key;
+				//		int columnIndex = 2;
+				//		if (_showTimeNorms)
+				//		{
+				//			for (int i = 3; i < _countTimeNormColumns + 3; ++i)
+				//			{
+				//				if (dataGridViewList.Columns[i].Tag != null)
+				//				{
+    //                                Guid timeNormId = new Guid(dataGridViewList.Columns[i].Tag.ToString());
+				//					var recordTimeNorm = resDisciplineRecord.FirstOrDefault(r => r.TimeNormId == timeNormId);
+				//					if (recordTimeNorm != null)
+				//					{
+				//						dataGridViewList.Rows[index].Cells[i].Value = recordTimeNorm.Load;
+				//						dataGridViewList.Rows[index].Cells[i].Tag = 
+				//							recordTimeNorm.AcademicPlanRecordId + "_" +  recordTimeNorm.Id;
+				//					}
+				//				}
+				//			}
+				//			columnIndex += _countTimeNormColumns;
+				//		}
+				//		dataGridViewList.Rows[index].Cells[++columnIndex].Value = resDisciplineRecord.Sum(r => r.Load);
+				//	}
+				//}
 			}
 		}
 

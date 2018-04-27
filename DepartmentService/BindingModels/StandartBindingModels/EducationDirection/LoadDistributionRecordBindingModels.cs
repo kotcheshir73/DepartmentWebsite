@@ -19,8 +19,6 @@ namespace DepartmentService.BindingModels
 
 		public Guid AcademicPlanRecordId { get; set; }
 
-		public Guid ContingentId { get; set; }
-
 		public Guid TimeNormId { get; set; }
 
 		public decimal Load { get; set; }

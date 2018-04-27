@@ -21,15 +21,15 @@ namespace DepartmentService.Services
 
         private readonly IDisciplineService _serviceD;
 
-        private readonly IKindOfLoadService _serviceKL;
+        private readonly IContingentService _serviceC;
 
         public AcademicPlanRecordService(DepartmentDbContext context, IAcademicPlanService serviceAP,
-            IDisciplineService serviceD, IKindOfLoadService serviceKL)
+            IDisciplineService serviceD, IContingentService serviceC)
         {
             _context = context;
             _serviceAP = serviceAP;
             _serviceD = serviceD;
-            _serviceKL = serviceKL;
+            _serviceC = serviceC;
         }
 
 
@@ -43,9 +43,9 @@ namespace DepartmentService.Services
             return _serviceD.GetDisciplines(model);
         }
 
-        public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
+        public ResultService<ContingentPageViewModel> GetContingents(ContingentGetBindingModel model)
         {
-            return _serviceKL.GetKindOfLoads(model);
+            return _serviceC.GetContingents(model);
         }
 
 
@@ -75,7 +75,9 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(ar => ar.Discipline);
+                query = query
+                    .Include(x => x.Discipline)
+                    .Include(x => x.Contingent);
 
                 var result = new AcademicPlanRecordPageViewModel
                 {
@@ -106,6 +108,7 @@ namespace DepartmentService.Services
 
                 var entity = _context.AcademicPlanRecords
                                 .Include(apr => apr.Discipline)
+                                .Include(apr => apr.Contingent)
                                 .FirstOrDefault(apr => apr.Id == model.Id && !apr.IsDeleted);
                 if (entity == null)
                 {

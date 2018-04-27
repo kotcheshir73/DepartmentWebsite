@@ -84,12 +84,10 @@ namespace DepartmentService.Services
 				}
 
 				query = query.Include(ldr => ldr.AcademicPlanRecord)
-						.Include(ldr => ldr.Contingent)
 						.Include(ldr => ldr.TimeNorm)
 						.Include(ldr => ldr.AcademicPlanRecord.AcademicPlan.EducationDirection)
 						.Include(ldr => ldr.AcademicPlanRecord.Discipline)
 						.Include(ldr => ldr.AcademicPlanRecord.Discipline.DisciplineBlock)
-						.Include(ldr => ldr.Contingent.AcademicYear)
 						.Include(ldr => ldr.TimeNorm.KindOfLoad);
 
 				var result = new LoadDistributionRecordPageViewModel
@@ -121,10 +119,8 @@ namespace DepartmentService.Services
 
 				var entity = _context.LoadDistributionRecords
 						.Include(ldr => ldr.AcademicPlanRecord)
-                        .Include(ldr => ldr.Contingent)
                         .Include(ldr => ldr.TimeNorm)
 						.Include(ldr => ldr.AcademicPlanRecord.Discipline)
-						.Include(ldr => ldr.Contingent.AcademicYear)
 						.Include(ldr => ldr.TimeNorm.KindOfLoad)
                         .FirstOrDefault(ldr => ldr.Id == model.Id && !ldr.IsDeleted);
 				if (entity == null)

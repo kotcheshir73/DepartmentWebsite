@@ -394,9 +394,12 @@ namespace DepartmentService.Services
                         }
 
                         var sem = (Semesters)Enum.ToObject(typeof(Semesters), model.SemesterNumber);
+                        var contingent = GetContingent(sem, model.AcademicPlanId);
+
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                     apr.AcademicPlanId == model.AcademicPlanId &&
                                                                     apr.DisciplineId == discipline.Id &&
+                                                                    apr.ContingentId == contingent.Id &&
                                                                     apr.Semester == sem &&
                                                                     !apr.IsDeleted);
                         if (record == null)
@@ -405,6 +408,7 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
+                                ContingentId = contingent.Id,
                                 Semester = sem.ToString(),
                                 Zet = 0
                             }));
@@ -451,9 +455,12 @@ namespace DepartmentService.Services
                         discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
                     }
                     var sem = (Semesters)Enum.ToObject(typeof(Semesters), model.SemesterNumber);
+                    var contingent = GetContingent(sem, model.AcademicPlanId);
+
                     var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                                                                 apr.AcademicPlanId == model.AcademicPlanId &&
                                                                 apr.DisciplineId == discipline.Id &&
+                                                                apr.ContingentId == contingent.Id &&
                                                                 apr.Semester == sem &&
                                                                 !apr.IsDeleted);
                     if (record == null)
@@ -462,6 +469,7 @@ namespace DepartmentService.Services
                         {
                             AcademicPlanId = model.AcademicPlanId,
                             DisciplineId = discipline.Id,
+                            ContingentId = contingent.Id,
                             Semester = sem.ToString(),
                             Zet = 0
                         }));
@@ -520,9 +528,12 @@ namespace DepartmentService.Services
                         }
                         var zet = Convert.ToInt32(zetNode.Value);
 
+                        var contingent = GetContingent(sem, model.AcademicPlanId);
+
                         var record = _context.AcademicPlanRecords.FirstOrDefault(apr =>
                             apr.AcademicPlanId == model.AcademicPlanId &&
                             apr.DisciplineId == disciplineId &&
+                            apr.ContingentId == contingent.Id &&
                             apr.Semester == sem &&
                             !apr.IsDeleted);
                         if (record == null)
@@ -531,6 +542,7 @@ namespace DepartmentService.Services
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = disciplineId,
+                                ContingentId = contingent.Id,
                                 Semester = sem.ToString(),
                                 Zet = zet
                             }));
@@ -591,6 +603,51 @@ namespace DepartmentService.Services
                     _context.SaveChanges();
                 }
             }
+        }
+
+        private Contingent GetContingent(Semesters semester, Guid AcademicPlanId)
+        {
+            var academicPlan = _context.AcademicPlans.Include(x => x.EducationDirection).FirstOrDefault(x => x.Id == AcademicPlanId);
+            AcademicCourse cource = AcademicCourse.Course_1;
+            switch (semester)
+            {
+                case Semesters.Первый:
+                case Semesters.Второй:
+                    if (academicPlan.AcademicLevel == AcademicLevel.Бакалавриат)
+                    {
+                        cource = AcademicCourse.Course_1;
+                    }
+                    else if (academicPlan.AcademicLevel == AcademicLevel.Магистратура)
+                    {
+                        cource = AcademicCourse.Course_5;
+                    }
+                    break;
+                case Semesters.Третий:
+                case Semesters.Четвертый:
+                    if (academicPlan.AcademicLevel == AcademicLevel.Бакалавриат)
+                    {
+                        cource = AcademicCourse.Course_2;
+                    }
+                    else if (academicPlan.AcademicLevel == AcademicLevel.Магистратура)
+                    {
+                        cource = AcademicCourse.Course_6;
+                    }
+                    break;
+                case Semesters.Пятый:
+                case Semesters.Шестой:
+                    cource = AcademicCourse.Course_3;
+                    break;
+                case Semesters.Седьмой:
+                case Semesters.Восьмой:
+                    cource = AcademicCourse.Course_4;
+                    break;
+            }
+            var contingent = _context.Contingents.FirstOrDefault(x => x.EducationDirectionId == academicPlan.EducationDirectionId && x.Course == cource);
+            if(contingent == null)
+            {
+                throw new Exception(string.Format("Не найден контингент на направление {0} курс {1}", academicPlan.EducationDirection.Cipher, cource));
+            }
+            return contingent;
         }
         #endregion
 

@@ -144,6 +144,7 @@ namespace DepartmentService.ViewModels
                 EducationDirectionId = entity.EducationDirectionId,
                 EducationDirectionCipher = entity.EducationDirection.Cipher,
                 AcademicYear = entity.AcademicYear.Title,
+                ContingentName = entity.ContingentName,
                 Course = (int)entity.Course,
                 CountGroups = entity.CountGroups,
                 CountStudents = entity.CountStudetns,
@@ -199,8 +200,10 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 AcademicPlanId = entity.AcademicPlanId,
                 DisciplineId = entity.DisciplineId,
+                ContingentId = entity.ContingentId,
                 Disciplne = entity.Discipline.DisciplineName,
                 Semester = entity.Semester.ToString(),
+                ContingentGroup = entity.Contingent.ContingentName,
                 Zet = entity.Zet
             };
         }
@@ -356,7 +359,6 @@ namespace DepartmentService.ViewModels
                 EducationDirectionCipher = entity.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher,
                 Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
                 DisciplineBlockTitle = entity.AcademicPlanRecord.Discipline.DisciplineBlock.Title,
-                ContingentId = entity.ContingentId,
                 TimeNormId = entity.TimeNormId,
                 SemesterNumber = (int)entity.AcademicPlanRecord.Semester,
                 Load = entity.Load

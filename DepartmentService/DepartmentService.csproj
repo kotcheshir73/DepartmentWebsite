@@ -162,6 +162,14 @@
     <Compile Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.Designer.cs">
       <DependentUpon>201804251441160_UpdateUserTableRemoveColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804271517398_ChangeContingentLink.cs" />
+    <Compile Include="Migrations\201804271517398_ChangeContingentLink.Designer.cs">
+      <DependentUpon>201804271517398_ChangeContingentLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804271543469_AddFieldContingentNameToContingent.cs" />
+    <Compile Include="Migrations\201804271543469_AddFieldContingentNameToContingent.Designer.cs">
+      <DependentUpon>201804271543469_AddFieldContingentNameToContingent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -331,6 +339,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.resx">
       <DependentUpon>201804251441160_UpdateUserTableRemoveColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804271517398_ChangeContingentLink.resx">
+      <DependentUpon>201804271517398_ChangeContingentLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804271543469_AddFieldContingentNameToContingent.resx">
+      <DependentUpon>201804271543469_AddFieldContingentNameToContingent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

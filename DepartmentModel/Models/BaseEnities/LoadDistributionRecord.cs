@@ -22,10 +22,6 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public Guid ContingentId { get; set; }
-
-        [Required]
-        [DataMember]
         public Guid TimeNormId { get; set; }
 
         [Required]
@@ -37,8 +33,6 @@ namespace DepartmentModel.Models
         public virtual LoadDistribution LoadDistribution { get; set; }
 
 		public virtual AcademicPlanRecord AcademicPlanRecord { get; set; }
-
-		public virtual Contingent Contingent { get; set; }
 
 		public virtual TimeNorm TimeNorm { get; set; }
 

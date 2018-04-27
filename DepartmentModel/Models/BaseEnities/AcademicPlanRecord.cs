@@ -23,6 +23,10 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
+        public Guid ContingentId { get; set; }
+
+        [Required]
+        [DataMember]
         public Semesters Semester { get; set; }
 
         [Required]
@@ -34,6 +38,8 @@ namespace DepartmentModel.Models
         public virtual AcademicPlan AcademicPlan { get; set; }
 
 		public virtual Discipline Discipline { get; set; }
+
+        public virtual Contingent Contingent { get; set; }
 
         //-------------------------------------------------------------------------
 

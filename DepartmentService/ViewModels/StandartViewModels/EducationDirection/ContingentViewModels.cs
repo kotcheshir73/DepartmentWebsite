@@ -16,7 +16,9 @@ namespace DepartmentService.ViewModels
 
 		public string AcademicYear { get; set; }
 
-		public int Course { get; set; }
+        public string ContingentName { get; set; }
+
+        public int Course { get; set; }
 
         public int CountGroups { get; set; }
 

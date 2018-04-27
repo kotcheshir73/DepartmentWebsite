@@ -84,7 +84,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			var entity = result.Result;
 
 			comboBoxAcademicPlanRecord.SelectedValue = entity.AcademicPlanRecordId;
-			comboBoxContingent.SelectedValue = entity.ContingentId;
+			//comboBoxContingent.SelectedValue = entity.ContingentId;
 			comboBoxTimeNorm.SelectedValue = entity.TimeNormId;
 			textBoxLoad.Text = entity.Load.ToString();
 		}
@@ -126,7 +126,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 					{
 						LoadDistributionId = _ldId.Value,
 						AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-						ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+						//ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
 						TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
 						Load = Convert.ToDecimal(textBoxLoad.Text)
 					});
@@ -138,7 +138,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 						Id = _id.Value,
 						LoadDistributionId = _ldId.Value,
 						AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-						ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+						//ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
 						TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
 						Load = Convert.ToDecimal(textBoxLoad.Text)
 					});

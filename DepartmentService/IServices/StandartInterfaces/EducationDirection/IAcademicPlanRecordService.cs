@@ -20,12 +20,12 @@ namespace DepartmentService.IServices
 		/// <returns></returns>
 		ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model);
 
-		/// <summary>
-		/// Получение списка видов нагрузки
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
+        /// <summary>
+        /// Получение списка контингентов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<ContingentPageViewModel> GetContingents(ContingentGetBindingModel model);
 
 		/// <summary>
 		/// Получение списка записей учебного плана

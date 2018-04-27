@@ -150,6 +150,7 @@ namespace DepartmentService.BindingModels
 			entity.AcademicYearId = model.AcademicYearId;
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
+            entity.ContingentName = model.ContingentName;
             entity.CountGroups = model.CountGroups;
 			entity.CountStudetns = model.CountStudents;
 			entity.CountSubgroups = model.CountSubgroups;
@@ -180,7 +181,8 @@ namespace DepartmentService.BindingModels
 			}
             entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
-			entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.ContingentId = model.ContingentId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
 
             return entity;
@@ -338,7 +340,6 @@ namespace DepartmentService.BindingModels
 				entity = new LoadDistributionRecord();
 			}
 			entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
-			entity.ContingentId = model.ContingentId;
 			entity.TimeNormId = model.TimeNormId;
 			entity.Load = model.Load;
 
