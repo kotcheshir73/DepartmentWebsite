@@ -13,12 +13,19 @@ namespace DepartmentService.IServices
 		/// <returns></returns>
 		ResultService LoadFromXMLAcademicPlanRecord(EducationalProcessLoadFromXMLBindingModel model);
 
-		/// <summary>
-		/// Формирование/перерасчет учебной нагрузки на год
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model);
+        /// <summary>
+        /// Создание записей по контингенту на основе учебных планов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService CreateContingentForAcademicYear(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Формирование/перерасчет учебной нагрузки на год
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService MakeLoadDistribution(LoadDistributionGetBindingModel model);
 
         /// <summary>
         /// Получение списка учебных планов для дисциплины за конкретный год

@@ -105,8 +105,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			checkBox2.Checked = (courses & AcademicCourse.Course_2) == AcademicCourse.Course_2;
 			checkBox3.Checked = (courses & AcademicCourse.Course_3) == AcademicCourse.Course_3;
 			checkBox4.Checked = (courses & AcademicCourse.Course_4) == AcademicCourse.Course_4;
-			checkBox5.Checked = (courses & AcademicCourse.Course_5) == AcademicCourse.Course_5;
-			checkBox6.Checked = (courses & AcademicCourse.Course_6) == AcademicCourse.Course_6;
 		}
 
 		private bool CheckFill()
@@ -123,8 +121,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			{
 				return false;
 			}
-			if (!checkBox1.Checked && !checkBox2.Checked && !checkBox3.Checked &&
-				!checkBox4.Checked && !checkBox5.Checked && !checkBox6.Checked)
+			if (!checkBox1.Checked && !checkBox2.Checked && !checkBox3.Checked && !checkBox4.Checked)
 			{
 				return false;
 			}
@@ -151,14 +148,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				if (checkBox4.Checked)
 				{
 					courses = courses | AcademicCourse.Course_4;
-				}
-				if (checkBox5.Checked)
-				{
-					courses = courses | AcademicCourse.Course_5;
-				}
-				if (checkBox6.Checked)
-				{
-					courses = courses | AcademicCourse.Course_6;
 				}
 				ResultService result;
 				if (!_id.HasValue)

@@ -252,7 +252,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
             {
                 standartControlAcademicPlanRecords.GetDataGridViewRows.Add(
                      res.Id,
-                     res.EducationDirectionCipher,
+                     res.EducationDirectionShortName,
                      res.Semester
                 );
             }

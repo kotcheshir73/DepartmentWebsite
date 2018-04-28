@@ -82,7 +82,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             comboBoxContingent.ValueMember = "Value";
             comboBoxContingent.DisplayMember = "Display";
             comboBoxContingent.DataSource = resultC.Result.List
-                .Select(d => new { Value = d.Id, Display = d.EducationDirectionCipher }).ToList();
+                .Select(d => new { Value = d.Id, Display = d.EducationDirectionShortName }).ToList();
             comboBoxContingent.SelectedItem = null;
 
             var control = Container.Resolve<AcademicPlanRecordElementControl>();

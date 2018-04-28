@@ -11,10 +11,6 @@ namespace DepartmentModel.Enums
 
 		Course_3 = 4,
 
-		Course_4 = 8,
-
-		Course_5 = 16,
-
-		Course_6 = 32
+		Course_4 = 8
 	}
 }

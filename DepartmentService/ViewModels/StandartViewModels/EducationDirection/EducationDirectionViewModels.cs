@@ -9,7 +9,9 @@ namespace DepartmentService.ViewModels
         public Guid Id { get; set; }
 
         public string Cipher { get; set; }
-        
+
+        public string ShortName { get; set; }
+
         public string Title { get; set; }
         
         public string Description { get; set; }

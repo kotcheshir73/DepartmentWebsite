@@ -58,7 +58,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 			comboBoxContingent.ValueMember = "Value";
 			comboBoxContingent.DisplayMember = "Display";
 			comboBoxContingent.DataSource = resultC.Result.List
-				.Select(c => new { Value = c.Id, Display = c.EducationDirectionCipher }).ToList();
+				.Select(c => new { Value = c.Id, Display = c.EducationDirectionShortName }).ToList();
 			comboBoxContingent.SelectedItem = null;
 
 			comboBoxTimeNorm.ValueMember = "Value";

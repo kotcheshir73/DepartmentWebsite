@@ -170,6 +170,10 @@
     <Compile Include="Migrations\201804271543469_AddFieldContingentNameToContingent.Designer.cs">
       <DependentUpon>201804271543469_AddFieldContingentNameToContingent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804280509528_AddFieldShortNameToEducationDirection.cs" />
+    <Compile Include="Migrations\201804280509528_AddFieldShortNameToEducationDirection.Designer.cs">
+      <DependentUpon>201804280509528_AddFieldShortNameToEducationDirection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -345,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804271543469_AddFieldContingentNameToContingent.resx">
       <DependentUpon>201804271543469_AddFieldContingentNameToContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804280509528_AddFieldShortNameToEducationDirection.resx">
+      <DependentUpon>201804280509528_AddFieldShortNameToEducationDirection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

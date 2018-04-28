@@ -18,6 +18,7 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 Cipher = entity.Cipher,
+                ShortName = entity.ShortName,
                 Description = entity.Description,
                 Title = entity.Title
             };
@@ -142,7 +143,7 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 EducationDirectionId = entity.EducationDirectionId,
-                EducationDirectionCipher = entity.EducationDirection.Cipher,
+                EducationDirectionShortName = entity.EducationDirection.ShortName,
                 AcademicYear = entity.AcademicYear.Title,
                 ContingentName = entity.ContingentName,
                 Course = (int)entity.Course,
@@ -172,20 +173,12 @@ namespace DepartmentService.ViewModels
             {
                 courses += (courses == "" ? "" : ", ") + "4";
             }
-            if ((entity.AcademicCourses & AcademicCourse.Course_5) == AcademicCourse.Course_5)
-            {
-                courses += (courses == "" ? "" : ", ") + "5";
-            }
-            if ((entity.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
-            {
-                courses += (courses == "" ? "" : ", ") + "6";
-            }
             return new AcademicPlanViewModel
             {
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 EducationDirectionId = entity.EducationDirectionId,
-                EducationDirection = entity.EducationDirection.Cipher,
+                EducationDirection = string.Format("{0} {1}", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName),
                 AcademicYear = entity.AcademicYear.Title,
                 AcademicLevel = entity.AcademicLevel.ToString(),
                 AcademicCoursesStrings = courses,
@@ -250,7 +243,7 @@ namespace DepartmentService.ViewModels
                 AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
                 StreamLessonName = entity.StreamLesson.StreamLessonName,
                 AcademicPlanRecordElementText =string.Format("{0} {1} {2}",
-                    entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher,
+                    entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.ShortName,
                     entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
                     entity.AcademicPlanRecordElement.KindOfLoad.KindOfLoadName),
                 Hours = entity.Hours,
@@ -384,7 +377,7 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 AcademicPlanId = entity.AcademicPlanId,
-                EducationDirectionCipher = entity.AcademicPlan.EducationDirection.Cipher,
+                EducationDirectionShortName = entity.AcademicPlan.EducationDirection.ShortName,
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
                 Semester = entity.Semester.ToString()

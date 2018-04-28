@@ -63,14 +63,6 @@ namespace DepartmentService.Services
             {
                 courses.Add(AcademicCourse.Course_4);
             }
-            if ((academicPlan.AcademicCourses & AcademicCourse.Course_5) == AcademicCourse.Course_5)
-            {
-                courses.Add(AcademicCourse.Course_5);
-            }
-            if ((academicPlan.AcademicCourses & AcademicCourse.Course_6) == AcademicCourse.Course_6)
-            {
-                courses.Add(AcademicCourse.Course_6);
-            }
 
             return courses;
         }
@@ -613,25 +605,11 @@ namespace DepartmentService.Services
             {
                 case Semesters.Первый:
                 case Semesters.Второй:
-                    if (academicPlan.AcademicLevel == AcademicLevel.Бакалавриат)
-                    {
-                        cource = AcademicCourse.Course_1;
-                    }
-                    else if (academicPlan.AcademicLevel == AcademicLevel.Магистратура)
-                    {
-                        cource = AcademicCourse.Course_5;
-                    }
+                    cource = AcademicCourse.Course_1;
                     break;
                 case Semesters.Третий:
                 case Semesters.Четвертый:
-                    if (academicPlan.AcademicLevel == AcademicLevel.Бакалавриат)
-                    {
-                        cource = AcademicCourse.Course_2;
-                    }
-                    else if (academicPlan.AcademicLevel == AcademicLevel.Магистратура)
-                    {
-                        cource = AcademicCourse.Course_6;
-                    }
+                    cource = AcademicCourse.Course_2;
                     break;
                 case Semesters.Пятый:
                 case Semesters.Шестой:
@@ -643,13 +621,72 @@ namespace DepartmentService.Services
                     break;
             }
             var contingent = _context.Contingents.FirstOrDefault(x => x.EducationDirectionId == academicPlan.EducationDirectionId && x.Course == cource);
-            if(contingent == null)
+            if (contingent == null)
             {
-                throw new Exception(string.Format("Не найден контингент на направление {0} курс {1}", academicPlan.EducationDirection.Cipher, cource));
+                throw new Exception(string.Format("Не найден контингент на направление {0} курс {1}", academicPlan.EducationDirection.ShortName, cource));
             }
             return contingent;
         }
         #endregion
+
+        public ResultService CreateContingentForAcademicYear(AcademicYearGetBindingModel model)
+        {
+            try
+            {
+                var academicPlans = _context.AcademicPlans.Include(x => x.EducationDirection).Where(x => x.AcademicYearId == model.Id && !x.IsDeleted).ToList();
+                AcademicCourse[] cources = new AcademicCourse[] { AcademicCourse.Course_1, AcademicCourse.Course_2, AcademicCourse.Course_3, AcademicCourse.Course_4 };
+                foreach (var academicPlan in academicPlans)
+                {
+                    Contingent contingent = null;
+                    #region Ищем контингент или создаем его
+                    for (int i = 0; i < cources.Length; ++i)
+                    {
+                        if ((academicPlan.AcademicCourses & cources[i]) == cources[i])
+                        {
+                            AcademicCourse cource = cources[i];
+                            contingent = _context.Contingents.FirstOrDefault(
+                                                    x => x.EducationDirectionId == academicPlan.EducationDirectionId &&
+                                                    x.Course == cource &&
+                                                    !x.IsDeleted
+                                                );
+                            if (contingent == null)
+                            {
+                                contingent = new Contingent
+                                {
+                                    AcademicYearId = model.Id.Value,
+                                    EducationDirectionId = academicPlan.EducationDirectionId,
+                                    ContingentName = string.Format("{0}-{1}", academicPlan.EducationDirection.ShortName, i + 1),
+                                    CountGroups = 0,
+                                    CountStudetns = 0,
+                                    CountSubgroups = 0,
+                                    Course = cource
+                                };
+                                _context.Contingents.Add(contingent);
+                                _context.SaveChanges();
+                            }
+                            var studentGroups = _context.StudentGroups.Where(x => x.EducationDirectionId == academicPlan.EducationDirectionId &&
+                                                    x.Course == cource && !x.IsDeleted).Select(x => x.Id).ToList();
+                            if (studentGroups != null && studentGroups.Count > 0)
+                            {
+                                contingent.CountGroups = studentGroups.Count;
+                                var students = _context.Students.Where(x => studentGroups.Contains(x.StudentGroupId.Value) && 
+                                                                        x.StudentState == StudentState.Учится && !x.IsDeleted).Count();
+                                contingent.CountStudetns = students;
+                                // TODO завести в настройках отдельное поле вместо 15
+                                contingent.CountSubgroups = students / 15;
+                                _context.SaveChanges();
+                            }
+                        }
+                    }
+                    #endregion
+                }
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
 
         #region Формирование/перерасчет учебной нагрузки на год
         /// <summary>

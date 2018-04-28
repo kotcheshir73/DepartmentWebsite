@@ -17,17 +17,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
         private readonly IAcademicPlanService _service;
 
-        private readonly IAcademicPlanRecordService _serviceAPR;
-
         private readonly IEducationalProcessService _serviceEP;
 
         private Guid _ayId;
 
-        public AcademicPlanControl(IAcademicPlanService service, IAcademicPlanRecordService serviceAPR, IEducationalProcessService serviceEP)
+        public AcademicPlanControl(IAcademicPlanService service, IEducationalProcessService serviceEP)
         {
             InitializeComponent();
             _service = service;
-            _serviceAPR = serviceAPR;
             _serviceEP = serviceEP;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
@@ -38,14 +35,20 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 new ColumnConfig { Name = "AcademicCourses", Title = "Курсы", Width = 150, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string> { };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "CreateContingentToolStripMenuItem", "Создать контингент"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("CreateContingentToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -142,6 +145,23 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                     }
                     standartControl.LoadPage();
                 }
+            }
+        }
+
+        private void LoadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите создать или обновить контингент?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                var result = _serviceEP.CreateContingentForAcademicYear(new AcademicYearGetBindingModel { Id = _ayId });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Операция успешно выполнена", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                }
+                standartControl.LoadPage();
             }
         }
     }

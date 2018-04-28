@@ -14,6 +14,7 @@ namespace DepartmentService.BindingModels
                 entity = new EducationDirection();
 			}
 			entity.Cipher = model.Cipher;
+            entity.ShortName = model.ShortName;
 			entity.Description = model.Description;
 			entity.Title = model.Title;
 
