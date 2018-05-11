@@ -1,10 +1,12 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
+using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 {
@@ -27,8 +29,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "KindOfLoadName", Title = "Вид нагрузки", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
-				new ColumnConfig { Name = "Formula", Title = "Формула", Width = 300, Visible = true }
-			};
+                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true },
+                new ColumnConfig { Name = "NumKoef", Title = "Числовой коэффициент", Width = 200, Visible = true },
+                new ColumnConfig { Name = "TimeNormKoef", Title = "Коэффициент норм времени", Width = 200, Visible = true },
+                new ColumnConfig { Name = "KindOfLoadType", Title = "Тип нагрузки", Width = 150, Visible = true }
+
+            };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
@@ -74,9 +80,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.KindOfLoadName,
                     res.Title,
-                    res.Formula
+                    res.KindOfLoadName,
+                    res.KindOfLoadType,
+                    res.Hours,
+                    res.NumKoef,
+                    res.TimeNormKoef
                 );
             }
             return result.Result.MaxCount;

@@ -66,8 +66,10 @@
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
+    <Compile Include="Enums\TimeNormKoef.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
+    <Compile Include="Models\BaseEnities\AcademicPlanRecordElement.cs" />
     <Compile Include="Models\BaseEnities\AcademicYear.cs" />
     <Compile Include="Models\BaseEnities\Access.cs" />
     <Compile Include="Models\BaseEnities\Classroom.cs" />
@@ -89,10 +91,14 @@
     <Compile Include="Models\BaseEnities\LoadDistribution.cs" />
     <Compile Include="Models\BaseEnities\LoadDistributionMission.cs" />
     <Compile Include="Models\BaseEnities\LoadDistributionRecord.cs" />
+    <Compile Include="Models\BaseEnities\MaterialTechnicalValue.cs" />
+    <Compile Include="Models\BaseEnities\MaterialTechnicalValueGroup.cs" />
+    <Compile Include="Models\BaseEnities\MaterialTechnicalValueRecord.cs" />
     <Compile Include="Models\BaseEnities\Message.cs" />
     <Compile Include="Models\BaseEnities\Role.cs" />
     <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
+    <Compile Include="Models\BaseEnities\SoftwareRecord.cs" />
     <Compile Include="Models\BaseEnities\StreamingLesson.cs" />
     <Compile Include="Models\BaseEnities\Student.cs" />
     <Compile Include="Models\BaseEnities\StudentGroup.cs" />

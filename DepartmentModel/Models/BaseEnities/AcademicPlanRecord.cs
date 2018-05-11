@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace DepartmentModel.Models
 {
     /// <summary>
-    /// Класс, хранящий информацию о записи учебного плана
+    /// Класс, хранящий информацию о дисциплине в учебном плане
     /// </summary>
     [DataContract]
     public class AcademicPlanRecord : BaseEntity
@@ -23,23 +23,17 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public Guid KindOfLoadId { get; set; }
-
-        [Required]
-        [DataMember]
         public Semesters Semester { get; set; }
 
         [Required]
         [DataMember]
-        public int Hours { get; set; }
+        public int Zet { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual AcademicPlan AcademicPlan { get; set; }
 
 		public virtual Discipline Discipline { get; set; }
-
-		public virtual KindOfLoad KindOfLoad { get; set; }
 
         //-------------------------------------------------------------------------
 

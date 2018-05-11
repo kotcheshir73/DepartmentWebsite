@@ -34,7 +34,7 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.KindOfLoads.Where(kol => !kol.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(kol => kol.KindOfLoadType).ThenBy(kol => kol.KindOfLoadName);
+                query = query.OrderBy(kol => kol.KindOfLoadName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

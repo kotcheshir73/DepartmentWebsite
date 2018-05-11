@@ -3,12 +3,13 @@ using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
 using DepartmentService.IServices;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 {
@@ -252,9 +253,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                 standartControlAcademicPlanRecords.GetDataGridViewRows.Add(
                      res.Id,
                      res.EducationDirectionCipher,
-                     res.Semester,
-                     res.KindOfLoad,
-                     res.Hours
+                     res.Semester
                 );
             }
             return result.Result.MaxCount;
