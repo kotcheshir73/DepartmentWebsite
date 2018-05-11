@@ -1,0 +1,15 @@
+﻿<Window x:Class="DepartmentWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DepartmentWpf"
+        mc:Ignorable="d"
+        Title="Меню" Height="333.594" Width="440">
+    <Grid Margin="0,0,2,-1">
+        <Button x:Name="buttonTeachers" Content="Преподаватели" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Height="100" Click="buttonTeachers_Click"/>
+        <Button x:Name="buttonAssignments" Content="Распределение поручений" Margin="220,10,10,0" VerticalAlignment="Top" Height="100"/>
+
+
+    </Grid>
+</Window>
