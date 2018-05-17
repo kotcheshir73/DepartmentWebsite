@@ -62,7 +62,6 @@
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.kindOfLoadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.academicYearsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleCurrentClassroomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -220,7 +219,6 @@
             this.toolStripSeparator7,
             this.scheduleLessonTimeToolStripMenuItem,
             this.toolStripSeparator2,
-            this.kindOfLoadsToolStripMenuItem,
             this.academicYearsToolStripMenuItem});
             this.educationalProcessToolStripMenuItem.Name = "educationalProcessToolStripMenuItem";
             this.educationalProcessToolStripMenuItem.Size = new System.Drawing.Size(118, 20);
@@ -357,13 +355,6 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(226, 6);
-            // 
-            // kindOfLoadsToolStripMenuItem
-            // 
-            this.kindOfLoadsToolStripMenuItem.Name = "kindOfLoadsToolStripMenuItem";
-            this.kindOfLoadsToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.kindOfLoadsToolStripMenuItem.Text = "Виды нагрузок";
-            this.kindOfLoadsToolStripMenuItem.Click += new System.EventHandler(this.KindOfLoadsToolStripMenuItem_Click);
             // 
             // academicYearsToolStripMenuItem
             // 
@@ -623,7 +614,6 @@
 		private System.Windows.Forms.ToolStripMenuItem studentsGraduateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem studentsAcademToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem studentsDeductionToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem kindOfLoadsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem academicYearsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem lecturerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loadDistributionToolStripMenuItem;

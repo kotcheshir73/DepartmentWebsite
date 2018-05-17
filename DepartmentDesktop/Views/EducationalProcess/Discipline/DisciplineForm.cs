@@ -103,6 +103,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
             textBoxTitle.Text = entity.DisciplineName;
             textBoxDisciplineShortName.Text = entity.DisciplineShortName;
             comboBoxDisciplineBlock.SelectedValue = entity.DisciplineBlockId;
+            textBoxDisciplineBlueAsteriskName.Text = entity.DisciplineBlueAsteriskName;
         }
 
         private bool CheckFill()
@@ -112,6 +113,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                 return false;
             }
             if (comboBoxDisciplineBlock.SelectedValue == null)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxDisciplineBlueAsteriskName.Text))
             {
                 return false;
             }
@@ -129,7 +134,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                     {
                         DisciplineName = textBoxTitle.Text,
                         DisciplineShortName = textBoxDisciplineShortName.Text,
-                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString())
+                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
+                        DisciplineBlueAsteriskName = textBoxDisciplineBlueAsteriskName.Text
                     });
                 }
                 else
@@ -139,7 +145,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                         Id = _id.Value,
                         DisciplineName = textBoxTitle.Text,
                         DisciplineShortName = textBoxDisciplineShortName.Text,
-                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString())
+                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
+                        DisciplineBlueAsteriskName = textBoxDisciplineBlueAsteriskName.Text
                     });
                 }
                 if (result.Succeeded)

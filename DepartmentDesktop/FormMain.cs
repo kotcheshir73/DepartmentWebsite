@@ -288,17 +288,6 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
-        /// <summary>
-        /// Виды нагрузок
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void KindOfLoadsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.KindOfLoad.KindOfLoadControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
         #endregion
 
         #endregion

@@ -42,8 +42,5 @@ namespace DepartmentModel.Models
         public virtual Contingent Contingent { get; set; }
 
         //-------------------------------------------------------------------------
-
-        [ForeignKey("AcademicPlanRecordId")]
-		public virtual List<LoadDistributionRecord> LoadDistributionRecord { get; set; }
 	}
 }

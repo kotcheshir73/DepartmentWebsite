@@ -39,7 +39,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "CreateContingentToolStripMenuItem", "Создать контингент"}
+                    { "CreateContingentToolStripMenuItem", "Создать контингент"},
+                    { "LoadFromXMLToolStripMenuItem", "Загрузить из xml"},
+                    { "LoadFromBlueAsteriskToolStripMenuItem", "Загрузить из xml (синияя звездчока)"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
@@ -48,7 +50,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("CreateContingentToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("CreateContingentToolStripMenuItem", CreateContingentToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("LoadFromXMLToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("LoadFromBlueAsteriskToolStripMenuItem", LoadFromBlueAsteriskToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -148,7 +152,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             }
         }
 
-        private void LoadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateContingentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Вы уверены, что хотите создать или обновить контингент?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -162,6 +166,62 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                     Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
                 }
                 standartControl.LoadPage();
+            }
+        }
+
+        private void LoadFromXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
+                OpenFileDialog dialog = new OpenFileDialog
+                {
+                    Filter = "xml|*.xml"
+                };
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Guid apId = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                    var result = _serviceEP.LoadFromXMLAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
+                    {
+                        Id = apId,
+                        FileName = dialog.FileName
+                    });
+                    if (result.Succeeded)
+                    {
+                        MessageBox.Show("Загрузка прошла успешно", "Портал", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                    }
+                }
+            }
+        }
+
+        private void LoadFromBlueAsteriskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
+                OpenFileDialog dialog = new OpenFileDialog
+                {
+                    Filter = "plx|*.plx"
+                };
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Guid apId = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                    var result = _serviceEP.LoadFromBlueAsteriskAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
+                    {
+                        Id = apId,
+                        FileName = dialog.FileName
+                    });
+                    if (result.Succeeded)
+                    {
+                        MessageBox.Show("Загрузка прошла успешно", "Портал", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                    }
+                }
             }
         }
     }

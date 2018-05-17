@@ -17,27 +17,26 @@ namespace DepartmentService.Services
 
 		private readonly AccessOperation _serviceOperation = AccessOperation.Нормы_времени;
 
-		private readonly IKindOfLoadService _serviceKL;
-
         private readonly IAcademicYearService _serviceAY;
 
-        public TimeNormService(DepartmentDbContext context, IKindOfLoadService serviceKL, IAcademicYearService serviceAY)
+        private readonly IDisciplineBlockService _serviceDB;
+
+        public TimeNormService(DepartmentDbContext context, IAcademicYearService serviceAY, IDisciplineBlockService serviceDB)
 		{
 			_context = context;
-			_serviceKL = serviceKL;
             _serviceAY = serviceAY;
-
+            _serviceDB = serviceDB;
         }
 
-
-		public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
-		{
-			return _serviceKL.GetKindOfLoads(model);
-        }
-
+        
         public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
         {
             return _serviceAY.GetAcademicYears(model);
+        }
+
+        public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
+        {
+            return _serviceDB.GetDisciplineBlocks(model);
         }
 
 
@@ -58,7 +57,18 @@ namespace DepartmentService.Services
                     query = query.Where(tn => tn.AcademicYearId == model.AcademicYearId);
                 }
 
-                query = query.OrderBy(tn => tn.KindOfLoad.KindOfLoadName).ThenBy(tn => tn.Title);
+                if (model.DisciplineBlockId.HasValue)
+                {
+                    query = query.Where(tn => tn.DisciplineBlockId == model.DisciplineBlockId);
+                }
+
+                if (model.AcademicPlanRecordId.HasValue)
+                {
+                    var apr = _context.AcademicPlanRecords.Include(x => x.AcademicPlan).FirstOrDefault(x => x.Id == model.AcademicPlanRecordId);
+                    query = query.Where(tn => tn.AcademicYearId == apr.AcademicPlan.AcademicYearId);
+                }
+
+                query = query.OrderBy(tn => tn.TimeNormOrder).ThenBy(tn => tn.TimeNormName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{
@@ -68,7 +78,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-				query = query.Include(tn => tn.KindOfLoad).Include(tn => tn.AcademicYear);
+				query = query.Include(tn => tn.AcademicYear).Include(x => x.DisciplineBlock);
 
 				var result = new TimeNormPageViewModel
 				{
@@ -98,8 +108,8 @@ namespace DepartmentService.Services
 				}
 
 				var entity = _context.TimeNorms
-                                .Include(tn => tn.KindOfLoad)
                                 .Include(tn => tn.AcademicYear)
+                                .Include(x => x.DisciplineBlock)
                                 .FirstOrDefault(tn => tn.Id == model.Id && !tn.IsDeleted);
 				if (entity == null)
 				{

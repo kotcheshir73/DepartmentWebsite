@@ -57,7 +57,13 @@ namespace DepartmentService.Services
                     query = query.Where(c => c.AcademicYearId == model.AcademicYearId);
                 }
 
-                query = query.OrderBy(c => c.AcademicYearId).ThenBy(c => c.EducationDirection.Cipher);
+                if (model.AcademicPlanId.HasValue)
+                {
+                    var ap = _context.AcademicPlans.FirstOrDefault(x => x.Id == model.AcademicPlanId);
+                    query = query.Where(c => c.AcademicYearId == ap.AcademicYearId);
+                }
+
+                query = query.OrderBy(c => c.AcademicYearId).ThenBy(c => c.EducationDirection.Cipher).ThenBy(x => x.Course);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

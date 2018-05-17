@@ -17,10 +17,17 @@ namespace DepartmentService.BindingModels
 
 		public Guid DisciplineBlockId { get; set; }
 
-		[Required(ErrorMessage = "required")]
+        public Guid? DisciplineParentId { get; set; }
+        
+        public bool IsParent { get; set; }
+
+        [Required(ErrorMessage = "required")]
 		public string DisciplineName { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string DisciplineShortName { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string DisciplineBlueAsteriskName { get; set; }
     }
 }

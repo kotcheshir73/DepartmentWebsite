@@ -36,12 +36,8 @@ namespace DepartmentService.Context
         public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
-        public virtual DbSet<KindOfLoad> KindOfLoads { get; set; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
         public virtual DbSet<LecturerPost> LecturerPosts { get; set; }
-        public virtual DbSet<LoadDistribution> LoadDistributions { get; set; }
-        public virtual DbSet<LoadDistributionMission> LoadDistributionMissions { get; set; }
-        public virtual DbSet<LoadDistributionRecord> LoadDistributionRecords { get; set; }
         public virtual DbSet<MaterialTechnicalValue> MaterialTechnicalValues { set; get; }
         public virtual DbSet<MaterialTechnicalValueGroup> MaterialTechnicalValueGroups { set; get; }
         public virtual DbSet<MaterialTechnicalValueRecord> MaterialTechnicalValueRecords { set; get; }

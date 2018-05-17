@@ -59,7 +59,7 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Disciplines.Where(d => !d.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(d => d.DisciplineBlockId).ThenBy(d => d.DisciplineName);
+                query = query.OrderBy(d => d.DisciplineBlock.DisciplineBlockOrder).ThenBy(d => d.DisciplineName);
 
 				if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

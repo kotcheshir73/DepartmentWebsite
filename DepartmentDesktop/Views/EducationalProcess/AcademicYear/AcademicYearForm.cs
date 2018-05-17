@@ -36,67 +36,32 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
         {
             var controlAP = Container.Resolve<AcademicPlanControl>();
 
-            controlAP.Left = 0;
-            controlAP.Top = 0;
-            controlAP.Height = Height - 60;
-            controlAP.Width = Width - 15;
-            controlAP.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
+            controlAP.Dock = DockStyle.Fill;
 
             tabPageAcademicPlans.Controls.Add(controlAP);
 
 
             var controlSL = Container.Resolve<StreamLessonControl>();
 
-            controlSL.Left = 0;
-            controlSL.Top = 0;
-            controlSL.Height = Height - 60;
-            controlSL.Width = Width - 15;
-            controlSL.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
+            controlSL.Dock = DockStyle.Fill;
 
             tabPageStreamLessons.Controls.Add(controlSL);
 
             var controlTN = Container.Resolve<TimeNormControl>();
 
-            controlTN.Left = 0;
-            controlTN.Top = 0;
-            controlTN.Height = Height - 60;
-            controlTN.Width = Width - 15;
-            controlTN.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
+            controlTN.Dock = DockStyle.Fill;
 
             tabPageTimeNorms.Controls.Add(controlTN);
 
             var controlC = Container.Resolve<ContingentControl>();
 
-            controlC.Left = 0;
-            controlC.Top = 0;
-            controlC.Height = Height - 60;
-            controlC.Width = Width - 15;
-            controlC.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
+            controlC.Dock = DockStyle.Fill;
 
             tabPageContingent.Controls.Add(controlC);
 
             var controlSD = Container.Resolve<SeasonDatesControl>();
 
-            controlSD.Left = 0;
-            controlSD.Top = 0;
-            controlSD.Height = Height - 60;
-            controlSD.Width = Width - 15;
-            controlSD.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
+            controlSD.Dock = DockStyle.Fill;
 
             tabPageSeasonDates.Controls.Add(controlSD);
 

@@ -29,7 +29,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
                 new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 150, Visible = true },
-                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+                new ColumnConfig { Name = "PlanHours", Title = "План. часы", Width = 100, Visible = true },
+                new ColumnConfig { Name = "FactHours", Title = "Факт. часы", Width = 100, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { };
@@ -83,7 +84,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                     res.Id,
                     res.Disciplne,
                     res.KindOfLoadName,
-                    res.Hours
+                    res.PlanHours,
+                    res.FactHours
                 );
             }
             return result.Result.MaxCount;
@@ -131,7 +133,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                 {
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
-                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[i].Value.ToString());
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
                         var result = _service.DeleteAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {

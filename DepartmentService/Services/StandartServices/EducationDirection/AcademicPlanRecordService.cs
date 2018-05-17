@@ -57,6 +57,7 @@ namespace DepartmentService.Services
                 {
                     throw new Exception("Нет доступа на чтение данных по записям учекбных планов");
                 }
+
                 if (!model.AcademicPlanId.HasValue)
                 {
                     throw new Exception("Не указан учебный план");
@@ -64,6 +65,11 @@ namespace DepartmentService.Services
 
                 int countPages = 0;
                 var query = _context.AcademicPlanRecords.Where(apr => !apr.IsDeleted && apr.AcademicPlanId == model.AcademicPlanId);
+
+                if (model.Id.HasValue)
+                {
+                    query = query.Where(x => x.Id == model.Id);
+                }
 
                 query = query.OrderBy(apr => apr.Semester).ThenBy(apr => apr.Discipline.DisciplineName);
 

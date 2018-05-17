@@ -239,7 +239,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                     Program.PrintErrorMessage("При загрузке нагрузки записи учебного плана возникла ошибка: ", record.Errors);
                     return;
                 }
-                textBoxHours.Text = record.Result.Hours.ToString();
+                textBoxHours.Text = record.Result.PlanHours.ToString();
             }
         }
     }

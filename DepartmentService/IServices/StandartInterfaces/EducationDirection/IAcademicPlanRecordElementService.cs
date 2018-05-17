@@ -7,11 +7,11 @@ namespace DepartmentService.IServices
     public interface IAcademicPlanRecordElementService
     {
         /// <summary>
-        /// Получение списка видов нагрузки
+        /// Получение списка норм времени
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
+        ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model);
 
         /// <summary>
         /// Получение списка записей учебного плана

@@ -36,7 +36,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
 		private void AcademicPlanForm_Load(object sender, EventArgs e)
 		{
-			var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
+			var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { Id = _ayId });
 			if (!resultAY.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
@@ -59,7 +59,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 			comboBoxAcademicYear.DisplayMember = "Display";
 			comboBoxAcademicYear.DataSource = resultAY.Result.List
 				.Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
-			comboBoxAcademicYear.SelectedItem = _ayId;
+			comboBoxAcademicYear.SelectedValue = _ayId;
 
 			comboBoxEducationDirection.ValueMember = "Value";
 			comboBoxEducationDirection.DisplayMember = "Display";
@@ -67,22 +67,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
 			comboBoxEducationDirection.SelectedItem = null;
 
-            var control = Container.Resolve<AcademicPlanRecordControl>();
-
-            control.Left = 0;
-            control.Top = 0;
-            control.Height = Height - 60;
-            control.Width = Width - 15;
-            control.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
-
-            tabPageRecords.Controls.Add(control);
-
 			if (_id.HasValue)
-			{
-				LoadData();
+            {
+                var control = Container.Resolve<AcademicPlanRecordControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+
+                LoadData();
 			}
 		}
 

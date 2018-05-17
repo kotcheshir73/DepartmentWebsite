@@ -17,10 +17,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 
         private readonly IAcademicYearService _service;
 
-        public AcademicYearControl(IAcademicYearService service)
+        private readonly IEducationalProcessService _process;
+
+        public AcademicYearControl(IAcademicYearService service, IEducationalProcessService process)
         {
             InitializeComponent();
             _service = service;
+            _process = process;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
@@ -28,14 +31,22 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
                 new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string> { };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "MakeDuplicateToolStripMenuItem", "Продублировать записи"},
+                    { "CalcFactHoursToolStripMenuItem", "Расчитать время"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("MakeDuplicateToolStripMenuItem", MakeDuplicateToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("CalcFactHoursToolStripMenuItem", CalcFactHoursToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -123,6 +134,32 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                        }
+                    }
+                    standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void MakeDuplicateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<DuplicateForm>();
+            form.Show();
+        }
+
+        private void CalcFactHoursToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите произвести расчет?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+                    {
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
+                        var result = _process.CalcFactHoursForAcademicYear(new AcademicYearGetBindingModel { Id = id });
+                        if (!result.Succeeded)
+                        {
+                            Program.PrintErrorMessage("При расчете возникла ошибка: ", result.Errors);
                         }
                     }
                     standartControl.LoadPage();

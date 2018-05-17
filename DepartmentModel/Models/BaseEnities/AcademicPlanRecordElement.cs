@@ -18,17 +18,21 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public Guid KindOfLoadId { get; set; }
+        public Guid TimeNormId { get; set; }
 
         [Required]
         [DataMember]
-        public decimal Hours { get; set; }
+        public decimal PlanHours { get; set; }
+
+        [Required]
+        [DataMember]
+        public decimal FactHours { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual AcademicPlanRecord AcademicPlanRecord { get; set; }
 
-        public virtual KindOfLoad KindOfLoad { get; set; }
+        public virtual TimeNorm TimeNorm { get; set; }
 
         //-------------------------------------------------------------------------
 

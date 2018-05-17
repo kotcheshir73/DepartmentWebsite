@@ -29,7 +29,10 @@ namespace DepartmentService.ViewModels
             return new DisciplineBlockViewModel
             {
                 Id = entity.Id,
-                Title = entity.Title
+                Title = entity.Title,
+                DisciplineBlockBlueAsteriskName = entity.DisciplineBlockBlueAsteriskName,
+                DisciplineBlockUseForGrouping = entity.DisciplineBlockUseForGrouping,
+                DisciplineBlockOrder = entity.DisciplineBlockOrder
             };
         }
 
@@ -64,7 +67,8 @@ namespace DepartmentService.ViewModels
                 DisciplineBlockId = entity.DisciplineBlockId,
                 DisciplineName = entity.DisciplineName,
                 DisciplineShortName = entity.DisciplineShortName,
-                DisciplineBlockTitle = entity.DisciplineBlock.Title
+                DisciplineBlockTitle = entity.DisciplineBlock.Title,
+                DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
             };
         }
 
@@ -109,30 +113,28 @@ namespace DepartmentService.ViewModels
         }
 
 
-        public static KindOfLoadViewModel CreateKindOfLoadViewModel(KindOfLoad entity)
-        {
-            return new KindOfLoadViewModel
-            {
-                Id = entity.Id,
-                KindOfLoadName = entity.KindOfLoadName,
-                AttributeName = entity.AttributeName
-            };
-        }
-
         public static TimeNormViewModel CreateTimeNormViewModel(TimeNorm entity)
         {
             return new TimeNormViewModel
             {
                 Id = entity.Id,
-                KindOfLoadId = entity.KindOfLoadId,
                 AcademicYearId = entity.AcademicYearId,
-                Title = entity.Title,
+                DisciplineBlockId = entity.DisciplineBlockId,
                 AcademicYear = entity.AcademicYear.Title,
-                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
+                DisciplineBlockName = entity.DisciplineBlock.Title,
+                TimeNormName = entity.TimeNormName,
+                TimeNormShortName = entity.TimeNormShortName,
+                TimeNormOrder = entity.TimeNormOrder,
+                TimeNormAcademicLevel = entity.TimeNormAcademicLevel.HasValue ? entity.TimeNormAcademicLevel.ToString() : null,
+                KindOfLoadName = entity.KindOfLoadName,
+                KindOfLoadAttributeName = entity.KindOfLoadAttributeName,
+                KindOfLoadBlueAsteriskName = entity.KindOfLoadBlueAsteriskName,
+                KindOfLoadBlueAsteriskAttributeName = entity.KindOfLoadBlueAsteriskAttributeName,
+                KindOfLoadBlueAsteriskPracticName = entity.KindOfLoadBlueAsteriskPracticName,
+                KindOfLoadType = entity.KindOfLoadType.ToString(),
                 Hours = entity.Hours,
                 NumKoef = entity.NumKoef,
-                TimeNormKoef = entity.TimeNormKoef.ToString(),
-                KindOfLoadType = entity.KindOfLoadType.ToString()
+                TimeNormKoef = entity.TimeNormKoef.ToString()
             };
         }
 
@@ -207,10 +209,11 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 AcademicPlanRecordId = entity.AcademicPlanRecordId,
-                KindOfLoadId = entity.KindOfLoadId,
+                TimeNormId = entity.TimeNormId,
                 Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
-                KindOfLoadName = entity.KindOfLoad.KindOfLoadName,
-                Hours = entity.Hours,
+                KindOfLoadName = entity.TimeNorm.KindOfLoadName,
+                PlanHours = entity.PlanHours,
+                FactHours = entity.FactHours
             };
         }
 
@@ -245,7 +248,7 @@ namespace DepartmentService.ViewModels
                 AcademicPlanRecordElementText =string.Format("{0} {1} {2}",
                     entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.ShortName,
                     entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
-                    entity.AcademicPlanRecordElement.KindOfLoad.KindOfLoadName),
+                    entity.AcademicPlanRecordElement.TimeNorm.KindOfLoadName),
                 Hours = entity.Hours,
                 IsMain = entity.IsMain
             };
@@ -326,46 +329,6 @@ namespace DepartmentService.ViewModels
                 TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
                 DateBeginLesson = entity.DateBeginLesson,
                 DateEndLesson = entity.DateEndLesson
-            };
-        }
-        #endregion
-
-        #region LoadDistribution
-        public static LoadDistributionViewModel CreateLoadDistributionViewModel(LoadDistribution entity)
-        {
-            return new LoadDistributionViewModel
-            {
-                Id = entity.Id,
-                AcademicYearId = entity.AcademicYearId,
-                AcademicYear = entity.AcademicYear.Title
-            };
-        }
-
-        public static LoadDistributionRecordViewModel CreateLoadDistributionRecordViewModel(LoadDistributionRecord entity)
-        {
-            return new LoadDistributionRecordViewModel
-            {
-                Id = entity.Id,
-                LoadDistributionId = entity.LoadDistributionId,
-                LoadDistributionAcademicYear = entity.LoadDistribution.AcademicYear.Title,
-                AcademicPlanRecordId = entity.AcademicPlanRecordId,
-                EducationDirectionCipher = entity.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher,
-                Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
-                DisciplineBlockTitle = entity.AcademicPlanRecord.Discipline.DisciplineBlock.Title,
-                TimeNormId = entity.TimeNormId,
-                SemesterNumber = (int)entity.AcademicPlanRecord.Semester,
-                Load = entity.Load
-            };
-        }
-
-        public static LoadDistributionMissionViewModel CreateLoadDistributionMissionViewModel(LoadDistributionMission entity)
-        {
-            return new LoadDistributionMissionViewModel
-            {
-                Id = entity.Id,
-                LoadDistributionRecordId = entity.LoadDistributionRecordId,
-                LecturerId = entity.LecturerId,
-                Hours = entity.Hours
             };
         }
         #endregion

@@ -84,9 +84,6 @@ namespace DepartmentModel.Models
 
         //-------------------------------------------------------------------------
 
-        [ForeignKey("LecturerId")]
-		public virtual List<LoadDistributionMission> LoadDistributionMissions { get; set; }
-
         //-------------------------------------------------------------------------
 
         public override string ToString()
