@@ -35,11 +35,12 @@
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageAcademicPlans = new System.Windows.Forms.TabPage();
+            this.tabPageStreamLessons = new System.Windows.Forms.TabPage();
             this.tabPageTimeNorms = new System.Windows.Forms.TabPage();
-            this.tabPageContingent = new System.Windows.Forms.TabPage();
+            this.tabPageContingents = new System.Windows.Forms.TabPage();
             this.tabPageSeasonDates = new System.Windows.Forms.TabPage();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.tabPageStreamLessons = new System.Windows.Forms.TabPage();
+            this.tabPageDisciplinrBlockRecords = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -96,7 +97,8 @@
             this.tabControl.Controls.Add(this.tabPageAcademicPlans);
             this.tabControl.Controls.Add(this.tabPageStreamLessons);
             this.tabControl.Controls.Add(this.tabPageTimeNorms);
-            this.tabControl.Controls.Add(this.tabPageContingent);
+            this.tabControl.Controls.Add(this.tabPageContingents);
+            this.tabControl.Controls.Add(this.tabPageDisciplinrBlockRecords);
             this.tabControl.Controls.Add(this.tabPageSeasonDates);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 42);
@@ -115,6 +117,16 @@
             this.tabPageAcademicPlans.Text = "Академические планы";
             this.tabPageAcademicPlans.UseVisualStyleBackColor = true;
             // 
+            // tabPageStreamLessons
+            // 
+            this.tabPageStreamLessons.Location = new System.Drawing.Point(4, 22);
+            this.tabPageStreamLessons.Name = "tabPageStreamLessons";
+            this.tabPageStreamLessons.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageStreamLessons.Size = new System.Drawing.Size(1081, 553);
+            this.tabPageStreamLessons.TabIndex = 4;
+            this.tabPageStreamLessons.Text = "Потоки";
+            this.tabPageStreamLessons.UseVisualStyleBackColor = true;
+            // 
             // tabPageTimeNorms
             // 
             this.tabPageTimeNorms.Location = new System.Drawing.Point(4, 22);
@@ -125,15 +137,15 @@
             this.tabPageTimeNorms.Text = "Нормы времени";
             this.tabPageTimeNorms.UseVisualStyleBackColor = true;
             // 
-            // tabPageContingent
+            // tabPageContingents
             // 
-            this.tabPageContingent.Location = new System.Drawing.Point(4, 22);
-            this.tabPageContingent.Name = "tabPageContingent";
-            this.tabPageContingent.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageContingent.Size = new System.Drawing.Size(1081, 553);
-            this.tabPageContingent.TabIndex = 3;
-            this.tabPageContingent.Text = "Контингент";
-            this.tabPageContingent.UseVisualStyleBackColor = true;
+            this.tabPageContingents.Location = new System.Drawing.Point(4, 22);
+            this.tabPageContingents.Name = "tabPageContingents";
+            this.tabPageContingents.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageContingents.Size = new System.Drawing.Size(1081, 553);
+            this.tabPageContingents.TabIndex = 3;
+            this.tabPageContingents.Text = "Контингент";
+            this.tabPageContingents.UseVisualStyleBackColor = true;
             // 
             // tabPageSeasonDates
             // 
@@ -158,15 +170,15 @@
             this.panelTop.Size = new System.Drawing.Size(1089, 42);
             this.panelTop.TabIndex = 0;
             // 
-            // tabPageStreamLessons
+            // tabPageDisciplinrBlockRecords
             // 
-            this.tabPageStreamLessons.Location = new System.Drawing.Point(4, 22);
-            this.tabPageStreamLessons.Name = "tabPageStreamLessons";
-            this.tabPageStreamLessons.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStreamLessons.Size = new System.Drawing.Size(1081, 553);
-            this.tabPageStreamLessons.TabIndex = 4;
-            this.tabPageStreamLessons.Text = "Потоки";
-            this.tabPageStreamLessons.UseVisualStyleBackColor = true;
+            this.tabPageDisciplinrBlockRecords.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDisciplinrBlockRecords.Name = "tabPageDisciplinrBlockRecords";
+            this.tabPageDisciplinrBlockRecords.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDisciplinrBlockRecords.Size = new System.Drawing.Size(1081, 553);
+            this.tabPageDisciplinrBlockRecords.TabIndex = 5;
+            this.tabPageDisciplinrBlockRecords.Text = "Записи блоков дисциплин";
+            this.tabPageDisciplinrBlockRecords.UseVisualStyleBackColor = true;
             // 
             // AcademicYearForm
             // 
@@ -198,7 +210,8 @@
         private System.Windows.Forms.TabPage tabPageTimeNorms;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.TabPage tabPageSeasonDates;
-        private System.Windows.Forms.TabPage tabPageContingent;
+        private System.Windows.Forms.TabPage tabPageContingents;
         private System.Windows.Forms.TabPage tabPageStreamLessons;
+        private System.Windows.Forms.TabPage tabPageDisciplinrBlockRecords;
     }
 }

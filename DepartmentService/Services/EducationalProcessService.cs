@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -988,8 +989,10 @@ namespace DepartmentService.Services
                 foreach (var apre in apres)
                 {
                     apre.IsDeleted = true;
+                    apre.DateDelete = DateTime.Now;
                 }
                 apr.IsDeleted = true;
+                apr.DateDelete = DateTime.Now;
                 _context.SaveChanges();
             }
 
@@ -1243,6 +1246,44 @@ namespace DepartmentService.Services
                     element.Add(null);
                     list.Add(element.ToArray());
 
+                    var dbrs = _context.DisciplineBlockRecords
+                        .Include(x => x.EducationDirection)
+                        .Where(x => x.AcademicYearId == model.Id && x.DisciplineBlockId == discBlock.Id && !x.IsDeleted)
+                        .OrderBy(x => x.DisciplineBlockRecordTitle);
+
+                    foreach (var dbr in dbrs)
+                    {
+                        List<object> elementApr = new List<object>() {
+                            dbr.Id,
+                            null,
+                            dbr.EducationDirectionId.HasValue ? dbr.EducationDirection.Cipher : null,
+                            dbr.DisciplineBlockRecordTitle,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                        }; ;
+                        foreach (var tn in timeNorms)
+                        {
+                            if (tn.Id == dbr.TimeNormId)
+                            {
+                                elementApr.Add(null);
+                                elementApr.Add(null);
+                                elementApr.Add(dbr.DisciplineBlockRecordHours);
+                            }
+                            else
+                            {
+                                elementApr.Add(null);
+                                elementApr.Add(null);
+                                elementApr.Add(null);
+                            }
+                        }
+                        elementApr.Add(dbr.DisciplineBlockRecordHours);
+                        list.Add(elementApr.ToArray());
+                    }
+
                     var aprs = _context.AcademicPlanRecords
                         .Include(x => x.AcademicPlan)
                         .Include(x => x.AcademicPlan.EducationDirection)
@@ -1334,18 +1375,43 @@ namespace DepartmentService.Services
                         .Where(x => x.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id && x.TimeNormId == tn.Id && !x.IsDeleted).ToList();
                     foreach (var apre in apres)
                     {
+                        #region Множитель 2 - количество часов
+                        decimal? hours = null;
+                        // если есть часы, берем оттуда, иначе из учебных планов
+                        if (tn.Hours.HasValue)
+                        {
+                            hours = tn.Hours;
+                        }
+                        else
+                        {
+                            hours = apre.PlanHours;
+                        }
+                        if (!hours.HasValue)
+                        {
+                            throw new Exception(string.Format("Не найдены часы для записи по норме времени {0} по дисциплине {1}", tn.TimeNormName,
+                                apre.AcademicPlanRecord.Discipline.DisciplineName));
+                        }
+                        #endregion
                         #region Множитель 1 - количество объектов
                         decimal? countObject = null;
                         switch (tn.KindOfLoadType)
                         {
                             case KindOfLoadType.Поток:
-                                var stream = _context.StreamLessonRecords.FirstOrDefault(x => x.StreamLesson.AcademicYearId == model.Id &&
+                                var stream = _context.StreamLessonRecords.Include(x => x.StreamLesson).FirstOrDefault(x => x.StreamLesson.AcademicYearId == model.Id &&
                                                                             x.AcademicPlanRecordElementId == apre.Id && !x.IsDeleted);
                                 if (stream != null)
                                 {
                                     if (stream.IsMain)
                                     {
                                         countObject = 1;
+                                    }
+                                    else
+                                    {
+                                        if (stream.StreamLesson.StreamLessonHours < hours)
+                                        {
+                                            countObject = 1;
+                                            hours = hours = stream.StreamLesson.StreamLessonHours;
+                                        }
                                     }
                                 }
                                 else
@@ -1362,23 +1428,6 @@ namespace DepartmentService.Services
                             case KindOfLoadType.Студенты:
                                 countObject = apre.AcademicPlanRecord.Contingent.CountStudetns;
                                 break;
-                        }
-                        #endregion
-                        #region Множитель 2 - количество часов
-                        decimal? hours = null;
-                        // если есть часы, берем оттуда, иначе из учебных планов
-                        if (tn.Hours.HasValue)
-                        {
-                            hours = tn.Hours;
-                        }
-                        else
-                        {
-                            hours = apre.PlanHours;
-                        }
-                        if (!hours.HasValue)
-                        {
-                            throw new Exception(string.Format("Не найдены часы для записи по норме времени {0} по дисциплине {1}", tn.TimeNormName,
-                                apre.AcademicPlanRecord.Discipline.DisciplineName));
                         }
                         #endregion
                         #region
@@ -1544,6 +1593,7 @@ namespace DepartmentService.Services
             return ResultService<ScheduleRecordsForDisciplinePageViewModel>.Success(result);
         }
 
+        #region Duplicate Academic Year
         public ResultService DuplicateAcademicYearElements(EducationalProcessDuplicateAcademicYear model)
         {
             try
@@ -1575,40 +1625,40 @@ namespace DepartmentService.Services
         private void DuplicateAcademicPlan(EducationalProcessDuplicateAcademicYear model)
         {
             var aps = _context.AcademicPlans.Where(x => x.AcademicYearId == model.FromAcademicPlanId && !x.IsDeleted).ToList();
+
+            List<PropertyInfo> propInfos = typeof(AcademicPlan)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(x => !x.GetMethod.IsVirtual && x.PropertyType.Name != "List`1" && x.Name != "Id" && x.Name != "DateCreate" &&
+                                    x.Name != "DateDelete" && x.Name != "IsDeleted").ToList();
             foreach (var ap in aps)
             {
-                _context.AcademicPlans.Add(new AcademicPlan
+                AcademicPlan newAP = new AcademicPlan();
+                foreach (var propInfo in propInfos)
                 {
-                    AcademicYearId = model.ToAcademicPlanId,
-                    AcademicCourses = ap.AcademicCourses,
-                    AcademicLevel = ap.AcademicLevel,
-                    EducationDirectionId = ap.EducationDirectionId
-                });
+                    newAP.GetType().GetProperty(propInfo.Name).SetValue(newAP, ap.GetType().GetProperty(propInfo.Name).GetValue(ap, null), null);
+                }
+                _context.AcademicPlans.Add(newAP);
                 _context.SaveChanges();
             }
+            // TODO дубликаты apr и apre
         }
 
         private void DuplicateTimeNorms(EducationalProcessDuplicateAcademicYear model)
         {
             var tns = _context.TimeNorms.Where(x => x.AcademicYearId == model.FromAcademicPlanId && !x.IsDeleted).ToList();
+
+            List<PropertyInfo> propInfos = typeof(TimeNorm)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(x => !x.GetMethod.IsVirtual && x.PropertyType.Name != "List`1" && x.Name != "Id" && x.Name != "DateCreate" &&
+                                    x.Name != "DateDelete" && x.Name != "IsDeleted").ToList();
             foreach (var tn in tns)
             {
-                _context.TimeNorms.Add(new TimeNorm
+                TimeNorm newTN = new TimeNorm();
+                foreach (var propInfo in propInfos)
                 {
-                    AcademicYearId = model.ToAcademicPlanId,
-                    TimeNormName = tn.TimeNormName,
-                    TimeNormShortName = tn.TimeNormShortName,
-                    TimeNormOrder = tn.TimeNormOrder,
-                    KindOfLoadName = tn.KindOfLoadName,
-                    KindOfLoadAttributeName = tn.KindOfLoadAttributeName,
-                    KindOfLoadBlueAsteriskName = tn.KindOfLoadBlueAsteriskName,
-                    KindOfLoadBlueAsteriskAttributeName = tn.KindOfLoadBlueAsteriskAttributeName,
-                    KindOfLoadBlueAsteriskPracticName = tn.KindOfLoadBlueAsteriskPracticName,
-                    KindOfLoadType = tn.KindOfLoadType,
-                    Hours = tn.Hours,
-                    NumKoef = tn.NumKoef,
-                    TimeNormKoef = tn.TimeNormKoef
-                });
+                    newTN.GetType().GetProperty(propInfo.Name).SetValue(newTN, tn.GetType().GetProperty(propInfo.Name).GetValue(tn, null), null);
+                }
+                _context.TimeNorms.Add(newTN);
                 _context.SaveChanges();
             }
         }
@@ -1616,18 +1666,19 @@ namespace DepartmentService.Services
         private void DuplicateContingent(EducationalProcessDuplicateAcademicYear model)
         {
             var cs = _context.Contingents.Where(x => x.AcademicYearId == model.FromAcademicPlanId && !x.IsDeleted).ToList();
+
+            List<PropertyInfo> propInfos = typeof(Contingent)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(x => !x.GetMethod.IsVirtual && x.PropertyType.Name != "List`1" && x.Name != "Id" && x.Name != "DateCreate" &&
+                                    x.Name != "DateDelete" && x.Name != "IsDeleted").ToList();
             foreach (var c in cs)
             {
-                _context.Contingents.Add(new Contingent
+                Contingent newC = new Contingent();
+                foreach (var propInfo in propInfos)
                 {
-                    AcademicYearId = model.ToAcademicPlanId,
-                    ContingentName = c.ContingentName,
-                    CountGroups = c.CountGroups,
-                    CountStudetns = c.CountStudetns,
-                    CountSubgroups = c.CountSubgroups,
-                    Course = c.Course,
-                    EducationDirectionId = c.EducationDirectionId
-                });
+                    newC.GetType().GetProperty(propInfo.Name).SetValue(newC, c.GetType().GetProperty(propInfo.Name).GetValue(c, null), null);
+                }
+                _context.Contingents.Add(newC);
                 _context.SaveChanges();
             }
         }
@@ -1635,24 +1686,101 @@ namespace DepartmentService.Services
         private void DuplicateSeasonDate(EducationalProcessDuplicateAcademicYear model)
         {
             var sds = _context.SeasonDates.Where(x => x.AcademicYearId == model.FromAcademicPlanId && !x.IsDeleted).ToList();
+
+            List<PropertyInfo> propInfos = typeof(SeasonDates)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(x => !x.GetMethod.IsVirtual && x.PropertyType.Name != "List`1" && x.Name != "Id" && x.Name != "DateCreate" &&
+                                    x.Name != "DateDelete" && x.Name != "IsDeleted").ToList();
             foreach (var sd in sds)
             {
-                _context.SeasonDates.Add(new SeasonDates
+                SeasonDates newSD = new SeasonDates();
+                foreach (var propInfo in propInfos)
                 {
-                    AcademicYearId = model.ToAcademicPlanId,
-                    DateBeginExamination = sd.DateBeginExamination,
-                    DateBeginFirstHalfSemester = sd.DateBeginFirstHalfSemester,
-                    DateBeginOffset = sd.DateBeginOffset,
-                    DateBeginPractice = sd.DateBeginPractice,
-                    DateBeginSecondHalfSemester = sd.DateBeginSecondHalfSemester,
-                    DateEndExamination = sd.DateEndExamination,
-                    DateEndFirstHalfSemester = sd.DateEndFirstHalfSemester,
-                    DateEndOffset = sd.DateEndOffset,
-                    DateEndPractice = sd.DateEndPractice,
-                    DateEndSecondHalfSemester = sd.DateEndSecondHalfSemester,
-                    Title = sd.Title
-                });
+                    newSD.GetType().GetProperty(propInfo.Name).SetValue(newSD, sd.GetType().GetProperty(propInfo.Name).GetValue(sd, null), null);
+                }
+                _context.SeasonDates.Add(newSD);
                 _context.SaveChanges();
+            }
+        }
+        #endregion
+
+        public ResultService CreateStreamsForAcademicYear(EducationalProcessCreateStreams model)
+        {
+            try
+            {
+                var apreGroups = _context.AcademicPlanRecordElements
+                    .Include(x => x.AcademicPlanRecord)
+                    .Include(x => x.AcademicPlanRecord.AcademicPlan)
+                    .Include(x => x.AcademicPlanRecord.Discipline)
+                    .Include(x => x.TimeNorm)
+                    .Where(x => x.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId && x.TimeNorm.TimeNormName == "Лекция")
+                    .OrderBy(x => x.PlanHours)
+                    .ToList()
+                    .GroupBy(x => new { x.AcademicPlanRecord.Discipline.DisciplineName, x.AcademicPlanRecord.Semester })
+                    .Where(x => x.Count() > 1);
+                foreach (var apreGroup in apreGroups)
+                {
+                    StreamLesson sl = _context.StreamLessons.FirstOrDefault(x => x.StreamLessonName == apreGroup.Key.DisciplineName &&
+                                                                                x.AcademicYearId == model.AcademicYearId);
+                    if (sl == null)
+                    {
+                        sl = new StreamLesson
+                        {
+                            AcademicYearId = model.AcademicYearId,
+                            StreamLessonName = apreGroup.Key.DisciplineName
+                        };
+                        _context.StreamLessons.Add(sl);
+                        _context.SaveChanges();
+                    }
+                    if (sl.IsDeleted)
+                    {
+                        sl.IsDeleted = false;
+                        sl.DateDelete = null;
+                        _context.SaveChanges();
+                    }
+                    var slrs = _context.StreamLessonRecords.Where(x => x.StreamLessonId == sl.Id).ToList();
+                    foreach (var slr in slrs)
+                    {
+                        slr.IsDeleted = true;
+                        slr.DateDelete = DateTime.Now;
+                    }
+                    _context.SaveChanges();
+                    foreach (var apre in apreGroup)
+                    {
+                        bool isMain = apre == apreGroup.First();
+                        if (isMain)
+                        {
+                            sl.StreamLessonHours = apre.PlanHours;
+                        }
+                        var slr = slrs.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id);
+                        if (slr == null)
+                        {
+                            slr = new StreamLessonRecord
+                            {
+                                AcademicPlanRecordElementId = apre.Id,
+                                IsMain = isMain,
+                                StreamLessonId = sl.Id
+                            };
+                            _context.StreamLessonRecords.Add(slr);
+                            _context.SaveChanges();
+                        }
+                        else
+                        {
+                            if (slr.IsDeleted)
+                            {
+                                slr.IsDeleted = false;
+                                slr.DateDelete = null;
+                            }
+                            slr.IsMain = isMain;
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

@@ -16,8 +16,6 @@ namespace DepartmentService.ViewModels
 
         public string AcademicPlanRecordElementText { get; set; }
 
-        public int Hours { get; set; }
-
         public bool IsMain { get; set; }
     }
 }

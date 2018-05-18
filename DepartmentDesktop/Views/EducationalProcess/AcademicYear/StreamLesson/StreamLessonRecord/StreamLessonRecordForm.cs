@@ -26,11 +26,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
 
         private Guid _sId;
 
-        public StreamLessonRecordForm(IStreamLessonRecordService service, Guid sId, Guid? id = null)
+        private Guid _ayId;
+
+        public StreamLessonRecordForm(IStreamLessonRecordService service, Guid sId, Guid ayId, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
             _sId = sId;
+            _ayId = ayId;
             if (id != Guid.Empty)
             {
                 _id = id;
@@ -45,14 +48,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                 return;
             }
 
-            var resultSL = _service.GetStreamLessons(new StreamLessonGetBindingModel { });
+            var resultSL = _service.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = _ayId });
             if (!resultSL.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке потоков возникла ошибка: ", resultSL.Errors);
                 return;
             }
 
-            var resultAP = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { });
+            var resultAP = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = _ayId });
             if (!resultAP.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке учебных планов возникла ошибка: ", resultAP.Errors);
@@ -63,7 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
             comboBoxStreamLesson.DisplayMember = "Display";
             comboBoxStreamLesson.DataSource = resultSL.Result.List
                 .Select(x => new { Value = x.Id, Display = x.StreamLessonName }).ToList();
-            comboBoxStreamLesson.SelectedItem = _sId;
+            comboBoxStreamLesson.SelectedValue = _sId;
 
             comboBoxAcademicPlan.ValueMember = "Value";
             comboBoxAcademicPlan.DisplayMember = "Display";
@@ -89,7 +92,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
 
             comboBoxStreamLesson.SelectedValue = entity.StreamLessonId;
             comboBoxAcademicPlanRecordElement.SelectedValue = entity.AcademicPlanRecordElementId;
-            textBoxHours.Text = entity.Hours.ToString();
             checkBoxIsMain.Checked = entity.IsMain;
         }
 
@@ -100,15 +102,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                 return false;
             }
             if (comboBoxAcademicPlanRecordElement.SelectedValue == null)
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(textBoxHours.Text))
-            {
-                return false;
-            }
-            int hours = 0;
-            if (!int.TryParse(textBoxHours.Text, out hours))
             {
                 return false;
             }
@@ -126,7 +119,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                     {
                         StreamLessonId = new Guid(comboBoxStreamLesson.SelectedValue.ToString()),
                         AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
-                        Hours = Convert.ToInt32(textBoxHours.Text),
                         IsMain = checkBoxIsMain.Checked
                     });
                 }
@@ -137,7 +129,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                         Id = _id.Value,
                         StreamLessonId = new Guid(comboBoxStreamLesson.SelectedValue.ToString()),
                         AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
-                        Hours = Convert.ToInt32(textBoxHours.Text),
                         IsMain = checkBoxIsMain.Checked
                     });
                 }
@@ -225,21 +216,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                 comboBoxAcademicPlanRecordElement.DataSource = resultAPRE.Result.List
                     .Select(x => new { Value = x.Id, Display = x.KindOfLoadName }).ToList();
                 comboBoxAcademicPlanRecordElement.SelectedItem = null;
-            }
-        }
-
-        private void comboBoxAcademicPlanRecordElement_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxAcademicPlanRecordElement.SelectedValue != null)
-            {
-                Guid apreId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString());
-                var record = _service.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = apreId });
-                if (!record.Succeeded)
-                {
-                    Program.PrintErrorMessage("При загрузке нагрузки записи учебного плана возникла ошибка: ", record.Errors);
-                    return;
-                }
-                textBoxHours.Text = record.Result.PlanHours.ToString();
             }
         }
     }

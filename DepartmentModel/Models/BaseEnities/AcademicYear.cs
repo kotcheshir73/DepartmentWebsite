@@ -24,6 +24,9 @@ namespace DepartmentModel.Models
 		public virtual List<AcademicPlan> AcademicPlans { get; set; }
 
         [ForeignKey("AcademicYearId")]
+        public virtual List<DisciplineBlockRecord> DisciplineBlockRecords { get; set; }
+
+        [ForeignKey("AcademicYearId")]
         public virtual List<TimeNorm> TimeNorms { get; set; }
 
         [ForeignKey("AcademicYearId")]

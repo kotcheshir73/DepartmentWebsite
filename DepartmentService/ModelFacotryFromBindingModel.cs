@@ -33,7 +33,23 @@ namespace DepartmentService.BindingModels
             entity.DisciplineBlockOrder = model.DisciplineBlockOrder;
 
 			return entity;
-		}
+        }
+
+        public static DisciplineBlockRecord CreateDisciplineBlockRecord(DisciplineBlockRecordSetBindingModel model, DisciplineBlockRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineBlockRecord();
+            }
+            entity.DisciplineBlockId = model.DisciplineBlockId;
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.DisciplineBlockRecordTitle = model.DisciplineBlockRecordTitle;
+            entity.DisciplineBlockRecordHours = model.DisciplineBlockRecordHours;
+
+            return entity;
+        }
 
         public static LecturerPost CreateLecturerPost(LecturerPostRecordBindingModel model, LecturerPost entity = null)
         {
@@ -221,6 +237,7 @@ namespace DepartmentService.BindingModels
             }
             entity.AcademicYearId = model.AcademicYearId;
             entity.StreamLessonName = model.StreamLessonName;
+            entity.StreamLessonHours = model.StreamLessonHours;
 
             return entity;
         }
@@ -233,7 +250,6 @@ namespace DepartmentService.BindingModels
             }
             entity.StreamLessonId = model.StreamLessonId;
             entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
-            entity.Hours = model.Hours;
             entity.IsMain = model.IsMain;
 
             return entity;

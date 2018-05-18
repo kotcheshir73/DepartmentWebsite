@@ -30,6 +30,8 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
+            this.textBoxStreamLessonHours = new System.Windows.Forms.TextBox();
+            this.labelStreamLessonHours = new System.Windows.Forms.Label();
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -55,6 +57,8 @@
             // 
             // tabPageConfig
             // 
+            this.tabPageConfig.Controls.Add(this.textBoxStreamLessonHours);
+            this.tabPageConfig.Controls.Add(this.labelStreamLessonHours);
             this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
             this.tabPageConfig.Controls.Add(this.buttonClose);
             this.tabPageConfig.Controls.Add(this.buttonSave);
@@ -70,32 +74,48 @@
             this.tabPageConfig.Text = "Информация по потоку";
             this.tabPageConfig.UseVisualStyleBackColor = true;
             // 
+            // textBoxStreamLessonHours
+            // 
+            this.textBoxStreamLessonHours.Location = new System.Drawing.Point(106, 66);
+            this.textBoxStreamLessonHours.Name = "textBoxStreamLessonHours";
+            this.textBoxStreamLessonHours.Size = new System.Drawing.Size(100, 20);
+            this.textBoxStreamLessonHours.TabIndex = 5;
+            // 
+            // labelStreamLessonHours
+            // 
+            this.labelStreamLessonHours.AutoSize = true;
+            this.labelStreamLessonHours.Location = new System.Drawing.Point(18, 66);
+            this.labelStreamLessonHours.Name = "labelStreamLessonHours";
+            this.labelStreamLessonHours.Size = new System.Drawing.Size(42, 13);
+            this.labelStreamLessonHours.TabIndex = 4;
+            this.labelStreamLessonHours.Text = "Часы*:";
+            // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(106, 75);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(106, 98);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 5;
+            this.buttonSaveAndClose.TabIndex = 7;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(253, 75);
+            this.buttonClose.Location = new System.Drawing.Point(253, 98);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 6;
+            this.buttonClose.TabIndex = 8;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(25, 75);
+            this.buttonSave.Location = new System.Drawing.Point(25, 98);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 4;
+            this.buttonSave.TabIndex = 6;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -140,7 +160,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(731, 456);
+            this.tabPageRecords.Size = new System.Drawing.Size(726, 455);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Записи";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -174,5 +194,7 @@
         private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.TextBox textBoxStreamLessonHours;
+        private System.Windows.Forms.Label labelStreamLessonHours;
     }
 }

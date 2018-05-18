@@ -153,7 +153,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(834, 502);
+            this.tabControl.Size = new System.Drawing.Size(834, 501);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -223,7 +223,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(826, 476);
+            this.tabPageRecords.Size = new System.Drawing.Size(826, 475);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Записи";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -232,7 +232,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 502);
+            this.ClientSize = new System.Drawing.Size(834, 501);
             this.Controls.Add(this.tabControl);
             this.Name = "AcademicPlanForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

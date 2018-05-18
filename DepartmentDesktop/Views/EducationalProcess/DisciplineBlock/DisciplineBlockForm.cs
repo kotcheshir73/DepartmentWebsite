@@ -1,4 +1,5 @@
-﻿using DepartmentModel;
+﻿using DepartmentDesktop.Views.EducationalProcess.DisciplineBlock.DisciplineBlockRecord;
+using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -30,14 +31,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 		private void DisciplineBlockForm_Load(object sender, EventArgs e)
 		{
 			if (_id.HasValue)
-			{
-				LoadData();
+            {
+                var control = Container.Resolve<DisciplineBlockRecordControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+
+                LoadData();
 			}
 		}
 
 		private void LoadData()
-		{
-			var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id.Value });
+        {
+            (tabPageRecords.Controls[0] as DisciplineBlockRecordControl).LoadData(dbId: _id.Value);
+            var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

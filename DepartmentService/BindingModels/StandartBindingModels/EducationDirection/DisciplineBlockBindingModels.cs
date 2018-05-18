@@ -14,11 +14,9 @@ namespace DepartmentService.BindingModels
 
 		[Required(ErrorMessage = "required")]
 		public string Title { get; set; }
-
-        [Required(ErrorMessage = "required")]
+        
         public string DisciplineBlockBlueAsteriskName { get; set; }
-
-        [Required(ErrorMessage = "required")]
+        
         public bool DisciplineBlockUseForGrouping { get; set; }
 
         [Required(ErrorMessage = "required")]

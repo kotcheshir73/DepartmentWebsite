@@ -17,6 +17,9 @@ namespace DepartmentService.BindingModels
         public Guid AcademicYearId { get; set; }
 
         [Required(ErrorMessage = "required")]
+        public decimal StreamLessonHours { get; set; }
+
+        [Required(ErrorMessage = "required")]
         public string StreamLessonName { get; set; }
     }
 }

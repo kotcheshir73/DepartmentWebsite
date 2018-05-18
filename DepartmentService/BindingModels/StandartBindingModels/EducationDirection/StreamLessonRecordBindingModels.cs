@@ -19,9 +19,6 @@ namespace DepartmentService.BindingModels
         public Guid AcademicPlanRecordElementId { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public int Hours { get; set; }
-
-        [Required(ErrorMessage = "required")]
         public bool IsMain { get; set; }
     }
 }

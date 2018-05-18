@@ -30,6 +30,11 @@ namespace DepartmentService.BindingModels
         public bool DuplicateSeasonDate { get; set; }
     }
 
+    public class EducationalProcessCreateStreams
+    {
+        public Guid AcademicYearId { get; set; }
+    }
+
     public class ParseDisciplineBindingModel
     {
         public Guid AcademicYearId { get; set; }
@@ -47,6 +52,21 @@ namespace DepartmentService.BindingModels
         public ResultService Result { get; set; }
 
         public List<Semesters> Semesters { get; set; }
+    }
+
+    public class ParseFinalBindingModel
+    {
+        public Guid AcademicPlanId { get; set; }
+
+        public string AcademicLevel { get; set; }
+
+        public Guid DisciplineBlockId { get; set; }
+
+        public ResultService Result { get; set; }
+
+        public XmlNode Node { get; set; }
+
+        public int SemesterNumber { get; set; }
     }
 
     public class ParseBlueAsterisk
@@ -68,21 +88,6 @@ namespace DepartmentService.BindingModels
         public List<Discipline> Disciplines { get; set; }
 
         public List<TimeNorm> TimeNorms { get; set; }
-    }
-
-    public class ParseFinalBindingModel
-    {
-        public Guid AcademicPlanId { get; set; }
-
-        public string AcademicLevel { get; set; }
-
-        public Guid DisciplineBlockId { get; set; }
-
-        public ResultService Result { get; set; }
-
-        public XmlNode Node { get; set; }
-
-        public int SemesterNumber { get; set; }
     }
 
     public class AcademicPlanRecrodsForDiciplineBindingModel : PageSettingBinidingModel

@@ -31,8 +31,6 @@
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.textBoxHours = new System.Windows.Forms.TextBox();
-            this.labelHours = new System.Windows.Forms.Label();
             this.comboBoxAcademicPlanRecord = new System.Windows.Forms.ComboBox();
             this.labelAcademicPlanRecord = new System.Windows.Forms.Label();
             this.comboBoxAcademicPlan = new System.Windows.Forms.ComboBox();
@@ -49,7 +47,7 @@
             this.buttonSaveAndClose.Location = new System.Drawing.Point(155, 149);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 12;
+            this.buttonSaveAndClose.TabIndex = 10;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
@@ -59,7 +57,7 @@
             this.buttonClose.Location = new System.Drawing.Point(302, 149);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 13;
+            this.buttonClose.TabIndex = 11;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -69,26 +67,10 @@
             this.buttonSave.Location = new System.Drawing.Point(74, 149);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 11;
+            this.buttonSave.TabIndex = 9;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // textBoxHours
-            // 
-            this.textBoxHours.Location = new System.Drawing.Point(60, 114);
-            this.textBoxHours.Name = "textBoxHours";
-            this.textBoxHours.Size = new System.Drawing.Size(100, 20);
-            this.textBoxHours.TabIndex = 9;
-            // 
-            // labelHours
-            // 
-            this.labelHours.AutoSize = true;
-            this.labelHours.Location = new System.Drawing.Point(12, 117);
-            this.labelHours.Name = "labelHours";
-            this.labelHours.Size = new System.Drawing.Size(42, 13);
-            this.labelHours.TabIndex = 8;
-            this.labelHours.Text = "Часы*:";
             // 
             // comboBoxAcademicPlanRecord
             // 
@@ -155,7 +137,6 @@
             this.comboBoxAcademicPlanRecordElement.Name = "comboBoxAcademicPlanRecordElement";
             this.comboBoxAcademicPlanRecordElement.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicPlanRecordElement.TabIndex = 7;
-            this.comboBoxAcademicPlanRecordElement.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcademicPlanRecordElement_SelectedIndexChanged);
             // 
             // labelAcademicPlanRecordElement
             // 
@@ -173,7 +154,7 @@
             this.checkBoxIsMain.Location = new System.Drawing.Point(215, 116);
             this.checkBoxIsMain.Name = "checkBoxIsMain";
             this.checkBoxIsMain.Size = new System.Drawing.Size(177, 17);
-            this.checkBoxIsMain.TabIndex = 10;
+            this.checkBoxIsMain.TabIndex = 8;
             this.checkBoxIsMain.Text = "Считать по этой записи часы:";
             this.checkBoxIsMain.UseVisualStyleBackColor = true;
             // 
@@ -192,8 +173,6 @@
             this.Controls.Add(this.buttonSaveAndClose);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.textBoxHours);
-            this.Controls.Add(this.labelHours);
             this.Controls.Add(this.comboBoxAcademicPlanRecord);
             this.Controls.Add(this.labelAcademicPlanRecord);
             this.Name = "StreamLessonRecordForm";
@@ -210,8 +189,6 @@
         private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.TextBox textBoxHours;
-        private System.Windows.Forms.Label labelHours;
         private System.Windows.Forms.ComboBox comboBoxAcademicPlanRecord;
         private System.Windows.Forms.Label labelAcademicPlanRecord;
         private System.Windows.Forms.ComboBox comboBoxAcademicPlan;

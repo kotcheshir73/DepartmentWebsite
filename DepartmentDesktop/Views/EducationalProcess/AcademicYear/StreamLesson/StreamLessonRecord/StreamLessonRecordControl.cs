@@ -19,6 +19,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
 
         private Guid _sId;
 
+        private Guid _ayId;
+
         public StreamLessonRecordControl(IStreamLessonRecordService service)
         {
             InitializeComponent();
@@ -28,7 +30,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "AcademicPlanRecordElementText", Title = "Запись", Width = 300, Visible = true },
-                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 150, Visible = true },
                 new ColumnConfig { Name = "IsMain", Title = "Считать по этой записи часы", Width = 200, Visible = true }
             };
 
@@ -58,9 +59,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
             });
         }
 
-        public void LoadData(Guid sId)
+        public void LoadData(Guid sId, Guid ayId)
         {
             _sId = sId;
+            _ayId = ayId;
             standartControl.LoadPage();
         }
 
@@ -78,7 +80,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.AcademicPlanRecordElementText,
-                    res.Hours,
                     res.IsMain ? "Да" : "Нет"
                 );
             }
@@ -91,6 +92,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                 new ParameterOverrides
                 {
                     { "sId", _sId },
+                    { "ayId", _ayId },
                     { "id", Guid.Empty }
                 }
                 .OnType<StreamLessonRecordForm>());
@@ -109,6 +111,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson.S
                     new ParameterOverrides
                     {
                         { "sId", _sId },
+                        { "ayId", _ayId },
                         { "id", id }
                     }
                     .OnType<StreamLessonRecordForm>());

@@ -201,6 +201,18 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.Designer.cs">
       <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockRecord\DisciplineBlockRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockRecord\DisciplineBlockRecordControl.Designer.cs">
+      <DependentUpon>DisciplineBlockRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockRecord\DisciplineBlockRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockRecord\DisciplineBlockRecordForm.Designer.cs">
+      <DependentUpon>DisciplineBlockRecordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -712,6 +724,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.resx">
       <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockRecord\DisciplineBlockRecordControl.resx">
+      <DependentUpon>DisciplineBlockRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockRecord\DisciplineBlockRecordForm.resx">
+      <DependentUpon>DisciplineBlockRecordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.resx">
       <DependentUpon>LecturerPostControl.cs</DependentUpon>

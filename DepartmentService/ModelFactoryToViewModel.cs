@@ -36,6 +36,24 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static DisciplineBlockRecordViewModel CreateDisciplineBlockRecordViewModel(DisciplineBlockRecord entity)
+        {
+            return new DisciplineBlockRecordViewModel
+            {
+                Id = entity.Id,
+                DisciplineBlockId = entity.DisciplineBlockId,
+                AcademicYearId = entity.AcademicYearId,
+                EducationDirectionId = entity.EducationDirectionId,
+                TimeNormId = entity.TimeNormId,
+                DisciplineBlockTitle = entity.DisciplineBlock.Title,
+                AcademicYear = entity.AcademicYear.Title,
+                EducationDirection = entity.EducationDirectionId.HasValue ? entity.EducationDirection.Cipher : string.Empty,
+                TimeNormName = entity.TimeNorm.TimeNormName,
+                DisciplineBlockRecordTitle = entity.DisciplineBlockRecordTitle,
+                DisciplineBlockRecordHours = entity.DisciplineBlockRecordHours
+            };
+        }
+
         public static LecturerPostViewModel CreateLecturerPostViewModel(LecturerPost entity)
         {
             return new LecturerPostViewModel
@@ -233,7 +251,8 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 AcademicYear = entity.AcademicYear.Title,
-                StreamLessonName = entity.StreamLessonName
+                StreamLessonName = entity.StreamLessonName,
+                StreamLessonHours = entity.StreamLessonHours
             };
         }
 
@@ -245,11 +264,10 @@ namespace DepartmentService.ViewModels
                 StreamLessonId = entity.StreamLessonId,
                 AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
                 StreamLessonName = entity.StreamLesson.StreamLessonName,
-                AcademicPlanRecordElementText =string.Format("{0} {1} {2}",
+                AcademicPlanRecordElementText = string.Format("{0} {1} {2}",
                     entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.ShortName,
                     entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
                     entity.AcademicPlanRecordElement.TimeNorm.KindOfLoadName),
-                Hours = entity.Hours,
                 IsMain = entity.IsMain
             };
         }

@@ -1,6 +1,7 @@
 ﻿using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
 using DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson;
 using DepartmentDesktop.Views.EducationalProcess.Contingent;
+using DepartmentDesktop.Views.EducationalProcess.DisciplineBlock.DisciplineBlockRecord;
 using DepartmentDesktop.Views.EducationalProcess.SeasonDates;
 using DepartmentDesktop.Views.EducationalProcess.TimeNorm;
 using DepartmentModel;
@@ -34,40 +35,33 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 
 		private void AcademicYearForm_Load(object sender, EventArgs e)
         {
-            var controlAP = Container.Resolve<AcademicPlanControl>();
-
-            controlAP.Dock = DockStyle.Fill;
-
-            tabPageAcademicPlans.Controls.Add(controlAP);
-
-
-            var controlSL = Container.Resolve<StreamLessonControl>();
-
-            controlSL.Dock = DockStyle.Fill;
-
-            tabPageStreamLessons.Controls.Add(controlSL);
-
-            var controlTN = Container.Resolve<TimeNormControl>();
-
-            controlTN.Dock = DockStyle.Fill;
-
-            tabPageTimeNorms.Controls.Add(controlTN);
-
-            var controlC = Container.Resolve<ContingentControl>();
-
-            controlC.Dock = DockStyle.Fill;
-
-            tabPageContingent.Controls.Add(controlC);
-
-            var controlSD = Container.Resolve<SeasonDatesControl>();
-
-            controlSD.Dock = DockStyle.Fill;
-
-            tabPageSeasonDates.Controls.Add(controlSD);
-
             if (_id.HasValue)
-			{
-				LoadData();
+            {
+                var controlAP = Container.Resolve<AcademicPlanControl>();
+                controlAP.Dock = DockStyle.Fill;
+                tabPageAcademicPlans.Controls.Add(controlAP);
+
+                var controlSL = Container.Resolve<StreamLessonControl>();
+                controlSL.Dock = DockStyle.Fill;
+                tabPageStreamLessons.Controls.Add(controlSL);
+
+                var controlTN = Container.Resolve<TimeNormControl>();
+                controlTN.Dock = DockStyle.Fill;
+                tabPageTimeNorms.Controls.Add(controlTN);
+
+                var controlC = Container.Resolve<ContingentControl>();
+                controlC.Dock = DockStyle.Fill;
+                tabPageContingents.Controls.Add(controlC);
+
+                var controlDB = Container.Resolve<DisciplineBlockRecordControl>();
+                controlDB.Dock = DockStyle.Fill;
+                tabPageDisciplinrBlockRecords.Controls.Add(controlDB);
+
+                var controlSD = Container.Resolve<SeasonDatesControl>();
+                controlSD.Dock = DockStyle.Fill;
+                tabPageSeasonDates.Controls.Add(controlSD);
+
+                LoadData();
 			}
 		}
 
@@ -76,7 +70,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
             (tabPageAcademicPlans.Controls[0] as AcademicPlanControl).LoadData(_id.Value);
             (tabPageStreamLessons.Controls[0] as StreamLessonControl).LoadData(_id.Value);
             (tabPageTimeNorms.Controls[0] as TimeNormControl).LoadData(_id.Value);
-            (tabPageContingent.Controls[0] as ContingentControl).LoadData(_id.Value);
+            (tabPageContingents.Controls[0] as ContingentControl).LoadData(_id.Value);
+            (tabPageDisciplinrBlockRecords.Controls[0] as DisciplineBlockRecordControl).LoadData(ayId: _id.Value);
             (tabPageSeasonDates.Controls[0] as SeasonDatesControl).LoadData(_id.Value);
             var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)

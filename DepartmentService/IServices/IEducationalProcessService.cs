@@ -62,5 +62,12 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService CalcFactHoursForAcademicYear(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Создание потоков на основе лекций
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService CreateStreamsForAcademicYear(EducationalProcessCreateStreams model);
     }
 }

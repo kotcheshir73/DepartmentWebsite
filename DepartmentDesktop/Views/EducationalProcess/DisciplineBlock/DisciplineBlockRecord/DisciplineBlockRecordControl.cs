@@ -8,46 +8,43 @@ using Unity;
 using Unity.Attributes;
 using Unity.Resolution;
 
-namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
+namespace DepartmentDesktop.Views.EducationalProcess.DisciplineBlock.DisciplineBlockRecord
 {
-    public partial class StreamLessonControl : UserControl
+    public partial class DisciplineBlockRecordControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IStreamLessonService _service;
+        private readonly IDisciplineBlockRecordService _service;
 
-        private readonly IEducationalProcessService _process;
+        private Guid? _dbId;
 
-        private Guid _ayId;
+        private Guid? _ayId;
 
-        public StreamLessonControl(IStreamLessonService service, IEducationalProcessService process)
+        public DisciplineBlockRecordControl(IDisciplineBlockRecordService service)
         {
             InitializeComponent();
             _service = service;
-            _process = process;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "StreamLessonName", Title = "Название потока", Width = 250, Visible = true },
-                new ColumnConfig { Name = "StreamLessonHours", Title = "Часы", Width = 100, Visible = true }
+                new ColumnConfig { Name = "DisciplineBlockRecordTitle", Title = "Название", Width = 150, Visible = true },
+                new ColumnConfig { Name = "DisciplineBlockTitle", Title = "Блок дисциплин", Width = 150, Visible = true },
+                new ColumnConfig { Name = "AcademicYear", Title = "Учебный год", Width = 150, Visible = true },
+                new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
+                new ColumnConfig { Name = "TimeNormName", Title = "Норма времени", Width = 150, Visible = true },
+                new ColumnConfig { Name = "DisciplineBlockRecordHours", Title = "Часы", Width = 100, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { };
+            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
-            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
-                {
-                    { "CreateStreamsToolStripMenuItem", "Создать потоки"}
-                };
-
-            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
+            standartControl.Configurate(columns, hideToolStripButtons);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("CreateStreamsToolStripMenuItem", CreateStreamsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -66,15 +63,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
             });
         }
 
-        public void LoadData(Guid ayId)
+        public void LoadData(Guid? dbId = null, Guid? ayId = null)
         {
+            _dbId = dbId;
             _ayId = ayId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetDisciplineBlockRecords(new DisciplineBlockRecordGetBindingModel { DisciplineBlockId = _dbId, AcademicYearId = _ayId, PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -85,8 +83,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.StreamLessonName,
-                    res.StreamLessonHours
+                    res.DisciplineBlockRecordTitle,
+                    res.DisciplineBlockTitle,
+                    res.AcademicYear,
+                    res.EducationDirection,
+                    res.TimeNormName,
+                    res.DisciplineBlockRecordHours
                 );
             }
             return result.Result.MaxCount;
@@ -94,13 +96,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
 
         private void AddRecord()
         {
-            var form = Container.Resolve<StreamLessonForm>(
+            var form = Container.Resolve<DisciplineBlockRecordForm>(
                 new ParameterOverrides
                 {
-                    { "ayId", _ayId },
+                    { "dbId", _dbId == null ? Guid.Empty : _dbId },
+                    { "ayId", _ayId == null ? Guid.Empty : _ayId },
                     { "id", Guid.Empty }
                 }
-                .OnType<StreamLessonForm>());
+                .OnType<DisciplineBlockRecordForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -112,13 +115,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<StreamLessonForm>(
+                var form = Container.Resolve<DisciplineBlockRecordForm>(
                     new ParameterOverrides
                     {
-                        { "ayId", _ayId },
+                        { "dbId", _dbId == null ? Guid.Empty : _dbId },
+                        { "ayId", _ayId == null ? Guid.Empty : _ayId },
                         { "id", id }
                     }
-                    .OnType<StreamLessonForm>());
+                    .OnType<DisciplineBlockRecordForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -135,7 +139,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteStreamLesson(new StreamLessonGetBindingModel { Id = id });
+                        var result = _service.DeleteDisciplineBlockRecord(new DisciplineBlockRecordGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -143,23 +147,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                     }
                     standartControl.LoadPage();
                 }
-            }
-        }
-
-        private void CreateStreamsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Вы уверены, что хотите создать или обновить потоки?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                var result = _process.CreateStreamsForAcademicYear(new EducationalProcessCreateStreams { AcademicYearId = _ayId });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Операция успешно выполнена", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                }
-                standartControl.LoadPage();
             }
         }
     }
