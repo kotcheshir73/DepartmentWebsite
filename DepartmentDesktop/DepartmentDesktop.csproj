@@ -519,16 +519,16 @@
     <Compile Include="Views\EducationalProcess\Student\StudentForm.Designer.cs">
       <DependentUpon>StudentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Administration\Access\AccessControl.cs">
+    <Compile Include="Views\Administration\Role\Access\AccessControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Administration\Access\AccessControl.Designer.cs">
+    <Compile Include="Views\Administration\Role\Access\AccessControl.Designer.cs">
       <DependentUpon>AccessControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Administration\Access\AccessForm.cs">
+    <Compile Include="Views\Administration\Role\Access\AccessForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\Administration\Access\AccessForm.Designer.cs">
+    <Compile Include="Views\Administration\Role\Access\AccessForm.Designer.cs">
       <DependentUpon>AccessForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Administration\Role\RoleControl.cs">
@@ -877,10 +877,10 @@
     <EmbeddedResource Include="Views\EducationalProcess\Student\StudentForm.resx">
       <DependentUpon>StudentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\Access\AccessControl.resx">
+    <EmbeddedResource Include="Views\Administration\Role\Access\AccessControl.resx">
       <DependentUpon>AccessControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\Access\AccessForm.resx">
+    <EmbeddedResource Include="Views\Administration\Role\Access\AccessForm.resx">
       <DependentUpon>AccessForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Administration\Role\RoleControl.resx">
