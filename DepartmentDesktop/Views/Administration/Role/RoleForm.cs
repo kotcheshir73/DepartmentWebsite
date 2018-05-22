@@ -30,19 +30,6 @@ namespace DepartmentDesktop.Views.Administration.Role
 
         private void RoleForm_Load(object sender, EventArgs e)
         {
-            var control = Container.Resolve<AccessControl>();
-
-            control.Left = 0;
-            control.Top = 0;
-            control.Height = Height - 60;
-            control.Width = Width - 15;
-            control.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
-
-            tabPageAccesses.Controls.Add(control);
-
             if (_id.HasValue)
             {
                 LoadData();
@@ -51,6 +38,12 @@ namespace DepartmentDesktop.Views.Administration.Role
 
         private void LoadData()
         {
+            if (tabPageAccesses.Controls.Count == 0)
+            {
+                var control = Container.Resolve<AccessControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageAccesses.Controls.Add(control);
+            }
             (tabPageAccesses.Controls[0] as AccessControl).LoadData(_id.Value);
             var result = _service.GetRole(new RoleGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)

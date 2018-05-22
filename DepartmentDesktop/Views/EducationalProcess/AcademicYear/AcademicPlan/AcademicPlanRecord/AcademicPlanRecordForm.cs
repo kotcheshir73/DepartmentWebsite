@@ -85,7 +85,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 .Select(c => new { Value = c.Id, Display = c.ContingentName }).ToList();
             comboBoxContingent.SelectedItem = null;
 
-
             if (_id.HasValue)
             {
                 LoadData();
@@ -101,6 +100,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 tabPageRecords.Controls.Add(control);
             }
             (tabPageRecords.Controls[0] as AcademicPlanRecordElementControl).LoadData(_id.Value);
+
             var result = _service.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = _id });
             if (!result.Succeeded)
             {

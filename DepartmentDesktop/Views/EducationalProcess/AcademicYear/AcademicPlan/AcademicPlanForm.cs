@@ -82,6 +82,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 tabPageRecords.Controls.Add(control);
             }
 			(tabPageRecords.Controls[0] as AcademicPlanRecordControl).LoadData(_id.Value);
+
 			var result = _service.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{

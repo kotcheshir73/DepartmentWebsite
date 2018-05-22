@@ -48,19 +48,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
             comboBoxAcademicYear.SelectedValue = _ayId;
 
-            var control = Container.Resolve< StreamLessonRecordControl> ();
-
-            control.Left = 0;
-            control.Top = 0;
-            control.Height = Height - 60;
-            control.Width = Width - 15;
-            control.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
-
-            tabPageRecords.Controls.Add(control);
-
             if (_id.HasValue)
             {
                 LoadData();
@@ -69,7 +56,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
 
         private void LoadData()
         {
+            if (tabPageRecords.Controls.Count == 0)
+            {
+                var control = Container.Resolve<StreamLessonRecordControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+            }
             (tabPageRecords.Controls[0] as StreamLessonRecordControl).LoadData(_id.Value, _ayId.Value);
+
             var result = _service.GetStreamLesson(new StreamLessonGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {

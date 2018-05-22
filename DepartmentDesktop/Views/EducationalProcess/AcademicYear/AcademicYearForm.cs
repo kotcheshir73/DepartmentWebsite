@@ -36,37 +36,52 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
         {
             if (_id.HasValue)
             {
-                var controlAP = Container.Resolve<AcademicPlanControl>();
-                controlAP.Dock = DockStyle.Fill;
-                tabPageAcademicPlans.Controls.Add(controlAP);
-
-                var controlSL = Container.Resolve<StreamLessonControl>();
-                controlSL.Dock = DockStyle.Fill;
-                tabPageStreamLessons.Controls.Add(controlSL);
-
-                var controlTN = Container.Resolve<TimeNormControl>();
-                controlTN.Dock = DockStyle.Fill;
-                tabPageTimeNorms.Controls.Add(controlTN);
-
-                var controlC = Container.Resolve<ContingentControl>();
-                controlC.Dock = DockStyle.Fill;
-                tabPageContingents.Controls.Add(controlC);
-
-                var controlSD = Container.Resolve<SeasonDatesControl>();
-                controlSD.Dock = DockStyle.Fill;
-                tabPageSeasonDates.Controls.Add(controlSD);
-
                 LoadData();
 			}
 		}
 
 		private void LoadData()
         {
+            if (tabPageAcademicPlans.Controls.Count == 0)
+            {
+                var controlAP = Container.Resolve<AcademicPlanControl>();
+                controlAP.Dock = DockStyle.Fill;
+                tabPageAcademicPlans.Controls.Add(controlAP);
+            }
             (tabPageAcademicPlans.Controls[0] as AcademicPlanControl).LoadData(_id.Value);
+
+            if (tabPageTimeNorms.Controls.Count == 0)
+            {
+                var controlSL = Container.Resolve<StreamLessonControl>();
+                controlSL.Dock = DockStyle.Fill;
+                tabPageStreamLessons.Controls.Add(controlSL);
+            }
             (tabPageStreamLessons.Controls[0] as StreamLessonControl).LoadData(_id.Value);
+
+            if (tabPageTimeNorms.Controls.Count == 0)
+            {
+                var controlTN = Container.Resolve<TimeNormControl>();
+                controlTN.Dock = DockStyle.Fill;
+                tabPageTimeNorms.Controls.Add(controlTN);
+            }
             (tabPageTimeNorms.Controls[0] as TimeNormControl).LoadData(_id.Value);
+
+            if (tabPageContingents.Controls.Count == 0)
+            {
+                var controlC = Container.Resolve<ContingentControl>();
+                controlC.Dock = DockStyle.Fill;
+                tabPageContingents.Controls.Add(controlC);
+            }
             (tabPageContingents.Controls[0] as ContingentControl).LoadData(_id.Value);
+
+            if (tabPageSeasonDates.Controls.Count == 0)
+            {
+                var controlSD = Container.Resolve<SeasonDatesControl>();
+                controlSD.Dock = DockStyle.Fill;
+                tabPageSeasonDates.Controls.Add(controlSD);
+            }
             (tabPageSeasonDates.Controls[0] as SeasonDatesControl).LoadData(_id.Value);
+
             var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
