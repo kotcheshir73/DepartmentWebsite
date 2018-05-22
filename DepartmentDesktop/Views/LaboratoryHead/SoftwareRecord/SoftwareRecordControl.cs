@@ -145,7 +145,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteSoftwareRecord(new SoftwareRecordRecordBindingModel { Id = id });
+                        var result = _service.DeleteSoftwareRecord(new SoftwareRecordSetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

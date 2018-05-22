@@ -135,7 +135,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
                 ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateStudentGroup(new StudentGroupRecordBindingModel
+					result = _service.CreateStudentGroup(new StudentGroupSetBindingModel
 					{
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
 						GroupName = textBoxGroupName.Text,
@@ -146,7 +146,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				}
 				else
 				{
-					result = _service.UpdateStudentGroup(new StudentGroupRecordBindingModel
+					result = _service.UpdateStudentGroup(new StudentGroupSetBindingModel
 					{
 						Id = _id.Value,
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),

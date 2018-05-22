@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateEducationDirection(EducationDirectionRecordBindingModel model);
+        ResultService CreateEducationDirection(EducationDirectionSetBindingModel model);
 
         /// <summary>
         /// Изменение направления
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateEducationDirection(EducationDirectionRecordBindingModel model);
+        ResultService UpdateEducationDirection(EducationDirectionSetBindingModel model);
 
         /// <summary>
         /// Удаление направления

@@ -66,7 +66,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateScheduleLessonTime(new ScheduleLessonTimeRecordBindingModel
+                    result = _service.CreateScheduleLessonTime(new ScheduleLessonTimeSetBindingModel
                     {
                         Title = textBoxTitle.Text,
                         Order = Convert.ToInt32(textBoxOrder.Text),
@@ -76,7 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.ScheduleLessonTime
                 }
                 else
                 {
-                    result = _service.UpdateScheduleLessonTime(new ScheduleLessonTimeRecordBindingModel
+                    result = _service.UpdateScheduleLessonTime(new ScheduleLessonTimeSetBindingModel
                     {
                         Id = _id.Value,
                         Title = textBoxTitle.Text,

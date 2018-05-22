@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
 		public Guid? Id { get; set; }
 	}
 
-	public class StudentHistoryRecordBindingModel
+	public class StudentHistorySetBindingModel
 	{
 		public Guid Id { get; set; }
 

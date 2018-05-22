@@ -15,7 +15,7 @@ namespace DepartmentService.BindingModels
 		public StudentState? StudentStatus { get; set; }
     }
 
-    public class StudentRecordBindingModel
+    public class StudentSetBindingModel
     {
         public Guid Id { get; set; }
 

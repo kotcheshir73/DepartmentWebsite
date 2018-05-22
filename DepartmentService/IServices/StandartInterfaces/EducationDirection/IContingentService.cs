@@ -39,14 +39,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateContingent(ContingentRecordBindingModel model);
+		ResultService CreateContingent(ContingentSetBindingModel model);
 
 		/// <summary>
 		/// Изменение контингента
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateContingent(ContingentRecordBindingModel model);
+		ResultService UpdateContingent(ContingentSetBindingModel model);
 
 		/// <summary>
 		/// Удаление контингента

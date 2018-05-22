@@ -98,7 +98,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateStudentHistory(StudentHistoryRecordBindingModel model)
+		public ResultService CreateStudentHistory(StudentHistorySetBindingModel model)
 		{
 			try
             {
@@ -124,7 +124,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateStudentHistory(StudentHistoryRecordBindingModel model)
+		public ResultService UpdateStudentHistory(StudentHistorySetBindingModel model)
 		{
 			try
             {

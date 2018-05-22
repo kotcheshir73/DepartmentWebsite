@@ -70,7 +70,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateLecturerPost(new LecturerPostRecordBindingModel
+                    result = _service.CreateLecturerPost(new LecturerPostSetBindingModel
                     {
                         PostTitle = textBoxPostTitle.Text,
                         Hours = Convert.ToInt32(textBoxHours.Text)
@@ -78,7 +78,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerPost
                 }
                 else
                 {
-                    result = _service.UpdateLecturerPost(new LecturerPostRecordBindingModel
+                    result = _service.UpdateLecturerPost(new LecturerPostSetBindingModel
                     {
                         Id = _id.Value,
                         PostTitle = textBoxPostTitle.Text,

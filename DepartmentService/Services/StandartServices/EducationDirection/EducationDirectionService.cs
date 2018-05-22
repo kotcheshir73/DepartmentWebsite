@@ -89,7 +89,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateEducationDirection(EducationDirectionRecordBindingModel model)
+		public ResultService CreateEducationDirection(EducationDirectionSetBindingModel model)
 		{
 			try
 			{
@@ -114,7 +114,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateEducationDirection(EducationDirectionRecordBindingModel model)
+		public ResultService UpdateEducationDirection(EducationDirectionSetBindingModel model)
 		{
 			try
 			{

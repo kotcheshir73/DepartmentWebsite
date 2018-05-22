@@ -142,7 +142,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateContingent(new ContingentRecordBindingModel
+					result = _service.CreateContingent(new ContingentSetBindingModel
 					{
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
 						EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
@@ -155,7 +155,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 				}
 				else
 				{
-					result = _service.UpdateContingent(new ContingentRecordBindingModel
+					result = _service.UpdateContingent(new ContingentSetBindingModel
 					{
 						Id = _id.Value,
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),

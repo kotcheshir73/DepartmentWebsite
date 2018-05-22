@@ -161,7 +161,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				ResultService result;
 				if (!_id.HasValue)
 				{
-                    result = _service.CreateTimeNorm(new TimeNormRecordBindingModel
+                    result = _service.CreateTimeNorm(new TimeNormSetBindingModel
                     {
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
@@ -182,7 +182,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
 				}
 				else
 				{
-					result = _service.UpdateTimeNorm(new TimeNormRecordBindingModel
+					result = _service.UpdateTimeNorm(new TimeNormSetBindingModel
 					{
 						Id = _id.Value,
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),

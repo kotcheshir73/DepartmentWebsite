@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateAccess(AccessRecordBindingModel model);
+		ResultService CreateAccess(AccessSetBindingModel model);
 
 		/// <summary>
 		/// Изменение прав доступа
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateAccess(AccessRecordBindingModel model);
+		ResultService UpdateAccess(AccessSetBindingModel model);
 
 		/// <summary>
 		/// Удаление прав доступа

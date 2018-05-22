@@ -85,12 +85,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				return;
 			}
             Guid newId = new Guid(comboBoxNewStudentGroup.SelectedValue.ToString());
-			var list = new List<StudentRecordBindingModel>();
+			var list = new List<StudentSetBindingModel>();
 			for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
 			{
 				if (Convert.ToBoolean(dataGridViewStudents.Rows[i].Cells[0].Value))
 				{
-					var model = new StudentRecordBindingModel
+					var model = new StudentSetBindingModel
 					{
 						NumberOfBook = dataGridViewStudents.Rows[i].Cells[1].Value.ToString(),
 						StudentGroupId = newId

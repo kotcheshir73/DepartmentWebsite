@@ -32,14 +32,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateStreamLesson(StreamLessonRecordBindingModel model);
+        ResultService CreateStreamLesson(StreamLessonSetBindingModel model);
 
         /// <summary>
         /// Изменение потока
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateStreamLesson(StreamLessonRecordBindingModel model);
+        ResultService UpdateStreamLesson(StreamLessonSetBindingModel model);
 
         /// <summary>
         /// Удаление потока

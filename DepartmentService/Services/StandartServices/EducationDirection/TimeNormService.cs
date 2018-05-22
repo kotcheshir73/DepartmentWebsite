@@ -128,7 +128,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateTimeNorm(TimeNormRecordBindingModel model)
+		public ResultService CreateTimeNorm(TimeNormSetBindingModel model)
 		{
 			try
 			{
@@ -154,7 +154,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateTimeNorm(TimeNormRecordBindingModel model)
+		public ResultService UpdateTimeNorm(TimeNormSetBindingModel model)
 		{
 			try
 			{

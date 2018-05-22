@@ -77,7 +77,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValueGroup
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupRecordBindingModel
+                    result = _service.CreateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel
                     {
                         GroupName = textBoxGroupName.Text,
                         Order = Convert.ToInt32(textBoxOrder.Text)
@@ -85,7 +85,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValueGroup
                 }
                 else
                 {
-                    result = _service.UpdateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupRecordBindingModel
+                    result = _service.UpdateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel
                     {
                         Id = _id.Value,
                         GroupName = textBoxGroupName.Text,

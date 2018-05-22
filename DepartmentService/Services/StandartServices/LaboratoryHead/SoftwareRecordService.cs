@@ -108,7 +108,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService CreateSoftwareRecord(SoftwareRecordRecordBindingModel model)
+        public ResultService CreateSoftwareRecord(SoftwareRecordSetBindingModel model)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService UpdateSoftwareRecord(SoftwareRecordRecordBindingModel model)
+        public ResultService UpdateSoftwareRecord(SoftwareRecordSetBindingModel model)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService DeleteSoftwareRecord(SoftwareRecordRecordBindingModel model)
+        public ResultService DeleteSoftwareRecord(SoftwareRecordSetBindingModel model)
         {
             try
             {

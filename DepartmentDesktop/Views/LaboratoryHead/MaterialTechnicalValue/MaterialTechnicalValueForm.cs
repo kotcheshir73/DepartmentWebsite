@@ -119,7 +119,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateMaterialTechnicalValue(new MaterialTechnicalValueRecordBindingModel
+                    result = _service.CreateMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel
                     {
                         ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString()),
                         DateInclude = dateTimePickerDateInclude.Value,
@@ -134,7 +134,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
                 }
                 else
                 {
-                    result = _service.UpdateMaterialTechnicalValue(new MaterialTechnicalValueRecordBindingModel
+                    result = _service.UpdateMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel
                     {
                         Id = _id.Value,
                         ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString()),

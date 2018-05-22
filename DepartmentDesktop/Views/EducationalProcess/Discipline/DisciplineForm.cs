@@ -130,7 +130,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateDiscipline(new DisciplineRecordBindingModel
+                    result = _service.CreateDiscipline(new DisciplineSetBindingModel
                     {
                         DisciplineName = textBoxTitle.Text,
                         DisciplineShortName = textBoxDisciplineShortName.Text,
@@ -140,7 +140,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
                 }
                 else
                 {
-                    result = _service.UpdateDiscipline(new DisciplineRecordBindingModel
+                    result = _service.UpdateDiscipline(new DisciplineSetBindingModel
                     {
                         Id = _id.Value,
                         DisciplineName = textBoxTitle.Text,

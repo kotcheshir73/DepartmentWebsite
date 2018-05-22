@@ -60,14 +60,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateStreamLessonRecord(StreamLessonRecordRecordBindingModel model);
+        ResultService CreateStreamLessonRecord(StreamLessonRecordSetBindingModel model);
 
         /// <summary>
         /// Изменение записи потока
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateStreamLessonRecord(StreamLessonRecordRecordBindingModel model);
+        ResultService UpdateStreamLessonRecord(StreamLessonRecordSetBindingModel model);
 
         /// <summary>
         /// Удаление записи потока

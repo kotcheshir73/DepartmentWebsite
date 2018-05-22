@@ -86,7 +86,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                 string softWareK = dataGridViewSoftware.Rows[i].Cells[2].Value?.ToString();
                 for (int j = 0; j < dataGridViewSelectedInventoryNumbers.Rows.Count; ++j)
                 {
-                    ResultService result = _service.CreateSoftwareRecord(new SoftwareRecordRecordBindingModel
+                    ResultService result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
                     {
                         MaterialTechnicalValueId = new Guid(dataGridViewSelectedInventoryNumbers.Rows[j].Cells[0].Value.ToString()),
                         DateSetup = dateTimePickerDateSetup.Value,

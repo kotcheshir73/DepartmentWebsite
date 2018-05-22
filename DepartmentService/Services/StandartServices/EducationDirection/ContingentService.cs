@@ -121,7 +121,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateContingent(ContingentRecordBindingModel model)
+		public ResultService CreateContingent(ContingentSetBindingModel model)
 		{
 			try
 			{
@@ -147,7 +147,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateContingent(ContingentRecordBindingModel model)
+		public ResultService UpdateContingent(ContingentSetBindingModel model)
 		{
 			try
 			{

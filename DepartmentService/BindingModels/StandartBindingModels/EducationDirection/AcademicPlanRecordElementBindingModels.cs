@@ -11,7 +11,7 @@ namespace DepartmentService.BindingModels
         public Guid? TimeNormId { get; set; }
     }
 
-    public class AcademicPlanRecordElementRecordBindingModel
+    public class AcademicPlanRecordElementSetBindingModel
     {
         public Guid Id { get; set; }
 

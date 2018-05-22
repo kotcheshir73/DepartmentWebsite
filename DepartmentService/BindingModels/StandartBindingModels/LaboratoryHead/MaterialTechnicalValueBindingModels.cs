@@ -12,7 +12,7 @@ namespace DepartmentService.BindingModels
         public string InventoryNumber { get; set; }
     }
 
-    public class MaterialTechnicalValueRecordBindingModel
+    public class MaterialTechnicalValueSetBindingModel
     {
         public Guid Id { get; set; }
 

@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
         public bool? NotUseInSchedule { get; set; }
     }
 
-    public class ClassroomRecordBindingModel
+    public class ClassroomSetBindingModel
     {
         public Guid Id { get; set; }
 

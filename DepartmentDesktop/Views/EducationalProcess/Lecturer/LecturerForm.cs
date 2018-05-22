@@ -152,7 +152,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateLecturer(new LecturerRecordBindingModel
+					result = _service.CreateLecturer(new LecturerSetBindingModel
                     {
                         LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
                         LastName = textBoxLastName.Text,
@@ -173,7 +173,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Lecturer
 				}
 				else
 				{
-					result = _service.UpdateLecturer(new LecturerRecordBindingModel
+					result = _service.UpdateLecturer(new LecturerSetBindingModel
 					{
 						Id = _id.Value,
                         LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),

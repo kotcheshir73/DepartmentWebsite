@@ -113,7 +113,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService CreateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model)
+        public ResultService CreateMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService UpdateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model)
+        public ResultService UpdateMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model)
         {
             try
             {
@@ -170,7 +170,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService DeleteMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model)
+        public ResultService DeleteMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model)
         {
             try
             {

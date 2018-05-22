@@ -69,7 +69,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateStreamingLesson(new StreamingLessonRecordBindingModel
+					result = _service.CreateStreamingLesson(new StreamingLessonSetBindingModel
 					{
 						IncomingGroups = textBoxIncomingGroups.Text,
 						StreamName = textBoxStreamName.Text
@@ -77,7 +77,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StreamingLesson
 				}
 				else
 				{
-					result = _service.UpdateStreamingLesson(new StreamingLessonRecordBindingModel
+					result = _service.UpdateStreamingLesson(new StreamingLessonSetBindingModel
 					{
 						Id = _id.Value,
 						IncomingGroups = textBoxIncomingGroups.Text,

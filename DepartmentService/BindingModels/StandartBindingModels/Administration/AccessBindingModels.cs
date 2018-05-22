@@ -12,7 +12,7 @@ namespace DepartmentService.BindingModels
 		public string Operation { get; set; }
 	}
 
-	public class AccessRecordBindingModel
+	public class AccessSetBindingModel
 	{
 		public Guid Id { get; set; }
 

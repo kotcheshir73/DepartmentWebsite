@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateAcademicYear(AcademicYearRecordBindingModel model);
+		ResultService CreateAcademicYear(AcademicYearSetBindingModel model);
 
 		/// <summary>
 		/// Изменение учебного года
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateAcademicYear(AcademicYearRecordBindingModel model);
+		ResultService UpdateAcademicYear(AcademicYearSetBindingModel model);
 
 		/// <summary>
 		/// Удаление учебного года

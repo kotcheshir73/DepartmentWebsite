@@ -11,7 +11,7 @@ namespace DepartmentService.BindingModels
         public Guid? AcademicPlanId { get; set; }
     }
 
-	public class ContingentRecordBindingModel
+	public class ContingentSetBindingModel
 	{
 		public Guid Id { get; set; }
 

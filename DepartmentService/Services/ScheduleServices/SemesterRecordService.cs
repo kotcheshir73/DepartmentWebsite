@@ -134,7 +134,7 @@ namespace DepartmentService.Services
                         }
                         else
                         {
-                            var entity = ModelFacotryFromBindingModel.CreateStreamingLesson(new StreamingLessonRecordBindingModel
+                            var entity = ModelFacotryFromBindingModel.CreateStreamingLesson(new StreamingLessonSetBindingModel
                             {
                                 IncomingGroups = groups,
                                 StreamName = groups

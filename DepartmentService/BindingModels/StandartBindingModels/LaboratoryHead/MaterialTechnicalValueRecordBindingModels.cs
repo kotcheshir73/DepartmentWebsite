@@ -12,7 +12,7 @@ namespace DepartmentService.BindingModels
         public Guid? MaterialTechnicalValueGroupId { get; set; }
     }
 
-    public class MaterialTechnicalValueRecordRecordBindingModel
+    public class MaterialTechnicalValueRecordSetBindingModel
     {
         public Guid Id { get; set; }
 

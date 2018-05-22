@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
         public Guid? AcademicYearId { get; set; }
     }
 
-    public class StreamLessonRecordBindingModel
+    public class StreamLessonSetBindingModel
     {
         public Guid Id { get; set; }
 

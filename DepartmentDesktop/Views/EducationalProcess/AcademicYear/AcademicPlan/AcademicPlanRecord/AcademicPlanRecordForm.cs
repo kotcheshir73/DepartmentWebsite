@@ -151,7 +151,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                    result = _service.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                     {
                         AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
                         DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
@@ -162,7 +162,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 }
                 else
                 {
-                    result = _service.UpdateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                    result = _service.UpdateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                     {
                         Id = _id.Value,
                         AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),

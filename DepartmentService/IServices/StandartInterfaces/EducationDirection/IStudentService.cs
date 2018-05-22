@@ -32,14 +32,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateStudent(StudentRecordBindingModel model);
+		ResultService CreateStudent(StudentSetBindingModel model);
 
 		/// <summary>
 		/// Изменение студента
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateStudent(StudentRecordBindingModel model);
+		ResultService UpdateStudent(StudentSetBindingModel model);
 
         /// <summary>
         /// Удаление студента

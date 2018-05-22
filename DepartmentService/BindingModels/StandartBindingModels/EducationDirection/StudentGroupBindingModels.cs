@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
 		public string GroupName { get; set; }
 	}
 
-	public class StudentGroupRecordBindingModel
+	public class StudentGroupSetBindingModel
     {
         public Guid Id { get; set; }
 

@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateRole(RoleRecordBindingModel model);
+		ResultService CreateRole(RoleSetBindingModel model);
 
 		/// <summary>
 		/// Изменение роли
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateRole(RoleRecordBindingModel model);
+		ResultService UpdateRole(RoleSetBindingModel model);
 
 		/// <summary>
 		/// Удаление роли

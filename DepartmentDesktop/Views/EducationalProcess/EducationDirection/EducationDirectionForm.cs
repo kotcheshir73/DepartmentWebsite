@@ -74,7 +74,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateEducationDirection(new EducationDirectionRecordBindingModel
+					result = _service.CreateEducationDirection(new EducationDirectionSetBindingModel
 					{
 						Cipher = textBoxCipher.Text,
                         ShortName = textBoxShortName.Text,
@@ -84,7 +84,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 				}
 				else
 				{
-					result = _service.UpdateEducationDirection(new EducationDirectionRecordBindingModel
+					result = _service.UpdateEducationDirection(new EducationDirectionSetBindingModel
 					{
 						Id = _id.Value,
 						Cipher = textBoxCipher.Text,

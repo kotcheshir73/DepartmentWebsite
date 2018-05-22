@@ -22,7 +22,7 @@ namespace DepartmentService.BindingModels
 
 		public DateTime OrderDate { get; set; }
 
-		public List<StudentRecordBindingModel> StudentList { get; set; }
+		public List<StudentSetBindingModel> StudentList { get; set; }
 	}
 
 	/// <summary>
@@ -34,7 +34,7 @@ namespace DepartmentService.BindingModels
 
 		public Guid? OldStudentGroupId { get; set; }
 
-		public List<StudentRecordBindingModel> StudentList { get; set; }
+		public List<StudentSetBindingModel> StudentList { get; set; }
 
 		public DateTime TransferDate { get; set; }
 
@@ -46,7 +46,7 @@ namespace DepartmentService.BindingModels
 	/// </summary>
 	public class StudentDeductionBindingModel
 	{
-		public List<StudentRecordBindingModel> StudentList { get; set; }
+		public List<StudentSetBindingModel> StudentList { get; set; }
 
 		public Guid StudentGroupId { get; set; }
 
@@ -62,7 +62,7 @@ namespace DepartmentService.BindingModels
 	/// </summary>
 	public class StudentToAcademBindingModel
 	{
-		public List<StudentRecordBindingModel> StudentList { get; set; }
+		public List<StudentSetBindingModel> StudentList { get; set; }
 
 		public Guid StudentGroupId { get; set; }
 

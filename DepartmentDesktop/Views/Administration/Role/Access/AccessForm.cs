@@ -85,7 +85,7 @@ namespace DepartmentDesktop.Views.Administration.Access
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateAccess(new AccessRecordBindingModel
+					result = _service.CreateAccess(new AccessSetBindingModel
 					{
 						AccessType = comboBoxAccessType.Text,
 						Operation = comboBoxAccessOperation.Text,
@@ -94,7 +94,7 @@ namespace DepartmentDesktop.Views.Administration.Access
 				}
 				else
 				{
-					result = _service.UpdateAccess(new AccessRecordBindingModel
+					result = _service.UpdateAccess(new AccessSetBindingModel
 					{
 						Id = _id.Value,
 						AccessType = comboBoxAccessType.Text,

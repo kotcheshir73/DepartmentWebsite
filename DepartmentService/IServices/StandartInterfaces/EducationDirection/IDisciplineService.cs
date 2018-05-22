@@ -46,14 +46,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateDiscipline(DisciplineRecordBindingModel model);
+		ResultService CreateDiscipline(DisciplineSetBindingModel model);
 
 		/// <summary>
 		/// Изменение дисциплины
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateDiscipline(DisciplineRecordBindingModel model);
+		ResultService UpdateDiscipline(DisciplineSetBindingModel model);
 
 		/// <summary>
 		/// Удаление дисциплины

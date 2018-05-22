@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
         public Guid? SteamLessonId { get; set; }
     }
 
-    public class StreamLessonRecordRecordBindingModel
+    public class StreamLessonRecordSetBindingModel
     {
         public Guid Id { get; set; }
 

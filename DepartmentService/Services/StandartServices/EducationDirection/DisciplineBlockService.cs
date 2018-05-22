@@ -90,7 +90,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateDisciplineBlock(DisciplineBlockRecordBindingModel model)
+		public ResultService CreateDisciplineBlock(DisciplineBlockSetBindingModel model)
 		{
 			try
 			{
@@ -116,7 +116,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateDisciplineBlock(DisciplineBlockRecordBindingModel model)
+		public ResultService UpdateDisciplineBlock(DisciplineBlockSetBindingModel model)
 		{
 			try
 			{

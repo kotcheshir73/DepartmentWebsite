@@ -143,7 +143,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValue
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteMaterialTechnicalValue(new MaterialTechnicalValueRecordBindingModel { Id = id });
+                        var result = _service.DeleteMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

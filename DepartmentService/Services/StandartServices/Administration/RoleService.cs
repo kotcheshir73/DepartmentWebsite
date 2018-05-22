@@ -89,7 +89,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateRole(RoleRecordBindingModel model)
+		public ResultService CreateRole(RoleSetBindingModel model)
 		{
 			try
 			{
@@ -115,7 +115,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateRole(RoleRecordBindingModel model)
+		public ResultService UpdateRole(RoleSetBindingModel model)
 		{
 			try
 			{

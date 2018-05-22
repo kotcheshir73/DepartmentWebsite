@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateClassroom(ClassroomRecordBindingModel model);
+        ResultService CreateClassroom(ClassroomSetBindingModel model);
 
         /// <summary>
         /// Изменение аудитории
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateClassroom(ClassroomRecordBindingModel model);
+        ResultService UpdateClassroom(ClassroomSetBindingModel model);
 
         /// <summary>
         /// Удаление аудитории

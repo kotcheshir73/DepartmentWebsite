@@ -278,7 +278,7 @@ namespace DepartmentService.Services
                                         !d.IsDeleted);
                     if (discipline == null)
                     {
-                        _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
+                        _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineSetBindingModel
                         {
                             DisciplineName = disciplineAttributes.Value,
                             DisciplineBlockId = model.DisciplineBlockId
@@ -329,7 +329,7 @@ namespace DepartmentService.Services
                                                 disciplineAttributes.Value);
                 if (discipline == null)
                 {
-                    _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
+                    _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineSetBindingModel
                     {
                         DisciplineName = disciplineAttributes.Value,
                         DisciplineBlockId = model.DisciplineBlockId
@@ -376,7 +376,7 @@ namespace DepartmentService.Services
                         var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == disciplineNames[elemNode.Name]);
                         if (discipline == null)
                         {
-                            _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
+                            _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineSetBindingModel
                             {
                                 DisciplineBlockId = model.DisciplineBlockId,
                                 DisciplineName = disciplineNames[elemNode.Name]
@@ -397,7 +397,7 @@ namespace DepartmentService.Services
                                                                     !apr.IsDeleted);
                         if (record == null)
                         {
-                            _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                            _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = discipline.Id,
@@ -438,7 +438,7 @@ namespace DepartmentService.Services
                     var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineName == discpName);
                     if (discipline == null)
                     {
-                        _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
+                        _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineSetBindingModel
                         {
                             DisciplineBlockId = model.DisciplineBlockId,
                             DisciplineName = discpName
@@ -458,7 +458,7 @@ namespace DepartmentService.Services
                                                                 !apr.IsDeleted);
                     if (record == null)
                     {
-                        _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                        _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                         {
                             AcademicPlanId = model.AcademicPlanId,
                             DisciplineId = discipline.Id,
@@ -532,7 +532,7 @@ namespace DepartmentService.Services
                             !apr.IsDeleted);
                         if (record == null)
                         {
-                            _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                            _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                             {
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = disciplineId,
@@ -582,7 +582,7 @@ namespace DepartmentService.Services
                         !apre.IsDeleted);
                     if (recordelement == null)
                     {
-                        _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                        _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
                         {
                             AcademicPlanRecordId = apreId,
                             TimeNormId = tiemNorm.Id,
@@ -873,7 +873,7 @@ namespace DepartmentService.Services
                                 discipline = _context.Disciplines.FirstOrDefault(x => x.DisciplineName == attribute.Value);
                                 if (discipline == null)
                                 {
-                                    _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineRecordBindingModel
+                                    _context.Disciplines.Add(ModelFacotryFromBindingModel.CreateDiscipline(new DisciplineSetBindingModel
                                     {
                                         DisciplineName = attribute.Value,
                                         DisciplineBlockId = disciplineBlock.Id,
@@ -1074,7 +1074,7 @@ namespace DepartmentService.Services
 
                                 if (recordelement == null)
                                 {
-                                    _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                                    _context.AcademicPlanRecordElements.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
                                     {
                                         AcademicPlanRecordId = apr.Id,
                                         TimeNormId = timeNorm.Id,
@@ -1120,7 +1120,7 @@ namespace DepartmentService.Services
                             apr.Semester == semester);
                 if (record == null)
                 {
-                    _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordRecordBindingModel
+                    _context.AcademicPlanRecords.Add(ModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                     {
                         AcademicPlanId = model.AcademicPlanId,
                         DisciplineId = discipline.Id,

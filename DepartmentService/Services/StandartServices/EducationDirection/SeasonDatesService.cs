@@ -108,7 +108,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateSeasonDates(SeasonDatesRecordBindingModel model)
+		public ResultService CreateSeasonDates(SeasonDatesSetBindingModel model)
 		{
 			try
 			{
@@ -134,7 +134,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateSeasonDates(SeasonDatesRecordBindingModel model)
+		public ResultService UpdateSeasonDates(SeasonDatesSetBindingModel model)
 		{
 			try
 			{

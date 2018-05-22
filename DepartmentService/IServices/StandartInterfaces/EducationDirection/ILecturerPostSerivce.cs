@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateLecturerPost(LecturerPostRecordBindingModel model);
+        ResultService CreateLecturerPost(LecturerPostSetBindingModel model);
 
         /// <summary>
         /// Изменение должности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateLecturerPost(LecturerPostRecordBindingModel model);
+        ResultService UpdateLecturerPost(LecturerPostSetBindingModel model);
 
         /// <summary>
         /// Удаление должности

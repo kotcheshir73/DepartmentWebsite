@@ -25,20 +25,20 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupRecordBindingModel model);
+        ResultService CreateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupSetBindingModel model);
 
         /// <summary>
         /// Изменение группы описаний материально-технической ценности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupRecordBindingModel model);
+        ResultService UpdateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupSetBindingModel model);
 
         /// <summary>
         /// Удаление группы описаний материально-технической ценности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteMaterialTechnicalValueGroup(MaterialTechnicalValueGroupRecordBindingModel model);
+        ResultService DeleteMaterialTechnicalValueGroup(MaterialTechnicalValueGroupSetBindingModel model);
     }
 }

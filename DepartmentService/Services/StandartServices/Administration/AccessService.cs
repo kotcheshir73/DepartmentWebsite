@@ -102,7 +102,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateAccess(AccessRecordBindingModel model)
+		public ResultService CreateAccess(AccessSetBindingModel model)
 		{
 			try
 			{
@@ -128,7 +128,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateAccess(AccessRecordBindingModel model)
+		public ResultService UpdateAccess(AccessSetBindingModel model)
 		{
 			try
 			{

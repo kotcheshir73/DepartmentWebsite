@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
         public string Title { get; set; }
 	}
 
-	public class ScheduleLessonTimeRecordBindingModel
+	public class ScheduleLessonTimeSetBindingModel
 	{
 		public Guid Id { get; set; }
 

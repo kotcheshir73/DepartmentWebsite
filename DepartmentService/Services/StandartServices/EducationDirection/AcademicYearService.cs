@@ -95,7 +95,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateAcademicYear(AcademicYearRecordBindingModel model)
+		public ResultService CreateAcademicYear(AcademicYearSetBindingModel model)
 		{
 			try
 			{
@@ -121,7 +121,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateAcademicYear(AcademicYearRecordBindingModel model)
+		public ResultService UpdateAcademicYear(AcademicYearSetBindingModel model)
 		{
 			try
 			{

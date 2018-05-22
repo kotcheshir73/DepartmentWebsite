@@ -33,14 +33,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateLecturer(LecturerRecordBindingModel model);
+		ResultService CreateLecturer(LecturerSetBindingModel model);
 
 		/// <summary>
 		/// Изменение преподавателя
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateLecturer(LecturerRecordBindingModel model);
+		ResultService UpdateLecturer(LecturerSetBindingModel model);
 
 		/// <summary>
 		/// Удаление преподавателя

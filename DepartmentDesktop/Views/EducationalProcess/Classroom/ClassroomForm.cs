@@ -87,7 +87,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateClassroom(new ClassroomRecordBindingModel
+					result = _service.CreateClassroom(new ClassroomSetBindingModel
 					{
 						Number = textBoxClassroom.Text,
 						ClassroomType = comboBoxTypeClassroom.Text,
@@ -97,7 +97,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Classroom
 				}
 				else
 				{
-					result = _service.UpdateClassroom(new ClassroomRecordBindingModel
+					result = _service.UpdateClassroom(new ClassroomSetBindingModel
 					{
                         Id = _id.Value,
 						Number = textBoxClassroom.Text,

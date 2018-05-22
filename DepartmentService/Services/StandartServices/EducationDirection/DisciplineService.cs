@@ -117,7 +117,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService CreateDiscipline(DisciplineSetBindingModel model)
 		{
 			try
 			{
@@ -143,7 +143,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateDiscipline(DisciplineRecordBindingModel model)
+		public ResultService UpdateDiscipline(DisciplineSetBindingModel model)
 		{
 			try
 			{

@@ -90,7 +90,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateStreamingLesson(StreamingLessonRecordBindingModel model)
+		public ResultService CreateStreamingLesson(StreamingLessonSetBindingModel model)
 		{
 			try
 			{
@@ -116,7 +116,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateStreamingLesson(StreamingLessonRecordBindingModel model)
+		public ResultService UpdateStreamingLesson(StreamingLessonSetBindingModel model)
 		{
 			try
 			{

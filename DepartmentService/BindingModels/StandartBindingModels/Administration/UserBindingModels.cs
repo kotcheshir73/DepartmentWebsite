@@ -12,7 +12,7 @@ namespace DepartmentService.BindingModels
         public string RoleType { get; set; }
     }
 
-	public class UserRecordBindingModel
+	public class UserSetBindingModel
 	{
 		public Guid Id { get; set; }
 

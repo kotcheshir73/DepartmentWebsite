@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateStreamingLesson(StreamingLessonRecordBindingModel model);
+        ResultService CreateStreamingLesson(StreamingLessonSetBindingModel model);
 
         /// <summary>
         /// Изменение потока
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateStreamingLesson(StreamingLessonRecordBindingModel model);
+        ResultService UpdateStreamingLesson(StreamingLessonSetBindingModel model);
 
         /// <summary>
         /// Удаление потока

@@ -46,14 +46,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateUser(UserRecordBindingModel model);
+		ResultService CreateUser(UserSetBindingModel model);
 
 		/// <summary>
 		/// Изменение пользователя
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateUser(UserRecordBindingModel model);
+		ResultService UpdateUser(UserSetBindingModel model);
 
 		/// <summary>
 		/// Удаление пользователя

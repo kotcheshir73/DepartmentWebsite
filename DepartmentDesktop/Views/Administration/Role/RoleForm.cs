@@ -72,14 +72,14 @@ namespace DepartmentDesktop.Views.Administration.Role
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateRole(new RoleRecordBindingModel
+                    result = _service.CreateRole(new RoleSetBindingModel
                     {
                         RoleName = textBoxRoleName.Text
                     });
                 }
                 else
                 {
-                    result = _service.UpdateRole(new RoleRecordBindingModel
+                    result = _service.UpdateRole(new RoleSetBindingModel
                     {
                         Id = _id.Value,
                         RoleName = textBoxRoleName.Text

@@ -39,14 +39,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateAcademicPlan(AcademicPlanRecordBindingModel model);
+		ResultService CreateAcademicPlan(AcademicPlanSetBindingModel model);
 
 		/// <summary>
 		/// Изменение учебного плана
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateAcademicPlan(AcademicPlanRecordBindingModel model);
+		ResultService UpdateAcademicPlan(AcademicPlanSetBindingModel model);
 
 		/// <summary>
 		/// Удаление учебного плана

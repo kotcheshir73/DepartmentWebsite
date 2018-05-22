@@ -124,7 +124,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                    result = _service.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
                     {
                         AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
                         TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
@@ -134,7 +134,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                 }
                 else
                 {
-                    result = _service.UpdateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
+                    result = _service.UpdateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
                     {
                         Id = _id.Value,
                         AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),

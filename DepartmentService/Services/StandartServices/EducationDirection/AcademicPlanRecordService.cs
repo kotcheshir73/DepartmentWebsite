@@ -133,7 +133,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
+        public ResultService CreateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService UpdateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model)
+        public ResultService UpdateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model)
         {
             try
             {

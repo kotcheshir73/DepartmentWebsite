@@ -32,20 +32,20 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateSoftwareRecord(SoftwareRecordRecordBindingModel model);
+        ResultService CreateSoftwareRecord(SoftwareRecordSetBindingModel model);
 
         /// <summary>
         /// Изменение ПО
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateSoftwareRecord(SoftwareRecordRecordBindingModel model);
+        ResultService UpdateSoftwareRecord(SoftwareRecordSetBindingModel model);
 
         /// <summary>
         /// Удаление ПО
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteSoftwareRecord(SoftwareRecordRecordBindingModel model);
+        ResultService DeleteSoftwareRecord(SoftwareRecordSetBindingModel model);
     }
 }

@@ -39,14 +39,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateTimeNorm(TimeNormRecordBindingModel model);
+		ResultService CreateTimeNorm(TimeNormSetBindingModel model);
 
 		/// <summary>
 		/// Изменение нормы времени
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateTimeNorm(TimeNormRecordBindingModel model);
+		ResultService UpdateTimeNorm(TimeNormSetBindingModel model);
 
 		/// <summary>
 		/// Удаление нормы времени

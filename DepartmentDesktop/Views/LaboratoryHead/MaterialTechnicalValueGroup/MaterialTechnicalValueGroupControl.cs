@@ -120,7 +120,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValueGroup
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupRecordBindingModel { Id = id });
+                        var result = _service.DeleteMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

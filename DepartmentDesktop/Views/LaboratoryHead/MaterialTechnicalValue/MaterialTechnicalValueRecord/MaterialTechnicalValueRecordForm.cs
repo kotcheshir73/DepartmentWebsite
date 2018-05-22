@@ -119,7 +119,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValueRecord
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordRecordBindingModel
+                    result = _service.CreateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordSetBindingModel
                     {
                         MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
                         MaterialTechnicalValueGroupId = new Guid(comboBoxMaterialTechnicalValueGroup.SelectedValue.ToString()),
@@ -130,7 +130,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.MaterialTechnicalValueRecord
                 }
                 else
                 {
-                    result = _service.UpdateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordRecordBindingModel
+                    result = _service.UpdateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordSetBindingModel
                     {
                         Id = _id.Value,
                         MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),

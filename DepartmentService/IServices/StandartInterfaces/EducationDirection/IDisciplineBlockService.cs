@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateDisciplineBlock(DisciplineBlockRecordBindingModel model);
+		ResultService CreateDisciplineBlock(DisciplineBlockSetBindingModel model);
 
 		/// <summary>
 		/// Изменение блока дисциплин
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateDisciplineBlock(DisciplineBlockRecordBindingModel model);
+		ResultService UpdateDisciplineBlock(DisciplineBlockSetBindingModel model);
 
 		/// <summary>
 		/// Удаление блока дисциплин

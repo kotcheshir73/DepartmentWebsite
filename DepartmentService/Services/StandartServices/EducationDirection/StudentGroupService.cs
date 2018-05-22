@@ -112,7 +112,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateStudentGroup(StudentGroupRecordBindingModel model)
+		public ResultService CreateStudentGroup(StudentGroupSetBindingModel model)
 		{
 			try
 			{
@@ -138,7 +138,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateStudentGroup(StudentGroupRecordBindingModel model)
+		public ResultService UpdateStudentGroup(StudentGroupSetBindingModel model)
 		{
 			try
 			{

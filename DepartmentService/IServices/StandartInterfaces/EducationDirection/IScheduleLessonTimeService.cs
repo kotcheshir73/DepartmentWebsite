@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model);
+        ResultService CreateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model);
 
         /// <summary>
         /// Изменение временного интервала
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model);
+        ResultService UpdateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model);
 
         /// <summary>
         /// Удаление временного интервала

@@ -32,20 +32,20 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model);
+        ResultService CreateMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model);
 
         /// <summary>
         /// Изменение материально-технической ценности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model);
+        ResultService UpdateMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model);
 
         /// <summary>
         /// Удаление материально-технической ценности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model);
+        ResultService DeleteMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model);
     }
 }

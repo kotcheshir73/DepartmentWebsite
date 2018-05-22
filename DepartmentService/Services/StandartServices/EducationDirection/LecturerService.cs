@@ -102,7 +102,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateLecturer(LecturerRecordBindingModel model)
+		public ResultService CreateLecturer(LecturerSetBindingModel model)
 		{
 			try
 			{
@@ -128,7 +128,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateLecturer(LecturerRecordBindingModel model)
+		public ResultService UpdateLecturer(LecturerSetBindingModel model)
 		{
 			try
 			{

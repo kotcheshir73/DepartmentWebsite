@@ -89,7 +89,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateSoftwareRecord(new SoftwareRecordRecordBindingModel
+                    result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
                     {
                         MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
                         DateSetup = dateTimePickerDateSetup.Value,
@@ -102,7 +102,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                 }
                 else
                 {
-                    result = _service.UpdateSoftwareRecord(new SoftwareRecordRecordBindingModel
+                    result = _service.UpdateSoftwareRecord(new SoftwareRecordSetBindingModel
                     {
                         Id = _id.Value,
                         MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),

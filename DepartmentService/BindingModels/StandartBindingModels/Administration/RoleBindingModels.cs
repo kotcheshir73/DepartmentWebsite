@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
 		public Guid? Id { get; set; }
 	}
 
-	public class RoleRecordBindingModel
+	public class RoleSetBindingModel
 	{
 		public Guid Id { get; set; }
 

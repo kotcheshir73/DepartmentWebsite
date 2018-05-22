@@ -123,7 +123,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateSeasonDates(new SeasonDatesRecordBindingModel
+					result = _service.CreateSeasonDates(new SeasonDatesSetBindingModel
                     {
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         Title = textBoxTitle.Text,
@@ -141,7 +141,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 				}
 				else
 				{
-					result = _service.UpdateSeasonDates(new SeasonDatesRecordBindingModel
+					result = _service.UpdateSeasonDates(new SeasonDatesSetBindingModel
 					{
 						Id = _id.Value,
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),

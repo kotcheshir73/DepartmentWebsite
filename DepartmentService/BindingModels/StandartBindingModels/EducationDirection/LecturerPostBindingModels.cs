@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
     }
 
-    public class LecturerPostRecordBindingModel
+    public class LecturerPostSetBindingModel
     {
         public Guid Id { get; set; }
 

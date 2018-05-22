@@ -32,14 +32,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateSeasonDates(SeasonDatesRecordBindingModel model);
+        ResultService CreateSeasonDates(SeasonDatesSetBindingModel model);
 
         /// <summary>
         /// Изменение записи по датам семестра
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateSeasonDates(SeasonDatesRecordBindingModel model);
+        ResultService UpdateSeasonDates(SeasonDatesSetBindingModel model);
 
         /// <summary>
         /// Удаление записи по датам семестра

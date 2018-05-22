@@ -12,7 +12,7 @@ namespace DepartmentService.BindingModels
         public Guid? AcademicYearId { get; set; }
     }
 
-    public class SeasonDatesRecordBindingModel
+    public class SeasonDatesSetBindingModel
     {
         public Guid Id { get; set; }
 

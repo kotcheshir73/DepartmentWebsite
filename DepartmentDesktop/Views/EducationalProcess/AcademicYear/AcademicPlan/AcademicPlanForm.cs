@@ -148,7 +148,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateAcademicPlan(new AcademicPlanRecordBindingModel
+					result = _service.CreateAcademicPlan(new AcademicPlanSetBindingModel
 					{
 						EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
 						AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
@@ -158,7 +158,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				}
 				else
 				{
-					result = _service.UpdateAcademicPlan(new AcademicPlanRecordBindingModel
+					result = _service.UpdateAcademicPlan(new AcademicPlanSetBindingModel
 					{
 						Id = _id.Value,
                         EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,

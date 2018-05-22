@@ -9,7 +9,7 @@ namespace DepartmentService.BindingModels
 		public Guid? AcademicPlanId { get; set; }
 	}
 
-	public class AcademicPlanRecordRecordBindingModel
+	public class AcademicPlanRecordSetBindingModel
 	{
 		public Guid Id { get; set; }
 

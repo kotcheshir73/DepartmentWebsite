@@ -96,7 +96,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model)
+		public ResultService CreateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model)
 		{
 			try
             {
@@ -122,7 +122,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model)
+		public ResultService UpdateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model)
 		{
 			try
             {

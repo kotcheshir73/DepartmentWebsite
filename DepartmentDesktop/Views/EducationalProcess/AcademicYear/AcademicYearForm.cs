@@ -109,14 +109,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateAcademicYear(new AcademicYearRecordBindingModel
+					result = _service.CreateAcademicYear(new AcademicYearSetBindingModel
 					{
 						Title = textBoxTitle.Text
 					});
 				}
 				else
 				{
-					result = _service.UpdateAcademicYear(new AcademicYearRecordBindingModel
+					result = _service.UpdateAcademicYear(new AcademicYearSetBindingModel
 					{
 						Id = _id.Value,
 						Title = textBoxTitle.Text

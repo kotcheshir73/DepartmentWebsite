@@ -76,7 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				ResultService result;
 				if (!_id.HasValue)
 				{
-					result = _service.CreateDisciplineBlock(new DisciplineBlockRecordBindingModel
+					result = _service.CreateDisciplineBlock(new DisciplineBlockSetBindingModel
 					{
 						Title = textBoxTitle.Text,
                         DisciplineBlockBlueAsteriskName = textBoxDisciplineBlockBlueAsteriskName.Text,
@@ -86,7 +86,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				}
 				else
 				{
-					result = _service.UpdateDisciplineBlock(new DisciplineBlockRecordBindingModel
+					result = _service.UpdateDisciplineBlock(new DisciplineBlockSetBindingModel
 					{
 						Id = _id.Value,
 						Title = textBoxTitle.Text,

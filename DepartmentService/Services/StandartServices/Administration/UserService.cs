@@ -127,7 +127,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateUser(UserRecordBindingModel model)
+		public ResultService CreateUser(UserSetBindingModel model)
 		{
 			try
 			{
@@ -153,7 +153,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateUser(UserRecordBindingModel model)
+		public ResultService UpdateUser(UserSetBindingModel model)
 		{
 			try
 			{

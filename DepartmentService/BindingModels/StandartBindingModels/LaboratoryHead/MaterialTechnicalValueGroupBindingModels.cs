@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
     }
 
-    public class MaterialTechnicalValueGroupRecordBindingModel
+    public class MaterialTechnicalValueGroupSetBindingModel
     {
         public Guid Id { get; set; }
 

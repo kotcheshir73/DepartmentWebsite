@@ -46,14 +46,14 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model);
+		ResultService CreateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model);
 
 		/// <summary>
 		/// Изменение записи учебного плана
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService UpdateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model);
+		ResultService UpdateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model);
 
 		/// <summary>
 		/// Удаление записи учебного плана

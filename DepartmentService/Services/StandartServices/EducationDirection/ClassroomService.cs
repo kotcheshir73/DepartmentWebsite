@@ -95,7 +95,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService CreateClassroom(ClassroomRecordBindingModel model)
+		public ResultService CreateClassroom(ClassroomSetBindingModel model)
 		{
 			try
 			{
@@ -121,7 +121,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateClassroom(ClassroomRecordBindingModel model)
+		public ResultService UpdateClassroom(ClassroomSetBindingModel model)
 		{
 			try
 			{

@@ -106,7 +106,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateStreamLesson(new StreamLessonRecordBindingModel
+                    result = _service.CreateStreamLesson(new StreamLessonSetBindingModel
                     {
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         StreamLessonName = textBoxStreamLessonName.Text,
@@ -115,7 +115,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                 }
                 else
                 {
-                    result = _service.UpdateStreamLesson(new StreamLessonRecordBindingModel
+                    result = _service.UpdateStreamLesson(new StreamLessonSetBindingModel
                     {
                         Id = _id.Value,
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),

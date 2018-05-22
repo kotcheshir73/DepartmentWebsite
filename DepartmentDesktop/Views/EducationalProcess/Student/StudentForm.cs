@@ -108,7 +108,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Student
 				ResultService result;
 				if (_id.HasValue)
 				{
-					result = _service.UpdateStudent(new StudentRecordBindingModel
+					result = _service.UpdateStudent(new StudentSetBindingModel
 					{
                         Id = _id.Value,
 						NumberOfBook = textBoxNumberOfBook.Text,

@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
 	}
 
-    public class EducationDirectionRecordBindingModel
+    public class EducationDirectionSetBindingModel
     {
         public Guid Id { get; set; }
 

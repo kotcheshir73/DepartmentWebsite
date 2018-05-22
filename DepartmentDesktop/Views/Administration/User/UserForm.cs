@@ -122,7 +122,7 @@ namespace DepartmentDesktop.Views.Administration.User
 				}
 				if (!_id.HasValue)
 				{
-					result = _service.CreateUser(new UserRecordBindingModel
+					result = _service.CreateUser(new UserSetBindingModel
 					{
 						Login = textBoxLogin.Text,
 						Password = textBoxPassword.Text,
@@ -134,7 +134,7 @@ namespace DepartmentDesktop.Views.Administration.User
 				}
 				else
 				{
-					result = _service.UpdateUser(new UserRecordBindingModel
+					result = _service.UpdateUser(new UserSetBindingModel
 					{
 						Id = _id.Value,
 						Login = textBoxLogin.Text,

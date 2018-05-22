@@ -7,7 +7,7 @@ namespace DepartmentService.BindingModels
 	public static class ModelFacotryFromBindingModel
 	{
         #region EducationDirection
-        public static EducationDirection CreateEducationDirection(EducationDirectionRecordBindingModel model, EducationDirection entity = null)
+        public static EducationDirection CreateEducationDirection(EducationDirectionSetBindingModel model, EducationDirection entity = null)
 		{
 			if (entity == null)
 			{
@@ -21,7 +21,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static DisciplineBlock CreateDisciplineBlock(DisciplineBlockRecordBindingModel model, DisciplineBlock entity = null)
+		public static DisciplineBlock CreateDisciplineBlock(DisciplineBlockSetBindingModel model, DisciplineBlock entity = null)
 		{
 			if (entity == null)
 			{
@@ -35,7 +35,7 @@ namespace DepartmentService.BindingModels
 			return entity;
         }
 
-        public static LecturerPost CreateLecturerPost(LecturerPostRecordBindingModel model, LecturerPost entity = null)
+        public static LecturerPost CreateLecturerPost(LecturerPostSetBindingModel model, LecturerPost entity = null)
         {
             if (entity == null)
             {
@@ -48,7 +48,7 @@ namespace DepartmentService.BindingModels
         }
         
 
-        public static Classroom CreateClassroom(ClassroomRecordBindingModel model, Classroom entity = null)
+        public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
 		{
 			if (entity == null)
 			{
@@ -62,7 +62,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static Discipline CreateDiscipline(DisciplineRecordBindingModel model, Discipline entity = null)
+		public static Discipline CreateDiscipline(DisciplineSetBindingModel model, Discipline entity = null)
 		{
 			if (entity == null)
 			{
@@ -76,7 +76,7 @@ namespace DepartmentService.BindingModels
             return entity;
 		}
 
-		public static Lecturer CreateLecturer(LecturerRecordBindingModel model, Lecturer entity = null)
+		public static Lecturer CreateLecturer(LecturerSetBindingModel model, Lecturer entity = null)
 		{
 			if (entity == null)
 			{
@@ -101,7 +101,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static StudentGroup CreateStudentGroup(StudentGroupRecordBindingModel model, StudentGroup entity = null)
+		public static StudentGroup CreateStudentGroup(StudentGroupSetBindingModel model, StudentGroup entity = null)
 		{
 			if (entity == null)
 			{
@@ -117,7 +117,7 @@ namespace DepartmentService.BindingModels
 		}
 
         
-		public static TimeNorm CreateTimeNorm(TimeNormRecordBindingModel model, TimeNorm entity = null)
+		public static TimeNorm CreateTimeNorm(TimeNormSetBindingModel model, TimeNorm entity = null)
 		{
 			if (entity == null)
 			{
@@ -142,7 +142,7 @@ namespace DepartmentService.BindingModels
             return entity;
 		}
 
-		public static Contingent CreateContingent(ContingentRecordBindingModel model, Contingent entity = null)
+		public static Contingent CreateContingent(ContingentSetBindingModel model, Contingent entity = null)
 		{
 			if (entity == null)
 			{
@@ -160,7 +160,7 @@ namespace DepartmentService.BindingModels
 		}
 
 
-		public static AcademicPlan CreateAcademicPlan(AcademicPlanRecordBindingModel model, AcademicPlan entity = null)
+		public static AcademicPlan CreateAcademicPlan(AcademicPlanSetBindingModel model, AcademicPlan entity = null)
 		{
 			if (entity == null)
 			{
@@ -174,7 +174,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static AcademicPlanRecord CreateAcademicPlanRecord(AcademicPlanRecordRecordBindingModel model, AcademicPlanRecord entity = null)
+		public static AcademicPlanRecord CreateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model, AcademicPlanRecord entity = null)
 		{
 			if (entity == null)
 			{
@@ -189,7 +189,7 @@ namespace DepartmentService.BindingModels
             return entity;
 		}
 
-        public static AcademicPlanRecordElement CreateAcademicPlanRecordElement(AcademicPlanRecordElementRecordBindingModel model, AcademicPlanRecordElement entity = null)
+        public static AcademicPlanRecordElement CreateAcademicPlanRecordElement(AcademicPlanRecordElementSetBindingModel model, AcademicPlanRecordElement entity = null)
         {
             if (entity == null)
             {
@@ -202,7 +202,7 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static AcademicYear CreateAcademicYear(AcademicYearRecordBindingModel model, AcademicYear entity = null)
+        public static AcademicYear CreateAcademicYear(AcademicYearSetBindingModel model, AcademicYear entity = null)
 		{
 			if (entity == null)
 			{
@@ -213,7 +213,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-        public static StreamLesson CreateStreamLesson(StreamLessonRecordBindingModel model, StreamLesson entity = null)
+        public static StreamLesson CreateStreamLesson(StreamLessonSetBindingModel model, StreamLesson entity = null)
         {
             if (entity == null)
             {
@@ -226,7 +226,7 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static StreamLessonRecord CreateStreamLessonRecord(StreamLessonRecordRecordBindingModel model, StreamLessonRecord entity = null)
+        public static StreamLessonRecord CreateStreamLessonRecord(StreamLessonRecordSetBindingModel model, StreamLessonRecord entity = null)
         {
             if (entity == null)
             {
@@ -241,7 +241,7 @@ namespace DepartmentService.BindingModels
 
 
 
-        public static Student CreateStudent(StudentRecordBindingModel model, Student entity = null)
+        public static Student CreateStudent(StudentSetBindingModel model, Student entity = null)
 		{
 			if (entity == null)
 			{
@@ -259,7 +259,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static StudentHistory CreateStudentHistory(StudentHistoryRecordBindingModel model, StudentHistory entity = null)
+		public static StudentHistory CreateStudentHistory(StudentHistorySetBindingModel model, StudentHistory entity = null)
 		{
 			if (entity == null)
 			{
@@ -274,7 +274,7 @@ namespace DepartmentService.BindingModels
 		}
 
 
-		public static SeasonDates CreateSeasonDates(SeasonDatesRecordBindingModel model, SeasonDates entity = null)
+		public static SeasonDates CreateSeasonDates(SeasonDatesSetBindingModel model, SeasonDates entity = null)
 		{
 			if (entity == null)
 			{
@@ -296,7 +296,7 @@ namespace DepartmentService.BindingModels
             return entity;
 		}
 
-		public static StreamingLesson CreateStreamingLesson(StreamingLessonRecordBindingModel model, StreamingLesson entity = null)
+		public static StreamingLesson CreateStreamingLesson(StreamingLessonSetBindingModel model, StreamingLesson entity = null)
 		{
 			if (entity == null)
 			{
@@ -308,7 +308,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static ScheduleLessonTime CreateScheduleLessonTime(ScheduleLessonTimeRecordBindingModel model, ScheduleLessonTime entity = null)
+		public static ScheduleLessonTime CreateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model, ScheduleLessonTime entity = null)
 		{
 			if (entity == null)
 			{
@@ -440,7 +440,7 @@ namespace DepartmentService.BindingModels
 		#endregion
 
 		#region Administration
-		public static Role CreateRole(RoleRecordBindingModel model, Role entity = null)
+		public static Role CreateRole(RoleSetBindingModel model, Role entity = null)
 		{
 			if (entity == null)
 			{
@@ -451,7 +451,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static Access CreateAccess(AccessRecordBindingModel model, Access entity = null)
+		public static Access CreateAccess(AccessSetBindingModel model, Access entity = null)
 		{
 			if (entity == null)
 			{
@@ -464,7 +464,7 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static User CreateUser(UserRecordBindingModel model, User entity = null)
+		public static User CreateUser(UserSetBindingModel model, User entity = null)
 		{
 			if (entity == null)
 			{
@@ -490,7 +490,7 @@ namespace DepartmentService.BindingModels
         #endregion
 
         #region LaboratoryHead
-        public static MaterialTechnicalValue CreateMaterialTechnicalValue(MaterialTechnicalValueRecordBindingModel model, MaterialTechnicalValue entity = null)
+        public static MaterialTechnicalValue CreateMaterialTechnicalValue(MaterialTechnicalValueSetBindingModel model, MaterialTechnicalValue entity = null)
         {
             if (entity == null)
             {
@@ -508,7 +508,7 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static MaterialTechnicalValueGroup CreateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupRecordBindingModel model, MaterialTechnicalValueGroup entity = null)
+        public static MaterialTechnicalValueGroup CreateMaterialTechnicalValueGroup(MaterialTechnicalValueGroupSetBindingModel model, MaterialTechnicalValueGroup entity = null)
         {
             if (entity == null)
             {
@@ -520,7 +520,7 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static MaterialTechnicalValueRecord CreateMaterialTechnicalValueRecord(MaterialTechnicalValueRecordRecordBindingModel model, MaterialTechnicalValueRecord entity = null)
+        public static MaterialTechnicalValueRecord CreateMaterialTechnicalValueRecord(MaterialTechnicalValueRecordSetBindingModel model, MaterialTechnicalValueRecord entity = null)
         {
             if (entity == null)
             {
@@ -535,7 +535,7 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordRecordBindingModel model, SoftwareRecord entity = null)
+        public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordSetBindingModel model, SoftwareRecord entity = null)
         {
             if (entity == null)
             {

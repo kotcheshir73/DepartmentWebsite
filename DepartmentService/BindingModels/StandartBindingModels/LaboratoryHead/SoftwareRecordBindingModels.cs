@@ -10,7 +10,7 @@ namespace DepartmentService.BindingModels
         public Guid? MaterialTechnicalValueId { get; set; }
     }
 
-    public class SoftwareRecordRecordBindingModel
+    public class SoftwareRecordSetBindingModel
     {
         public Guid Id { get; set; }
 

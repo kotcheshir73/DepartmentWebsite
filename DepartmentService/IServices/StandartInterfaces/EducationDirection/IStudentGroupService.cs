@@ -39,14 +39,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateStudentGroup(StudentGroupRecordBindingModel model);
+        ResultService CreateStudentGroup(StudentGroupSetBindingModel model);
 
         /// <summary>
         /// Изменение группы
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateStudentGroup(StudentGroupRecordBindingModel model);
+        ResultService UpdateStudentGroup(StudentGroupSetBindingModel model);
 
         /// <summary>
         /// Удаление группы

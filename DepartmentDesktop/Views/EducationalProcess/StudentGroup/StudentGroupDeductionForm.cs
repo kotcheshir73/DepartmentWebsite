@@ -67,12 +67,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				MessageBox.Show("Введите основание отчисления", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var list = new List<StudentRecordBindingModel>();
+			var list = new List<StudentSetBindingModel>();
 			for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
 			{
 				if (Convert.ToBoolean(dataGridViewStudents.Rows[i].Cells[0].Value))
 				{
-					var model = new StudentRecordBindingModel
+					var model = new StudentSetBindingModel
 					{
 						NumberOfBook = dataGridViewStudents.Rows[i].Cells[1].Value.ToString()
 					};

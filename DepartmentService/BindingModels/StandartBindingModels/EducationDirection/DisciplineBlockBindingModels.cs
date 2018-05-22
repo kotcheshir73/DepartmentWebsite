@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
 		public Guid? Id { get; set; }
 	}
 
-	public class DisciplineBlockRecordBindingModel
+	public class DisciplineBlockSetBindingModel
 	{
 		public Guid Id { get; set; }
 

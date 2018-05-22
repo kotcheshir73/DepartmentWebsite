@@ -7,7 +7,7 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
 	}
 
-    public class StreamingLessonRecordBindingModel
+    public class StreamingLessonSetBindingModel
     {
         public Guid Id { get; set; }
 

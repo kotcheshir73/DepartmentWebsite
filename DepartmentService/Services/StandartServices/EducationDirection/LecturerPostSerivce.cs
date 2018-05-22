@@ -89,7 +89,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService CreateLecturerPost(LecturerPostRecordBindingModel model)
+        public ResultService CreateLecturerPost(LecturerPostSetBindingModel model)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService UpdateLecturerPost(LecturerPostRecordBindingModel model)
+        public ResultService UpdateLecturerPost(LecturerPostSetBindingModel model)
         {
             try
             {

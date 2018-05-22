@@ -25,14 +25,14 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateStudentHistory(StudentHistoryRecordBindingModel model);
+        ResultService CreateStudentHistory(StudentHistorySetBindingModel model);
 
         /// <summary>
         /// Изменение записи по историям студентов
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateStudentHistory(StudentHistoryRecordBindingModel model);
+        ResultService UpdateStudentHistory(StudentHistorySetBindingModel model);
 
         /// <summary>
         /// Удаление записи по историям студентов

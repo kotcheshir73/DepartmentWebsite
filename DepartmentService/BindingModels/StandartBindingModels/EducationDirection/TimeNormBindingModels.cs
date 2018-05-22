@@ -14,7 +14,7 @@ namespace DepartmentService.BindingModels
         public Guid? DisciplineBlockId { get; set; }
     }
 
-	public class TimeNormRecordBindingModel
+	public class TimeNormSetBindingModel
 	{
 		public Guid Id { get; set; }
 

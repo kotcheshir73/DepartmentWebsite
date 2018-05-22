@@ -113,7 +113,7 @@ namespace DepartmentService.Services
 			}
 		}
 		
-		public ResultService CreateStudent(StudentRecordBindingModel model)
+		public ResultService CreateStudent(StudentSetBindingModel model)
 		{
 			try
 			{
@@ -142,7 +142,7 @@ namespace DepartmentService.Services
 			}
 		}
 				
-		public ResultService UpdateStudent(StudentRecordBindingModel model)
+		public ResultService UpdateStudent(StudentSetBindingModel model)
 		{
 			try
 			{
@@ -209,7 +209,7 @@ namespace DepartmentService.Services
         /// Доп функция установки старосты группы
         /// </summary>
         /// <param name="model"></param>
-        private void SetSteward(StudentRecordBindingModel model)
+        private void SetSteward(StudentSetBindingModel model)
         {
             if(model.IsSteward)
             {
