@@ -338,15 +338,15 @@
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentHistoryViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamingLessonViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamingLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentGroupViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\TimeNormViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\UserViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueGroupViewModel.cs" />
-    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueRecordViewModel.cs" />
-    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueViewModel.cs" />
-    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareRecordViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueGroupViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareRecordViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
