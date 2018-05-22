@@ -48,117 +48,85 @@ namespace DepartmentService.Helpers
                                     break;
                             }
                             counter = 0;
-                            while (excelcell.Value2 != null && excelcell.Value2.ToString().ToLower() == "дни недели")
+                            while (counter < 10)
                             {
-                                counter++;
-                                if (counter > 10)
-                                    break;
-                                // идем по первой строке с группами
-                                // берем имя группы
-                                var excelGroupNameCell = excelcell.get_Offset(0, 1);
-                                while (excelGroupNameCell.Value2 != null)
+                                while (excelcell.Value2 != null && excelcell.Value2.ToString().ToLower() == "дни недели")
                                 {
-                                    // в день может быть 2 зачета, 6 дней зачетной недели, получается 12 шагов
-                                    for (int i = 0; i < 12; ++i)
+                                    counter++;
+                                    if (counter > 10)
+                                        break;
+                                    // идем по первой строке с группами
+                                    // берем имя группы
+                                    var excelGroupNameCell = excelcell.get_Offset(0, 1);
+                                    while (excelGroupNameCell.Value2 != null)
                                     {
-                                        // под каждый зачет выделяется 3 строки
-                                        // в первой строке - название зачета (за искл. физ-ры)
-                                        var excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 1, 0);
-                                        if (excelDiscNameCell.Value2 != null)
+                                        // в день может быть 2 зачета, 6 дней зачетной недели, получается 12 шагов
+                                        for (int i = 0; i < 12; ++i)
                                         {
-                                            if (!Regex.IsMatch(excelDiscNameCell.Value2.ToString(), @"\w+"))
-                                            {
-                                                continue;
-                                            }
-                                            var excelLecturerName = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
-                                            var excelLessonAndClassroomsName = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
-                                            var currentRecord = new OffsetRecordRecordBindingModel
-                                            {
-                                                Week = 0,
-                                                Day = i / 2,
-                                                LessonDiscipline = excelDiscNameCell.Value2,
-                                                LessonGroup = excelGroupNameCell.Value2,
-                                                LessonLecturer = excelLecturerName.Value2
-                                            };
-
-                                            // определяем группу
-                                            var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName.ToLower() == currentRecord.LessonGroup.ToLower() && !sg.IsDeleted);
-                                            if (group != null)
-                                            {
-                                                currentRecord.StudentGroupId = group.Id;
-                                            }
-
-                                            // определяем дисциплину
-                                            var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
-                                            var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
-                                            if (discipline != null)
-                                            {
-                                                currentRecord.DisciplineId = discipline.Id;
-                                            }
-
-                                            // определяем преподавателя
-                                            var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                            string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
-                                            string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
-                                            string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
-                                            var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
-                                                                    ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-                                                                    ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
-                                            if (lecturer != null)
-                                            {
-                                                currentRecord.LecturerId = lecturer.Id;
-                                            }
-
-                                            // определяем пары и аудитории
-                                            string lessonsAndClassroom = excelLessonAndClassroomsName.Value2.ToLower();
-                                            var lessonsMassive = Regex.Match(lessonsAndClassroom, @"(\dп(\.)*(\,)*(\ )*)+");
-                                            var classroomMatches = Regex.Matches(Regex.Replace(lessonsAndClassroom, @"(\dп(\.)*(\,)*(\ )*)+", "").Replace(" ", ""), @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
-                                            var lessons = Regex.Matches(lessonsMassive.Value, @"\d");
-                                            for (int j = 0; j < lessons.Count; ++j)
-                                            {
-                                                var lesson = lessons[j].Value;
-                                                currentRecord.Lesson = Convert.ToInt32(Regex.Match(lesson, @"\d").Value) - 1;
-                                                for (int k = 0; k < classroomMatches.Count; ++k)
-                                                {
-                                                    currentRecord.LessonClassroom = classroomMatches[k].Value;
-                                                    var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
-                                                    if (classroom != null)
-                                                    {
-                                                        currentRecord.ClassroomId = classroom.Id;
-                                                    }
-                                                    var result = CheckNewOffsetRecordForConflictAndSave(currentRecord);
-                                                    if (!result.Succeeded)
-                                                    {
-                                                        foreach (var err in result.Errors)
-                                                        {
-                                                            resError.AddError(err.Key, err.Value);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        // физ-ра, чтоб ее
-                                        else
-                                        {
-                                            excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
+                                            // под каждый зачет выделяется 3 строки
+                                            // в первой строке - название зачета (за искл. физ-ры)
+                                            var excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 1, 0);
                                             if (excelDiscNameCell.Value2 != null)
                                             {
-                                                if (excelDiscNameCell.Value2 == "Элективный курс по ФК" || excelDiscNameCell.Value2 == "ФИЗ – РА")
+                                                if (!Regex.IsMatch(excelDiscNameCell.Value2.ToString(), @"\w+"))
                                                 {
-                                                    var currentRecord = new OffsetRecordRecordBindingModel
+                                                    continue;
+                                                }
+                                                var excelLecturerName = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
+                                                var excelLessonAndClassroomsName = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
+                                                var currentRecord = new OffsetRecordRecordBindingModel
+                                                {
+                                                    Week = 0,
+                                                    Day = i / 2,
+                                                    LessonDiscipline = excelDiscNameCell.Value2,
+                                                    LessonGroup = excelGroupNameCell.Value2,
+                                                    LessonLecturer = excelLecturerName.Value2
+                                                };
+
+                                                // определяем группу
+                                                var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName.ToLower() == currentRecord.LessonGroup.ToLower() && !sg.IsDeleted);
+                                                if (group != null)
+                                                {
+                                                    currentRecord.StudentGroupId = group.Id;
+                                                }
+
+                                                // определяем дисциплину
+                                                var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
+                                                var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
+                                                if (discipline != null)
+                                                {
+                                                    currentRecord.DisciplineId = discipline.Id;
+                                                }
+
+                                                // определяем преподавателя
+                                                var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                                string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
+                                                string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
+                                                string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
+                                                var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
+                                                                        ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
+                                                                        ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+                                                if (lecturer != null)
+                                                {
+                                                    currentRecord.LecturerId = lecturer.Id;
+                                                }
+
+                                                // определяем пары и аудитории
+                                                string lessonsAndClassroom = excelLessonAndClassroomsName.Value2.ToLower();
+                                                var lessonsMassive = Regex.Match(lessonsAndClassroom, @"(\dп(\.)*(\,)*(\ )*)+");
+                                                var classroomMatches = Regex.Matches(Regex.Replace(lessonsAndClassroom, @"(\dп(\.)*(\,)*(\ )*)+", "").Replace(" ", ""), @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
+                                                var lessons = Regex.Matches(lessonsMassive.Value, @"\d");
+                                                for (int j = 0; j < lessons.Count; ++j)
+                                                {
+                                                    var lesson = lessons[j].Value;
+                                                    currentRecord.Lesson = Convert.ToInt32(Regex.Match(lesson, @"\d").Value) - 1;
+                                                    for (int k = 0; k < classroomMatches.Count; ++k)
                                                     {
-                                                        Week = 0,
-                                                        Day = i / 2,
-                                                        LessonDiscipline = "Физкультура",
-                                                        LessonGroup = excelGroupNameCell.Value2,
-                                                        LessonLecturer = ""
-                                                    };
-                                                    if (!string.IsNullOrEmpty(currentRecord.LessonGroup))
-                                                    {
-                                                        var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
-                                                        if (group != null)
+                                                        currentRecord.LessonClassroom = classroomMatches[k].Value;
+                                                        var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
+                                                        if (classroom != null)
                                                         {
-                                                            currentRecord.StudentGroupId = group.Id;
+                                                            currentRecord.ClassroomId = classroom.Id;
                                                         }
                                                         var result = CheckNewOffsetRecordForConflictAndSave(currentRecord);
                                                         if (!result.Succeeded)
@@ -171,12 +139,49 @@ namespace DepartmentService.Helpers
                                                     }
                                                 }
                                             }
+                                            // физ-ра, чтоб ее
+                                            else
+                                            {
+                                                excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
+                                                if (excelDiscNameCell.Value2 != null)
+                                                {
+                                                    if (excelDiscNameCell.Value2 == "Элективный курс по ФК" || excelDiscNameCell.Value2 == "ФИЗ – РА")
+                                                    {
+                                                        var currentRecord = new OffsetRecordRecordBindingModel
+                                                        {
+                                                            Week = 0,
+                                                            Day = i / 2,
+                                                            LessonDiscipline = "Физкультура",
+                                                            LessonGroup = excelGroupNameCell.Value2,
+                                                            LessonLecturer = ""
+                                                        };
+                                                        if (!string.IsNullOrEmpty(currentRecord.LessonGroup))
+                                                        {
+                                                            var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
+                                                            if (group != null)
+                                                            {
+                                                                currentRecord.StudentGroupId = group.Id;
+                                                            }
+                                                            var result = CheckNewOffsetRecordForConflictAndSave(currentRecord);
+                                                            if (!result.Succeeded)
+                                                            {
+                                                                foreach (var err in result.Errors)
+                                                                {
+                                                                    resError.AddError(err.Key, err.Value);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
+                                        // переходим к следующей группе
+                                        excelGroupNameCell = excelGroupNameCell.get_Offset(0, 1);
                                     }
-                                    // переходим к следующей группе
-                                    excelGroupNameCell = excelGroupNameCell.get_Offset(0, 1);
+                                    excelcell = excelcell.get_Offset(36, 0);
                                 }
-                                excelcell = excelcell.get_Offset(37, 0);
+                                excelcell = excelcell.get_Offset(1, 0);
+                                counter++;
                             }
                         }
 
@@ -237,9 +242,11 @@ namespace DepartmentService.Helpers
                 }
 
                 //ищем зачет этой группы в другой аудитории
+                // доп условие, один премдет в двух аудиториях может быть
                 exsistRecord = _context.OffsetRecords.FirstOrDefault(r => r.Week == record.Week &&
                                               r.Day == record.Day && r.Lesson == record.Lesson && r.SeasonDatesId == _seasonDate.Id &&
-                                              r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
+                                              r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom && 
+                                              r.LessonDiscipline != record.LessonDiscipline);
                 if (exsistRecord != null)
                 {//если на этой неделе в этот день этой парой у этой группы уже есть занятие
                     return ResultService.Error("Конфликт (группы):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
