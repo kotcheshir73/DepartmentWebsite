@@ -82,11 +82,7 @@
     <Compile Include="BindingModels\EducationalProcessBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineBlockBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\EducationDirectionBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\KindOfLoadBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionMissionBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LoadDistributionRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamLessonRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StudentHistoryBindingModels.cs" />
@@ -162,6 +158,86 @@
     <Compile Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.Designer.cs">
       <DependentUpon>201804251441160_UpdateUserTableRemoveColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804271517398_ChangeContingentLink.cs" />
+    <Compile Include="Migrations\201804271517398_ChangeContingentLink.Designer.cs">
+      <DependentUpon>201804271517398_ChangeContingentLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804271543469_AddFieldContingentNameToContingent.cs" />
+    <Compile Include="Migrations\201804271543469_AddFieldContingentNameToContingent.Designer.cs">
+      <DependentUpon>201804271543469_AddFieldContingentNameToContingent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804280509528_AddFieldShortNameToEducationDirection.cs" />
+    <Compile Include="Migrations\201804280509528_AddFieldShortNameToEducationDirection.Designer.cs">
+      <DependentUpon>201804280509528_AddFieldShortNameToEducationDirection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805051615115_UpdateForBlueAsterisk.cs" />
+    <Compile Include="Migrations\201805051615115_UpdateForBlueAsterisk.Designer.cs">
+      <DependentUpon>201805051615115_UpdateForBlueAsterisk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805070448560_UpdateForBlueAsteriskSecondPart.cs" />
+    <Compile Include="Migrations\201805070448560_UpdateForBlueAsteriskSecondPart.Designer.cs">
+      <DependentUpon>201805070448560_UpdateForBlueAsteriskSecondPart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805070631183_UpdateForBlueAsteriskThirdPart.cs" />
+    <Compile Include="Migrations\201805070631183_UpdateForBlueAsteriskThirdPart.Designer.cs">
+      <DependentUpon>201805070631183_UpdateForBlueAsteriskThirdPart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805071204046_UpdateForBlueAsteriskFourthPart.cs" />
+    <Compile Include="Migrations\201805071204046_UpdateForBlueAsteriskFourthPart.Designer.cs">
+      <DependentUpon>201805071204046_UpdateForBlueAsteriskFourthPart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805081422052_UpdateAPREAddColumnsPlanAndFactHours.cs" />
+    <Compile Include="Migrations\201805081422052_UpdateAPREAddColumnsPlanAndFactHours.Designer.cs">
+      <DependentUpon>201805081422052_UpdateAPREAddColumnsPlanAndFactHours.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805081717107_UpdateForBlueAsteriskFifthPart.cs" />
+    <Compile Include="Migrations\201805081717107_UpdateForBlueAsteriskFifthPart.Designer.cs">
+      <DependentUpon>201805081717107_UpdateForBlueAsteriskFifthPart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091645387_UpdateKoLAddColumnOrder.cs" />
+    <Compile Include="Migrations\201805091645387_UpdateKoLAddColumnOrder.Designer.cs">
+      <DependentUpon>201805091645387_UpdateKoLAddColumnOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805110645151_IncludeKindOfLoadInTimeNormAndDeleteLoadDistrib.cs" />
+    <Compile Include="Migrations\201805110645151_IncludeKindOfLoadInTimeNormAndDeleteLoadDistrib.Designer.cs">
+      <DependentUpon>201805110645151_IncludeKindOfLoadInTimeNormAndDeleteLoadDistrib.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805111503130_RemoveKindOfLoad.cs" />
+    <Compile Include="Migrations\201805111503130_RemoveKindOfLoad.Designer.cs">
+      <DependentUpon>201805111503130_RemoveKindOfLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805141052318_AddLinkDiscipBlockInTimeNorm.cs" />
+    <Compile Include="Migrations\201805141052318_AddLinkDiscipBlockInTimeNorm.Designer.cs">
+      <DependentUpon>201805141052318_AddLinkDiscipBlockInTimeNorm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161125486_AddAcademicLevelInTimeNorm.cs" />
+    <Compile Include="Migrations\201805161125486_AddAcademicLevelInTimeNorm.Designer.cs">
+      <DependentUpon>201805161125486_AddAcademicLevelInTimeNorm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805170618361_ColumnTypeHoursInStreamLessonRecord.cs" />
+    <Compile Include="Migrations\201805170618361_ColumnTypeHoursInStreamLessonRecord.Designer.cs">
+      <DependentUpon>201805170618361_ColumnTypeHoursInStreamLessonRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805171006459_ChangePlaceHoursInStreamLesson.cs" />
+    <Compile Include="Migrations\201805171006459_ChangePlaceHoursInStreamLesson.Designer.cs">
+      <DependentUpon>201805171006459_ChangePlaceHoursInStreamLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805180832046_AddTableDisciplineBlockRecrods.cs" />
+    <Compile Include="Migrations\201805180832046_AddTableDisciplineBlockRecrods.Designer.cs">
+      <DependentUpon>201805180832046_AddTableDisciplineBlockRecrods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805220623252_ChangeEDandCinAPandAPR.cs" />
+    <Compile Include="Migrations\201805220623252_ChangeEDandCinAPandAPR.Designer.cs">
+      <DependentUpon>201805220623252_ChangeEDandCinAPandAPR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805220645562_ChangeEnumsinAPandAPR.cs" />
+    <Compile Include="Migrations\201805220645562_ChangeEnumsinAPandAPR.Designer.cs">
+      <DependentUpon>201805220645562_ChangeEnumsinAPandAPR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805220657242_DeleteDBR.cs" />
+    <Compile Include="Migrations\201805220657242_DeleteDBR.Designer.cs">
+      <DependentUpon>201805220657242_DeleteDBR.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -184,11 +260,7 @@
     <Compile Include="IServices\IEducationalProcessService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IEducationDirectionService.cs" />
     <Compile Include="IServices\ScheduleInterfaces\IExaminationRecordService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\IKindOfLoadService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\ILoadDistributionMissionService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\ILoadDistributionRecordService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\ILoadDistributionService.cs" />
     <Compile Include="IServices\StandartInterfaces\Administration\IRoleService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IScheduleLessonTimeService.cs" />
     <Compile Include="IServices\ScheduleInterfaces\IOffsetRecordService.cs" />
@@ -218,12 +290,8 @@
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
     <Compile Include="Services\ScheduleServices\ExaminationRecordService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\KindOfLoadService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerPostSerivce.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionMissionService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionRecordService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\LoadDistributionService.cs" />
     <Compile Include="Services\StandartServices\Administration\RoleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\ScheduleLessonTimeService.cs" />
     <Compile Include="Services\ScheduleServices\OffsetRecordService.cs" />
@@ -263,11 +331,7 @@
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineBlockViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\EducationDirectionViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\KindOfLoadViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\LoadDistributionMissionViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\LoadDistributionRecordViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\LoadDistributionViewModels.cs" />
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
@@ -331,6 +395,66 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804251441160_UpdateUserTableRemoveColumn.resx">
       <DependentUpon>201804251441160_UpdateUserTableRemoveColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804271517398_ChangeContingentLink.resx">
+      <DependentUpon>201804271517398_ChangeContingentLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804271543469_AddFieldContingentNameToContingent.resx">
+      <DependentUpon>201804271543469_AddFieldContingentNameToContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804280509528_AddFieldShortNameToEducationDirection.resx">
+      <DependentUpon>201804280509528_AddFieldShortNameToEducationDirection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805051615115_UpdateForBlueAsterisk.resx">
+      <DependentUpon>201805051615115_UpdateForBlueAsterisk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805070448560_UpdateForBlueAsteriskSecondPart.resx">
+      <DependentUpon>201805070448560_UpdateForBlueAsteriskSecondPart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805070631183_UpdateForBlueAsteriskThirdPart.resx">
+      <DependentUpon>201805070631183_UpdateForBlueAsteriskThirdPart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071204046_UpdateForBlueAsteriskFourthPart.resx">
+      <DependentUpon>201805071204046_UpdateForBlueAsteriskFourthPart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805081422052_UpdateAPREAddColumnsPlanAndFactHours.resx">
+      <DependentUpon>201805081422052_UpdateAPREAddColumnsPlanAndFactHours.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805081717107_UpdateForBlueAsteriskFifthPart.resx">
+      <DependentUpon>201805081717107_UpdateForBlueAsteriskFifthPart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091645387_UpdateKoLAddColumnOrder.resx">
+      <DependentUpon>201805091645387_UpdateKoLAddColumnOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805110645151_IncludeKindOfLoadInTimeNormAndDeleteLoadDistrib.resx">
+      <DependentUpon>201805110645151_IncludeKindOfLoadInTimeNormAndDeleteLoadDistrib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805111503130_RemoveKindOfLoad.resx">
+      <DependentUpon>201805111503130_RemoveKindOfLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805141052318_AddLinkDiscipBlockInTimeNorm.resx">
+      <DependentUpon>201805141052318_AddLinkDiscipBlockInTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161125486_AddAcademicLevelInTimeNorm.resx">
+      <DependentUpon>201805161125486_AddAcademicLevelInTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805170618361_ColumnTypeHoursInStreamLessonRecord.resx">
+      <DependentUpon>201805170618361_ColumnTypeHoursInStreamLessonRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805171006459_ChangePlaceHoursInStreamLesson.resx">
+      <DependentUpon>201805171006459_ChangePlaceHoursInStreamLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805180832046_AddTableDisciplineBlockRecrods.resx">
+      <DependentUpon>201805180832046_AddTableDisciplineBlockRecrods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805220623252_ChangeEDandCinAPandAPR.resx">
+      <DependentUpon>201805220623252_ChangeEDandCinAPandAPR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805220645562_ChangeEnumsinAPandAPR.resx">
+      <DependentUpon>201805220645562_ChangeEnumsinAPandAPR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805220657242_DeleteDBR.resx">
+      <DependentUpon>201805220657242_DeleteDBR.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

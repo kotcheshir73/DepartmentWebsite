@@ -16,6 +16,9 @@ namespace DepartmentService.BindingModels
         public string Cipher { get; set; }
 
         [Required(ErrorMessage = "required")]
+        public string ShortName { get; set; }
+
+        [Required(ErrorMessage = "required")]
         public string Title { get; set; }
         
         public string Description { get; set; }

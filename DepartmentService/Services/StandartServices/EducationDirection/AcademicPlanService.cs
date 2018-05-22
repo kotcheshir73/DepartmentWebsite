@@ -57,6 +57,11 @@ namespace DepartmentService.Services
                     query = query.Where(ap => ap.AcademicYearId == model.AcademicYearId);
                 }
 
+                if (model.Id.HasValue)
+                {
+                    query = query.Where(x => x.Id == model.Id);
+                }
+
                 query = query.OrderBy(ap => ap.AcademicYear.Title).ThenBy(ap => ap.EducationDirection.Cipher).ThenBy(ap => ap.AcademicCourses);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)

@@ -8,7 +8,7 @@ namespace DepartmentService.BindingModels
 
         public Guid? AcademicPlanRecordId { get; set; }
 
-        public Guid? KindOfLoadId { get; set; }
+        public Guid? TimeNormId { get; set; }
     }
 
     public class AcademicPlanRecordElementRecordBindingModel
@@ -17,8 +17,10 @@ namespace DepartmentService.BindingModels
 
         public Guid AcademicPlanRecordId { get; set; }
 
-        public Guid KindOfLoadId { get; set; }
+        public Guid TimeNormId { get; set; }
 
-        public decimal Hours { get; set; }
+        public decimal PlanHours { get; set; }
+
+        public decimal FactHours { get; set; }
     }
 }

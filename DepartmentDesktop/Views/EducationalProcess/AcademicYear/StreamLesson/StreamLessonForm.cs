@@ -46,7 +46,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
             comboBoxAcademicYear.DisplayMember = "Display";
             comboBoxAcademicYear.DataSource = resultAY.Result.List
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
-            comboBoxAcademicYear.SelectedItem = _ayId;
+            comboBoxAcademicYear.SelectedValue = _ayId;
 
             var control = Container.Resolve< StreamLessonRecordControl> ();
 
@@ -69,7 +69,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
 
         private void LoadData()
         {
-            (tabPageRecords.Controls[0] as StreamLessonRecordControl).LoadData(_id.Value);
+            (tabPageRecords.Controls[0] as StreamLessonRecordControl).LoadData(_id.Value, _ayId.Value);
             var result = _service.GetStreamLesson(new StreamLessonGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
@@ -80,6 +80,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
             
             comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
             textBoxStreamLessonName.Text = entity.StreamLessonName;
+            textBoxStreamLessonHours.Text = entity.StreamLessonHours.ToString();
         }
 
         private bool CheckFill()
@@ -89,6 +90,15 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                 return false;
             }
             if (string.IsNullOrEmpty(textBoxStreamLessonName.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxStreamLessonHours.Text))
+            {
+                return false;
+            }
+            decimal hours = 0;
+            if (!decimal.TryParse(textBoxStreamLessonHours.Text, out hours))
             {
                 return false;
             }
@@ -105,7 +115,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                     result = _service.CreateStreamLesson(new StreamLessonRecordBindingModel
                     {
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        StreamLessonName = textBoxStreamLessonName.Text
+                        StreamLessonName = textBoxStreamLessonName.Text,
+                        StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
                     });
                 }
                 else
@@ -114,7 +125,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                     {
                         Id = _id.Value,
                         AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        StreamLessonName = textBoxStreamLessonName.Text
+                        StreamLessonName = textBoxStreamLessonName.Text,
+                        StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
                     });
                 }
                 if (result.Succeeded)

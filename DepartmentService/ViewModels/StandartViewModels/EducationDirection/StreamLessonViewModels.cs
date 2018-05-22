@@ -13,5 +13,7 @@ namespace DepartmentService.ViewModels
         public string AcademicYear { get; set; }
 
         public string StreamLessonName { get; set; }
+
+        public decimal StreamLessonHours { get; set; }
     }
 }

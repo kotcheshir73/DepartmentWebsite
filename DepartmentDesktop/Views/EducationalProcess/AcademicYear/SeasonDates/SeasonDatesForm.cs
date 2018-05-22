@@ -33,7 +33,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.SeasonDates
 
         private void SeasonDatesForm_Load(object sender, EventArgs e)
         {
-            var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
+            var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { Id = _ayId });
             if (!resultAY.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);

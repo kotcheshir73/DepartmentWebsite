@@ -46,10 +46,12 @@
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelAcademicYear = new System.Windows.Forms.Label();
             this.tabPageSchedule = new System.Windows.Forms.TabPage();
+            this.standartControlSchedule = new DepartmentDesktop.Controllers.StandartControl();
             this.panelScheduleTop = new System.Windows.Forms.Panel();
             this.comboBoxSeasonDate = new System.Windows.Forms.ComboBox();
             this.labelSeasonDate = new System.Windows.Forms.Label();
-            this.standartControlSchedule = new DepartmentDesktop.Controllers.StandartControl();
+            this.textBoxDisciplineBlueAsteriskName = new System.Windows.Forms.TextBox();
+            this.labelDisciplineBlueAsteriskName = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.tabPageLoadDistributions.SuspendLayout();
@@ -63,37 +65,37 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(124, 88);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(153, 125);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 7;
+            this.buttonSaveAndClose.TabIndex = 9;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(271, 88);
+            this.buttonClose.Location = new System.Drawing.Point(300, 125);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 8;
+            this.buttonClose.TabIndex = 10;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(43, 88);
+            this.buttonSave.Location = new System.Drawing.Point(72, 125);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 6;
+            this.buttonSave.TabIndex = 8;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(94, 9);
+            this.textBoxTitle.Location = new System.Drawing.Point(187, 9);
             this.textBoxTitle.MaxLength = 100;
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(250, 20);
@@ -121,14 +123,14 @@
             // 
             this.comboBoxDisciplineBlock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplineBlock.FormattingEnabled = true;
-            this.comboBoxDisciplineBlock.Location = new System.Drawing.Point(94, 61);
+            this.comboBoxDisciplineBlock.Location = new System.Drawing.Point(187, 61);
             this.comboBoxDisciplineBlock.Name = "comboBoxDisciplineBlock";
             this.comboBoxDisciplineBlock.Size = new System.Drawing.Size(250, 21);
             this.comboBoxDisciplineBlock.TabIndex = 5;
             // 
             // textBoxDisciplineShortName
             // 
-            this.textBoxDisciplineShortName.Location = new System.Drawing.Point(94, 35);
+            this.textBoxDisciplineShortName.Location = new System.Drawing.Point(187, 35);
             this.textBoxDisciplineShortName.MaxLength = 100;
             this.textBoxDisciplineShortName.Name = "textBoxDisciplineShortName";
             this.textBoxDisciplineShortName.Size = new System.Drawing.Size(250, 20);
@@ -157,6 +159,8 @@
             // 
             // tabPageConfig
             // 
+            this.tabPageConfig.Controls.Add(this.textBoxDisciplineBlueAsteriskName);
+            this.tabPageConfig.Controls.Add(this.labelDisciplineBlueAsteriskName);
             this.tabPageConfig.Controls.Add(this.labelTitle);
             this.tabPageConfig.Controls.Add(this.textBoxDisciplineShortName);
             this.tabPageConfig.Controls.Add(this.textBoxTitle);
@@ -197,7 +201,7 @@
             // 
             this.splitContainer.Panel1.Controls.Add(this.standartControlAcademicPlanRecords);
             this.splitContainer.Size = new System.Drawing.Size(807, 431);
-            this.splitContainer.SplitterDistance = 212;
+            this.splitContainer.SplitterDistance = 211;
             this.splitContainer.TabIndex = 1;
             // 
             // standartControlAcademicPlanRecords
@@ -205,7 +209,7 @@
             this.standartControlAcademicPlanRecords.Dock = System.Windows.Forms.DockStyle.Fill;
             this.standartControlAcademicPlanRecords.Location = new System.Drawing.Point(0, 0);
             this.standartControlAcademicPlanRecords.Name = "standartControlAcademicPlanRecords";
-            this.standartControlAcademicPlanRecords.Size = new System.Drawing.Size(807, 212);
+            this.standartControlAcademicPlanRecords.Size = new System.Drawing.Size(807, 211);
             this.standartControlAcademicPlanRecords.TabIndex = 0;
             // 
             // panelTop
@@ -249,6 +253,14 @@
             this.tabPageSchedule.Text = "Расписание";
             this.tabPageSchedule.UseVisualStyleBackColor = true;
             // 
+            // standartControlSchedule
+            // 
+            this.standartControlSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.standartControlSchedule.Location = new System.Drawing.Point(3, 43);
+            this.standartControlSchedule.Name = "standartControlSchedule";
+            this.standartControlSchedule.Size = new System.Drawing.Size(807, 431);
+            this.standartControlSchedule.TabIndex = 1;
+            // 
             // panelScheduleTop
             // 
             this.panelScheduleTop.Controls.Add(this.comboBoxSeasonDate);
@@ -278,13 +290,22 @@
             this.labelSeasonDate.TabIndex = 0;
             this.labelSeasonDate.Text = "Семестр*:";
             // 
-            // standartControlSchedule
+            // textBoxDisciplineBlueAsteriskName
             // 
-            this.standartControlSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.standartControlSchedule.Location = new System.Drawing.Point(3, 43);
-            this.standartControlSchedule.Name = "standartControlSchedule";
-            this.standartControlSchedule.Size = new System.Drawing.Size(807, 431);
-            this.standartControlSchedule.TabIndex = 1;
+            this.textBoxDisciplineBlueAsteriskName.Location = new System.Drawing.Point(187, 88);
+            this.textBoxDisciplineBlueAsteriskName.MaxLength = 100;
+            this.textBoxDisciplineBlueAsteriskName.Name = "textBoxDisciplineBlueAsteriskName";
+            this.textBoxDisciplineBlueAsteriskName.Size = new System.Drawing.Size(250, 20);
+            this.textBoxDisciplineBlueAsteriskName.TabIndex = 7;
+            // 
+            // labelDisciplineBlueAsteriskName
+            // 
+            this.labelDisciplineBlueAsteriskName.AutoSize = true;
+            this.labelDisciplineBlueAsteriskName.Location = new System.Drawing.Point(6, 91);
+            this.labelDisciplineBlueAsteriskName.Name = "labelDisciplineBlueAsteriskName";
+            this.labelDisciplineBlueAsteriskName.Size = new System.Drawing.Size(175, 13);
+            this.labelDisciplineBlueAsteriskName.TabIndex = 6;
+            this.labelDisciplineBlueAsteriskName.Text = "Синоноим для синей звездочки*:";
             // 
             // DisciplineForm
             // 
@@ -336,5 +357,7 @@
         private System.Windows.Forms.ComboBox comboBoxSeasonDate;
         private System.Windows.Forms.Label labelSeasonDate;
         private Controllers.StandartControl standartControlSchedule;
+        private System.Windows.Forms.TextBox textBoxDisciplineBlueAsteriskName;
+        private System.Windows.Forms.Label labelDisciplineBlueAsteriskName;
     }
 }

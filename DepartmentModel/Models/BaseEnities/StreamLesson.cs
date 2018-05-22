@@ -17,6 +17,9 @@ namespace DepartmentModel.Models
         [DataMember]
         public string StreamLessonName { get; set; }
 
+        [DataMember]
+        public decimal StreamLessonHours { get; set; }
+
         //-------------------------------------------------------------------------
 
         public AcademicYear AcademicYear { get; set; }

@@ -95,7 +95,8 @@ namespace DepartmentService.Services
                     .Include(x => x.AcademicPlanRecordElement)
                     .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                     .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection)
-                    .Include(x => x.AcademicPlanRecordElement.KindOfLoad).Include(x => x.StreamLesson);
+                    .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                    .Include(x => x.StreamLesson);
 
                 var result = new StreamLessonRecordPageViewModel
                 {
@@ -126,7 +127,7 @@ namespace DepartmentService.Services
 
                 var entity = _context.StreamLessonRecords
                                 .Include(x => x.AcademicPlanRecordElement)
-                                .Include(x => x.AcademicPlanRecordElement.KindOfLoad)
+                                .Include(x => x.AcademicPlanRecordElement.TimeNorm)
                                 .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                                 .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection)
                                 .Include(x => x.StreamLesson)

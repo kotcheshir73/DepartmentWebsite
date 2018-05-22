@@ -14,6 +14,7 @@ namespace DepartmentService.BindingModels
                 entity = new EducationDirection();
 			}
 			entity.Cipher = model.Cipher;
+            entity.ShortName = model.ShortName;
 			entity.Description = model.Description;
 			entity.Title = model.Title;
 
@@ -27,9 +28,12 @@ namespace DepartmentService.BindingModels
 				entity = new DisciplineBlock();
 			}
 			entity.Title = model.Title;
+            entity.DisciplineBlockBlueAsteriskName = model.DisciplineBlockBlueAsteriskName;
+            entity.DisciplineBlockUseForGrouping = model.DisciplineBlockUseForGrouping;
+            entity.DisciplineBlockOrder = model.DisciplineBlockOrder;
 
 			return entity;
-		}
+        }
 
         public static LecturerPost CreateLecturerPost(LecturerPostRecordBindingModel model, LecturerPost entity = null)
         {
@@ -67,6 +71,7 @@ namespace DepartmentService.BindingModels
 			entity.DisciplineBlockId = model.DisciplineBlockId;
 			entity.DisciplineName = model.DisciplineName;
             entity.DisciplineShortName = model.DisciplineShortName;
+            entity.DisciplineBlueAsteriskName = model.DisciplineBlueAsteriskName;
 
             return entity;
 		}
@@ -111,32 +116,28 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-
-		public static KindOfLoad CreateKindOfLoad(KindOfLoadRecordBindingModel model, KindOfLoad entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new KindOfLoad();
-			}
-			entity.KindOfLoadName = model.KindOfLoadName;
-            entity.AttributeName = model.AttributeName;
-
-            return entity;
-		}
-
+        
 		public static TimeNorm CreateTimeNorm(TimeNormRecordBindingModel model, TimeNorm entity = null)
 		{
 			if (entity == null)
 			{
 				entity = new TimeNorm();
 			}
-			entity.Title = model.Title;
-			entity.KindOfLoadId = model.KindOfLoadId;
             entity.AcademicYearId = model.AcademicYearId;
-			entity.Hours = model.Hours;
-            entity.NumKoef = model.NumKoef;
-            entity.TimeNormKoef = (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
+            entity.DisciplineBlockId = model.DisciplineBlockId;
+			entity.TimeNormName = model.TimeNormName;
+            entity.TimeNormShortName = model.TimeNormShortName;
+            entity.TimeNormOrder = model.TimeNormOrder;
+            entity.TimeNormAcademicLevel = string.IsNullOrEmpty(model.TimeNormAcademicLevel) ? (AcademicLevel?)null : (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.TimeNormAcademicLevel);
+            entity.KindOfLoadName = model.KindOfLoadName;
+            entity.KindOfLoadAttributeName = model.KindOfLoadAttributeName;
+            entity.KindOfLoadBlueAsteriskName = model.KindOfLoadBlueAsteriskName;
+            entity.KindOfLoadBlueAsteriskAttributeName = model.KindOfLoadBlueAsteriskAttributeName;
+            entity.KindOfLoadBlueAsteriskPracticName = model.KindOfLoadBlueAsteriskPracticName;
             entity.KindOfLoadType = (KindOfLoadType)Enum.Parse(typeof(KindOfLoadType), model.KindOfLoadType);
+            entity.Hours = model.Hours;
+            entity.NumKoef = model.NumKoef;
+            entity.TimeNormKoef = string.IsNullOrEmpty(model.TimeNormKoef) ? TimeNormKoef.Пусто : (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
 
             return entity;
 		}
@@ -150,6 +151,7 @@ namespace DepartmentService.BindingModels
 			entity.AcademicYearId = model.AcademicYearId;
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
+            entity.ContingentName = model.ContingentName;
             entity.CountGroups = model.CountGroups;
 			entity.CountStudetns = model.CountStudents;
 			entity.CountSubgroups = model.CountSubgroups;
@@ -167,7 +169,7 @@ namespace DepartmentService.BindingModels
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.AcademicYearId = model.AcademicYearId;
 			entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
-			entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses);
+			entity.AcademicCourses = model.AcademicCourses.HasValue ? (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses) : (AcademicCourse?)null;
 
 			return entity;
 		}
@@ -180,7 +182,8 @@ namespace DepartmentService.BindingModels
 			}
             entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
-			entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.ContingentId = model.ContingentId;
+            entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
 
             return entity;
@@ -193,8 +196,9 @@ namespace DepartmentService.BindingModels
                 entity = new AcademicPlanRecordElement();
             }
             entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
-            entity.KindOfLoadId = model.KindOfLoadId;
-            entity.Hours = model.Hours;
+            entity.TimeNormId = model.TimeNormId;
+            entity.PlanHours = model.PlanHours;
+            entity.FactHours = model.FactHours;
             return entity;
         }
 
@@ -217,6 +221,7 @@ namespace DepartmentService.BindingModels
             }
             entity.AcademicYearId = model.AcademicYearId;
             entity.StreamLessonName = model.StreamLessonName;
+            entity.StreamLessonHours = model.StreamLessonHours;
 
             return entity;
         }
@@ -229,7 +234,6 @@ namespace DepartmentService.BindingModels
             }
             entity.StreamLessonId = model.StreamLessonId;
             entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
-            entity.Hours = model.Hours;
             entity.IsMain = model.IsMain;
 
             return entity;
@@ -314,45 +318,6 @@ namespace DepartmentService.BindingModels
             entity.Order = model.Order;
 			entity.DateBeginLesson = model.DateBeginLesson;
 			entity.DateEndLesson = model.DateEndLesson;
-
-			return entity;
-		}
-        #endregion
-
-        #region LoadDistribution
-        public static LoadDistribution CreateLoadDistribution(LoadDistributionRecordBindingModel model, LoadDistribution entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new LoadDistribution();
-			}
-			entity.AcademicYearId = model.AcademicYearId;
-
-			return entity;
-		}
-
-		public static LoadDistributionRecord CreateLoadDistributionRecord(LoadDistributionRecordRecordBindingModel model, LoadDistributionRecord entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new LoadDistributionRecord();
-			}
-			entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
-			entity.ContingentId = model.ContingentId;
-			entity.TimeNormId = model.TimeNormId;
-			entity.Load = model.Load;
-
-			return entity;
-		}
-
-		public static LoadDistributionMission CreateLoadDistributionMission(LoadDistributionMissionRecordBindingModel model, LoadDistributionMission entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new LoadDistributionMission();
-			}
-			entity.LecturerId = model.LecturerId;
-			entity.Hours = model.Hours;
 
 			return entity;
 		}

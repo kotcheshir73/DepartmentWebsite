@@ -19,14 +19,14 @@ namespace DepartmentService.Services
 
         private readonly IAcademicPlanRecordService _serviceAPR;
 
-        private readonly IKindOfLoadService _serviceKL;
+        private readonly ITimeNormService _serviceTN;
 
         public AcademicPlanRecordElementService(DepartmentDbContext context, IAcademicPlanRecordService serviceAPR,
-           IKindOfLoadService serviceKL)
+           ITimeNormService serviceTN)
         {
             _context = context;
             _serviceAPR = serviceAPR;
-            _serviceKL = serviceKL;
+            _serviceTN = serviceTN;
         }
 
         public ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
@@ -34,9 +34,9 @@ namespace DepartmentService.Services
             return _serviceAPR.GetAcademicPlanRecords(model);
         }
 
-        public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
+        public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
         {
-            return _serviceKL.GetKindOfLoads(model);
+            return _serviceTN.GetTimeNorms(model);
         }
 
 
@@ -56,12 +56,12 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(apre => apre.AcademicPlanRecordId == model.AcademicPlanRecordId);
                 }
-                if(model.KindOfLoadId.HasValue)
+                if(model.TimeNormId.HasValue)
                 {
-                    query = query.Where(apre => apre.KindOfLoadId == model.KindOfLoadId);
+                    query = query.Where(apre => apre.TimeNormId == model.TimeNormId);
                 }
 
-                query = query.OrderBy(apre => apre.AcademicPlanRecordId).ThenBy(apre => apre.KindOfLoadId);
+                query = query.OrderBy(apre => apre.AcademicPlanRecordId).ThenBy(apre => apre.TimeNormId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -71,7 +71,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(apre => apre.AcademicPlanRecord).Include(apre => apre.AcademicPlanRecord.Discipline).Include(apre => apre.KindOfLoad);
+                query = query.Include(apre => apre.AcademicPlanRecord).Include(apre => apre.AcademicPlanRecord.Discipline).Include(apre => apre.TimeNorm);
 
                 var result = new AcademicPlanRecordElementPageViewModel
                 {

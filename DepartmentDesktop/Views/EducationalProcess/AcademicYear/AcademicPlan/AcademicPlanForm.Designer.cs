@@ -36,8 +36,6 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -83,9 +81,9 @@
             this.labelAcademicCourse.AutoSize = true;
             this.labelAcademicCourse.Location = new System.Drawing.Point(12, 95);
             this.labelAcademicCourse.Name = "labelAcademicCourse";
-            this.labelAcademicCourse.Size = new System.Drawing.Size(46, 13);
+            this.labelAcademicCourse.Size = new System.Drawing.Size(42, 13);
             this.labelAcademicCourse.TabIndex = 6;
-            this.labelAcademicCourse.Text = "Курсы*:";
+            this.labelAcademicCourse.Text = "Курсы:";
             // 
             // checkBox1
             // 
@@ -127,26 +125,6 @@
             this.checkBox4.Text = "4";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(252, 94);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(32, 17);
-            this.checkBox5.TabIndex = 11;
-            this.checkBox5.Text = "5";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(290, 94);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(32, 17);
-            this.checkBox6.TabIndex = 12;
-            this.checkBox6.Text = "6";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            // 
             // buttonClose
             // 
             this.buttonClose.Location = new System.Drawing.Point(247, 117);
@@ -175,7 +153,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(834, 502);
+            this.tabControl.Size = new System.Drawing.Size(834, 501);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -188,9 +166,7 @@
             this.tabPageConfig.Controls.Add(this.buttonClose);
             this.tabPageConfig.Controls.Add(this.buttonSave);
             this.tabPageConfig.Controls.Add(this.labelAcademicLevel);
-            this.tabPageConfig.Controls.Add(this.checkBox6);
             this.tabPageConfig.Controls.Add(this.comboBoxAcademicLevel);
-            this.tabPageConfig.Controls.Add(this.checkBox5);
             this.tabPageConfig.Controls.Add(this.labelAcademicCourse);
             this.tabPageConfig.Controls.Add(this.checkBox4);
             this.tabPageConfig.Controls.Add(this.checkBox1);
@@ -199,7 +175,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(826, 476);
+            this.tabPageConfig.Size = new System.Drawing.Size(826, 475);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Учебный план";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -238,16 +214,16 @@
             this.labelEducationDirection.AutoSize = true;
             this.labelEducationDirection.Location = new System.Drawing.Point(12, 40);
             this.labelEducationDirection.Name = "labelEducationDirection";
-            this.labelEducationDirection.Size = new System.Drawing.Size(82, 13);
+            this.labelEducationDirection.Size = new System.Drawing.Size(78, 13);
             this.labelEducationDirection.TabIndex = 2;
-            this.labelEducationDirection.Text = "Направление*:";
+            this.labelEducationDirection.Text = "Направление:";
             // 
             // tabPageRecords
             // 
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(826, 476);
+            this.tabPageRecords.Size = new System.Drawing.Size(826, 475);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Записи";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -256,7 +232,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 502);
+            this.ClientSize = new System.Drawing.Size(834, 501);
             this.Controls.Add(this.tabControl);
             this.Name = "AcademicPlanForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -279,8 +255,6 @@
 		private System.Windows.Forms.CheckBox checkBox2;
 		private System.Windows.Forms.CheckBox checkBox3;
 		private System.Windows.Forms.CheckBox checkBox4;
-		private System.Windows.Forms.CheckBox checkBox5;
-		private System.Windows.Forms.CheckBox checkBox6;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.TabControl tabControl;

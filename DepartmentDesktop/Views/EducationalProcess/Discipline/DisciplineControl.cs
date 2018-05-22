@@ -30,8 +30,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "DisciplineName", Title = "Название", Width = 600, Visible = true },
                 new ColumnConfig { Name = "DisciplineShortName", Title = "Краткое название", Width = 200, Visible = true },
-                new ColumnConfig { Name = "DisciplineBlockTitle", Title = "Блок", Width = 200, Visible = true }
-			};
+                new ColumnConfig { Name = "DisciplineBlockTitle", Title = "Блок", Width = 200, Visible = true },
+                new ColumnConfig { Name = "DisciplineBlueAsteriskName", Title = "Синоним для синей звездочки", Width = 300, Visible = true }
+            };
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
@@ -78,7 +79,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 					res.Id,
 					res.DisciplineName,
                     res.DisciplineShortName,
-                    res.DisciplineBlockTitle
+                    res.DisciplineBlockTitle,
+                    res.DisciplineBlueAsteriskName
 				);
 			}
 			return result.Result.MaxCount;

@@ -7,6 +7,8 @@ namespace DepartmentService.BindingModels
 		public Guid? Id { get; set; }
 
         public Guid? AcademicYearId { get; set; }
+
+        public Guid? AcademicPlanId { get; set; }
     }
 
 	public class ContingentRecordBindingModel
@@ -17,7 +19,9 @@ namespace DepartmentService.BindingModels
 
 		public Guid EducationDirectionId { get; set; }
 
-		public int Course { get; set; }
+        public string ContingentName { get; set; }
+
+        public int Course { get; set; }
 
         public int CountGroups { get; set; }
 

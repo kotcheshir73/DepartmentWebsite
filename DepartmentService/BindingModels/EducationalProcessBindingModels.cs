@@ -1,5 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentModel.Enums;
+using DepartmentModel.Models;
+using DepartmentModel.Models.HelperModels;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -13,8 +15,30 @@ namespace DepartmentService.BindingModels
         public string FileName { get; set; }
     }
 
+    public class EducationalProcessDuplicateAcademicYear
+    {
+        public Guid FromAcademicPlanId { get; set; }
+
+        public Guid ToAcademicPlanId { get; set; }
+
+        public bool DuplicateAcademicPlan { get; set; }
+
+        public bool DuplicateTimeNorm { get; set; }
+
+        public bool DuplicateContingent { get; set; }
+
+        public bool DuplicateSeasonDate { get; set; }
+    }
+
+    public class EducationalProcessCreateStreams
+    {
+        public Guid AcademicYearId { get; set; }
+    }
+
     public class ParseDisciplineBindingModel
     {
+        public Guid AcademicYearId { get; set; }
+
         public Guid AcademicPlanId { get; set; }
 
         public Guid DisciplineBlockId { get; set; }
@@ -43,6 +67,27 @@ namespace DepartmentService.BindingModels
         public XmlNode Node { get; set; }
 
         public int SemesterNumber { get; set; }
+    }
+
+    public class ParseBlueAsterisk
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid AcademicPlanId { get; set; }
+
+        public XmlNode Node { get; set; }
+
+        public List<Semesters> Semesters { get; set; }
+
+        public List<BlueAsteriskTypeObject> ObjectTypes { get; set; }
+
+        public List<BlueAsteriskBlockType> BlockTypes { get; set; }
+
+        public List<DisciplineBlock> DisciplineBlocks { get; set; }
+
+        public List<Discipline> Disciplines { get; set; }
+
+        public List<TimeNorm> TimeNorms { get; set; }
     }
 
     public class AcademicPlanRecrodsForDiciplineBindingModel : PageSettingBinidingModel

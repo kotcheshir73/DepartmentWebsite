@@ -26,7 +26,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Cipher", Title = "Шифр", Width = 100, Visible = true },
-				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
+                new ColumnConfig { Name = "ShortName", Title = "Кратко", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Description", Title = "Описание", Visible = true }
 			};
 
@@ -75,6 +76,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 				{
 					res.Id,
 					res.Cipher,
+                    res.ShortName,
 					res.Title,
 					res.Description
 				});

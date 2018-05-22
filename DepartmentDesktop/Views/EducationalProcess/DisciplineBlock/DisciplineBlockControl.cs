@@ -25,8 +25,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true }
-			};
+				new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
+                new ColumnConfig { Name = "DisciplineBlockBlueAsteriskName", Title = "Синоним для синей звездочки", Width = 300, Visible = true },
+                new ColumnConfig { Name = "DisciplineBlockUseForGrouping", Title = "Группировать по нему", Width = 150, Visible = true },
+                new ColumnConfig { Name = "DisciplineBlockOrder", Title = "Порядок", Width = 100, Visible = true }
+            };
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
@@ -71,7 +74,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			{
 				standartControl.GetDataGridViewRows.Add(
 					res.Id,
-					res.Title
+					res.Title,
+                    res.DisciplineBlockBlueAsteriskName,
+                    res.DisciplineBlockUseForGrouping ? "Да" : "Нет",
+                    res.DisciplineBlockOrder
 				);
 			}
 			return result.Result.MaxCount;

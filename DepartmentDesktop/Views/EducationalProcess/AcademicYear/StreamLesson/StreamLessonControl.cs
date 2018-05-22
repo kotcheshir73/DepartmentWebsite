@@ -17,27 +17,37 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
 
         private readonly IStreamLessonService _service;
 
+        private readonly IEducationalProcessService _process;
+
         private Guid _ayId;
 
-        public StreamLessonControl(IStreamLessonService service)
+        public StreamLessonControl(IStreamLessonService service, IEducationalProcessService process)
         {
             InitializeComponent();
             _service = service;
+            _process = process;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "StreamLessonName", Title = "Название потока", Width = 250, Visible = true }
+                new ColumnConfig { Name = "StreamLessonName", Title = "Название потока", Width = 250, Visible = true },
+                new ColumnConfig { Name = "StreamLessonHours", Title = "Часы", Width = 100, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string> { };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "CreateStreamsToolStripMenuItem", "Создать потоки"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("CreateStreamsToolStripMenuItem", CreateStreamsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -75,7 +85,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.StreamLessonName
+                    res.StreamLessonName,
+                    res.StreamLessonHours
                 );
             }
             return result.Result.MaxCount;
@@ -132,6 +143,23 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson
                     }
                     standartControl.LoadPage();
                 }
+            }
+        }
+
+        private void CreateStreamsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите создать или обновить потоки?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                var result = _process.CreateStreamsForAcademicYear(new EducationalProcessCreateStreams { AcademicYearId = _ayId });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Операция успешно выполнена", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                }
+                standartControl.LoadPage();
             }
         }
     }

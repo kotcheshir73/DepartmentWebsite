@@ -39,17 +39,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                 MessageBox.Show("Неуказана запись учебного плана", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var resultAPR = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { });
+            var resultAPR = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { Id = _aprId });
             if (!resultAPR.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке записей учебных планов возникла ошибка: ", resultAPR.Errors);
                 return;
             }
 
-            var resultKoL = _service.GetKindOfLoads(new KindOfLoadGetBindingModel { });
-            if (!resultKoL.Succeeded)
+            var resultTN = _service.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = _aprId });
+            if (!resultTN.Succeeded)
             {
-                Program.PrintErrorMessage("При загрузке видов нагрузок возникла ошибка: ", resultKoL.Errors);
+                Program.PrintErrorMessage("При загрузке норм времени возникла ошибка: ", resultTN.Errors);
                 return;
             }
 
@@ -59,11 +59,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                 .Select(ap => new { Value = ap.Id, Display = ap.Disciplne }).ToList();
             comboBoxAcademicPlanRecord.SelectedValue = _aprId;
 
-            comboBoxKindOfLoad.ValueMember = "Value";
-            comboBoxKindOfLoad.DisplayMember = "Display";
-            comboBoxKindOfLoad.DataSource = resultKoL.Result.List
+            comboBoxTimeNorm.ValueMember = "Value";
+            comboBoxTimeNorm.DisplayMember = "Display";
+            comboBoxTimeNorm.DataSource = resultTN.Result.List
                 .Select(d => new { Value = d.Id, Display = d.KindOfLoadName }).ToList();
-            comboBoxKindOfLoad.SelectedItem = null;
+            comboBoxTimeNorm.SelectedItem = null;
 
             if (_id.HasValue)
             {
@@ -82,8 +82,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
             var entity = result.Result;
 
             comboBoxAcademicPlanRecord.SelectedValue = entity.AcademicPlanRecordId;
-            comboBoxKindOfLoad.SelectedValue = entity.KindOfLoadId;
-            textBoxHours.Text = entity.Hours.ToString();
+            comboBoxTimeNorm.SelectedValue = entity.TimeNormId;
+            textBoxPlanHours.Text = entity.PlanHours.ToString();
+            textBoxFactHours.Text = entity.FactHours.ToString();
         }
 
         private bool CheckFill()
@@ -92,16 +93,24 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
             {
                 return false;
             }
-            if (comboBoxKindOfLoad.SelectedValue == null)
+            if (comboBoxTimeNorm.SelectedValue == null)
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxHours.Text))
+            if (string.IsNullOrEmpty(textBoxPlanHours.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxFactHours.Text))
             {
                 return false;
             }
             int hours = 0;
-            if (!int.TryParse(textBoxHours.Text, out hours))
+            if (!int.TryParse(textBoxPlanHours.Text, out hours))
+            {
+                return false;
+            }
+            if (!int.TryParse(textBoxFactHours.Text, out hours))
             {
                 return false;
             }
@@ -118,8 +127,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                     result = _service.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementRecordBindingModel
                     {
                         AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-                        KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
-                        Hours = Convert.ToInt32(textBoxHours.Text)
+                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
+                        PlanHours = Convert.ToInt32(textBoxPlanHours.Text),
+                        FactHours = Convert.ToInt32(textBoxFactHours.Text)
                     });
                 }
                 else
@@ -128,8 +138,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear.AcademicPlan.A
                     {
                         Id = _id.Value,
                         AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-                        KindOfLoadId = new Guid(comboBoxKindOfLoad.SelectedValue.ToString()),
-                        Hours = Convert.ToInt32(textBoxHours.Text)
+                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
+                        PlanHours = Convert.ToInt32(textBoxPlanHours.Text),
+                        FactHours = Convert.ToInt32(textBoxFactHours.Text)
                     });
                 }
                 if (result.Succeeded)

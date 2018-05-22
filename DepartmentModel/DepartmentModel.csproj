@@ -84,12 +84,8 @@
     <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\EducationDirection.cs" />
-    <Compile Include="Models\BaseEnities\KindOfLoad.cs" />
     <Compile Include="Models\BaseEnities\Lecturer.cs" />
     <Compile Include="Models\BaseEnities\LecturerPost.cs" />
-    <Compile Include="Models\BaseEnities\LoadDistribution.cs" />
-    <Compile Include="Models\BaseEnities\LoadDistributionMission.cs" />
-    <Compile Include="Models\BaseEnities\LoadDistributionRecord.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValue.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueGroup.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueRecord.cs" />
@@ -109,6 +105,8 @@
     <Compile Include="Models\BaseEnities\UserRole.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
+    <Compile Include="Models\HelperModels\BlueAsteriskBlockType.cs" />
+    <Compile Include="Models\HelperModels\BlueAsteriskTypeObject.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
     <Compile Include="Models\ScheduleRecords\ConsultationRecord.cs" />
     <Compile Include="Models\ScheduleRecords\ExaminationRecord.cs" />

@@ -12,11 +12,13 @@ namespace DepartmentService.ViewModels
 
 		public Guid EducationDirectionId { get; set; }
 
-		public string EducationDirectionCipher { get; set; }
+		public string EducationDirectionShortName { get; set; }
 
 		public string AcademicYear { get; set; }
 
-		public int Course { get; set; }
+        public string ContingentName { get; set; }
+
+        public int Course { get; set; }
 
         public int CountGroups { get; set; }
 

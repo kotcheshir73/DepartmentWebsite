@@ -21,15 +21,15 @@ namespace DepartmentService.Services
 
         private readonly IDisciplineService _serviceD;
 
-        private readonly IKindOfLoadService _serviceKL;
+        private readonly IContingentService _serviceC;
 
         public AcademicPlanRecordService(DepartmentDbContext context, IAcademicPlanService serviceAP,
-            IDisciplineService serviceD, IKindOfLoadService serviceKL)
+            IDisciplineService serviceD, IContingentService serviceC)
         {
             _context = context;
             _serviceAP = serviceAP;
             _serviceD = serviceD;
-            _serviceKL = serviceKL;
+            _serviceC = serviceC;
         }
 
 
@@ -43,9 +43,9 @@ namespace DepartmentService.Services
             return _serviceD.GetDisciplines(model);
         }
 
-        public ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model)
+        public ResultService<ContingentPageViewModel> GetContingents(ContingentGetBindingModel model)
         {
-            return _serviceKL.GetKindOfLoads(model);
+            return _serviceC.GetContingents(model);
         }
 
 
@@ -57,13 +57,19 @@ namespace DepartmentService.Services
                 {
                     throw new Exception("Нет доступа на чтение данных по записям учекбных планов");
                 }
-                if (!model.AcademicPlanId.HasValue)
-                {
-                    throw new Exception("Не указан учебный план");
-                }
 
                 int countPages = 0;
-                var query = _context.AcademicPlanRecords.Where(apr => !apr.IsDeleted && apr.AcademicPlanId == model.AcademicPlanId);
+                var query = _context.AcademicPlanRecords.Where(apr => !apr.IsDeleted);
+
+                if (model.AcademicPlanId.HasValue)
+                {
+                    query = query.Where(ap => ap.AcademicPlanId == model.AcademicPlanId);
+                }
+
+                if (model.Id.HasValue)
+                {
+                    query = query.Where(x => x.Id == model.Id);
+                }
 
                 query = query.OrderBy(apr => apr.Semester).ThenBy(apr => apr.Discipline.DisciplineName);
 
@@ -75,7 +81,9 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(ar => ar.Discipline);
+                query = query
+                    .Include(x => x.Discipline)
+                    .Include(x => x.Contingent);
 
                 var result = new AcademicPlanRecordPageViewModel
                 {
@@ -106,6 +114,7 @@ namespace DepartmentService.Services
 
                 var entity = _context.AcademicPlanRecords
                                 .Include(apr => apr.Discipline)
+                                .Include(apr => apr.Contingent)
                                 .FirstOrDefault(apr => apr.Id == model.Id && !apr.IsDeleted);
                 if (entity == null)
                 {

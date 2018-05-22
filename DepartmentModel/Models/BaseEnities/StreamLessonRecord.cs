@@ -16,9 +16,6 @@ namespace DepartmentModel.Models
         public Guid AcademicPlanRecordElementId { get; set; }
 
         [DataMember]
-        public int Hours { get; set; }
-
-        [DataMember]
         public bool IsMain { get; set; }
 
         //-------------------------------------------------------------------------

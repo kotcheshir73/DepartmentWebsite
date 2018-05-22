@@ -10,12 +10,14 @@ namespace DepartmentService.ViewModels
 
         public Guid AcademicPlanRecordId { get; set; }
 
-        public Guid KindOfLoadId { get; set; }
+        public Guid TimeNormId { get; set; }
 
         public string Disciplne { get; set; }
 
         public string KindOfLoadName { get; set; }
 
-        public decimal Hours { get; set; }
+        public decimal PlanHours { get; set; }
+
+        public decimal FactHours { get; set; }
     }
 }

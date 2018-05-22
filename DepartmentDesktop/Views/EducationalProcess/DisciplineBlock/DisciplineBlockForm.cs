@@ -30,14 +30,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 		private void DisciplineBlockForm_Load(object sender, EventArgs e)
 		{
 			if (_id.HasValue)
-			{
-				LoadData();
+            {
+                LoadData();
 			}
 		}
 
 		private void LoadData()
-		{
-			var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id.Value });
+        {
+            var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -46,6 +46,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			var entity = result.Result;
 
 			textBoxTitle.Text = entity.Title;
+            textBoxDisciplineBlockBlueAsteriskName.Text = entity.DisciplineBlockBlueAsteriskName;
+            checkBoxDisciplineBlockUseForGrouping.Checked = entity.DisciplineBlockUseForGrouping;
+            textBoxDisciplineBlockOrder.Text = entity.DisciplineBlockOrder.ToString();
 		}
 
 		private bool CheckFill()
@@ -53,8 +56,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 			if (string.IsNullOrEmpty(textBoxTitle.Text))
 			{
 				return false;
-			}
-			return true;
+            }
+            if (string.IsNullOrEmpty(textBoxDisciplineBlockOrder.Text))
+            {
+                return false;
+            }
+            int order = 0;
+            if (!int.TryParse(textBoxDisciplineBlockOrder.Text, out order))
+            {
+                return false;
+            }
+            return true;
 		}
 
 		private bool Save()
@@ -66,15 +78,21 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 				{
 					result = _service.CreateDisciplineBlock(new DisciplineBlockRecordBindingModel
 					{
-						Title = textBoxTitle.Text
-					});
+						Title = textBoxTitle.Text,
+                        DisciplineBlockBlueAsteriskName = textBoxDisciplineBlockBlueAsteriskName.Text,
+                        DisciplineBlockUseForGrouping = checkBoxDisciplineBlockUseForGrouping.Checked,
+                        DisciplineBlockOrder = Convert.ToInt32(textBoxDisciplineBlockOrder.Text)
+                    });
 				}
 				else
 				{
 					result = _service.UpdateDisciplineBlock(new DisciplineBlockRecordBindingModel
 					{
 						Id = _id.Value,
-						Title = textBoxTitle.Text
+						Title = textBoxTitle.Text,
+                        DisciplineBlockBlueAsteriskName = textBoxDisciplineBlockBlueAsteriskName.Text,
+                        DisciplineBlockUseForGrouping = checkBoxDisciplineBlockUseForGrouping.Checked,
+                        DisciplineBlockOrder = Convert.ToInt32(textBoxDisciplineBlockOrder.Text)
 					});
 				}
 				if (result.Succeeded)

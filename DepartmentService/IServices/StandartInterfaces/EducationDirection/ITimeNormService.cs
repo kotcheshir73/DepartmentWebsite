@@ -6,19 +6,19 @@ namespace DepartmentService.IServices
 {
 	public interface ITimeNormService
 	{
-		/// <summary>
-		/// Получение списка видов нагрузок
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<KindOfLoadPageViewModel> GetKindOfLoads(KindOfLoadGetBindingModel model);
-
         /// <summary>
         /// Получение списка учебных годов
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка блоков дисциплин
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model);
 
         /// <summary>
         /// Получение списка норм времени

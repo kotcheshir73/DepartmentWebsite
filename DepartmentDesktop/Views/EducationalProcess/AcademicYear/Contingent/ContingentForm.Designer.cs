@@ -43,6 +43,8 @@
             this.textBoxCourse = new System.Windows.Forms.TextBox();
             this.labelCountGroups = new System.Windows.Forms.Label();
             this.textBoxCountGroups = new System.Windows.Forms.TextBox();
+            this.textBoxContingentName = new System.Windows.Forms.TextBox();
+            this.labelContingentName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxAcademicYear
@@ -50,7 +52,7 @@
             this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAcademicYear.Enabled = false;
             this.comboBoxAcademicYear.FormattingEnabled = true;
-            this.comboBoxAcademicYear.Location = new System.Drawing.Point(102, 6);
+            this.comboBoxAcademicYear.Location = new System.Drawing.Point(108, 6);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
             this.comboBoxAcademicYear.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicYear.TabIndex = 1;
@@ -68,7 +70,7 @@
             // 
             this.comboBoxEducationDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEducationDirection.FormattingEnabled = true;
-            this.comboBoxEducationDirection.Location = new System.Drawing.Point(102, 33);
+            this.comboBoxEducationDirection.Location = new System.Drawing.Point(108, 33);
             this.comboBoxEducationDirection.Name = "comboBoxEducationDirection";
             this.comboBoxEducationDirection.Size = new System.Drawing.Size(220, 21);
             this.comboBoxEducationDirection.TabIndex = 3;
@@ -84,66 +86,66 @@
             // 
             // textBoxCountSubgroups
             // 
-            this.textBoxCountSubgroups.Location = new System.Drawing.Point(272, 112);
+            this.textBoxCountSubgroups.Location = new System.Drawing.Point(278, 145);
             this.textBoxCountSubgroups.MaxLength = 2;
             this.textBoxCountSubgroups.Name = "textBoxCountSubgroups";
             this.textBoxCountSubgroups.Size = new System.Drawing.Size(50, 20);
-            this.textBoxCountSubgroups.TabIndex = 11;
+            this.textBoxCountSubgroups.TabIndex = 13;
             this.textBoxCountSubgroups.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // labelCountSubgroups
             // 
             this.labelCountSubgroups.AutoSize = true;
-            this.labelCountSubgroups.Location = new System.Drawing.Point(144, 115);
+            this.labelCountSubgroups.Location = new System.Drawing.Point(150, 148);
             this.labelCountSubgroups.Name = "labelCountSubgroups";
             this.labelCountSubgroups.Size = new System.Drawing.Size(122, 13);
-            this.labelCountSubgroups.TabIndex = 10;
+            this.labelCountSubgroups.TabIndex = 12;
             this.labelCountSubgroups.Text = "Количество подгрупп*:";
             // 
             // labelCountStudents
             // 
             this.labelCountStudents.AutoSize = true;
-            this.labelCountStudents.Location = new System.Drawing.Point(139, 89);
+            this.labelCountStudents.Location = new System.Drawing.Point(145, 122);
             this.labelCountStudents.Name = "labelCountStudents";
             this.labelCountStudents.Size = new System.Drawing.Size(127, 13);
-            this.labelCountStudents.TabIndex = 8;
+            this.labelCountStudents.TabIndex = 10;
             this.labelCountStudents.Text = "Количество студентов*:";
             // 
             // textBoxCountStudents
             // 
-            this.textBoxCountStudents.Location = new System.Drawing.Point(272, 86);
+            this.textBoxCountStudents.Location = new System.Drawing.Point(278, 119);
             this.textBoxCountStudents.MaxLength = 3;
             this.textBoxCountStudents.Name = "textBoxCountStudents";
             this.textBoxCountStudents.Size = new System.Drawing.Size(50, 20);
-            this.textBoxCountStudents.TabIndex = 9;
+            this.textBoxCountStudents.TabIndex = 11;
             this.textBoxCountStudents.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(247, 138);
+            this.buttonClose.Location = new System.Drawing.Point(247, 171);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 14;
+            this.buttonClose.TabIndex = 16;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(19, 138);
+            this.buttonSave.Location = new System.Drawing.Point(19, 171);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 12;
+            this.buttonSave.TabIndex = 14;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 138);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 171);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 13;
+            this.buttonSaveAndClose.TabIndex = 15;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
@@ -151,44 +153,63 @@
             // labelCourse
             // 
             this.labelCourse.AutoSize = true;
-            this.labelCourse.Location = new System.Drawing.Point(12, 63);
+            this.labelCourse.Location = new System.Drawing.Point(12, 96);
             this.labelCourse.Name = "labelCourse";
             this.labelCourse.Size = new System.Drawing.Size(38, 13);
-            this.labelCourse.TabIndex = 4;
+            this.labelCourse.TabIndex = 6;
             this.labelCourse.Text = "Курс*:";
             // 
             // textBoxCourse
             // 
-            this.textBoxCourse.Location = new System.Drawing.Point(56, 60);
+            this.textBoxCourse.Location = new System.Drawing.Point(56, 93);
             this.textBoxCourse.MaxLength = 3;
             this.textBoxCourse.Name = "textBoxCourse";
             this.textBoxCourse.Size = new System.Drawing.Size(50, 20);
-            this.textBoxCourse.TabIndex = 5;
+            this.textBoxCourse.TabIndex = 7;
             this.textBoxCourse.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // labelCountGroups
             // 
             this.labelCountGroups.AutoSize = true;
-            this.labelCountGroups.Location = new System.Drawing.Point(162, 63);
+            this.labelCountGroups.Location = new System.Drawing.Point(168, 96);
             this.labelCountGroups.Name = "labelCountGroups";
             this.labelCountGroups.Size = new System.Drawing.Size(104, 13);
-            this.labelCountGroups.TabIndex = 6;
+            this.labelCountGroups.TabIndex = 8;
             this.labelCountGroups.Text = "Количество групп*:";
             // 
             // textBoxCountGroups
             // 
-            this.textBoxCountGroups.Location = new System.Drawing.Point(272, 60);
+            this.textBoxCountGroups.Location = new System.Drawing.Point(278, 93);
             this.textBoxCountGroups.MaxLength = 3;
             this.textBoxCountGroups.Name = "textBoxCountGroups";
             this.textBoxCountGroups.Size = new System.Drawing.Size(50, 20);
-            this.textBoxCountGroups.TabIndex = 7;
+            this.textBoxCountGroups.TabIndex = 9;
             this.textBoxCountGroups.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // textBoxContingentName
+            // 
+            this.textBoxContingentName.Location = new System.Drawing.Point(108, 60);
+            this.textBoxContingentName.MaxLength = 100;
+            this.textBoxContingentName.Name = "textBoxContingentName";
+            this.textBoxContingentName.Size = new System.Drawing.Size(220, 20);
+            this.textBoxContingentName.TabIndex = 5;
+            // 
+            // labelContingentName
+            // 
+            this.labelContingentName.AutoSize = true;
+            this.labelContingentName.Location = new System.Drawing.Point(12, 63);
+            this.labelContingentName.Name = "labelContingentName";
+            this.labelContingentName.Size = new System.Drawing.Size(90, 13);
+            this.labelContingentName.TabIndex = 4;
+            this.labelContingentName.Text = "Наименование*:";
             // 
             // ContingentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 171);
+            this.ClientSize = new System.Drawing.Size(334, 202);
+            this.Controls.Add(this.textBoxContingentName);
+            this.Controls.Add(this.labelContingentName);
             this.Controls.Add(this.labelCountGroups);
             this.Controls.Add(this.textBoxCountGroups);
             this.Controls.Add(this.textBoxCourse);
@@ -230,5 +251,7 @@
 		private System.Windows.Forms.TextBox textBoxCourse;
         private System.Windows.Forms.Label labelCountGroups;
         private System.Windows.Forms.TextBox textBoxCountGroups;
+        private System.Windows.Forms.TextBox textBoxContingentName;
+        private System.Windows.Forms.Label labelContingentName;
     }
 }

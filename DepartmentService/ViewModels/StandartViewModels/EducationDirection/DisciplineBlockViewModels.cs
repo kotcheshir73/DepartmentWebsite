@@ -9,5 +9,11 @@ namespace DepartmentService.ViewModels
 		public Guid Id { get; set; }
 
 		public string Title { get; set; }
-	}
+        
+        public string DisciplineBlockBlueAsteriskName { get; set; }
+        
+        public bool DisciplineBlockUseForGrouping { get; set; }
+        
+        public int DisciplineBlockOrder { get; set; }
+    }
 }

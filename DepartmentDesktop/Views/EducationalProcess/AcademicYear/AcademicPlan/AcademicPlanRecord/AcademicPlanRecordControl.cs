@@ -32,14 +32,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
-				new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true }
+                new ColumnConfig { Name = "Contingent", Title = "Контингент", Width = 150, Visible = true },
+                new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true }
 			};
 
             List<string> hideToolStripButtons = new List<string> { };
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "LoadFromXMLToolStripMenuItem", "Загрузить из xml"}
+                    { "LoadFromXMLToolStripMenuItem", "Загрузить из xml"},
+                    { "LoadFromBlueAsteriskToolStripMenuItem", "Загрузить из xml (синияя звездчока)"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
@@ -49,6 +51,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("LoadFromXMLToolStripMenuItem", LoadFromXMLToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("LoadFromBlueAsteriskToolStripMenuItem", LoadFromBlueAsteriskToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
                 switch (e.KeyCode)
@@ -87,7 +90,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					res.Id,
 					res.Disciplne,
 					res.Semester,
-					res.Zet
+                    res.ContingentGroup,
+                    res.Zet
 				);
             }
             return result.Result.MaxCount;
@@ -135,7 +139,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 				{
 					for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
 					{
-                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[i].Value.ToString());
+                        Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
                         var result = _service.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = id });
 						if (!result.Succeeded)
 						{
@@ -169,6 +173,31 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 					Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				}
 			}
-		}
-	}
+        }
+
+        private void LoadFromBlueAsteriskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "plx|*.plx"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _serviceEP.LoadFromBlueAsteriskAcademicPlanRecord(new EducationalProcessLoadFromXMLBindingModel
+                {
+                    Id = _apId,
+                    FileName = dialog.FileName
+                });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Загрузка прошла успешно", "Портал", MessageBoxButtons.OK);
+                    LoadData(_apId);
+                }
+                else
+                {
+                    Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                }
+            }
+        }
+    }
 }

@@ -42,6 +42,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = resultED.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+            comboBoxEducationDirection.SelectedItem = null;
 
             var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
             if (!resultL.Succeeded)
@@ -54,6 +55,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
             comboBoxCurator.DisplayMember = "Display";
             comboBoxCurator.DataSource = resultL.Result.List
                 .Select(l => new { Value = l.Id, Display = l.FullName }).ToList();
+            comboBoxCurator.SelectedItem = null;
 
             var control = Container.Resolve<StudentGroupStudentsControl>();
 

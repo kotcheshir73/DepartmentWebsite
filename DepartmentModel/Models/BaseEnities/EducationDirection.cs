@@ -15,7 +15,12 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public string Cipher { get; set; }
-        
+
+        [MaxLength(10)]
+        [Required]
+        [DataMember]
+        public string ShortName { get; set; }
+
         [MaxLength(100)]
         [Required]
         [DataMember]
@@ -38,5 +43,5 @@ namespace DepartmentModel.Models
 		[ForeignKey("EducationDirectionId")]
 		public virtual List<AcademicPlan> AcademicPlans { get; set; }
 
-	}
+    }
 }

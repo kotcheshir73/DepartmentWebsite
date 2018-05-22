@@ -45,6 +45,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 			}
 			var entity = result.Result;
 			textBoxCipher.Text = entity.Cipher;
+            textBoxShortName.Text = entity.ShortName;
 			textBoxTitle.Text = entity.Title;
 			textBoxDescription.Text = entity.Description;
 		}
@@ -52,6 +53,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 		private bool CheckFill()
         {
             if(string.IsNullOrEmpty(textBoxCipher.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxShortName.Text))
             {
                 return false;
             }
@@ -72,6 +77,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 					result = _service.CreateEducationDirection(new EducationDirectionRecordBindingModel
 					{
 						Cipher = textBoxCipher.Text,
+                        ShortName = textBoxShortName.Text,
 						Description = textBoxDescription.Text,
 						Title = textBoxTitle.Text
 					});
@@ -82,7 +88,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.EducationDirection
 					{
 						Id = _id.Value,
 						Cipher = textBoxCipher.Text,
-						Description = textBoxDescription.Text,
+                        ShortName = textBoxShortName.Text,
+                        Description = textBoxDescription.Text,
 						Title = textBoxTitle.Text
 					});
 				}

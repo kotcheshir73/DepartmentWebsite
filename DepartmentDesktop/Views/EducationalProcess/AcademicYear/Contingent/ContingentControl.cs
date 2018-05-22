@@ -27,8 +27,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
-				new ColumnConfig { Name = "StudentGroupName", Title = "Курс", Width = 100, Visible = true },
+				new ColumnConfig { Name = "EducationDirectionShortName", Title = "Направление", Width = 100, Visible = true },
+                new ColumnConfig { Name = "ContingentName", Title = "Наименование", Width = 100, Visible = true },
+				new ColumnConfig { Name = "Cource", Title = "Курс", Width = 100, Visible = true },
                 new ColumnConfig { Name = "CountGroups", Title = "Количество групп", Width = 200, Visible = true },
                 new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 200, Visible = true },
 				new ColumnConfig { Name = "CountSubgroups", Title = "Количество подгрупп", Width = 200, Visible = true }
@@ -78,7 +79,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.Contingent
 			{
                 standartControl.GetDataGridViewRows.Add(
 					res.Id,
-					res.EducationDirectionCipher,
+					res.EducationDirectionShortName,
+                    res.ContingentName,
 					Math.Log(res.Course, 2.0) + 1,
                     res.CountGroups,
 					res.CountStudents,
