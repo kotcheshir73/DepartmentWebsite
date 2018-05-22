@@ -12,7 +12,7 @@ namespace DepartmentService.ViewModels
 
 		public Guid DisciplineId { get; set; }
 
-        public Guid ContingentId { get; set; }
+        public Guid? ContingentId { get; set; }
 
         public string Disciplne { get; set; }
 

@@ -20,14 +20,12 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public Guid DisciplineId { get; set; }
-
-        [Required]
+        
         [DataMember]
-        public Guid ContingentId { get; set; }
-
-        [Required]
+        public Guid? ContingentId { get; set; }
+        
         [DataMember]
-        public Semesters Semester { get; set; }
+        public Semesters? Semester { get; set; }
 
         [Required]
         [DataMember]
@@ -42,5 +40,8 @@ namespace DepartmentModel.Models
         public virtual Contingent Contingent { get; set; }
 
         //-------------------------------------------------------------------------
-	}
+
+        [ForeignKey("AcademicPlanRecordId")]
+        public virtual List<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
+    }
 }

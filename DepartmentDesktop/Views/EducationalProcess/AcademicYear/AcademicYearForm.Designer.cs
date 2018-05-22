@@ -40,7 +40,6 @@
             this.tabPageContingents = new System.Windows.Forms.TabPage();
             this.tabPageSeasonDates = new System.Windows.Forms.TabPage();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.tabPageDisciplinrBlockRecords = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -98,7 +97,6 @@
             this.tabControl.Controls.Add(this.tabPageStreamLessons);
             this.tabControl.Controls.Add(this.tabPageTimeNorms);
             this.tabControl.Controls.Add(this.tabPageContingents);
-            this.tabControl.Controls.Add(this.tabPageDisciplinrBlockRecords);
             this.tabControl.Controls.Add(this.tabPageSeasonDates);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 42);
@@ -170,16 +168,6 @@
             this.panelTop.Size = new System.Drawing.Size(1089, 42);
             this.panelTop.TabIndex = 0;
             // 
-            // tabPageDisciplinrBlockRecords
-            // 
-            this.tabPageDisciplinrBlockRecords.Location = new System.Drawing.Point(4, 22);
-            this.tabPageDisciplinrBlockRecords.Name = "tabPageDisciplinrBlockRecords";
-            this.tabPageDisciplinrBlockRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDisciplinrBlockRecords.Size = new System.Drawing.Size(1081, 553);
-            this.tabPageDisciplinrBlockRecords.TabIndex = 5;
-            this.tabPageDisciplinrBlockRecords.Text = "Записи блоков дисциплин";
-            this.tabPageDisciplinrBlockRecords.UseVisualStyleBackColor = true;
-            // 
             // AcademicYearForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +200,5 @@
         private System.Windows.Forms.TabPage tabPageSeasonDates;
         private System.Windows.Forms.TabPage tabPageContingents;
         private System.Windows.Forms.TabPage tabPageStreamLessons;
-        private System.Windows.Forms.TabPage tabPageDisciplinrBlockRecords;
     }
 }

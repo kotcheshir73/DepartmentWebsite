@@ -646,7 +646,8 @@ namespace DepartmentService.Services
                 ResultService result = new ResultService();
                 try
                 {
-                    var academicPlan = _context.AcademicPlans.FirstOrDefault(x => x.Id == model.Id && !x.IsDeleted);
+                    var academicPlan = _context.AcademicPlans
+                        .FirstOrDefault(x => x.Id == model.Id && !x.IsDeleted && x.EducationDirectionId.HasValue && x.AcademicCourses.HasValue);
                     if (academicPlan == null)
                     {
                         return ResultService.Error("Error:", "Учебный план not found", ResultServiceStatusCode.NotFound);
@@ -1154,7 +1155,10 @@ namespace DepartmentService.Services
         {
             try
             {
-                var academicPlans = _context.AcademicPlans.Include(x => x.EducationDirection).Where(x => x.AcademicYearId == model.Id && !x.IsDeleted).ToList();
+                var academicPlans = _context.AcademicPlans
+                    .Include(x => x.EducationDirection)
+                    .Where(x => x.AcademicYearId == model.Id && x.EducationDirectionId.HasValue && !x.IsDeleted)
+                    .ToList();
                 AcademicCourse[] cources = new AcademicCourse[] { AcademicCourse.Course_1, AcademicCourse.Course_2, AcademicCourse.Course_3, AcademicCourse.Course_4 };
                 foreach (var academicPlan in academicPlans)
                 {
@@ -1176,7 +1180,7 @@ namespace DepartmentService.Services
                                 contingent = new Contingent
                                 {
                                     AcademicYearId = model.Id.Value,
-                                    EducationDirectionId = academicPlan.EducationDirectionId,
+                                    EducationDirectionId = academicPlan.EducationDirectionId.Value,
                                     ContingentName = string.Format("{0}-{1}", academicPlan.EducationDirection.ShortName, i + 1),
                                     CountGroups = 0,
                                     CountStudetns = 0,
@@ -1246,44 +1250,6 @@ namespace DepartmentService.Services
                     element.Add(null);
                     list.Add(element.ToArray());
 
-                    var dbrs = _context.DisciplineBlockRecords
-                        .Include(x => x.EducationDirection)
-                        .Where(x => x.AcademicYearId == model.Id && x.DisciplineBlockId == discBlock.Id && !x.IsDeleted)
-                        .OrderBy(x => x.DisciplineBlockRecordTitle);
-
-                    foreach (var dbr in dbrs)
-                    {
-                        List<object> elementApr = new List<object>() {
-                            dbr.Id,
-                            null,
-                            dbr.EducationDirectionId.HasValue ? dbr.EducationDirection.Cipher : null,
-                            dbr.DisciplineBlockRecordTitle,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                        }; ;
-                        foreach (var tn in timeNorms)
-                        {
-                            if (tn.Id == dbr.TimeNormId)
-                            {
-                                elementApr.Add(null);
-                                elementApr.Add(null);
-                                elementApr.Add(dbr.DisciplineBlockRecordHours);
-                            }
-                            else
-                            {
-                                elementApr.Add(null);
-                                elementApr.Add(null);
-                                elementApr.Add(null);
-                            }
-                        }
-                        elementApr.Add(dbr.DisciplineBlockRecordHours);
-                        list.Add(elementApr.ToArray());
-                    }
-
                     var aprs = _context.AcademicPlanRecords
                         .Include(x => x.AcademicPlan)
                         .Include(x => x.AcademicPlan.EducationDirection)
@@ -1298,15 +1264,15 @@ namespace DepartmentService.Services
                     {
                         List<object> elementApr = new List<object>() {
                             apr.Id,
-                            (int)apr.Semester % 2 == 0 ? "весна" : "осень",
-                            apr.AcademicPlan.EducationDirection.Cipher,
+                            apr.Semester.HasValue ? (int)apr.Semester % 2 == 0 ? "весна" : "осень" : null,
+                            apr.AcademicPlan.EducationDirectionId.HasValue ? apr.AcademicPlan.EducationDirection.Cipher : null,
                             apr.Discipline.DisciplineName,
                             apr.Discipline.DisciplineParentId.HasValue ? "да" : "",
-                            Math.Log((double)apr.Contingent.Course, 2) + 1,
-                            apr.Contingent.CountStudetns,
-                            1,
-                            apr.Contingent.CountGroups,
-                            apr.Contingent.CountSubgroups
+                            apr.ContingentId.HasValue ? Math.Log((double)apr.Contingent.Course, 2) + 1 : (double?)null,
+                            apr.ContingentId.HasValue ? apr.Contingent.CountStudetns : (int?)null,
+                            apr.ContingentId.HasValue ? 1 : (int?)null,
+                            apr.ContingentId.HasValue ? apr.Contingent.CountGroups : (int?)null,
+                            apr.ContingentId.HasValue ? apr.Contingent.CountSubgroups : (int?)null
                         };
                         decimal factTotal = 0;
                         foreach (var tn in timeNorms)
@@ -1637,6 +1603,7 @@ namespace DepartmentService.Services
                 {
                     newAP.GetType().GetProperty(propInfo.Name).SetValue(newAP, ap.GetType().GetProperty(propInfo.Name).GetValue(ap, null), null);
                 }
+                newAP.AcademicYearId = model.ToAcademicPlanId;
                 _context.AcademicPlans.Add(newAP);
                 _context.SaveChanges();
             }
@@ -1658,6 +1625,7 @@ namespace DepartmentService.Services
                 {
                     newTN.GetType().GetProperty(propInfo.Name).SetValue(newTN, tn.GetType().GetProperty(propInfo.Name).GetValue(tn, null), null);
                 }
+                newTN.AcademicYearId = model.ToAcademicPlanId;
                 _context.TimeNorms.Add(newTN);
                 _context.SaveChanges();
             }
@@ -1678,6 +1646,7 @@ namespace DepartmentService.Services
                 {
                     newC.GetType().GetProperty(propInfo.Name).SetValue(newC, c.GetType().GetProperty(propInfo.Name).GetValue(c, null), null);
                 }
+                newC.AcademicYearId = model.ToAcademicPlanId;
                 _context.Contingents.Add(newC);
                 _context.SaveChanges();
             }
@@ -1698,6 +1667,7 @@ namespace DepartmentService.Services
                 {
                     newSD.GetType().GetProperty(propInfo.Name).SetValue(newSD, sd.GetType().GetProperty(propInfo.Name).GetValue(sd, null), null);
                 }
+                newSD.AcademicYearId = model.ToAcademicPlanId;
                 _context.SeasonDates.Add(newSD);
                 _context.SaveChanges();
             }

@@ -1,7 +1,6 @@
 ﻿using DepartmentDesktop.Views.EducationalProcess.AcademicPlan;
 using DepartmentDesktop.Views.EducationalProcess.AcademicYear.StreamLesson;
 using DepartmentDesktop.Views.EducationalProcess.Contingent;
-using DepartmentDesktop.Views.EducationalProcess.DisciplineBlock.DisciplineBlockRecord;
 using DepartmentDesktop.Views.EducationalProcess.SeasonDates;
 using DepartmentDesktop.Views.EducationalProcess.TimeNorm;
 using DepartmentModel;
@@ -53,10 +52,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
                 controlC.Dock = DockStyle.Fill;
                 tabPageContingents.Controls.Add(controlC);
 
-                var controlDB = Container.Resolve<DisciplineBlockRecordControl>();
-                controlDB.Dock = DockStyle.Fill;
-                tabPageDisciplinrBlockRecords.Controls.Add(controlDB);
-
                 var controlSD = Container.Resolve<SeasonDatesControl>();
                 controlSD.Dock = DockStyle.Fill;
                 tabPageSeasonDates.Controls.Add(controlSD);
@@ -71,7 +66,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicYear
             (tabPageStreamLessons.Controls[0] as StreamLessonControl).LoadData(_id.Value);
             (tabPageTimeNorms.Controls[0] as TimeNormControl).LoadData(_id.Value);
             (tabPageContingents.Controls[0] as ContingentControl).LoadData(_id.Value);
-            (tabPageDisciplinrBlockRecords.Controls[0] as DisciplineBlockRecordControl).LoadData(ayId: _id.Value);
             (tabPageSeasonDates.Controls[0] as SeasonDatesControl).LoadData(_id.Value);
             var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)

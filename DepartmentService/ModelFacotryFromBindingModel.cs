@@ -35,22 +35,6 @@ namespace DepartmentService.BindingModels
 			return entity;
         }
 
-        public static DisciplineBlockRecord CreateDisciplineBlockRecord(DisciplineBlockRecordSetBindingModel model, DisciplineBlockRecord entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new DisciplineBlockRecord();
-            }
-            entity.DisciplineBlockId = model.DisciplineBlockId;
-            entity.AcademicYearId = model.AcademicYearId;
-            entity.EducationDirectionId = model.EducationDirectionId;
-            entity.TimeNormId = model.TimeNormId;
-            entity.DisciplineBlockRecordTitle = model.DisciplineBlockRecordTitle;
-            entity.DisciplineBlockRecordHours = model.DisciplineBlockRecordHours;
-
-            return entity;
-        }
-
         public static LecturerPost CreateLecturerPost(LecturerPostRecordBindingModel model, LecturerPost entity = null)
         {
             if (entity == null)
@@ -185,7 +169,7 @@ namespace DepartmentService.BindingModels
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.AcademicYearId = model.AcademicYearId;
 			entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
-			entity.AcademicCourses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses);
+			entity.AcademicCourses = model.AcademicCourses.HasValue ? (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses) : (AcademicCourse?)null;
 
 			return entity;
 		}
@@ -199,7 +183,7 @@ namespace DepartmentService.BindingModels
             entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
             entity.ContingentId = model.ContingentId;
-            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
 
             return entity;

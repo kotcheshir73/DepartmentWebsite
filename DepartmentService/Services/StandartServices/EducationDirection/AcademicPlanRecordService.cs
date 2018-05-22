@@ -58,13 +58,13 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на чтение данных по записям учекбных планов");
                 }
 
-                if (!model.AcademicPlanId.HasValue)
-                {
-                    throw new Exception("Не указан учебный план");
-                }
-
                 int countPages = 0;
-                var query = _context.AcademicPlanRecords.Where(apr => !apr.IsDeleted && apr.AcademicPlanId == model.AcademicPlanId);
+                var query = _context.AcademicPlanRecords.Where(apr => !apr.IsDeleted);
+
+                if (model.AcademicPlanId.HasValue)
+                {
+                    query = query.Where(ap => ap.AcademicPlanId == model.AcademicPlanId);
+                }
 
                 if (model.Id.HasValue)
                 {

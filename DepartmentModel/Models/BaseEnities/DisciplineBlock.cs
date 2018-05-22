@@ -33,9 +33,6 @@ namespace DepartmentModel.Models
         //-------------------------------------------------------------------------
 
         [ForeignKey("DisciplineBlockId")]
-        public virtual List<DisciplineBlockRecord> DisciplineBlockRecords { get; set; }
-
-        [ForeignKey("DisciplineBlockId")]
 		public virtual List<Discipline> Disciplines { get; set; }
 
         [ForeignKey("DisciplineBlockId")]

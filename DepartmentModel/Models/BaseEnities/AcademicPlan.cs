@@ -15,25 +15,23 @@ namespace DepartmentModel.Models
     {
         [Required]
         [DataMember]
-        public Guid EducationDirectionId { get; set; }
-
-        [Required]
-        [DataMember]
         public Guid AcademicYearId { get; set; }
+
+        [DataMember]
+        public Guid? EducationDirectionId { get; set; }
 
         [Required]
         [DataMember]
         public AcademicLevel AcademicLevel { get; set; }
-
-        [Required]
+        
         [DataMember]
-        public AcademicCourse AcademicCourses { get; set; }
+        public AcademicCourse? AcademicCourses { get; set; }
 
         //-------------------------------------------------------------------------
-        
-		public virtual EducationDirection EducationDirection { get; set; }
 
 		public virtual AcademicYear AcademicYear { get; set; }
+        
+		public virtual EducationDirection EducationDirection { get; set; }
 
         //-------------------------------------------------------------------------
 

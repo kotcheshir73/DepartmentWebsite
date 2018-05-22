@@ -41,9 +41,9 @@
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
-            this.tabPageRecords = new System.Windows.Forms.TabPage();
             this.labelContingent = new System.Windows.Forms.Label();
             this.comboBoxContingent = new System.Windows.Forms.ComboBox();
+            this.tabPageRecords = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
@@ -72,9 +72,9 @@
             this.labelSemester.AutoSize = true;
             this.labelSemester.Location = new System.Drawing.Point(17, 94);
             this.labelSemester.Name = "labelSemester";
-            this.labelSemester.Size = new System.Drawing.Size(58, 13);
+            this.labelSemester.Size = new System.Drawing.Size(54, 13);
             this.labelSemester.TabIndex = 6;
-            this.labelSemester.Text = "Семестр*:";
+            this.labelSemester.Text = "Семестр:";
             // 
             // comboBoxSemester
             // 
@@ -184,24 +184,14 @@
             this.tabPageConfig.Text = "Запись учебного плана";
             this.tabPageConfig.UseVisualStyleBackColor = true;
             // 
-            // tabPageRecords
-            // 
-            this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
-            this.tabPageRecords.Name = "tabPageRecords";
-            this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(683, 341);
-            this.tabPageRecords.TabIndex = 1;
-            this.tabPageRecords.Text = "Распределение часов";
-            this.tabPageRecords.UseVisualStyleBackColor = true;
-            // 
             // labelContingent
             // 
             this.labelContingent.AutoSize = true;
             this.labelContingent.Location = new System.Drawing.Point(17, 67);
             this.labelContingent.Name = "labelContingent";
-            this.labelContingent.Size = new System.Drawing.Size(72, 13);
+            this.labelContingent.Size = new System.Drawing.Size(68, 13);
             this.labelContingent.TabIndex = 4;
-            this.labelContingent.Text = "Контингент*:";
+            this.labelContingent.Text = "Контингент:";
             // 
             // comboBoxContingent
             // 
@@ -211,6 +201,16 @@
             this.comboBoxContingent.Name = "comboBoxContingent";
             this.comboBoxContingent.Size = new System.Drawing.Size(220, 21);
             this.comboBoxContingent.TabIndex = 5;
+            // 
+            // tabPageRecords
+            // 
+            this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRecords.Name = "tabPageRecords";
+            this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRecords.Size = new System.Drawing.Size(683, 341);
+            this.tabPageRecords.TabIndex = 1;
+            this.tabPageRecords.Text = "Распределение часов";
+            this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
             // AcademicPlanRecordForm
             // 

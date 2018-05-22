@@ -122,8 +122,5 @@ namespace DepartmentModel.Models
 
         [ForeignKey("TimeNormId")]
         public virtual List<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
-
-        [ForeignKey("TimeNormId")]
-        public virtual List<DisciplineBlockRecord> DisciplineBlockRecords { get; set; }
     }
 }

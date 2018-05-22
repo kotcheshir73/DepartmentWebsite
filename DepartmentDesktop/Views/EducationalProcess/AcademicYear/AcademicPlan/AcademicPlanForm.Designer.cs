@@ -81,9 +81,9 @@
             this.labelAcademicCourse.AutoSize = true;
             this.labelAcademicCourse.Location = new System.Drawing.Point(12, 95);
             this.labelAcademicCourse.Name = "labelAcademicCourse";
-            this.labelAcademicCourse.Size = new System.Drawing.Size(46, 13);
+            this.labelAcademicCourse.Size = new System.Drawing.Size(42, 13);
             this.labelAcademicCourse.TabIndex = 6;
-            this.labelAcademicCourse.Text = "Курсы*:";
+            this.labelAcademicCourse.Text = "Курсы:";
             // 
             // checkBox1
             // 
@@ -175,7 +175,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(826, 476);
+            this.tabPageConfig.Size = new System.Drawing.Size(826, 475);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Учебный план";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -214,9 +214,9 @@
             this.labelEducationDirection.AutoSize = true;
             this.labelEducationDirection.Location = new System.Drawing.Point(12, 40);
             this.labelEducationDirection.Name = "labelEducationDirection";
-            this.labelEducationDirection.Size = new System.Drawing.Size(82, 13);
+            this.labelEducationDirection.Size = new System.Drawing.Size(78, 13);
             this.labelEducationDirection.TabIndex = 2;
-            this.labelEducationDirection.Text = "Направление*:";
+            this.labelEducationDirection.Text = "Направление:";
             // 
             // tabPageRecords
             // 

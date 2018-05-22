@@ -88,16 +88,18 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
             if (_id.HasValue)
             {
-                var control = Container.Resolve<AcademicPlanRecordElementControl>();
-                control.Dock = DockStyle.Fill;
-                tabPageRecords.Controls.Add(control);
-
                 LoadData();
             }
         }
 
         private void LoadData()
         {
+            if (tabPageRecords.Controls.Count == 0)
+            {
+                var control = Container.Resolve<AcademicPlanRecordElementControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+            }
             (tabPageRecords.Controls[0] as AcademicPlanRecordElementControl).LoadData(_id.Value);
             var result = _service.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = _id });
             if (!result.Succeeded)
@@ -109,7 +111,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
 
             comboBoxAcademicPlan.SelectedValue = entity.AcademicPlanId;
             comboBoxDiscipline.SelectedValue = entity.DisciplineId;
-            comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
+            if (entity.ContingentId.HasValue)
+            {
+                comboBoxContingent.SelectedValue = entity.ContingentId;
+            }
+            if (!string.IsNullOrEmpty(entity.Semester))
+            {
+                comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
+            }
             textBoxZet.Text = entity.Zet.ToString();
         }
 
@@ -120,14 +129,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                 return false;
             }
             if (comboBoxDiscipline.SelectedValue == null)
-            {
-                return false;
-            }
-            if (comboBoxContingent.SelectedValue == null)
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(comboBoxSemester.Text))
             {
                 return false;
             }
@@ -154,7 +155,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                     {
                         AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
                         DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+                        ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
                         Semester = comboBoxSemester.Text,
                         Zet = Convert.ToInt32(textBoxZet.Text)
                     });
@@ -166,7 +167,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
                         Id = _id.Value,
                         AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
                         DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        ContingentId = new Guid(comboBoxContingent.SelectedValue.ToString()),
+                        ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
                         Semester = comboBoxSemester.Text,
                         Zet = Convert.ToInt32(textBoxZet.Text)
                     });

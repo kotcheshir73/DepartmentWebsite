@@ -43,8 +43,5 @@ namespace DepartmentModel.Models
 		[ForeignKey("EducationDirectionId")]
 		public virtual List<AcademicPlan> AcademicPlans { get; set; }
 
-        [ForeignKey("EducationDirectionId")]
-        public virtual List<DisciplineBlockRecord> DisciplineBlockRecords { get; set; }
-
     }
 }

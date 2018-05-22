@@ -36,24 +36,6 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static DisciplineBlockRecordViewModel CreateDisciplineBlockRecordViewModel(DisciplineBlockRecord entity)
-        {
-            return new DisciplineBlockRecordViewModel
-            {
-                Id = entity.Id,
-                DisciplineBlockId = entity.DisciplineBlockId,
-                AcademicYearId = entity.AcademicYearId,
-                EducationDirectionId = entity.EducationDirectionId,
-                TimeNormId = entity.TimeNormId,
-                DisciplineBlockTitle = entity.DisciplineBlock.Title,
-                AcademicYear = entity.AcademicYear.Title,
-                EducationDirection = entity.EducationDirectionId.HasValue ? entity.EducationDirection.Cipher : string.Empty,
-                TimeNormName = entity.TimeNorm.TimeNormName,
-                DisciplineBlockRecordTitle = entity.DisciplineBlockRecordTitle,
-                DisciplineBlockRecordHours = entity.DisciplineBlockRecordHours
-            };
-        }
-
         public static LecturerPostViewModel CreateLecturerPostViewModel(LecturerPost entity)
         {
             return new LecturerPostViewModel
@@ -176,33 +158,36 @@ namespace DepartmentService.ViewModels
 
         public static AcademicPlanViewModel CreateAcademicPlanViewModel(AcademicPlan entity)
         {
-            string courses = "";
-            if ((entity.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
+            string courses = string.Empty;
+            if (entity.AcademicCourses.HasValue)
             {
-                courses += "1";
-            }
-            if ((entity.AcademicCourses & AcademicCourse.Course_2) == AcademicCourse.Course_2)
-            {
-                courses += (courses == "" ? "" : ", ") + "2";
-            }
-            if ((entity.AcademicCourses & AcademicCourse.Course_3) == AcademicCourse.Course_3)
-            {
-                courses += (courses == "" ? "" : ", ") + "3";
-            }
-            if ((entity.AcademicCourses & AcademicCourse.Course_4) == AcademicCourse.Course_4)
-            {
-                courses += (courses == "" ? "" : ", ") + "4";
+                if ((entity.AcademicCourses & AcademicCourse.Course_1) == AcademicCourse.Course_1)
+                {
+                    courses += "1";
+                }
+                if ((entity.AcademicCourses & AcademicCourse.Course_2) == AcademicCourse.Course_2)
+                {
+                    courses += (courses == "" ? "" : ", ") + "2";
+                }
+                if ((entity.AcademicCourses & AcademicCourse.Course_3) == AcademicCourse.Course_3)
+                {
+                    courses += (courses == "" ? "" : ", ") + "3";
+                }
+                if ((entity.AcademicCourses & AcademicCourse.Course_4) == AcademicCourse.Course_4)
+                {
+                    courses += (courses == "" ? "" : ", ") + "4";
+                }
             }
             return new AcademicPlanViewModel
             {
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 EducationDirectionId = entity.EducationDirectionId,
-                EducationDirection = string.Format("{0} {1}", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName),
+                EducationDirection = entity.EducationDirectionId.HasValue ? string.Format("{0} {1}", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName) : string.Empty,
                 AcademicYear = entity.AcademicYear.Title,
                 AcademicLevel = entity.AcademicLevel.ToString(),
                 AcademicCoursesStrings = courses,
-                AcademicCourses = (int)entity.AcademicCourses
+                AcademicCourses = entity.AcademicCourses.HasValue ? (int)entity.AcademicCourses : (int?)null
             };
         }
 
@@ -215,8 +200,8 @@ namespace DepartmentService.ViewModels
                 DisciplineId = entity.DisciplineId,
                 ContingentId = entity.ContingentId,
                 Disciplne = entity.Discipline.DisciplineName,
-                Semester = entity.Semester.ToString(),
-                ContingentGroup = entity.Contingent.ContingentName,
+                Semester = entity.Semester.HasValue ? entity.Semester.ToString() : string.Empty,
+                ContingentGroup = entity.ContingentId.HasValue ? entity.Contingent.ContingentName : string.Empty,
                 Zet = entity.Zet
             };
         }

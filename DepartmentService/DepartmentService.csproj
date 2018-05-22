@@ -69,7 +69,6 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineBlockRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
@@ -104,7 +103,6 @@
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineBlockRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
@@ -228,6 +226,18 @@
     <Compile Include="Migrations\201805180832046_AddTableDisciplineBlockRecrods.Designer.cs">
       <DependentUpon>201805180832046_AddTableDisciplineBlockRecrods.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805220623252_ChangeEDandCinAPandAPR.cs" />
+    <Compile Include="Migrations\201805220623252_ChangeEDandCinAPandAPR.Designer.cs">
+      <DependentUpon>201805220623252_ChangeEDandCinAPandAPR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805220645562_ChangeEnumsinAPandAPR.cs" />
+    <Compile Include="Migrations\201805220645562_ChangeEnumsinAPandAPR.Designer.cs">
+      <DependentUpon>201805220645562_ChangeEnumsinAPandAPR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805220657242_DeleteDBR.cs" />
+    <Compile Include="Migrations\201805220657242_DeleteDBR.Designer.cs">
+      <DependentUpon>201805220657242_DeleteDBR.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -275,7 +285,6 @@
     <Compile Include="Services\StandartServices\EducationDirection\ClassroomService.cs" />
     <Compile Include="Services\ScheduleServices\ConsultationRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\ContingentService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\DisciplineBlockRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineBlockService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineService.cs" />
     <Compile Include="Services\EducationalProcessService.cs" />
@@ -309,7 +318,6 @@
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineBlockRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerPostViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\SemesterRecordViewModels.cs" />
@@ -438,6 +446,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805180832046_AddTableDisciplineBlockRecrods.resx">
       <DependentUpon>201805180832046_AddTableDisciplineBlockRecrods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805220623252_ChangeEDandCinAPandAPR.resx">
+      <DependentUpon>201805220623252_ChangeEDandCinAPandAPR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805220645562_ChangeEnumsinAPandAPR.resx">
+      <DependentUpon>201805220645562_ChangeEnumsinAPandAPR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805220657242_DeleteDBR.resx">
+      <DependentUpon>201805220657242_DeleteDBR.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

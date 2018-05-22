@@ -75,7 +75,6 @@
     <Compile Include="Models\BaseEnities\Contingent.cs" />
     <Compile Include="Models\BaseEnities\Discipline.cs" />
     <Compile Include="Models\BaseEnities\DisciplineBlock.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineBlockRecord.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLesson.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonTask.cs" />

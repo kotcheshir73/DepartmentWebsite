@@ -1,5 +1,4 @@
-﻿using DepartmentDesktop.Views.EducationalProcess.DisciplineBlock.DisciplineBlockRecord;
-using DepartmentModel;
+﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -32,17 +31,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 		{
 			if (_id.HasValue)
             {
-                var control = Container.Resolve<DisciplineBlockRecordControl>();
-                control.Dock = DockStyle.Fill;
-                tabPageRecords.Controls.Add(control);
-
                 LoadData();
 			}
 		}
 
 		private void LoadData()
         {
-            (tabPageRecords.Controls[0] as DisciplineBlockRecordControl).LoadData(dbId: _id.Value);
             var result = _service.GetDisciplineBlock(new DisciplineBlockGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
