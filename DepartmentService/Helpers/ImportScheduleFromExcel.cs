@@ -294,7 +294,7 @@ namespace DepartmentService.Helpers
                             // заведем прерываетль, чтобы прекратить обход, если лист пустой
                             int counter = 0;
                             // идем вниз по первой колонки, пока не встретим текст
-                            while (excelcell.Value2 == null)
+                            while (excelcell.Value2 == null || excelcell.Value2.ToString().ToLower() != "дни недели")
                             {
                                 excelcell = excelcell.get_Offset(1, 0);
                                 counter++;

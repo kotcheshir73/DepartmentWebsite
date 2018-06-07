@@ -44,8 +44,16 @@ namespace DepartmentService.Services
 						throw new Exception("Нет доступа на чтение данных по расписанию аудиторий");
 					}
 					selectedRecords = selectedRecords.Where(sr => sr.LessonClassroom == model.ClassroomNumber || sr.LessonConsultationClassroom == model.ClassroomNumber);
-				}
-				if (!string.IsNullOrEmpty(model.StudentGroupName))
+                }
+                if (model.ClassroomId.HasValue)
+                {
+                    if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View))
+                    {
+                        throw new Exception("Нет доступа на чтение данных по расписанию преподавателей");
+                    }
+                    selectedRecords = selectedRecords.Where(sr => sr.ClassroomId == model.ClassroomId.Value);
+                }
+                if (!string.IsNullOrEmpty(model.StudentGroupName))
 				{
 					if (!AccessCheckService.CheckAccess(AccessOperation.Расписание_группы, AccessType.View))
 					{
