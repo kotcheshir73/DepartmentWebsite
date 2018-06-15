@@ -77,6 +77,7 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.Synchronization.SynchronizationUsersControl>();
             ApplyControl(control);
         }
+        #endregion
 
         #region Работа с БД
         /// <summary>
@@ -99,7 +100,6 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
             ApplyControl(control);
         }
-        #endregion
         #endregion
 
         #region Администрирование

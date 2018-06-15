@@ -51,7 +51,7 @@
             this.dataGridViewList.AllowUserToDeleteRows = false;
             this.dataGridViewList.AllowUserToResizeRows = false;
             this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewList.ColumnHeadersHeight = 100;
             this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewList.Location = new System.Drawing.Point(0, 60);
             this.dataGridViewList.Name = "dataGridViewList";
@@ -61,6 +61,7 @@
             this.dataGridViewList.Size = new System.Drawing.Size(800, 440);
             this.dataGridViewList.TabIndex = 2;
             this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
+            this.dataGridViewList.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewList_CellPainting);
             this.dataGridViewList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewList_KeyDown);
             // 
             // toolStripMenu
