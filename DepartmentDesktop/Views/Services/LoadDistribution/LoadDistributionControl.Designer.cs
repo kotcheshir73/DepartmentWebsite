@@ -40,6 +40,7 @@
             this.panelTop = new System.Windows.Forms.Panel();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelSelectAcademicYear = new System.Windows.Forms.Label();
+            this.buttonCalcFactHours = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.panelTop.SuspendLayout();
@@ -133,6 +134,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.buttonCalcFactHours);
             this.panelTop.Controls.Add(this.comboBoxAcademicYear);
             this.panelTop.Controls.Add(this.labelSelectAcademicYear);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -147,7 +149,7 @@
             this.comboBoxAcademicYear.FormattingEnabled = true;
             this.comboBoxAcademicYear.Location = new System.Drawing.Point(134, 6);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
-            this.comboBoxAcademicYear.Size = new System.Drawing.Size(222, 21);
+            this.comboBoxAcademicYear.Size = new System.Drawing.Size(188, 21);
             this.comboBoxAcademicYear.TabIndex = 2;
             this.comboBoxAcademicYear.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcademicYear_SelectedIndexChanged);
             // 
@@ -159,6 +161,16 @@
             this.labelSelectAcademicYear.Size = new System.Drawing.Size(119, 13);
             this.labelSelectAcademicYear.TabIndex = 0;
             this.labelSelectAcademicYear.Text = "Выбрать учебный год:";
+            // 
+            // buttonCalcFactHours
+            // 
+            this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 6);
+            this.buttonCalcFactHours.Name = "buttonCalcFactHours";
+            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 21);
+            this.buttonCalcFactHours.TabIndex = 3;
+            this.buttonCalcFactHours.Text = "Расчитать время";
+            this.buttonCalcFactHours.UseVisualStyleBackColor = true;
+            this.buttonCalcFactHours.Click += new System.EventHandler(this.buttonCalcFactHours_Click);
             // 
             // LoadDistributionControl
             // 
@@ -193,5 +205,6 @@
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelSelectAcademicYear;
         private System.Windows.Forms.ComboBox comboBoxAcademicYear;
+        private System.Windows.Forms.Button buttonCalcFactHours;
     }
 }

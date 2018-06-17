@@ -2,6 +2,7 @@
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -203,6 +204,31 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                     mi.Invoke(c, null);
                 }
             }
+        }
+
+        private void buttonCalcFactHours_Click(object sender, EventArgs e)
+        {
+            
+            if (comboBoxAcademicYear.SelectedItem != null)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите произвести расчет по " + comboBoxAcademicYear.Text + " году?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Guid id = new Guid(comboBoxAcademicYear.SelectedValue.ToString());
+                    var result = _serviceEP.CalcFactHoursForAcademicYear(new AcademicYearGetBindingModel { Id = id });
+                    if (!result.Succeeded)
+                    {
+                        Program.PrintErrorMessage("При расчете возникла ошибка: ", result.Errors);
+                    }
+                    LoadGrid();
+                    LoadRecords();
+                    MessageBox.Show("Готово!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите нужный год");
+            }
+            
         }
     }
 }
