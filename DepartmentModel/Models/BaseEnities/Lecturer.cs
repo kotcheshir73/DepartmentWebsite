@@ -1,4 +1,5 @@
 ﻿using DepartmentModel.Enums;
+using DepartmentModel.Models.BaseEnities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -83,6 +84,9 @@ namespace DepartmentModel.Models
         public virtual LecturerPost LecturerPost { get; set; }
 
         //-------------------------------------------------------------------------
+
+        [ForeignKey("LecturerId")]
+        public virtual List<AcademicPlanRecordMission> AcademicPlanRecordMissions { get; set; }
 
         //-------------------------------------------------------------------------
 

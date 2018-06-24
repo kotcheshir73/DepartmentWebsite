@@ -69,6 +69,7 @@
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecordElement.cs" />
+    <Compile Include="Models\BaseEnities\AcademicPlanRecordMission.cs" />
     <Compile Include="Models\BaseEnities\AcademicYear.cs" />
     <Compile Include="Models\BaseEnities\Access.cs" />
     <Compile Include="Models\BaseEnities\Classroom.cs" />

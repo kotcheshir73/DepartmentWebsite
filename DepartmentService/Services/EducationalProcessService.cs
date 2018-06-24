@@ -29,15 +29,18 @@ namespace DepartmentService.Services
 
         private readonly IConsultationRecordService _serviceCR;
 
+        private readonly ILecturerService _serviceL;
+
         public EducationalProcessService(DepartmentDbContext context,
             ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR)
+            IConsultationRecordService serviceCR, ILecturerService serviceL)
         {
             _context = context;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
             _serviceER = serviceER;
             _serviceCR = serviceCR;
+            _serviceL = serviceL;
         }
 
         /// <summary>
@@ -1228,7 +1231,7 @@ namespace DepartmentService.Services
                 var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.Id).OrderBy(x => x.TimeNormOrder);
 
                 // прреп
-                
+                var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel()).Result.List;
 
                 foreach (var discBlock in disciplineBlocks)
                 {

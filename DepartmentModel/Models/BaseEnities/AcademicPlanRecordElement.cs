@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentModel.Models.BaseEnities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,5 +39,8 @@ namespace DepartmentModel.Models
 
         [ForeignKey("AcademicPlanRecordElementId")]
         public virtual List<StreamLessonRecord> StreamLessonRecords { get; set; }
+
+        [ForeignKey("AcademicPlanRecordElementId")]
+        public virtual List<AcademicPlanRecordMission> AcademicPlanRecordMissions { get; set; }
     }
 }
