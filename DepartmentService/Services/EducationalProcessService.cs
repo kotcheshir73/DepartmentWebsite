@@ -1253,7 +1253,12 @@ namespace DepartmentService.Services
                         element.Add(null);
                         element.Add(null);
                     }
-                    // преп
+                    //TODO: Дописать
+                    foreach (var lect in lecturers)
+                    {
+                        element.Add(null);
+                    }
+
                     element.Add(null);
                     list.Add(element.ToArray());
 
@@ -1313,6 +1318,21 @@ namespace DepartmentService.Services
                                 elementApr.Add(null);
                             }
                         }
+                        //TODO: Дописать 
+                        foreach (var lect in lecturers)
+                        {
+                            var lectHours = _context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lect.Id && x.AcademicPlanRecordElement.AcademicPlanRecordId == apr.Id && !x.IsDeleted);
+                            if (lectHours.Count() > 0)
+                            {
+                                elementApr.Add(lectHours.Sum(x => x.Hours));
+                            }
+                            else
+                            {
+                                elementApr.Add(null);
+                            }
+                             //== null ? Convert.ToDecimal(0) : x.Hours
+                        }
+
                         if (factTotal != 0)
                         {
                             elementApr.Add(factTotal);
@@ -1321,7 +1341,7 @@ namespace DepartmentService.Services
                         {
                             elementApr.Add(null);
                         }
-                        //TODO: Дописать 
+
                         list.Add(elementApr.ToArray());
                     }
                 }

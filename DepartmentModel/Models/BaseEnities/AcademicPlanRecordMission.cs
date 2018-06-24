@@ -6,10 +6,10 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DepartmentModel.Models.BaseEnities
+namespace DepartmentModel.Models
 {
     /// <summary>
-    /// Класс, описывающий нагрузку преподавателя и часов
+    /// Класс, хранящий информацию о нагрузке преподавателя по дисциплине
     /// </summary>
     [DataContract]
     public class AcademicPlanRecordMission : BaseEntity

@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201805220657242_DeleteDBR.Designer.cs">
       <DependentUpon>201805220657242_DeleteDBR.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806242057474_CreateAPRM.cs" />
+    <Compile Include="Migrations\201806242057474_CreateAPRM.Designer.cs">
+      <DependentUpon>201806242057474_CreateAPRM.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -455,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805220657242_DeleteDBR.resx">
       <DependentUpon>201805220657242_DeleteDBR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806242057474_CreateAPRM.resx">
+      <DependentUpon>201806242057474_CreateAPRM.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
