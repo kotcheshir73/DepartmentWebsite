@@ -19,14 +19,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private readonly IEducationalProcessService _serviceEP;
 
+        private readonly ILecturerService _serviceL;
+
         private bool notLoading;
 
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP)
+		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL)
 		{
 			InitializeComponent();
             _serviceAY = serviceAY;
             _serviceTN = serviceTN;
             _serviceEP = serviceEP;
+            _serviceL = serviceL;
 
             setDoubleBuffered(dataGridViewList, true);
 		}
@@ -80,6 +83,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                 columns.Add(new ColumnConfig { Name = string.Format("APRE_Id{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
                 columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
                 columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+            }
+            var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel () );
+            foreach (var lect in lecturers.Result.List)
+            {
+                columns.Add(new ColumnConfig { Name = string.Format("LecturerId_{0}", lect.Id), Title = lect.FullName, Width = 50, Visible = true });
             }
             columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
             dataGridViewList.Columns.Clear();
@@ -228,7 +236,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             {
                 MessageBox.Show("Выберите нужный год");
             }
-            
         }
     }
 }

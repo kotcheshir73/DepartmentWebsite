@@ -1227,6 +1227,9 @@ namespace DepartmentService.Services
                 // получаем список видов нагрузки, так как нам надо возвращать массив объектов для вывода в гриде
                 var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.Id).OrderBy(x => x.TimeNormOrder);
 
+                // прреп
+                
+
                 foreach (var discBlock in disciplineBlocks)
                 {
                     List<object> element = new List<object>() {
@@ -1247,6 +1250,7 @@ namespace DepartmentService.Services
                         element.Add(null);
                         element.Add(null);
                     }
+                    // преп
                     element.Add(null);
                     list.Add(element.ToArray());
 
@@ -1314,6 +1318,7 @@ namespace DepartmentService.Services
                         {
                             elementApr.Add(null);
                         }
+                        //TODO: Дописать 
                         list.Add(elementApr.ToArray());
                     }
                 }

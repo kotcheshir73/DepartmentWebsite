@@ -38,9 +38,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.buttonCalcFactHours = new System.Windows.Forms.Button();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelSelectAcademicYear = new System.Windows.Forms.Label();
-            this.buttonCalcFactHours = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.panelTop.SuspendLayout();
@@ -52,7 +52,7 @@
             this.dataGridViewList.AllowUserToDeleteRows = false;
             this.dataGridViewList.AllowUserToResizeRows = false;
             this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridViewList.ColumnHeadersHeight = 100;
+            this.dataGridViewList.ColumnHeadersHeight = 110;
             this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewList.Location = new System.Drawing.Point(0, 60);
             this.dataGridViewList.Name = "dataGridViewList";
@@ -143,6 +143,16 @@
             this.panelTop.Size = new System.Drawing.Size(800, 35);
             this.panelTop.TabIndex = 1;
             // 
+            // buttonCalcFactHours
+            // 
+            this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 6);
+            this.buttonCalcFactHours.Name = "buttonCalcFactHours";
+            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 21);
+            this.buttonCalcFactHours.TabIndex = 3;
+            this.buttonCalcFactHours.Text = "Расчитать время";
+            this.buttonCalcFactHours.UseVisualStyleBackColor = true;
+            this.buttonCalcFactHours.Click += new System.EventHandler(this.buttonCalcFactHours_Click);
+            // 
             // comboBoxAcademicYear
             // 
             this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -161,16 +171,6 @@
             this.labelSelectAcademicYear.Size = new System.Drawing.Size(119, 13);
             this.labelSelectAcademicYear.TabIndex = 0;
             this.labelSelectAcademicYear.Text = "Выбрать учебный год:";
-            // 
-            // buttonCalcFactHours
-            // 
-            this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 6);
-            this.buttonCalcFactHours.Name = "buttonCalcFactHours";
-            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 21);
-            this.buttonCalcFactHours.TabIndex = 3;
-            this.buttonCalcFactHours.Text = "Расчитать время";
-            this.buttonCalcFactHours.UseVisualStyleBackColor = true;
-            this.buttonCalcFactHours.Click += new System.EventHandler(this.buttonCalcFactHours_Click);
             // 
             // LoadDistributionControl
             // 
