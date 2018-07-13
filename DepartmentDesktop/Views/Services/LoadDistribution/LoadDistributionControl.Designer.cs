@@ -38,6 +38,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.buttonCalcFactHours = new System.Windows.Forms.Button();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelSelectAcademicYear = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
@@ -51,7 +52,7 @@
             this.dataGridViewList.AllowUserToDeleteRows = false;
             this.dataGridViewList.AllowUserToResizeRows = false;
             this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewList.ColumnHeadersHeight = 110;
             this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewList.Location = new System.Drawing.Point(0, 60);
             this.dataGridViewList.Name = "dataGridViewList";
@@ -61,6 +62,7 @@
             this.dataGridViewList.Size = new System.Drawing.Size(800, 440);
             this.dataGridViewList.TabIndex = 2;
             this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
+            this.dataGridViewList.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewList_CellPainting);
             this.dataGridViewList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewList_KeyDown);
             // 
             // toolStripMenu
@@ -132,6 +134,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.buttonCalcFactHours);
             this.panelTop.Controls.Add(this.comboBoxAcademicYear);
             this.panelTop.Controls.Add(this.labelSelectAcademicYear);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -140,13 +143,23 @@
             this.panelTop.Size = new System.Drawing.Size(800, 35);
             this.panelTop.TabIndex = 1;
             // 
+            // buttonCalcFactHours
+            // 
+            this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 6);
+            this.buttonCalcFactHours.Name = "buttonCalcFactHours";
+            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 21);
+            this.buttonCalcFactHours.TabIndex = 3;
+            this.buttonCalcFactHours.Text = "Расчитать время";
+            this.buttonCalcFactHours.UseVisualStyleBackColor = true;
+            this.buttonCalcFactHours.Click += new System.EventHandler(this.buttonCalcFactHours_Click);
+            // 
             // comboBoxAcademicYear
             // 
             this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAcademicYear.FormattingEnabled = true;
             this.comboBoxAcademicYear.Location = new System.Drawing.Point(134, 6);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
-            this.comboBoxAcademicYear.Size = new System.Drawing.Size(222, 21);
+            this.comboBoxAcademicYear.Size = new System.Drawing.Size(188, 21);
             this.comboBoxAcademicYear.TabIndex = 2;
             this.comboBoxAcademicYear.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcademicYear_SelectedIndexChanged);
             // 
@@ -192,5 +205,6 @@
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelSelectAcademicYear;
         private System.Windows.Forms.ComboBox comboBoxAcademicYear;
+        private System.Windows.Forms.Button buttonCalcFactHours;
     }
 }

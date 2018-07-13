@@ -19,6 +19,7 @@ namespace DepartmentService.Context
         public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
         public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
         public virtual DbSet<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
+        public virtual DbSet<AcademicPlanRecordMission> AcademicPlanRecordMissions { get; set; }
         public virtual DbSet<AcademicYear> AcademicYears { get; set; }
         public virtual DbSet<Access> Accesses { set; get; }
         public virtual DbSet<Classroom> Classrooms { set; get; }

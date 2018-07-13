@@ -29,15 +29,18 @@ namespace DepartmentService.Services
 
         private readonly IConsultationRecordService _serviceCR;
 
+        private readonly ILecturerService _serviceL;
+
         public EducationalProcessService(DepartmentDbContext context,
             ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR)
+            IConsultationRecordService serviceCR, ILecturerService serviceL)
         {
             _context = context;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
             _serviceER = serviceER;
             _serviceCR = serviceCR;
+            _serviceL = serviceL;
         }
 
         /// <summary>
@@ -1227,6 +1230,9 @@ namespace DepartmentService.Services
                 // получаем список видов нагрузки, так как нам надо возвращать массив объектов для вывода в гриде
                 var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.Id).OrderBy(x => x.TimeNormOrder);
 
+                // прреп
+                var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel()).Result.List;
+
                 foreach (var discBlock in disciplineBlocks)
                 {
                     List<object> element = new List<object>() {
@@ -1247,6 +1253,12 @@ namespace DepartmentService.Services
                         element.Add(null);
                         element.Add(null);
                     }
+                    //TODO: Дописать
+                    foreach (var lect in lecturers)
+                    {
+                        element.Add(null);
+                    }
+
                     element.Add(null);
                     list.Add(element.ToArray());
 
@@ -1306,6 +1318,21 @@ namespace DepartmentService.Services
                                 elementApr.Add(null);
                             }
                         }
+                        //TODO: Дописать 
+                        foreach (var lect in lecturers)
+                        {
+                            var lectHours = _context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lect.Id && x.AcademicPlanRecordElement.AcademicPlanRecordId == apr.Id && !x.IsDeleted);
+                            if (lectHours.Count() > 0)
+                            {
+                                elementApr.Add(lectHours.Sum(x => x.Hours));
+                            }
+                            else
+                            {
+                                elementApr.Add(null);
+                            }
+                             //== null ? Convert.ToDecimal(0) : x.Hours
+                        }
+
                         if (factTotal != 0)
                         {
                             elementApr.Add(factTotal);
@@ -1314,6 +1341,7 @@ namespace DepartmentService.Services
                         {
                             elementApr.Add(null);
                         }
+
                         list.Add(elementApr.ToArray());
                     }
                 }
