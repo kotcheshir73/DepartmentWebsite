@@ -7,13 +7,13 @@ namespace DepartmentService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class UpdateKoLAddColumnOrder : IMigrationMetadata
+    public sealed partial class InitMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateKoLAddColumnOrder));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805091645387_UpdateKoLAddColumnOrder"; }
+            get { return "201807131624088_InitMigration"; }
         }
         
         string IMigrationMetadata.Source

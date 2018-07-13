@@ -1,11 +1,12 @@
 ﻿using DepartmentDesktop.Models;
-using DepartmentModel.Enums;
 using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
 using DepartmentService.IServices.StandartInterfaces.EducationDirection;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
+using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
 {

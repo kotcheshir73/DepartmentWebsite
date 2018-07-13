@@ -2,11 +2,12 @@
 using DepartmentService.BindingModels;
 using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
 using DepartmentService.IServices.StandartInterfaces.EducationDirection;
-using Microsoft.Practices.Unity;
 using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
 {

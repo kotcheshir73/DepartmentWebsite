@@ -109,7 +109,7 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static Lecturer CreateLecturer(LecturerRecordBindingModel model, Lecturer entity = null)
+        public static Lecturer CreateLecturer(LecturerSetBindingModel model, Lecturer entity = null)
 		{
 			if (entity == null)
 			{
