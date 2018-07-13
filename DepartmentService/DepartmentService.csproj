@@ -68,7 +68,9 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonTaskBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
@@ -102,7 +104,9 @@
     <Compile Include="IServices\IAdministrationProcess.cs" />
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
@@ -122,10 +126,18 @@
     <Compile Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.Designer.cs">
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802261923159_updatedisciplinetable.cs" />
+    <Compile Include="Migrations\201802261923159_updatedisciplinetable.Designer.cs">
+      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>    </Compile>
+
     <Compile Include="Migrations\201803121441460_Migration1.cs" />
     <Compile Include="Migrations\201803121441460_Migration1.Designer.cs">
       <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803310905075_updatedDLSR.cs" />
+    <Compile Include="Migrations\201803310905075_updatedDLSR.Designer.cs">
+      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>    </Compile>
+
     <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.cs" />
     <Compile Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.Designer.cs">
       <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
@@ -290,6 +302,8 @@
     <Compile Include="Services\ScheduleServices\ConsultationRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\ContingentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineBlockService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonTaskService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineService.cs" />
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
@@ -321,7 +335,9 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonVeiwModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerPostViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\SemesterRecordViewModels.cs" />
@@ -373,9 +389,15 @@
     <EmbeddedResource Include="Migrations\201802101651280_AddFieldCountGroupInTableContingent.resx">
       <DependentUpon>201802101651280_AddFieldCountGroupInTableContingent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802261923159_updatedisciplinetable.resx">
+      <DependentUpon>201802261923159_updatedisciplinetable.cs</DependentUpon>    </EmbeddedResource>
+
     <EmbeddedResource Include="Migrations\201803121441460_Migration1.resx">
       <DependentUpon>201803121441460_Migration1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803310905075_updatedDLSR.resx">
+      <DependentUpon>201803310905075_updatedDLSR.cs</DependentUpon>    </EmbeddedResource>
+
     <EmbeddedResource Include="Migrations\201803161524011_AddTabelMaterialTechnicalValue.resx">
       <DependentUpon>201803161524011_AddTabelMaterialTechnicalValue.cs</DependentUpon>
     </EmbeddedResource>
