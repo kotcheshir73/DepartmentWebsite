@@ -520,5 +520,12 @@ namespace DepartmentDesktop
         }
         #endregion
 
+        #region Преподаватель
+        private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ProgressForm>();
+            form.ShowDialog();
+        }
+        #endregion
     }
 }

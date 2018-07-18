@@ -20,13 +20,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.Progress
 
         private readonly IDisciplineLessonService _serviceDL;
 
-        private readonly IStudentGroupService _serviceSG;
-
-        public ProgressForm(IDisciplineService serviceD, IStudentGroupService serviceSG, IDisciplineLessonService serviceDL)
+        public ProgressForm(IDisciplineService serviceD, IDisciplineLessonService serviceDL)
         {
             InitializeComponent();
             _serviceD = serviceD;
-            _serviceSG = serviceSG;
             _serviceDL = serviceDL;
         }
 
@@ -39,26 +36,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.Progress
                 return;
             }
 
-            var resultG = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { });
-            if (!resultG.Succeeded)
-            {
-                Program.PrintErrorMessage("При загрузке студенческих групп возникла ошибка: ", resultG.Errors);
-                return;
-            }
-
             comboBoxDisciplines.ValueMember = "Value";
             comboBoxDisciplines.DisplayMember = "Display";
             comboBoxDisciplines.DataSource = resultD.Result.List
                 .Select(d => new { Value = d.Id, Display = d.DisciplineName}).ToList();
             comboBoxDisciplines.SelectedItem = null;
 
-            comboBoxStudentGroups.ValueMember = "Value";
-            comboBoxStudentGroups.DisplayMember = "Display";
-            comboBoxStudentGroups.DataSource = resultG.Result.List
-                .Select(g => new { Value = g.Id, Display = g.GroupName}).ToList();
-            comboBoxStudentGroups.SelectedItem = null;
-
-            if (comboBoxDisciplines.SelectedItem!=null&&comboBoxStudentGroups.SelectedItem != null)
+            if (comboBoxDisciplines.SelectedItem!=null)
             {
                 LoadData();
             }
@@ -68,6 +52,41 @@ namespace DepartmentDesktop.Views.EducationalProcess.Progress
         {
             var discipline =_serviceD.GetDiscipline(new DisciplineGetBindingModel { Id = new Guid(comboBoxDisciplines.SelectedValue.ToString()) }) ;
             var lessons = _serviceDL.GetDisciplineLessons(new DisciplineLessonGetBindingModel { DisciplineId = discipline.Result.Id });
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private bool Save()
+        {
+            return false;
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if (Save())
+            {
+                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadData();
+            }
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

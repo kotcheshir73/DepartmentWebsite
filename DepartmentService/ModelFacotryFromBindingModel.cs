@@ -100,9 +100,7 @@ namespace DepartmentService.BindingModels
                 entity = new DisciplineLessonTask();
             }
             entity.DisciplineLessonId = model.DisciplineLessonId;
-            entity.VariantNumber = model.VariantNumber;
             entity.Order = model.Order;
-            entity.MaxBall = model.MaxBall;
             entity.Description = model.Description;
             entity.Image = model.Image;
 

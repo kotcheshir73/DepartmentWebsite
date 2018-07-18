@@ -34,6 +34,10 @@ namespace DepartmentModel.Models
         [DataMember]
         public int Order { get; set; }
 
+        [Required]
+        [DataMember]
+        public int CountOfPairs { get; set; }
+
         [DataMember]
         public byte[] DisciplineLessonFile { get; set; }
 

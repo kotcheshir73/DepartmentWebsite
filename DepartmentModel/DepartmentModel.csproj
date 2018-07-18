@@ -80,6 +80,7 @@
     <Compile Include="Models\BaseEnities\DisciplineLessonStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonTask.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskVariant.cs" />
     <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\EducationDirection.cs" />
     <Compile Include="Models\BaseEnities\Lecturer.cs" />

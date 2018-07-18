@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentModel.Models.BaseEnities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,14 +20,19 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public int? VariantNumber { get; set; }
+        public string Task { get; set; }
+
+        [Required]
+        [DataMember]
+        public bool IsNecessarily { get; set; }
 
         [Required]
         [DataMember]
         public int Order { get; set; }
-        
+
+        [Required]
         [DataMember]
-        public decimal? MaxBall { get; set; }
+        public int? MaxBall { get; set; }
 
         [DataMember]
         public string Description { get; set; }
@@ -42,5 +48,8 @@ namespace DepartmentModel.Models
 
 		[ForeignKey("DisciplineLessonTaskId")]
 		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
-	}
+
+        [ForeignKey("DisciplineLessonTaskId")]
+        public virtual List<DisciplineLessonTaskVariant> DisciplineLessonTaskVariant { get; set; }
+    }
 }

@@ -93,7 +93,6 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 DisciplineLessonId = entity.DisciplineLessonId,
-                VariantNumber = entity.VariantNumber,
                 Order = entity.Order,
                 MaxBall = entity.MaxBall,
                 Description = entity.Description,
