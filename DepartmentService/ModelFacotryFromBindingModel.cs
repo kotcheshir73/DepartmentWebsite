@@ -1,5 +1,6 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
+using DepartmentModel.Models.BaseEnities;
 using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
 using System;
 
@@ -103,6 +104,19 @@ namespace DepartmentService.BindingModels
             entity.Order = model.Order;
             entity.Description = model.Description;
             entity.Image = model.Image;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTaskVariant CreateDisciplineLessonTaskVariant(DisciplineLessonTaskVariantRecordBindingModel model, DisciplineLessonTaskVariant entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTaskVariant();
+            }
+            entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
+            entity.VariantNumber = model.VariantNumber;
+            entity.VariantTask = model.VariantTask;
 
             return entity;
         }

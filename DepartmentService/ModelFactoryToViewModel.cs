@@ -1,5 +1,6 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
+using DepartmentModel.Models.BaseEnities;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
 using DepartmentService.ViewModels.StandartViewModels.EducationDirection;
@@ -97,6 +98,17 @@ namespace DepartmentService.ViewModels
                 MaxBall = entity.MaxBall,
                 Description = entity.Description,
                 Image = entity.Image
+            };
+        }
+
+        public static DisciplineLessonTaskVariantViewModel CreateDisciplineLessonTaskVariantViewModel(DisciplineLessonTaskVariant entity)
+        {
+            return new DisciplineLessonTaskVariantViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                VariantNumber = entity.VariantNumber,
+                VariantTask = entity.VariantTask
             };
         }
 
