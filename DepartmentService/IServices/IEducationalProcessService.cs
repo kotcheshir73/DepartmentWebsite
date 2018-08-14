@@ -36,6 +36,14 @@ namespace DepartmentService.IServices
         ResultService<List<object[]>> GetAcademicYearLoading(AcademicYearGetBindingModel model);
 
         /// <summary>
+        /// Формирование листа учебной нагрузки по предмету на год
+        /// </summary>
+        /// <param name="modelYear"></param>
+        /// <param name="modelPlanRecord"></param>
+        /// <returns></returns>
+        ResultService<List<object[]>> GetListAPRE(AcademicYearGetBindingModel modelYear, AcademicPlanRecordGetBindingModel modelPlanRecord);
+
+        /// <summary>
         /// Получение списка учебных планов для дисциплины за конкретный год
         /// </summary>
         /// <param name="model"></param>

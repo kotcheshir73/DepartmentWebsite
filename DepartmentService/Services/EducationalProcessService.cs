@@ -1261,7 +1261,7 @@ namespace DepartmentService.Services
 
                     element.Add(null);
                     list.Add(element.ToArray());
-
+                    
                     var aprs = _context.AcademicPlanRecords
                         .Include(x => x.AcademicPlan)
                         .Include(x => x.AcademicPlan.EducationDirection)
@@ -1344,6 +1344,59 @@ namespace DepartmentService.Services
 
                         list.Add(elementApr.ToArray());
                     }
+                }
+
+                return ResultService<List<object[]>>.Success(list);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<object[]>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<object[]>> GetListAPRE(AcademicYearGetBindingModel modelYear, AcademicPlanRecordGetBindingModel modelPlanRecord)
+        {
+            try
+            {
+                List<object[]> list = new List<object[]>();
+                
+                var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == modelYear.Id).OrderBy(x => x.TimeNormOrder);
+
+                foreach (var timeNorm in timeNorms)
+                {
+                    List<object> element = new List<object>();
+
+                    var apre = _context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+                    if (apre != null)
+                    {
+                        element.Add(apre.Id);
+                        element.Add(timeNorm.TimeNormName);
+                        if (apre.PlanHours != 0)
+                        {
+                            element.Add(apre.PlanHours.ToString("#.0"));
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                        if (apre.FactHours != 0)
+                        {
+                            element.Add(apre.FactHours);
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                    }
+                    else
+                    {
+                        element.Add(null);
+                        element.Add(timeNorm.TimeNormName);
+                        element.Add(null);
+                        element.Add(null);
+                    }
+
+                    list.Add(element.ToArray());
                 }
 
                 return ResultService<List<object[]>>.Success(list);

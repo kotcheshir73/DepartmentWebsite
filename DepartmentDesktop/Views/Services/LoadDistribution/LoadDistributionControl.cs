@@ -1,4 +1,5 @@
 ﻿using DepartmentDesktop.Models;
+using DepartmentDesktop.Views.Services.LoadDistribution;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -80,14 +81,14 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicYearId = id });
             foreach (var tn in timeNorms.Result.List)
             {
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Id{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+                columns.Add(new ColumnConfig { Name = string.Format("APRE_Id_{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
+                columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+                columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
             }
             var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel () );
             foreach (var lect in lecturers.Result.List)
             {
-                columns.Add(new ColumnConfig { Name = string.Format("LecturerId_{0}", lect.Id), Title = lect.FullName, Width = 50, Visible = true });
+                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName, Width = 50, Visible = true });
             }
             columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
             dataGridViewList.Columns.Clear();
@@ -130,7 +131,30 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void UpdRecord()
 		{
-			
+            int i, j;
+            if(dataGridViewList.SelectedCells.Count == 1)
+            {
+                i = dataGridViewList.SelectedCells[0].RowIndex;
+                j = dataGridViewList.SelectedCells[0].ColumnIndex;
+
+                if (dataGridViewList[0, i].Value == null)
+                {
+                    return;
+                }
+                
+                if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+                {
+                    /*LoadDistributionEditForm editForm = new LoadDistributionEditForm(comboBoxAcademicYear.SelectedValue.ToString(),
+                        dataGridViewList[0, i].Value.ToString(), dataGridViewList[3, i].Value.ToString(), dataGridViewList.SelectedColumns[0].HeaderText, _serviceEP);
+                    editForm.Show();*/
+                }
+                else if(dataGridViewList.Columns[j].Name.StartsWith("ColumnAPRE"))
+                {
+                    LoadDistributionEditForm editForm = new LoadDistributionEditForm(comboBoxAcademicYear.SelectedValue.ToString(), 
+                        dataGridViewList[0, i].Value.ToString(), dataGridViewList[3, i].Value.ToString(), _serviceEP);
+                    editForm.Show();
+                }
+            }
 		}
 
 		private void DelRecord()
