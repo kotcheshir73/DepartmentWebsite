@@ -44,6 +44,15 @@ namespace DepartmentService.IServices
         ResultService<List<object[]>> GetListAPRE(AcademicYearGetBindingModel modelYear, AcademicPlanRecordGetBindingModel modelPlanRecord);
 
         /// <summary>
+        /// Формирование листа для назначения времени по предмету преподавателю
+        /// </summary>
+        /// <param name="modelYear"></param>
+        /// <param name="modelPlanRecord"></param>
+        /// <param name="modelLecturer"></param>
+        /// <returns></returns>
+        ResultService<List<object[]>> GetListAPRM(AcademicYearGetBindingModel modelYear, AcademicPlanRecordGetBindingModel modelPlanRecord, LecturerGetBindingModel modelLecturer);
+
+        /// <summary>
         /// Получение списка учебных планов для дисциплины за конкретный год
         /// </summary>
         /// <param name="model"></param>

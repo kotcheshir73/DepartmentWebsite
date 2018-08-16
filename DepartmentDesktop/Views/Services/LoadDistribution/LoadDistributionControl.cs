@@ -9,11 +9,17 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
+using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 {
 	public partial class LoadDistributionControl : UserControl
-	{
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IAcademicYearService _serviceAY;
 
         private readonly ITimeNormService _serviceTN;
@@ -144,14 +150,30 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                 
                 if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
                 {
-                    /*LoadDistributionEditForm editForm = new LoadDistributionEditForm(comboBoxAcademicYear.SelectedValue.ToString(),
-                        dataGridViewList[0, i].Value.ToString(), dataGridViewList[3, i].Value.ToString(), dataGridViewList.SelectedColumns[0].HeaderText, _serviceEP);
-                    editForm.Show();*/
+                    var editForm = Container.Resolve<LoadDistributionEditForm>(
+                        new ParameterOverrides
+                        {
+                            { "academicYearId", comboBoxAcademicYear.SelectedValue.ToString() },
+                            { "academicPlanRecordId", dataGridViewList[0, i].Value.ToString() },
+                            { "lecturerId", dataGridViewList.Columns[j].Name.Split('_')[1] },
+                            { "disciplineName", dataGridViewList[3, i].Value.ToString() },
+                            { "lecturerName", dataGridViewList.Columns[j].HeaderText }
+                        }
+                        .OnType<LoadDistributionEditForm>());
+                    editForm.Show();
                 }
                 else if(dataGridViewList.Columns[j].Name.StartsWith("ColumnAPRE"))
                 {
-                    LoadDistributionEditForm editForm = new LoadDistributionEditForm(comboBoxAcademicYear.SelectedValue.ToString(), 
-                        dataGridViewList[0, i].Value.ToString(), dataGridViewList[3, i].Value.ToString(), _serviceEP);
+                    var editForm = Container.Resolve<LoadDistributionEditForm>(
+                        new ParameterOverrides
+                        {
+                            { "academicYearId", comboBoxAcademicYear.SelectedValue.ToString() },
+                            { "academicPlanRecordId", dataGridViewList[0, i].Value.ToString() },
+                            { "lecturerId", "" },
+                            { "disciplineName", dataGridViewList[3, i].Value.ToString() },
+                            { "lecturerName", "" }
+                        }
+                        .OnType<LoadDistributionEditForm>());
                     editForm.Show();
                 }
             }

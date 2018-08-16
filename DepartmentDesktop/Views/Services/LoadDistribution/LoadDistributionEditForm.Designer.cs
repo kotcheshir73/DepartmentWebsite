@@ -42,15 +42,15 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(0, 0);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.ReadOnly = true;
-            this.dataGridView.Size = new System.Drawing.Size(378, 531);
+            this.dataGridView.RowHeadersVisible = false;
+            this.dataGridView.Size = new System.Drawing.Size(478, 608);
             this.dataGridView.TabIndex = 0;
             // 
             // LoadDistributionEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 531);
+            this.ClientSize = new System.Drawing.Size(478, 608);
             this.Controls.Add(this.dataGridView);
             this.Name = "LoadDistributionEditForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

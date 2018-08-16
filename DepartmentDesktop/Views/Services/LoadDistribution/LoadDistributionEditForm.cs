@@ -17,29 +17,82 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
     {
         private readonly IEducationalProcessService _serviceEP;
 
-        public LoadDistributionEditForm(string academicYearId, string academicPlanRecordId, string disciplineName, string lecturerName, string LecturerId, IEducationalProcessService serviceEP)
+        private readonly IAcademicPlanRecordElementService _serviceAPRE;
+
+        private Guid _academicYearId;
+        
+        private Guid _academicPlanRecordId;
+        
+        private Guid _lecturerId;
+
+        public LoadDistributionEditForm(IEducationalProcessService serviceEP, IAcademicPlanRecordElementService serviceAPRE,
+                                           string academicYearId, string academicPlanRecordId, string lecturerId, string disciplineName, string lecturerName)
         {
-            this.Text = disciplineName + " - " + lecturerName;
             _serviceEP = serviceEP;
+            _serviceAPRE = serviceAPRE;
+            _academicYearId = new Guid(academicYearId);
+            _academicPlanRecordId = new Guid(academicPlanRecordId);
 
             InitializeComponent();
 
-
-
-
+            if(lecturerId == "")
+            {
+                this.Text = disciplineName;
+                LoadColomnsAPRE();
+                LoadDataAPRE();
+            }
+            else
+            {
+                _lecturerId = new Guid(lecturerId);
+                this.Text = disciplineName + " - " + lecturerName;
+                LoadColomnsAPRM();
+                LoadDataAPRM();
+            }
         }
 
-        public LoadDistributionEditForm(string academicYearId, string academicPlanRecordId, string disciplineName, IEducationalProcessService serviceEP)
+        private void LoadColomnsAPRE()
         {
-            this.Text = disciplineName;
-            _serviceEP = serviceEP;
+            dataGridView.Columns.Clear();
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Id",
+                Name = "Column_APRE_Id",
+                ReadOnly = true,
+                Visible = false,
+                Width = 100,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Название",
+                Name = "Column_TimeNorm",
+                ReadOnly = true,
+                Visible = true,
+                Width = 200,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "План",
+                Name = "Column_APRE_Plan",
+                Visible = true,
+                Width = 50,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Факт",
+                Name = "Column_APRE_Fact",
+                Visible = true,
+                Width = 50,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+        }
 
-            InitializeComponent();
-
-            LoadGrid();
-
-            var result = _serviceEP.GetListAPRE(new AcademicYearGetBindingModel() { Id = new Guid(academicYearId) },
-                                                new AcademicPlanRecordGetBindingModel() { Id = new Guid(academicPlanRecordId) });
+        private void LoadDataAPRE()
+        {
+            var result = _serviceEP.GetListAPRE(new AcademicYearGetBindingModel() { Id = _academicYearId },
+                                                    new AcademicPlanRecordGetBindingModel() { Id = _academicPlanRecordId });
             if (result.Succeeded)
             {
                 dataGridView.Rows.Clear();
@@ -47,38 +100,92 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
                 {
                     dataGridView.Rows.Add(elem);
                 }
+                Height = 18 + 22 * result.Result.Count;
             }
             else
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 return;
             }
-
         }
 
-        private void LoadGrid()
+        private void LoadColomnsAPRM()
         {
-            List<ColumnConfig> columns = new List<ColumnConfig>
-            {
-                new ColumnConfig { Name = "APRE_Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = string.Format("TimeNorm"), Title = "Название", Width = 100, Visible = true },
-                new ColumnConfig { Name = string.Format("APRE_Plan"), Title = "План", Width = 40, Visible = true },
-                new ColumnConfig { Name = string.Format("APRE_Fact"), Title = "Факт", Width = 40, Visible = true }
-            };
             dataGridView.Columns.Clear();
-            foreach (var column in columns)
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
             {
-                dataGridView.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    HeaderText = column.Title,
-                    Name = string.Format("Column_{0}", column.Name),
-                    ReadOnly = true,
-                    Visible = column.Visible,
-                    Width = column.Width.HasValue? column.Width.Value : 0,
-                    AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
-                });
-            }
+                HeaderText = "Id",
+                Name = "Column_APRE_Id",
+                ReadOnly = true,
+                Visible = false,
+                Width = 100,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Id",
+                Name = "Column_APRM_Id",
+                ReadOnly = true,
+                Visible = false,
+                Width = 100,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Название",
+                Name = "Column_TimeNorm",
+                ReadOnly = true,
+                Visible = true,
+                Width = 200,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "План",
+                Name = "Column_APRE_Plan",
+                ReadOnly = true,
+                Visible = true,
+                Width = 50,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Факт",
+                Name = "Column_APRE_Fact",
+                ReadOnly = true,
+                Visible = true,
+                Width = 50,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Назначено",
+                Name = "Column_APRM_Hours",
+                Visible = true,
+                Width = 50,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+        }
 
+        private void LoadDataAPRM()
+        {
+            var result = _serviceEP.GetListAPRM(new AcademicYearGetBindingModel() { Id = _academicYearId },
+                                                    new AcademicPlanRecordGetBindingModel() { Id = _academicPlanRecordId },
+                                                        new LecturerGetBindingModel() { Id = _lecturerId });
+            if (result.Succeeded)
+            {
+                dataGridView.Rows.Clear();
+                foreach (var elem in result.Result)
+                {
+                    dataGridView.Rows.Add(elem);
+                }
+                Height = 18 + 22 * result.Result.Count;
+            }
+            else
+            {
+                Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                return;
+            }
         }
     }
 }
