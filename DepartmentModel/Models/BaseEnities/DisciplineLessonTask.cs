@@ -29,8 +29,7 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public int Order { get; set; }
-
-        [Required]
+        
         [DataMember]
         public int? MaxBall { get; set; }
 
@@ -38,7 +37,7 @@ namespace DepartmentModel.Models
         public string Description { get; set; }
 
         [DataMember]
-        public byte[] Image { get; set; }
+        public byte?[] Image { get; set; }
 
         //-------------------------------------------------------------------------
 

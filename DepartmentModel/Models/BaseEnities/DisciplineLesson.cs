@@ -39,6 +39,9 @@ namespace DepartmentModel.Models
         public int CountOfPairs { get; set; }
 
         [DataMember]
+        public DateTime? Date { get; set; }
+
+        [DataMember]
         public byte[] DisciplineLessonFile { get; set; }
 
         //-------------------------------------------------------------------------

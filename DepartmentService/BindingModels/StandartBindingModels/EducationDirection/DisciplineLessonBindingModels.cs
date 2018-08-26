@@ -29,6 +29,11 @@ namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirecti
         [Required(ErrorMessage = "required")]
         public int Order { get; set; }
 
+        [Required(ErrorMessage = "required")]
+        public int CountOfPairs { get; set; }
+
+        public DateTime Date { get; set; }
+
         public byte[] DisciplineLessonFile { get; set; }
 
     }

@@ -19,6 +19,10 @@ namespace DepartmentService.ViewModels.StandartViewModels.EducationDirection
 
         public int Order { get; set; }
 
+        public int CountOfPairs { get; set; }
+
+        public DateTime Date { get; set; }
+
         public byte[] DisciplineLessonFile { get; set; }
     }
 }

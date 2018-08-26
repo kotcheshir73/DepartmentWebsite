@@ -26,6 +26,9 @@ namespace DepartmentModel.Models
         [DataMember]
         public string Comment { get; set; }
 
+        [DataMember]
+        public DateTime? Date { get; set; }
+
         [Required]
         [DataMember]
         public int Score { get; set; }

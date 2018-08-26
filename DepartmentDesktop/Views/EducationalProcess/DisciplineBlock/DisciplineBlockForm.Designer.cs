@@ -84,6 +84,7 @@
             this.buttonSave.TabIndex = 7;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // labelDisciplineBlockOrder
             // 
@@ -102,6 +103,7 @@
             this.buttonClose.TabIndex = 9;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // textBoxDisciplineBlockBlueAsteriskName
             // 
@@ -119,6 +121,7 @@
             this.buttonSaveAndClose.TabIndex = 8;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
+            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // labelDisciplineBlockBlueAsteriskName
             // 

@@ -24,6 +24,6 @@ namespace DepartmentService.ViewModels.StandartViewModels.EducationDirection
 
         public string Description { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte?[] Image { get; set; }
     }
 }

@@ -17,6 +17,11 @@ namespace DepartmentDesktop.Views.Lecturer
             InitializeComponent();
         }
 
+        private void DisciplineLessonTaskVariantSettingsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void buttonSave_Click(object sender, EventArgs e)
         {
 

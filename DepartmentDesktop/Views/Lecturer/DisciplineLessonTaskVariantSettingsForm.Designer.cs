@@ -114,6 +114,7 @@
             this.Controls.Add(this.label1);
             this.Name = "DisciplineLessonTaskVariantSettingsForm";
             this.Text = "Задание по варианту";
+            this.Load += new System.EventHandler(this.DisciplineLessonTaskVariantSettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

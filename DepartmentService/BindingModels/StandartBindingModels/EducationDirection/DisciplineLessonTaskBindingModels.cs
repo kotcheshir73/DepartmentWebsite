@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentModel.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,6 +28,9 @@ namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirecti
         [Required(ErrorMessage = "required")]
         public int Order { get; set; }
 
+        [Required(ErrorMessage = "required")]
+        public LessonTypes LessonType { get; set; }
+
         public decimal? MaxBall { get; set; }
 
         [Required(ErrorMessage = "required")]
@@ -34,6 +38,6 @@ namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirecti
 
         public string Description { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte?[] Image { get; set; }
     }
 }

@@ -71,6 +71,7 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonTaskBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonTaskVariantBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskVariantService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
@@ -121,6 +123,14 @@
     <Compile Include="Migrations\201807181848121_addDLTVchangedDLandDLT.cs" />
     <Compile Include="Migrations\201807181848121_addDLTVchangedDLandDLT.Designer.cs">
       <DependentUpon>201807181848121_addDLTVchangedDLandDLT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808161202515_dldlsr.cs" />
+    <Compile Include="Migrations\201808161202515_dldlsr.Designer.cs">
+      <DependentUpon>201808161202515_dldlsr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808161211321_dltimage.cs" />
+    <Compile Include="Migrations\201808161211321_dltimage.Designer.cs">
+      <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -172,6 +182,7 @@
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineBlockService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonTaskService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonTaskVariantService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineService.cs" />
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
@@ -203,6 +214,7 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskVariantViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonVeiwModels.cs" />
@@ -253,6 +265,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807181848121_addDLTVchangedDLandDLT.resx">
       <DependentUpon>201807181848121_addDLTVchangedDLandDLT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808161202515_dldlsr.resx">
+      <DependentUpon>201808161202515_dldlsr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808161211321_dltimage.resx">
+      <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

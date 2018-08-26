@@ -32,38 +32,6 @@
             this.comboBoxDisciplines = new System.Windows.Forms.ComboBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageLectures = new System.Windows.Forms.TabPage();
-            this.tabPageLabs = new System.Windows.Forms.TabPage();
-            this.tabPagePractices = new System.Windows.Forms.TabPage();
-            this.tabPageCourseWorks = new System.Windows.Forms.TabPage();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.dataGridViewLabs = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonLabsAdd = new System.Windows.Forms.Button();
-            this.buttonLabsDelete = new System.Windows.Forms.Button();
-            this.buttonLabsUpdate = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.dataGridViewPractices = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonPracticesAdd = new System.Windows.Forms.Button();
-            this.buttonPracticesDelete = new System.Windows.Forms.Button();
-            this.buttonPracticesUpdate = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.dataGridViewCourseWorks = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonCourseWorksAdd = new System.Windows.Forms.Button();
-            this.buttonCourseWorksDelete = new System.Windows.Forms.Button();
-            this.buttonCourseWorksUpdate = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridViewLectures = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,15 +41,47 @@
             this.buttonLecturesAdd = new System.Windows.Forms.Button();
             this.buttonLecturesDelete = new System.Windows.Forms.Button();
             this.buttonLecturesUpdate = new System.Windows.Forms.Button();
+            this.tabPageLabs = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dataGridViewLabs = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonLabsAdd = new System.Windows.Forms.Button();
+            this.buttonLabsDelete = new System.Windows.Forms.Button();
+            this.buttonLabsUpdate = new System.Windows.Forms.Button();
+            this.tabPagePractices = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dataGridViewPractices = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonPracticesAdd = new System.Windows.Forms.Button();
+            this.buttonPracticesDelete = new System.Windows.Forms.Button();
+            this.buttonPracticesUpdate = new System.Windows.Forms.Button();
+            this.tabPageCourseWorks = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dataGridViewCourseWorks = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonCourseWorksAdd = new System.Windows.Forms.Button();
+            this.buttonCourseWorksDelete = new System.Windows.Forms.Button();
+            this.buttonCourseWorksUpdate = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageLectures.SuspendLayout();
-            this.tabPageLabs.SuspendLayout();
-            this.tabPagePractices.SuspendLayout();
-            this.tabPageCourseWorks.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLabs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPractices)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourseWorks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLectures)).BeginInit();
+            this.tabPageLabs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLabs)).BeginInit();
+            this.tabPagePractices.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPractices)).BeginInit();
+            this.tabPageCourseWorks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourseWorks)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -100,6 +100,7 @@
             this.comboBoxDisciplines.Name = "comboBoxDisciplines";
             this.comboBoxDisciplines.Size = new System.Drawing.Size(121, 21);
             this.comboBoxDisciplines.TabIndex = 2;
+            this.comboBoxDisciplines.SelectedIndexChanged += new System.EventHandler(this.comboBoxDisciplines_SelectedIndexChanged);
             // 
             // tabControl
             // 
@@ -129,6 +130,83 @@
             this.tabPageLectures.Text = "Лекции";
             this.tabPageLectures.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Занятия";
+            // 
+            // dataGridViewLectures
+            // 
+            this.dataGridViewLectures.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridViewLectures.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewLectures.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn13,
+            this.dataGridViewTextBoxColumn14,
+            this.dataGridViewTextBoxColumn15,
+            this.dataGridViewTextBoxColumn16});
+            this.dataGridViewLectures.GridColor = System.Drawing.SystemColors.Control;
+            this.dataGridViewLectures.Location = new System.Drawing.Point(8, 23);
+            this.dataGridViewLectures.Name = "dataGridViewLectures";
+            this.dataGridViewLectures.Size = new System.Drawing.Size(678, 256);
+            this.dataGridViewLectures.TabIndex = 13;
+            // 
+            // dataGridViewTextBoxColumn13
+            // 
+            this.dataGridViewTextBoxColumn13.HeaderText = "Тема";
+            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
+            this.dataGridViewTextBoxColumn13.Width = 270;
+            // 
+            // dataGridViewTextBoxColumn14
+            // 
+            this.dataGridViewTextBoxColumn14.HeaderText = "Дата проведения";
+            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
+            this.dataGridViewTextBoxColumn14.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn15
+            // 
+            this.dataGridViewTextBoxColumn15.HeaderText = "Кол-во пар";
+            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
+            this.dataGridViewTextBoxColumn15.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn16
+            // 
+            this.dataGridViewTextBoxColumn16.HeaderText = "Кол-во заданий";
+            this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
+            this.dataGridViewTextBoxColumn16.Width = 120;
+            // 
+            // buttonLecturesAdd
+            // 
+            this.buttonLecturesAdd.Location = new System.Drawing.Point(692, 23);
+            this.buttonLecturesAdd.Name = "buttonLecturesAdd";
+            this.buttonLecturesAdd.Size = new System.Drawing.Size(111, 23);
+            this.buttonLecturesAdd.TabIndex = 15;
+            this.buttonLecturesAdd.Text = "Добавить";
+            this.buttonLecturesAdd.UseVisualStyleBackColor = true;
+            this.buttonLecturesAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            // 
+            // buttonLecturesDelete
+            // 
+            this.buttonLecturesDelete.Location = new System.Drawing.Point(692, 81);
+            this.buttonLecturesDelete.Name = "buttonLecturesDelete";
+            this.buttonLecturesDelete.Size = new System.Drawing.Size(111, 23);
+            this.buttonLecturesDelete.TabIndex = 17;
+            this.buttonLecturesDelete.Text = "Удалить";
+            this.buttonLecturesDelete.UseVisualStyleBackColor = true;
+            this.buttonLecturesDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            // 
+            // buttonLecturesUpdate
+            // 
+            this.buttonLecturesUpdate.Location = new System.Drawing.Point(692, 52);
+            this.buttonLecturesUpdate.Name = "buttonLecturesUpdate";
+            this.buttonLecturesUpdate.Size = new System.Drawing.Size(111, 23);
+            this.buttonLecturesUpdate.TabIndex = 16;
+            this.buttonLecturesUpdate.Text = "Редактировать";
+            this.buttonLecturesUpdate.UseVisualStyleBackColor = true;
+            // 
             // tabPageLabs
             // 
             this.tabPageLabs.Controls.Add(this.label3);
@@ -143,56 +221,6 @@
             this.tabPageLabs.TabIndex = 1;
             this.tabPageLabs.Text = "Лабораторные";
             this.tabPageLabs.UseVisualStyleBackColor = true;
-            // 
-            // tabPagePractices
-            // 
-            this.tabPagePractices.Controls.Add(this.label4);
-            this.tabPagePractices.Controls.Add(this.dataGridViewPractices);
-            this.tabPagePractices.Controls.Add(this.buttonPracticesAdd);
-            this.tabPagePractices.Controls.Add(this.buttonPracticesDelete);
-            this.tabPagePractices.Controls.Add(this.buttonPracticesUpdate);
-            this.tabPagePractices.Location = new System.Drawing.Point(4, 22);
-            this.tabPagePractices.Name = "tabPagePractices";
-            this.tabPagePractices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePractices.Size = new System.Drawing.Size(808, 286);
-            this.tabPagePractices.TabIndex = 2;
-            this.tabPagePractices.Text = "Практики";
-            this.tabPagePractices.UseVisualStyleBackColor = true;
-            // 
-            // tabPageCourseWorks
-            // 
-            this.tabPageCourseWorks.Controls.Add(this.label5);
-            this.tabPageCourseWorks.Controls.Add(this.dataGridViewCourseWorks);
-            this.tabPageCourseWorks.Controls.Add(this.buttonCourseWorksAdd);
-            this.tabPageCourseWorks.Controls.Add(this.buttonCourseWorksDelete);
-            this.tabPageCourseWorks.Controls.Add(this.buttonCourseWorksUpdate);
-            this.tabPageCourseWorks.Location = new System.Drawing.Point(4, 22);
-            this.tabPageCourseWorks.Name = "tabPageCourseWorks";
-            this.tabPageCourseWorks.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCourseWorks.Size = new System.Drawing.Size(808, 286);
-            this.tabPageCourseWorks.TabIndex = 3;
-            this.tabPageCourseWorks.Text = "Курсовые р/п";
-            this.tabPageCourseWorks.UseVisualStyleBackColor = true;
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(749, 358);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 34;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(668, 358);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 32;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // label3
             // 
@@ -272,6 +300,21 @@
             this.buttonLabsUpdate.UseVisualStyleBackColor = true;
             this.buttonLabsUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
+            // tabPagePractices
+            // 
+            this.tabPagePractices.Controls.Add(this.label4);
+            this.tabPagePractices.Controls.Add(this.dataGridViewPractices);
+            this.tabPagePractices.Controls.Add(this.buttonPracticesAdd);
+            this.tabPagePractices.Controls.Add(this.buttonPracticesDelete);
+            this.tabPagePractices.Controls.Add(this.buttonPracticesUpdate);
+            this.tabPagePractices.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePractices.Name = "tabPagePractices";
+            this.tabPagePractices.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePractices.Size = new System.Drawing.Size(808, 286);
+            this.tabPagePractices.TabIndex = 2;
+            this.tabPagePractices.Text = "Практики";
+            this.tabPagePractices.UseVisualStyleBackColor = true;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -349,6 +392,21 @@
             this.buttonPracticesUpdate.Text = "Редактировать";
             this.buttonPracticesUpdate.UseVisualStyleBackColor = true;
             this.buttonPracticesUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
+            // 
+            // tabPageCourseWorks
+            // 
+            this.tabPageCourseWorks.Controls.Add(this.label5);
+            this.tabPageCourseWorks.Controls.Add(this.dataGridViewCourseWorks);
+            this.tabPageCourseWorks.Controls.Add(this.buttonCourseWorksAdd);
+            this.tabPageCourseWorks.Controls.Add(this.buttonCourseWorksDelete);
+            this.tabPageCourseWorks.Controls.Add(this.buttonCourseWorksUpdate);
+            this.tabPageCourseWorks.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCourseWorks.Name = "tabPageCourseWorks";
+            this.tabPageCourseWorks.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCourseWorks.Size = new System.Drawing.Size(808, 286);
+            this.tabPageCourseWorks.TabIndex = 3;
+            this.tabPageCourseWorks.Text = "Курсовые р/п";
+            this.tabPageCourseWorks.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -428,82 +486,25 @@
             this.buttonCourseWorksUpdate.UseVisualStyleBackColor = true;
             this.buttonCourseWorksUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
-            // label2
+            // buttonClose
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 7);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Занятия";
+            this.buttonClose.Location = new System.Drawing.Point(749, 358);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(75, 23);
+            this.buttonClose.TabIndex = 34;
+            this.buttonClose.Text = "Закрыть";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // dataGridViewLectures
+            // buttonSave
             // 
-            this.dataGridViewLectures.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridViewLectures.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewLectures.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14,
-            this.dataGridViewTextBoxColumn15,
-            this.dataGridViewTextBoxColumn16});
-            this.dataGridViewLectures.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridViewLectures.Location = new System.Drawing.Point(8, 23);
-            this.dataGridViewLectures.Name = "dataGridViewLectures";
-            this.dataGridViewLectures.Size = new System.Drawing.Size(678, 256);
-            this.dataGridViewLectures.TabIndex = 13;
-            // 
-            // dataGridViewTextBoxColumn13
-            // 
-            this.dataGridViewTextBoxColumn13.HeaderText = "Тема";
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            this.dataGridViewTextBoxColumn13.Width = 270;
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            this.dataGridViewTextBoxColumn14.HeaderText = "Дата проведения";
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
-            this.dataGridViewTextBoxColumn14.Width = 120;
-            // 
-            // dataGridViewTextBoxColumn15
-            // 
-            this.dataGridViewTextBoxColumn15.HeaderText = "Кол-во пар";
-            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
-            this.dataGridViewTextBoxColumn15.Width = 120;
-            // 
-            // dataGridViewTextBoxColumn16
-            // 
-            this.dataGridViewTextBoxColumn16.HeaderText = "Кол-во заданий";
-            this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
-            this.dataGridViewTextBoxColumn16.Width = 120;
-            // 
-            // buttonLecturesAdd
-            // 
-            this.buttonLecturesAdd.Location = new System.Drawing.Point(692, 23);
-            this.buttonLecturesAdd.Name = "buttonLecturesAdd";
-            this.buttonLecturesAdd.Size = new System.Drawing.Size(111, 23);
-            this.buttonLecturesAdd.TabIndex = 15;
-            this.buttonLecturesAdd.Text = "Добавить";
-            this.buttonLecturesAdd.UseVisualStyleBackColor = true;
-            this.buttonLecturesAdd.Click += new System.EventHandler(this.buttonAdd_Click);
-            // 
-            // buttonLecturesDelete
-            // 
-            this.buttonLecturesDelete.Location = new System.Drawing.Point(692, 81);
-            this.buttonLecturesDelete.Name = "buttonLecturesDelete";
-            this.buttonLecturesDelete.Size = new System.Drawing.Size(111, 23);
-            this.buttonLecturesDelete.TabIndex = 17;
-            this.buttonLecturesDelete.Text = "Удалить";
-            this.buttonLecturesDelete.UseVisualStyleBackColor = true;
-            this.buttonLecturesDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-            // 
-            // buttonLecturesUpdate
-            // 
-            this.buttonLecturesUpdate.Location = new System.Drawing.Point(692, 52);
-            this.buttonLecturesUpdate.Name = "buttonLecturesUpdate";
-            this.buttonLecturesUpdate.Size = new System.Drawing.Size(111, 23);
-            this.buttonLecturesUpdate.TabIndex = 16;
-            this.buttonLecturesUpdate.Text = "Редактировать";
-            this.buttonLecturesUpdate.UseVisualStyleBackColor = true;
+            this.buttonSave.Location = new System.Drawing.Point(668, 358);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 32;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // ProgressForm
             // 
@@ -521,16 +522,16 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageLectures.ResumeLayout(false);
             this.tabPageLectures.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLectures)).EndInit();
             this.tabPageLabs.ResumeLayout(false);
             this.tabPageLabs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLabs)).EndInit();
             this.tabPagePractices.ResumeLayout(false);
             this.tabPagePractices.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPractices)).EndInit();
             this.tabPageCourseWorks.ResumeLayout(false);
             this.tabPageCourseWorks.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLabs)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPractices)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourseWorks)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLectures)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
