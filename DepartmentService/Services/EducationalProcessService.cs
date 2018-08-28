@@ -1457,18 +1457,10 @@ namespace DepartmentService.Services
                         {
                             element.Add(null);
                         }
-                    }
-                    else
-                    {
-                        element.Add(null);
-                        element.Add(null);
-                        element.Add(timeNorm.TimeNormName);
-                        element.Add(null);
-                        element.Add(null);
-                        element.Add(null);
+
+                        list.Add(element.ToArray());
                     }
 
-                    list.Add(element.ToArray());
                 }
 
                 return ResultService<List<object[]>>.Success(list);

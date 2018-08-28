@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
         
         private Guid _academicPlanRecordId;
         
-        private Guid _lecturerId;
+        private Guid _lecturerId; // 00000000-0000-0000-0000-000000000000 - пустое значение
 
         public LoadDistributionEditForm(IEducationalProcessService serviceEP, IAcademicPlanRecordElementService serviceAPRE,
                                            string academicYearId, string academicPlanRecordId, string lecturerId, string disciplineName, string lecturerName)
@@ -44,7 +44,7 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
             else
             {
                 _lecturerId = new Guid(lecturerId);
-                this.Text = disciplineName + " - " + lecturerName;
+                this.Text = lecturerName + " - " + disciplineName;
                 LoadColomnsAPRM();
                 LoadDataAPRM();
             }
@@ -100,7 +100,7 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
                 {
                     dataGridView.Rows.Add(elem);
                 }
-                Height = 18 + 22 * result.Result.Count;
+                Height = 62 + 22 * result.Result.Count;
             }
             else
             {
@@ -163,7 +163,9 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
                 Name = "Column_APRM_Hours",
                 Visible = true,
                 Width = 50,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                //ValueType = typeof(double)
+                
             });
         }
 
@@ -179,13 +181,27 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
                 {
                     dataGridView.Rows.Add(elem);
                 }
-                Height = 18 + 22 * result.Result.Count;
+                Height = 62 + 22 * result.Result.Count;
             }
             else
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 return;
             }
+        }
+
+        private void dataGridView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44) // цифры, клавиша BackSpace и запятая
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void dataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            TextBox tb = (TextBox)e.Control;
+            tb.KeyPress += new KeyPressEventHandler(dataGridView_KeyPress);
         }
     }
 }
