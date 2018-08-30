@@ -235,6 +235,18 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static AcademicPlanRecordMission CreateAcademicPlanRecordMission(AcademicPlanRecordMissionSetBindingModel model, AcademicPlanRecordMission entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new AcademicPlanRecordMission();
+            }
+            entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
+            entity.LecturerId = model.LecturerId;
+            entity.Hours = model.Hours;
+            return entity;
+        }
+
         public static AcademicYear CreateAcademicYear(AcademicYearSetBindingModel model, AcademicYear entity = null)
 		{
 			if (entity == null)

@@ -249,6 +249,17 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static AcademicPlanRecordMissionViewModel CreateAcademicPlanRecordMissionViewModel(AcademicPlanRecordMission entity)
+        {
+            return new AcademicPlanRecordMissionViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                LecturerId = entity.LecturerId,
+                Hours = entity.Hours
+            };
+        }
+
         public static AcademicYearViewModel CreateAcademicYearViewModel(AcademicYear entity)
         {
             return new AcademicYearViewModel

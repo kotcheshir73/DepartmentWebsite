@@ -1370,6 +1370,7 @@ namespace DepartmentService.Services
                     if (apre != null)
                     {
                         element.Add(apre.Id);
+                        element.Add(timeNorm.Id);
                         element.Add(timeNorm.TimeNormName);
                         if (apre.PlanHours != 0)
                         {
@@ -1391,6 +1392,7 @@ namespace DepartmentService.Services
                     else
                     {
                         element.Add(null);
+                        element.Add(timeNorm.Id);
                         element.Add(timeNorm.TimeNormName);
                         element.Add(null);
                         element.Add(null);
@@ -1432,6 +1434,7 @@ namespace DepartmentService.Services
                         {
                             element.Add(null);
                         }
+                        element.Add(timeNorm.Id);
                         element.Add(timeNorm.TimeNormName);
                         if (apre.PlanHours != 0)
                         {
