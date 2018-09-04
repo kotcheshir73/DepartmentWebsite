@@ -48,5 +48,8 @@ namespace DepartmentModel.Models
 
         [ForeignKey("StudentGroupId")]
         public virtual List<Student> Students { get; set; }
+
+        [ForeignKey("StudentGroupId")]
+        public virtual List<Statement> Statement { get; set; }
     }
 }
