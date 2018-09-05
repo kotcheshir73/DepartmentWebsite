@@ -90,6 +90,9 @@ namespace DepartmentModel.Models
         [ForeignKey("LecturerId")]
         public virtual List<Statement> Statements { get; set; }
 
+        [ForeignKey("LecturerId")]
+        public virtual List<IndividualPlanRecord> IndividualPlanRecords { get; set; }
+
         //-------------------------------------------------------------------------
 
         public override string ToString()
