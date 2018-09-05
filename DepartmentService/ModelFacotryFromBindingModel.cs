@@ -258,6 +258,34 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
+        public static Statement CreateStatement(StatementSetBindingModel model, Statement entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Statement();
+            }
+            entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
+            entity.LecturerId = model.LecturerId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);  //TODO: тут нужно проверить правильность перечислений
+            entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.TypeOfTest = (TypeOfTest)Enum.ToObject(typeof(TypeOfTest), model.TypeOfTest);
+            entity.Date = model.Date;
+            return entity;
+        }
+
+        public static StatementRecord CreateStatementRecord(StatementRecordSetBindingModel model, StatementRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StatementRecord();
+            }
+            entity.StatementId = model.StatementId;
+            entity.StudentId = model.StudentId;
+            entity.Score = model.Score;
+            return entity;
+        }
+
         public static StreamLesson CreateStreamLesson(StreamLessonSetBindingModel model, StreamLesson entity = null)
         {
             if (entity == null)

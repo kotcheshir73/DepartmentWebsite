@@ -269,6 +269,32 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static StatementViewModel CreateStatementViewModel(Statement entity)
+        {
+            return new StatementViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
+                LecturerId = entity.LecturerId,
+                StudentGroupId = entity.StudentGroupId,
+                Course = entity.Course.ToString(),
+                Date = entity.Date,
+                Semester = entity.Semester.ToString(),
+                TypeOfTest = entity.TypeOfTest.ToString()
+            };
+        }
+
+        public static StatementRecordViewModel CreateStatementRecordViewModel(StatementRecord entity)
+        {
+            return new StatementRecordViewModel
+            {
+                Id = entity.Id,
+                StatementId = entity.StatementId,
+                StudentId = entity.StudentId,
+                Score = entity.Score
+            };
+        }
+
         public static StreamLessonViewModel CreateStreamLessonViewModel(StreamLesson entity)
         {
             return new StreamLessonViewModel
