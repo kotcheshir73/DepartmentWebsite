@@ -2,6 +2,7 @@
 using DepartmentModel.Models;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
+using DepartmentService.ViewModels.StandartViewModels.EducationDirection;
 using System;
 using System.Drawing;
 using System.IO;
@@ -69,6 +70,34 @@ namespace DepartmentService.ViewModels
                 DisciplineShortName = entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock.Title,
                 DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
+            };
+        }
+
+        public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
+        {
+            return new DisciplineLessonViewModel
+            {
+                Id = entity.Id,
+                DisciplineId = entity.DisciplineId,
+                LessonType = entity.LessonType,
+                Title = entity.Title,
+                Description = entity.Description,
+                Order = entity.Order,
+                DisciplineLessonFile = entity.DisciplineLessonFile
+            };
+        }
+
+        public static DisciplineLessonTaskViewModel CreateDisciplineLessonTaskViewModel(DisciplineLessonTask entity)
+        {
+            return new DisciplineLessonTaskViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonId = entity.DisciplineLessonId,
+                VariantNumber = entity.VariantNumber,
+                Order = entity.Order,
+                MaxBall = entity.MaxBall,
+                Description = entity.Description,
+                Image = entity.Image
             };
         }
 
@@ -217,6 +246,17 @@ namespace DepartmentService.ViewModels
                 KindOfLoadName = entity.TimeNorm.KindOfLoadName,
                 PlanHours = entity.PlanHours,
                 FactHours = entity.FactHours
+            };
+        }
+
+        public static AcademicPlanRecordMissionViewModel CreateAcademicPlanRecordMissionViewModel(AcademicPlanRecordMission entity)
+        {
+            return new AcademicPlanRecordMissionViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                LecturerId = entity.LecturerId,
+                Hours = entity.Hours
             };
         }
 

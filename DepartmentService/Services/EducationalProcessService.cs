@@ -29,15 +29,18 @@ namespace DepartmentService.Services
 
         private readonly IConsultationRecordService _serviceCR;
 
+        private readonly ILecturerService _serviceL;
+
         public EducationalProcessService(DepartmentDbContext context,
             ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR)
+            IConsultationRecordService serviceCR, ILecturerService serviceL)
         {
             _context = context;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
             _serviceER = serviceER;
             _serviceCR = serviceCR;
+            _serviceL = serviceL;
         }
 
         /// <summary>
@@ -1227,6 +1230,9 @@ namespace DepartmentService.Services
                 // получаем список видов нагрузки, так как нам надо возвращать массив объектов для вывода в гриде
                 var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.Id).OrderBy(x => x.TimeNormOrder);
 
+                // прреп
+                var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel()).Result.List;
+
                 foreach (var discBlock in disciplineBlocks)
                 {
                     List<object> element = new List<object>() {
@@ -1247,9 +1253,15 @@ namespace DepartmentService.Services
                         element.Add(null);
                         element.Add(null);
                     }
+                    //TODO: Дописать
+                    foreach (var lect in lecturers)
+                    {
+                        element.Add(null);
+                    }
+
                     element.Add(null);
                     list.Add(element.ToArray());
-
+                    
                     var aprs = _context.AcademicPlanRecords
                         .Include(x => x.AcademicPlan)
                         .Include(x => x.AcademicPlan.EducationDirection)
@@ -1306,6 +1318,21 @@ namespace DepartmentService.Services
                                 elementApr.Add(null);
                             }
                         }
+                        //TODO: Дописать 
+                        foreach (var lect in lecturers)
+                        {
+                            var lectHours = _context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lect.Id && x.AcademicPlanRecordElement.AcademicPlanRecordId == apr.Id && !x.IsDeleted);
+                            if (lectHours.Count() > 0)
+                            {
+                                elementApr.Add(lectHours.Sum(x => x.Hours));
+                            }
+                            else
+                            {
+                                elementApr.Add(null);
+                            }
+                             //== null ? Convert.ToDecimal(0) : x.Hours
+                        }
+
                         if (factTotal != 0)
                         {
                             elementApr.Add(factTotal);
@@ -1314,8 +1341,129 @@ namespace DepartmentService.Services
                         {
                             elementApr.Add(null);
                         }
+
                         list.Add(elementApr.ToArray());
                     }
+                }
+
+                return ResultService<List<object[]>>.Success(list);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<object[]>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<object[]>> GetListAPRE(AcademicYearGetBindingModel modelYear, AcademicPlanRecordGetBindingModel modelPlanRecord)
+        {
+            try
+            {
+                List<object[]> list = new List<object[]>();
+                
+                var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == modelYear.Id).OrderBy(x => x.TimeNormOrder);
+
+                foreach (var timeNorm in timeNorms)
+                {
+                    List<object> element = new List<object>();
+
+                    var apre = _context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+                    if (apre != null)
+                    {
+                        element.Add(apre.Id);
+                        element.Add(timeNorm.Id);
+                        element.Add(timeNorm.TimeNormName);
+                        if (apre.PlanHours != 0)
+                        {
+                            element.Add(apre.PlanHours.ToString("#.0"));
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                        if (apre.FactHours != 0)
+                        {
+                            element.Add(apre.FactHours);
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                    }
+                    else
+                    {
+                        element.Add(null);
+                        element.Add(timeNorm.Id);
+                        element.Add(timeNorm.TimeNormName);
+                        element.Add(null);
+                        element.Add(null);
+                    }
+
+                    list.Add(element.ToArray());
+                }
+
+                return ResultService<List<object[]>>.Success(list);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<object[]>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<object[]>> GetListAPRM(AcademicYearGetBindingModel modelYear, AcademicPlanRecordGetBindingModel modelPlanRecord, LecturerGetBindingModel modelLecturer)
+        {
+            try
+            {
+                List<object[]> list = new List<object[]>();
+
+                var timeNorms = _context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == modelYear.Id).OrderBy(x => x.TimeNormOrder);
+
+                foreach (var timeNorm in timeNorms)
+                {
+                    List<object> element = new List<object>();
+
+                    var apre = _context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+                    if (apre != null)
+                    {
+                        element.Add(apre.Id);
+                        var aprm = _context.AcademicPlanRecordMissions.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.LecturerId == modelLecturer.Id && !x.IsDeleted);
+                        if(aprm != null)
+                        {
+                            element.Add(aprm.Id);
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                        element.Add(timeNorm.Id);
+                        element.Add(timeNorm.TimeNormName);
+                        if (apre.PlanHours != 0)
+                        {
+                            element.Add(apre.PlanHours.ToString("#.0"));
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                        if (apre.FactHours != 0)
+                        {
+                            element.Add(apre.FactHours);
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+                        if (aprm != null && aprm.Hours != 0)
+                        {
+                            element.Add(aprm.Hours);
+                        }
+                        else
+                        {
+                            element.Add(null);
+                        }
+
+                        list.Add(element.ToArray());
+                    }
+
                 }
 
                 return ResultService<List<object[]>>.Success(list);

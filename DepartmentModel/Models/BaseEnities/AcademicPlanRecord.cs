@@ -43,5 +43,8 @@ namespace DepartmentModel.Models
 
         [ForeignKey("AcademicPlanRecordId")]
         public virtual List<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
+
+        [ForeignKey("AcademicPlanRecordId")]
+        public virtual List<Statement> Statement { get; set; }
     }
 }

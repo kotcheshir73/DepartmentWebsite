@@ -30,6 +30,13 @@ namespace DepartmentModel.Models
         [DataMember]
         public string Description { get; set; }
 
+        [Required]
+        [DataMember]
+        public int Order { get; set; }
+
+        [DataMember]
+        public byte[] DisciplineLessonFile { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual Discipline Discipline { get; set; }

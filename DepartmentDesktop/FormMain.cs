@@ -1,4 +1,7 @@
-﻿using DepartmentModel.Enums;
+﻿using DepartmentDesktop.Views.EducationalProcess.DisciplineLesson;
+using DepartmentDesktop.Views.EducationalProcess.LecturerCabinet;
+using DepartmentDesktop.Views.EducationalProcess.Progress;
+using DepartmentModel.Enums;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -66,7 +69,17 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.Synchronization.SynchronizationRolesControl>();
             ApplyControl(control);
         }
-        
+        /// <summary>
+        /// Успеваемость
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void progressToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ProgressForm>();
+            form.ShowDialog();
+        }
+
         /// <summary>
         /// Синхронизация пользователей
         /// </summary>
@@ -77,6 +90,7 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.Synchronization.SynchronizationUsersControl>();
             ApplyControl(control);
         }
+        #endregion
 
         #region Работа с БД
         /// <summary>
@@ -99,7 +113,6 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
             ApplyControl(control);
         }
-        #endregion
         #endregion
 
         #region Администрирование
@@ -506,5 +519,6 @@ namespace DepartmentDesktop
             control.LoadData();
         }
         #endregion
+
     }
 }

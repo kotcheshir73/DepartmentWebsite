@@ -36,6 +36,7 @@
             this.ImportDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportDataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SynchronizationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.progressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SynchronizationRolesAndAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SynchronizationUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,7 +113,8 @@
             this.MakeTicketsToolStripMenuItem,
             this.loadDistributionToolStripMenuItem,
             this.DataBaseWorkToolStripMenuItem,
-            this.SynchronizationToolStripMenuItem});
+            this.SynchronizationToolStripMenuItem,
+            this.progressToolStripMenuItem});
             this.действияToolStripMenuItem.Name = "действияToolStripMenuItem";
             this.действияToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.действияToolStripMenuItem.Text = "Сервис";
@@ -154,13 +156,21 @@
             this.ExportDataBaseToolStripMenuItem.Text = "Загрузить";
             this.ExportDataBaseToolStripMenuItem.Click += new System.EventHandler(this.ExportDataBaseToolStripMenuItem_Click);
             // 
-            // SynchronizationToolStripMenuItem
+            // SynchronizationToolStripMenuItem            
             // 
             this.SynchronizationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SynchronizationRolesAndAccessToolStripMenuItem,
             this.SynchronizationUsersToolStripMenuItem});
             this.SynchronizationToolStripMenuItem.Name = "SynchronizationToolStripMenuItem";
             this.SynchronizationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            //
+            // progressToolStripMenuItem
+//
+            this.progressToolStripMenuItem.Name = "progressToolStripMenuItem";
+            this.progressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.progressToolStripMenuItem.Text = "Успеваемость";
+            this.progressToolStripMenuItem.Click += new System.EventHandler(this.progressToolStripMenuItem_Click);
+            // 
             this.SynchronizationToolStripMenuItem.Text = "Синхронизация";
             // 
             // SynchronizationRolesAndAccessToolStripMenuItem
@@ -639,6 +649,7 @@
         private System.Windows.Forms.ToolStripMenuItem scheduleCurrentStudentGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem lecturerPostToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem progressToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem laboratoryHeadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialTechnicalValueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softwareRecordsToolStripMenuItem;
