@@ -374,6 +374,41 @@ namespace DepartmentService.ViewModels
                 DateEndLesson = entity.DateEndLesson
             };
         }
+
+        public static IndividualPlanTitleViewModel CreateIndividualPlanTitleViewModel(IndividualPlanTitle entity)
+        {
+            return new IndividualPlanTitleViewModel
+            {
+                Id = entity.Id,
+                Title = entity.Title
+            };
+        }
+
+        public static IndividualPlanKindOfWorkViewModel CreateIndividualPlanKindOfWorkViewModel(IndividualPlanKindOfWork entity)
+        {
+            return new IndividualPlanKindOfWorkViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanTitleId = entity.IndividualPlanTitleId,
+                Name = entity.Name,
+                TimeNormDescription = entity.TimeNormDescription
+            };
+        }
+
+        public static IndividualPlanRecordViewModel CreateIndividualPlanRecordViewModel(IndividualPlanRecord entity)
+        {
+            return new IndividualPlanRecordViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanKindOfWorkId = entity.IndividualPlanKindOfWorkId,
+                LecturerId = entity.LecturerId,
+                PlanAutumn = entity.PlanAutumn,
+                FactAutumn = entity.FactAutumn,
+                PlanSpring = entity.PlanSpring,
+                FactSpring = entity.FactSpring
+            };
+        }
+
         #endregion
 
 

@@ -366,6 +366,45 @@ namespace DepartmentService.BindingModels
 
 			return entity;
 		}
+
+        public static IndividualPlanTitle CreateIndividualPlanTitle(IndividualPlanTitleSetBindingModel model, IndividualPlanTitle entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanTitle();
+            }
+
+            entity.Title = model.Title;
+            return entity;
+        }
+
+        public static IndividualPlanKindOfWork CreateIndividualPlanKindOfWork(IndividualPlanKindOfWorkSetBindingModel model, IndividualPlanKindOfWork entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanKindOfWork();
+            }
+            entity.IndividualPlanTitleId = model.IndividualPlanTitleId;
+            entity.Name = model.Name;
+            entity.TimeNormDescription = model.TimeNormDescription;
+            return entity;
+        }
+
+        public static IndividualPlanRecord CreateIndividualPlanRecord(IndividualPlanRecordSetBindingModel model, IndividualPlanRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanRecord();
+            }
+            entity.IndividualPlanKindOfWorkId = model.IndividualPlanKindOfWorkId;
+            entity.LecturerId = model.LecturerId;
+            entity.PlanAutumn = model.PlanAutumn;
+            entity.FactAutumn = model.FactAutumn;
+            entity.PlanSpring = model.PlanSpring;
+            entity.FactSpring = model.FactSpring;
+            return entity;
+        }
+
         #endregion
 
         #region Schedule
