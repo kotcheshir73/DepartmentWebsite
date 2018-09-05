@@ -15,7 +15,7 @@ using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
 {
-    public partial class SoftwareRecordAddClaimForm : Form
+    public partial class SoftwareRecordDelSoftwareForm : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -24,11 +24,16 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
 
         private readonly IMaterialTechnicalValueService _serviceMTV;
 
-        public SoftwareRecordAddClaimForm(ISoftwareRecordService service, IMaterialTechnicalValueService serviceMTV)
+        public SoftwareRecordDelSoftwareForm(ISoftwareRecordService service, IMaterialTechnicalValueService serviceMTV)
         {
             InitializeComponent();
             _service = service;
             _serviceMTV = serviceMTV;
+        }
+
+        private void SoftwareRecordDelSoftwareForm_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void buttonInventoryNumberSearch_Click(object sender, EventArgs e)
@@ -74,33 +79,33 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                 MessageBox.Show("Не выбран ни один инв. номер", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (dataGridViewSoftware.Rows.Count == 1)
+            if (comboBoxSelectSoftware.SelectedValue == null)
             {
-                MessageBox.Show("Не добавлена ни одна запись по добавляемому ПО", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Не выбрано ПО", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            for (int i = 0; i < dataGridViewSoftware.Rows.Count - 1; ++i)
-            {
-                string softWareName = dataGridViewSoftware.Rows[i].Cells[0].Value.ToString();
-                string softWareKey = dataGridViewSoftware.Rows[i].Cells[1].Value?.ToString();
-                string softWareK = dataGridViewSoftware.Rows[i].Cells[2].Value?.ToString();
-                for (int j = 0; j < dataGridViewSelectedInventoryNumbers.Rows.Count; ++j)
-                {
-                    ResultService result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
-                    {
-                        MaterialTechnicalValueId = new Guid(dataGridViewSelectedInventoryNumbers.Rows[j].Cells[0].Value.ToString()),
-                        DateSetup = dateTimePickerDateSetup.Value,
-                        //SoftwareName = softWareName,
-                        //SoftwareKey = softWareKey,
-                        //SoftwareK = softWareK,
-                        ClaimNumber = textBoxClaimNumber.Text
-                    });
-                    if (!result.Succeeded)
-                    {
-                        Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    }
-                }
-            }
+            //for (int i = 0; i < dataGridViewSoftware.Rows.Count - 1; ++i)
+            //{
+            //    string softWareName = dataGridViewSoftware.Rows[i].Cells[0].Value.ToString();
+            //    string softWareKey = dataGridViewSoftware.Rows[i].Cells[1].Value?.ToString();
+            //    string softWareK = dataGridViewSoftware.Rows[i].Cells[2].Value?.ToString();
+            //    for (int j = 0; j < dataGridViewSelectedInventoryNumbers.Rows.Count; ++j)
+            //    {
+            //        ResultService result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
+            //        {
+            //            MaterialTechnicalValueId = new Guid(dataGridViewSelectedInventoryNumbers.Rows[j].Cells[0].Value.ToString()),
+            //            DateSetup = dateTimePickerDateSetup.Value,
+            //            SoftwareName = softWareName,
+            //            SoftwareKey = softWareKey,
+            //            SoftwareK = softWareK,
+            //            ClaimNumber = textBoxClaimNumber.Text
+            //        });
+            //        if (!result.Succeeded)
+            //        {
+            //            Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+            //        }
+            //    }
+            //}
             MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

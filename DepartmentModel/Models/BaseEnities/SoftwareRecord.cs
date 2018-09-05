@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace DepartmentModel.Models
 {
     /// <summary>
-    /// Класс, описывающий ПО, установленное на ПК
+    /// Класс, описывающий установленное ПО на ПК
     /// </summary>
     [DataContract]
     public class SoftwareRecord : BaseEntity
@@ -13,16 +13,10 @@ namespace DepartmentModel.Models
         public Guid MaterialTechnicalValueId { get; set; }
 
         [DataMember]
-        public string SoftwareName { get; set; }
+        public Guid SoftwareId { get; set; }
 
         [DataMember]
-        public string SoftwareDescription { get; set; }
-
-        [DataMember]
-        public string SoftwareKey { get; set; }
-
-        [DataMember]
-        public string SoftwareK { get; set; }
+        public string SetupDescription { get; set; }
 
         [DataMember]
         public string ClaimNumber { get; set; }
@@ -30,6 +24,8 @@ namespace DepartmentModel.Models
         //-------------------------------------------------------------------------
 
         public virtual MaterialTechnicalValue MaterialTechnicalValue { get; set; }
+
+        public virtual Software Software { get; set; }
 
         //-------------------------------------------------------------------------
     }

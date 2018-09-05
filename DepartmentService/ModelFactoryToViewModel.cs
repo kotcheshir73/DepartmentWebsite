@@ -648,6 +648,18 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static SoftwareViewModel CreateSoftwareViewModel(Software entity)
+        {
+            return new SoftwareViewModel
+            {
+                Id = entity.Id,
+                SoftwareName = entity.SoftwareName,
+                SoftwareDescription = entity.SoftwareDescription,
+                SoftwareKey = entity.SoftwareKey,
+                SoftwareK = entity.SoftwareK
+            };
+        }
+
         public static SoftwareRecordViewModel CreateSoftwareRecordViewModel(SoftwareRecord entity)
         {
             return new SoftwareRecordViewModel
@@ -656,10 +668,9 @@ namespace DepartmentService.ViewModels
                 DateSetup = entity.DateCreate,
                 MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
                 InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
-                SoftwareName = entity.SoftwareName,
-                SoftwareDescription = entity.SoftwareDescription,
-                SoftwareKey = entity.SoftwareKey,
-                SoftwareK = entity.SoftwareK,
+                SoftwareName = entity.Software.SoftwareName,
+                SoftwareKey = entity.Software.SoftwareKey,
+                SetupDescription = entity.SetupDescription,
                 ClaimNumber = entity.ClaimNumber
             };
         }

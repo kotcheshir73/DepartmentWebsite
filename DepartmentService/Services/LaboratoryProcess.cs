@@ -120,14 +120,14 @@ namespace DepartmentService.Services
                 }
 
                 var entityes = _context.SoftwareRecords
-                    .Where(x => x.SoftwareName == entity.SoftwareName && x.ClaimNumber == entity.ClaimNumber && x.Id != entity.Id)
+                    .Where(x => x.SoftwareId == entity.SoftwareId && x.ClaimNumber == entity.ClaimNumber && x.Id != entity.Id)
                     .ToList();
 
                 foreach (var updEntity in entityes)
                 {
-                    updEntity.SoftwareDescription = entity.SoftwareDescription;
-                    updEntity.SoftwareKey = entity.SoftwareKey;
-                    updEntity.SoftwareK = entity.SoftwareK;
+                    //updEntity.SoftwareDescription = entity.SoftwareDescription;
+                    //updEntity.SoftwareKey = entity.SoftwareKey;
+                    //updEntity.SoftwareK = entity.SoftwareK;
                 }
                 // TODO обновление отображается только после перезапуска проекта
                 _context.SaveChanges();
@@ -151,9 +151,9 @@ namespace DepartmentService.Services
 
                 var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.MaterialTechnicalValue.ClassroomId == model.ClassroomId).Distinct();
 
-                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
-                query = query.Include(x => x.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = query.ToList();
 
@@ -163,8 +163,8 @@ namespace DepartmentService.Services
                         .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
                         {
                             DateSetup = x.DateCreate.Date,
-                            SoftwareName = x.SoftwareName,
-                            SoftwareKey = x.SoftwareKey,
+                            SoftwareName = x.Software.SoftwareName,
+                            SoftwareKey = x.Software.SoftwareKey,
                             ClaimNumber = x.ClaimNumber
                         })
                         .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
@@ -197,9 +197,9 @@ namespace DepartmentService.Services
 
                 var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.ClaimNumber == model.ClaimNumber).Distinct();
 
-                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
-                query = query.Include(x => x.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = query.ToList();
 
@@ -209,8 +209,8 @@ namespace DepartmentService.Services
                         .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
                         {
                             DateSetup = x.DateCreate.Date,
-                            SoftwareName = x.SoftwareName,
-                            SoftwareKey = x.SoftwareKey,
+                            SoftwareName = x.Software.SoftwareName,
+                            SoftwareKey = x.Software.SoftwareKey,
                             ClaimNumber = x.ClaimNumber
                         })
                         .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
@@ -243,9 +243,9 @@ namespace DepartmentService.Services
 
                 var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.MaterialTechnicalValue.InventoryNumber == model.InventoryNumber).Distinct();
 
-                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
-                query = query.Include(x => x.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = query.ToList();
 
@@ -255,8 +255,8 @@ namespace DepartmentService.Services
                         .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
                         {
                             DateSetup = x.DateCreate.Date,
-                            SoftwareName = x.SoftwareName,
-                            SoftwareKey = x.SoftwareKey,
+                            SoftwareName = x.Software.SoftwareName,
+                            SoftwareKey = x.Software.SoftwareKey,
                             ClaimNumber = x.ClaimNumber
                         })
                         .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
@@ -277,5 +277,51 @@ namespace DepartmentService.Services
                 return ResultService<LaboratoryProcessSoftwareRecordPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+        //public ResultService UninstallSoftwareByInventoryNumber(LaboratoryProcessGetSoftwareRecordsByClassroomBindingModel model)
+        //{
+        //    try
+        //    {
+        //        if (!AccessCheckService.CheckAccess(AccessOperation.УстановленоеПО, AccessType.View))
+        //        {
+        //            throw new Exception("Нет доступа на чтение данных по установленному ПО");
+        //        }
+
+        //        var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.MaterialTechnicalValue.InventoryNumber == model.InventoryNumber && x.Id == model.).Distinct();
+
+        //        query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+
+        //        query = query.Include(x => x.MaterialTechnicalValue);
+
+        //        var result = query.ToList();
+
+        //        return ResultService<LaboratoryProcessSoftwareRecordPageViewModel>.Success(new LaboratoryProcessSoftwareRecordPageViewModel
+        //        {
+        //            ListFirst = result
+        //                .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
+        //                {
+        //                    DateSetup = x.DateCreate.Date,
+        //                    SoftwareName = x.SoftwareName,
+        //                    SoftwareKey = x.SoftwareKey,
+        //                    ClaimNumber = x.ClaimNumber
+        //                })
+        //                .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
+        //                .ToList(),
+
+        //            ListSecond = result
+        //                .Select(x => new LaboratoryProcessMaterialTechincalValuesViewModels
+        //                {
+        //                    InventoryNumber = x.MaterialTechnicalValue.InventoryNumber
+        //                })
+        //                .OrderBy(x => x.InventoryNumber)
+        //                .Distinct()
+        //                .ToList()
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ResultService.Error(ex, ResultServiceStatusCode.Error);
+        //    }
+        //}
     }
 }
