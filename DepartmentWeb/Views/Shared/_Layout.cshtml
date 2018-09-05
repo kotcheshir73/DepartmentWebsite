@@ -1,7 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
@@ -31,34 +33,39 @@
                                 <li>@Html.ActionLink("Методическая работа", "Metodich", "IndividualPlan")</li>
                                 <li>@Html.ActionLink("Воспитательная работа", "Index", "IndividualPlan")</li>
                                 <li>@Html.ActionLink("Организационная работа", "Index", "IndividualPlan")</li>
-                                <li>@Html.ActionLink("НИР", "About", "Home")</li>
+                                <li>@Html.ActionLink("НИР", "NIR", "Home")</li>
                             </ul>
                         </li>
                         <li>@Html.ActionLink("Расчасовка", "About", "Home")</li>
-                        <li>@Html.ActionLink("Ведомости", "", "")
-                            <ul> @*Это брать из БД нужно. необходимо отредактировать*@
-                                <li>@Html.ActionLink(""+@DateTime.Now.AddDays(-243).Year+" - "+ @DateTime.Now.AddDays(122).Year+"", "Statement", "Home")</li>
-                                <li>@Html.ActionLink("" + @DateTime.Now.AddDays(-243-365).Year + " - " + @DateTime.Now.AddDays(122-365).Year + "", "Index", "Home")</li>
-                                <li>@Html.ActionLink("" + @DateTime.Now.AddDays(-243-365*2).Year + " - " + @DateTime.Now.AddDays(122-365*2).Year + "", "Index", "Home")</li>
-                            </ul>
+                        <li>
+                            @Html.ActionLink("Ведомости", "Index", "Statement")
+                            
+                                
+                                @*@Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")*@
+                            
+                                @*@Html.ActionLink("Ведомости", "", "")*@
+                                @*<ul>
+
+                <li>@Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "Ведомости")</li>
+            </ul>*@
                         </li>
-                    </ul>
-                    <div style="clear: both;"></div>
-                </div>
-                
+                </ul>
+                <div style="clear: both;"></div>
             </div>
+
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – Кафедра ИС</p>
-        </footer>
-    </div>
+</div>
+<div class="container body-content">
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year – Кафедра ИС</p>
+    </footer>
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

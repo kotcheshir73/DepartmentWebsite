@@ -1,0 +1,9 @@
+﻿@model DepartmentService.ViewModels.AcademicYearPageViewModel
+
+@{
+    ViewBag.Title = "Statement";
+}
+
+<h3>Ведомости</h3>
+
+<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")</h4>
