@@ -12,11 +12,17 @@ namespace DepartmentWeb.Controllers
     {
         private IEducationalProcessService _serviceEP;
 
-        public HomeController(IEducationalProcessService serviceEP, IAcademicPlanRecordElementService serviceAPRE)
+        private IAcademicYearService _serviceAY;
+
+        public HomeController(IEducationalProcessService serviceEP, IAcademicYearService serviceAY)
         {
             AccessCheckService.Login("admin", "qwerty");
 
             _serviceEP = serviceEP;
+
+            _serviceAY = serviceAY;
+
+            
             /*
             var tmp = serviceAPRE.GetAcademicPlanRecordElement(new DepartmentService.BindingModels.AcademicPlanRecordElementGetBindingModel()
             {
@@ -26,12 +32,19 @@ namespace DepartmentWeb.Controllers
 
         public ActionResult Index()
         {
+            
             return View();
         }
 
         public ActionResult About()
         {
+            ViewBag.Message = "Your application description page.";
 
+            return View();
+        }
+
+        public ActionResult NIR()
+        {
             ViewBag.Message = "Your application description page.";
 
             return View();
