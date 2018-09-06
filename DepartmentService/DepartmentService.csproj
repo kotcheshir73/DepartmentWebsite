@@ -71,6 +71,8 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanKindOfWorkBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanTitleBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
@@ -116,6 +118,8 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
@@ -172,9 +176,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ScheduleHelper.cs" />
     <Compile Include="Services\AdministrationProcess.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanRecordService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanKindOfWorkService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanTitleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordMissionService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordElementService.cs" />
     <Compile Include="Services\LaboratoryProcess.cs" />
@@ -243,6 +244,8 @@
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentHistoryViewModels.cs" />

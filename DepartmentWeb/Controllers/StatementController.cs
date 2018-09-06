@@ -17,11 +17,17 @@ namespace DepartmentWeb.Controllers
         }
         // GET: Statement
         public ActionResult Index()
-        {
-            
-            var tmp = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
-            
+        {            
+            var tmp = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());            
             return View(tmp.Result);
         }
+
+        [HttpPost]
+        public ActionResult getTableStatements(string yearId)
+        {
+            var tmp = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            return PartialView("~/Views/Statement/StatementList.cshtml", tmp);
+        }
+
     }
 }

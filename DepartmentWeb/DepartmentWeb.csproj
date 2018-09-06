@@ -179,6 +179,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndividualPlanController.cs" />
+    <Compile Include="Controllers\NIRController.cs" />
     <Compile Include="Controllers\StatementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -224,7 +225,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\IndividualPlan\Index.cshtml" />
     <Content Include="Views\Home\NIR.cshtml" />
+    <Content Include="Views\NIR\Index.cshtml" />
     <Content Include="Views\Statement\Index.cshtml" />
+    <Content Include="Views\Statement\StatementList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
