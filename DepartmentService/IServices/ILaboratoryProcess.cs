@@ -17,5 +17,11 @@ namespace DepartmentService.IServices
         ResultService<LaboratoryProcessSoftwareRecordPageViewModel> GetSoftwareRecordsByClaimNumber(LaboratoryProcessGetSoftwareRecordsByClassroomBindingModel model);
 
         ResultService<LaboratoryProcessSoftwareRecordPageViewModel> GetSoftwareRecordsByInventoryNumber(LaboratoryProcessGetSoftwareRecordsByClassroomBindingModel model);
+
+        ResultService<SoftwarePageViewModel> GetSoftwareByInvNumbers(LaboratoryProcessGetSoftwareByInvNumbersBindingModel model);
+
+        ResultService InstallSoftware(LaboratoryProcessInstalSoftwareBindingModel model);
+
+        ResultService UnInstallSoftware(LaboratoryProcessUnInstalSoftwareBindingModel model);
     }
 }

@@ -667,6 +667,7 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 DateSetup = entity.DateCreate,
                 MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
+                SoftwareId = entity.SoftwareId,
                 InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
                 SoftwareName = entity.Software.SoftwareName,
                 SoftwareKey = entity.Software.SoftwareKey,

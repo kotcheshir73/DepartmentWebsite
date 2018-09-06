@@ -140,7 +140,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 177);
+            this.ClientSize = new System.Drawing.Size(364, 171);
             this.Controls.Add(this.textBoxSoftwareDescription);
             this.Controls.Add(this.labelSoftwareDescription);
             this.Controls.Add(this.buttonSaveAndClose);
@@ -153,6 +153,7 @@
             this.Controls.Add(this.textBoxSoftwareName);
             this.Controls.Add(this.labelSoftwareName);
             this.Name = "SoftwareForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ПО";
             this.Load += new System.EventHandler(this.SoftwareForm_Load);
             this.ResumeLayout(false);

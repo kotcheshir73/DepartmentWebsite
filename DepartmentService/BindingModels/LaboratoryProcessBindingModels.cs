@@ -28,4 +28,33 @@ namespace DepartmentService.BindingModels
 
         public string InventoryNumber { get; set; }
     }
+
+    public class LaboratoryProcessGetSoftwareByInvNumbersBindingModel
+    {
+        public List<string> InventoryNumbers { get; set; }
+    }
+
+    public class LaboratoryProcessInstalSoftwareBindingModel
+    {
+        public List<string> SoftwareNames { get; set; }
+
+        public List<string> InventoryNumbers { get; set; }
+
+        public DateTime DateSetup { get; set; }
+
+        public string SetupDescription { get; set; }
+
+        public string ClaimNumber { get; set; }
+    }
+
+    public class LaboratoryProcessUnInstalSoftwareBindingModel
+    {
+        public List<string> SoftwareNames { get; set; }
+
+        public List<string> InventoryNumbers { get; set; }
+
+        public DateTime DateDelete { get; set; }
+
+        public string DeleteReason { get; set; }
+    }
 }

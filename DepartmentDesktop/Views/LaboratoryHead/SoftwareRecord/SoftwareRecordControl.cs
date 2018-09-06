@@ -41,8 +41,8 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
                     { "UpdateSoftwareRecordsToolStripMenuItem", "Изменить подобные"},
-                    { "AddClaimToolStripMenuItem", "Добавить заявку"},
-                    { "DelSoftwareToolStripMenuItem", "Удалить ПО с компьютеров по инв. номерам"},
+                    { "InstallSoftwareToolStripMenuItem", "Установить ПО"},
+                    { "UnInstallSowtwareToolStripMenuItem", "Деинсталяция ПО"},
                     { "PrintReportForClassroomToolStripMenuItem", "Получить список ПО по аудитории"},
                     { "PrintReportForClaimToolStripMenuItem", "Получить список ПО по заявке"},
                     { "PrintReportForInventoryNumberToolStripMenuItem", "Получить список ПО по инв. номеру"}
@@ -55,8 +55,8 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("UpdateSoftwareRecordsToolStripMenuItem", UpdateSoftwareRecordsToolStripMenuItem_Click);
-            standartControl.ToolStripButtonMoveEventClickAddEvent("AddClaimToolStripMenuItem", AddClaimToolStripMenuItem_Click);
-            standartControl.ToolStripButtonMoveEventClickAddEvent("DelSoftwareToolStripMenuItem", DelSoftwareToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("InstallSoftwareToolStripMenuItem", InstallSoftwareToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("UnInstallSowtwareToolStripMenuItem", UnInstallSowtwareToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForClassroomToolStripMenuItem", PrintReportForClassroomToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForClaimToolStripMenuItem", PrintReportForClaimToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForInventoryNumberToolStripMenuItem", PrintReportForInventoryNumberToolStripMenuItem_Click);
@@ -178,15 +178,15 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             }
         }
 
-        private void AddClaimToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InstallSoftwareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<SoftwareRecordAddClaimForm>();
+            var form = Container.Resolve<InstallSowtwareForm>();
             form.Show();
         }
 
-        private void DelSoftwareToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UnInstallSowtwareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<SoftwareRecordAddClaimForm>();
+            var form = Container.Resolve<UnInstallSowtwareForm>();
             form.Show();
         }
 
