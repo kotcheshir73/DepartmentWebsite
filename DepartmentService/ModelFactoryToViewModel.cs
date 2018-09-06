@@ -47,6 +47,17 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static LecturerWorkloadViewModel CreateLecturerWorkloadViewModel(LecturerWorkload entity)
+        {
+            return new LecturerWorkloadViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                LecturerId = entity.LecturerId,
+                Workload = entity.Workload
+            };
+        }
+
 
         public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
         {

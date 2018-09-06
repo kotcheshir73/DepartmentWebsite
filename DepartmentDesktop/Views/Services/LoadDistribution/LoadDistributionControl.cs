@@ -28,15 +28,35 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
         private readonly ILecturerService _serviceL;
 
+        private readonly ILecturerWorkloadService _serviceLW;
+
+        private readonly ILecturerPostSerivce _serviceLP;
+
         private bool notLoading;
 
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL)
+		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, ILecturerWorkloadService serviceLW, ILecturerPostSerivce serviceLP)
 		{
 			InitializeComponent();
             _serviceAY = serviceAY;
             _serviceTN = serviceTN;
             _serviceEP = serviceEP;
             _serviceL = serviceL;
+            _serviceLW = serviceLW;
+            _serviceLP = serviceLP;
+
+            /*   это нужно было для создания ставок, пока жалко удалять
+            var lecturerList = serviceL.GetLecturers(new LecturerGetBindingModel());  // 134ED8EA-5BC8-4FF1-9A52-8FF6DD8775FC
+            foreach(var tmp in lecturerList.Result.List)
+            {
+                string name = tmp.FullName;
+                serviceLW.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel()
+                {
+                    AcademicYearId = new Guid("134ED8EA-5BC8-4FF1-9A52-8FF6DD8775FC"),
+                    LecturerId = tmp.Id,
+                    Workload = 0.30
+                });
+            }
+            */
 
             setDoubleBuffered(dataGridViewList, true);
 		}
@@ -95,7 +115,17 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel () );
             foreach (var lect in lecturers.Result.List)
             {
-                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName, Width = 50, Visible = true });
+                // ниже костыль, нужно исправить
+                var workloadThisLector = _serviceLW.GetLecturerWorkloads(new LecturerWorkloadGetBindingModel()
+                {
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    LecturerId = lect.Id
+                });
+                var hourThisLector = _serviceLP.GetLecturerPost(new LecturerPostGetBindingModel()
+                {
+                    Id = lect.LecturerPostId
+                });
+                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName + "\n" + workloadThisLector.Result.List[0].Workload +  " - " + hourThisLector.Result.Hours* workloadThisLector.Result.List[0].Workload, Width = 50, Visible = true });
             }
             columns.Add(new ColumnConfig { Name = "Itog_Lecturer", Title = "Итого (лект.)", Width = 40, Visible = true });
             columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });

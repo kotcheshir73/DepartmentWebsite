@@ -47,7 +47,20 @@ namespace DepartmentService.BindingModels
 
             return entity;
         }
-        
+
+        public static LecturerWorkload CreateLecturerWorkload(LecturerWorkloadSetBindingModel model, LecturerWorkload entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new LecturerWorkload();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.LecturerId = model.LecturerId;
+            entity.Workload = model.Workload;
+
+            return entity;
+        }
+
 
         public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
 		{

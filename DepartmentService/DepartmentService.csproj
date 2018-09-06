@@ -68,6 +68,7 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerWorkloadBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="IServices\IAdministrationProcess.cs" />
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerWorkloadService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordMissionService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
@@ -119,6 +121,10 @@
     <Compile Include="Migrations\201807131624088_InitMigration.cs" />
     <Compile Include="Migrations\201807131624088_InitMigration.Designer.cs">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809061938400_add_LecturerWorkload.cs" />
+    <Compile Include="Migrations\201809061938400_add_LecturerWorkload.Designer.cs">
+      <DependentUpon>201809061938400_add_LecturerWorkload.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -158,6 +164,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ScheduleHelper.cs" />
     <Compile Include="Services\AdministrationProcess.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\LecturerWorkloadService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordMissionService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\AcademicPlanRecordElementService.cs" />
     <Compile Include="Services\LaboratoryProcess.cs" />
@@ -202,6 +209,7 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerWorkloadViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordMissionViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
@@ -250,6 +258,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807131624088_InitMigration.resx">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809061938400_add_LecturerWorkload.resx">
+      <DependentUpon>201809061938400_add_LecturerWorkload.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

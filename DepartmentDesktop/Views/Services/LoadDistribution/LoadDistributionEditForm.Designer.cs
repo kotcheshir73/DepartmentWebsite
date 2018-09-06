@@ -32,6 +32,7 @@
             this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonAutoComplete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,11 +85,23 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // buttonAutoComplete
+            // 
+            this.buttonAutoComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAutoComplete.Location = new System.Drawing.Point(327, 548);
+            this.buttonAutoComplete.Name = "buttonAutoComplete";
+            this.buttonAutoComplete.Size = new System.Drawing.Size(99, 23);
+            this.buttonAutoComplete.TabIndex = 10;
+            this.buttonAutoComplete.Text = "Автозаполнение";
+            this.buttonAutoComplete.UseVisualStyleBackColor = true;
+            this.buttonAutoComplete.Click += new System.EventHandler(this.buttonAutoComplete_Click);
+            // 
             // LoadDistributionEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(486, 575);
+            this.Controls.Add(this.buttonAutoComplete);
             this.Controls.Add(this.buttonSaveAndClose);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
@@ -105,5 +118,6 @@
         private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonAutoComplete;
     }
 }
