@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentService.BindingModels
 {
@@ -8,6 +7,8 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
 
         public Guid? MaterialTechnicalValueId { get; set; }
+
+        public Guid? SoftwareId { get; set; }
     }
 
     public class SoftwareRecordSetBindingModel
@@ -16,16 +17,11 @@ namespace DepartmentService.BindingModels
 
         public Guid MaterialTechnicalValueId { get; set; }
 
+        public Guid SoftwareId { get; set; }
+
         public DateTime DateSetup { get; set; }
 
-        [Required(ErrorMessage = "required")]
-        public string SoftwareName { get; set; }
-
-        public string SoftwareDescription { get; set; }
-
-        public string SoftwareKey { get; set; }
-
-        public string SoftwareK { get; set; }
+        public string SetupDescription { get; set; }
 
         public string ClaimNumber { get; set; }
     }

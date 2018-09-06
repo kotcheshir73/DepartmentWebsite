@@ -8,6 +8,7 @@ using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 
 namespace DepartmentService.Services
@@ -120,14 +121,12 @@ namespace DepartmentService.Services
                 }
 
                 var entityes = _context.SoftwareRecords
-                    .Where(x => x.SoftwareName == entity.SoftwareName && x.ClaimNumber == entity.ClaimNumber && x.Id != entity.Id)
+                    .Where(x => x.SoftwareId == entity.SoftwareId && x.ClaimNumber == entity.ClaimNumber && x.Id != entity.Id)
                     .ToList();
 
                 foreach (var updEntity in entityes)
                 {
-                    updEntity.SoftwareDescription = entity.SoftwareDescription;
-                    updEntity.SoftwareKey = entity.SoftwareKey;
-                    updEntity.SoftwareK = entity.SoftwareK;
+                    updEntity.SetupDescription = entity.SetupDescription;
                 }
                 // TODO обновление отображается только после перезапуска проекта
                 _context.SaveChanges();
@@ -151,9 +150,9 @@ namespace DepartmentService.Services
 
                 var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.MaterialTechnicalValue.ClassroomId == model.ClassroomId).Distinct();
 
-                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
-                query = query.Include(x => x.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = query.ToList();
 
@@ -163,8 +162,9 @@ namespace DepartmentService.Services
                         .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
                         {
                             DateSetup = x.DateCreate.Date,
-                            SoftwareName = x.SoftwareName,
-                            SoftwareKey = x.SoftwareKey,
+                            SoftwareName = x.Software.SoftwareName,
+                            SoftwareDescription = x.Software.SoftwareDescription,
+                            SoftwareKey = x.Software.SoftwareKey,
                             ClaimNumber = x.ClaimNumber
                         })
                         .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
@@ -197,9 +197,9 @@ namespace DepartmentService.Services
 
                 var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.ClaimNumber == model.ClaimNumber).Distinct();
 
-                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
-                query = query.Include(x => x.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = query.ToList();
 
@@ -209,8 +209,9 @@ namespace DepartmentService.Services
                         .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
                         {
                             DateSetup = x.DateCreate.Date,
-                            SoftwareName = x.SoftwareName,
-                            SoftwareKey = x.SoftwareKey,
+                            SoftwareName = x.Software.SoftwareName,
+                            SoftwareDescription = x.Software.SoftwareDescription,
+                            SoftwareKey = x.Software.SoftwareKey,
                             ClaimNumber = x.ClaimNumber
                         })
                         .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
@@ -243,9 +244,9 @@ namespace DepartmentService.Services
 
                 var query = _context.SoftwareRecords.Where(x => !x.IsDeleted && x.MaterialTechnicalValue.InventoryNumber == model.InventoryNumber).Distinct();
 
-                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
-                query = query.Include(x => x.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = query.ToList();
 
@@ -255,8 +256,9 @@ namespace DepartmentService.Services
                         .Select(x => new LaboratoryProcessSoftwareRecordsViewModels
                         {
                             DateSetup = x.DateCreate.Date,
-                            SoftwareName = x.SoftwareName,
-                            SoftwareKey = x.SoftwareKey,
+                            SoftwareName = x.Software.SoftwareName,
+                            SoftwareDescription = x.Software.SoftwareDescription,
+                            SoftwareKey = x.Software.SoftwareKey,
                             ClaimNumber = x.ClaimNumber
                         })
                         .Distinct(new ComparerLaboratoryProcessSoftwareRecord())
@@ -275,6 +277,155 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<LaboratoryProcessSoftwareRecordPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<SoftwarePageViewModel> GetSoftwareByInvNumbers(LaboratoryProcessGetSoftwareByInvNumbersBindingModel model)
+        {
+            try
+            {
+                if (!AccessCheckService.CheckAccess(AccessOperation.УстановленоеПО, AccessType.View))
+                {
+                    throw new Exception("Нет доступа на обработку данных по установленному ПО");
+                }
+
+                var query = _context.SoftwareRecords.Include(x => x.MaterialTechnicalValue).Include(x => x.Software).Where(x => !x.IsDeleted &&
+                                        model.InventoryNumbers.Contains(x.MaterialTechnicalValue.InventoryNumber)).Select(x => x.Software).Distinct();
+
+                query = query.OrderBy(x => x.SoftwareName).ThenBy(x => x.SoftwareKey);
+
+                var result = new SoftwarePageViewModel
+                {
+                    MaxCount = 0,
+                    List = query.Select(ModelFactoryToViewModel.CreateSoftwareViewModel).ToList()
+                };
+
+                return ResultService<SoftwarePageViewModel>.Success(result);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<SoftwarePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<SoftwarePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService InstallSoftware(LaboratoryProcessInstalSoftwareBindingModel model)
+        {
+            try
+            {
+                if (model.SoftwareNames.Count == 0)
+                {
+                    throw new Exception("Список устанавливаемого ПО пуст");
+                }
+
+                if (model.InventoryNumbers.Count == 0)
+                {
+                    throw new Exception("Список инвентарных номеров пуст");
+                }
+
+                if (!AccessCheckService.CheckAccess(AccessOperation.УстановленоеПО, AccessType.View))
+                {
+                    throw new Exception("Нет доступа на обработку данных по установленному ПО");
+                }
+
+                foreach (var soft in model.SoftwareNames)
+                {
+                    var softNameAndKey = soft.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    var softName = softNameAndKey[0];
+                    var softKey = softNameAndKey.Length > 1 ? softNameAndKey[1] : string.Empty;
+                    var softWare = _context.Softwares.FirstOrDefault(x => x.SoftwareName == softName && x.SoftwareKey == softKey && !x.IsDeleted);
+                    if (softWare == null)
+                    {
+                        throw new Exception(string.Format("Не найдено ПО с названием {0} и ключем {1}", softName, softKey));
+                    }
+                    foreach (var invNumber in model.InventoryNumbers)
+                    {
+                        var mtv = _context.MaterialTechnicalValues.FirstOrDefault(x => x.InventoryNumber == invNumber && !x.IsDeleted);
+                        if (mtv == null)
+                        {
+                            throw new Exception(string.Format("Не найден МТЦ с инв. номером {0}", invNumber));
+                        }
+
+                        var entity = ModelFacotryFromBindingModel.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
+                        {
+                             MaterialTechnicalValueId = mtv.Id,
+                             SoftwareId = softWare.Id, 
+                             DateSetup = model.DateSetup,
+                             SetupDescription = model.SetupDescription,
+                             ClaimNumber = model.ClaimNumber
+                        });
+
+                        _context.SoftwareRecords.Add(entity);
+                        _context.SaveChanges();
+                    }
+                }
+
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService UnInstallSoftware(LaboratoryProcessUnInstalSoftwareBindingModel model)
+        {
+            try
+            {
+                if (model.SoftwareNames.Count == 0)
+                {
+                    throw new Exception("Список устанавливаемого ПО пуст");
+                }
+
+                if (model.InventoryNumbers.Count == 0)
+                {
+                    throw new Exception("Список инвентарных номеров пуст");
+                }
+
+                if (!AccessCheckService.CheckAccess(AccessOperation.УстановленоеПО, AccessType.View))
+                {
+                    throw new Exception("Нет доступа на обработку данных по установленному ПО");
+                }
+
+                foreach (var soft in model.SoftwareNames)
+                {
+                    var softNameAndKey = soft.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    var softName = softNameAndKey[0];
+                    var softKey = softNameAndKey.Length > 1 ? softNameAndKey[1] : string.Empty;
+                    var softWare = _context.Softwares.FirstOrDefault(x => x.SoftwareName == softName && x.SoftwareKey == softKey && !x.IsDeleted);
+                    if (softWare == null)
+                    {
+                        throw new Exception(string.Format("Не найдено ПО с названием {0} и ключем {1}", softName, softKey));
+                    }
+                    foreach (var invNumber in model.InventoryNumbers)
+                    {
+                        var mtv = _context.MaterialTechnicalValues.FirstOrDefault(x => x.InventoryNumber == invNumber && !x.IsDeleted);
+                        if (mtv == null)
+                        {
+                            throw new Exception(string.Format("Не найден МТЦ с инв. номером {0}", invNumber));
+                        }
+
+                        var entity = _context.SoftwareRecords.FirstOrDefault(x => x.SoftwareId == softWare.Id && x.MaterialTechnicalValueId == mtv.Id);
+                        if (entity != null)
+                        {
+                            entity.IsDeleted = true;
+                            entity.DateDelete = model.DateDelete;
+                            entity.SetupDescription = string.Format("Прична удаления: {0}", model.DeleteReason);
+
+                            _context.SaveChanges();
+
+                        }
+                    }
+                }
+
+                return ResultService.Success();
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }
