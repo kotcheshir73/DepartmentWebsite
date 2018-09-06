@@ -1,0 +1,10 @@
+﻿@model DepartmentService.ViewModels.IndividualPlanTitlePageViewModel
+
+@{
+    ViewBag.Title = "Методическая работа";
+}
+
+<h2>Методическая работа</h2>
+
+<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")</h4>
+

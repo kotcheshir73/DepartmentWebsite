@@ -94,6 +94,10 @@ namespace DepartmentWeb
 
 
             container.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IIndividualPlanTitleService, IndividualPlanTitleService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IIndividualPlanRecordService, IndividualPlanRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IIndividualPlanKindOfWorkService, IndividualPlanKindOfWorkService>(new HierarchicalLifetimeManager());
         }
     }
 }

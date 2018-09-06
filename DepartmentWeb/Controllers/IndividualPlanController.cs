@@ -1,19 +1,20 @@
-﻿using DepartmentService;
-using DepartmentService.IServices;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DepartmentService;
+using DepartmentService.IServices;
 
 namespace DepartmentWeb.Controllers
 {
     public class IndividualPlanController : Controller
     {
-        private IEducationalProcessService _serviceEP;
+        private IIndividualPlanTitleService _serviceIPTS;
 
-        public IndividualPlanController(IEducationalProcessService serviceEP, IAcademicPlanRecordElementService serviceAPRE)
+        public IndividualPlanController(IIndividualPlanTitleService serviceIPTS)
         {
-            _serviceEP = serviceEP;
+            _serviceIPTS = serviceIPTS;
             /*
             var tmp = serviceAPRE.GetAcademicPlanRecordElement(new DepartmentService.BindingModels.AcademicPlanRecordElementGetBindingModel()
             {
@@ -21,9 +22,10 @@ namespace DepartmentWeb.Controllers
             });     */  //тестирование подключения к бд
         }
         // GET: IndividualPlan
-        public ActionResult Metodich()
+        public ActionResult Index()
         {
-            return View();
+            var tmp = _serviceIPTS.GetIndividualPlanTitles(new DepartmentService.BindingModels.IndividualPlanTitleGetBindingModel());
+            return View(tmp.Result);
         }
     }
 }

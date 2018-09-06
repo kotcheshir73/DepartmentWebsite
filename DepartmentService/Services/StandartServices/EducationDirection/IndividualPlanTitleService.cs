@@ -11,13 +11,13 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-    public class IndividualPlanTitle : IIndividualPlanTitleService
+    public class IndividualPlanTitleService : IIndividualPlanTitleService
     {
         private readonly DepartmentDbContext _context;
 
         private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_планы;
 
-        public IndividualPlanTitle(DepartmentDbContext context)
+        public IndividualPlanTitleService(DepartmentDbContext context)
         {
             _context = context;
         }
