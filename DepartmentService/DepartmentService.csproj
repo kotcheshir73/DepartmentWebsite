@@ -68,6 +68,11 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanKindOfWorkBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanTitleBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
@@ -105,11 +110,16 @@
     <Compile Include="IServices\IAdministrationProcess.cs" />
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanKindOfWorkService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanTitleService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordMissionService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
@@ -123,6 +133,10 @@
     <Compile Include="Migrations\201809041347152_add_statement.cs" />
     <Compile Include="Migrations\201809041347152_add_statement.Designer.cs">
       <DependentUpon>201809041347152_add_statement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809051326074_Add_IndividualPlan.cs" />
+    <Compile Include="Migrations\201809051326074_Add_IndividualPlan.Designer.cs">
+      <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -206,6 +220,9 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanKindOfWorkViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanTitleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordMissionViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
@@ -227,6 +244,8 @@
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentHistoryViewModels.cs" />
@@ -257,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809041347152_add_statement.resx">
       <DependentUpon>201809041347152_add_statement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809051326074_Add_IndividualPlan.resx">
+      <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

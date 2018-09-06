@@ -67,6 +67,9 @@
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
     <Compile Include="Enums\TimeNormKoef.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanRecord.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanKindOfWork.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanTitle.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecordElement.cs" />

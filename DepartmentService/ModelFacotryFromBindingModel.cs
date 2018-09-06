@@ -258,6 +258,34 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
+        public static Statement CreateStatement(StatementSetBindingModel model, Statement entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Statement();
+            }
+            entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
+            entity.LecturerId = model.LecturerId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);  //TODO: тут нужно проверить правильность перечислений
+            entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.TypeOfTest = (TypeOfTest)Enum.ToObject(typeof(TypeOfTest), model.TypeOfTest);
+            entity.Date = model.Date;
+            return entity;
+        }
+
+        public static StatementRecord CreateStatementRecord(StatementRecordSetBindingModel model, StatementRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StatementRecord();
+            }
+            entity.StatementId = model.StatementId;
+            entity.StudentId = model.StudentId;
+            entity.Score = model.Score;
+            return entity;
+        }
+
         public static StreamLesson CreateStreamLesson(StreamLessonSetBindingModel model, StreamLesson entity = null)
         {
             if (entity == null)
@@ -366,6 +394,45 @@ namespace DepartmentService.BindingModels
 
 			return entity;
 		}
+
+        public static IndividualPlanTitle CreateIndividualPlanTitle(IndividualPlanTitleSetBindingModel model, IndividualPlanTitle entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanTitle();
+            }
+
+            entity.Title = model.Title;
+            return entity;
+        }
+
+        public static IndividualPlanKindOfWork CreateIndividualPlanKindOfWork(IndividualPlanKindOfWorkSetBindingModel model, IndividualPlanKindOfWork entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanKindOfWork();
+            }
+            entity.IndividualPlanTitleId = model.IndividualPlanTitleId;
+            entity.Name = model.Name;
+            entity.TimeNormDescription = model.TimeNormDescription;
+            return entity;
+        }
+
+        public static IndividualPlanRecord CreateIndividualPlanRecord(IndividualPlanRecordSetBindingModel model, IndividualPlanRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanRecord();
+            }
+            entity.IndividualPlanKindOfWorkId = model.IndividualPlanKindOfWorkId;
+            entity.LecturerId = model.LecturerId;
+            entity.PlanAutumn = model.PlanAutumn;
+            entity.FactAutumn = model.FactAutumn;
+            entity.PlanSpring = model.PlanSpring;
+            entity.FactSpring = model.FactSpring;
+            return entity;
+        }
+
         #endregion
 
         #region Schedule

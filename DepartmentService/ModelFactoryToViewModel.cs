@@ -269,6 +269,32 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static StatementViewModel CreateStatementViewModel(Statement entity)
+        {
+            return new StatementViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
+                LecturerId = entity.LecturerId,
+                StudentGroupId = entity.StudentGroupId,
+                Course = entity.Course.ToString(),
+                Date = entity.Date,
+                Semester = entity.Semester.ToString(),
+                TypeOfTest = entity.TypeOfTest.ToString()
+            };
+        }
+
+        public static StatementRecordViewModel CreateStatementRecordViewModel(StatementRecord entity)
+        {
+            return new StatementRecordViewModel
+            {
+                Id = entity.Id,
+                StatementId = entity.StatementId,
+                StudentId = entity.StudentId,
+                Score = entity.Score
+            };
+        }
+
         public static StreamLessonViewModel CreateStreamLessonViewModel(StreamLesson entity)
         {
             return new StreamLessonViewModel
@@ -374,6 +400,41 @@ namespace DepartmentService.ViewModels
                 DateEndLesson = entity.DateEndLesson
             };
         }
+
+        public static IndividualPlanTitleViewModel CreateIndividualPlanTitleViewModel(IndividualPlanTitle entity)
+        {
+            return new IndividualPlanTitleViewModel
+            {
+                Id = entity.Id,
+                Title = entity.Title
+            };
+        }
+
+        public static IndividualPlanKindOfWorkViewModel CreateIndividualPlanKindOfWorkViewModel(IndividualPlanKindOfWork entity)
+        {
+            return new IndividualPlanKindOfWorkViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanTitleId = entity.IndividualPlanTitleId,
+                Name = entity.Name,
+                TimeNormDescription = entity.TimeNormDescription
+            };
+        }
+
+        public static IndividualPlanRecordViewModel CreateIndividualPlanRecordViewModel(IndividualPlanRecord entity)
+        {
+            return new IndividualPlanRecordViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanKindOfWorkId = entity.IndividualPlanKindOfWorkId,
+                LecturerId = entity.LecturerId,
+                PlanAutumn = entity.PlanAutumn,
+                FactAutumn = entity.FactAutumn,
+                PlanSpring = entity.PlanSpring,
+                FactSpring = entity.FactSpring
+            };
+        }
+
         #endregion
 
 
