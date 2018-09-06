@@ -28,6 +28,10 @@ namespace DepartmentModel.Models.BaseEnities
         [DataMember]
         public string VariantTask { get; set; }
 
+        [Required]
+        [DataMember]
+        public int Order { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual DisciplineLessonTask DisciplineLessonTask { get; set; }

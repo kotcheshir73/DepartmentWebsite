@@ -40,16 +40,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Номер варианта:";
+            this.label1.Text = "Номер варианта*:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 34);
+            this.label2.Location = new System.Drawing.Point(12, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 1;
@@ -57,14 +57,14 @@
             // 
             // textBoxVariantNumber
             // 
-            this.textBoxVariantNumber.Location = new System.Drawing.Point(112, 6);
+            this.textBoxVariantNumber.Location = new System.Drawing.Point(112, 7);
             this.textBoxVariantNumber.Name = "textBoxVariantNumber";
-            this.textBoxVariantNumber.Size = new System.Drawing.Size(100, 20);
+            this.textBoxVariantNumber.Size = new System.Drawing.Size(82, 20);
             this.textBoxVariantNumber.TabIndex = 2;
             // 
             // textBoxTask
             // 
-            this.textBoxTask.Location = new System.Drawing.Point(12, 50);
+            this.textBoxTask.Location = new System.Drawing.Point(12, 54);
             this.textBoxTask.Multiline = true;
             this.textBoxTask.Name = "textBoxTask";
             this.textBoxTask.Size = new System.Drawing.Size(340, 110);
@@ -72,7 +72,7 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(128, 175);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(128, 179);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
             this.buttonSaveAndClose.TabIndex = 36;
@@ -82,7 +82,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(275, 175);
+            this.buttonClose.Location = new System.Drawing.Point(275, 179);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 37;
@@ -92,7 +92,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(47, 175);
+            this.buttonSave.Location = new System.Drawing.Point(47, 179);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 35;

@@ -19,7 +19,7 @@ namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirecti
         public Guid DisciplineId { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public LessonTypes LessonType { get; set; }
+        public DisciplineLessonTypes LessonType { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Title { get; set; }

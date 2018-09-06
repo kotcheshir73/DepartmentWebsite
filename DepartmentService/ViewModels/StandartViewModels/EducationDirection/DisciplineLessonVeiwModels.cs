@@ -11,7 +11,7 @@ namespace DepartmentService.ViewModels.StandartViewModels.EducationDirection
 
         public Guid DisciplineId { get; set; }
 
-        public LessonTypes LessonType { get; set; }
+        public DisciplineLessonTypes LessonType { get; set; }
 
         public string Title { get; set; }
 
@@ -21,7 +21,7 @@ namespace DepartmentService.ViewModels.StandartViewModels.EducationDirection
 
         public int CountOfPairs { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public byte[] DisciplineLessonFile { get; set; }
     }

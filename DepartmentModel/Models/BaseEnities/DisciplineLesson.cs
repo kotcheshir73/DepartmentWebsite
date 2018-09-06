@@ -20,7 +20,7 @@ namespace DepartmentModel.Models
 
 		[Required]
         [DataMember]
-        public LessonTypes LessonType { get; set; }
+        public DisciplineLessonTypes LessonType { get; set; }
         
 		[MaxLength(100)]
 		[Required]

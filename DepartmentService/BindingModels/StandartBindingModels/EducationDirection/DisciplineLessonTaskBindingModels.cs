@@ -23,18 +23,15 @@ namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirecti
         public Guid DisciplineLessonId { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public int? VariantNumber { get; set; }
+        public string Task { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public bool IsNecessarily { get; set; }
 
         [Required(ErrorMessage = "required")]
         public int Order { get; set; }
 
-        [Required(ErrorMessage = "required")]
-        public LessonTypes LessonType { get; set; }
-
         public decimal? MaxBall { get; set; }
-
-        [Required(ErrorMessage = "required")]
-        public string DisciplineLessonName { get; set; }
 
         public string Description { get; set; }
 

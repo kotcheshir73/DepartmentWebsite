@@ -39,7 +39,7 @@ namespace DepartmentService.Services.StandartServices.EducationDirection
                 }
 
                 int countPages = 0;
-                var query = _context.DisciplineLessonTasks.Where(d => !d.IsDeleted).AsQueryable();
+                var query = _context.DisciplineLessonTasks.Where(d => !d.IsDeleted&&d.DisciplineLessonId==model.DisciplineLessonId).AsQueryable();
 
                 query = query.OrderBy(d => d.Order);
 

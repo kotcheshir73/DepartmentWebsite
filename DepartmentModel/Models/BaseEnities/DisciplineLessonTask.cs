@@ -31,7 +31,7 @@ namespace DepartmentModel.Models
         public int Order { get; set; }
         
         [DataMember]
-        public int? MaxBall { get; set; }
+        public decimal? MaxBall { get; set; }
 
         [DataMember]
         public string Description { get; set; }

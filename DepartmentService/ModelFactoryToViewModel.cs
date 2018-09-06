@@ -84,7 +84,9 @@ namespace DepartmentService.ViewModels
                 Title = entity.Title,
                 Description = entity.Description,
                 Order = entity.Order,
-                DisciplineLessonFile = entity.DisciplineLessonFile
+                DisciplineLessonFile = entity.DisciplineLessonFile,
+                CountOfPairs = entity.CountOfPairs,
+                Date = entity.Date
             };
         }
 
@@ -97,7 +99,9 @@ namespace DepartmentService.ViewModels
                 Order = entity.Order,
                 MaxBall = entity.MaxBall,
                 Description = entity.Description,
-                Image = entity.Image
+                Image = entity.Image,
+                IsNecessarily =entity.IsNecessarily,
+                Task = entity.Task
             };
         }
 

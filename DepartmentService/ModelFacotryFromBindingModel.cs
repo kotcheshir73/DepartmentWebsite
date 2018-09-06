@@ -90,6 +90,8 @@ namespace DepartmentService.BindingModels
             entity.Description = model.Description;
             entity.Order = model.Order;
             entity.DisciplineLessonFile = model.DisciplineLessonFile;
+            entity.Date = model.Date;
+            entity.CountOfPairs = model.CountOfPairs;
 
             return entity;
         }
@@ -104,6 +106,9 @@ namespace DepartmentService.BindingModels
             entity.Order = model.Order;
             entity.Description = model.Description;
             entity.Image = model.Image;
+            entity.IsNecessarily = model.IsNecessarily;
+            entity.MaxBall = model.MaxBall;
+            entity.Task = model.Task;
 
             return entity;
         }
