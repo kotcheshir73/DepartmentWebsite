@@ -193,6 +193,9 @@
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
     <Compile Include="Services\ScheduleServices\ExaminationRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanKindOfWorkService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanTitleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerPostSerivce.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerService.cs" />
     <Compile Include="Services\StandartServices\Administration\RoleService.cs" />
@@ -201,6 +204,8 @@
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StatementRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StatementService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamLessonRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamLessonService.cs" />
