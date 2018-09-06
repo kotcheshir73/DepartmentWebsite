@@ -4,6 +4,28 @@
     ViewBag.Title = "Statement";
 }
 
+
 <h3>Ведомости</h3>
 
 <h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")</h4>
+
+<div id="vedok"></div>
+@section Scripts {
+    <script>
+        var GetValue = function () {
+            console.log('retertreter')
+            var yearId = $('#List').val();
+            $.ajax({
+                url: '/Statement/getTableStatements',
+                type: "POST",
+                processData: false,
+                contentType: false, 
+                data: { YearId: yearId },
+                success: function (cities) {
+                    $("#vedok").html(cities);
+                }
+            });
+        }
+        $('#List').on('change', GetValue)
+    </script>
+}

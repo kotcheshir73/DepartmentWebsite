@@ -21,7 +21,6 @@ namespace DepartmentWeb.Controllers
             _serviceEP = serviceEP;
 
             _serviceAY = serviceAY;
-
             
             /*
             var tmp = serviceAPRE.GetAcademicPlanRecordElement(new DepartmentService.BindingModels.AcademicPlanRecordElementGetBindingModel()
