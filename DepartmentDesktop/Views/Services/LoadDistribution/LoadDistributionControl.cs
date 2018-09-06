@@ -74,7 +74,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "APR_Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "Semester", Title = "Сем", Width = 50, Visible = true },
+                new ColumnConfig { Name = "Semester", Title = "Сем", Width = 50, Visible = true,  },
                 new ColumnConfig { Name = "EducationDirection", Title = "Код напр.", Width = 80, Visible = true },
                 new ColumnConfig { Name = "Discipline", Title = "Дисциплина", Width = 200, Visible = true },
                 new ColumnConfig { Name = "IsSelecetedDiscipline", Title = "Выб", Width = 30, Visible = true },
@@ -91,11 +91,13 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                 columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
                 columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
             }
+            columns.Add(new ColumnConfig { Name = "Itog_APR", Title = "Итого (дисц.)", Width = 40, Visible = true });
             var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel () );
             foreach (var lect in lecturers.Result.List)
             {
                 columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName, Width = 50, Visible = true });
             }
+            columns.Add(new ColumnConfig { Name = "Itog_Lecturer", Title = "Итого (лект.)", Width = 40, Visible = true });
             columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
             dataGridViewList.Columns.Clear();
             foreach (var column in columns)
@@ -110,6 +112,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                     AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
                 });
             }
+            dataGridViewList.Columns[3].Frozen = true;
+
         }
 
         private void LoadRecords()
