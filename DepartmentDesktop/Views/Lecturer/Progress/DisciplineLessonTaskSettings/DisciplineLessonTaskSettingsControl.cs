@@ -1,17 +1,11 @@
-﻿using System;
+﻿using DepartmentDesktop.Models;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity.Attributes;
 using Unity;
-using DepartmentService.IServices.StandartInterfaces.EducationDirection;
-using DepartmentDesktop.Models;
-using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
+using Unity.Attributes;
 using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonTaskSettings

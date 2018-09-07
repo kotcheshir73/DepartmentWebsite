@@ -8,33 +8,38 @@ using Unity;
 using Unity.Attributes;
 using Unity.Resolution;
 
-namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings
+namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonTask.DisciplineLessonTaskVariant
 {
-    public partial class DisciplineLessonSettingsControl : UserControl
+    public partial class DisciplineLessonTaskVariantControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IDisciplineLessonTaskService _serviceDLT;
+        private readonly IDisciplineLessonTaskVariantService _service;
 
-        private Guid _dId;
+        private Guid _dltId;
 
-        public DisciplineLessonSettingsControl(IDisciplineLessonTaskService serviceDLT)
+        public DisciplineLessonTaskVariantControl(IDisciplineLessonTaskVariantService service)
         {
             InitializeComponent();
-            _serviceDLT = serviceDLT;
+            _service = service;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "Description", Title = "Описание", Width = 200, Visible = true },
+                new ColumnConfig { Name = "DisciplineLessonTitle", Title = "Занятие", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Task", Title = "Задание", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Description", Title = "Описание", Width = 300, Visible = true },
                 new ColumnConfig { Name = "MaxBall", Title = "Максимальный балл", Width = 100, Visible = true },
-                new ColumnConfig { Name = "IsNecessarily", Title = "Обязательное", Width = 100, Visible = true }
+                new ColumnConfig { Name = "IsNecessarily", Title = "Обязательное", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 150, Visible = true }
             };
+
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
             standartControl.Configurate(columns, hideToolStripButtons);
-            standartControl.GetPageAddEvent(LoadTasksRecords);
+
+            standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
@@ -56,20 +61,21 @@ namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings
             });
         }
 
-        public void LoadData(Guid dId)
+        public void LoadData(Guid dltId)
         {
-            _dId = dId;
+            _dltId = dltId;
             standartControl.LoadPage();
         }
 
-        public int LoadTasksRecords(int pageNumber, int pageSize)
+        public int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _serviceDLT.GetDisciplineLessonTasks(new DisciplineLessonTaskGetBindingModel
+            var result = _service.GetDisciplineLessonTaskVariants(new DisciplineLessonTaskVariantGetBindingModel
             {
-                DisciplineLessonId = _dId,
+                DisciplineLessonTaskId = _dltId,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
+
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -80,9 +86,8 @@ namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings
             {
                 standartControl.GetDataGridViewRows.Add(
                      res.Id,
-                     res.Task,
-                     res.MaxBall,
-                     res.IsNecessarily
+                     res.VariantNumber,
+                     res.VariantTask
                 );
             }
             return result.Result.MaxCount;
@@ -90,12 +95,12 @@ namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings
 
         private void AddRecord()
         {
-            var form = Container.Resolve<DisciplineLessonTaskSettingsForm>(new ParameterOverrides
+            var form = Container.Resolve<DisciplineLessonTaskVariantForm>(new ParameterOverrides
                 {
-                    { "id", Guid.Empty},
-                    {"lessonId", _dId }
+                    { "dltId", _dltId },
+                    { "id", Guid.Empty}
                 }
-                .OnType<DisciplineLessonTaskSettingsForm>());
+                .OnType<DisciplineLessonTaskVariantForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -107,13 +112,13 @@ namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<DisciplineLessonTaskSettingsForm>(
+                var form = Container.Resolve<DisciplineLessonTaskVariantForm>(
                     new ParameterOverrides
                     {
-                        { "id", id },
-                        {"lessonId", _dId }
+                        { "dltId", _dltId },
+                        { "id", id }
                     }
-                    .OnType<DisciplineLessonTaskSettingsForm>());
+                    .OnType<DisciplineLessonTaskVariantForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -130,7 +135,7 @@ namespace DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _serviceDLT.DeleteDisciplineLessonTask(new DisciplineLessonTaskGetBindingModel { Id = id });
+                        var result = _service.DeleteDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

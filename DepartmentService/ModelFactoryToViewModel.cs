@@ -3,7 +3,6 @@ using DepartmentModel.Models;
 using DepartmentModel.Models.BaseEnities;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
-using DepartmentService.ViewModels.StandartViewModels.EducationDirection;
 using System;
 using System.Drawing;
 using System.IO;
@@ -71,48 +70,6 @@ namespace DepartmentService.ViewModels
                 DisciplineShortName = entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock.Title,
                 DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
-            };
-        }
-
-        public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
-        {
-            return new DisciplineLessonViewModel
-            {
-                Id = entity.Id,
-                DisciplineId = entity.DisciplineId,
-                LessonType = entity.LessonType,
-                Title = entity.Title,
-                Description = entity.Description,
-                Order = entity.Order,
-                DisciplineLessonFile = entity.DisciplineLessonFile,
-                CountOfPairs = entity.CountOfPairs,
-                Date = entity.Date
-            };
-        }
-
-        public static DisciplineLessonTaskViewModel CreateDisciplineLessonTaskViewModel(DisciplineLessonTask entity)
-        {
-            return new DisciplineLessonTaskViewModel
-            {
-                Id = entity.Id,
-                DisciplineLessonId = entity.DisciplineLessonId,
-                Order = entity.Order,
-                MaxBall = entity.MaxBall,
-                Description = entity.Description,
-                Image = entity.Image,
-                IsNecessarily =entity.IsNecessarily,
-                Task = entity.Task
-            };
-        }
-
-        public static DisciplineLessonTaskVariantViewModel CreateDisciplineLessonTaskVariantViewModel(DisciplineLessonTaskVariant entity)
-        {
-            return new DisciplineLessonTaskVariantViewModel
-            {
-                Id = entity.Id,
-                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
-                VariantNumber = entity.VariantNumber,
-                VariantTask = entity.VariantTask
             };
         }
 
@@ -680,5 +637,52 @@ namespace DepartmentService.ViewModels
         }
         #endregion
 
+        #region LearningProgress
+
+        public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
+        {
+            return new DisciplineLessonViewModel
+            {
+                Id = entity.Id,
+                DisciplineId = entity.DisciplineId,
+                Discipline = entity.Discipline.DisciplineName,
+                LessonType = entity.LessonType,
+                Title = entity.Title,
+                Description = entity.Description,
+                Order = entity.Order,
+                DisciplineLessonFile = entity.DisciplineLessonFile,
+                CountOfPairs = entity.CountOfPairs,
+                CountTasks = entity.DisciplineLessonTasks.Count,
+                Date = entity.Date
+            };
+        }
+
+        public static DisciplineLessonTaskViewModel CreateDisciplineLessonTaskViewModel(DisciplineLessonTask entity)
+        {
+            return new DisciplineLessonTaskViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonId = entity.DisciplineLessonId,
+                DisciplineLessonTitle = entity.DisciplineLesson.Title,
+                Task = entity.Task,
+                Description = entity.Description,
+                MaxBall = entity.MaxBall,
+                Order = entity.Order,
+                Image = entity.Image,
+                IsNecessarily = entity.IsNecessarily
+            };
+        }
+
+        public static DisciplineLessonTaskVariantViewModel CreateDisciplineLessonTaskVariantViewModel(DisciplineLessonTaskVariant entity)
+        {
+            return new DisciplineLessonTaskVariantViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                VariantNumber = entity.VariantNumber,
+                VariantTask = entity.VariantTask
+            };
+        }
+        #endregion
     }
 }

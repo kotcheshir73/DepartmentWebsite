@@ -1,22 +1,12 @@
-﻿using DepartmentDesktop.Models;
-using DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings;
+﻿using DepartmentDesktop.Views.Lecturer.DisciplineLessonSettings;
 using DepartmentModel;
 using DepartmentModel.Enums;
-using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
-using DepartmentService.IServices.StandartInterfaces.EducationDirection;
-using DepartmentService.Services.StandartServices.EducationDirection;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using Unity.Attributes;
-using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.Lecturer
 {
@@ -128,7 +118,7 @@ namespace DepartmentDesktop.Views.Lecturer
                     result = _serviceDL.CreateDisciplineLesson(new DisciplineLessonRecordBindingModel
                     {
                         DisciplineId = _dId,
-                        LessonType = (DisciplineLessonTypes)comboBoxLessonType.SelectedItem,
+                        LessonType = comboBoxLessonType.Text,
                         Title = textBoxTitle.Text,
                         Description = textBoxDescription.Text,
                         CountOfPairs = Convert.ToInt32(textBoxCount.Text),
@@ -142,7 +132,7 @@ namespace DepartmentDesktop.Views.Lecturer
                     {
                         Id = _id.Value,
                         DisciplineId = _dId,
-                        LessonType = (DisciplineLessonTypes)comboBoxLessonType.SelectedItem,
+                        LessonType = comboBoxLessonType.Text,
                         Title = textBoxTitle.Text,
                         Description = textBoxDescription.Text,
                         CountOfPairs = Convert.ToInt32(textBoxCount.Text),
