@@ -92,6 +92,7 @@
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueGroupBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\SoftwareBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\SoftwareRecordBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
     <Compile Include="Context\DatabaseInitializer.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\ISoftwareRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LaboratoryHead\ISoftwareService.cs" />
     <Compile Include="Migrations\201807131624088_InitMigration.cs" />
     <Compile Include="Migrations\201807131624088_InitMigration.Designer.cs">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
@@ -131,6 +133,10 @@
     <Compile Include="Migrations\201808161211321_dltimage.cs" />
     <Compile Include="Migrations\201808161211321_dltimage.Designer.cs">
       <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
+    <Compile Include="Migrations\201809050604321_AddSoftwareTable.cs" />
+    <Compile Include="Migrations\201809050604321_AddSoftwareTable.Designer.cs">
+      <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -204,6 +210,7 @@
     <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueRecordService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\SoftwareRecordService.cs" />
+    <Compile Include="Services\StandartServices\LaboratoryHead\SoftwareService.cs" />
     <Compile Include="Services\StudentMoveService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\TimeNormService.cs" />
@@ -247,6 +254,7 @@
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -271,6 +279,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808161211321_dltimage.resx">
       <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809050604321_AddSoftwareTable.resx">
+      <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -510,6 +510,13 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
+        private void softwaresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.Software.SoftwareControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         private void softwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LaboratoryHead.SoftwareRecord.SoftwareRecordControl>();
@@ -525,5 +532,6 @@ namespace DepartmentDesktop
             form.ShowDialog();
         }
         #endregion
+
     }
 }

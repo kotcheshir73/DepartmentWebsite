@@ -93,6 +93,7 @@
     <Compile Include="Models\BaseEnities\Role.cs" />
     <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
+    <Compile Include="Models\BaseEnities\Software.cs" />
     <Compile Include="Models\BaseEnities\SoftwareRecord.cs" />
     <Compile Include="Models\BaseEnities\StreamLesson.cs" />
     <Compile Include="Models\BaseEnities\StreamingLesson.cs" />

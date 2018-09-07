@@ -46,6 +46,7 @@ namespace DepartmentService.Context
         public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }
         public virtual DbSet<SoftwareRecord> SoftwareRecords { get; set; }
+        public virtual DbSet<Software> Softwares { get; set; }
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
         public virtual DbSet<StreamLesson> StreamLessons { set; get; }

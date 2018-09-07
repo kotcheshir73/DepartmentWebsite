@@ -77,6 +77,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMaterialTechnicalValueGroupService, MaterialTechnicalValueGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMaterialTechnicalValueRecordService, MaterialTechnicalValueRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISoftwareService, SoftwareService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISoftwareRecordService, SoftwareRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILaboratoryProcess, LaboratoryProcess>(new HierarchicalLifetimeManager());
 

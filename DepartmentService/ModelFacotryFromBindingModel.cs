@@ -536,6 +536,20 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static Software CreateSoftware(SoftwareSetBindingModel model, Software entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Software();
+            }
+            entity.SoftwareName = model.SoftwareName;
+            entity.SoftwareDescription = model.SoftwareDescription;
+            entity.SoftwareKey = model.SoftwareKey;
+            entity.SoftwareK = model.SoftwareK;
+
+            return entity;
+        }
+
         public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordSetBindingModel model, SoftwareRecord entity = null)
         {
             if (entity == null)
@@ -544,10 +558,8 @@ namespace DepartmentService.BindingModels
             }
             entity.DateCreate = model.DateSetup;
             entity.MaterialTechnicalValueId = model.MaterialTechnicalValueId;
-            entity.SoftwareName = model.SoftwareName;
-            entity.SoftwareDescription = model.SoftwareDescription;
-            entity.SoftwareKey = model.SoftwareKey;
-            entity.SoftwareK = model.SoftwareK;
+            entity.SoftwareId = model.SoftwareId;
+            entity.SetupDescription = model.SetupDescription;
             entity.ClaimNumber = model.ClaimNumber;
 
             return entity;

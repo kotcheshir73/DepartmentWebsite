@@ -18,31 +18,38 @@ namespace DepartmentService.IServices
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        ResultService<SoftwarePageViewModel> GetSoftwares(SoftwareGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка установленного ПО
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         ResultService<SoftwareRecordPageViewModel> GetSoftwareRecords(SoftwareRecordGetBindingModel model);
 
         /// <summary>
-        /// Получения ПО
+        /// Получения установленного ПО
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService<SoftwareRecordViewModel> GetSoftwareRecord(SoftwareRecordGetBindingModel model);
 
         /// <summary>
-        /// Создание ПО
+        /// Установка ПО
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService CreateSoftwareRecord(SoftwareRecordSetBindingModel model);
 
         /// <summary>
-        /// Изменение ПО
+        /// Изменение установленного ПО
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService UpdateSoftwareRecord(SoftwareRecordSetBindingModel model);
 
         /// <summary>
-        /// Удаление ПО
+        /// Деинсталяция ПО
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
