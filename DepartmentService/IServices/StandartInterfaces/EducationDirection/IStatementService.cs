@@ -28,6 +28,13 @@ namespace DepartmentService.IServices
 		ResultService CreateStatement(StatementSetBindingModel model);
 
         /// <summary>
+		/// Создание всех возможных ведомостей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService CreateAllFindStatement(StatementSetBindingModel model);
+
+        /// <summary>
         /// Изменение элемента записи учебного плана
         /// </summary>
         /// <param name="model"></param>

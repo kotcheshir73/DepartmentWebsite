@@ -20,6 +20,6 @@ namespace DepartmentService.ViewModels
 
         public string Semester { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

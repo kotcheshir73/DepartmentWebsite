@@ -138,6 +138,10 @@
     <Compile Include="Migrations\201809051326074_Add_IndividualPlan.Designer.cs">
       <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809070641099_add_statement1.cs" />
+    <Compile Include="Migrations\201809070641099_add_statement1.Designer.cs">
+      <DependentUpon>201809070641099_add_statement1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -284,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809051326074_Add_IndividualPlan.resx">
       <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809070641099_add_statement1.resx">
+      <DependentUpon>201809070641099_add_statement1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

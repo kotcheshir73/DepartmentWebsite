@@ -37,7 +37,7 @@ namespace DepartmentModel.Models
         public Semesters? Semester { get; set; }
 
         [DataMember]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         //-------------------------------------------------------------------------
 

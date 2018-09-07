@@ -193,5 +193,10 @@ namespace DepartmentService.Services
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+        public ResultService CreateAllFindStatement(StatementSetBindingModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
