@@ -133,10 +133,10 @@
     <Compile Include="Migrations\201808161211321_dltimage.cs" />
     <Compile Include="Migrations\201808161211321_dltimage.Designer.cs">
       <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
+       </Compile>
     <Compile Include="Migrations\201809050604321_AddSoftwareTable.cs" />
     <Compile Include="Migrations\201809050604321_AddSoftwareTable.Designer.cs">
       <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
-
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -279,6 +279,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808161211321_dltimage.resx">
       <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809050604321_AddSoftwareTable.resx">
       <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
     </EmbeddedResource>
