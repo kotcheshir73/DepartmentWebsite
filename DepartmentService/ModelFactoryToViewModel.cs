@@ -680,7 +680,8 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
                 VariantNumber = entity.VariantNumber,
-                VariantTask = entity.VariantTask
+                VariantTask = entity.VariantTask,
+                Order = entity.Order
             };
         }
         #endregion

@@ -1,13 +1,8 @@
-﻿using DepartmentService.BindingModels;
+﻿using DepartmentModel;
+using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using Unity.Attributes;
@@ -38,6 +33,19 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private void DisciplineLessonTaskVariantForm_Load(object sender, EventArgs e)
         {
+            var resultDLT = _service.GetDisciplineLessonTasks(new DisciplineLessonTaskGetBindingModel { Id = _dltId });
+            if (!resultDLT.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке заданий возникла ошибка: ", resultDLT.Errors);
+                return;
+            }
+
+            comboBoxDisciplineLessonTask.ValueMember = "Value";
+            comboBoxDisciplineLessonTask.DisplayMember = "Display";
+            comboBoxDisciplineLessonTask.DataSource = resultDLT.Result.List
+                .Select(d => new { Value = d.Id, Display = d.Task }).ToList();
+            comboBoxDisciplineLessonTask.SelectedValue = _dltId;
+
             if (_id.HasValue)
             {
                 LoadData();
@@ -56,7 +64,105 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
             textBoxVariantNumber.Text = entity.VariantNumber;
             textBoxVariantTask.Text = entity.VariantTask;
-        //    textBoxOrder.Text = entity.o
+            textBoxOrder.Text = entity.Order.ToString();
+        }
+
+        private bool CheckFill()
+        {
+            if (string.IsNullOrEmpty(comboBoxDisciplineLessonTask.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxVariantTask.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxVariantNumber.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxOrder.Text))
+            {
+                return false;
+            }
+            if (!string.IsNullOrEmpty(textBoxOrder.Text))
+            {
+                int order = 0;
+                if (!int.TryParse(textBoxOrder.Text, out order))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool Save()
+        {
+            if (CheckFill())
+            {
+                ResultService result;
+                if (!_id.HasValue)
+                {
+                    result = _service.CreateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
+                    {
+                        DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
+                        VariantNumber = textBoxVariantNumber.Text,
+                        VariantTask = textBoxVariantTask.Text,
+                        Order = Convert.ToInt32(textBoxOrder.Text)
+                    });
+                    if (!result.Succeeded)
+                    {
+                        Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                        return false;
+                    }
+                }
+                else
+                {
+                    result = _service.UpdateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
+                    {
+                        Id = _id.Value,
+                        DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
+                        VariantNumber = textBoxVariantNumber.Text,
+                        VariantTask = textBoxVariantTask.Text,
+                        Order = Convert.ToInt32(textBoxOrder.Text)
+                    });
+                    if (!result.Succeeded)
+                    {
+                        Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if (Save())
+            {
+                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void buttonSaveAndClose_Click(object sender, EventArgs e)
+        {
+            if (Save())
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

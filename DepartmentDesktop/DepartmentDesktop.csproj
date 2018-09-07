@@ -321,36 +321,6 @@
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.Designer.cs">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonSettings\DisciplineLessonSettingsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonSettings\DisciplineLessonSettingsControl.Designer.cs">
-      <DependentUpon>DisciplineLessonSettingsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonSettings\DisciplineLessonSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonSettings\DisciplineLessonSettingsForm.Designer.cs">
-      <DependentUpon>DisciplineLessonSettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonTaskSettings\DisciplineLessonTaskSettingsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonTaskSettings\DisciplineLessonTaskSettingsControl.Designer.cs">
-      <DependentUpon>DisciplineLessonTaskSettingsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonTaskSettings\DisciplineLessonTaskSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonTaskSettings\DisciplineLessonTaskSettingsForm.Designer.cs">
-      <DependentUpon>DisciplineLessonTaskSettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonTaskVariantSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Lecturer\Progress\DisciplineLessonTaskVariantSettingsForm.Designer.cs">
-      <DependentUpon>DisciplineLessonTaskVariantSettingsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\LearningProgress\LearningProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -856,21 +826,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.resx">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Lecturer\Progress\DisciplineLessonSettings\DisciplineLessonSettingsControl.resx">
-      <DependentUpon>DisciplineLessonSettingsControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Lecturer\Progress\DisciplineLessonSettings\DisciplineLessonSettingsForm.resx">
-      <DependentUpon>DisciplineLessonSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Lecturer\Progress\DisciplineLessonTaskSettings\DisciplineLessonTaskSettingsControl.resx">
-      <DependentUpon>DisciplineLessonTaskSettingsControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Lecturer\Progress\DisciplineLessonTaskSettings\DisciplineLessonTaskSettingsForm.resx">
-      <DependentUpon>DisciplineLessonTaskSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Lecturer\Progress\DisciplineLessonTaskVariantSettingsForm.resx">
-      <DependentUpon>DisciplineLessonTaskVariantSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\LearningProgressForm.resx">
       <DependentUpon>LearningProgressForm.cs</DependentUpon>

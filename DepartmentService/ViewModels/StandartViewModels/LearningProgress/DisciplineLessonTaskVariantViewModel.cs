@@ -13,5 +13,7 @@ namespace DepartmentService.ViewModels
         public string VariantNumber { get; set; }
 
         public string VariantTask { get; set; }
+
+        public int Order { get; set; }
     }
 }

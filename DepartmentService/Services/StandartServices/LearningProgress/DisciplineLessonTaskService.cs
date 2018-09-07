@@ -37,9 +37,18 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.DisciplineLessonTasks.Where(d => !d.IsDeleted&&d.DisciplineLessonId==model.DisciplineLessonId).AsQueryable();
+                var query = _context.DisciplineLessonTasks.Where(x => !x.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(d => d.Order);
+                if (model.DisciplineLessonId.HasValue)
+                {
+                    query = query.Where(x => x.DisciplineLessonId == model.DisciplineLessonId);
+                }
+                if (model.Id.HasValue)
+                {
+                    query = query.Where(x => x.Id == model.Id);
+                }
+
+                query = query.OrderBy(x => x.Order);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {

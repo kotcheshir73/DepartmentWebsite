@@ -34,16 +34,16 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private void DisciplineLessonTaskForm_Load(object sender, EventArgs e)
         {
-            var resultD = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { Id = _dlId });
-            if (!resultD.Succeeded)
+            var resultDL = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { Id = _dlId });
+            if (!resultDL.Succeeded)
             {
-                Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
+                Program.PrintErrorMessage("При загрузке занятий возникла ошибка: ", resultDL.Errors);
                 return;
             }
 
             comboBoxDisciplineLesson.ValueMember = "Value";
             comboBoxDisciplineLesson.DisplayMember = "Display";
-            comboBoxDisciplineLesson.DataSource = resultD.Result.List
+            comboBoxDisciplineLesson.DataSource = resultDL.Result.List
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
             comboBoxDisciplineLesson.SelectedValue = _dlId;
 

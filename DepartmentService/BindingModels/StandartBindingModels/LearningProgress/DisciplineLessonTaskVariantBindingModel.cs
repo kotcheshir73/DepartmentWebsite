@@ -22,5 +22,8 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string VariantTask { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public int Order { get; set; }
     }
 }
