@@ -1,8 +1,6 @@
 ﻿using DepartmentService.Context;
 using DepartmentService.IServices;
-using DepartmentService.IServices.StandartInterfaces.EducationDirection;
 using DepartmentService.Services;
-using DepartmentService.Services.StandartServices.EducationDirection;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -47,6 +45,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonService, DisciplineLessonService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonTaskService, DisciplineLessonTaskService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IDisciplineLessonTaskVariantService, DisciplineLessonTaskVariantService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISeasonDatesService, SeasonDatesService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());

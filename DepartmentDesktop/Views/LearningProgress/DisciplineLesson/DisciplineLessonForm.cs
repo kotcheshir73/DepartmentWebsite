@@ -1,7 +1,7 @@
 ﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
-using DepartmentService.IServices.StandartInterfaces.EducationDirection;
+using DepartmentService.IServices;
 using System;
 using System.Data;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Unity;
 using Unity.Attributes;
 
-namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
+namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 {
     public partial class DisciplineLessonForm : Form
     {
@@ -20,13 +20,46 @@ namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
 
         private Guid? _id = null;
 
-        public DisciplineLessonForm(IDisciplineLessonService service, Guid? id = null)
+        private Guid? _dId = null;
+
+        private string _type;
+
+        public DisciplineLessonForm(IDisciplineLessonService service, Guid? dId = null, string type = null, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
+            _dId = dId;
+            _type = type;
             if (id != Guid.Empty)
             {
                 _id = id;
+            }
+        }
+
+        private void DisciplineLessonForm_Load(object sender, EventArgs e)
+        {
+            foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
+            {
+                comboBoxLessonType.Items.Add(elem.ToString());
+            }
+            comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(_type);
+
+            var resultD = _service.GetDisciplines(new DisciplineGetBindingModel { });
+            if (!resultD.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
+                return;
+            }
+
+            comboBoxDiscipline.ValueMember = "Value";
+            comboBoxDiscipline.DisplayMember = "Display";
+            comboBoxDiscipline.DataSource = resultD.Result.List
+                .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
+            comboBoxDiscipline.SelectedValue = _dId;
+
+            if (_id.HasValue)
+            {
+                LoadData();
             }
         }
 
@@ -40,13 +73,21 @@ namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
             }
             var entity = result.Result;
 
+            comboBoxDiscipline.SelectedValue = entity.DisciplineId;
+            comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType);
             textBoxPostTitle.Text = entity.Title;
             textBoxDiscription.Text = entity.Description;
-            comboBoxDiscipline.SelectedValue = entity.DisciplineId;
+            textBoxOrder.Text = entity.Order.ToString();
+            textBoxCountOfPairs.Text = entity.CountOfPairs.ToString();
+            buttonGetFile.Enabled = entity.DisciplineLessonFile.Length > 0;
         }
 
         private bool CheckFill()
         {
+            if (string.IsNullOrEmpty(comboBoxLessonType.Text))
+            {
+                return false;
+            }
             if (string.IsNullOrEmpty(textBoxPostTitle.Text))
             {
                 return false;
@@ -54,6 +95,30 @@ namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
             if (string.IsNullOrEmpty(textBoxDiscription.Text))
             {
                 return false;
+            }
+            if (string.IsNullOrEmpty(textBoxOrder.Text))
+            {
+                return false;
+            }
+            if (!string.IsNullOrEmpty(textBoxOrder.Text))
+            {
+                int order = 0;
+                if (!int.TryParse(textBoxOrder.Text, out order))
+                {
+                    return false;
+                }
+            }
+            if (string.IsNullOrEmpty(textBoxCountOfPairs.Text))
+            {
+                return false;
+            }
+            if (!string.IsNullOrEmpty(textBoxCountOfPairs.Text))
+            {
+                int order = 0;
+                if (!int.TryParse(textBoxCountOfPairs.Text, out order))
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -67,9 +132,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
                 {
                     result = _service.CreateDisciplineLesson(new DisciplineLessonRecordBindingModel
                     {
+                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                        LessonType = comboBoxLessonType.Text,
                         Title = textBoxPostTitle.Text,
                         Description = textBoxDiscription.Text,
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString())
+                        Order = Convert.ToInt32(textBoxOrder.Text),
+                        CountOfPairs = Convert.ToInt32(textBoxCountOfPairs.Text)
                     });
                 }
                 else
@@ -77,8 +145,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
                     result = _service.UpdateDisciplineLesson(new DisciplineLessonRecordBindingModel
                     {
                         Id = _id.Value,
+                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                         Title = textBoxPostTitle.Text,
                         Description = textBoxDiscription.Text,
+                        Order = Convert.ToInt32(textBoxOrder.Text),
+                        CountOfPairs = Convert.ToInt32(textBoxCountOfPairs.Text)
                     });
                 }
                 if (result.Succeeded)
@@ -131,22 +202,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
 
         private void buttonAddFile_Click(object sender, EventArgs e)
         {
-        }
-
-        private void DisciplineLessonForm_Load(object sender, EventArgs e)
-        {
-            var resultD = _service.GetDisciplines(new DisciplineGetBindingModel { });
-
-            comboBoxDiscipline.ValueMember = "Value";
-            comboBoxDiscipline.DisplayMember = "Display";
-            comboBoxDiscipline.DataSource = resultD.Result.List
-                .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
-            comboBoxDiscipline.SelectedItem = null;
-
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
         }
     }
 }

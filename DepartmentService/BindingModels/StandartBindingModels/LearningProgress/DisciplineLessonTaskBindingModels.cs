@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirection
+namespace DepartmentService.BindingModels
 {
     public class DisciplineLessonTaskGetBindingModel : PageSettingBinidingModel
     {
@@ -22,18 +18,18 @@ namespace DepartmentService.BindingModels.StandartBindingModels.EducationDirecti
         public Guid DisciplineLessonId { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public int? VariantNumber { get; set; }
+        public string Task { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public bool IsNecessarily { get; set; }
 
         [Required(ErrorMessage = "required")]
         public int Order { get; set; }
 
         public decimal? MaxBall { get; set; }
 
-        [Required(ErrorMessage = "required")]
-        public string DisciplineLessonName { get; set; }
-
         public string Description { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte?[] Image { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using DepartmentModel;
-using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
-using DepartmentService.ViewModels.StandartViewModels.EducationDirection;
+using DepartmentService.BindingModels;
+using DepartmentService.ViewModels;
 
-namespace DepartmentService.IServices.StandartInterfaces.EducationDirection
+namespace DepartmentService.IServices
 {
     public interface IDisciplineLessonTaskService
     {

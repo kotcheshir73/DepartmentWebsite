@@ -68,9 +68,10 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
-    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\DisciplineLessonTaskBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskVariantBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\SemesterRecordBindingModels.cs" />
@@ -105,9 +106,10 @@
     <Compile Include="IServices\IAdministrationProcess.cs" />
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
-    <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskVariantService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
@@ -120,9 +122,21 @@
     <Compile Include="Migrations\201807131624088_InitMigration.Designer.cs">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807181848121_addDLTVchangedDLandDLT.cs" />
+    <Compile Include="Migrations\201807181848121_addDLTVchangedDLandDLT.Designer.cs">
+      <DependentUpon>201807181848121_addDLTVchangedDLandDLT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808161202515_dldlsr.cs" />
+    <Compile Include="Migrations\201808161202515_dldlsr.Designer.cs">
+      <DependentUpon>201808161202515_dldlsr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808161211321_dltimage.cs" />
+    <Compile Include="Migrations\201808161211321_dltimage.Designer.cs">
+      <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
     <Compile Include="Migrations\201809050604321_AddSoftwareTable.cs" />
     <Compile Include="Migrations\201809050604321_AddSoftwareTable.Designer.cs">
       <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -172,8 +186,9 @@
     <Compile Include="Services\ScheduleServices\ConsultationRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\ContingentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineBlockService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonService.cs" />
-    <Compile Include="Services\StandartServices\EducationDirection\DisciplineLessonTaskService.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonService.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonTaskService.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonTaskVariantService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineService.cs" />
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
@@ -206,9 +221,10 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonTaskViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskVariantViewModel.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
-    <Compile Include="ViewModels\StandartViewModels\EducationDirection\DisciplineLessonVeiwModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonVeiwModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerPostViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\ScheduleLessonTimeViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\SemesterRecordViewModels.cs" />
@@ -255,6 +271,14 @@
     <EmbeddedResource Include="Migrations\201807131624088_InitMigration.resx">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807181848121_addDLTVchangedDLandDLT.resx">
+      <DependentUpon>201807181848121_addDLTVchangedDLandDLT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808161202515_dldlsr.resx">
+      <DependentUpon>201808161202515_dldlsr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808161211321_dltimage.resx">
+      <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
     <EmbeddedResource Include="Migrations\201809050604321_AddSoftwareTable.resx">
       <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,6 +1,6 @@
-﻿namespace DepartmentDesktop.Views.EducationalProcess.DisciplineLesson
+﻿namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonTask
 {
-    partial class DisciplineLessonsControl
+    partial class DisciplineLessonTaskControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -33,18 +33,19 @@
             // 
             // standartControl
             // 
-            this.standartControl.Location = new System.Drawing.Point(3, 3);
+            this.standartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.standartControl.Location = new System.Drawing.Point(0, 0);
             this.standartControl.Name = "standartControl";
-            this.standartControl.Size = new System.Drawing.Size(723, 435);
+            this.standartControl.Size = new System.Drawing.Size(800, 500);
             this.standartControl.TabIndex = 0;
             // 
-            // DisciplineLessonControl
+            // DisciplineLessonTaskControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.standartControl);
-            this.Name = "DisciplineLessonControl";
-            this.Size = new System.Drawing.Size(729, 441);
+            this.Name = "DisciplineLessonTaskControl";
+            this.Size = new System.Drawing.Size(800, 500);
             this.ResumeLayout(false);
 
         }

@@ -20,7 +20,7 @@ namespace DepartmentModel.Models
 
 		[Required]
         [DataMember]
-        public LessonTypes LessonType { get; set; }
+        public DisciplineLessonTypes LessonType { get; set; }
         
 		[MaxLength(100)]
 		[Required]
@@ -33,6 +33,13 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public int Order { get; set; }
+
+        [Required]
+        [DataMember]
+        public int CountOfPairs { get; set; }
+
+        [DataMember]
+        public DateTime? Date { get; set; }
 
         [DataMember]
         public byte[] DisciplineLessonFile { get; set; }

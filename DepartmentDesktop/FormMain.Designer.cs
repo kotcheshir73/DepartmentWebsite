@@ -90,6 +90,8 @@
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.преподавательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.успеваемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.softwaresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -101,7 +103,8 @@
             this.AdminToolStripMenuItem,
             this.educationalProcessToolStripMenuItem,
             this.scheduleToolStripMenuItem,
-            this.laboratoryHeadToolStripMenuItem});
+            this.laboratoryHeadToolStripMenuItem,
+            this.преподавательToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(784, 24);
@@ -576,12 +579,28 @@
             this.softwareRecordsToolStripMenuItem.Text = "Список установленного ПО";
             this.softwareRecordsToolStripMenuItem.Click += new System.EventHandler(this.softwareRecordsToolStripMenuItem_Click);
             // 
+            // преподавательToolStripMenuItem
+            // 
+            this.преподавательToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.успеваемостьToolStripMenuItem});
+            this.преподавательToolStripMenuItem.Name = "преподавательToolStripMenuItem";
+            this.преподавательToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+            this.преподавательToolStripMenuItem.Text = "Преподаватель";
+            // 
+            // успеваемостьToolStripMenuItem
+            // 
+            this.успеваемостьToolStripMenuItem.Name = "успеваемостьToolStripMenuItem";
+            this.успеваемостьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.успеваемостьToolStripMenuItem.Text = "Успеваемость";
+            this.успеваемостьToolStripMenuItem.Click += new System.EventHandler(this.успеваемостьToolStripMenuItem_Click);
+
             // softwaresToolStripMenuItem
             // 
             this.softwaresToolStripMenuItem.Name = "softwaresToolStripMenuItem";
             this.softwaresToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
             this.softwaresToolStripMenuItem.Text = "Список ПО";
             this.softwaresToolStripMenuItem.Click += new System.EventHandler(this.softwaresToolStripMenuItem_Click);
+
             // 
             // FormMain
             // 
@@ -665,7 +684,10 @@
         private System.Windows.Forms.ToolStripMenuItem SynchronizationRolesAndAccessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SynchronizationUsersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SynchronizationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem преподавательToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem успеваемостьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softwaresToolStripMenuItem;
+
     }
 }
 

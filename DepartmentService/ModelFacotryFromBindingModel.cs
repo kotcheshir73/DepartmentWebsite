@@ -1,11 +1,11 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
+using DepartmentModel.Models.BaseEnities;
 using System;
 
 namespace DepartmentService.BindingModels
 {
-	public static class ModelFacotryFromBindingModel
+    public static class ModelFacotryFromBindingModel
 	{
         #region EducationDirection
         public static EducationDirection CreateEducationDirection(EducationDirectionSetBindingModel model, EducationDirection entity = null)
@@ -76,38 +76,6 @@ namespace DepartmentService.BindingModels
 
             return entity;
 		}
-
-        public static DisciplineLesson CreateDisciplineLesson(DisciplineLessonRecordBindingModel model, DisciplineLesson entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new DisciplineLesson();
-            }
-            entity.DisciplineId = model.DisciplineId;
-            entity.LessonType = model.LessonType;
-            entity.Title = model.Title;
-            entity.Description = model.Description;
-            entity.Order = model.Order;
-            entity.DisciplineLessonFile = model.DisciplineLessonFile;
-
-            return entity;
-        }
-
-        public static DisciplineLessonTask CreateDisciplineLessonTask(DisciplineLessonTaskRecordBindingModel model, DisciplineLessonTask entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new DisciplineLessonTask();
-            }
-            entity.DisciplineLessonId = model.DisciplineLessonId;
-            entity.VariantNumber = model.VariantNumber;
-            entity.Order = model.Order;
-            entity.MaxBall = model.MaxBall;
-            entity.Description = model.Description;
-            entity.Image = model.Image;
-
-            return entity;
-        }
 
         public static Lecturer CreateLecturer(LecturerSetBindingModel model, Lecturer entity = null)
 		{
@@ -593,6 +561,56 @@ namespace DepartmentService.BindingModels
             entity.SoftwareId = model.SoftwareId;
             entity.SetupDescription = model.SetupDescription;
             entity.ClaimNumber = model.ClaimNumber;
+
+            return entity;
+        }
+        #endregion
+
+        #region LearningProgress
+        public static DisciplineLesson CreateDisciplineLesson(DisciplineLessonRecordBindingModel model, DisciplineLesson entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLesson();
+            }
+            entity.DisciplineId = model.DisciplineId;
+            entity.LessonType = (DisciplineLessonTypes)Enum.Parse(typeof(DisciplineLessonTypes), model.LessonType);
+            entity.Title = model.Title;
+            entity.Description = model.Description;
+            entity.Order = model.Order;
+            entity.DisciplineLessonFile = model.DisciplineLessonFile;
+            entity.Date = model.Date;
+            entity.CountOfPairs = model.CountOfPairs;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTask CreateDisciplineLessonTask(DisciplineLessonTaskRecordBindingModel model, DisciplineLessonTask entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTask();
+            }
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.Order = model.Order;
+            entity.Description = model.Description;
+            entity.Image = model.Image;
+            entity.IsNecessarily = model.IsNecessarily;
+            entity.MaxBall = model.MaxBall;
+            entity.Task = model.Task;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTaskVariant CreateDisciplineLessonTaskVariant(DisciplineLessonTaskVariantRecordBindingModel model, DisciplineLessonTaskVariant entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTaskVariant();
+            }
+            entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
+            entity.VariantNumber = model.VariantNumber;
+            entity.VariantTask = model.VariantTask;
 
             return entity;
         }

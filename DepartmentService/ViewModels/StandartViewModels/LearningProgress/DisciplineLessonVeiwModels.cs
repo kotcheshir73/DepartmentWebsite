@@ -1,7 +1,7 @@
 ﻿using DepartmentModel.Enums;
 using System;
 
-namespace DepartmentService.ViewModels.StandartViewModels.EducationDirection
+namespace DepartmentService.ViewModels
 {
     public class DisciplineLessonPageViewModel : PageViewModel<DisciplineLessonViewModel> { }
 
@@ -11,13 +11,21 @@ namespace DepartmentService.ViewModels.StandartViewModels.EducationDirection
 
         public Guid DisciplineId { get; set; }
 
-        public LessonTypes LessonType { get; set; }
+        public DisciplineLessonTypes LessonType { get; set; }
+
+        public string Discipline { get; set; }
 
         public string Title { get; set; }
 
         public string Description { get; set; }
 
         public int Order { get; set; }
+
+        public int CountOfPairs { get; set; }
+
+        public int CountTasks { get; set; }
+
+        public DateTime? Date { get; set; }
 
         public byte[] DisciplineLessonFile { get; set; }
     }
