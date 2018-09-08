@@ -321,11 +321,11 @@
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.Designer.cs">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\LearningProgress\LearningProgressForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Views\LearningProgress\LearningProgressControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\LearningProgress\LearningProgressForm.Designer.cs">
-      <DependentUpon>LearningProgressForm.cs</DependentUpon>
+    <Compile Include="Views\LearningProgress\LearningProgressControl.Designer.cs">
+      <DependentUpon>LearningProgressControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.cs">
       <SubType>UserControl</SubType>
@@ -845,8 +845,8 @@
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.resx">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LearningProgress\LearningProgressForm.resx">
-      <DependentUpon>LearningProgressForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\LearningProgress\LearningProgressControl.resx">
+      <DependentUpon>LearningProgressControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.resx">
       <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>

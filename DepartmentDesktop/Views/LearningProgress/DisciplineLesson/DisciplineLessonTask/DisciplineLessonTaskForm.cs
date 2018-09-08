@@ -1,4 +1,5 @@
-﻿using DepartmentModel;
+﻿using DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonTask.DisciplineLessonTaskVariant;
+using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -55,6 +56,14 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private void LoadData()
         {
+            if (tabPageRecords.Controls.Count == 0)
+            {
+                var control = Container.Resolve<DisciplineLessonTaskVariantControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+            }
+            (tabPageRecords.Controls[0] as DisciplineLessonTaskVariantControl).LoadData(_id.Value);
+
             var result = _service.GetDisciplineLessonTask(new DisciplineLessonTaskGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
@@ -73,7 +82,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             {
                 textBoxMaxBall.Text = entity.MaxBall.Value.ToString();
             }
-            buttonGetFile.Enabled = entity.Image.Length > 0;
+            if (entity.Image != null)
+            {
+                buttonGetFile.Enabled = entity.Image.Length > 0;
+            }
         }
 
         private bool CheckFill()
@@ -134,7 +146,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                         Description = textBoxDiscription.Text,
                         IsNecessarily = checkBoxIsNecessarily.Checked,
                         Order = Convert.ToInt32(textBoxOrder.Text),
-                        MaxBall = checkBoxMaxBall.Checked ? Convert.ToInt32(textBoxMaxBall.Text) : (decimal?)null
+                        MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
                     });
                 }
                 else
@@ -147,7 +159,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                         Description = textBoxDiscription.Text,
                         IsNecessarily = checkBoxIsNecessarily.Checked,
                         Order = Convert.ToInt32(textBoxOrder.Text),
-                        MaxBall = checkBoxMaxBall.Checked ? Convert.ToInt32(textBoxMaxBall.Text) : (decimal?)null
+                        MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
                     });
                 }
                 if (result.Succeeded)

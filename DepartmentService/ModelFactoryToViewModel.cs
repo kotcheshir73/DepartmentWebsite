@@ -691,6 +691,7 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                DisciplineLessonTaskTask = entity.DisciplineLessonTask.Task,
                 VariantNumber = entity.VariantNumber,
                 VariantTask = entity.VariantTask,
                 Order = entity.Order

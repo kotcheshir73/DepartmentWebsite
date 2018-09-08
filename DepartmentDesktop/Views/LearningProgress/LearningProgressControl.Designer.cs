@@ -1,16 +1,16 @@
 ﻿namespace DepartmentDesktop.Views.LearningProgress
 {
-    partial class LearningProgressForm
+    partial class LearningProgressControl
     {
-        /// <summary>
-        /// Required designer variable.
+        /// <summary> 
+        /// Обязательная переменная конструктора.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
+        /// <summary> 
+        /// Освободить все используемые ресурсы.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Код, автоматически созданный конструктором компонентов
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// <summary> 
+        /// Требуемый метод для поддержки конструктора — не изменяйте 
+        /// содержимое этого метода с помощью редактора кода.
         /// </summary>
         private void InitializeComponent()
         {
@@ -38,7 +38,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(13, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 0;
@@ -46,11 +46,12 @@
             // 
             // comboBoxDisciplines
             // 
+            this.comboBoxDisciplines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplines.FormattingEnabled = true;
             this.comboBoxDisciplines.Location = new System.Drawing.Point(98, 9);
             this.comboBoxDisciplines.Name = "comboBoxDisciplines";
-            this.comboBoxDisciplines.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxDisciplines.TabIndex = 2;
+            this.comboBoxDisciplines.Size = new System.Drawing.Size(427, 21);
+            this.comboBoxDisciplines.TabIndex = 1;
             this.comboBoxDisciplines.SelectedIndexChanged += new System.EventHandler(this.comboBoxDisciplines_SelectedIndexChanged);
             // 
             // tabControl
@@ -59,7 +60,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 39);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(840, 352);
+            this.tabControl.Size = new System.Drawing.Size(800, 461);
             this.tabControl.TabIndex = 1;
             // 
             // panelTop
@@ -69,19 +70,17 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(840, 39);
-            this.panelTop.TabIndex = 5;
+            this.panelTop.Size = new System.Drawing.Size(800, 39);
+            this.panelTop.TabIndex = 0;
             // 
-            // LearningProgressForm
+            // LearningProgressControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 391);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panelTop);
-            this.Name = "LearningProgressForm";
-            this.Text = "Успеваемость";
-            this.Load += new System.EventHandler(this.LearningProgressForm_Load);
+            this.Name = "LearningProgressControl";
+            this.Size = new System.Drawing.Size(800, 500);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.ResumeLayout(false);

@@ -27,12 +27,9 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "DisciplineLessonTitle", Title = "Занятие", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Task", Title = "Задание", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Description", Title = "Описание", Width = 300, Visible = true },
-                new ColumnConfig { Name = "MaxBall", Title = "Максимальный балл", Width = 100, Visible = true },
-                new ColumnConfig { Name = "IsNecessarily", Title = "Обязательное", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 150, Visible = true }
+                new ColumnConfig { Name = "DisciplineLessonTaskTask", Title = "Задание", Width = 200, Visible = true },
+                new ColumnConfig { Name = "VariantNumber", Title = "Вариант", Width = 150, Visible = true },
+                new ColumnConfig { Name = "VariantTask", Title = "Задание по варианту", Width = 500, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -86,6 +83,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             {
                 standartControl.GetDataGridViewRows.Add(
                      res.Id,
+                     res.DisciplineLessonTaskTask,
                      res.VariantNumber,
                      res.VariantTask
                 );

@@ -1,35 +1,40 @@
-﻿using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
-using DepartmentModel.Enums;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Data;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
 using Unity.Attributes;
+using Unity;
+using DepartmentService.IServices;
+using DepartmentModel.Enums;
+using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
+using DepartmentService.BindingModels;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {
-    public partial class LearningProgressForm : Form
+    public partial class LearningProgressControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IDisciplineService _serviceD;
+        private readonly ILearningProgressProcess _process;
 
         private readonly IDisciplineLessonService _serviceDL;
 
-        public LearningProgressForm(IDisciplineService serviceD, IDisciplineLessonService serviceDL)
+        public LearningProgressControl(ILearningProgressProcess process, IDisciplineLessonService serviceDL)
         {
             InitializeComponent();
-            _serviceD = serviceD;
+            _process = process;
             _serviceDL = serviceDL;
         }
 
-        private void LearningProgressForm_Load(object sender, EventArgs e)
+        public void LoadData()
         {
-            var resultD = _serviceD.GetDisciplines(new DisciplineGetBindingModel { });
+            var resultD = _process.GetDisciplines(new LearningProcessDisciplineBindingModel { UserId = AuthorizationService.UserId.Value });
             if (!resultD.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
@@ -38,7 +43,7 @@ namespace DepartmentDesktop.Views.LearningProgress
 
             comboBoxDisciplines.ValueMember = "Value";
             comboBoxDisciplines.DisplayMember = "Display";
-            comboBoxDisciplines.DataSource = resultD.Result.List
+            comboBoxDisciplines.DataSource = resultD.Result
                 .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
             comboBoxDisciplines.SelectedItem = null;
 

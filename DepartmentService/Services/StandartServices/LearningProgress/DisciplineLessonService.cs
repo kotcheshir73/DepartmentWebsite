@@ -64,7 +64,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(x => x.Discipline);
+                query = query.Include(x => x.Discipline).Include(x => x.DisciplineLessonTasks);
 
                 var result = new DisciplineLessonPageViewModel
                 {

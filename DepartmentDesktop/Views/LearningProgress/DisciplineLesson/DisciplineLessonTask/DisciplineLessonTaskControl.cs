@@ -28,11 +28,11 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "DisciplineLessonTitle", Title = "Занятие", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Task", Title = "Задание", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Task", Title = "Задание", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Description", Title = "Описание", Width = 200, Visible = true },
-                new ColumnConfig { Name = "IsNecessarily", Title = "Обязательность", Width = 200, Visible = true },
-                new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 150, Visible = true }
+                new ColumnConfig { Name = "IsNecessarily", Title = "Обязательность", Width = 100, Visible = true },
+                new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 100, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -96,10 +96,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             var form = Container.Resolve<DisciplineLessonTaskForm>(
                 new ParameterOverrides
                 {
-                    { "_dlId", _dlId },
+                    { "dlId", _dlId },
                     { "id", Guid.Empty }
                 }
-                .OnType<DisciplineLessonForm>());
+                .OnType<DisciplineLessonTaskForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -114,10 +114,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                 var form = Container.Resolve<DisciplineLessonTaskForm>(
                     new ParameterOverrides
                     {
-                        { "_dlId", _dlId },
+                        { "dlId", _dlId },
                         { "id", id }
                     }
-                    .OnType<DisciplineLessonForm>());
+                    .OnType<DisciplineLessonTaskForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

@@ -1,4 +1,5 @@
-﻿using DepartmentModel;
+﻿using DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonTask;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
@@ -65,6 +66,14 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private void LoadData()
         {
+            if (tabPageRecords.Controls.Count == 0)
+            {
+                var control = Container.Resolve<DisciplineLessonTaskControl>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+            }
+            (tabPageRecords.Controls[0] as DisciplineLessonTaskControl).LoadData(_id.Value);
+
             var result = _service.GetDisciplineLesson(new DisciplineLessonGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
@@ -79,7 +88,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             textBoxDiscription.Text = entity.Description;
             textBoxOrder.Text = entity.Order.ToString();
             textBoxCountOfPairs.Text = entity.CountOfPairs.ToString();
-            buttonGetFile.Enabled = entity.DisciplineLessonFile.Length > 0;
+            if (entity.DisciplineLessonFile != null)
+            {
+                buttonGetFile.Enabled = entity.DisciplineLessonFile.Length > 0;
+            }
         }
 
         private bool CheckFill()

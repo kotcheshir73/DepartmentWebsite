@@ -247,7 +247,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(924, 414);
+            this.tabPageRecords.Size = new System.Drawing.Size(926, 415);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Задания";
             this.tabPageRecords.UseVisualStyleBackColor = true;
