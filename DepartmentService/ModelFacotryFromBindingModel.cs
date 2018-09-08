@@ -139,6 +139,7 @@ namespace DepartmentService.BindingModels
             entity.Hours = model.Hours;
             entity.NumKoef = model.NumKoef;
             entity.TimeNormKoef = string.IsNullOrEmpty(model.TimeNormKoef) ? TimeNormKoef.Пусто : (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
+            entity.UseInLearningProgress = model.UseInLearningProgress;
 
             return entity;
 		}
@@ -575,8 +576,9 @@ namespace DepartmentService.BindingModels
             }
             entity.AcademicYearId = model.AcademicYearId;
             entity.DisciplineId = model.DisciplineId;
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.TimeNormId = model.TimeNormId;
             entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
-            entity.LessonType = (DisciplineLessonTypes)Enum.Parse(typeof(DisciplineLessonTypes), model.LessonType);
             entity.Title = model.Title;
             entity.Description = model.Description;
             entity.Order = model.Order;

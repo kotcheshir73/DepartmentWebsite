@@ -53,5 +53,7 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string TimeNormKoef { get; set; }
+
+        public bool UseInLearningProgress { get; set; }
     }
 }

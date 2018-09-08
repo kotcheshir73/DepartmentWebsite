@@ -19,13 +19,19 @@ namespace DepartmentService.Services
 
         private readonly IDisciplineService _serviceD;
 
+        private readonly IEducationDirectionService _serviceED;
+
+        private readonly ITimeNormService _serviceTN;
+
         private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
 
-        public DisciplineLessonService(DepartmentDbContext context, IAcademicYearService serviceAY, IDisciplineService serviceD)
+        public DisciplineLessonService(DepartmentDbContext context, IAcademicYearService serviceAY, IDisciplineService serviceD, IEducationDirectionService serviceED, ITimeNormService serviceTN)
         {
             _context = context;
             _serviceAY = serviceAY;
             _serviceD = serviceD;
+            _serviceED = serviceED;
+            _serviceTN = serviceTN;
         }
 
         public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
@@ -36,6 +42,16 @@ namespace DepartmentService.Services
         public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
         {
             return _serviceD.GetDisciplines(model);
+        }
+
+        public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
+        {
+            return _serviceED.GetEducationDirections(model);
+        }
+
+        public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
+        {
+            return _serviceTN.GetTimeNorms(model);
         }
 
         public ResultService<DisciplineLessonPageViewModel> GetDisciplineLessons(DisciplineLessonGetBindingModel model)
@@ -58,10 +74,13 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(x => x.DisciplineId == model.DisciplineId);
                 }
-                if (!string.IsNullOrEmpty(model.LessonType))
+                if (model.EducationDirectionId.HasValue)
                 {
-                    var LessonType = (DisciplineLessonTypes)Enum.Parse(typeof(DisciplineLessonTypes), model.LessonType);
-                    query = query.Where(x => x.LessonType == LessonType);
+                    query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);
+                }
+                if (model.TimeNormId.HasValue)
+                {
+                    query = query.Where(x => x.TimeNormId == model.TimeNormId);
                 }
                 if (model.Id.HasValue)
                 {
@@ -78,7 +97,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(x => x.AcademicYear).Include(x => x.Discipline).Include(x => x.DisciplineLessonTasks);
+                query = query.Include(x => x.AcademicYear).Include(x => x.Discipline).Include(x => x.EducationDirection).Include(x => x.TimeNorm).Include(x => x.DisciplineLessonTasks);
 
                 var result = new DisciplineLessonPageViewModel
                 {

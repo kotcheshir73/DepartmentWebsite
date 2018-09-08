@@ -64,6 +64,7 @@
             // 
             // textBoxMaxBall
             // 
+            this.textBoxMaxBall.Enabled = false;
             this.textBoxMaxBall.Location = new System.Drawing.Point(151, 207);
             this.textBoxMaxBall.Name = "textBoxMaxBall";
             this.textBoxMaxBall.Size = new System.Drawing.Size(72, 20);
@@ -247,7 +248,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(884, 448);
+            this.tabPageRecords.Size = new System.Drawing.Size(876, 445);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Варианты";
             this.tabPageRecords.UseVisualStyleBackColor = true;

@@ -31,8 +31,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                 new ColumnConfig { Name = "Task", Title = "Задание", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Description", Title = "Описание", Width = 200, Visible = true },
                 new ColumnConfig { Name = "IsNecessarily", Title = "Обязательность", Width = 100, Visible = true },
-                new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 100, Visible = true }
+                new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 100, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -84,8 +83,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                     res.Task,
                     res.Description,
                     res.IsNecessarily ? "Да" : "Нет",
-                    res.MaxBall?.ToString() ?? "Нет",
-                    res.Order
+                    res.MaxBall?.ToString() ?? "Нет"
                 );
             }
             return result.Result.MaxCount;

@@ -140,6 +140,14 @@
     <Compile Include="Migrations\201809080840330_DisiplineLessonAddSemester.Designer.cs">
       <DependentUpon>201809080840330_DisiplineLessonAddSemester.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809081433404_DisiplineLessonLinkTimeNorm.cs" />
+    <Compile Include="Migrations\201809081433404_DisiplineLessonLinkTimeNorm.Designer.cs">
+      <DependentUpon>201809081433404_DisiplineLessonLinkTimeNorm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.cs" />
+    <Compile Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.Designer.cs">
+      <DependentUpon>201809081701310_DisiplineLessonLinkEducationDirection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -286,6 +294,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080840330_DisiplineLessonAddSemester.resx">
       <DependentUpon>201809080840330_DisiplineLessonAddSemester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809081433404_DisiplineLessonLinkTimeNorm.resx">
+      <DependentUpon>201809081433404_DisiplineLessonLinkTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.resx">
+      <DependentUpon>201809081701310_DisiplineLessonLinkEducationDirection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
