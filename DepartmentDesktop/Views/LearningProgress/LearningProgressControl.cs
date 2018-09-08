@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
+using DepartmentModel.Enums;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity.Attributes;
 using Unity;
-using DepartmentService.IServices;
-using DepartmentModel.Enums;
-using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
-using DepartmentService.BindingModels;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {
@@ -34,18 +29,18 @@ namespace DepartmentDesktop.Views.LearningProgress
 
         public void LoadData()
         {
-            var resultD = _process.GetDisciplines(new LearningProcessDisciplineBindingModel { UserId = AuthorizationService.UserId.Value });
-            if (!resultD.Succeeded)
+            var resultAY = _serviceDL.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (!resultAY.Succeeded)
             {
-                Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
+                Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
                 return;
             }
 
-            comboBoxDisciplines.ValueMember = "Value";
-            comboBoxDisciplines.DisplayMember = "Display";
-            comboBoxDisciplines.DataSource = resultD.Result
-                .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
-            comboBoxDisciplines.SelectedItem = null;
+            comboBoxAcademicYear.ValueMember = "Value";
+            comboBoxAcademicYear.DisplayMember = "Display";
+            comboBoxAcademicYear.DataSource = resultAY.Result.List
+                .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
+            comboBoxAcademicYear.SelectedItem = null;
 
             int counter = 0;
             foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
@@ -65,7 +60,7 @@ namespace DepartmentDesktop.Views.LearningProgress
 
         private void comboBoxDisciplines_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxDisciplines.SelectedIndex > 0)
+            if (comboBoxDisciplines.SelectedValue != null)
             {
                 foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
                 {
@@ -78,9 +73,33 @@ namespace DepartmentDesktop.Views.LearningProgress
                             controlDL.Dock = DockStyle.Fill;
                             tabPage.Controls.Add(controlDL);
                         }
-                        (tabPage.Controls[0] as DisciplineLessonControl).LoadData(new Guid(comboBoxDisciplines.SelectedValue.ToString()), elem.ToString());
+                        (tabPage.Controls[0] as DisciplineLessonControl).LoadData(new Guid(comboBoxAcademicYear.SelectedValue.ToString()), new Guid(comboBoxDisciplines.SelectedValue.ToString()), 
+                            elem.ToString());
                     }
                 }
+            }
+        }
+
+        private void comboBoxAcademicYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxAcademicYear.SelectedValue != null)
+            {
+                var resultD = _process.GetDisciplines(new LearningProcessDisciplineBindingModel
+                {
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    UserId = AuthorizationService.UserId.Value
+                });
+                if (!resultD.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
+                    return;
+                }
+
+                comboBoxDisciplines.ValueMember = "Value";
+                comboBoxDisciplines.DisplayMember = "Display";
+                comboBoxDisciplines.DataSource = resultD.Result
+                    .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
+                comboBoxDisciplines.SelectedItem = null;
             }
         }
     }

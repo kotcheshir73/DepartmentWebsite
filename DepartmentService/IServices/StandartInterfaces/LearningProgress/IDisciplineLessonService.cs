@@ -7,6 +7,13 @@ namespace DepartmentService.IServices
     public interface IDisciplineLessonService
     {
         /// <summary>
+        /// Получение списка учебных годов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
+
+        /// <summary>
         /// Получение списка дисциплин
         /// </summary>
         /// <param name="model"></param>

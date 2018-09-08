@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Data.Entity;
 
 namespace DepartmentService.Services
 {
@@ -38,22 +39,30 @@ namespace DepartmentService.Services
                     return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "disciplineBlock(Дисциплины (модули)) not found",
                         ResultServiceStatusCode.NotFound);
                 }
+                
+                var user = _context.Users.FirstOrDefault(x => x.Id == model.UserId);
 
-                //TODO
-                //var user = _context.Users.FirstOrDefault(x => x.Id == model.UserId);
+                if (user == null)
+                {
+                    return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "Пользователь не найден",
+                        ResultServiceStatusCode.NotFound);
+                }
+                if (!user.LecturerId.HasValue)
+                {
+                    return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "У пользователя нет аккаунта преподавателя",
+                        ResultServiceStatusCode.NotFound);
+                }
 
-                //if (user == null)
-                //{
-                //    return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "Пользователь не найден",
-                //        ResultServiceStatusCode.NotFound);
-                //}
-                //if (!user.LecturerId.HasValue)
-                //{
-                //    return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "У пользователя нет аккаунта преподавателя",
-                //        ResultServiceStatusCode.NotFound);
-                //}
+                var disciplineIds = _context.AcademicPlanRecordMissions
+                    .Include(x => x.AcademicPlanRecordElement)
+                    .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
+                    .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                    .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId &&
+                                        x.LecturerId == user.LecturerId)
+                    .Select(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId)
+                    .ToList();
 
-                var query = _context.Disciplines.Where(x => !x.IsDeleted && x.DisciplineBlockId == disciplineBlockModuls.Id).OrderBy(x => x.DisciplineName);
+                var query = _context.Disciplines.Where(x => !x.IsDeleted && x.DisciplineBlockId == disciplineBlockModuls.Id && disciplineIds.Contains(x.Id)).OrderBy(x => x.DisciplineName);
 
                 return ResultService<List<LearningProcessDisciplineViewModel>>.Success(query.Select(x => new LearningProcessDisciplineViewModel
                 {

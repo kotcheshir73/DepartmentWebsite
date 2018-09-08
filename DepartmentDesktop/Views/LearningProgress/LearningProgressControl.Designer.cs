@@ -28,30 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelDiscipline = new System.Windows.Forms.Label();
             this.comboBoxDisciplines = new System.Windows.Forms.ComboBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.labelAcademicYear = new System.Windows.Forms.Label();
+            this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // labelDiscipline
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Дисциплина";
+            this.labelDiscipline.AutoSize = true;
+            this.labelDiscipline.Location = new System.Drawing.Point(333, 11);
+            this.labelDiscipline.Name = "labelDiscipline";
+            this.labelDiscipline.Size = new System.Drawing.Size(70, 13);
+            this.labelDiscipline.TabIndex = 2;
+            this.labelDiscipline.Text = "Дисциплина";
             // 
             // comboBoxDisciplines
             // 
             this.comboBoxDisciplines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplines.FormattingEnabled = true;
-            this.comboBoxDisciplines.Location = new System.Drawing.Point(98, 9);
+            this.comboBoxDisciplines.Location = new System.Drawing.Point(418, 8);
             this.comboBoxDisciplines.Name = "comboBoxDisciplines";
             this.comboBoxDisciplines.Size = new System.Drawing.Size(427, 21);
-            this.comboBoxDisciplines.TabIndex = 1;
+            this.comboBoxDisciplines.TabIndex = 3;
             this.comboBoxDisciplines.SelectedIndexChanged += new System.EventHandler(this.comboBoxDisciplines_SelectedIndexChanged);
             // 
             // tabControl
@@ -60,18 +62,39 @@
             this.tabControl.Location = new System.Drawing.Point(0, 39);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(800, 461);
+            this.tabControl.Size = new System.Drawing.Size(1000, 461);
             this.tabControl.TabIndex = 1;
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.label1);
+            this.panelTop.Controls.Add(this.comboBoxAcademicYear);
+            this.panelTop.Controls.Add(this.labelAcademicYear);
+            this.panelTop.Controls.Add(this.labelDiscipline);
             this.panelTop.Controls.Add(this.comboBoxDisciplines);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(800, 39);
+            this.panelTop.Size = new System.Drawing.Size(1000, 39);
             this.panelTop.TabIndex = 0;
+            // 
+            // labelAcademicYear
+            // 
+            this.labelAcademicYear.AutoSize = true;
+            this.labelAcademicYear.Location = new System.Drawing.Point(16, 11);
+            this.labelAcademicYear.Name = "labelAcademicYear";
+            this.labelAcademicYear.Size = new System.Drawing.Size(75, 13);
+            this.labelAcademicYear.TabIndex = 0;
+            this.labelAcademicYear.Text = "Учебный год:";
+            // 
+            // comboBoxAcademicYear
+            // 
+            this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAcademicYear.FormattingEnabled = true;
+            this.comboBoxAcademicYear.Location = new System.Drawing.Point(97, 8);
+            this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
+            this.comboBoxAcademicYear.Size = new System.Drawing.Size(163, 21);
+            this.comboBoxAcademicYear.TabIndex = 1;
+            this.comboBoxAcademicYear.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcademicYear_SelectedIndexChanged);
             // 
             // LearningProgressControl
             // 
@@ -80,7 +103,7 @@
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panelTop);
             this.Name = "LearningProgressControl";
-            this.Size = new System.Drawing.Size(800, 500);
+            this.Size = new System.Drawing.Size(1000, 500);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.ResumeLayout(false);
@@ -89,9 +112,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelDiscipline;
         private System.Windows.Forms.ComboBox comboBoxDisciplines;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.ComboBox comboBoxAcademicYear;
+        private System.Windows.Forms.Label labelAcademicYear;
     }
 }

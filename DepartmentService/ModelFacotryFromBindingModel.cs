@@ -573,7 +573,9 @@ namespace DepartmentService.BindingModels
             {
                 entity = new DisciplineLesson();
             }
+            entity.AcademicYearId = model.AcademicYearId;
             entity.DisciplineId = model.DisciplineId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.LessonType = (DisciplineLessonTypes)Enum.Parse(typeof(DisciplineLessonTypes), model.LessonType);
             entity.Title = model.Title;
             entity.Description = model.Description;

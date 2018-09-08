@@ -7,6 +7,8 @@ namespace DepartmentService.BindingModels
     {
         public Guid? Id { get; set; }
 
+        public Guid? AcademicYearId { get; set; }
+
         public Guid? DisciplineId { get; set; }
 
         public string LessonType { get; set; }
@@ -16,10 +18,15 @@ namespace DepartmentService.BindingModels
     {
         public Guid Id { get; set; }
 
+        public Guid AcademicYearId { get; set; }
+
         [Required(ErrorMessage = "required")]
         public Guid DisciplineId { get; set; }
 
         public string Disciplne { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string Semester { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string LessonType { get; set; }

@@ -21,14 +21,17 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private Guid? _id = null;
 
+        private Guid? _ayId = null;
+
         private Guid? _dId = null;
 
         private string _type;
 
-        public DisciplineLessonForm(IDisciplineLessonService service, Guid? dId = null, string type = null, Guid? id = null)
+        public DisciplineLessonForm(IDisciplineLessonService service, Guid? ayId = null, Guid? dId = null, string type = null, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
+            _ayId = ayId;
             _dId = dId;
             _type = type;
             if (id != Guid.Empty)
@@ -39,11 +42,30 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private void DisciplineLessonForm_Load(object sender, EventArgs e)
         {
+            foreach (var elem in Enum.GetValues(typeof(Semesters)))
+            {
+                comboBoxSemester.Items.Add(elem.ToString());
+            }
+            comboBoxSemester.SelectedIndex = 0;
+
             foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
             {
                 comboBoxLessonType.Items.Add(elem.ToString());
             }
             comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(_type);
+
+            var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (!resultAY.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке учбеных годов возникла ошибка: ", resultAY.Errors);
+                return;
+            }
+
+            comboBoxAcademicYear.ValueMember = "Value";
+            comboBoxAcademicYear.DisplayMember = "Display";
+            comboBoxAcademicYear.DataSource = resultAY.Result.List
+                .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
+            comboBoxAcademicYear.SelectedValue = _ayId;
 
             var resultD = _service.GetDisciplines(new DisciplineGetBindingModel { });
             if (!resultD.Succeeded)
@@ -82,7 +104,9 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             }
             var entity = result.Result;
 
+            comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
             comboBoxDiscipline.SelectedValue = entity.DisciplineId;
+            comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
             comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType);
             textBoxPostTitle.Text = entity.Title;
             textBoxDiscription.Text = entity.Description;
@@ -96,6 +120,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private bool CheckFill()
         {
+            if (string.IsNullOrEmpty(comboBoxSemester.Text))
+            {
+                return false;
+            }
             if (string.IsNullOrEmpty(comboBoxLessonType.Text))
             {
                 return false;
@@ -144,7 +172,9 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                 {
                     result = _service.CreateDisciplineLesson(new DisciplineLessonRecordBindingModel
                     {
+                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                        Semester = comboBoxSemester.Text,
                         LessonType = comboBoxLessonType.Text,
                         Title = textBoxPostTitle.Text,
                         Description = textBoxDiscription.Text,
@@ -157,7 +187,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                     result = _service.UpdateDisciplineLesson(new DisciplineLessonRecordBindingModel
                     {
                         Id = _id.Value,
+                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                         DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                        Semester = comboBoxSemester.Text,
+                        LessonType = comboBoxLessonType.Text,
                         Title = textBoxPostTitle.Text,
                         Description = textBoxDiscription.Text,
                         Order = Convert.ToInt32(textBoxOrder.Text),

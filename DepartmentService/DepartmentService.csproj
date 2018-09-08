@@ -132,6 +132,14 @@
     <Compile Include="Migrations\201809080547151_DisiplineLessonMigration.Designer.cs">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.cs" />
+    <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.Designer.cs">
+      <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809080840330_DisiplineLessonAddSemester.cs" />
+    <Compile Include="Migrations\201809080840330_DisiplineLessonAddSemester.Designer.cs">
+      <DependentUpon>201809080840330_DisiplineLessonAddSemester.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -272,6 +280,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080547151_DisiplineLessonMigration.resx">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.resx">
+      <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809080840330_DisiplineLessonAddSemester.resx">
+      <DependentUpon>201809080840330_DisiplineLessonAddSemester.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

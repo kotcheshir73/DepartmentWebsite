@@ -19,6 +19,8 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private Guid _dId;
 
+        private Guid _ayId;
+
         private string _type;
 
         public DisciplineLessonControl(IDisciplineLessonService service)
@@ -63,8 +65,9 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             });
         }
 
-        public void LoadData(Guid dId, string type)
+        public void LoadData(Guid ayId, Guid dId, string type)
         {
+            _ayId = ayId;
             _dId = dId;
             _type = type;
             standartControl.LoadPage();
@@ -72,7 +75,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { DisciplineId = _dId, LessonType = _type, PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { AcademicYearId = _ayId, DisciplineId = _dId, LessonType = _type, PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -99,6 +102,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             var form = Container.Resolve<DisciplineLessonForm>(
                 new ParameterOverrides
                 {
+                    { "ayId", _ayId },
                     { "dId", _dId },
                     { "type", _type },
                     { "id", Guid.Empty }
@@ -118,6 +122,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                 var form = Container.Resolve<DisciplineLessonForm>(
                     new ParameterOverrides
                     {
+                        { "ayId", _ayId },
                         { "dId", _dId },
                         { "type", _type },
                         { "id", id }

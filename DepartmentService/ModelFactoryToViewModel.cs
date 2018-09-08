@@ -650,14 +650,16 @@ namespace DepartmentService.ViewModels
         #endregion
 
         #region LearningProgress
-
         public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
         {
             return new DisciplineLessonViewModel
             {
                 Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
                 DisciplineId = entity.DisciplineId,
+                AcademicYear = entity.AcademicYear.Title,
                 Discipline = entity.Discipline.DisciplineName,
+                Semester = entity.Semester,
                 LessonType = entity.LessonType,
                 Title = entity.Title,
                 Description = entity.Description,

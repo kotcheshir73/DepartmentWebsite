@@ -16,9 +16,17 @@ namespace DepartmentModel.Models
     {
         [Required]
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [Required]
+        [DataMember]
         public Guid DisciplineId { get; set; }
 
-		[Required]
+        [Required]
+        [DataMember]
+        public Semesters Semester { get; set; }
+
+        [Required]
         [DataMember]
         public DisciplineLessonTypes LessonType { get; set; }
         
@@ -45,6 +53,8 @@ namespace DepartmentModel.Models
         public byte[] DisciplineLessonFile { get; set; }
 
         //-------------------------------------------------------------------------
+
+        public virtual AcademicYear AcademicYear { get; set; }
 
         public virtual Discipline Discipline { get; set; }
 
