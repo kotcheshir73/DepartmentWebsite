@@ -34,14 +34,22 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                 new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 100, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string>();
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "MakeCloneToolStripMenuItem", "Дублировать варианты"},
+                    { "FormDisciplineLessonTasksToolStripMenuItem", "Сформировать задания"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("MakeCloneToolStripMenuItem", MakeCloneToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("FormDisciplineLessonTasksToolStripMenuItem", FormDisciplineLessonTasksToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -141,6 +149,23 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                     standartControl.LoadPage();
                 }
             }
+        }
+
+        private void MakeCloneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //var form = Container.Resolve<MaterialTechnicalValueReport>();
+            //form.Show();
+        }
+
+        private void FormDisciplineLessonTasksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormDisciplineLessonTasksForm>(
+                new ParameterOverrides
+                {
+                    { "dlId", _dlId }
+                }
+                .OnType<FormDisciplineLessonTasksForm>());
+            form.Show();
         }
     }
 }

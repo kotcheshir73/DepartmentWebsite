@@ -16,7 +16,7 @@ namespace DepartmentService.BindingModels
         public Guid? TimeNormId { get; set; }
     }
 
-    public class DisciplineLessonRecordBindingModel : PageSettingBinidingModel
+    public class DisciplineLessonRecordBindingModel
     {
         public Guid Id { get; set; }
 
@@ -34,9 +34,6 @@ namespace DepartmentService.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string Semester { get; set; }
-
-        [Required(ErrorMessage = "required")]
-        public string LessonType { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Title { get; set; }

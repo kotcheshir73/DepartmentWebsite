@@ -10,5 +10,9 @@ namespace DepartmentService.IServices
         ResultService<List<LearningProcessDisciplineViewModel>> GetDisciplines(LearningProcessDisciplineBindingModel model);
 
         ResultService<List<LearningProcessDisciplineDetailViewModel>> GetDisciplineDetails(LearningProcessDisciplineDetailBindingModel model);
+
+        ResultService FormDisciplineLessons(LearningProcessFormDisciplineLessonsBindingModel model);
+
+        ResultService FormDisciplineLessonTaskss(LearningProcessFormDisciplineLessonTasksBindingModel model);
     }
 }
