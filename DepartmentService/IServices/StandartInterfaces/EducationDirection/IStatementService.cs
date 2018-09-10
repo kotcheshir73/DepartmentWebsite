@@ -32,7 +32,7 @@ namespace DepartmentService.IServices
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateAllFindStatement(StatementSetBindingModel model);
+		ResultService CreateAllFindStatement(AcademicYearGetBindingModel model);
 
         /// <summary>
         /// Изменение элемента записи учебного плана

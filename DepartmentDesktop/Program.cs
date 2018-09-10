@@ -71,6 +71,8 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IAcademicPlanRecordMissionService, AcademicPlanRecordMissionService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamLessonService, StreamLessonService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStatementService, StatementService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStatementRecordService, StatementRecordService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());

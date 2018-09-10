@@ -7,18 +7,18 @@ namespace DepartmentService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class add_statement1 : IMigrationMetadata
+    public sealed partial class edit_statement : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(add_statement1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(edit_statement));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809070641099_add_statement1"; }
+            get { return "201809101632560_edit_statement"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

@@ -138,9 +138,9 @@
     <Compile Include="Migrations\201809051326074_Add_IndividualPlan.Designer.cs">
       <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809070641099_add_statement1.cs" />
-    <Compile Include="Migrations\201809070641099_add_statement1.Designer.cs">
-      <DependentUpon>201809070641099_add_statement1.cs</DependentUpon>
+    <Compile Include="Migrations\201809101632560_edit_statement.cs" />
+    <Compile Include="Migrations\201809101632560_edit_statement.Designer.cs">
+      <DependentUpon>201809101632560_edit_statement.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -289,8 +289,8 @@
     <EmbeddedResource Include="Migrations\201809051326074_Add_IndividualPlan.resx">
       <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809070641099_add_statement1.resx">
-      <DependentUpon>201809070641099_add_statement1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809101632560_edit_statement.resx">
+      <DependentUpon>201809101632560_edit_statement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

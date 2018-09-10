@@ -99,6 +99,47 @@ namespace DepartmentService.Services
             }
         }
 
+        public ResultService CreateAllFindStatementRecord(AcademicYearGetBindingModel model)
+        {
+            try
+            {
+                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+                {
+                    throw new Exception("Нет доступа на чтение данных");
+                }
+                var statement = _context.Statements.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id);
+                foreach (var sttmnt in statement)
+                {
+                    var students = _context.Students.Where(record => !record.IsDeleted && record.StudentGroupId == sttmnt.StudentGroupId);
+                    var statementRecord = _context.StatementRecords.Where(record => !record.IsDeleted && record.StatementId == sttmnt.Id);
+                    foreach (var stdnt in students)
+                    {
+                        if (statementRecord.FirstOrDefault(record => record.StatementId == sttmnt.Id
+                             && record.StudentId == stdnt.Id) == null)
+                        {
+                            var entity = ModelFacotryFromBindingModel.CreateStatementRecord(new StatementRecordSetBindingModel()
+                            {
+                                StatementId = sttmnt.Id,
+                                StudentId = stdnt.Id,
+                                Score = ""
+                            });
+                            _context.StatementRecords.Add(entity);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService CreateStatementRecord(StatementRecordSetBindingModel model)
         {
             try

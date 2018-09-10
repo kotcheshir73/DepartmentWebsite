@@ -28,15 +28,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
         private readonly ILecturerService _serviceL;
 
+        private readonly IStatementService _serviceS;
+
         private bool notLoading;
 
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL)
+		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, IStatementService serviceS)
 		{
 			InitializeComponent();
             _serviceAY = serviceAY;
             _serviceTN = serviceTN;
             _serviceEP = serviceEP;
             _serviceL = serviceL;
+            _serviceS = serviceS;
+
 
             setDoubleBuffered(dataGridViewList, true);
 		}
@@ -282,6 +286,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             {
                 MessageBox.Show("Выберите нужный год");
             }
+        }
+
+        private void buttonCreatStatement_Click(object sender, EventArgs e)
+        {
+            _serviceS.CreateAllFindStatement(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
         }
     }
 }

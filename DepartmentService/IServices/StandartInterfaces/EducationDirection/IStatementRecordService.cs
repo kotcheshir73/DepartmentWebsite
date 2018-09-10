@@ -19,7 +19,14 @@ namespace DepartmentService.IServices
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<StatementRecordViewModel> GetStatementRecord(StatementRecordGetBindingModel model);
-        
+
+        /// <summary>
+        /// Создание новой элемента записи учебного плана
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService CreateAllFindStatementRecord(AcademicYearGetBindingModel model);
+
         /// <summary>
 		/// Создание новой элемента записи учебного плана
 		/// </summary>

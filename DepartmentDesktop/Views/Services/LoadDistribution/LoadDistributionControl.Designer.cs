@@ -41,6 +41,7 @@
             this.buttonCalcFactHours = new System.Windows.Forms.Button();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelSelectAcademicYear = new System.Windows.Forms.Label();
+            this.buttonCreatStatement = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.panelTop.SuspendLayout();
@@ -135,6 +136,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.buttonCreatStatement);
             this.panelTop.Controls.Add(this.buttonCalcFactHours);
             this.panelTop.Controls.Add(this.comboBoxAcademicYear);
             this.panelTop.Controls.Add(this.labelSelectAcademicYear);
@@ -173,6 +175,16 @@
             this.labelSelectAcademicYear.TabIndex = 0;
             this.labelSelectAcademicYear.Text = "Выбрать учебный год:";
             // 
+            // buttonCreatStatement
+            // 
+            this.buttonCreatStatement.Location = new System.Drawing.Point(464, 5);
+            this.buttonCreatStatement.Name = "buttonCreatStatement";
+            this.buttonCreatStatement.Size = new System.Drawing.Size(140, 23);
+            this.buttonCreatStatement.TabIndex = 4;
+            this.buttonCreatStatement.Text = "СОздать ведомости";
+            this.buttonCreatStatement.UseVisualStyleBackColor = true;
+            this.buttonCreatStatement.Click += new System.EventHandler(this.buttonCreatStatement_Click);
+            // 
             // LoadDistributionControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -207,5 +219,6 @@
         private System.Windows.Forms.Label labelSelectAcademicYear;
         private System.Windows.Forms.ComboBox comboBoxAcademicYear;
         private System.Windows.Forms.Button buttonCalcFactHours;
+        private System.Windows.Forms.Button buttonCreatStatement;
     }
 }

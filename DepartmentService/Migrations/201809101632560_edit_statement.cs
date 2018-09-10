@@ -3,7 +3,7 @@ namespace DepartmentService.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class add_statement1 : DbMigration
+    public partial class edit_statement : DbMigration
     {
         public override void Up()
         {
