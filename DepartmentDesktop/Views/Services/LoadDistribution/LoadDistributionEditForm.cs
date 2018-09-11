@@ -410,9 +410,10 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
 
         private void buttonAutoComplete_Click(object sender, EventArgs e)
         {
-            foreach(DataGridViewRow row in dataGridView.Rows)
+            for(int i = 0; i < dataGridView.Rows.Count; i++)
             {
-                row.Cells[6].Value = row.Cells[5].Value;
+                dataGridView[6, i].Value = dataGridView[5, i].Value;
+                listNumEditRows.Add(i);
             }
         }
     }

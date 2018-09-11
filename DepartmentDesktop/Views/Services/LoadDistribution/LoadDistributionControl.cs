@@ -45,6 +45,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             _serviceLP = serviceLP;
 
             /*   это нужно было для создания ставок, пока жалко удалять
+            
             var lecturerList = serviceL.GetLecturers(new LecturerGetBindingModel());  // 134ED8EA-5BC8-4FF1-9A52-8FF6DD8775FC
             foreach(var tmp in lecturerList.Result.List)
             {
@@ -53,11 +54,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                 {
                     AcademicYearId = new Guid("134ED8EA-5BC8-4FF1-9A52-8FF6DD8775FC"),
                     LecturerId = tmp.Id,
-                    Workload = 0.30
+                    Workload = 1
                 });
             }
             */
-
             setDoubleBuffered(dataGridViewList, true);
 		}
 
@@ -85,6 +85,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             {
                 LoadGrid();
                 LoadRecords();
+                editHoursForAllLecturers();
             }
         }
 
@@ -125,7 +126,9 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                 {
                     Id = lect.LecturerPostId
                 });
-                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName + "\n" + workloadThisLector.Result.List[0].Workload +  " - " + hourThisLector.Result.Hours* workloadThisLector.Result.List[0].Workload, Width = 50, Visible = true });
+                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName + "\n" 
+                    + (workloadThisLector.Result.List.Count == 0 ? "" : workloadThisLector.Result.List[0].Workload.ToString() + " - " 
+                    + hourThisLector.Result.Hours * workloadThisLector.Result.List[0].Workload + " - "), Width = 50, Visible = true });
             }
             columns.Add(new ColumnConfig { Name = "Itog_Lecturer", Title = "Итого (лект.)", Width = 40, Visible = true });
             columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
@@ -166,10 +169,10 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void AddRecord()
 		{
-			
-		}
 
-		private void UpdRecord()
+        }
+
+        private void UpdRecord()
 		{
             int i, j;
             if(dataGridViewList.SelectedCells.Count == 1)
@@ -236,7 +239,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
 			LoadRecords();
-		}
+            editHoursForAllLecturers();
+        }
 
 		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -316,6 +320,37 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             {
                 MessageBox.Show("Выберите нужный год");
             }
+        }
+
+        private void editHoursForAllLecturers()
+        {
+            for(int j = 0; j < dataGridViewList.Columns.Count; j++)
+            {
+                if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+                {
+                    editHoursForLecturer(j);
+                }
+            }
+        }
+
+        private void editHoursForLecturer(int j)
+        {
+            if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+            {
+                dataGridViewList.Columns[j].HeaderText = dataGridViewList.Columns[j].HeaderText.Split('-')[0] + "-"
+                    + dataGridViewList.Columns[j].HeaderText.Split('-')[1] + "- " 
+                    + (Convert.ToDouble(dataGridViewList.Columns[j].HeaderText.Split('-')[1]) - getSumHourOfLecturer(j));
+            }
+        }
+
+        private double getSumHourOfLecturer(int j)
+        {
+            double sum = 0;
+            for(int i = 0; i < dataGridViewList.Rows.Count; i++)
+            {
+                sum += dataGridViewList[j, i].Value == null ? 0 : Convert.ToDouble(dataGridViewList[j, i].Value);
+            }
+            return sum;
         }
     }
 }
