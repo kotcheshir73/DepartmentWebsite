@@ -32,6 +32,10 @@ namespace DepartmentWeb.Controllers
         [HttpPost]
         public ActionResult getTableStatements(string yearId)
         {
+            if (string.IsNullOrEmpty(yearId))
+            {
+                return PartialView();
+            }
             var tmp = _serviceS.GetStatements(new DepartmentService.BindingModels.StatementGetBindingModel()
             {
                 LecturerId = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7"),
