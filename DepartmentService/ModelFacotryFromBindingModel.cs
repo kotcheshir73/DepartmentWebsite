@@ -267,9 +267,9 @@ namespace DepartmentService.BindingModels
             entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
             entity.LecturerId = model.LecturerId;
             entity.StudentGroupId = model.StudentGroupId;
-            entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);  //TODO: тут нужно проверить правильность перечислений
+            entity.Course = (AcademicCourse)Enum.Parse(typeof(AcademicCourse), model.Course); //TODO: тут нужно проверить правильность перечислений
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
-            entity.TypeOfTest = (TypeOfTest)Enum.ToObject(typeof(TypeOfTest), model.TypeOfTest);
+            entity.TypeOfTest = (TypeOfTest)Enum.Parse(typeof(TypeOfTest), model.TypeOfTest);
             entity.Date = model.Date;
             return entity;
         }

@@ -280,7 +280,9 @@ namespace DepartmentService.ViewModels
                 Course = entity.Course.ToString(),
                 Date = entity.Date,
                 Semester = entity.Semester.ToString(),
-                TypeOfTest = entity.TypeOfTest.ToString()
+                TypeOfTest = entity.TypeOfTest.ToString(),
+                DisciplineName = entity.AcademicPlanRecord.Discipline.DisciplineName.ToString(),
+                StudentGroupName = entity.StudentGroup.GroupName.ToString()
             };
         }
 

@@ -14,12 +14,16 @@ namespace DepartmentService.ViewModels
 
         public Guid StudentGroupId { get; set; }
 
+        public string StudentGroupName { get; set; }
+
+        public string DisciplineName { get; set; }
+
         public string Course { get; set; }
 
         public string TypeOfTest { get; set; }
 
         public string Semester { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }
