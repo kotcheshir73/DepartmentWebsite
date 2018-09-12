@@ -10,6 +10,8 @@ namespace DepartmentService.BindingModels
 
         public Guid? LecturerId { get; set; }
 
+        public Guid? AcademicYearId { get; set; }
+
         public string Title { get; set; }
     }
 
@@ -20,6 +22,8 @@ namespace DepartmentService.BindingModels
         public Guid IndividualPlanKindOfWorkId { get; set; }
 
         public Guid LecturerId { get; set; }
+
+        public Guid AcademicYearId { get; set; }
 
         public double PlanAutumn { get; set; }
 

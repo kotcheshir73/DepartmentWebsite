@@ -14,6 +14,8 @@ namespace DepartmentService.ViewModels
 
         public Guid LecturerId { get; set; }
 
+        public Guid AcademicYearId { get; set; }
+
         public string Name { get; set; }
 
         public string TimeNormDescription { get; set; }
