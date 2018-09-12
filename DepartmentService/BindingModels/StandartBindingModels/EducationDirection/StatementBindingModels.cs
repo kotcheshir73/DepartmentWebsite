@@ -11,6 +11,8 @@ namespace DepartmentService.BindingModels
         public Guid? AcademicPlanRecordId { get; set; }
 
         public Guid? StudentGroupId { get; set; }
+
+        public Guid? AcademicYearId { get; set; }
     }
 
     public class StatementSetBindingModel

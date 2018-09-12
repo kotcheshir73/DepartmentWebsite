@@ -49,8 +49,12 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(record => record.StudentGroupId == model.LecturerId);
                 }
+                if (model.AcademicYearId.HasValue)
+                {
+                    query = query.Where(record => record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId);
+                }
 
-                query = query.OrderBy(record => record.AcademicPlanRecordId).ThenBy(record => record.LecturerId);
+                query = query.OrderBy(record => record.Semester).ThenBy(record => record.AcademicPlanRecord.Discipline.DisciplineName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -60,7 +64,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                //query = query.Include(apre => apre.AcademicPlanRecordElement).Include(apre => apre.AcademicPlanRecordElement.).Include(apre => apre.TimeNorm); не понятно что с этим делать
+                query = query.Include(apre => apre.AcademicPlanRecord.AcademicPlan).Include(apre => apre.Lecturer).Include(apre => apre.StudentGroup).Include(apre => apre.AcademicPlanRecord.Discipline);
 
                 var result = new StatementPageViewModel
                 {
@@ -107,7 +111,6 @@ namespace DepartmentService.Services
                 return ResultService<StatementViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-
 
         public ResultService CreateAllFindStatement(AcademicYearGetBindingModel model)
         {

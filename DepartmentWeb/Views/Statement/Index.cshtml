@@ -18,8 +18,10 @@
             $.ajax({
                 url: '/Statement/getTableStatements',
                 type: "POST",
-                processData: false,
-                contentType: false, 
+                //dataType: "json",
+                //contentType: "application/json; charset=utf-8", 
+                //processData: false,
+                //contentType: false, 
                 data: { YearId: yearId },
                 success: function (cities) {
                     $("#vedok").html(cities);
