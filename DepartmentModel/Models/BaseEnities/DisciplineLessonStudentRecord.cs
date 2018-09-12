@@ -1,4 +1,5 @@
 ﻿using DepartmentModel.Enums;
+using DepartmentModel.Models.BaseEnities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -13,7 +14,7 @@ namespace DepartmentModel.Models
     {
         [Required]
         [DataMember]
-        public Guid DisciplineLessonId { get; set; }
+        public Guid DisciplineLessonRecordId { get; set; }
 
         [Required]
         [DataMember]
@@ -25,10 +26,13 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public DisciplineLessonStudentStatus Status { get; set; }
+        
+        [DataMember]
+        public int? Ball { get; set; }
 
         //-------------------------------------------------------------------------
 
-        public virtual DisciplineLesson DisciplineLesson { get; set; }
+        public virtual DisciplineLessonRecord DisciplineLessonRecord { get; set; }
 
 		public virtual Student Student { get; set; }
 

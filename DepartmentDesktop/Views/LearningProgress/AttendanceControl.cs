@@ -7,33 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity.Attributes;
 using Unity;
+using Unity.Attributes;
 using DepartmentService.IServices;
+using DepartmentService.BindingModels;
 using DepartmentModel.Enums;
 using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
-using DepartmentService.BindingModels;
+using DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonAttendance;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {
-    public partial class LearningProgressControl : UserControl
+    public partial class AttendanceControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly ILearningProgressProcess _process;
 
-        private readonly IDisciplineLessonService _serviceDL;
+        private readonly IStudentGroupService _serviceSG;
 
-        public LearningProgressControl(ILearningProgressProcess process, IDisciplineLessonService serviceDL)
+        public AttendanceControl(ILearningProgressProcess process, IStudentGroupService serviceSG)
         {
             InitializeComponent();
             _process = process;
-            _serviceDL = serviceDL;
+            _serviceSG = serviceSG;
         }
 
         public void LoadData()
         {
+            comboBoxGroups.Enabled = false;
             var resultD = _process.GetDisciplines(new LearningProcessDisciplineBindingModel { UserId = AuthorizationService.UserId.Value });
             if (!resultD.Succeeded)
             {
@@ -61,11 +63,30 @@ namespace DepartmentDesktop.Views.LearningProgress
                 };
                 tabControl.Controls.Add(tabPage);
             }
+
         }
 
         private void comboBoxDisciplines_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxDisciplines.SelectedIndex > -1)
+            comboBoxGroups.Enabled = true;
+            var resultG = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { });
+            if (!resultG.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultG.Errors);
+                return;
+            }
+
+            comboBoxGroups.ValueMember = "Value";
+            comboBoxGroups.DisplayMember = "Display";
+            comboBoxGroups.DataSource = resultG.Result.List
+                .Select(g => new { Value = g.Id, Display = g.GroupName }).ToList();
+            comboBoxGroups.SelectedItem = null;
+
+        }
+
+        private void comboBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxGroups.SelectedIndex > -1)
             {
                 foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
                 {
@@ -74,11 +95,11 @@ namespace DepartmentDesktop.Views.LearningProgress
                     {
                         if (tabPage.Controls.Count == 0)
                         {
-                            var controlDL = Container.Resolve<DisciplineLessonControl>();
+                            var controlDL = Container.Resolve<DisciplineLessonAttendanceControl>();
                             controlDL.Dock = DockStyle.Fill;
                             tabPage.Controls.Add(controlDL);
                         }
-                        (tabPage.Controls[0] as DisciplineLessonControl).LoadData(new Guid(comboBoxDisciplines.SelectedValue.ToString()), elem.ToString());
+                        (tabPage.Controls[0] as DisciplineLessonAttendanceControl).LoadData(new Guid(comboBoxDisciplines.SelectedValue.ToString()), elem.ToString());
                     }
                 }
             }
