@@ -7,6 +7,8 @@ namespace DepartmentService.BindingModels
         public Guid? Id { get; set; }
 
         public Guid? IndividualPlanTitleId { get; set; }
+
+        public string Title { get; set; }
     }
 
     public class IndividualPlanKindOfWorkSetBindingModel

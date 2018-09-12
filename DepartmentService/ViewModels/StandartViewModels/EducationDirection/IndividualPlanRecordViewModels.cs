@@ -6,11 +6,17 @@ namespace DepartmentService.ViewModels
 
     public class IndividualPlanRecordViewModel
     {
+        internal string Title;
+
         public Guid Id { get; set; }
 
         public Guid IndividualPlanKindOfWorkId { get; set; }
 
         public Guid LecturerId { get; set; }
+
+        public string Name { get; set; }
+
+        public string TimeNormDescription { get; set; }
 
         public double PlanAutumn { get; set; }
 

@@ -5,6 +5,7 @@ namespace DepartmentService.BindingModels
     public class IndividualPlanTitleGetBindingModel : PageSettingBinidingModel
     {
         public Guid?Id { get; set; }
+        public string Title { get; set; }
     }
 
     public class IndividualPlanTitleSetBindingModel
