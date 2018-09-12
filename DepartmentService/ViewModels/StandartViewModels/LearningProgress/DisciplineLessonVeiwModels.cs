@@ -9,11 +9,23 @@ namespace DepartmentService.ViewModels
     {
         public Guid Id { get; set; }
 
+        public Guid AcademicYearId { get; set; }
+
         public Guid DisciplineId { get; set; }
 
-        public DisciplineLessonTypes LessonType { get; set; }
+        public Guid EducationDirectionId { get; set; }
+
+        public Guid TimeNormId { get; set; }
+
+        public string AcademicYear { get; set; }
 
         public string Discipline { get; set; }
+
+        public string EducationDirection { get; set; }
+
+        public string TimeNorm { get; set; }
+
+        public Semesters Semester { get; set; }
 
         public string Title { get; set; }
 

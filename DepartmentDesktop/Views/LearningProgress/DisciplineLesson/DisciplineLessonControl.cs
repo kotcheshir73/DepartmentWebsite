@@ -17,9 +17,13 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private readonly IDisciplineLessonService _service;
 
+        private Guid _ayId;
+
         private Guid _dId;
 
-        private string _type;
+        private Guid _edId;
+
+        private Guid _tnId;
 
         public DisciplineLessonControl(IDisciplineLessonService service)
         {
@@ -29,22 +33,31 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+                new ColumnConfig { Name = "AcademicYear", Title = "Учбеный год", Width = 100, Visible = true },
+                new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Discipline", Title = "Дисциплина", Width = 200, Visible = true },
-                new ColumnConfig { Name = "LessonType", Title = "Тип", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Title", Title = "Заголовок", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 150, Visible = true },
+                new ColumnConfig { Name = "TimeNorm", Title = "Тип", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Title", Title = "Заголовок", Width = 300, Visible = true },
                 new ColumnConfig { Name = "CountOfPairs", Title = "Кол-во пар", Width = 100, Visible = true },
-                new ColumnConfig { Name = "CountOfTasks", Title = "Кол-во заданий", Width = 100, Visible = true }
+                new ColumnConfig { Name = "CountOfTasks", Title = "Кол-во заданий", Width = 150, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string>();
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "MakeCloneToolStripMenuItem", "Дублировать"},
+                    { "FormDisciplineLessonsToolStripMenuItem", "Сформировать занятия"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("MakeCloneToolStripMenuItem", MakeCloneToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("FormDisciplineLessonsToolStripMenuItem", FormDisciplineLessonsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -63,16 +76,26 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             });
         }
 
-        public void LoadData(Guid dId, string type)
+        public void LoadData(Guid ayId, Guid dId, Guid edId, Guid tnId)
         {
+            _ayId = ayId;
             _dId = dId;
-            _type = type;
+            _edId = edId;
+            _tnId = tnId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { DisciplineId = _dId, LessonType = _type, PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel
+            {
+                AcademicYearId = _ayId,
+                DisciplineId = _dId,
+                EducationDirectionId = _edId,
+                TimeNormId = _tnId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -83,10 +106,11 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
+                    res.AcademicYear,
+                    res.EducationDirection,
                     res.Discipline,
-                    res.LessonType,
+                    res.TimeNorm,
                     res.Title,
-                    res.Order,
                     res.CountOfPairs,
                     res.CountTasks
                 );
@@ -99,8 +123,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             var form = Container.Resolve<DisciplineLessonForm>(
                 new ParameterOverrides
                 {
+                    { "ayId", _ayId },
                     { "dId", _dId },
-                    { "type", _type },
+                    { "edId", _edId },
+                    { "tnId", _tnId },
                     { "id", Guid.Empty }
                 }
                 .OnType<DisciplineLessonForm>());
@@ -118,8 +144,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                 var form = Container.Resolve<DisciplineLessonForm>(
                     new ParameterOverrides
                     {
+                        { "ayId", _ayId },
                         { "dId", _dId },
-                        { "type", _type },
+                        { "edId", _edId },
+                        { "tnId", _tnId },
                         { "id", id }
                     }
                     .OnType<DisciplineLessonForm>());
@@ -148,6 +176,30 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                     standartControl.LoadPage();
                 }
             }
+        }
+
+        private void MakeCloneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //var form = Container.Resolve<MaterialTechnicalValueReport>();
+            //form.Show();
+        }
+
+        private void FormDisciplineLessonsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LearningProcessFormDisciplineLessonsBindingModel model = new LearningProcessFormDisciplineLessonsBindingModel
+            {
+                AcademicYearId = _ayId,
+                DisciplineId = _dId,
+                EducationDirectionId = _edId,
+                TimeNormId = _tnId
+            };
+            var form = Container.Resolve<FormDisciplineLessonsForm>(
+                   new ParameterOverrides
+                   {
+                        { "model", model }
+                   }
+                   .OnType<FormDisciplineLessonsForm>());
+            form.Show();
         }
     }
 }

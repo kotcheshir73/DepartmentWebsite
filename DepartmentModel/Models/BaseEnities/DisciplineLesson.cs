@@ -17,11 +17,23 @@ namespace DepartmentModel.Models
     {
         [Required]
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [Required]
+        [DataMember]
+        public Guid EducationDirectionId { get; set; }
+
+        [Required]
+        [DataMember]
         public Guid DisciplineId { get; set; }
 
-		[Required]
+        [Required]
         [DataMember]
-        public DisciplineLessonTypes LessonType { get; set; }
+        public Guid TimeNormId { get; set; }
+
+        [Required]
+        [DataMember]
+        public Semesters Semester { get; set; }
         
 		[MaxLength(100)]
 		[Required]
@@ -47,7 +59,13 @@ namespace DepartmentModel.Models
 
         //-------------------------------------------------------------------------
 
+        public virtual AcademicYear AcademicYear { get; set; }
+
+        public virtual EducationDirection EducationDirection { get; set; }
+
         public virtual Discipline Discipline { get; set; }
+
+        public virtual TimeNorm TimeNorm { get; set; }
 
         //-------------------------------------------------------------------------
 

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
+using DepartmentModel.Enums;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity.Attributes;
 using Unity;
-using DepartmentService.IServices;
-using DepartmentModel.Enums;
-using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
-using DepartmentService.BindingModels;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {
@@ -34,54 +30,109 @@ namespace DepartmentDesktop.Views.LearningProgress
 
         public void LoadData()
         {
-            var resultD = _process.GetDisciplines(new LearningProcessDisciplineBindingModel { UserId = AuthorizationService.UserId.Value });
-            if (!resultD.Succeeded)
+            var resultAY = _serviceDL.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (!resultAY.Succeeded)
             {
-                Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
+                Program.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
                 return;
             }
 
-            comboBoxDisciplines.ValueMember = "Value";
-            comboBoxDisciplines.DisplayMember = "Display";
-            comboBoxDisciplines.DataSource = resultD.Result
-                .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
-            comboBoxDisciplines.SelectedItem = null;
+            comboBoxAcademicYear.ValueMember = "Value";
+            comboBoxAcademicYear.DisplayMember = "Display";
+            comboBoxAcademicYear.DataSource = resultAY.Result.List
+                .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
+            comboBoxAcademicYear.SelectedItem = null;
 
-            int counter = 0;
-            foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
+            var resultED = _serviceDL.GetEducationDirections(new EducationDirectionGetBindingModel { });
+            if (!resultED.Succeeded)
             {
-                var tabPage = new TabPage
+                Program.PrintErrorMessage("При загрузке направлений возникла ошибка: ", resultED.Errors);
+                return;
+            }
+
+            comboBoxEducationDirection.ValueMember = "Value";
+            comboBoxEducationDirection.DisplayMember = "Display";
+            comboBoxEducationDirection.DataSource = resultED.Result.List
+                .Select(d => new { Value = d.Id, Display = d.ShortName }).ToList();
+            comboBoxEducationDirection.SelectedItem = null;
+        }
+
+        private void GetDisciplineDetails()
+        {
+            if (comboBoxAcademicYear.SelectedValue != null && comboBoxEducationDirection.SelectedValue != null)
+            {
+                var result = _process.GetDisciplines(new LearningProcessDisciplineBindingModel
                 {
-                    Location = new System.Drawing.Point(4, 22),
-                    Name = "tabPage" + elem,
-                    Size = new System.Drawing.Size(832, 326),
-                    TabIndex = counter++,
-                    Text = elem.ToString(),
-                    UseVisualStyleBackColor = true
-                };
-                tabControl.Controls.Add(tabPage);
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+                    UserId = AuthorizationService.UserId.Value
+                });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", result.Errors);
+                    return;
+                }
+
+                comboBoxDisciplines.ValueMember = "Value";
+                comboBoxDisciplines.DisplayMember = "Display";
+                comboBoxDisciplines.DataSource = result.Result
+                    .Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
             }
         }
 
         private void comboBoxDisciplines_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxDisciplines.SelectedIndex > -1)
+            if (comboBoxDisciplines.SelectedValue != null)
             {
-                foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
+                var result = _process.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel
                 {
-                    var tabPage = tabControl.Controls.Find("tabPage" + elem, false).FirstOrDefault();
-                    if (tabPage != null)
-                    {
-                        if (tabPage.Controls.Count == 0)
-                        {
-                            var controlDL = Container.Resolve<DisciplineLessonControl>();
-                            controlDL.Dock = DockStyle.Fill;
-                            tabPage.Controls.Add(controlDL);
-                        }
-                        (tabPage.Controls[0] as DisciplineLessonControl).LoadData(new Guid(comboBoxDisciplines.SelectedValue.ToString()), elem.ToString());
-                    }
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    DisciplineId = new Guid(comboBoxDisciplines.SelectedValue.ToString()),
+                    EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+                    UserId = AuthorizationService.UserId.Value
+                });
+                if (!result.Succeeded)
+                {
+                    Program.PrintErrorMessage("При загрузке деталей дисциплины возникла ошибка: ", result.Errors);
+                    return;
                 }
+
+                tabControl.Controls.Clear();
+                int counter = 0;
+                StringBuilder sb = new StringBuilder();
+                foreach (var elem in result.Result)
+                {
+                    sb.Append(elem.Info);
+                    var tabPage = new TabPage
+                    {
+                        Location = new System.Drawing.Point(4, 22),
+                        Name = "tabPage" + elem.TimeNormName,
+                        Size = new System.Drawing.Size(832, 326),
+                        TabIndex = counter++,
+                        Text = elem.TimeNormName,
+                        UseVisualStyleBackColor = true
+                    };
+                    tabControl.Controls.Add(tabPage);
+
+            if (comboBoxDisciplines.SelectedIndex > -1)
+                    var controlDL = Container.Resolve<DisciplineLessonControl>();
+                    controlDL.Dock = DockStyle.Fill;
+                    controlDL.LoadData(new Guid(comboBoxAcademicYear.SelectedValue.ToString()), new Guid(comboBoxDisciplines.SelectedValue.ToString()), 
+                        new Guid(comboBoxEducationDirection.SelectedValue.ToString()), elem.Id);
+                    tabPage.Controls.Add(controlDL);
+                }
+                labelInfo.Text = sb.ToString();
             }
+        }
+
+        private void comboBoxAcademicYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetDisciplineDetails();
+        }
+
+        private void comboBoxEducationDirection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetDisciplineDetails();
         }
     }
 }

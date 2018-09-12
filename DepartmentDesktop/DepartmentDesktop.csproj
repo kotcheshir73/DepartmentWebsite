@@ -339,6 +339,18 @@
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.Designer.cs">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\FormDisciplineLessonTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\FormDisciplineLessonTasksForm.Designer.cs">
+      <DependentUpon>FormDisciplineLessonTasksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\FormDisciplineLessonsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\FormDisciplineLessonsForm.Designer.cs">
+      <DependentUpon>FormDisciplineLessonsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LearningProgress\LearningProgressControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -877,6 +889,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.resx">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\FormDisciplineLessonTasksForm.resx">
+      <DependentUpon>FormDisciplineLessonTasksForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\FormDisciplineLessonsForm.resx">
+      <DependentUpon>FormDisciplineLessonsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\LearningProgressControl.resx">
       <DependentUpon>LearningProgressControl.cs</DependentUpon>

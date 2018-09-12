@@ -135,7 +135,8 @@ namespace DepartmentService.ViewModels
                 KindOfLoadType = entity.KindOfLoadType.ToString(),
                 Hours = entity.Hours,
                 NumKoef = entity.NumKoef,
-                TimeNormKoef = entity.TimeNormKoef.ToString()
+                TimeNormKoef = entity.TimeNormKoef.ToString(),
+                UseInLearningProgress = entity.UseInLearningProgress
             };
         }
 
@@ -650,15 +651,20 @@ namespace DepartmentService.ViewModels
         #endregion
 
         #region LearningProgress
-
         public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
         {
             return new DisciplineLessonViewModel
             {
                 Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
                 DisciplineId = entity.DisciplineId,
+                EducationDirectionId = entity.EducationDirectionId,
+                TimeNormId = entity.TimeNormId,
+                AcademicYear = entity.AcademicYear.Title,
                 Discipline = entity.Discipline.DisciplineName,
-                LessonType = entity.LessonType,
+                EducationDirection = entity.EducationDirection.ShortName,
+                TimeNorm = entity.TimeNorm.TimeNormName,
+                Semester = entity.Semester,
                 Title = entity.Title,
                 Description = entity.Description,
                 Order = entity.Order,
