@@ -73,7 +73,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void progressToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.LearningProgressControl>();
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
             ApplyControl(control);
             control.LoadData();
         }
@@ -526,9 +526,16 @@ namespace DepartmentDesktop
         #endregion
 
         #region Преподаватель
-        private void КонфигурированиеToolStripMenuItem_Click(object sender, EventArgs e)
+        private void configuringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.LearningProgressControl>();
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void studentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
             ApplyControl(control);
             control.LoadData();
         }
@@ -544,15 +551,6 @@ namespace DepartmentDesktop
         {
 
         }
-
-        private void распределениеСтудентовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
-            ApplyControl(control);
-            control.LoadData();
-        }
-
         #endregion
-
     }
 }

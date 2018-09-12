@@ -118,6 +118,9 @@ namespace DepartmentService.Services
                 }
 
                 var entity = _context.DisciplineStudentRecords
+                                .Include(x => x.Discipline)
+                                .Include(x => x.Student)
+                                .Include(x => x.Student.StudentGroup)
                                 .FirstOrDefault(d => d.Id == model.Id && !d.IsDeleted);
                 if (entity == null)
                 {

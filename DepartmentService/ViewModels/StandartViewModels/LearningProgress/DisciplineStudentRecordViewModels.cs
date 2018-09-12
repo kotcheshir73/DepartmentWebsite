@@ -11,9 +11,13 @@ namespace DepartmentService.ViewModels
 
         public Guid DisciplineId { get; set; }
 
+        public Guid? StudentGroupId { get; set; }
+
         public Guid StudentId { get; set; }
 
         public string Discipline { get; set; }
+
+        public string StudentGroup { get; set; }
 
         public string Student { get; set; }
 

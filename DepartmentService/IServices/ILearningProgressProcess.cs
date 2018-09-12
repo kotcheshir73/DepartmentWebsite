@@ -1,4 +1,5 @@
 ﻿using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
 using System.Collections.Generic;
@@ -26,5 +27,9 @@ namespace DepartmentService.IServices
         ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicate model);
 
         ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessons model);
+
+        ResultService<List<Semesters>> GetSemesters(LearningProcessSemesterBindingModel model);
+
+        ResultService<List<StudentGroupViewModel>> GetStudentGroups(LearningProcessStudentGroupBindingModel model);
     }
 }

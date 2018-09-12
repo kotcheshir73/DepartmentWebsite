@@ -42,15 +42,20 @@ namespace DepartmentService.Services
 
         public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
 		{
-			try
-			{
-				if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
-				{
-					throw new Exception("Нет доступа на чтение данных по группам");
-				}
+            try
+            {
+                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+                {
+                    throw new Exception("Нет доступа на чтение данных по группам");
+                }
 
-				int countPages = 0;
-				var query = _context.StudentGroups.Where(sg => !sg.IsDeleted).AsQueryable();
+                int countPages = 0;
+                var query = _context.StudentGroups.Where(sg => !sg.IsDeleted).AsQueryable();
+
+                if (model.EducationDirectionId.HasValue)
+                {
+                    query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);
+                }
 
                 query = query.OrderBy(sg => sg.Course).ThenBy(sg => sg.EducationDirectionId);
 

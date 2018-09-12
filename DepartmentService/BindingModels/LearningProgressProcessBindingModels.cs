@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentModel.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace DepartmentService.BindingModels
@@ -89,5 +90,23 @@ namespace DepartmentService.BindingModels
         public Guid DisciplineLessonToId { get; set; }
 
         public bool CopyVariants { get; set; }
+    }
+
+    public class LearningProcessSemesterBindingModel
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid EducationDirectionId { get; set; }
+
+        public Guid DisciplineId { get; set; }
+
+        public Guid UserId { get; set; }
+    }
+
+    public class LearningProcessStudentGroupBindingModel
+    {
+        public Guid EducationDirectionId { get; set; }
+
+        public List<Semesters> Semesters { get; set; }
     }
 }

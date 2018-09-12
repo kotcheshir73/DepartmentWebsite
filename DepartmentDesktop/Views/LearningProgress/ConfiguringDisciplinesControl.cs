@@ -1,5 +1,4 @@
 ﻿using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
-using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -12,7 +11,7 @@ using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {
-    public partial class LearningProgressControl : UserControl
+    public partial class ConfiguringDisciplinesControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -21,7 +20,7 @@ namespace DepartmentDesktop.Views.LearningProgress
 
         private readonly IDisciplineLessonService _serviceDL;
 
-        public LearningProgressControl(ILearningProgressProcess process, IDisciplineLessonService serviceDL)
+        public ConfiguringDisciplinesControl(ILearningProgressProcess process, IDisciplineLessonService serviceDL)
         {
             InitializeComponent();
             _process = process;
@@ -80,6 +79,16 @@ namespace DepartmentDesktop.Views.LearningProgress
             }
         }
 
+        private void comboBoxAcademicYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetDisciplineDetails();
+        }
+
+        private void comboBoxEducationDirection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetDisciplineDetails();
+        }
+
         private void comboBoxDisciplines_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxDisciplines.SelectedValue != null)
@@ -114,25 +123,14 @@ namespace DepartmentDesktop.Views.LearningProgress
                     };
                     tabControl.Controls.Add(tabPage);
 
-            if (comboBoxDisciplines.SelectedIndex > -1)
                     var controlDL = Container.Resolve<DisciplineLessonControl>();
                     controlDL.Dock = DockStyle.Fill;
-                    controlDL.LoadData(new Guid(comboBoxAcademicYear.SelectedValue.ToString()), new Guid(comboBoxDisciplines.SelectedValue.ToString()), 
+                    controlDL.LoadData(new Guid(comboBoxAcademicYear.SelectedValue.ToString()), new Guid(comboBoxDisciplines.SelectedValue.ToString()),
                         new Guid(comboBoxEducationDirection.SelectedValue.ToString()), elem.Id);
                     tabPage.Controls.Add(controlDL);
                 }
                 labelInfo.Text = sb.ToString();
             }
-        }
-
-        private void comboBoxAcademicYear_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GetDisciplineDetails();
-        }
-
-        private void comboBoxEducationDirection_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GetDisciplineDetails();
         }
     }
 }

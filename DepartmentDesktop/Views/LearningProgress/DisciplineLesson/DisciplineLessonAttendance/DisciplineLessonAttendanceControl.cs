@@ -68,7 +68,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { DisciplineId = _dId, LessonType = _type, PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { DisciplineId = _dId, /*LessonType = _type,*/ PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

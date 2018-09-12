@@ -3,7 +3,7 @@ namespace DepartmentService.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class m1 : DbMigration
+    public partial class AddDisciplineLessonRecord : DbMigration
     {
         public override void Up()
         {
@@ -37,8 +37,8 @@ namespace DepartmentService.Migrations
             AddColumn("dbo.DisciplineLessonStudentRecords", "DisciplineLessonId", c => c.Guid(nullable: false));
             DropForeignKey("dbo.DisciplineLessonStudentRecords", "DisciplineLessonRecordId", "dbo.DisciplineLessonRecords");
             DropForeignKey("dbo.DisciplineLessonRecords", "DisciplineLessonId", "dbo.DisciplineLessons");
-            DropIndex("dbo.DisciplineLessonStudentRecords", new[] { "DisciplineLessonRecordId" });
             DropIndex("dbo.DisciplineLessonRecords", new[] { "DisciplineLessonId" });
+            DropIndex("dbo.DisciplineLessonStudentRecords", new[] { "DisciplineLessonRecordId" });
             DropColumn("dbo.DisciplineLessonStudentRecords", "Ball");
             DropColumn("dbo.DisciplineLessonStudentRecords", "DisciplineLessonRecordId");
             DropTable("dbo.DisciplineLessonRecords");

@@ -710,8 +710,10 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 DisciplineId = entity.DisciplineId,
+                StudentGroupId = entity.Student.StudentGroupId,
                 StudentId = entity.StudentId,
                 Discipline = entity.Discipline.DisciplineName,
+                StudentGroup = entity.Student.StudentGroup.GroupName,
                 Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
                 Semester = entity.Semester,
                 Variant = entity.Variant,

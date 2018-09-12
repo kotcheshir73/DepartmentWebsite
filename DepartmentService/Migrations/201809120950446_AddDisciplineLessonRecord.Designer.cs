@@ -7,13 +7,13 @@ namespace DepartmentService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class m1 : IMigrationMetadata
+    public sealed partial class AddDisciplineLessonRecord : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(m1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDisciplineLessonRecord));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809080920599_m1"; }
+            get { return "201809120950446_AddDisciplineLessonRecord"; }
         }
         
         string IMigrationMetadata.Source
