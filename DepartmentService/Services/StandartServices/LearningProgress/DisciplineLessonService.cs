@@ -87,7 +87,7 @@ namespace DepartmentService.Services
                     query = query.Where(x => x.Id == model.Id);
                 }
 
-                query = query.OrderBy(d => d.Order);
+                query = query.OrderBy(d => d.Semester).ThenBy(x => x.Order);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {

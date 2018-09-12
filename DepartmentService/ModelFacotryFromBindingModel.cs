@@ -615,6 +615,22 @@ namespace DepartmentService.BindingModels
             entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
             entity.VariantNumber = model.VariantNumber;
             entity.VariantTask = model.VariantTask;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static DisciplineStudentRecord CreateDisciplineStudentRecord(DisciplineStudentRecordSetBindingModel model, DisciplineStudentRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineStudentRecord();
+            }
+            entity.DisciplineId = model.DisciplineId;
+            entity.StudentId = model.StudentId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.Variant = model.Variant;
+            entity.SubGroup = model.SubGroup;
 
             return entity;
         }

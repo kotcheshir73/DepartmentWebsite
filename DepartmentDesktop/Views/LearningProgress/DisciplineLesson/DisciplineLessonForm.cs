@@ -130,7 +130,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
             comboBoxDiscipline.SelectedValue = entity.DisciplineId;
             comboBoxTimeNorm.SelectedValue = entity.TimeNormId;
-            comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
+            comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester.ToString());
             textBoxPostTitle.Text = entity.Title;
             textBoxDiscription.Text = entity.Description;
             textBoxOrder.Text = entity.Order.ToString();

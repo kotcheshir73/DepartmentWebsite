@@ -129,10 +129,12 @@ namespace DepartmentService.Services
                         x.AcademicPlanRecordElement.TimeNormId,
                         x.AcademicPlanRecordElement.TimeNorm.TimeNormName,
                         x.AcademicPlanRecordElement.AcademicPlanRecord.Semester,
-                        x.Hours
+                        x.AcademicPlanRecordElement.TimeNorm.TimeNormOrder,
+                        x.AcademicPlanRecordElement.PlanHours
                     })
                     .GroupBy(x => x.TimeNormId)
-                    .ToList();
+                    .ToList()
+                    .OrderBy(x => x.First().TimeNormOrder);
 
                 List<LearningProcessDisciplineDetailViewModel> result = new List<LearningProcessDisciplineDetailViewModel>();
 
@@ -144,7 +146,7 @@ namespace DepartmentService.Services
                     {
                         sb.Append(subElem.Semester);
                         sb.Append(" - ");
-                        sb.Append(subElem.Hours);
+                        sb.Append(subElem.PlanHours);
                         sb.Append("; ");
                     }
                     result.Add(new LearningProcessDisciplineDetailViewModel
@@ -244,7 +246,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService FormDisciplineLessonTaskss(LearningProcessFormDisciplineLessonTasksBindingModel model)
+        public ResultService FormDisciplineLessonTasks(LearningProcessFormDisciplineLessonTasksBindingModel model)
         {
             try
             {
@@ -264,6 +266,201 @@ namespace DepartmentService.Services
 
                         _context.DisciplineLessonTasks.Add(entity);
                         _context.SaveChanges();
+                    }
+                    transaction.Commit();
+                }
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService FormDisciplineLessonVariants(LearningProcessFormDisciplineLessonTaskVariantsBindingModel model)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    for (int i = 0; i < model.Variants.Count; ++i)
+                    {
+                        var entity = ModelFacotryFromBindingModel.CreateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
+                        {
+                            DisciplineLessonTaskId = model.DisciplineLessonTaskId,
+                            VariantNumber = model.VariantNumberTemplate.Replace("[N]", (i + 1).ToString()),
+                            VariantTask = model.Variants[i],
+                            Order = i + 1
+                        });
+
+                        _context.DisciplineLessonTaskVariants.Add(entity);
+                        _context.SaveChanges();
+                    }
+                    transaction.Commit();
+                }
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonTaskVariantViewModel>> GetDisciplineLessonTaskVariants(GetDisciplineLessonTaskVariants model)
+        {
+            try
+            {
+                var query = _context.DisciplineLessonTaskVariants
+                    .Include(x => x.DisciplineLessonTask)
+                    .Where(x => x.DisciplineLessonTask.DisciplineLessonId == model.DisciplineLessonId)
+                    .OrderBy(x => x.DisciplineLessonTask.Order).ThenBy(x => x.Order);
+                return ResultService<List<DisciplineLessonTaskVariantViewModel>>.Success(query.Select(ModelFactoryToViewModel.CreateDisciplineLessonTaskVariantViewModel).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonTaskVariantViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonTaskVariantViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonTaskViewModel>> GetDisiplineLessonTasksForDuplicate(GetDisiplineLessonTasksForDuplicate model)
+        {
+            try
+            {
+                var dlt = _context.DisciplineLessonTasks.FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId);
+                if (dlt == null)
+                {
+                    return ResultService<List<DisciplineLessonTaskViewModel>>.Error("Error:", "Задание не найдено",
+                        ResultServiceStatusCode.NotFound);
+                }
+                var query = _context.DisciplineLessonTasks
+                    .Include(x => x.DisciplineLesson)
+                    .Where(x => x.DisciplineLessonId == dlt.DisciplineLessonId && x.Id != dlt.Id)
+                    .OrderBy(x => x.Order);
+                return ResultService<List<DisciplineLessonTaskViewModel>>.Success(query.Select(ModelFactoryToViewModel.CreateDisciplineLessonTaskViewModel).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonTaskViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonTaskViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService DuplicateDisiplineLessonTasks(DuplicateDisiplineLessonTasks model)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    var variants = _context.DisciplineLessonTaskVariants.Where(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskFromId).ToList();
+                    foreach (var variant in variants)
+                    {
+                        var entity = ModelFacotryFromBindingModel.CreateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
+                        {
+                            DisciplineLessonTaskId = model.DisciplineLessonTaskToId,
+                            VariantNumber = variant.VariantNumber,
+                            VariantTask = variant.VariantTask,
+                            Order = variant.Order
+                        });
+
+                        _context.DisciplineLessonTaskVariants.Add(entity);
+                        _context.SaveChanges();
+                    }
+                    transaction.Commit();
+                }
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicate model)
+        {
+            try
+            {
+                var dl = _context.DisciplineLessons.FirstOrDefault(x => x.Id == model.DisciplineLessonId);
+                if (dl == null)
+                {
+                    return ResultService<List<DisciplineLessonViewModel>>.Error("Error:", "Занятие не найдено",
+                        ResultServiceStatusCode.NotFound);
+                }
+                var query = _context.DisciplineLessons
+                    .Include(x => x.AcademicYear).Include(x => x.Discipline).Include(x => x.EducationDirection).Include(x => x.TimeNorm).Include(x => x.DisciplineLessonTasks)
+                    .Where(x => x.DisciplineId == dl.DisciplineId && x.AcademicYearId == dl.AcademicYearId && x.EducationDirectionId == dl.EducationDirectionId &&
+                                    x.TimeNormId == dl.TimeNormId && x.Id != dl.Id)
+                    .OrderBy(x => x.Order);
+                return ResultService<List<DisciplineLessonViewModel>>.Success(query.Select(ModelFactoryToViewModel.CreateDisciplineLessonViewModel).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessons model)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    var tasks = _context.DisciplineLessonTasks.Where(x => x.DisciplineLessonId == model.DisciplineLessonFromId).ToList();
+                    foreach (var task in tasks)
+                    {
+                        var entity = ModelFacotryFromBindingModel.CreateDisciplineLessonTask(new DisciplineLessonTaskRecordBindingModel
+                        {
+                            DisciplineLessonId = model.DisciplineLessonToId,
+                            Task = task.Task,
+                            Description = task.Description,
+                            Image = task.Image,
+                            IsNecessarily = task.IsNecessarily,
+                            MaxBall = task.MaxBall,
+                            Order = task.Order
+                        });
+
+                        _context.DisciplineLessonTasks.Add(entity);
+                        _context.SaveChanges();
+
+                        if (model.CopyVariants)
+                        {
+                            var variants = _context.DisciplineLessonTaskVariants.Where(x => x.DisciplineLessonTaskId == task.Id).ToList();
+                            foreach (var variant in variants)
+                            {
+                                var entityTask = ModelFacotryFromBindingModel.CreateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
+                                {
+                                    DisciplineLessonTaskId = entity.Id,
+                                    VariantNumber = variant.VariantNumber,
+                                    VariantTask = variant.VariantTask,
+                                    Order = variant.Order
+                                });
+
+                                _context.DisciplineLessonTaskVariants.Add(entityTask);
+                                _context.SaveChanges();
+                            }
+                        }
                     }
                     transaction.Commit();
                 }

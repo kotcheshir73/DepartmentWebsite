@@ -95,6 +95,7 @@
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\MaterialTechnicalValueRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\SoftwareBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LaboratoryHead\SoftwareRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineStudentRecordBindingModels.cs" />
     <Compile Include="BindingModels\StudentMoveBinidingModels.cs" />
     <Compile Include="Context\DatabaseInitializer.cs" />
     <Compile Include="Context\DepartmentDbContext.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\ISoftwareRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\ISoftwareService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineStudentRecordService.cs" />
     <Compile Include="Migrations\201807131624088_InitMigration.cs" />
     <Compile Include="Migrations\201807131624088_InitMigration.Designer.cs">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
@@ -147,6 +149,10 @@
     <Compile Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.cs" />
     <Compile Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.Designer.cs">
       <DependentUpon>201809081701310_DisiplineLessonLinkEducationDirection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.cs" />
+    <Compile Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.Designer.cs">
+      <DependentUpon>201809120819193_DisiplineStudnetRecordUpdateTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -222,6 +228,7 @@
     <Compile Include="Services\StandartServices\LaboratoryHead\MaterialTechnicalValueService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\SoftwareRecordService.cs" />
     <Compile Include="Services\StandartServices\LaboratoryHead\SoftwareService.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineStudentRecordService.cs" />
     <Compile Include="Services\StudentMoveService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StudentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\TimeNormService.cs" />
@@ -267,6 +274,7 @@
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\MaterialTechnicalValueViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LaboratoryHead\SoftwareViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineStudentRecordViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -300,6 +308,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.resx">
       <DependentUpon>201809081701310_DisiplineLessonLinkEducationDirection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.resx">
+      <DependentUpon>201809120819193_DisiplineStudnetRecordUpdateTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

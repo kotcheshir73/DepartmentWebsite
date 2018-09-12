@@ -13,6 +13,18 @@ namespace DepartmentService.IServices
 
         ResultService FormDisciplineLessons(LearningProcessFormDisciplineLessonsBindingModel model);
 
-        ResultService FormDisciplineLessonTaskss(LearningProcessFormDisciplineLessonTasksBindingModel model);
+        ResultService FormDisciplineLessonTasks(LearningProcessFormDisciplineLessonTasksBindingModel model);
+
+        ResultService FormDisciplineLessonVariants(LearningProcessFormDisciplineLessonTaskVariantsBindingModel model);
+
+        ResultService<List<DisciplineLessonTaskVariantViewModel>> GetDisciplineLessonTaskVariants(GetDisciplineLessonTaskVariants model);
+
+        ResultService<List<DisciplineLessonTaskViewModel>> GetDisiplineLessonTasksForDuplicate(GetDisiplineLessonTasksForDuplicate model);
+
+        ResultService DuplicateDisiplineLessonTasks(DuplicateDisiplineLessonTasks model);
+
+        ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicate model);
+
+        ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessons model);
     }
 }

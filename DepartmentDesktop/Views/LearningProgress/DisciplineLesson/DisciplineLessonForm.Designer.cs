@@ -262,9 +262,9 @@
             this.labelCountOfPairs.AutoSize = true;
             this.labelCountOfPairs.Location = new System.Drawing.Point(368, 182);
             this.labelCountOfPairs.Name = "labelCountOfPairs";
-            this.labelCountOfPairs.Size = new System.Drawing.Size(94, 13);
+            this.labelCountOfPairs.Size = new System.Drawing.Size(105, 13);
             this.labelCountOfPairs.TabIndex = 16;
-            this.labelCountOfPairs.Text = "Количество пар*:";
+            this.labelCountOfPairs.Text = "Количество часов*:";
             // 
             // textBoxOrder
             // 

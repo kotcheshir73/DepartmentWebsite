@@ -703,6 +703,21 @@ namespace DepartmentService.ViewModels
                 Order = entity.Order
             };
         }
+
+        public static DisciplineStudentRecordViewModel CreateDisciplineStudentRecordViewModel(DisciplineStudentRecord entity)
+        {
+            return new DisciplineStudentRecordViewModel
+            {
+                Id = entity.Id,
+                DisciplineId = entity.DisciplineId,
+                StudentId = entity.StudentId,
+                Discipline = entity.Discipline.DisciplineName,
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Semester = entity.Semester,
+                Variant = entity.Variant,
+                SubGroup = entity.SubGroup
+            };
+        }
         #endregion
     }
 }

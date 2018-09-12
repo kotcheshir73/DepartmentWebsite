@@ -50,4 +50,44 @@ namespace DepartmentService.BindingModels
 
         public bool IsNecessarily { get; set; }
     }
+
+    public class LearningProcessFormDisciplineLessonTaskVariantsBindingModel
+    {
+        public Guid DisciplineLessonTaskId { get; set; }
+
+        public string VariantNumberTemplate { get; set; }
+
+        public List<string> Variants { get; set; }
+    }
+
+    public class GetDisciplineLessonTaskVariants
+    {
+        public Guid DisciplineLessonId { get; set; }
+    }
+
+    public class GetDisiplineLessonTasksForDuplicate
+    {
+        public Guid DisciplineLessonTaskId { get; set; }
+    }
+
+    public class DuplicateDisiplineLessonTasks
+    {
+        public Guid DisciplineLessonTaskFromId { get; set; }
+
+        public Guid DisciplineLessonTaskToId { get; set; }
+    }
+
+    public class GetDisiplineLessonsForDuplicate
+    {
+        public Guid DisciplineLessonId { get; set; }
+    }
+
+    public class DuplicateDisiplineLessons
+    {
+        public Guid DisciplineLessonFromId { get; set; }
+
+        public Guid DisciplineLessonToId { get; set; }
+
+        public bool CopyVariants { get; set; }
+    }
 }

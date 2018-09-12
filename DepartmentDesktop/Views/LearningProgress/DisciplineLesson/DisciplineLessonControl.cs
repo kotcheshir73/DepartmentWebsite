@@ -37,8 +37,9 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                 new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Discipline", Title = "Дисциплина", Width = 200, Visible = true },
                 new ColumnConfig { Name = "TimeNorm", Title = "Тип", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Title", Title = "Заголовок", Width = 300, Visible = true },
-                new ColumnConfig { Name = "CountOfPairs", Title = "Кол-во пар", Width = 100, Visible = true },
+                new ColumnConfig { Name = "CountOfPairs", Title = "Кол-во часов", Width = 100, Visible = true },
                 new ColumnConfig { Name = "CountOfTasks", Title = "Кол-во заданий", Width = 150, Visible = true }
             };
 
@@ -46,7 +47,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "MakeCloneToolStripMenuItem", "Дублировать"},
+                    { "DuplicateDisciplineLessonToolStripMenuItem", "Дублировать задания"},
                     { "FormDisciplineLessonsToolStripMenuItem", "Сформировать занятия"}
                 };
 
@@ -56,7 +57,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("MakeCloneToolStripMenuItem", MakeCloneToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("DuplicateDisciplineLessonToolStripMenuItem", DuplicateDisciplineLessonToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("FormDisciplineLessonsToolStripMenuItem", FormDisciplineLessonsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
@@ -110,6 +111,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
                     res.EducationDirection,
                     res.Discipline,
                     res.TimeNorm,
+                    res.Semester,
                     res.Title,
                     res.CountOfPairs,
                     res.CountTasks
@@ -178,10 +180,19 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
             }
         }
 
-        private void MakeCloneToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DuplicateDisciplineLessonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var form = Container.Resolve<MaterialTechnicalValueReport>();
-            //form.Show();
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = Container.Resolve<DuplicateDisciplineLessonForm>(
+                new ParameterOverrides
+                {
+                    { "dlId", id }
+                }
+                .OnType<DuplicateDisciplineLessonForm>());
+                form.Show();
+            }
         }
 
         private void FormDisciplineLessonsToolStripMenuItem_Click(object sender, EventArgs e)

@@ -31,15 +31,17 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                 new ColumnConfig { Name = "Task", Title = "Задание", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Description", Title = "Описание", Width = 200, Visible = true },
                 new ColumnConfig { Name = "IsNecessarily", Title = "Обязательность", Width = 100, Visible = true },
-                new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 100, Visible = true }
+                new ColumnConfig { Name = "MaxBall", Title = "Макисмальный балл", Width = 150, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string>();
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "MakeCloneToolStripMenuItem", "Дублировать варианты"},
-                    { "FormDisciplineLessonTasksToolStripMenuItem", "Сформировать задания"}
+                    { "DuplicateDisciplineLessonTasksToolStripMenuItem", "Дублировать варианты"},
+                    { "FormDisciplineLessonTasksToolStripMenuItem", "Сформировать задания"},
+                    { "GetDisciplineLessonTaskVariantsToolStripMenuItem", "Получить задания с вариантами"},
+                    { "GetDisciplineLessonVariantTasksToolStripMenuItem", "Получить задания по вариантам"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
@@ -48,8 +50,10 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("MakeCloneToolStripMenuItem", MakeCloneToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("DuplicateDisciplineLessonTasksToolStripMenuItem", DuplicateDisciplineLessonTasksToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("FormDisciplineLessonTasksToolStripMenuItem", FormDisciplineLessonTasksToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("GetDisciplineLessonTaskVariantsToolStripMenuItem", GetDisciplineLessonTaskVariantsToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("GetDisciplineLessonVariantTasksToolStripMenuItem", GetDisciplineLessonVariantTasksToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -151,10 +155,19 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             }
         }
 
-        private void MakeCloneToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DuplicateDisciplineLessonTasksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var form = Container.Resolve<MaterialTechnicalValueReport>();
-            //form.Show();
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = Container.Resolve<DuplicateDisciplineLessonTaskForm>(
+                new ParameterOverrides
+                {
+                    { "dltId", id }
+                }
+                .OnType<DuplicateDisciplineLessonTaskForm>());
+                form.Show();
+            }
         }
 
         private void FormDisciplineLessonTasksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -165,6 +178,28 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                     { "dlId", _dlId }
                 }
                 .OnType<FormDisciplineLessonTasksForm>());
+            form.Show();
+        }
+
+        private void GetDisciplineLessonTaskVariantsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<DisciplineLessonTasksForm>(
+                new ParameterOverrides
+                {
+                    { "dlId", _dlId }
+                }
+                .OnType<DisciplineLessonTasksForm>());
+            form.Show();
+        }
+
+        private void GetDisciplineLessonVariantTasksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<DisciplineLessonVariantsForm>(
+                new ParameterOverrides
+                {
+                    { "dlId", _dlId }
+                }
+                .OnType<DisciplineLessonVariantsForm>());
             form.Show();
         }
     }

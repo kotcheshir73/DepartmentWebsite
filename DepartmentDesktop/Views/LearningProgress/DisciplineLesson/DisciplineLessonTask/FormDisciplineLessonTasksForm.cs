@@ -52,7 +52,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private void buttonForm_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(labelTaskTemplate.Text))
+            if (string.IsNullOrEmpty(textBoxTaskTemplate.Text))
             {
                 MessageBox.Show("Укажите шаблон заголовка задания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -88,7 +88,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                 }
             }
 
-            ResultService result = _process.FormDisciplineLessonTaskss(new LearningProcessFormDisciplineLessonTasksBindingModel
+            ResultService result = _process.FormDisciplineLessonTasks(new LearningProcessFormDisciplineLessonTasksBindingModel
             {
                 DisciplineLessonId = _dlId,
                 TitleTemplate = textBoxTaskTemplate.Text,
@@ -99,6 +99,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                return;
             }
             MessageBox.Show("Сделано", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
