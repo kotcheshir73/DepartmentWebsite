@@ -114,6 +114,7 @@ namespace DepartmentDesktop.Views.LearningProgress
                     };
                     tabControl.Controls.Add(tabPage);
 
+            if (comboBoxDisciplines.SelectedIndex > -1)
                     var controlDL = Container.Resolve<DisciplineLessonControl>();
                     controlDL.Dock = DockStyle.Fill;
                     controlDL.LoadData(new Guid(comboBoxAcademicYear.SelectedValue.ToString()), new Guid(comboBoxDisciplines.SelectedValue.ToString()), 

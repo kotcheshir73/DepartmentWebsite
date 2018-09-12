@@ -134,6 +134,10 @@
     <Compile Include="Migrations\201809080547151_DisiplineLessonMigration.Designer.cs">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809080920599_m1.cs" />
+    <Compile Include="Migrations\201809080920599_m1.Designer.cs">
+      <DependentUpon>201809080920599_m1.cs</DependentUpon>   
+       </Compile>
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.cs" />
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.Designer.cs">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
@@ -297,6 +301,9 @@
     <EmbeddedResource Include="Migrations\201809080547151_DisiplineLessonMigration.resx">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809080920599_m1.resx">
+      <DependentUpon>201809080920599_m1.cs</DependentUpon>
+       </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.resx">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
     </EmbeddedResource>

@@ -178,6 +178,24 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\DuplicateForm.Designer.cs">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LearningProgress\AttendanceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\AttendanceControl.Designer.cs">
+      <DependentUpon>AttendanceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonAttendance\DisciplineLessonAttendanceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonAttendance\DisciplineLessonAttendanceControl.Designer.cs">
+      <DependentUpon>DisciplineLessonAttendanceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonAttendance\DisciplineLessonAttendanceStudentRecordsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonAttendance\DisciplineLessonAttendanceStudentRecordsForm.Designer.cs">
+      <DependentUpon>DisciplineLessonAttendanceStudentRecordsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -477,6 +495,12 @@
     </Compile>
     <Compile Include="Views\LaboratoryHead\Software\SoftwareForm.Designer.cs">
       <DependentUpon>SoftwareForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\StudentsDistributionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\StudentsDistributionControl.Designer.cs">
+      <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.cs">
       <SubType>UserControl</SubType>
@@ -816,6 +840,15 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\DuplicateForm.resx">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\AttendanceControl.resx">
+      <DependentUpon>AttendanceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonAttendance\DisciplineLessonAttendanceControl.resx">
+      <DependentUpon>DisciplineLessonAttendanceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonAttendance\DisciplineLessonAttendanceStudentRecordsForm.resx">
+      <DependentUpon>DisciplineLessonAttendanceStudentRecordsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonControl.resx">
       <DependentUpon>DisciplineLessonControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -941,12 +974,9 @@
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.resx">
       <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValuePassport.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\InstallSowtwareForm.resx">
       <DependentUpon>InstallSowtwareForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
       <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
     </EmbeddedResource>
@@ -970,6 +1000,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\Software\SoftwareForm.resx">
       <DependentUpon>SoftwareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\StudentsDistributionControl.resx">
+      <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>

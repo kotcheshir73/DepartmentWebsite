@@ -526,12 +526,32 @@ namespace DepartmentDesktop
         #endregion
 
         #region Преподаватель
-        private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void КонфигурированиеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LearningProgress.LearningProgressControl>();
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void посещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.AttendanceControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void распределениеСтудентовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         #endregion
 
     }

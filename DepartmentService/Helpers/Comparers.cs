@@ -32,7 +32,7 @@ namespace DepartmentService.Helpers
 
         public int GetHashCode(LaboratoryProcessSoftwareRecordsViewModels obj)
         {
-            if (obj is null) return 0;
+            if (obj == null) return 0;
             
             int hashSoftwareName = string.IsNullOrEmpty(obj.SoftwareName) ? 0 : obj.SoftwareName.GetHashCode();
 
