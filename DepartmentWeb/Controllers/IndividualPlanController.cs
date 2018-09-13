@@ -47,7 +47,39 @@ namespace DepartmentWeb.Controllers
                 LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
                 Title = "Методическая работа"
             });
-            return View(tmp.Result);
+            return View(tmp.Result.List);
+        }
+
+        [HttpPost]
+        public ActionResult Metodich(List<DepartmentService.ViewModels.IndividualPlanRecordViewModel> individualPlanRecordViewModels)
+        {
+
+            foreach (var tmp in individualPlanRecordViewModels)
+            {
+                var element = _serviceIPRS.GetIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+                {
+                    Id = tmp.Id
+                });
+                _serviceIPRS.UpdateIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordSetBindingModel()
+                {
+                    Id = element.Result.Id,
+                    LecturerId =  element.Result.LecturerId,
+                    AcademicYearId = element.Result.AcademicYearId,
+                    IndividualPlanKindOfWorkId = element.Result.IndividualPlanKindOfWorkId,
+                    PlanAutumn = tmp.PlanAutumn,
+                    PlanSpring = tmp.PlanSpring,
+                    FactAutumn =  tmp.FactAutumn,
+                    FactSpring = tmp.FactSpring
+                });
+            }
+
+            var tmp2 = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Методическая работа"
+            });
+
+            return View("Metodich", tmp2.Result.List);
         }
 
 

@@ -1,4 +1,4 @@
-﻿@model DepartmentService.ViewModels.IndividualPlanRecordPageViewModel
+﻿@model  List<DepartmentService.ViewModels.IndividualPlanRecordViewModel>
 
 @{
     ViewBag.Title = "Методическая работа";
@@ -28,30 +28,36 @@
         </th>
     </tr>
 
-       @foreach (var item in Model.List)
+    @using (Html.BeginForm())
+    {
+        for (int i = 0; i < Model.Count; i++)
         {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeNormDescription)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.PlanAutumn)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.FactAutumn)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.PlanSpring)
-        </td>
-        <td>
-            @Html.EditorFor(modelItem => item.FactSpring)
-        </td>
-    </tr>
-    }
-    </table>
+            @Html.HiddenFor(m => m[i].Id)
+            @:
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => m[i].Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m[i].TimeNormDescription)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].PlanAutumn)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].FactAutumn)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].PlanSpring)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].FactSpring)
+                </td>
+            </tr>
+        }
+        @:</table> <br>
+    <input type="submit" />
+}
 
     @*<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Name"), "")</h4>*@
 
