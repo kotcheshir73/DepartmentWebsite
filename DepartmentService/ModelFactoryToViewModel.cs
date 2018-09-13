@@ -293,7 +293,9 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 StatementId = entity.StatementId,
                 StudentId = entity.StudentId,
-                Score = entity.Score
+                Score = entity.Score,
+                StudentName=entity.Student.LastName+" "+ entity.Student.FirstName + " " + entity.Student.Patronymic,
+                Title=entity.Statement.AcademicPlanRecord.Discipline.DisciplineName+" "+entity.Statement.StudentGroup.GroupName
             };
         }
 

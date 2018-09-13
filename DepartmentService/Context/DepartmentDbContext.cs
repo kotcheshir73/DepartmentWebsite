@@ -1,8 +1,11 @@
-﻿using DepartmentModel.Models;
+﻿using DepartmentModel;
+using DepartmentModel.Enums;
+using DepartmentModel.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace DepartmentService.Context
 {
@@ -72,6 +75,11 @@ namespace DepartmentService.Context
             try
             {
                 return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var ffhf = ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return 0;
             }
             catch (Exception ex)
             {

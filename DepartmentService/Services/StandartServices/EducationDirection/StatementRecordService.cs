@@ -42,7 +42,7 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(record => record.StudentId == model.StudentId);
                 }
-
+                query = query.Include(record => record.Statement.AcademicPlanRecord.Discipline).Include(record => record.Student.StudentGroup);
                 query = query.OrderBy(record => record.StatementId).ThenBy(record => record.StudentId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
@@ -121,7 +121,7 @@ namespace DepartmentService.Services
                             {
                                 StatementId = sttmnt.Id,
                                 StudentId = stdnt.Id,
-                                Score = ""
+                                Score = "Нет"
                             });
                             _context.StatementRecords.Add(entity);
                         }
@@ -180,7 +180,6 @@ namespace DepartmentService.Services
                 {
                     return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                 }
-                //_context.StatementRecords.Attach(entity);   //не уверен что так правильно
 
                 entity = ModelFacotryFromBindingModel.CreateStatementRecord(model, entity);
 

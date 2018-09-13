@@ -14,12 +14,13 @@ namespace DepartmentWeb.Controllers
     {
         private IAcademicYearService _serviceAY;
         private IStatementService _serviceS;
-        private DbContext _context;
-        public StatementController(IEducationalProcessService serviceEP, IAcademicYearService serviceAY, IStatementService serviceS, DbContext context)
+        private IStatementRecordService _serviceSR;
+
+        public StatementController( IAcademicYearService serviceAY, IStatementService serviceS, IStatementRecordService serviceSR)
         {
             _serviceS = serviceS;
             _serviceAY = serviceAY;
-            _context = context;
+            _serviceSR = serviceSR;
 
         }
         // GET: Statement
@@ -42,6 +43,38 @@ namespace DepartmentWeb.Controllers
                 AcademicYearId = new Guid(yearId)
             });
             return PartialView("~/Views/Statement/StatementList.cshtml", tmp.Result.List);
+        }
+
+        [HttpPost]
+        public ActionResult StatementRecord(List<DepartmentService.ViewModels.StatementRecordViewModel> statementRecordViewModels)
+        {
+            
+            foreach(var tmp in statementRecordViewModels)
+            {
+                var element = _serviceSR.GetStatementRecord(new DepartmentService.BindingModels.StatementRecordGetBindingModel()
+                {
+                    Id = tmp.Id
+                });
+                _serviceSR.UpdateStatementRecord(new DepartmentService.BindingModels.StatementRecordSetBindingModel()
+                {
+                    Id = element.Result.Id,
+                    StatementId = element.Result.StatementId,
+                    StudentId = element.Result.StudentId,
+                    Score = tmp.Score
+                });
+            }
+
+            var year = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            return View("Index", year.Result);
+        }
+
+        public ActionResult StatementRecord(string id)
+        {
+            var tmp = _serviceSR.GetStatementRecords(new DepartmentService.BindingModels.StatementRecordGetBindingModel()
+            {
+                StatementId=new Guid(id)
+            });
+            return View(tmp.Result.List);
         }
     }
 }

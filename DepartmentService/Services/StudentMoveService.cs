@@ -114,7 +114,7 @@ namespace DepartmentService.Services
 						{
 							StudentId = entity.Id,
 							DateCreate = DateTime.Now,
-							TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroup.GroupName,
+							TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroupId,
 							model.OrderNumber, model.OrderDate.ToShortDateString())
 						};
 
