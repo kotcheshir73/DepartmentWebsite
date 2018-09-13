@@ -229,6 +229,7 @@
     <Content Include="Views\NIR\Index.cshtml" />
     <Content Include="Views\Statement\Index.cshtml" />
     <Content Include="Views\Statement\StatementList.cshtml" />
+    <Content Include="Views\Statement\StatementRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

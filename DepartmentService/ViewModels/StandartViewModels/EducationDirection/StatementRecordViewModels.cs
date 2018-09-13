@@ -12,6 +12,10 @@ namespace DepartmentService.ViewModels
 
         public Guid StudentId { get; set; }
 
+        public string StudentName { get; set; }
+
+        public string Title { get; set; }
+
         public string Score { get; set; }
     }
 }

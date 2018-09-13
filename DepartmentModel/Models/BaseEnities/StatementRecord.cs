@@ -18,7 +18,6 @@ namespace DepartmentModel.Models
         [DataMember]
         public Guid StudentId { get; set; }
 
-        [Required]
         [DataMember]
         public string Score { get; set; }
 
