@@ -167,6 +167,51 @@ namespace DepartmentService.Services
             }
         }
 
+        public ResultService CreateAllFindIndividualPlanRecords(AcademicYearSetBindingModel model)
+        {
+            try
+            {
+                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
+                {
+                    throw new Exception("Нет доступа на чтение данных");
+                }
+                var kindOfWorks = _context.IndividualPlanKindOfWorks.Where(record => !record.IsDeleted);
+                var lecturers = _context.Lecturers.Where(record => !record.IsDeleted);
+                foreach (var lec in lecturers)
+                {
+                    var lecturersTimes = _context.IndividualPlanRecords.Where(record => !record.IsDeleted && record.LecturerId == lec.Id && record.AcademicYearId == model.Id);
+                    foreach (var kindOfW in kindOfWorks)
+                    {
+                        if (lecturersTimes.FirstOrDefault(record => record.IndividualPlanKindOfWorkId == kindOfW.Id) == null)
+                        {
+                            var entity = ModelFacotryFromBindingModel.CreateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel()
+                            {
+                                AcademicYearId = model.Id,
+                                LecturerId = lec.Id,
+                                IndividualPlanKindOfWorkId = kindOfW.Id,
+                                PlanAutumn = 0.0,
+                                PlanSpring = 0.0,
+                                FactAutumn = 0.0,
+                                FactSpring = 0.0
+
+                            });
+                            _context.IndividualPlanRecords.Add(entity);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService DeleteIndividualPlanRecord(IndividualPlanRecordGetBindingModel model)
         {
             try

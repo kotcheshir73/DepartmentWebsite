@@ -232,6 +232,7 @@
     <Content Include="Views\Statement\StatementRecord.cshtml" />
     <Content Include="Views\IndividualPlan\Organizac.cshtml" />
     <Content Include="Views\IndividualPlan\Index.cshtml" />
+    <Content Include="Views\IndividualPlan\Vospit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

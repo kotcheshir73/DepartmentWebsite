@@ -426,6 +426,7 @@ namespace DepartmentService.BindingModels
             }
             entity.IndividualPlanKindOfWorkId = model.IndividualPlanKindOfWorkId;
             entity.LecturerId = model.LecturerId;
+            entity.AcademicYearId = model.AcademicYearId;
             entity.PlanAutumn = model.PlanAutumn;
             entity.FactAutumn = model.FactAutumn;
             entity.PlanSpring = model.PlanSpring;

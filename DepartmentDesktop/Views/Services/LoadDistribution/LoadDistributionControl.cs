@@ -30,9 +30,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
         private readonly IStatementService _serviceS;
 
+        private readonly IIndividualPlanRecordService _serviceIPR;
+
         private bool notLoading;
 
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, IStatementService serviceS)
+		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, IStatementService serviceS, IIndividualPlanRecordService serviceIPR)
 		{
 			InitializeComponent();
             _serviceAY = serviceAY;
@@ -40,6 +42,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             _serviceEP = serviceEP;
             _serviceL = serviceL;
             _serviceS = serviceS;
+            _serviceIPR = serviceIPR;
 
 
             setDoubleBuffered(dataGridViewList, true);
@@ -291,6 +294,11 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
         private void buttonCreatStatement_Click(object sender, EventArgs e)
         {
             _serviceS.CreateAllFindStatement(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _serviceIPR.CreateAllFindIndividualPlanRecords(new AcademicYearSetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
         }
     }
 }

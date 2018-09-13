@@ -20,6 +20,9 @@ namespace DepartmentModel.Models
         public Guid LecturerId { get; set; }
 
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [DataMember]
         public double PlanAutumn { get; set; }
 
         [DataMember]
@@ -34,6 +37,7 @@ namespace DepartmentModel.Models
 
         //-------------------------------------------------------------------------
         public virtual Lecturer Lecturer { get; set; }
+        public virtual AcademicYear AcademicYear { get; set; }
         public virtual IndividualPlanKindOfWork IndividualPlanKindOfWorks { get; set; }
         //-------------------------------------------------------------------------
     }

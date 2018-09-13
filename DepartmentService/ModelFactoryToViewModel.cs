@@ -435,6 +435,7 @@ namespace DepartmentService.ViewModels
                 Name = entity.IndividualPlanKindOfWorks.Name,
                 TimeNormDescription = entity.IndividualPlanKindOfWorks.TimeNormDescription,
                 LecturerId = entity.LecturerId,
+                AcademicYearId = entity.AcademicYearId,
                 PlanAutumn = entity.PlanAutumn,
                 FactAutumn = entity.FactAutumn,
                 PlanSpring = entity.PlanSpring,

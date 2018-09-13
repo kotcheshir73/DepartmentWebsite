@@ -40,5 +40,12 @@ namespace DepartmentService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService DeleteIndividualPlanRecord(IndividualPlanRecordGetBindingModel model);
+
+        /// <summary>
+		/// Создание всех возможных записей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService CreateAllFindIndividualPlanRecords(AcademicYearSetBindingModel model);
     }
 }
