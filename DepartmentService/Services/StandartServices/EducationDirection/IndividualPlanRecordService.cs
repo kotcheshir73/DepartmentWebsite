@@ -167,7 +167,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService CreateAllFindIndividualPlanRecords(AcademicYearGetBindingModel model)
+        public ResultService CreateAllFindIndividualPlanRecords(AcademicYearSetBindingModel model)
         {
             try
             {
@@ -175,44 +175,31 @@ namespace DepartmentService.Services
                 {
                     throw new Exception("Нет доступа на чтение данных");
                 }
-                var kindOfWorks = _context.IndividualPlanKindOfWorks.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id);
-                var lecturers = _context.TimeNorms.Where(record => !record.IsDeleted && record.AcademicYearId == model.Id
-                    && (record.KindOfLoadName == "Экзамен" || record.KindOfLoadName == "Зачет" || record.KindOfLoadName == "Зачет с оценкой")); //Получение трех норм времени для поиска ведомостей
-                foreach (var tn in timeNorm)
+                var kindOfWorks = _context.IndividualPlanKindOfWorks.Where(record => !record.IsDeleted);
+                var lecturers = _context.Lecturers.Where(record => !record.IsDeleted);
+                foreach (var lec in lecturers)
                 {
-                    //Поиск найзначеных часов преподавателям
-                    var APRM = _context.AcademicPlanRecordMissions.Where(record => !record.IsDeleted).Include(record => record.AcademicPlanRecordElement.AcademicPlanRecord.Contingent)
-                        .Include(record => record.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
-                        .Where(record => record.AcademicPlanRecordElement.TimeNormId == tn.Id);
-                    string nameTN = tn.KindOfLoadName == "Зачет с оценкой" ? "Диференцированный_зачет" : tn.KindOfLoadName;
-                    foreach (var APRMRecord in APRM)
+                    var lecturersTimes = _context.IndividualPlanRecords.Where(record => !record.IsDeleted && record.LecturerId == lec.Id && record.AcademicYearId == model.Id);
+                    foreach (var kindOfW in kindOfWorks)
                     {
-
-                        var studentGroup = _context.StudentGroups.Where(record => !record.IsDeleted && record.EducationDirectionId == APRMRecord.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirectionId
-                            && record.Course == APRMRecord.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.Course);
-                        foreach (var SGRecord in studentGroup)
+                        if (lecturersTimes.FirstOrDefault(record => record.IndividualPlanKindOfWorkId == kindOfW.Id) == null)
                         {
-                            if (statement.FirstOrDefault(record => !record.IsDeleted
-                                 && record.AcademicPlanRecordId == APRMRecord.AcademicPlanRecordElement.AcademicPlanRecordId
-                                 && record.LecturerId == APRMRecord.LecturerId
-                                 && record.StudentGroupId == SGRecord.Id) == null)
+                            var entity = ModelFacotryFromBindingModel.CreateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel()
                             {
-                                var entity = ModelFacotryFromBindingModel.CreateStatement(new StatementSetBindingModel()
-                                {
-                                    LecturerId = APRMRecord.LecturerId,
-                                    AcademicPlanRecordId = APRMRecord.AcademicPlanRecordElement.AcademicPlanRecordId,
-                                    Semester = APRMRecord.AcademicPlanRecordElement.AcademicPlanRecord.Semester.ToString(),
-                                    Course = APRMRecord.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.Course.ToString(),
-                                    TypeOfTest = nameTN,
-                                    StudentGroupId = SGRecord.Id
-                                });
-                                _context.Statements.Add(entity);
-                            }
+                                AcademicYearId = model.Id,
+                                LecturerId = lec.Id,
+                                IndividualPlanKindOfWorkId = kindOfW.Id,
+                                PlanAutumn = 0.0,
+                                PlanSpring = 0.0,
+                                FactAutumn = 0.0,
+                                FactSpring = 0.0
+
+                            });
+                            _context.IndividualPlanRecords.Add(entity);
                         }
                     }
                 }
                 _context.SaveChanges();
-                _serviceSR.CreateAllFindStatementRecord(model);
                 return ResultService.Success();
             }
             catch (DbEntityValidationException ex)
