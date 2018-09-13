@@ -9,6 +9,8 @@ namespace DepartmentService.BindingModels
         public Guid? IndividualPlanKindOfWorkId { get; set; }
 
         public Guid? LecturerId { get; set; }
+
+        public string Title { get; set; }
     }
 
     public class IndividualPlanRecordSetBindingModel

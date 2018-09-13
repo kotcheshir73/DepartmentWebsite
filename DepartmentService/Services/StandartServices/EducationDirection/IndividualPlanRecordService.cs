@@ -42,6 +42,10 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(aprm => aprm.LecturerId == model.LecturerId);
                 }
+                if (!string.IsNullOrEmpty(model.Title))
+                {
+                    query = query.Where(aprm => aprm.IndividualPlanKindOfWorks.IndividualPlanTitle.Title == model.Title);
+                }
 
                 query = query.OrderBy(apre => apre.IndividualPlanKindOfWorkId).ThenBy(apre => apre.LecturerId);
 
@@ -53,12 +57,16 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                //query = query.Include(apre => apre.AcademicPlanRecordElement).Include(apre => apre.AcademicPlanRecordElement.).Include(apre => apre.TimeNorm); не понятно что с этим делать
+                query = query.Include(apre => apre.IndividualPlanKindOfWorks.IndividualPlanTitle); // для вложенных запросов
+
+
+
 
                 var result = new IndividualPlanRecordPageViewModel
                 {
                     MaxCount = countPages,
-                    List = query.Select(ModelFactoryToViewModel.CreateIndividualPlanRecordViewModel).ToList()
+                    List = query.Select(ModelFactoryToViewModel.CreateIndividualPlanRecordViewModel).ToList() // в CreateIndividualPlanRecordViewModel прописываем те столбцы из связанных таблиц которые нам нужны
+                    // и еще в DepartmentService.ViewModels добавляем те строки из др таблицы которые надо выводить
                 };
 
                 return ResultService<IndividualPlanRecordPageViewModel>.Success(result);

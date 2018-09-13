@@ -11,10 +11,14 @@ namespace DepartmentWeb.Controllers
     public class IndividualPlanController : Controller
     {
         private IIndividualPlanTitleService _serviceIPTS;
+        private IIndividualPlanKindOfWorkService _serviceIPKWS;
+        private IIndividualPlanRecordService _serviceIPRS;
 
-        public IndividualPlanController(IIndividualPlanTitleService serviceIPTS)
+        public IndividualPlanController(IIndividualPlanTitleService serviceIPTS, IIndividualPlanKindOfWorkService serviceIPKWS, IIndividualPlanRecordService serviceIPRS)
         {
             _serviceIPTS = serviceIPTS;
+            _serviceIPKWS = serviceIPKWS;
+            _serviceIPRS = serviceIPRS;
             /*
             var tmp = serviceAPRE.GetAcademicPlanRecordElement(new DepartmentService.BindingModels.AcademicPlanRecordElementGetBindingModel()
             {
@@ -22,9 +26,50 @@ namespace DepartmentWeb.Controllers
             });     */  //тестирование подключения к бд
         }
         // GET: IndividualPlan
-        public ActionResult Index()
+
+
+        public ActionResult Metodich()
         {
-            var tmp = _serviceIPTS.GetIndividualPlanTitles(new DepartmentService.BindingModels.IndividualPlanTitleGetBindingModel());
+
+            //    // добавление в БД
+            //    _serviceIPTS.CreateIndividualPlanKindOfWork(new DepartmentService.BindingModels.IndividualPlanKindOfWorkSetBindingModel()
+            //    {
+            //        IndividualPlanTitleId = new Guid("7DCD4019-F67C-40FD-A325-92E5E16ADB98"),
+            //        Name = "Профориентационная работа среди школьной, рабочей и сельской молодежи",
+            //        TimeNormDescription = "Профориентационная работа среди школьной, рабочей и сельской молодежи по фактическим затратам времени"
+            //    }
+            //    );
+            //_serviceIPRS.CreateIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordSetBindingModel()
+            //{
+            //    IndividualPlanKindOfWorkId = new Guid("AA08B00E-1298-487E-831A-1668CB702020"),
+            //    LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+            //    PlanAutumn = 1.0,
+            //    PlanSpring=2.0,
+            //    FactAutumn = 2.0,
+            //    FactSpring = 3.0         
+            //}
+            //);
+            //return View();
+
+            var tmp = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {   
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Методическая работа"
+            });  
+
+            return View(tmp.Result);
+        }
+
+
+
+        public ActionResult Organizac()
+        {
+            var tmp = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Организационная работа"
+            });
+
             return View(tmp.Result);
         }
     }

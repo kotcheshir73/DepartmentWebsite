@@ -421,7 +421,8 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 IndividualPlanTitleId = entity.IndividualPlanTitleId,
                 Name = entity.Name,
-                TimeNormDescription = entity.TimeNormDescription
+                TimeNormDescription = entity.TimeNormDescription,
+                Title = entity.IndividualPlanTitle.Title
             };
         }
 
@@ -431,11 +432,14 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 IndividualPlanKindOfWorkId = entity.IndividualPlanKindOfWorkId,
+                Name = entity.IndividualPlanKindOfWorks.Name,
+                TimeNormDescription = entity.IndividualPlanKindOfWorks.TimeNormDescription,
                 LecturerId = entity.LecturerId,
                 PlanAutumn = entity.PlanAutumn,
                 FactAutumn = entity.FactAutumn,
                 PlanSpring = entity.PlanSpring,
-                FactSpring = entity.FactSpring
+                FactSpring = entity.FactSpring,
+                Title = entity.IndividualPlanKindOfWorks.IndividualPlanTitle.Title
             };
         }
 

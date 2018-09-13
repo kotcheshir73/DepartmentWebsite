@@ -6,6 +6,8 @@ namespace DepartmentService.ViewModels
 
     public class IndividualPlanKindOfWorkViewModel
     {
+        internal string Title;
+
         public Guid Id { get; set; }
 
         public Guid IndividualPlanTitleId { get; set; }

@@ -38,6 +38,10 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(aprm => aprm.IndividualPlanTitleId == model.IndividualPlanTitleId);
                 }
+                if (!string.IsNullOrEmpty(model.Title))
+                {
+                    query = query.Where(aprm => aprm.IndividualPlanTitle.Title == model.Title);
+                }
 
                 query = query.OrderBy(apre => apre.IndividualPlanTitleId);
 
@@ -49,7 +53,8 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                //query = query.Include(apre => apre.AcademicPlanRecordElement).Include(apre => apre.AcademicPlanRecordElement.).Include(apre => apre.TimeNorm); не понятно что с этим делать
+                query = query.Include(apre => apre.IndividualPlanTitle);
+                //.Include(apre => apre.AcademicPlanRecordElement.).Include(apre => apre.TimeNorm); не понятно что с этим делать
 
                 var result = new IndividualPlanKindOfWorkPageViewModel
                 {

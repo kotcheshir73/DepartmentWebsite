@@ -1,0 +1,56 @@
+﻿@model DepartmentService.ViewModels.IndividualPlanRecordPageViewModel
+
+@{
+    ViewBag.Title = "Организационная работа";
+}
+
+<h2>Организационная работа</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Вид работы
+        </th>
+        <th>
+            Нормы времени
+        </th>
+        <th>
+            по факту
+        </th>
+        <th>
+            по плану
+        </th>
+        <th>
+            по факту
+        </th>
+        <th>
+            по плану
+        </th>
+    </tr>
+    @foreach (var item in Model.List)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeNormDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanAutumn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FactAutumn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanSpring)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FactSpring)
+            </td>
+        </tr>
+    }
+</table>
+
+@*<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Name"), "")</h4>*@
+
