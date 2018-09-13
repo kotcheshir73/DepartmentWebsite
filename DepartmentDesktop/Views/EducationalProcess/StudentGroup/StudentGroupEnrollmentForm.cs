@@ -80,7 +80,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					FirstName = dataGridViewStudents.Rows[i].Cells[2].Value.ToString(),
 					Patronymic = dataGridViewStudents.Rows[i].Cells[3].Value.ToString(),
 					Description = dataGridViewStudents.Rows[i].Cells[5].Value.ToString(),
-					StudentGroupId = _id.Value
+					StudentGroupId = _id.Value,
+                    Email = "неизвестно"
 				};
 				list.Add(model);
 			}

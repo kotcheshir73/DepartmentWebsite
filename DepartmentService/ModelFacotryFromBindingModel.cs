@@ -249,6 +249,7 @@ namespace DepartmentService.BindingModels
 			{
 				entity = new Student();
 			}
+            entity.StudentGroupId = model.StudentGroupId;
             entity.NumberOfBook = model.NumberOfBook;
 			entity.LastName = model.LastName;
 			entity.FirstName = model.FirstName;
