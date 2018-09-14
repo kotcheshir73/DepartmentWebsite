@@ -31,5 +31,7 @@ namespace DepartmentService.IServices
         ResultService<List<Semesters>> GetSemesters(LearningProcessSemesterBindingModel model);
 
         ResultService<List<StudentGroupViewModel>> GetStudentGroups(LearningProcessStudentGroupBindingModel model);
+
+        ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFill model);
     }
 }

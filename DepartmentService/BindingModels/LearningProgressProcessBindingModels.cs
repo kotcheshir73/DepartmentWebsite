@@ -109,4 +109,13 @@ namespace DepartmentService.BindingModels
 
         public List<Semesters> Semesters { get; set; }
     }
+
+    public class DisciplineStudentRecordsForFill
+    {
+        public Guid DisciplineId { get; set; }
+
+        public Guid StudentGroupId { get; set; }
+
+        public Semesters Semester { get; set; }
+    }
 }

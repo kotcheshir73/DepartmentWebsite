@@ -1,4 +1,5 @@
 ﻿using DepartmentDesktop.Models;
+using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -171,13 +172,18 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
 
         private void FillGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var form = Container.Resolve<DuplicateDisciplineLessonForm>(
-            //    new ParameterOverrides
-            //    {
-            //        { "dlId", id }
-            //    }
-            //    .OnType<DuplicateDisciplineLessonForm>());
-            //form.Show();
+            var form = Container.Resolve<FillGroupForm>(
+                new ParameterOverrides
+                {
+                    { "dId", _dId },
+                    { "sgId", _sgId },
+                    { "semester", (Semesters)Enum.Parse(typeof(Semesters), _semester) }
+                }
+                .OnType<FillGroupForm>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
+            }
         }
 
         private void PrintToolStripMenuItem_Click(object sender, EventArgs e)

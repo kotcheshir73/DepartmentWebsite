@@ -508,6 +508,12 @@
     <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordForm.Designer.cs">
       <DependentUpon>DisciplineStudentRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.Designer.cs">
+      <DependentUpon>FillGroupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LearningProgress\StudentsDistributionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1023,6 +1029,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordForm.resx">
       <DependentUpon>DisciplineStudentRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.resx">
+      <DependentUpon>FillGroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\StudentsDistributionControl.resx">
       <DependentUpon>StudentsDistributionControl.cs</DependentUpon>

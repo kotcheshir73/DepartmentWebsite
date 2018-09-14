@@ -40,7 +40,7 @@ namespace DepartmentService.Services
                     return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "disciplineBlock(Дисциплины (модули)) not found",
                         ResultServiceStatusCode.NotFound);
                 }
-                
+
                 var user = _context.Users.FirstOrDefault(x => x.Id == model.UserId);
 
                 if (user == null)
@@ -577,6 +577,63 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<List<StudentGroupViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFill model)
+        {
+            try
+            {
+                var students = _context.Students.Where(x => x.StudentGroupId == model.StudentGroupId).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+
+                List<DisciplineStudentRecordViewModel> list = new List<DisciplineStudentRecordViewModel>();
+
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    int counter = 1;
+                    foreach (var st in students)
+                    {
+                        var dsr = _context.DisciplineStudentRecords
+                            .Include(x => x.Student)
+                            .Include(x => x.Student.StudentGroup)
+                            .Include(x => x.Discipline)
+                            .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                        if (dsr == null)
+                        {
+                            dsr = ModelFacotryFromBindingModel.CreateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
+                            {
+                                DisciplineId = model.DisciplineId,
+                                Semester = model.Semester.ToString(),
+                                StudentId = st.Id,
+                                SubGroup = 0,
+                                Variant = string.Format("Вариант {0}", counter++)
+                            });
+                            _context.DisciplineStudentRecords.Add(dsr);
+                            _context.SaveChanges();
+
+                            dsr = _context.DisciplineStudentRecords
+                            .Include(x => x.Student)
+                            .Include(x => x.Student.StudentGroup)
+                            .Include(x => x.Discipline)
+                            .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                        }
+
+                        list.Add(ModelFactoryToViewModel.CreateDisciplineStudentRecordViewModel(dsr));
+                    }
+
+                    transaction.Commit();
+                }
+
+                return ResultService<List<DisciplineStudentRecordViewModel>>.Success(list);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineStudentRecordViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineStudentRecordViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }
