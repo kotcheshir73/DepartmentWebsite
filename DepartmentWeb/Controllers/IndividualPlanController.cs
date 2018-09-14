@@ -30,18 +30,6 @@ namespace DepartmentWeb.Controllers
 
         public ActionResult Metodich()
         {
-
-            //    // добавление в БД
-
-            //    _serviceIPKWS.CreateIndividualPlanKindOfWork(new DepartmentService.BindingModels.IndividualPlanKindOfWorkSetBindingModel()
-            //    {
-            //        IndividualPlanTitleId = new Guid("36F788E2-B808-4179-9CEE-70810EB8C90E"),
-            //        Name = " ",
-            //        TimeNormDescription = " "
-            //    }
-            //);
-            //return View();
-
             var tmp = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
             {
                 LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
@@ -92,8 +80,41 @@ namespace DepartmentWeb.Controllers
                 Title = "Организационная работа"
             });
 
-            return View(tmp.Result);
+            return View(tmp.Result.List);
         }
+
+        [HttpPost]
+        public ActionResult Organizac(List<DepartmentService.ViewModels.IndividualPlanRecordViewModel> individualPlanRecordViewModels)
+        {
+
+            foreach (var tmp in individualPlanRecordViewModels)
+            {
+                var element = _serviceIPRS.GetIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+                {
+                    Id = tmp.Id
+                });
+                _serviceIPRS.UpdateIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordSetBindingModel()
+                {
+                    Id = element.Result.Id,
+                    LecturerId = element.Result.LecturerId,
+                    AcademicYearId = element.Result.AcademicYearId,
+                    IndividualPlanKindOfWorkId = element.Result.IndividualPlanKindOfWorkId,
+                    PlanAutumn = tmp.PlanAutumn,
+                    PlanSpring = tmp.PlanSpring,
+                    FactAutumn = tmp.FactAutumn,
+                    FactSpring = tmp.FactSpring
+                });
+            }
+
+            var tmp2 = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Организационная работа"
+            });
+
+            return View("Organizac", tmp2.Result.List);
+        }
+
 
         public ActionResult Vospit()
         {
@@ -103,7 +124,84 @@ namespace DepartmentWeb.Controllers
                 Title = "Воспитательная работа"
             });
 
-            return View(tmp.Result);
+            return View(tmp.Result.List);
         }
+
+        [HttpPost]
+        public ActionResult Vospit(List<DepartmentService.ViewModels.IndividualPlanRecordViewModel> individualPlanRecordViewModels)
+        {
+
+            foreach (var tmp in individualPlanRecordViewModels)
+            {
+                var element = _serviceIPRS.GetIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+                {
+                    Id = tmp.Id
+                });
+                _serviceIPRS.UpdateIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordSetBindingModel()
+                {
+                    Id = element.Result.Id,
+                    LecturerId = element.Result.LecturerId,
+                    AcademicYearId = element.Result.AcademicYearId,
+                    IndividualPlanKindOfWorkId = element.Result.IndividualPlanKindOfWorkId,
+                    PlanAutumn = tmp.PlanAutumn,
+                    PlanSpring = tmp.PlanSpring,
+                    FactAutumn = tmp.FactAutumn,
+                    FactSpring = tmp.FactSpring
+                });
+            }
+
+            var tmp2 = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Воспитательная работа"
+            });
+
+            return View("Vospit", tmp2.Result.List);
+        }
+
+        public ActionResult NIR()
+        {
+            var tmp = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Научно-исследовательская работа"
+            });
+
+            return View(tmp.Result.List);
+        }
+
+        [HttpPost]
+        public ActionResult NIR(List<DepartmentService.ViewModels.IndividualPlanRecordViewModel> individualPlanRecordViewModels)
+        {
+
+            foreach (var tmp in individualPlanRecordViewModels)
+            {
+                var element = _serviceIPRS.GetIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+                {
+                    Id = tmp.Id
+                });
+                _serviceIPRS.UpdateIndividualPlanRecord(new DepartmentService.BindingModels.IndividualPlanRecordSetBindingModel()
+                {
+                    Id = element.Result.Id,
+                    LecturerId = element.Result.LecturerId,
+                    AcademicYearId = element.Result.AcademicYearId,
+                    IndividualPlanKindOfWorkId = element.Result.IndividualPlanKindOfWorkId,
+                    PlanAutumn = tmp.PlanAutumn,
+                    PlanSpring = tmp.PlanSpring,
+                    FactAutumn = tmp.FactAutumn,
+                    FactSpring = tmp.FactSpring
+                });
+            }
+
+            var tmp2 = _serviceIPRS.GetIndividualPlanRecords(new DepartmentService.BindingModels.IndividualPlanRecordGetBindingModel()
+            {
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                Title = "Научно-исследовательская работа"
+            });
+
+            return View("NIR", tmp2.Result.List);
+        }
+
+
     }
 }

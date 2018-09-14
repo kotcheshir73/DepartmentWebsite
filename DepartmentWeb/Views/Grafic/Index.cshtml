@@ -1,0 +1,11 @@
+﻿@model DepartmentService.ViewModels.StudentGroupPageViewModel
+
+@{
+    ViewBag.Title = "Расчасовки";
+}
+
+
+<h3>Расчасовки</h3>
+
+<h4>Выберите группу &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "GroupName"), "")</h4>
+
