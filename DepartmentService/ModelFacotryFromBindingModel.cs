@@ -1,6 +1,7 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using DepartmentModel.Models.BaseEnities;
+using DepartmentService.BindingModels.StandartBindingModels.LearningProgress;
 using System;
 
 namespace DepartmentService.BindingModels
@@ -631,6 +632,33 @@ namespace DepartmentService.BindingModels
             entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Variant = model.Variant;
             entity.SubGroup = model.SubGroup;
+
+            return entity;
+        }
+
+        public static DisciplineLessonStudentRecord CreateDisciplineLessonStudentRecord(DisciplineLessonStudentRecordSetBindingModel model, DisciplineLessonStudentRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonStudentRecord();
+            }
+            entity.Status = model.Status;
+            entity.StudentId = model.StudentId;
+            entity.DisciplineLessonRecordId = model.DisciplineLessonRecordId;
+            entity.Comment = model.Comment;
+            entity.Ball = model.Ball;
+
+            return entity;
+        }
+
+        public static DisciplineLessonRecord CreateDisciplineLessonRecord(DisciplineLessonRecordSetBindingModel model, DisciplineLessonRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonRecord();
+            }
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.Subgroup = model.Subgroup;
 
             return entity;
         }

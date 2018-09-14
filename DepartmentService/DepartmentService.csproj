@@ -71,6 +71,8 @@
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonStudentRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskVariantBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
@@ -109,8 +111,10 @@
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\ILearningProgressProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonStudentRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskVariantService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
@@ -136,8 +140,8 @@
     </Compile>
     <Compile Include="Migrations\201809080920599_m1.cs" />
     <Compile Include="Migrations\201809080920599_m1.Designer.cs">
-      <DependentUpon>201809080920599_m1.cs</DependentUpon>   
-       </Compile>
+      <DependentUpon>201809080920599_m1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.cs" />
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.Designer.cs">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
@@ -207,7 +211,9 @@
     <Compile Include="Services\ScheduleServices\ConsultationRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\ContingentService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineBlockService.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonRecordService.cs" />
     <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonService.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonStudentRecordService.cs" />
     <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonTaskService.cs" />
     <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonTaskVariantService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\DisciplineService.cs" />
@@ -244,6 +250,8 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonStudentRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskVariantViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
@@ -303,7 +311,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080920599_m1.resx">
       <DependentUpon>201809080920599_m1.cs</DependentUpon>
-       </EmbeddedResource>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.resx">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
     </EmbeddedResource>

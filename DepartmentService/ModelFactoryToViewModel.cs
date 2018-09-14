@@ -3,6 +3,7 @@ using DepartmentModel.Models;
 using DepartmentModel.Models.BaseEnities;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
+using DepartmentService.ViewModels.StandartViewModels.LearningProgress;
 using System;
 using System.Drawing;
 using System.IO;
@@ -716,6 +717,30 @@ namespace DepartmentService.ViewModels
                 Semester = entity.Semester,
                 Variant = entity.Variant,
                 SubGroup = entity.SubGroup
+            };
+        }
+
+        public static DisciplineLessonStudentRecordViewModel CreateDisciplineLessonStudentRecordViewModel(DisciplineLessonStudentRecord entity)
+        {
+            return new DisciplineLessonStudentRecordViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonRecordId = entity.DisciplineLessonRecordId,
+                Comment = entity.Comment,
+                Ball = entity.Ball,
+                Status = entity.Status,
+                StudentId = entity.StudentId
+            };
+        }
+
+        public static DisciplineLessonRecordViewModel CreateDisciplineLessonRecordViewModel(DisciplineLessonRecord entity)
+        {
+            return new DisciplineLessonRecordViewModel
+            {
+                Id = entity.Id,
+                Date = entity.Date,
+                DisciplineLessonId = entity.DisciplineLessonId,
+                Subgroup = entity.Subgroup
             };
         }
         #endregion
