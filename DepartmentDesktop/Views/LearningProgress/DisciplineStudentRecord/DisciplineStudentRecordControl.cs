@@ -45,7 +45,8 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
                     { "FillGroupToolStripMenuItem", "Заполнить на группу"},
-                    { "PrintToolStripMenuItem", "Распечатать"}
+                    { "PrintVariantsToolStripMenuItem", "Распечатать варианты"},
+                    { "PrintSubgroupsToolStripMenuItem", "Распечатать подгруппы"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
@@ -55,7 +56,8 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("FillGroupToolStripMenuItem", FillGroupToolStripMenuItem_Click);
-            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintToolStripMenuItem", PrintToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintVariantsToolStripMenuItem", PrintVariantsToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintSubgroupsToolStripMenuItem", PrintSubgroupsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -187,22 +189,30 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
             }
         }
 
-        private void PrintToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PrintVariantsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //LearningProcessFormDisciplineLessonsBindingModel model = new LearningProcessFormDisciplineLessonsBindingModel
-            //{
-            //    AcademicYearId = _ayId,
-            //    DisciplineId = _dId,
-            //    EducationDirectionId = _edId,
-            //    TimeNormId = _tnId
-            //};
-            //var form = Container.Resolve<FormDisciplineLessonsForm>(
-            //       new ParameterOverrides
-            //       {
-            //            { "model", model }
-            //       }
-            //       .OnType<FormDisciplineLessonsForm>());
-            //form.Show();
+            var form = Container.Resolve<DisciplineStudentRecordByGroupForm>(
+                new ParameterOverrides
+                {
+                    { "dId", _dId },
+                    { "sgId", _sgId },
+                    { "semester", _semester }
+                }
+                .OnType<DisciplineStudentRecordByGroupForm>());
+            form.ShowDialog();
+        }
+
+        private void PrintSubgroupsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<DisciplineStudentRecordBySubgroupForm>(
+                new ParameterOverrides
+                {
+                    { "dId", _dId },
+                    { "sgId", _sgId },
+                    { "semester", _semester }
+                }
+                .OnType<DisciplineStudentRecordBySubgroupForm>());
+            form.ShowDialog();
         }
     }
 }

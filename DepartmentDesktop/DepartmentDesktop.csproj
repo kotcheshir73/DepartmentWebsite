@@ -496,6 +496,18 @@
     <Compile Include="Views\LaboratoryHead\Software\SoftwareForm.Designer.cs">
       <DependentUpon>SoftwareForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordByGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordByGroupForm.Designer.cs">
+      <DependentUpon>DisciplineStudentRecordByGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordBySubgroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordBySubgroupForm.Designer.cs">
+      <DependentUpon>DisciplineStudentRecordBySubgroupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1024,6 +1036,12 @@
     <EmbeddedResource Include="Views\LaboratoryHead\Software\SoftwareForm.resx">
       <DependentUpon>SoftwareForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordByGroupForm.resx">
+      <DependentUpon>DisciplineStudentRecordByGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordBySubgroupForm.resx">
+      <DependentUpon>DisciplineStudentRecordBySubgroupForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordControl.resx">
       <DependentUpon>DisciplineStudentRecordControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1033,6 +1051,8 @@
     <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.resx">
       <DependentUpon>FillGroupForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\ReportDisciplineStudentRecordByGroup.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\ReportDisciplineStudentRecordBySubgroup.rdlc" />
     <EmbeddedResource Include="Views\LearningProgress\StudentsDistributionControl.resx">
       <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1198,6 +1218,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineLessonTaskVariantViewModel.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineStudentRecordViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueRecordViewModel.datasource" />
