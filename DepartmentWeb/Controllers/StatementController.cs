@@ -39,7 +39,7 @@ namespace DepartmentWeb.Controllers
             }
             var tmp = _serviceS.GetStatements(new DepartmentService.BindingModels.StatementGetBindingModel()
             {
-                LecturerId = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7"),
+                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
                 AcademicYearId = new Guid(yearId)
             });
             return PartialView("~/Views/Statement/StatementList.cshtml", tmp.Result.List);

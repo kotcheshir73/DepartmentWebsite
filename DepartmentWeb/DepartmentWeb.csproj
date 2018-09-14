@@ -177,6 +177,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\GraficController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndividualPlanController.cs" />
     <Compile Include="Controllers\NIRController.cs" />
@@ -225,14 +226,14 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\IndividualPlan\Metodich.cshtml" />
-    <Content Include="Views\Home\NIR.cshtml" />
-    <Content Include="Views\NIR\Index.cshtml" />
     <Content Include="Views\Statement\Index.cshtml" />
     <Content Include="Views\Statement\StatementList.cshtml" />
     <Content Include="Views\Statement\StatementRecord.cshtml" />
-    <Content Include="Views\IndividualPlan\Organizac.cshtml" />
     <Content Include="Views\IndividualPlan\Index.cshtml" />
+    <Content Include="Views\IndividualPlan\Organizac.cshtml" />
     <Content Include="Views\IndividualPlan\Vospit.cshtml" />
+    <Content Include="Views\IndividualPlan\NIR.cshtml" />
+    <Content Include="Views\Grafic\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
