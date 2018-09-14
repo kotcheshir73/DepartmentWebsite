@@ -22,6 +22,33 @@ namespace DepartmentService.Services
             _context = context;
         }
 
+        public ResultService<Guid> GetCurrentAcademicYear()
+        {
+            try
+            {
+                var academicYearKey = _context.CurrentSettings.FirstOrDefault(x => x.Key == "Учебный год");
+                if (academicYearKey == null)
+                {
+                    return ResultService<Guid>.Error("Error:", "В настройках не указан ключ - учебный год", ResultServiceStatusCode.NotFound);
+                }
+                var academicYear = _context.AcademicYears.FirstOrDefault(x => x.Title.Contains(academicYearKey.Value));
+                if (academicYear == null)
+                {
+                    return ResultService<Guid>.Error("Error:", "academicYear not found", ResultServiceStatusCode.NotFound);
+                }
+
+                return ResultService<Guid>.Success(academicYear.Id);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<Guid>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<Guid>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService<List<LearningProcessDisciplineViewModel>> GetDisciplines(LearningProcessDisciplineBindingModel model)
         {
             try
@@ -40,7 +67,7 @@ namespace DepartmentService.Services
                     return ResultService<List<LearningProcessDisciplineViewModel>>.Error("Error:", "disciplineBlock(Дисциплины (модули)) not found",
                         ResultServiceStatusCode.NotFound);
                 }
-                
+
                 var user = _context.Users.FirstOrDefault(x => x.Id == model.UserId);
 
                 if (user == null)
@@ -473,6 +500,167 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<Semesters>> GetSemesters(LearningProcessSemesterBindingModel model)
+        {
+            try
+            {
+                var settingDisciplineBlockModules = _context.CurrentSettings
+                        .FirstOrDefault(cs => cs.Key == "Дисциплины (модули)");
+                if (settingDisciplineBlockModules == null)
+                {
+                    return ResultService<List<Semesters>>.Error("Error:", "В настройках не указан disciplineBlock(Дисциплины (модули))",
+                        ResultServiceStatusCode.NotFound);
+                }
+                var disciplineBlockModuls = _context.DisciplineBlocks
+                    .FirstOrDefault(db => db.Title.Contains(settingDisciplineBlockModules.Value));
+                if (disciplineBlockModuls == null)
+                {
+                    return ResultService<List<Semesters>>.Error("Error:", "disciplineBlock(Дисциплины (модули)) not found",
+                        ResultServiceStatusCode.NotFound);
+                }
+
+                var user = _context.Users.FirstOrDefault(x => x.Id == model.UserId);
+
+                if (user == null)
+                {
+                    return ResultService<List<Semesters>>.Error("Error:", "Пользователь не найден",
+                        ResultServiceStatusCode.NotFound);
+                }
+                if (!user.LecturerId.HasValue)
+                {
+                    return ResultService<List<Semesters>>.Error("Error:", "У пользователя нет аккаунта преподавателя",
+                        ResultServiceStatusCode.NotFound);
+                }
+
+
+                var query = _context.AcademicPlanRecordMissions
+                    .Include(x => x.AcademicPlanRecordElement)
+                    .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
+                    .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                    .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                    .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId &&
+                                    x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirectionId == model.EducationDirectionId &&
+                                    x.LecturerId == user.LecturerId &&
+                                    x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId)
+                    .Select(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Semester.Value)
+                    .Distinct()
+                    .ToList();
+
+                return ResultService<List<Semesters>>.Success(query);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<Semesters>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<Semesters>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<StudentGroupViewModel>> GetStudentGroups(LearningProcessStudentGroupBindingModel model)
+        {
+            try
+            {
+                List<AcademicCourse> course = new List<AcademicCourse>();
+                foreach (var sem in model.Semesters)
+                {
+                    switch (sem)
+                    {
+                        case Semesters.Первый:
+                        case Semesters.Второй:
+                            course.Add(AcademicCourse.Course_1);
+                            break;
+                        case Semesters.Третий:
+                        case Semesters.Четвертый:
+                            course.Add(AcademicCourse.Course_2);
+                            break;
+                        case Semesters.Пятый:
+                        case Semesters.Шестой:
+                            course.Add(AcademicCourse.Course_3);
+                            break;
+                        case Semesters.Седьмой:
+                        case Semesters.Восьмой:
+                            course.Add(AcademicCourse.Course_4);
+                            break;
+                    }
+                }
+
+                var query = _context.StudentGroups
+                    .Include(x => x.EducationDirection)
+                    .Include(x => x.Students)
+                    .Include(x => x.Curator)
+                    .Where(x => x.EducationDirectionId == model.EducationDirectionId && course.Contains(x.Course));
+
+                return ResultService<List<StudentGroupViewModel>>.Success(query.Select(ModelFactoryToViewModel.CreateStudentGroupViewModel).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<StudentGroupViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<StudentGroupViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFill model)
+        {
+            try
+            {
+                var students = _context.Students.Where(x => x.StudentGroupId == model.StudentGroupId).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+
+                List<DisciplineStudentRecordViewModel> list = new List<DisciplineStudentRecordViewModel>();
+
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    int counter = 1;
+                    foreach (var st in students)
+                    {
+                        var dsr = _context.DisciplineStudentRecords
+                            .Include(x => x.Student)
+                            .Include(x => x.Student.StudentGroup)
+                            .Include(x => x.Discipline)
+                            .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                        if (dsr == null)
+                        {
+                            dsr = ModelFacotryFromBindingModel.CreateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
+                            {
+                                DisciplineId = model.DisciplineId,
+                                Semester = model.Semester.ToString(),
+                                StudentId = st.Id,
+                                SubGroup = 0,
+                                Variant = string.Format("Вариант {0}", counter++)
+                            });
+                            _context.DisciplineStudentRecords.Add(dsr);
+                            _context.SaveChanges();
+
+                            dsr = _context.DisciplineStudentRecords
+                            .Include(x => x.Student)
+                            .Include(x => x.Student.StudentGroup)
+                            .Include(x => x.Discipline)
+                            .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                        }
+
+                        list.Add(ModelFactoryToViewModel.CreateDisciplineStudentRecordViewModel(dsr));
+                    }
+
+                    transaction.Commit();
+                }
+
+                return ResultService<List<DisciplineStudentRecordViewModel>>.Success(list);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineStudentRecordViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineStudentRecordViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

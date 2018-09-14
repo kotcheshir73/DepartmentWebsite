@@ -1,6 +1,6 @@
 ﻿namespace DepartmentDesktop.Views.LearningProgress
 {
-    partial class LearningProgressControl
+    partial class ConfiguringDisciplinesControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

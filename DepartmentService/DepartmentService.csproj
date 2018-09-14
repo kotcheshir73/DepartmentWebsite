@@ -138,10 +138,6 @@
     <Compile Include="Migrations\201809080547151_DisiplineLessonMigration.Designer.cs">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809080920599_m1.cs" />
-    <Compile Include="Migrations\201809080920599_m1.Designer.cs">
-      <DependentUpon>201809080920599_m1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.cs" />
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.Designer.cs">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
@@ -161,6 +157,10 @@
     <Compile Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.cs" />
     <Compile Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.Designer.cs">
       <DependentUpon>201809120819193_DisiplineStudnetRecordUpdateTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809120950446_AddDisciplineLessonRecord.cs" />
+    <Compile Include="Migrations\201809120950446_AddDisciplineLessonRecord.Designer.cs">
+      <DependentUpon>201809120950446_AddDisciplineLessonRecord.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -309,9 +309,6 @@
     <EmbeddedResource Include="Migrations\201809080547151_DisiplineLessonMigration.resx">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809080920599_m1.resx">
-      <DependentUpon>201809080920599_m1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.resx">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
     </EmbeddedResource>
@@ -326,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.resx">
       <DependentUpon>201809120819193_DisiplineStudnetRecordUpdateTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809120950446_AddDisciplineLessonRecord.resx">
+      <DependentUpon>201809120950446_AddDisciplineLessonRecord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
