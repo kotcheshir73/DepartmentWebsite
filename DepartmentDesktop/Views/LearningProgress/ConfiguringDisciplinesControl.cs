@@ -40,7 +40,7 @@ namespace DepartmentDesktop.Views.LearningProgress
             comboBoxAcademicYear.DisplayMember = "Display";
             comboBoxAcademicYear.DataSource = resultAY.Result.List
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
-            comboBoxAcademicYear.SelectedItem = null;
+            comboBoxAcademicYear.SelectedValue = _process.GetCurrentAcademicYear().Result;
 
             var resultED = _serviceDL.GetEducationDirections(new EducationDirectionGetBindingModel { });
             if (!resultED.Succeeded)

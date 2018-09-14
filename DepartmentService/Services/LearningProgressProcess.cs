@@ -22,6 +22,33 @@ namespace DepartmentService.Services
             _context = context;
         }
 
+        public ResultService<Guid> GetCurrentAcademicYear()
+        {
+            try
+            {
+                var academicYearKey = _context.CurrentSettings.FirstOrDefault(x => x.Key == "Учебный год");
+                if (academicYearKey == null)
+                {
+                    return ResultService<Guid>.Error("Error:", "В настройках не указан ключ - учебный год", ResultServiceStatusCode.NotFound);
+                }
+                var academicYear = _context.AcademicYears.FirstOrDefault(x => x.Title.Contains(academicYearKey.Value));
+                if (academicYear == null)
+                {
+                    return ResultService<Guid>.Error("Error:", "academicYear not found", ResultServiceStatusCode.NotFound);
+                }
+
+                return ResultService<Guid>.Success(academicYear.Id);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<Guid>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<Guid>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService<List<LearningProcessDisciplineViewModel>> GetDisciplines(LearningProcessDisciplineBindingModel model)
         {
             try
