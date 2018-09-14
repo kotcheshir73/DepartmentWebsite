@@ -68,18 +68,18 @@
             // 
             this.comboBoxStudent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStudent.FormattingEnabled = true;
-            this.comboBoxStudent.Location = new System.Drawing.Point(131, 33);
+            this.comboBoxStudent.Location = new System.Drawing.Point(131, 87);
             this.comboBoxStudent.Name = "comboBoxStudent";
             this.comboBoxStudent.Size = new System.Drawing.Size(210, 21);
-            this.comboBoxStudent.TabIndex = 3;
+            this.comboBoxStudent.TabIndex = 7;
             // 
             // labelStudent
             // 
             this.labelStudent.AutoSize = true;
-            this.labelStudent.Location = new System.Drawing.Point(12, 36);
+            this.labelStudent.Location = new System.Drawing.Point(12, 90);
             this.labelStudent.Name = "labelStudent";
             this.labelStudent.Size = new System.Drawing.Size(54, 13);
-            this.labelStudent.TabIndex = 2;
+            this.labelStudent.TabIndex = 6;
             this.labelStudent.Text = "Студент*:";
             // 
             // comboBoxDiscipline
@@ -87,18 +87,18 @@
             this.comboBoxDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDiscipline.Enabled = false;
             this.comboBoxDiscipline.FormattingEnabled = true;
-            this.comboBoxDiscipline.Location = new System.Drawing.Point(131, 60);
+            this.comboBoxDiscipline.Location = new System.Drawing.Point(131, 33);
             this.comboBoxDiscipline.Name = "comboBoxDiscipline";
             this.comboBoxDiscipline.Size = new System.Drawing.Size(210, 21);
-            this.comboBoxDiscipline.TabIndex = 5;
+            this.comboBoxDiscipline.TabIndex = 3;
             // 
             // labelDiscipline
             // 
             this.labelDiscipline.AutoSize = true;
-            this.labelDiscipline.Location = new System.Drawing.Point(12, 63);
+            this.labelDiscipline.Location = new System.Drawing.Point(12, 36);
             this.labelDiscipline.Name = "labelDiscipline";
             this.labelDiscipline.Size = new System.Drawing.Size(77, 13);
-            this.labelDiscipline.TabIndex = 4;
+            this.labelDiscipline.TabIndex = 2;
             this.labelDiscipline.Text = "Дисциплина*:";
             // 
             // comboBoxSemester
@@ -106,18 +106,18 @@
             this.comboBoxSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSemester.Enabled = false;
             this.comboBoxSemester.FormattingEnabled = true;
-            this.comboBoxSemester.Location = new System.Drawing.Point(131, 87);
+            this.comboBoxSemester.Location = new System.Drawing.Point(131, 60);
             this.comboBoxSemester.Name = "comboBoxSemester";
             this.comboBoxSemester.Size = new System.Drawing.Size(210, 21);
-            this.comboBoxSemester.TabIndex = 7;
+            this.comboBoxSemester.TabIndex = 5;
             // 
             // labelSemester
             // 
             this.labelSemester.AutoSize = true;
-            this.labelSemester.Location = new System.Drawing.Point(12, 90);
+            this.labelSemester.Location = new System.Drawing.Point(12, 63);
             this.labelSemester.Name = "labelSemester";
             this.labelSemester.Size = new System.Drawing.Size(58, 13);
-            this.labelSemester.TabIndex = 6;
+            this.labelSemester.TabIndex = 4;
             this.labelSemester.Text = "Семестр*:";
             // 
             // labelVariant
@@ -141,9 +141,9 @@
             this.labelSubgroup.AutoSize = true;
             this.labelSubgroup.Location = new System.Drawing.Point(14, 143);
             this.labelSubgroup.Name = "labelSubgroup";
-            this.labelSubgroup.Size = new System.Drawing.Size(64, 13);
+            this.labelSubgroup.Size = new System.Drawing.Size(68, 13);
             this.labelSubgroup.TabIndex = 10;
-            this.labelSubgroup.Text = "Подгруппа:";
+            this.labelSubgroup.Text = "Подгруппа*:";
             // 
             // textBoxSubgroup
             // 
@@ -186,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 218);
+            this.ClientSize = new System.Drawing.Size(364, 221);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSaveAndClose);
@@ -203,6 +203,7 @@
             this.Controls.Add(this.comboBoxDiscipline);
             this.Controls.Add(this.labelDiscipline);
             this.Name = "DisciplineStudentRecordForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Связь студента с дисциплиной";
             this.Load += new System.EventHandler(this.DisciplineStudentRecordForm_Load);
             this.ResumeLayout(false);

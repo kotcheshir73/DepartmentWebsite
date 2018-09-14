@@ -34,13 +34,13 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "Discipline", Title = "Дисциплина", Width = 200, Visible = true },
                 new ColumnConfig { Name = "StudentGroup", Title = "Группа", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Student", Title = "Студент", Width = 200, Visible = true },
                 new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Student", Title = "Студент", Width = 200, Visible = true },
                 new ColumnConfig { Name = "Variant", Title = "Вариант", Width = 150, Visible = true },
                 new ColumnConfig { Name = "SubGroup", Title = "Подгруппа", Width = 100, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd" };
+            List<string> hideToolStripButtons = new List<string>();
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
@@ -88,6 +88,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
             {
                 DisciplineId = _dId,
                 StudentGroupId = _sgId,
+                Semester = _semester,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
@@ -103,8 +104,8 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
                     res.Id,
                     res.Discipline,
                     res.StudentGroup,
-                    res.Student,
                     res.Semester,
+                    res.Student,
                     res.Variant,
                     res.SubGroup
                 );

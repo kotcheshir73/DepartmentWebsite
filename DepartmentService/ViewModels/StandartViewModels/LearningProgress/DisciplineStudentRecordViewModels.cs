@@ -19,9 +19,9 @@ namespace DepartmentService.ViewModels
 
         public string StudentGroup { get; set; }
 
-        public string Student { get; set; }
-
         public Semesters Semester { get; set; }
+
+        public string Student { get; set; }
 
         public string Variant { get; set; }
         

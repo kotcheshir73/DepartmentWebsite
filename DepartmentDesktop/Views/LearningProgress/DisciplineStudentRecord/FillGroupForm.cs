@@ -56,9 +56,9 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
             dataGridViewStudents.Columns[4].ReadOnly = true;
             dataGridViewStudents.Columns[5].HeaderText = "Группа";
             dataGridViewStudents.Columns[5].ReadOnly = true;
-            dataGridViewStudents.Columns[6].HeaderText = "Студент";
+            dataGridViewStudents.Columns[6].HeaderText = "Семестр";
             dataGridViewStudents.Columns[6].ReadOnly = true;
-            dataGridViewStudents.Columns[7].HeaderText = "Семестр";
+            dataGridViewStudents.Columns[7].HeaderText = "Студент";
             dataGridViewStudents.Columns[7].ReadOnly = true;
             dataGridViewStudents.Columns[8].HeaderText = "Вариант";
             dataGridViewStudents.Columns[9].HeaderText = "Подгруппа";

@@ -24,17 +24,14 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
 
         private Guid? _sgId = null;
 
-        private Guid? _sId = null;
-
         private string _semester = null;
 
-        public DisciplineStudentRecordForm(IDisciplineStudentRecordService service, Guid? dId = null, Guid? sgId = null, Guid? sId = null, string semester = null, Guid? id = null)
+        public DisciplineStudentRecordForm(IDisciplineStudentRecordService service, Guid? dId = null, Guid? sgId = null, string semester = null, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
             _dId = dId;
             _sgId = sgId;
-            _sId = sId;
             _semester = semester;
             if (id != Guid.Empty)
             {
@@ -76,7 +73,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
                 .Select(d => new { Value = d.Id, Display = d.GroupName }).ToList();
             comboBoxStudentGroup.SelectedValue = _sgId;
 
-            var resultS = _service.GetStudents(new StudentGetBindingModel { StudentGroupId = _sgId, Id = _sId });
+            var resultS = _service.GetStudents(new StudentGetBindingModel { StudentGroupId = _sgId });
             if (!resultS.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке студентов возникла ошибка: ", resultS.Errors);
@@ -87,7 +84,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
             comboBoxStudent.DisplayMember = "Display";
             comboBoxStudent.DataSource = resultS.Result.List
                 .Select(d => new { Value = d.Id, Display = string.Format("{0} {1}", d.LastName, d.FirstName) }).ToList();
-            comboBoxStudent.SelectedValue = _sId;
+            comboBoxStudent.SelectedItem = null;
 
             if (_id.HasValue)
             {
