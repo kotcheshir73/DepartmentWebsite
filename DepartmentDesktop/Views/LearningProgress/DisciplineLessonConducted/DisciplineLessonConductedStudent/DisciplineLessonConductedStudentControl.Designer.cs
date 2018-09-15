@@ -1,6 +1,6 @@
-﻿namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonAttendance
+﻿namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.DisciplineLessonConductedStudent
 {
-    partial class DisciplineLessonAttendanceControl
+    partial class DisciplineLessonConductedStudentControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -36,16 +36,16 @@
             this.standartControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.standartControl.Location = new System.Drawing.Point(0, 0);
             this.standartControl.Name = "standartControl";
-            this.standartControl.Size = new System.Drawing.Size(695, 330);
+            this.standartControl.Size = new System.Drawing.Size(800, 500);
             this.standartControl.TabIndex = 0;
             // 
-            // DisciplineLessonAttendanceControl
+            // DisciplineLessonConductedStudentControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.standartControl);
-            this.Name = "DisciplineLessonAttendanceControl";
-            this.Size = new System.Drawing.Size(695, 330);
+            this.Name = "DisciplineLessonConductedStudentControl";
+            this.Size = new System.Drawing.Size(800, 500);
             this.ResumeLayout(false);
 
         }

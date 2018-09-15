@@ -1,29 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DepartmentService.BindingModels.StandartBindingModels.LearningProgress
+namespace DepartmentService.BindingModels
 {
-    public class DisciplineLessonRecordGetBindingModel : PageSettingBinidingModel
+    public class DisciplineLessonConductedGetBindingModel : PageSettingBinidingModel
     {
         public Guid? Id { get; set; }
 
         public Guid? DisciplineLessonId { get; set; }
 
-        public DateTime Date { get; set; }
+        public Guid? EducationFirectionId { get; set; }
 
-        public string Subgroup { get; set; }
+        public Guid? DisciplineId { get; set; }
+
+        public Guid? StudentGroupId { get; set; }
+
+        public string Semester { get; set; }
     }
 
-    public class DisciplineLessonRecordSetBindingModel
+    public class DisciplineLessonConductedSetBindingModel
     {
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "required")]
         public Guid DisciplineLessonId { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public Guid StudentGroupId { get; set; }
 
         [Required(ErrorMessage = "required")]
         public DateTime Date { get; set; }

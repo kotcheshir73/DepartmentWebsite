@@ -1,8 +1,6 @@
 ﻿using DepartmentService.Context;
 using DepartmentService.IServices;
-using DepartmentService.IServices.StandartInterfaces.LearningProgress;
 using DepartmentService.Services;
-using DepartmentService.Services.StandartServices.LearningProgress;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -81,11 +79,11 @@ namespace DepartmentDesktop
 
 
             currentContainer.RegisterType<IDisciplineLessonService, DisciplineLessonService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IDisciplineLessonStudentRecordService, DisciplineLessonStudentRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IDisciplineLessonRecordService, DisciplineLessonRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonTaskService, DisciplineLessonTaskService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonTaskVariantService, DisciplineLessonTaskVariantService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineStudentRecordService, DisciplineStudentRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IDisciplineLessonConductedStudentService, DisciplineLessonConductedStudentService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IDisciplineLessonConductedService, DisciplineLessonConductedService>(new HierarchicalLifetimeManager());
 
 
             currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());

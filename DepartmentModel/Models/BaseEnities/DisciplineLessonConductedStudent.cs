@@ -1,5 +1,4 @@
 ﻿using DepartmentModel.Enums;
-using DepartmentModel.Models.BaseEnities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -10,11 +9,11 @@ namespace DepartmentModel.Models
     /// Класс, описывающий посещение занятия студентом
     /// </summary>
     [DataContract]
-    public class DisciplineLessonStudentRecord : BaseEntity
+    public class DisciplineLessonConductedStudent : BaseEntity
     {
         [Required]
         [DataMember]
-        public Guid DisciplineLessonRecordId { get; set; }
+        public Guid DisciplineLessonConductedId { get; set; }
 
         [Required]
         [DataMember]
@@ -26,15 +25,15 @@ namespace DepartmentModel.Models
         [Required]
         [DataMember]
         public DisciplineLessonStudentStatus Status { get; set; }
-        
+
         [DataMember]
-        public int? Ball { get; set; }
+        public decimal? Ball { get; set; }
 
         //-------------------------------------------------------------------------
 
-        public virtual DisciplineLessonRecord DisciplineLessonRecord { get; set; }
+        public virtual DisciplineLessonConducted DisciplineLessonConducted { get; set; }
 
-		public virtual Student Student { get; set; }
+        public virtual Student Student { get; set; }
 
         //-------------------------------------------------------------------------
     }

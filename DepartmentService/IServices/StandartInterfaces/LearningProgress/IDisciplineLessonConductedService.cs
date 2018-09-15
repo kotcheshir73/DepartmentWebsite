@@ -1,17 +1,10 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
-using DepartmentService.BindingModels.StandartBindingModels.LearningProgress;
 using DepartmentService.ViewModels;
-using DepartmentService.ViewModels.StandartViewModels.LearningProgress;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DepartmentService.IServices.StandartInterfaces.LearningProgress
+namespace DepartmentService.IServices
 {
-    public interface IDisciplineLessonRecordService
+    public interface IDisciplineLessonConductedService
     {
         /// <summary>
         /// Получение списка занятий
@@ -21,38 +14,45 @@ namespace DepartmentService.IServices.StandartInterfaces.LearningProgress
         ResultService<DisciplineLessonPageViewModel> GetDisciplineLessons(DisciplineLessonGetBindingModel model);
 
         /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
+
+        /// <summary>
         /// Получение списка записей о занятии
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<DisciplineLessonRecordPageViewModel> GetDisciplineLessonRecords(DisciplineLessonRecordGetBindingModel model);
+        ResultService<DisciplineLessonConductedPageViewModel> GetDisciplineLessonConducteds(DisciplineLessonConductedGetBindingModel model);
 
         /// <summary>
         /// Получения записи о занятии
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<DisciplineLessonRecordViewModel> GetDisciplineLessonRecord(DisciplineLessonRecordGetBindingModel model);
+        ResultService<DisciplineLessonConductedViewModel> GetDisciplineLessonConducted(DisciplineLessonConductedGetBindingModel model);
 
         /// <summary>
         /// Создание записи о занятии
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateDisciplineLessonRecord(DisciplineLessonRecordSetBindingModel model);
+        ResultService CreateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model);
 
         /// <summary>
         /// Изменение записи о занятии
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateDisciplineLessonRecord(DisciplineLessonRecordSetBindingModel model);
+        ResultService UpdateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model);
 
         /// <summary>
         /// Удаление записи о занятии
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteDisciplineLessonRecord(DisciplineLessonRecordGetBindingModel model);
+        ResultService DeleteDisciplineLessonConducted(DisciplineLessonConductedGetBindingModel model);
     }
 }

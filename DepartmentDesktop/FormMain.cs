@@ -542,7 +542,7 @@ namespace DepartmentDesktop
 
         private void посещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.AttendanceControl>();
+            var control = Container.Resolve<Views.LearningProgress.ConductedLessonsControl>();
             ApplyControl(control);
             control.LoadData();
         }

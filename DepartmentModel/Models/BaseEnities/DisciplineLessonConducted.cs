@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DepartmentModel.Models.BaseEnities
+namespace DepartmentModel.Models
 {
     /// <summary>
     /// Класс, описывающий проведение занятия
     /// </summary>
     [DataContract]
-    public class DisciplineLessonRecord : BaseEntity
+    public class DisciplineLessonConducted : BaseEntity
     {
         [Required]
         [DataMember]
@@ -21,8 +18,8 @@ namespace DepartmentModel.Models.BaseEnities
 
         [Required]
         [DataMember]
-        public DateTime Date { get; set; }
-        
+        public Guid StudentGroupId { get; set; }
+
         [DataMember]
         public string Subgroup { get; set; }
 
@@ -30,9 +27,11 @@ namespace DepartmentModel.Models.BaseEnities
 
         public virtual DisciplineLesson DisciplineLesson { get; set; }
 
+        public virtual StudentGroup StudentGroup { get; set; }
+
         //-------------------------------------------------------------------------
 
-        [ForeignKey("DisciplineLessonRecordId")]
-        public virtual List<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
+        [ForeignKey("DisciplineLessonConductedId")]
+        public virtual List<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentModel.Models.BaseEnities;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
-using DepartmentService.ViewModels.StandartViewModels.LearningProgress;
 using System;
 using System.Drawing;
 using System.IO;
@@ -722,27 +720,33 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static DisciplineLessonStudentRecordViewModel CreateDisciplineLessonStudentRecordViewModel(DisciplineLessonStudentRecord entity)
+        public static DisciplineLessonConductedViewModel CreateDisciplineLessonConductedViewModel(DisciplineLessonConducted entity)
         {
-            return new DisciplineLessonStudentRecordViewModel
+            return new DisciplineLessonConductedViewModel
             {
                 Id = entity.Id,
-                DisciplineLessonRecordId = entity.DisciplineLessonRecordId,
-                Comment = entity.Comment,
-                Ball = entity.Ball,
-                Status = entity.Status,
-                StudentId = entity.StudentId
+                Semester = entity.DisciplineLesson.Semester.ToString(),
+                DisciplineLessonId = entity.DisciplineLessonId,
+                StudentGroupId = entity.StudentGroupId,
+                DisciplineLesson = entity.DisciplineLesson.Title,
+                StudentGroup = entity.StudentGroup.GroupName,
+                Date = entity.DateCreate,
+                Subgroup = entity.Subgroup
             };
         }
 
-        public static DisciplineLessonRecordViewModel CreateDisciplineLessonRecordViewModel(DisciplineLessonRecord entity)
+        public static DisciplineLessonConductedStudentViewModel CreateDisciplineLessonConductedStudentViewModel(DisciplineLessonConductedStudent entity)
         {
-            return new DisciplineLessonRecordViewModel
+            return new DisciplineLessonConductedStudentViewModel
             {
                 Id = entity.Id,
-                Date = entity.Date,
-                DisciplineLessonId = entity.DisciplineLessonId,
-                Subgroup = entity.Subgroup
+                DisciplineLessonConductedId = entity.DisciplineLessonConductedId,
+                StudentId = entity.StudentId,
+                DisciplineLesson = string.Format("{0} от {1}", entity.DisciplineLessonConducted.DisciplineLesson.Title, entity.DisciplineLessonConducted.DateCreate.ToShortDateString()),
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Comment = entity.Comment,
+                Status = entity.Status,
+                Ball = entity.Ball
             };
         }
         #endregion

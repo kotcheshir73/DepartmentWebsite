@@ -1,5 +1,4 @@
 ﻿using DepartmentModel.Enums;
-using DepartmentModel.Models.BaseEnities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -73,6 +72,6 @@ namespace DepartmentModel.Models
 		public virtual List<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
 
 		[ForeignKey("DisciplineLessonId")]
-		public virtual List<DisciplineLessonRecord> DisciplineLessonRecords { get; set; }
+		public virtual List<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
 	}
 }

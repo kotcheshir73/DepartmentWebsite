@@ -615,7 +615,6 @@ namespace DepartmentService.Services
 
                 List<DisciplineStudentRecordViewModel> list = new List<DisciplineStudentRecordViewModel>();
 
-
                 using (var transaction = _context.Database.BeginTransaction())
                 {
                     int counter = 1;
@@ -661,6 +660,106 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<List<DisciplineStudentRecordViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<string>> GetDisciplineLessonSubgroup(DisciplineLessonSubgroup model)
+        {
+            try
+            {
+                Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+                var subgroups = _context.DisciplineStudentRecords
+                                        .Include(x => x.Student)
+                                        .Where(x => x.DisciplineId == model.DisciplineId &&
+                                                x.Student.StudentGroupId == model.StudentGroupId &&
+                                                x.Semester == sem)
+                                        .Select(x => x.SubGroup)
+                                        .Distinct()
+                                        .ToList()
+                                        .Select(x => string.Format("Подгруппа  {0}", x))
+                                        .ToList();
+
+                subgroups.Insert(0, "Группа");
+
+                return ResultService<List<string>>.Success(subgroups);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<string>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<string>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonConductedStudentViewModel>> GetDisciplineLessonConductedStudentsForFill(DisciplineLessonConductedStudentsForFill model)
+        {
+            try
+            {
+                var dlc = _context.DisciplineLessonConducteds
+                    .Include(x => x.DisciplineLesson)
+                    .FirstOrDefault(x => x.Id == model.DisciplineLessonConductedId);
+                if (dlc == null)
+                {
+                    return ResultService<List<DisciplineLessonConductedStudentViewModel>>.Error("Error:", "DisciplineLessonConducteds not found", ResultServiceStatusCode.NotFound);
+                }
+
+
+                var students = _context.DisciplineStudentRecords
+                    .Where(x => x.Student.StudentGroupId == model.StudentGroupId && x.DisciplineId == dlc.DisciplineLesson.DisciplineId);
+
+                if (dlc.Subgroup.Contains("Подгруппа"))
+                {
+                    int subgroup = Convert.ToInt32(dlc.Subgroup.Split(' ')[1]);
+                    students = students.Where(x => x.SubGroup == subgroup);
+                }
+
+                List<DisciplineLessonConductedStudentViewModel> list = new List<DisciplineLessonConductedStudentViewModel>();
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    foreach (var st in students
+                                            .OrderBy(x => x.Student.LastName)
+                                            .ThenBy(x => x.Student.FirstName)
+                                            .Select(x => x.StudentId))
+                    {
+                        var dlcs = _context.DisciplineLessonConductedStudents
+                            .Include(x => x.Student)
+                            .Include(x => x.Student.StudentGroup)
+                            .FirstOrDefault(x => x.StudentId == st && x.DisciplineLessonConductedId == model.DisciplineLessonConductedId);
+                        if (dlcs == null)
+                        {
+                            dlcs = ModelFacotryFromBindingModel.CreateDisciplineLessonConductedStudent(new DisciplineLessonConductedStudentSetBindingModel
+                            {
+                                DisciplineLessonConductedId = model.DisciplineLessonConductedId,
+                                StudentId = st,
+                                Status = DisciplineLessonStudentStatus.Явка.ToString()
+                            });
+                            _context.DisciplineLessonConductedStudents.Add(dlcs);
+                            _context.SaveChanges();
+
+                            dlcs = _context.DisciplineLessonConductedStudents
+                            .Include(x => x.Student)
+                            .Include(x => x.Student.StudentGroup)
+                            .FirstOrDefault(x => x.StudentId == st && x.DisciplineLessonConductedId == model.DisciplineLessonConductedId);
+                        }
+
+                        list.Add(ModelFactoryToViewModel.CreateDisciplineLessonConductedStudentViewModel(dlcs));
+                    }
+
+                    transaction.Commit();
+                }
+
+                return ResultService<List<DisciplineLessonConductedStudentViewModel>>.Success(list);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonConductedStudentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonConductedStudentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

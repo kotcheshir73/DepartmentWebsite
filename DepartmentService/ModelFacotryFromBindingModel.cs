@@ -1,7 +1,5 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentModel.Models.BaseEnities;
-using DepartmentService.BindingModels.StandartBindingModels.LearningProgress;
 using System;
 
 namespace DepartmentService.BindingModels
@@ -637,29 +635,31 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
-        public static DisciplineLessonStudentRecord CreateDisciplineLessonStudentRecord(DisciplineLessonStudentRecordSetBindingModel model, DisciplineLessonStudentRecord entity = null)
+        public static DisciplineLessonConducted CreateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model, DisciplineLessonConducted entity = null)
         {
             if (entity == null)
             {
-                entity = new DisciplineLessonStudentRecord();
+                entity = new DisciplineLessonConducted();
             }
-            entity.Status = model.Status;
-            entity.StudentId = model.StudentId;
-            entity.DisciplineLessonRecordId = model.DisciplineLessonRecordId;
-            entity.Comment = model.Comment;
-            entity.Ball = model.Ball;
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.DateCreate = model.Date;
+            entity.Subgroup = model.Subgroup;
 
             return entity;
         }
 
-        public static DisciplineLessonRecord CreateDisciplineLessonRecord(DisciplineLessonRecordSetBindingModel model, DisciplineLessonRecord entity = null)
+        public static DisciplineLessonConductedStudent CreateDisciplineLessonConductedStudent(DisciplineLessonConductedStudentSetBindingModel model, DisciplineLessonConductedStudent entity = null)
         {
             if (entity == null)
             {
-                entity = new DisciplineLessonRecord();
+                entity = new DisciplineLessonConductedStudent();
             }
-            entity.DisciplineLessonId = model.DisciplineLessonId;
-            entity.Subgroup = model.Subgroup;
+            entity.DisciplineLessonConductedId = model.DisciplineLessonConductedId;
+            entity.StudentId = model.StudentId;
+            entity.Status = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), model.Status);
+            entity.Comment = model.Comment;
+            entity.Ball = model.Ball;
 
             return entity;
         }

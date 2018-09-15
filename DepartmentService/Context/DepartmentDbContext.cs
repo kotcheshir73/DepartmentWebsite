@@ -1,5 +1,4 @@
 ﻿using DepartmentModel.Models;
-using DepartmentModel.Models.BaseEnities;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -30,12 +29,12 @@ namespace DepartmentService.Context
         public virtual DbSet<Discipline> Disciplines { set; get; }
         public virtual DbSet<DisciplineBlock> DisciplineBlocks { get; set; }
         public virtual DbSet<DisciplineLesson> DisciplineLessons { get; set; }
-        public virtual DbSet<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
         public virtual DbSet<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
         public virtual DbSet<DisciplineLessonTaskVariant> DisciplineLessonTaskVariants { get; set; }
         public virtual DbSet<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
         public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
-        public virtual DbSet<DisciplineLessonRecord> DisciplineLessonRecords { get; set; }
+        public virtual DbSet<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
+        public virtual DbSet<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }

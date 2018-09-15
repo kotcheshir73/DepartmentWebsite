@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿using DepartmentModel.Enums;
+using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using Unity.Attributes;
-using DepartmentService.IServices;
-using DepartmentService.BindingModels;
-using DepartmentModel.Enums;
-using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
-using DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLessonAttendance;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {
@@ -88,20 +81,20 @@ namespace DepartmentDesktop.Views.LearningProgress
         {
             if (comboBoxGroups.SelectedIndex > -1)
             {
-                foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
-                {
-                    var tabPage = tabControl.Controls.Find("tabPage" + elem, false).FirstOrDefault();
-                    if (tabPage != null)
-                    {
-                        if (tabPage.Controls.Count == 0)
-                        {
-                            var controlDL = Container.Resolve<DisciplineLessonAttendanceControl>();
-                            controlDL.Dock = DockStyle.Fill;
-                            tabPage.Controls.Add(controlDL);
-                        }
-                        (tabPage.Controls[0] as DisciplineLessonAttendanceControl).LoadData(new Guid(comboBoxDisciplines.SelectedValue.ToString()), elem.ToString());
-                    }
-                }
+                //foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTypes)))
+                //{
+                //    var tabPage = tabControl.Controls.Find("tabPage" + elem, false).FirstOrDefault();
+                //    if (tabPage != null)
+                //    {
+                //        if (tabPage.Controls.Count == 0)
+                //        {
+                //            var controlDL = Container.Resolve<DisciplineLessonAttendanceControl>();
+                //            controlDL.Dock = DockStyle.Fill;
+                //            tabPage.Controls.Add(controlDL);
+                //        }
+                //        (tabPage.Controls[0] as DisciplineLessonAttendanceControl).LoadData(new Guid(comboBoxDisciplines.SelectedValue.ToString()), elem.ToString());
+                //    }
+                //}
             }
         }
     }

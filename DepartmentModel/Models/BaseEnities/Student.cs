@@ -63,10 +63,10 @@ namespace DepartmentModel.Models
 		[ForeignKey("StudentId")]
 		public virtual List<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
 
-		[ForeignKey("StudentId")]
-		public virtual List<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
+        [ForeignKey("StudentId")]
+        public virtual List<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }
 
-		[ForeignKey("StudentId")]
+        [ForeignKey("StudentId")]
 		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
 
         //-------------------------------------------------------------------------

@@ -42,6 +42,7 @@
             this.dataGridViewStudents.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridViewStudents.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
+            this.dataGridViewStudents.RowHeadersVisible = false;
             this.dataGridViewStudents.Size = new System.Drawing.Size(963, 557);
             this.dataGridViewStudents.TabIndex = 0;
             // 
