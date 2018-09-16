@@ -1,5 +1,6 @@
 ﻿using DepartmentModel.Models;
 using DepartmentModel.Models.BaseEnities;
+using DepartmentModel.Models.ProcessAccountingModels;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -59,6 +60,9 @@ namespace DepartmentService.Context
         public virtual DbSet<TimeNorm> TimeNorms { get; set; }
         public virtual DbSet<User> Users { set; get; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<DepartmentProcess> DepartmentProcesses { get; set; }
+        public virtual DbSet<AcademicYearProcess> AcademicYearProcesses { get; set; }
+        public virtual DbSet<ProcessDirectionRecord> ProcessDirectionRecords { get; set; }
 
         /// <summary>
         /// Перегружаем метод созранения изменений. Если возникла ошибка - очищаем все изменения

@@ -60,12 +60,15 @@
     <Compile Include="Enums\KindOfLoadType.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\Post.cs" />
+    <Compile Include="Enums\ProcessStatus.cs" />
     <Compile Include="Enums\Rank.cs" />
     <Compile Include="Enums\Rank2.cs" />
     <Compile Include="Enums\ResultServiceStatusCode.cs" />
     <Compile Include="Enums\ScheduleStopWordTypes.cs" />
+    <Compile Include="Enums\SemesterDates.cs" />
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
+    <Compile Include="Enums\TimeDuration.cs" />
     <Compile Include="Enums\TimeNormKoef.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
@@ -108,6 +111,9 @@
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\HelperModels\BlueAsteriskBlockType.cs" />
     <Compile Include="Models\HelperModels\BlueAsteriskTypeObject.cs" />
+    <Compile Include="Models\ProcessAccountingModels\AcademicYearProcess.cs" />
+    <Compile Include="Models\ProcessAccountingModels\DepartmentProcess.cs" />
+    <Compile Include="Models\ProcessAccountingModels\ProcessDirectionRecord.cs" />
     <Compile Include="Models\ScheduleRecord.cs" />
     <Compile Include="Models\ScheduleRecords\ConsultationRecord.cs" />
     <Compile Include="Models\ScheduleRecords\ExaminationRecord.cs" />

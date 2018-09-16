@@ -7,13 +7,13 @@ namespace DepartmentService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class dltimage : IMigrationMetadata
+    public sealed partial class migr : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(dltimage));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(migr));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808161211321_dltimage"; }
+            get { return "201809161802160_migr"; }
         }
         
         string IMigrationMetadata.Source

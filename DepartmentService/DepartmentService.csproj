@@ -122,21 +122,13 @@
     <Compile Include="Migrations\201807131624088_InitMigration.Designer.cs">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807181848121_addDLTVchangedDLandDLT.cs" />
-    <Compile Include="Migrations\201807181848121_addDLTVchangedDLandDLT.Designer.cs">
-      <DependentUpon>201807181848121_addDLTVchangedDLandDLT.cs</DependentUpon>
+    <Compile Include="Migrations\201809161802160_migr.cs" />
+    <Compile Include="Migrations\201809161802160_migr.Designer.cs">
+      <DependentUpon>201809161802160_migr.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808161202515_dldlsr.cs" />
-    <Compile Include="Migrations\201808161202515_dldlsr.Designer.cs">
-      <DependentUpon>201808161202515_dldlsr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808161211321_dltimage.cs" />
-    <Compile Include="Migrations\201808161211321_dltimage.Designer.cs">
-      <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
-       </Compile>
-    <Compile Include="Migrations\201809050604321_AddSoftwareTable.cs" />
-    <Compile Include="Migrations\201809050604321_AddSoftwareTable.Designer.cs">
-      <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
+    <Compile Include="Migrations\201809161814523_AddProcessAccountingModels.cs" />
+    <Compile Include="Migrations\201809161814523_AddProcessAccountingModels.Designer.cs">
+      <DependentUpon>201809161814523_AddProcessAccountingModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -271,17 +263,11 @@
     <EmbeddedResource Include="Migrations\201807131624088_InitMigration.resx">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807181848121_addDLTVchangedDLandDLT.resx">
-      <DependentUpon>201807181848121_addDLTVchangedDLandDLT.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809161802160_migr.resx">
+      <DependentUpon>201809161802160_migr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808161202515_dldlsr.resx">
-      <DependentUpon>201808161202515_dldlsr.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808161211321_dltimage.resx">
-      <DependentUpon>201808161211321_dltimage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809050604321_AddSoftwareTable.resx">
-      <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809161814523_AddProcessAccountingModels.resx">
+      <DependentUpon>201809161814523_AddProcessAccountingModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
