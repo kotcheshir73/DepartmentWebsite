@@ -711,7 +711,7 @@ namespace DepartmentService.Services
 
                 if (dlc.Subgroup.Contains("Подгруппа"))
                 {
-                    int subgroup = Convert.ToInt32(dlc.Subgroup.Split(' ')[1]);
+                    int subgroup = Convert.ToInt32(dlc.Subgroup.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1]);
                     students = students.Where(x => x.SubGroup == subgroup);
                 }
 
@@ -760,6 +760,40 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<List<DisciplineLessonConductedStudentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<LessonConductedViewModel>> GetLessonConducteds(LessonConducteds model)
+
+        {
+            try
+            {
+                var list = _context.DisciplineLessonConductedStudents
+                                        .Include(x => x.DisciplineLessonConducted)
+                                        .Include(x => x.DisciplineLessonConducted.DisciplineLesson)
+                                        .Include(x => x.Student)
+                                        .Where(x => x.DisciplineLessonConducted.DisciplineLesson.DisciplineId == model.DisciplineId &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.TimeNormId == model.TimeNormId &&
+                                                        x.Student.StudentGroupId == model.StudentGroupId)
+                                        .OrderBy(x => x.Student.LastName)
+                                        .ThenBy(x => x.Student.FirstName)
+                                        .ToList();
+
+                return ResultService<List<LessonConductedViewModel>>.Success(list.Select(x => new LessonConductedViewModel
+                {
+                    DisciplineLesson = string.Format("{1}", x.DisciplineLessonConducted.DisciplineLesson.Title, x.DisciplineLessonConducted.DateCreate.ToShortDateString()),
+                    Student = string.Format("{0} {1}", x.Student.LastName, x.Student.FirstName),
+                    StatusBall = string.Format("{0}{1}", x.Status, x.Ball.HasValue ? string.Format("{0}({1})", " ", x.Ball.Value) : ""),
+                    Subgroup = x.DisciplineLessonConducted.Subgroup
+                }).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<LessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<LessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

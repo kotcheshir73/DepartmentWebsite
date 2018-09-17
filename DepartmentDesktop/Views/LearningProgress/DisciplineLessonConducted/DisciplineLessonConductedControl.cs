@@ -52,9 +52,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "FillGroupToolStripMenuItem", "Заполнить на группу"},
-                    { "PrintVariantsToolStripMenuItem", "Распечатать варианты"},
-                    { "PrintSubgroupsToolStripMenuItem", "Распечатать подгруппы"}
+                    { "PrintLessonConductedToolStripMenuItem", "Посещаемость"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
@@ -63,9 +61,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            //standartControl.ToolStripButtonMoveEventClickAddEvent("FillGroupToolStripMenuItem", FillGroupToolStripMenuItem_Click);
-            //standartControl.ToolStripButtonMoveEventClickAddEvent("PrintVariantsToolStripMenuItem", PrintVariantsToolStripMenuItem_Click);
-            //standartControl.ToolStripButtonMoveEventClickAddEvent("PrintSubgroupsToolStripMenuItem", PrintSubgroupsToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintLessonConductedToolStripMenuItem", PrintLessonConductedToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -101,6 +97,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
                 EducationFirectionId = _edId,
                 DisciplineId = _dId,
                 Semester = _semester,
+                TimeNormId =_tnId,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
@@ -184,6 +181,21 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
                     standartControl.LoadPage();
                 }
             }
+        }
+
+        private void PrintLessonConductedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<LessonConductedForm>(
+                new ParameterOverrides
+                {
+                    { "ayId", _ayId },
+                    { "edId", _edId },
+                    { "dId", _dId },
+                    { "tnId", _tnId },
+                    { "semester", _semester }
+                }
+                .OnType<LessonConductedForm>());
+            form.ShowDialog();
         }
     }
 }

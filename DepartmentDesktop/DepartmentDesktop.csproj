@@ -208,17 +208,23 @@
     <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentControl.Designer.cs">
       <DependentUpon>DisciplineLessonConductedStudentControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentFillStudentsForm.cs">
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\FillStudentsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentFillStudentsForm.Designer.cs">
-      <DependentUpon>DisciplineLessonConductedStudentFillStudentsForm.cs</DependentUpon>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\FillStudentsForm.Designer.cs">
+      <DependentUpon>FillStudentsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentForm.Designer.cs">
       <DependentUpon>DisciplineLessonConductedStudentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\LessonConductedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\LessonConductedForm.Designer.cs">
+      <DependentUpon>LessonConductedForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonControl.cs">
       <SubType>UserControl</SubType>
@@ -914,12 +920,16 @@
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentControl.resx">
       <DependentUpon>DisciplineLessonConductedStudentControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentFillStudentsForm.resx">
-      <DependentUpon>DisciplineLessonConductedStudentFillStudentsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\FillStudentsForm.resx">
+      <DependentUpon>FillStudentsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentForm.resx">
       <DependentUpon>DisciplineLessonConductedStudentForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\LessonConductedForm.resx">
+      <DependentUpon>LessonConductedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\ReportLessonConducted.rdlc" />
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonControl.resx">
       <DependentUpon>DisciplineLessonControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1253,10 +1263,12 @@
       <DependentUpon>SynchronizationUsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineLessonConductedStudentViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineLessonTaskVariantViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineStudentRecordViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LessonConductedViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueRecordViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.SoftwareRecordViewModel.datasource" />

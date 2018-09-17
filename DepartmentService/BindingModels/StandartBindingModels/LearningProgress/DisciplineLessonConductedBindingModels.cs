@@ -15,6 +15,8 @@ namespace DepartmentService.BindingModels
 
         public Guid? StudentGroupId { get; set; }
 
+        public Guid? TimeNormId { get; set; }
+
         public string Semester { get; set; }
     }
 

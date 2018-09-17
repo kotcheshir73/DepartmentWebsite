@@ -1,6 +1,6 @@
 ﻿namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.DisciplineLessonConductedStudent
 {
-    partial class DisciplineLessonConductedStudentFillStudentsForm
+    partial class FillStudentsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
-            this.buttonApply = new System.Windows.Forms.Button();
             this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnDLCId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnStudentId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,6 +36,7 @@
             this.ColumnStatus = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnBall = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonApply = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,6 +44,7 @@
             // 
             this.dataGridViewStudents.AllowUserToAddRows = false;
             this.dataGridViewStudents.AllowUserToDeleteRows = false;
+            this.dataGridViewStudents.AllowUserToResizeRows = false;
             this.dataGridViewStudents.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -61,16 +62,6 @@
             this.dataGridViewStudents.RowHeadersVisible = false;
             this.dataGridViewStudents.Size = new System.Drawing.Size(725, 486);
             this.dataGridViewStudents.TabIndex = 0;
-            // 
-            // buttonApply
-            // 
-            this.buttonApply.Location = new System.Drawing.Point(578, 492);
-            this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(135, 23);
-            this.buttonApply.TabIndex = 1;
-            this.buttonApply.Text = "Применть";
-            this.buttonApply.UseVisualStyleBackColor = true;
-            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // ColumnId
             // 
@@ -116,6 +107,16 @@
             this.ColumnComment.Name = "ColumnComment";
             this.ColumnComment.Width = 300;
             // 
+            // buttonApply
+            // 
+            this.buttonApply.Location = new System.Drawing.Point(578, 492);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(135, 23);
+            this.buttonApply.TabIndex = 1;
+            this.buttonApply.Text = "Применть";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            // 
             // DisciplineLessonConductedStudentFillStudentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -126,7 +127,7 @@
             this.Name = "DisciplineLessonConductedStudentFillStudentsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Заполнение группы";
-            this.Load += new System.EventHandler(this.DisciplineLessonConductedStudentFillStudentsForm_Load);
+            this.Load += new System.EventHandler(this.FillStudentsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
             this.ResumeLayout(false);
 

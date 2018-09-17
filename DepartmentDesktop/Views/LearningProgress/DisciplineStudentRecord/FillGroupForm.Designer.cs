@@ -37,6 +37,7 @@
             // 
             this.dataGridViewStudents.AllowUserToAddRows = false;
             this.dataGridViewStudents.AllowUserToDeleteRows = false;
+            this.dataGridViewStudents.AllowUserToResizeRows = false;
             this.dataGridViewStudents.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewStudents.Dock = System.Windows.Forms.DockStyle.Top;

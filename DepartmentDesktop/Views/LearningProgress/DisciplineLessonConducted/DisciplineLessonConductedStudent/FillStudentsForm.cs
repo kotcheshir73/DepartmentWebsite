@@ -8,7 +8,7 @@ using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.DisciplineLessonConductedStudent
 {
-    public partial class DisciplineLessonConductedStudentFillStudentsForm : Form
+    public partial class FillStudentsForm : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -21,7 +21,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.Dis
 
         private Guid? _sgId = null;
 
-        public DisciplineLessonConductedStudentFillStudentsForm(IDisciplineLessonConductedStudentService service, ILearningProgressProcess process, Guid? dlcId = null, Guid? sgId = null)
+        public FillStudentsForm(IDisciplineLessonConductedStudentService service, ILearningProgressProcess process, Guid? dlcId = null, Guid? sgId = null)
         {
             InitializeComponent();
             _service = service;
@@ -30,7 +30,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.Dis
             _sgId = sgId;
         }
 
-        private void DisciplineLessonConductedStudentFillStudentsForm_Load(object sender, EventArgs e)
+        private void FillStudentsForm_Load(object sender, EventArgs e)
         {
             foreach (var elem in Enum.GetValues(typeof(DisciplineLessonStudentStatus)))
             {

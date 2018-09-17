@@ -40,8 +40,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.Dis
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "FillGroupToolStripMenuItem", "Заполнить группу"},
-                    { "PrintVariantsToolStripMenuItem", "Распечатать варианты"}
+                    { "FillGroupToolStripMenuItem", "Заполнить группу"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
@@ -51,8 +50,6 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.Dis
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("FillGroupToolStripMenuItem", FillGroupToolStripMenuItem_Click);
-            //standartControl.ToolStripButtonMoveEventClickAddEvent("PrintVariantsToolStripMenuItem", PrintVariantsToolStripMenuItem_Click);
-            //standartControl.ToolStripButtonMoveEventClickAddEvent("PrintSubgroupsToolStripMenuItem", PrintSubgroupsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -164,13 +161,13 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.Dis
 
         private void FillGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<DisciplineLessonConductedStudentFillStudentsForm>(
+            var form = Container.Resolve<FillStudentsForm>(
                 new ParameterOverrides
                 {
                     { "dlcId", _dlcId },
                     { "sgId", _sgId }
                 }
-                .OnType<DisciplineLessonConductedStudentFillStudentsForm>());
+                .OnType<FillStudentsForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();

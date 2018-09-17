@@ -18,4 +18,15 @@ namespace DepartmentService.ViewModels
 
         public string Info { get; set; }
     }
+
+    public class LessonConductedViewModel
+    {
+        public string DisciplineLesson { get; set; }
+
+        public string Student { get; set; }
+
+        public string StatusBall { get; set; }
+
+        public string Subgroup { get; set; }
+    }
 }
