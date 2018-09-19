@@ -30,7 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,7 +49,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingModels\AcademicYearProcessBindingModels.cs" />
+    <Compile Include="BindingModels\DepartmentProcessBindingModels.cs" />
+    <Compile Include="BindingModels\ProcessDirectionRecordBindingModels.cs" />
+    <Compile Include="IServices\IAcademicYearProcessService.cs" />
+    <Compile Include="IServices\IDepartmentProcessService.cs" />
+    <Compile Include="IServices\IProcessDirectionRecordService.cs" />
+    <Compile Include="ModelFacotryFromBindingModel.cs" />
+    <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AcademicYearProcessService.cs" />
+    <Compile Include="Services\DepartmentProcessService.cs" />
+    <Compile Include="Services\ProcessDirectionRecordService.cs" />
+    <Compile Include="ViewModels\AcademicYearProcessViewModels.cs" />
+    <Compile Include="ViewModels\DepartmentProcessViewModels.cs" />
+    <Compile Include="ViewModels\ProcessDirectionRecordViewModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
+      <Project>{CDF98BDC-D831-44D1-8348-146219F42D2C}</Project>
+      <Name>DepartmentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
+      <Project>{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}</Project>
+      <Name>DepartmentService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

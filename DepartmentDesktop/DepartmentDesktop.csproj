@@ -875,12 +875,9 @@
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.resx">
       <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValuePassport.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\InstallSowtwareForm.resx">
       <DependentUpon>InstallSowtwareForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
       <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
     </EmbeddedResource>
@@ -1106,6 +1103,10 @@
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DepartmentProcessAccountingService\DepartmentProcessAccountingService.csproj">
+      <Project>{7A5BD495-87A2-4571-AC99-F149F956EF8C}</Project>
+      <Name>DepartmentProcessAccountingService</Name>
     </ProjectReference>
     <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
       <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>

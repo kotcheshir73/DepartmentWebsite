@@ -1,4 +1,5 @@
-﻿using DepartmentService.Context;
+﻿using DepartmentModel.Models.ProcessAccountingModels;
+using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.Services;
 using System;
@@ -7,6 +8,8 @@ using System.Data.Entity;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
+using DepartmentProcessAccountingService.IServices;
+using DepartmentProcessAccountingService.Services;
 
 namespace DepartmentDesktop
 {
@@ -80,6 +83,10 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<ISoftwareService, SoftwareService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISoftwareRecordService, SoftwareRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILaboratoryProcess, LaboratoryProcess>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<IAcademicYearProcessService, AcademicYearProcessService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IDepartmentProcessService, DepartmentProcessService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IProcessDirectionRecordService, ProcessDirectionRecordService>(new HierarchicalLifetimeManager());
 
 
             currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
