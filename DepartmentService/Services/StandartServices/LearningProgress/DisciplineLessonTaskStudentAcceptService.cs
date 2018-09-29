@@ -11,34 +11,44 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-    public class DisciplineLessonConductedService : IDisciplineLessonConductedService
+    public class DisciplineLessonTaskStudentAcceptService : IDisciplineLessonTaskStudentAcceptService
     {
         private readonly DepartmentDbContext _context;
 
-        private readonly IDisciplineLessonService _serviceDL;
+        private readonly IDisciplineLessonTaskService _serviceDLT;
 
-        private readonly IStudentGroupService _serviceSG;
+        private readonly IStudentService _serviceS;
 
         private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
 
-        public DisciplineLessonConductedService(DepartmentDbContext context, IDisciplineLessonService serviceDL, IStudentGroupService serviceSG)
+        public DisciplineLessonTaskStudentAcceptService(DepartmentDbContext context, IDisciplineLessonTaskService serviceDLT, IStudentService serviceS)
         {
             _context = context;
-            _serviceDL = serviceDL;
-            _serviceSG = serviceSG;
+            _serviceDLT = serviceDLT;
+            _serviceS = serviceS;
         }
 
         public ResultService<DisciplineLessonPageViewModel> GetDisciplineLessons(DisciplineLessonGetBindingModel model)
         {
-            return _serviceDL.GetDisciplineLessons(model);
+            return _serviceDLT.GetDisciplineLessons(model);
+        }
+
+        public ResultService<DisciplineLessonTaskPageViewModel> GetDisciplineLessonTasks(DisciplineLessonTaskGetBindingModel model)
+        {
+            return _serviceDLT.GetDisciplineLessonTasks(model);
         }
 
         public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
         {
-            return _serviceSG.GetStudentGroups(model);
+            return _serviceS.GetStudentGroups(model);
         }
 
-        public ResultService<DisciplineLessonConductedPageViewModel> GetDisciplineLessonConducteds(DisciplineLessonConductedGetBindingModel model)
+        public ResultService<StudentPageViewModel> GetStudents(StudentGetBindingModel model)
+        {
+            return _serviceS.GetStudents(model);
+        }
+
+        public ResultService<DisciplineLessonTaskStudentAcceptPageViewModel> GetDisciplineLessonTaskStudentAccepts(DisciplineLessonTaskStudentAcceptGetBindingModel model)
         {
             try
             {
@@ -48,39 +58,30 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.DisciplineLessonConducteds.Where(d => !d.IsDeleted).AsQueryable();
+                var query = _context.DisciplineLessonTaskStudentAccepts.Where(d => !d.IsDeleted).AsQueryable();
 
+                if (model.DisciplineLessonTaskId.HasValue)
+                {
+                    query = query.Where(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId);
+                }
                 if (model.DisciplineLessonId.HasValue)
                 {
-                    query = query.Where(x => x.DisciplineLessonId == model.DisciplineLessonId);
-                }
-                if (model.DisciplineId.HasValue)
-                {
-                    query = query.Where(x => x.DisciplineLesson.DisciplineId == model.DisciplineId);
-                }
-                if (model.EducationDirectionId.HasValue)
-                {
-                    query = query.Where(x => x.DisciplineLesson.EducationDirectionId == model.EducationDirectionId);
-                }
-                if (model.TimeNormId.HasValue)
-                {
-                    query = query.Where(x => x.DisciplineLesson.TimeNormId == model.TimeNormId);
+                    query = query.Where(x => x.DisciplineLessonTask.DisciplineLessonId == model.DisciplineLessonId);
                 }
                 if (model.StudentGroupId.HasValue)
                 {
-                    query = query.Where(x => x.StudentGroupId == model.StudentGroupId);
+                    query = query.Where(x => x.Student.StudentGroupId == model.StudentGroupId);
                 }
-                if (!string.IsNullOrEmpty(model.Semester))
+                if (model.StudentId.HasValue)
                 {
-                    Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
-                    query = query.Where(x => x.DisciplineLesson.Semester == sem);
+                    query = query.Where(x => x.StudentId == model.StudentId);
                 }
                 if (model.Id.HasValue)
                 {
                     query = query.Where(x => x.Id == model.Id);
                 }
 
-                query = query.OrderBy(d => d.Subgroup).ThenBy(x => x.DateCreate);
+                query = query.OrderBy(x => x.DisciplineLessonTask.Order).ThenBy(x => x.Student.LastName).ThenBy(x => x.Student.FirstName);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -90,27 +91,27 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(x => x.DisciplineLesson).Include(x => x.StudentGroup);
+                query = query.Include(x => x.DisciplineLessonTask).Include(x => x.Student);
 
-                var result = new DisciplineLessonConductedPageViewModel
+                var result = new DisciplineLessonTaskStudentAcceptPageViewModel
                 {
                     MaxCount = countPages,
-                    List = query.Select(ModelFactoryToViewModel.CreateDisciplineLessonConductedViewModel).ToList()
+                    List = query.Select(ModelFactoryToViewModel.CreateDisciplineLessonTaskStudentAcceptViewModel).ToList()
                 };
 
-                return ResultService<DisciplineLessonConductedPageViewModel>.Success(result);
+                return ResultService<DisciplineLessonTaskStudentAcceptPageViewModel>.Success(result);
             }
             catch (DbEntityValidationException ex)
             {
-                return ResultService<DisciplineLessonConductedPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<DisciplineLessonTaskStudentAcceptPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
             catch (Exception ex)
             {
-                return ResultService<DisciplineLessonConductedPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<DisciplineLessonTaskStudentAcceptPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService<DisciplineLessonConductedViewModel> GetDisciplineLessonConducted(DisciplineLessonConductedGetBindingModel model)
+        public ResultService<DisciplineLessonTaskStudentAcceptViewModel> GetDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptGetBindingModel model)
         {
             try
             {
@@ -119,28 +120,28 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на чтение данных по дисциплинам");
                 }
 
-                var entity = _context.DisciplineLessonConducteds
-                                .Include(x => x.DisciplineLesson)
-                                .Include(x => x.StudentGroup)
+                var entity = _context.DisciplineLessonTaskStudentAccepts
+                                .Include(x => x.DisciplineLessonTask)
+                                .Include(x => x.Student)
                                 .FirstOrDefault(d => d.Id == model.Id && !d.IsDeleted);
                 if (entity == null)
                 {
-                    return ResultService<DisciplineLessonConductedViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+                    return ResultService<DisciplineLessonTaskStudentAcceptViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                 }
 
-                return ResultService<DisciplineLessonConductedViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineLessonConductedViewModel(entity));
+                return ResultService<DisciplineLessonTaskStudentAcceptViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineLessonTaskStudentAcceptViewModel(entity));
             }
             catch (DbEntityValidationException ex)
             {
-                return ResultService<DisciplineLessonConductedViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<DisciplineLessonTaskStudentAcceptViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
             catch (Exception ex)
             {
-                return ResultService<DisciplineLessonConductedViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<DisciplineLessonTaskStudentAcceptViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService CreateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model)
+        public ResultService CreateDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptSetBindingModel model)
         {
             try
             {
@@ -149,9 +150,10 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по дисциплинам");
                 }
 
-                var entity = ModelFacotryFromBindingModel.CreateDisciplineLessonConducted(model);
+                var entity = ModelFacotryFromBindingModel.CreateDisciplineLessonTaskStudentAccept(model);
 
-                _context.DisciplineLessonConducteds.Add(entity);
+                _context.DisciplineLessonTaskStudentAccepts.Add(entity);
+                entity.Log = string.Format("{0} {1}", entity.Result.ToString(), entity.DateAccept.ToShortDateString());
                 _context.SaveChanges();
 
                 return ResultService.Success(entity.Id);
@@ -166,7 +168,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService UpdateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model)
+        public ResultService UpdateDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptSetBindingModel model)
         {
             try
             {
@@ -175,12 +177,15 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на изменение данных по дисциплинам");
                 }
 
-                var entity = _context.DisciplineLessonConducteds.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                var entity = _context.DisciplineLessonTaskStudentAccepts.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                model.Log = (entity.Result.ToString() != model.Result) ?
+                    string.Format("{0}{1}{2} {3}", entity.Log, Environment.NewLine, model.Result, model.DateAccept.ToShortDateString()) :
+                    entity.Log;
                 if (entity == null)
                 {
                     return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                 }
-                entity = ModelFacotryFromBindingModel.CreateDisciplineLessonConducted(model, entity);
+                entity = ModelFacotryFromBindingModel.CreateDisciplineLessonTaskStudentAccept(model, entity);
 
                 _context.SaveChanges();
 
@@ -196,7 +201,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService DeleteDisciplineLessonConducted(DisciplineLessonConductedGetBindingModel model)
+        public ResultService DeleteDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptGetBindingModel model)
         {
             try
             {
@@ -205,7 +210,7 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на удаление данных по дисциплинам");
                 }
 
-                var entity = _context.DisciplineLessonConducteds.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                var entity = _context.DisciplineLessonTaskStudentAccepts.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

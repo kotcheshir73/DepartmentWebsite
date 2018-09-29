@@ -84,6 +84,7 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IDisciplineStudentRecordService, DisciplineStudentRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonConductedStudentService, DisciplineLessonConductedStudentService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonConductedService, DisciplineLessonConductedService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IDisciplineLessonTaskStudentAcceptService, DisciplineLessonTaskStudentAcceptService>(new HierarchicalLifetimeManager());
 
 
             currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());

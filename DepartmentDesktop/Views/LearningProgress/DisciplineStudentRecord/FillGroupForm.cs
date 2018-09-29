@@ -35,7 +35,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineStudentRecord
 
         private void FillGroupForm_Load(object sender, EventArgs e)
         {
-            var result = _process.GetDisciplineStudentRecordsForFill(new DisciplineStudentRecordsForFill
+            var result = _process.GetDisciplineStudentRecordsForFill(new DisciplineStudentRecordsForFillBindingModel
             {
                 DisciplineId = _dId.Value,
                 StudentGroupId = _sgId.Value,

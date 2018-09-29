@@ -29,7 +29,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             ReportParameter parameter = new ReportParameter("ReportParameterTitle", Text);
             reportViewerReport.LocalReport.SetParameters(parameter);
 
-            var data = _process.GetDisciplineLessonTaskVariants(new GetDisciplineLessonTaskVariants { DisciplineLessonId = _dlId.Value });
+            var data = _process.GetDisciplineLessonTaskVariants(new GetDisciplineLessonTaskVariantsBindingModel { DisciplineLessonId = _dlId.Value });
             ReportDataSource source = new ReportDataSource("DataSetDisciplineLessonTaskVariant", data.Result);
             reportViewerReport.LocalReport.DataSources.Clear();
             reportViewerReport.LocalReport.DataSources.Add(source);

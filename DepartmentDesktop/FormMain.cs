@@ -549,7 +549,9 @@ namespace DepartmentDesktop
 
         private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            var control = Container.Resolve<Views.LearningProgress.AcceptTasksControl>();
+            ApplyControl(control);
+            control.LoadData();
         }
         #endregion
     }

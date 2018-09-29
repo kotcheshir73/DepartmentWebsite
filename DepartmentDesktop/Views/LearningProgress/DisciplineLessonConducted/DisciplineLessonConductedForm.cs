@@ -219,7 +219,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
         {
             if (comboBoxStudentGroups.SelectedValue != null)
             {
-                var resultS = _process.GetDisciplineLessonSubgroup(new DisciplineLessonSubgroup { DisciplineId = _dId.Value, StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
+                var resultS = _process.GetDisciplineLessonSubgroup(new DisciplineLessonSubgroupBindingModel { DisciplineId = _dId.Value, StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
                 Semester = _semester});
                 if (!resultS.Succeeded)
                 {

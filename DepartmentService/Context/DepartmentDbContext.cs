@@ -31,7 +31,7 @@ namespace DepartmentService.Context
         public virtual DbSet<DisciplineLesson> DisciplineLessons { get; set; }
         public virtual DbSet<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
         public virtual DbSet<DisciplineLessonTaskVariant> DisciplineLessonTaskVariants { get; set; }
-        public virtual DbSet<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
+        public virtual DbSet<DisciplineLessonTaskStudentAccept> DisciplineLessonTaskStudentAccepts { get; set; }
         public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
         public virtual DbSet<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
         public virtual DbSet<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }

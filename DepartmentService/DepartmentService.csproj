@@ -74,6 +74,7 @@
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonConductedBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonConductedStudentBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskStudentAcceptBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonTaskVariantBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerPostBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\ScheduleLessonTimeBindingModels.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordElementService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonConductedStudentService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskService.cs" />
+    <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskStudentAcceptService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskVariantService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
@@ -173,6 +175,14 @@
     <Compile Include="Migrations\201809151749290_ChangeTypeBall.cs" />
     <Compile Include="Migrations\201809151749290_ChangeTypeBall.Designer.cs">
       <DependentUpon>201809151749290_ChangeTypeBall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809201148253_ChangeTableStudentAccept.cs" />
+    <Compile Include="Migrations\201809201148253_ChangeTableStudentAccept.Designer.cs">
+      <DependentUpon>201809201148253_ChangeTableStudentAccept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809221846289_UpdateDLTSAddTaskField.cs" />
+    <Compile Include="Migrations\201809221846289_UpdateDLTSAddTaskField.Designer.cs">
+      <DependentUpon>201809221846289_UpdateDLTSAddTaskField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -264,6 +274,8 @@
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonConductedViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonConductedStudentViewModels.cs" />
+    <Compile Include="Services\StandartServices\LearningProgress\DisciplineLessonTaskStudentAcceptService.cs" />
+    <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskStudentAcceptViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskVariantViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonTaskViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordElementViewModels.cs" />
@@ -347,6 +359,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809151749290_ChangeTypeBall.resx">
       <DependentUpon>201809151749290_ChangeTypeBall.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809201148253_ChangeTableStudentAccept.resx">
+      <DependentUpon>201809201148253_ChangeTableStudentAccept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809221846289_UpdateDLTSAddTaskField.resx">
+      <DependentUpon>201809221846289_UpdateDLTSAddTaskField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

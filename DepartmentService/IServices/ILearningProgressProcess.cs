@@ -21,26 +21,34 @@ namespace DepartmentService.IServices
 
         ResultService FormDisciplineLessonVariants(LearningProcessFormDisciplineLessonTaskVariantsBindingModel model);
 
-        ResultService<List<DisciplineLessonTaskVariantViewModel>> GetDisciplineLessonTaskVariants(GetDisciplineLessonTaskVariants model);
+        ResultService<List<DisciplineLessonTaskVariantViewModel>> GetDisciplineLessonTaskVariants(GetDisciplineLessonTaskVariantsBindingModel model);
 
-        ResultService<List<DisciplineLessonTaskViewModel>> GetDisiplineLessonTasksForDuplicate(GetDisiplineLessonTasksForDuplicate model);
+        ResultService<List<DisciplineLessonTaskViewModel>> GetDisiplineLessonTasksForDuplicate(GetDisiplineLessonTasksForDuplicateBindingModel model);
 
-        ResultService DuplicateDisiplineLessonTasks(DuplicateDisiplineLessonTasks model);
+        ResultService DuplicateDisiplineLessonTasks(DuplicateDisiplineLessonTasksBindingModel model);
 
-        ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicate model);
+        ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicateBindingModel model);
 
-        ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessons model);
+        ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessonsBindingModel model);
 
         ResultService<List<Semesters>> GetSemesters(LearningProcessSemesterBindingModel model);
 
         ResultService<List<StudentGroupViewModel>> GetStudentGroups(LearningProcessStudentGroupBindingModel model);
 
-        ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFill model);
+        ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFillBindingModel model);
 
-        ResultService<List<string>> GetDisciplineLessonSubgroup(DisciplineLessonSubgroup model);
+        ResultService<List<string>> GetDisciplineLessonSubgroup(DisciplineLessonSubgroupBindingModel model);
 
-        ResultService<List<DisciplineLessonConductedStudentViewModel>> GetDisciplineLessonConductedStudentsForFill(DisciplineLessonConductedStudentsForFill model);
+        ResultService<List<DisciplineLessonConductedStudentViewModel>> GetDisciplineLessonConductedStudentsForFill(DisciplineLessonConductedStudentsForFillBindingModel model);
 
-        ResultService<List<LessonConductedViewModel>> GetLessonConducteds(LessonConducteds model);
+        ResultService<List<LessonConductedViewModel>> GetLessonConducteds(LessonConductedsBindingModel model);
+
+        ResultService<List<DisciplineLessonViewModel>> GetDisciplineLessons(LearningProcessDisciplineLessonBindingModel model);
+
+        ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>> GetDisciplineLessonTaskStudentAcceptForForm(DisciplineLessonTaskStudentAcceptForFormBindingModel model);
+
+        ResultService SetDisciplineLessonTaskStudentAccept(List<DisciplineLessonTaskStudentAcceptUpdateBindingModel> model);
+
+        ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>> GetDisciplineLessonTaskStudentAcceptForFill(DisciplineLessonTaskStudentAcceptForFillBindingModel model);
     }
 }

@@ -85,7 +85,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
                 ReportParameter parameter = new ReportParameter("ReportParameterTitle", string.Format("{0} группы {1}", Text, comboBoxStudentGroups.Text));
                 reportViewerReport.LocalReport.SetParameters(parameter);
 
-                var data = _process.GetLessonConducteds(new LessonConducteds
+                var data = _process.GetLessonConducteds(new LessonConductedsBindingModel
                 {
                     DisciplineId = _dId.Value,
                     StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),

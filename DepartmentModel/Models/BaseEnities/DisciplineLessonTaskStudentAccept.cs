@@ -9,7 +9,7 @@ namespace DepartmentModel.Models
     /// Класс, хранящий информацию по сдаче студентом задания по занятию
     /// </summary>
     [DataContract]
-    public class DisciplineLessonTaskStudentRecord : BaseEntity
+    public class DisciplineLessonTaskStudentAccept : BaseEntity
     {
         [Required]
         [DataMember]
@@ -23,15 +23,22 @@ namespace DepartmentModel.Models
         [DataMember]
         public DisciplineLessonTaskStudentResult Result { get; set; }
 
+        [Required]
+        [DataMember]
+        public string Task { get; set; }
+
+        [DataMember]
+        public DateTime DateAccept { get; set; }
+
+        [Required]
+        [DataMember]
+        public decimal Score { get; set; }
+
         [DataMember]
         public string Comment { get; set; }
 
         [DataMember]
-        public DateTime? Date { get; set; }
-
-        [Required]
-        [DataMember]
-        public int Score { get; set; }
+        public string Log { get; set; }
 
         //-------------------------------------------------------------------------
 

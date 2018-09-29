@@ -9,7 +9,7 @@ namespace DepartmentService.BindingModels
 
         public Guid? DisciplineLessonId { get; set; }
 
-        public Guid? EducationFirectionId { get; set; }
+        public Guid? EducationDirectionId { get; set; }
 
         public Guid? DisciplineId { get; set; }
 

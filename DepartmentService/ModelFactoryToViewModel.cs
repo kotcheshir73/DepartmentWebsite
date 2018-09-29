@@ -749,6 +749,24 @@ namespace DepartmentService.ViewModels
                 Ball = entity.Ball
             };
         }
+
+        public static DisciplineLessonTaskStudentAcceptViewModel CreateDisciplineLessonTaskStudentAcceptViewModel(DisciplineLessonTaskStudentAccept entity)
+        {
+            return new DisciplineLessonTaskStudentAcceptViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                StudentId = entity.StudentId,
+                DisciplineLessonTask = entity.DisciplineLessonTask.Task,
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Result = entity.Result,
+                Task = entity.Task,
+                DateAccept = entity.DateAccept,
+                Score = entity.Score,
+                Comment = entity.Comment,
+                Log = entity.Log
+            };
+        }
         #endregion
     }
 }

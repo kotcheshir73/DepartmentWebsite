@@ -341,7 +341,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<DisciplineLessonTaskVariantViewModel>> GetDisciplineLessonTaskVariants(GetDisciplineLessonTaskVariants model)
+        public ResultService<List<DisciplineLessonTaskVariantViewModel>> GetDisciplineLessonTaskVariants(GetDisciplineLessonTaskVariantsBindingModel model)
         {
             try
             {
@@ -361,7 +361,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<DisciplineLessonTaskViewModel>> GetDisiplineLessonTasksForDuplicate(GetDisiplineLessonTasksForDuplicate model)
+        public ResultService<List<DisciplineLessonTaskViewModel>> GetDisiplineLessonTasksForDuplicate(GetDisiplineLessonTasksForDuplicateBindingModel model)
         {
             try
             {
@@ -387,7 +387,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService DuplicateDisiplineLessonTasks(DuplicateDisiplineLessonTasks model)
+        public ResultService DuplicateDisiplineLessonTasks(DuplicateDisiplineLessonTasksBindingModel model)
         {
             try
             {
@@ -421,7 +421,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicate model)
+        public ResultService<List<DisciplineLessonViewModel>> GetDisiplineLessonsForDuplicate(GetDisiplineLessonsForDuplicateBindingModel model)
         {
             try
             {
@@ -448,7 +448,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessons model)
+        public ResultService DuplicateDisiplineLessons(DuplicateDisiplineLessonsBindingModel model)
         {
             try
             {
@@ -607,7 +607,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFill model)
+        public ResultService<List<DisciplineStudentRecordViewModel>> GetDisciplineStudentRecordsForFill(DisciplineStudentRecordsForFillBindingModel model)
         {
             try
             {
@@ -663,7 +663,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<string>> GetDisciplineLessonSubgroup(DisciplineLessonSubgroup model)
+        public ResultService<List<string>> GetDisciplineLessonSubgroup(DisciplineLessonSubgroupBindingModel model)
         {
             try
             {
@@ -693,7 +693,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<DisciplineLessonConductedStudentViewModel>> GetDisciplineLessonConductedStudentsForFill(DisciplineLessonConductedStudentsForFill model)
+        public ResultService<List<DisciplineLessonConductedStudentViewModel>> GetDisciplineLessonConductedStudentsForFill(DisciplineLessonConductedStudentsForFillBindingModel model)
         {
             try
             {
@@ -763,7 +763,7 @@ namespace DepartmentService.Services
             }
         }
 
-        public ResultService<List<LessonConductedViewModel>> GetLessonConducteds(LessonConducteds model)
+        public ResultService<List<LessonConductedViewModel>> GetLessonConducteds(LessonConductedsBindingModel model)
 
         {
             try
@@ -794,6 +794,204 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<List<LessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonViewModel>> GetDisciplineLessons(LearningProcessDisciplineLessonBindingModel model)
+        {
+            try
+            {
+                Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+                var query = _context.DisciplineLessons
+                                    .Include(x => x.AcademicYear)
+                                    .Include(x => x.Discipline)
+                                    .Include(x => x.EducationDirection)
+                                    .Include(x => x.TimeNorm)
+                                    .Include(x => x.DisciplineLessonTasks)
+                                    .Where(x => !x.IsDeleted && 
+                                                x.AcademicYearId == model.AcademicYearId && 
+                                                x.DisciplineId == model.DisciplineId && 
+                                                x.EducationDirectionId == model.EducationDirectionId &&
+                                                x.Semester == sem)
+                                    .OrderBy(x => x.Semester)
+                                    .ThenBy(x => x.TimeNorm.TimeNormOrder)
+                                    .ThenBy(x => x.Order);
+
+                return ResultService<List<DisciplineLessonViewModel>>.Success(query.Select(ModelFactoryToViewModel.CreateDisciplineLessonViewModel).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>> GetDisciplineLessonTaskStudentAcceptForForm(DisciplineLessonTaskStudentAcceptForFormBindingModel model)
+        {
+            try
+            {
+                var students = _context.Students.Where(x => x.StudentGroupId == model.StudentGroupId && !x.IsDeleted).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+                var dlt = _context.DisciplineLessonTasks.FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId && !x.IsDeleted);
+                var variants = _context.DisciplineLessonTaskVariants.Where(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId && !x.IsDeleted).ToList();
+                if (dlt == null)
+                {
+                    return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error("Error:", "disciplineLessonTask not found", ResultServiceStatusCode.NotFound);
+                }
+
+                List<DisciplineLessonTaskStudentAcceptViewModel> list = new List<DisciplineLessonTaskStudentAcceptViewModel>();
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    foreach (var st in students)
+                    {
+                        StringBuilder task = new StringBuilder(dlt.Task);
+                        task.AppendFormat("({0})", dlt.Description);
+                        var dsr = _context.DisciplineStudentRecords.FirstOrDefault(x => x.DisciplineId == dlt.DisciplineLesson.DisciplineId && x.Semester == dlt.DisciplineLesson.Semester && 
+                                                                                        x.StudentId == st.Id);
+                        if (dsr != null)
+                        {
+                            var variant = variants.FirstOrDefault(x => x.VariantNumber == dsr.Variant);
+                            if (variant != null)
+                            {
+                                task.AppendFormat(" {0}:{1}", variant.VariantNumber, variant.VariantTask);
+                            }
+                        }
+                        var dltsa = _context.DisciplineLessonTaskStudentAccepts
+                                            .Include(x => x.DisciplineLessonTask)
+                                            .Include(x => x.Student)
+                                            .FirstOrDefault(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId && x.StudentId == st.Id);
+                        if (dltsa == null)
+                        {
+                            dltsa = ModelFacotryFromBindingModel.CreateDisciplineLessonTaskStudentAccept(new DisciplineLessonTaskStudentAcceptSetBindingModel
+                            {
+                                DisciplineLessonTaskId = model.DisciplineLessonTaskId,
+                                StudentId = st.Id,
+                                Result = DisciplineLessonTaskStudentResult.Выдано.ToString(),
+                                Task = task.ToString(),
+                                DateAccept = model.DateAccept,
+                                Score = 0,
+                                Comment = "",
+                                Log = string.Format("Выдано задание {0}", model.DateAccept.ToShortDateString())
+                            });
+                            _context.DisciplineLessonTaskStudentAccepts.Add(dltsa);
+                            _context.SaveChanges();
+
+                            dltsa = _context.DisciplineLessonTaskStudentAccepts
+                                            .Include(x => x.DisciplineLessonTask)
+                                            .Include(x => x.Student)
+                                            .FirstOrDefault(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId && x.StudentId == st.Id);
+                        }
+                        else if (dltsa.IsDeleted)
+                        {
+                            dltsa.IsDeleted = false;
+                            dltsa.DateDelete = null;
+                            dltsa.Task = task.ToString();
+                            dltsa.DateAccept = model.DateAccept;
+                            dltsa.Score = 0;
+                            dltsa.Comment = "";
+                            dltsa.Log = string.Format("Выдано задание {0}", model.DateAccept.ToShortDateString());
+                        }
+
+                        list.Add(ModelFactoryToViewModel.CreateDisciplineLessonTaskStudentAcceptViewModel(dltsa));
+                    }
+
+                    transaction.Commit();
+                }
+
+                return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Success(list);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService SetDisciplineLessonTaskStudentAccept(List<DisciplineLessonTaskStudentAcceptUpdateBindingModel> model)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    foreach (var m in model)
+                    {
+                        var elem = _context.DisciplineLessonTaskStudentAccepts.FirstOrDefault(x => x.Id == m.DisciplineLessonTaskStudentAcceptTaskId);
+                        if (elem != null)
+                        {
+                            elem.Task = m.Task;
+                            elem.Comment = m.Comment;
+
+                            _context.SaveChanges();
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+
+                return ResultService.Success();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>> GetDisciplineLessonTaskStudentAcceptForFill(DisciplineLessonTaskStudentAcceptForFillBindingModel model)
+        {
+            try
+            {
+                var students = _context.Students.Where(x => x.StudentGroupId == model.StudentGroupId && !x.IsDeleted).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+                var dlt = _context.DisciplineLessonTasks.FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId && !x.IsDeleted);
+                if (dlt == null)
+                {
+                    return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error("Error:", "disciplineLessonTask not found", ResultServiceStatusCode.NotFound);
+                }
+
+                List<DisciplineLessonTaskStudentAcceptViewModel> list = new List<DisciplineLessonTaskStudentAcceptViewModel>();
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    foreach (var st in students)
+                    {
+                        var dsr = _context.DisciplineStudentRecords.FirstOrDefault(x => x.DisciplineId == dlt.DisciplineLesson.DisciplineId && x.Semester == dlt.DisciplineLesson.Semester &&
+                                                                                        x.StudentId == st.Id);
+                        if (dsr != null)
+                        {
+                        }
+                        var dltsa = _context.DisciplineLessonTaskStudentAccepts
+                                            .Include(x => x.DisciplineLessonTask)
+                                            .Include(x => x.Student)
+                                            .FirstOrDefault(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId && x.StudentId == st.Id && !x.IsDeleted);
+                        if (dltsa == null)
+                        {
+                            return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error("Error:", "DisciplineLessonTaskStudentAccepts not found", ResultServiceStatusCode.NotFound);
+                        }
+
+                        list.Add(ModelFactoryToViewModel.CreateDisciplineLessonTaskStudentAcceptViewModel(dltsa));
+                    }
+
+                    transaction.Commit();
+                }
+
+                return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Success(list);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

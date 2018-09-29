@@ -61,29 +61,29 @@ namespace DepartmentService.BindingModels
         public List<string> Variants { get; set; }
     }
 
-    public class GetDisciplineLessonTaskVariants
+    public class GetDisciplineLessonTaskVariantsBindingModel
     {
         public Guid DisciplineLessonId { get; set; }
     }
 
-    public class GetDisiplineLessonTasksForDuplicate
+    public class GetDisiplineLessonTasksForDuplicateBindingModel
     {
         public Guid DisciplineLessonTaskId { get; set; }
     }
 
-    public class DuplicateDisiplineLessonTasks
+    public class DuplicateDisiplineLessonTasksBindingModel
     {
         public Guid DisciplineLessonTaskFromId { get; set; }
 
         public Guid DisciplineLessonTaskToId { get; set; }
     }
 
-    public class GetDisiplineLessonsForDuplicate
+    public class GetDisiplineLessonsForDuplicateBindingModel
     {
         public Guid DisciplineLessonId { get; set; }
     }
 
-    public class DuplicateDisiplineLessons
+    public class DuplicateDisiplineLessonsBindingModel
     {
         public Guid DisciplineLessonFromId { get; set; }
 
@@ -110,7 +110,7 @@ namespace DepartmentService.BindingModels
         public List<Semesters> Semesters { get; set; }
     }
 
-    public class DisciplineStudentRecordsForFill
+    public class DisciplineStudentRecordsForFillBindingModel
     {
         public Guid DisciplineId { get; set; }
 
@@ -119,7 +119,7 @@ namespace DepartmentService.BindingModels
         public Semesters Semester { get; set; }
     }
 
-    public class DisciplineLessonSubgroup
+    public class DisciplineLessonSubgroupBindingModel
     {
         public Guid DisciplineId { get; set; }
 
@@ -128,14 +128,14 @@ namespace DepartmentService.BindingModels
         public string Semester { get; set; }
     }
 
-    public class DisciplineLessonConductedStudentsForFill
+    public class DisciplineLessonConductedStudentsForFillBindingModel
     {
         public Guid DisciplineLessonConductedId { get; set; }
 
         public Guid StudentGroupId { get; set; }
     }
 
-    public class LessonConducteds
+    public class LessonConductedsBindingModel
     {
         public Guid AcademicYearId { get; set; }
 
@@ -146,5 +146,41 @@ namespace DepartmentService.BindingModels
         public Guid TimeNormId { get; set; }
 
         public string Semester { get; set; }
+    }
+
+    public class LearningProcessDisciplineLessonBindingModel
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid DisciplineId { get; set; }
+
+        public Guid EducationDirectionId { get; set; }
+
+        public string Semester { get; set; }
+    }
+
+    public class DisciplineLessonTaskStudentAcceptForFormBindingModel
+    {
+        public Guid DisciplineLessonTaskId { get; set; }
+
+        public Guid StudentGroupId { get; set; }
+
+        public DateTime DateAccept { get; set; }
+    }
+
+    public class DisciplineLessonTaskStudentAcceptUpdateBindingModel
+    {
+        public Guid DisciplineLessonTaskStudentAcceptTaskId { get; set; }
+
+        public string Task{ get; set; }
+
+        public string Comment { get; set; }
+    }
+
+    public class DisciplineLessonTaskStudentAcceptForFillBindingModel
+    {
+        public Guid DisciplineLessonTaskId { get; set; }
+
+        public Guid StudentGroupId { get; set; }
     }
 }

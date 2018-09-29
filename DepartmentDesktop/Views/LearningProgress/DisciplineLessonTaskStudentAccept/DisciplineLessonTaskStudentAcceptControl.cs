@@ -1,39 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Unity.Attributes;
-using Unity;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
 using Unity.Resolution;
-using DepartmentDesktop.Models;
 
-namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
+namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonTaskStudentAccept
 {
-    public partial class DisciplineLessonConductedControl : UserControl
+    public partial class DisciplineLessonTaskStudentAcceptControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IDisciplineLessonConductedService _service;
+        private readonly IDisciplineLessonTaskStudentAcceptService _service;
 
-        private Guid _ayId;
+        private Guid _dlId;
 
-        private Guid _edId;
+        private Guid _sgId;
 
-        private Guid _dId;
-
-        private Guid _tnId;
-
-        private string _semester;
-
-        public DisciplineLessonConductedControl(IDisciplineLessonConductedService service)
+        public DisciplineLessonTaskStudentAcceptControl(IDisciplineLessonTaskStudentAcceptService service)
         {
             InitializeComponent();
             _service = service;
@@ -41,27 +29,30 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 100, Visible = true },
-                new ColumnConfig { Name = "DisciplineLesson", Title = "Занятие", Width = 200, Visible = true },
-                new ColumnConfig { Name = "StudentGroup", Title = "Группа", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Date", Title = "Дата проведения", Width = 200, Visible = true },
-                new ColumnConfig { Name = "SubGroup", Title = "Подгруппа", Width = 100, Visible = true }
+                new ColumnConfig { Name = "DisciplineLessonTask", Title = "Задание", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Student", Title = "Студент", Width = 200, Visible = true },
+                new ColumnConfig { Name = "DateAccept", Title = "Дата", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Result", Title = "Статус", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Score", Title = "Балл", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Comment", Title = "Комментарий", Width = 400, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string>();
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "PrintLessonConductedToolStripMenuItem", "Посещаемость"}
+                    { "CreateTasksToolStripMenuItem", "Выдать задания"},
+                    { "AssignTasksToolStripMenuItem", "Прием задания"}
                 };
 
-            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 40, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("PrintLessonConductedToolStripMenuItem", PrintLessonConductedToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("CreateTasksToolStripMenuItem", CreateTasksToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("AssignTasksToolStripMenuItem", AssignTasksToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -80,24 +71,18 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
             });
         }
 
-        public void LoadData(Guid ayId, Guid edId, Guid dId, Guid tnId, string semester)
+        public void LoadData(Guid dlId, Guid sgId)
         {
-            _ayId = ayId;
-            _edId = edId;
-            _dId = dId;
-            _tnId = tnId;
-            _semester = semester;
+            _dlId = dlId;
+            _sgId = sgId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetDisciplineLessonConducteds(new DisciplineLessonConductedGetBindingModel
+            var result = _service.GetDisciplineLessonTaskStudentAccepts(new DisciplineLessonTaskStudentAcceptGetBindingModel
             {
-                EducationDirectionId = _edId,
-                DisciplineId = _dId,
-                Semester = _semester,
-                TimeNormId =_tnId,
+                DisciplineLessonId = _dlId,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
@@ -111,11 +96,12 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.Semester,
-                    res.DisciplineLesson,
-                    res.StudentGroup,
-                    res.Date.ToShortDateString(),
-                    res.Subgroup
+                    res.DisciplineLessonTask,
+                    res.Student,
+                    res.DateAccept.ToShortDateString(),
+                    res.Result.ToString(),
+                    res.Score,
+                    res.Comment
                 );
             }
             return result.Result.MaxCount;
@@ -123,17 +109,14 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
 
         private void AddRecord()
         {
-            var form = Container.Resolve<DisciplineLessonConductedForm>(
+            var form = Container.Resolve<DisciplineLessonTaskStudentAcceptForm>(
                 new ParameterOverrides
                 {
-                    { "ayId", _ayId },
-                    { "edId", _edId },
-                    { "dId", _dId },
-                    { "tnId", _tnId },
-                    { "semester", _semester },
+                    { "dlId", _dlId },
+                    { "sgId", _sgId },
                     { "id", Guid.Empty }
                 }
-                .OnType<DisciplineLessonConductedForm>());
+                .OnType<DisciplineLessonTaskStudentAcceptForm>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -145,17 +128,14 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<DisciplineLessonConductedForm>(
+                var form = Container.Resolve<DisciplineLessonTaskStudentAcceptForm>(
                     new ParameterOverrides
                     {
-                        { "ayId", _ayId },
-                        { "edId", _edId },
-                        { "dId", _dId },
-                        { "tnId", _tnId },
-                        { "semester", _semester },
+                        { "dlId", _dlId },
+                        { "sgId", _sgId },
                         { "id", id }
                     }
-                    .OnType<DisciplineLessonConductedForm>());
+                    .OnType<DisciplineLessonTaskStudentAcceptForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -172,7 +152,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteDisciplineLessonConducted(new DisciplineLessonConductedGetBindingModel { Id = id });
+                        var result = _service.DeleteDisciplineLessonTaskStudentAccept(new DisciplineLessonTaskStudentAcceptGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -183,18 +163,27 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
             }
         }
 
-        private void PrintLessonConductedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateTasksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<LessonConductedForm>(
+            var form = Container.Resolve<CreateAssignTasksForm>(
                 new ParameterOverrides
                 {
-                    { "ayId", _ayId },
-                    { "edId", _edId },
-                    { "dId", _dId },
-                    { "tnId", _tnId },
-                    { "semester", _semester }
+                    { "dlId", _dlId },
+                    { "sgId", _sgId }
                 }
-                .OnType<LessonConductedForm>());
+                .OnType<CreateAssignTasksForm>());
+            form.ShowDialog();
+        }
+
+        private void AssignTasksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<AssignTasksForm>(
+                new ParameterOverrides
+                {
+                    { "dlId", _dlId },
+                    { "sgId", _sgId }
+                }
+                .OnType<AssignTasksForm>());
             form.ShowDialog();
         }
     }

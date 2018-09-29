@@ -663,6 +663,24 @@ namespace DepartmentService.BindingModels
 
             return entity;
         }
+
+        public static DisciplineLessonTaskStudentAccept CreateDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptSetBindingModel model, DisciplineLessonTaskStudentAccept entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTaskStudentAccept();
+            }
+            entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
+            entity.StudentId = model.StudentId;
+            entity.Result = (DisciplineLessonTaskStudentResult)Enum.Parse(typeof(DisciplineLessonTaskStudentResult), model.Result);
+            entity.Task = model.Task;
+            entity.DateAccept = model.DateAccept;
+            entity.Score = model.Score;
+            entity.Comment = model.Comment;
+            entity.Log = model.Log;
+
+            return entity;
+        }
         #endregion
     }
 }

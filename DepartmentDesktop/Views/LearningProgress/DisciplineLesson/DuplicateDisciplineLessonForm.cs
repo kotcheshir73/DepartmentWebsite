@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private void DuplicateDisciplineLessonForm_Load(object sender, EventArgs e)
         {
-            var resultDL = _process.GetDisiplineLessonsForDuplicate(new GetDisiplineLessonsForDuplicate { DisciplineLessonId = _dlId });
+            var resultDL = _process.GetDisiplineLessonsForDuplicate(new GetDisiplineLessonsForDuplicateBindingModel { DisciplineLessonId = _dlId });
             if (!resultDL.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке занятий возникла ошибка: ", resultDL.Errors);
@@ -39,7 +39,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson
 
         private void buttonDuplicate_Click(object sender, EventArgs e)
         {
-            ResultService result = _process.DuplicateDisiplineLessons(new DuplicateDisiplineLessons
+            ResultService result = _process.DuplicateDisiplineLessons(new DuplicateDisiplineLessonsBindingModel
             {
                 DisciplineLessonToId = _dlId,
                 DisciplineLessonFromId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),

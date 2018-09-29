@@ -37,7 +37,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted.Dis
                 ColumnStatus.Items.Add(elem.ToString());
             }
 
-            var result = _process.GetDisciplineLessonConductedStudentsForFill(new DisciplineLessonConductedStudentsForFill
+            var result = _process.GetDisciplineLessonConductedStudentsForFill(new DisciplineLessonConductedStudentsForFillBindingModel
             {
                 DisciplineLessonConductedId = _dlcId.Value,
                 StudentGroupId = _sgId.Value

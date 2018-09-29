@@ -74,10 +74,6 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(x => x.DisciplineId == model.DisciplineId);
                 }
-                if (model.DisciplineId.HasValue)
-                {
-                    query = query.Where(x => x.DisciplineId == model.DisciplineId);
-                }
                 if (model.EducationDirectionId.HasValue)
                 {
                     query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);

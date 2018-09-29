@@ -67,7 +67,7 @@ namespace DepartmentModel.Models
         public virtual List<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }
 
         [ForeignKey("StudentId")]
-		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
+		public virtual List<DisciplineLessonTaskStudentAccept> DisciplineLessonTaskStudentRecords { get; set; }
 
         //-------------------------------------------------------------------------
 

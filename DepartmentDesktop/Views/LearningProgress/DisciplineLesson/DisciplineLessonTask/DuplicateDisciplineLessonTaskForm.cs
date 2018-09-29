@@ -23,7 +23,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private void DuplicateDisciplineLessonTaskForm_Load(object sender, EventArgs e)
         {
-            var resultDLT = _process.GetDisiplineLessonTasksForDuplicate(new GetDisiplineLessonTasksForDuplicate { DisciplineLessonTaskId = _dltId });
+            var resultDLT = _process.GetDisiplineLessonTasksForDuplicate(new GetDisiplineLessonTasksForDuplicateBindingModel { DisciplineLessonTaskId = _dltId });
             if (!resultDLT.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке заданий возникла ошибка: ", resultDLT.Errors);
@@ -39,7 +39,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
 
         private void buttonDuplicate_Click(object sender, EventArgs e)
         {
-            ResultService result = _process.DuplicateDisiplineLessonTasks(new DuplicateDisiplineLessonTasks
+            ResultService result = _process.DuplicateDisiplineLessonTasks(new DuplicateDisiplineLessonTasksBindingModel
             {
                 DisciplineLessonTaskToId = _dltId,
                 DisciplineLessonTaskFromId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString())
