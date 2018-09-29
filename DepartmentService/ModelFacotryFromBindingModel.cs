@@ -1,6 +1,5 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentModel.Models.BaseEnities;
 using System;
 
 namespace DepartmentService.BindingModels
@@ -139,6 +138,7 @@ namespace DepartmentService.BindingModels
             entity.Hours = model.Hours;
             entity.NumKoef = model.NumKoef;
             entity.TimeNormKoef = string.IsNullOrEmpty(model.TimeNormKoef) ? TimeNormKoef.Пусто : (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
+            entity.UseInLearningProgress = model.UseInLearningProgress;
 
             return entity;
 		}
@@ -248,6 +248,7 @@ namespace DepartmentService.BindingModels
 			{
 				entity = new Student();
 			}
+            entity.StudentGroupId = model.StudentGroupId;
             entity.NumberOfBook = model.NumberOfBook;
 			entity.LastName = model.LastName;
 			entity.FirstName = model.FirstName;
@@ -573,8 +574,11 @@ namespace DepartmentService.BindingModels
             {
                 entity = new DisciplineLesson();
             }
+            entity.AcademicYearId = model.AcademicYearId;
             entity.DisciplineId = model.DisciplineId;
-            entity.LessonType = (DisciplineLessonTypes)Enum.Parse(typeof(DisciplineLessonTypes), model.LessonType);
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Title = model.Title;
             entity.Description = model.Description;
             entity.Order = model.Order;
@@ -611,6 +615,69 @@ namespace DepartmentService.BindingModels
             entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
             entity.VariantNumber = model.VariantNumber;
             entity.VariantTask = model.VariantTask;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static DisciplineStudentRecord CreateDisciplineStudentRecord(DisciplineStudentRecordSetBindingModel model, DisciplineStudentRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineStudentRecord();
+            }
+            entity.DisciplineId = model.DisciplineId;
+            entity.StudentId = model.StudentId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.Variant = model.Variant;
+            entity.SubGroup = model.SubGroup;
+
+            return entity;
+        }
+
+        public static DisciplineLessonConducted CreateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model, DisciplineLessonConducted entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonConducted();
+            }
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.DateCreate = model.Date;
+            entity.Subgroup = model.Subgroup;
+
+            return entity;
+        }
+
+        public static DisciplineLessonConductedStudent CreateDisciplineLessonConductedStudent(DisciplineLessonConductedStudentSetBindingModel model, DisciplineLessonConductedStudent entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonConductedStudent();
+            }
+            entity.DisciplineLessonConductedId = model.DisciplineLessonConductedId;
+            entity.StudentId = model.StudentId;
+            entity.Status = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), model.Status);
+            entity.Comment = model.Comment;
+            entity.Ball = model.Ball;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTaskStudentAccept CreateDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptSetBindingModel model, DisciplineLessonTaskStudentAccept entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTaskStudentAccept();
+            }
+            entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
+            entity.StudentId = model.StudentId;
+            entity.Result = (DisciplineLessonTaskStudentResult)Enum.Parse(typeof(DisciplineLessonTaskStudentResult), model.Result);
+            entity.Task = model.Task;
+            entity.DateAccept = model.DateAccept;
+            entity.Score = model.Score;
+            entity.Comment = model.Comment;
+            entity.Log = model.Log;
 
             return entity;
         }

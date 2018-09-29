@@ -1,6 +1,5 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentModel.Models.BaseEnities;
 using DepartmentService.BindingModels;
 using DepartmentService.Helpers;
 using System;
@@ -135,7 +134,8 @@ namespace DepartmentService.ViewModels
                 KindOfLoadType = entity.KindOfLoadType.ToString(),
                 Hours = entity.Hours,
                 NumKoef = entity.NumKoef,
-                TimeNormKoef = entity.TimeNormKoef.ToString()
+                TimeNormKoef = entity.TimeNormKoef.ToString(),
+                UseInLearningProgress = entity.UseInLearningProgress
             };
         }
 
@@ -650,15 +650,20 @@ namespace DepartmentService.ViewModels
         #endregion
 
         #region LearningProgress
-
         public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
         {
             return new DisciplineLessonViewModel
             {
                 Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
                 DisciplineId = entity.DisciplineId,
+                EducationDirectionId = entity.EducationDirectionId,
+                TimeNormId = entity.TimeNormId,
+                AcademicYear = entity.AcademicYear.Title,
                 Discipline = entity.Discipline.DisciplineName,
-                LessonType = entity.LessonType,
+                EducationDirection = entity.EducationDirection.ShortName,
+                TimeNorm = entity.TimeNorm.TimeNormName,
+                Semester = entity.Semester,
                 Title = entity.Title,
                 Description = entity.Description,
                 Order = entity.Order,
@@ -691,9 +696,75 @@ namespace DepartmentService.ViewModels
             {
                 Id = entity.Id,
                 DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                DisciplineLessonTaskTask = entity.DisciplineLessonTask.Task,
                 VariantNumber = entity.VariantNumber,
                 VariantTask = entity.VariantTask,
                 Order = entity.Order
+            };
+        }
+
+        public static DisciplineStudentRecordViewModel CreateDisciplineStudentRecordViewModel(DisciplineStudentRecord entity)
+        {
+            return new DisciplineStudentRecordViewModel
+            {
+                Id = entity.Id,
+                DisciplineId = entity.DisciplineId,
+                StudentGroupId = entity.Student.StudentGroupId,
+                StudentId = entity.StudentId,
+                Discipline = entity.Discipline.DisciplineName,
+                StudentGroup = entity.Student.StudentGroup.GroupName,
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Semester = entity.Semester,
+                Variant = entity.Variant,
+                SubGroup = entity.SubGroup
+            };
+        }
+
+        public static DisciplineLessonConductedViewModel CreateDisciplineLessonConductedViewModel(DisciplineLessonConducted entity)
+        {
+            return new DisciplineLessonConductedViewModel
+            {
+                Id = entity.Id,
+                Semester = entity.DisciplineLesson.Semester.ToString(),
+                DisciplineLessonId = entity.DisciplineLessonId,
+                StudentGroupId = entity.StudentGroupId,
+                DisciplineLesson = entity.DisciplineLesson.Title,
+                StudentGroup = entity.StudentGroup.GroupName,
+                Date = entity.DateCreate,
+                Subgroup = entity.Subgroup
+            };
+        }
+
+        public static DisciplineLessonConductedStudentViewModel CreateDisciplineLessonConductedStudentViewModel(DisciplineLessonConductedStudent entity)
+        {
+            return new DisciplineLessonConductedStudentViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonConductedId = entity.DisciplineLessonConductedId,
+                StudentId = entity.StudentId,
+                DisciplineLesson = string.Format("{0} от {1}", entity.DisciplineLessonConducted.DisciplineLesson.Title, entity.DisciplineLessonConducted.DateCreate.ToShortDateString()),
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Comment = entity.Comment,
+                Status = entity.Status,
+                Ball = entity.Ball
+            };
+        }
+
+        public static DisciplineLessonTaskStudentAcceptViewModel CreateDisciplineLessonTaskStudentAcceptViewModel(DisciplineLessonTaskStudentAccept entity)
+        {
+            return new DisciplineLessonTaskStudentAcceptViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                StudentId = entity.StudentId,
+                DisciplineLessonTask = entity.DisciplineLessonTask.Task,
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Result = entity.Result,
+                Task = entity.Task,
+                DateAccept = entity.DateAccept,
+                Score = entity.Score,
+                Comment = entity.Comment,
+                Log = entity.Log
             };
         }
         #endregion

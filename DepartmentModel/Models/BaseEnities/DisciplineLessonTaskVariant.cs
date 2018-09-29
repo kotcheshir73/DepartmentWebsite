@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DepartmentModel.Models.BaseEnities
+namespace DepartmentModel.Models
 {
     /// <summary>
     /// Класс, описывающий задачи по вариантам к занятиям дисциплины

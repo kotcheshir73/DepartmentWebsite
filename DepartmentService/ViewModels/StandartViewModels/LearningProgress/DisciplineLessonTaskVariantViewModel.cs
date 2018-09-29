@@ -10,6 +10,8 @@ namespace DepartmentService.ViewModels
 
         public Guid DisciplineLessonTaskId { get; set; }
 
+        public string DisciplineLessonTaskTask { get; set; }
+
         public string VariantNumber { get; set; }
 
         public string VariantTask { get; set; }

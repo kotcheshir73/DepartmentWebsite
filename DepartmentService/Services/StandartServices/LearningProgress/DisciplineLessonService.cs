@@ -14,18 +14,44 @@ namespace DepartmentService.Services
     public class DisciplineLessonService : IDisciplineLessonService
     {
         private readonly DepartmentDbContext _context;
+
+        private readonly IAcademicYearService _serviceAY;
+
         private readonly IDisciplineService _serviceD;
+
+        private readonly IEducationDirectionService _serviceED;
+
+        private readonly ITimeNormService _serviceTN;
+
         private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
 
-        public DisciplineLessonService(DepartmentDbContext context, IDisciplineService serviceD)
+        public DisciplineLessonService(DepartmentDbContext context, IAcademicYearService serviceAY, IDisciplineService serviceD, IEducationDirectionService serviceED, ITimeNormService serviceTN)
         {
             _context = context;
+            _serviceAY = serviceAY;
             _serviceD = serviceD;
+            _serviceED = serviceED;
+            _serviceTN = serviceTN;
+        }
+
+        public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
+        {
+            return _serviceAY.GetAcademicYears(model);
         }
 
         public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
         {
             return _serviceD.GetDisciplines(model);
+        }
+
+        public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
+        {
+            return _serviceED.GetEducationDirections(model);
+        }
+
+        public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
+        {
+            return _serviceTN.GetTimeNorms(model);
         }
 
         public ResultService<DisciplineLessonPageViewModel> GetDisciplineLessons(DisciplineLessonGetBindingModel model)
@@ -40,21 +66,28 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 var query = _context.DisciplineLessons.Where(d => !d.IsDeleted).AsQueryable();
 
+                if (model.AcademicYearId.HasValue)
+                {
+                    query = query.Where(x => x.AcademicYearId == model.AcademicYearId);
+                }
                 if (model.DisciplineId.HasValue)
                 {
                     query = query.Where(x => x.DisciplineId == model.DisciplineId);
                 }
-                if (!string.IsNullOrEmpty(model.LessonType))
+                if (model.EducationDirectionId.HasValue)
                 {
-                    var LessonType = (DisciplineLessonTypes)Enum.Parse(typeof(DisciplineLessonTypes), model.LessonType);
-                    query = query.Where(x => x.LessonType == LessonType);
+                    query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);
+                }
+                if (model.TimeNormId.HasValue)
+                {
+                    query = query.Where(x => x.TimeNormId == model.TimeNormId);
                 }
                 if (model.Id.HasValue)
                 {
                     query = query.Where(x => x.Id == model.Id);
                 }
 
-                query = query.OrderBy(d => d.Order);
+                query = query.OrderBy(d => d.Semester).ThenBy(x => x.Order);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -64,7 +97,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(x => x.Discipline);
+                query = query.Include(x => x.AcademicYear).Include(x => x.Discipline).Include(x => x.EducationDirection).Include(x => x.TimeNorm).Include(x => x.DisciplineLessonTasks);
 
                 var result = new DisciplineLessonPageViewModel
                 {

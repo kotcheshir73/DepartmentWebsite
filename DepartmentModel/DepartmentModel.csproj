@@ -78,9 +78,10 @@
     <Compile Include="Models\BaseEnities\Discipline.cs" />
     <Compile Include="Models\BaseEnities\DisciplineBlock.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLesson.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonConducted.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonConductedStudent.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonTask.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentAccept.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonTaskVariant.cs" />
     <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\EducationDirection.cs" />

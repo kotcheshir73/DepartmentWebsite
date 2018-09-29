@@ -1,5 +1,4 @@
-﻿using DepartmentModel.Models.BaseEnities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -46,7 +45,7 @@ namespace DepartmentModel.Models
         //-------------------------------------------------------------------------
 
 		[ForeignKey("DisciplineLessonTaskId")]
-		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
+		public virtual List<DisciplineLessonTaskStudentAccept> DisciplineLessonTaskStudentRecords { get; set; }
 
         [ForeignKey("DisciplineLessonTaskId")]
         public virtual List<DisciplineLessonTaskVariant> DisciplineLessonTaskVariant { get; set; }

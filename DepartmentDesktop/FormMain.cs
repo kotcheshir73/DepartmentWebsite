@@ -1,5 +1,4 @@
-﻿using DepartmentDesktop.Views.LearningProgress;
-using DepartmentModel.Enums;
+﻿using DepartmentModel.Enums;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -74,8 +73,9 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void progressToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<LearningProgressForm>();
-            form.ShowDialog();
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
         }
 
         /// <summary>
@@ -526,12 +526,33 @@ namespace DepartmentDesktop
         #endregion
 
         #region Преподаватель
+        private void configuringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void studentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void посещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConductedLessonsControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<LearningProgressForm>();
-            form.ShowDialog();
+            var control = Container.Resolve<Views.LearningProgress.AcceptTasksControl>();
+            ApplyControl(control);
+            control.LoadData();
         }
         #endregion
-
     }
 }

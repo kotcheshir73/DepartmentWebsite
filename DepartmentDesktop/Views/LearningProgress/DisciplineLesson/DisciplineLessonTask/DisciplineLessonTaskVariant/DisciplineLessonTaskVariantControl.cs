@@ -27,22 +27,25 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "DisciplineLessonTitle", Title = "Занятие", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Task", Title = "Задание", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Description", Title = "Описание", Width = 300, Visible = true },
-                new ColumnConfig { Name = "MaxBall", Title = "Максимальный балл", Width = 100, Visible = true },
-                new ColumnConfig { Name = "IsNecessarily", Title = "Обязательное", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 150, Visible = true }
+                new ColumnConfig { Name = "DisciplineLessonTaskTask", Title = "Задание", Width = 200, Visible = true },
+                new ColumnConfig { Name = "VariantNumber", Title = "Вариант", Width = 150, Visible = true },
+                new ColumnConfig { Name = "VariantTask", Title = "Задание по варианту", Width = 500, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string>();
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "FormDisciplineLessonTaskVariantsToolStripMenuItem", "Сформировать варианты"}
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 30, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("FormDisciplineLessonTaskVariantsToolStripMenuItem", FormDisciplineLessonTaskVariantsToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -86,6 +89,7 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
             {
                 standartControl.GetDataGridViewRows.Add(
                      res.Id,
+                     res.DisciplineLessonTaskTask,
                      res.VariantNumber,
                      res.VariantTask
                 );
@@ -144,6 +148,17 @@ namespace DepartmentDesktop.Views.LearningProgress.DisciplineLesson.DisciplineLe
                     standartControl.LoadPage();
                 }
             }
+        }
+
+        private void FormDisciplineLessonTaskVariantsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormDisciplineLessonTaskVariantsForm>(
+                new ParameterOverrides
+                {
+                    { "dltId", _dltId }
+                }
+                .OnType<FormDisciplineLessonTaskVariantsForm>());
+            form.Show();
         }
     }
 }

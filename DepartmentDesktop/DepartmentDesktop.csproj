@@ -71,6 +71,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -176,6 +177,78 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\DuplicateForm.Designer.cs">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\AcceptTasksControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\AcceptTasksControl.Designer.cs">
+      <DependentUpon>AcceptTasksControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\ConductedLessonsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\ConductedLessonsControl.Designer.cs">
+      <DependentUpon>ConductedLessonsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedControl.Designer.cs">
+      <DependentUpon>DisciplineLessonConductedControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedForm.Designer.cs">
+      <DependentUpon>DisciplineLessonConductedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentControl.Designer.cs">
+      <DependentUpon>DisciplineLessonConductedStudentControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\FillStudentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\FillStudentsForm.Designer.cs">
+      <DependentUpon>FillStudentsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentForm.Designer.cs">
+      <DependentUpon>DisciplineLessonConductedStudentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\LessonConductedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonConducted\LessonConductedForm.Designer.cs">
+      <DependentUpon>LessonConductedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\AssignTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\AssignTasksForm.Designer.cs">
+      <DependentUpon>AssignTasksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\CreateAssignTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\CreateAssignTasksForm.Designer.cs">
+      <DependentUpon>CreateAssignTasksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\DisciplineLessonTaskStudentAcceptControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\DisciplineLessonTaskStudentAcceptControl.Designer.cs">
+      <DependentUpon>DisciplineLessonTaskStudentAcceptControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\DisciplineLessonTaskStudentAcceptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\DisciplineLessonTaskStudentAcceptForm.Designer.cs">
+      <DependentUpon>DisciplineLessonTaskStudentAcceptForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonControl.cs">
       <SubType>UserControl</SubType>
@@ -321,11 +394,53 @@
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.Designer.cs">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\LearningProgress\LearningProgressForm.cs">
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\FormDisciplineLessonTaskVariantsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\LearningProgress\LearningProgressForm.Designer.cs">
-      <DependentUpon>LearningProgressForm.cs</DependentUpon>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\FormDisciplineLessonTaskVariantsForm.Designer.cs">
+      <DependentUpon>FormDisciplineLessonTaskVariantsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DuplicateDisciplineLessonTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DuplicateDisciplineLessonTaskForm.Designer.cs">
+      <DependentUpon>DuplicateDisciplineLessonTaskForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\FormDisciplineLessonTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\FormDisciplineLessonTasksForm.Designer.cs">
+      <DependentUpon>FormDisciplineLessonTasksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTasksForm.Designer.cs">
+      <DependentUpon>DisciplineLessonTasksForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonVariantsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonVariantsForm.Designer.cs">
+      <DependentUpon>DisciplineLessonVariantsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DuplicateDisciplineLessonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\DuplicateDisciplineLessonForm.Designer.cs">
+      <DependentUpon>DuplicateDisciplineLessonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\FormDisciplineLessonsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineLesson\FormDisciplineLessonsForm.Designer.cs">
+      <DependentUpon>FormDisciplineLessonsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\ConfiguringDisciplinesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\ConfiguringDisciplinesControl.Designer.cs">
+      <DependentUpon>ConfiguringDisciplinesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.cs">
       <SubType>UserControl</SubType>
@@ -434,6 +549,42 @@
     </Compile>
     <Compile Include="Views\LaboratoryHead\Software\SoftwareForm.Designer.cs">
       <DependentUpon>SoftwareForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordByGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordByGroupForm.Designer.cs">
+      <DependentUpon>DisciplineStudentRecordByGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordBySubgroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordBySubgroupForm.Designer.cs">
+      <DependentUpon>DisciplineStudentRecordBySubgroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordControl.Designer.cs">
+      <DependentUpon>DisciplineStudentRecordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordForm.Designer.cs">
+      <DependentUpon>DisciplineStudentRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.Designer.cs">
+      <DependentUpon>FillGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LearningProgress\StudentsDistributionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LearningProgress\StudentsDistributionControl.Designer.cs">
+      <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.cs">
       <SubType>UserControl</SubType>
@@ -773,6 +924,48 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\DuplicateForm.resx">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValuePassport.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.rdlc" />
+    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\AcceptTasksControl.resx">
+      <DependentUpon>AcceptTasksControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\ConductedLessonsControl.resx">
+      <DependentUpon>ConductedLessonsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedControl.resx">
+      <DependentUpon>DisciplineLessonConductedControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedForm.resx">
+      <DependentUpon>DisciplineLessonConductedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentControl.resx">
+      <DependentUpon>DisciplineLessonConductedStudentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\FillStudentsForm.resx">
+      <DependentUpon>FillStudentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\DisciplineLessonConductedStudent\DisciplineLessonConductedStudentForm.resx">
+      <DependentUpon>DisciplineLessonConductedStudentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\LessonConductedForm.resx">
+      <DependentUpon>LessonConductedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonConducted\ReportLessonConducted.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\AssignTasksForm.resx">
+      <DependentUpon>AssignTasksForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\CreateAssignTasksForm.resx">
+      <DependentUpon>CreateAssignTasksForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\DisciplineLessonTaskStudentAcceptControl.resx">
+      <DependentUpon>DisciplineLessonTaskStudentAcceptControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLessonTaskStudentAccept\DisciplineLessonTaskStudentAcceptForm.resx">
+      <DependentUpon>DisciplineLessonTaskStudentAcceptForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonControl.resx">
       <DependentUpon>DisciplineLessonControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -845,8 +1038,31 @@
     <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\DisciplineLessonTaskVariantForm.resx">
       <DependentUpon>DisciplineLessonTaskVariantForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LearningProgress\LearningProgressForm.resx">
-      <DependentUpon>LearningProgressForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTaskVariant\FormDisciplineLessonTaskVariantsForm.resx">
+      <DependentUpon>FormDisciplineLessonTaskVariantsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DuplicateDisciplineLessonTaskForm.resx">
+      <DependentUpon>DuplicateDisciplineLessonTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\FormDisciplineLessonTasksForm.resx">
+      <DependentUpon>FormDisciplineLessonTasksForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\ReportDisciplineLessonTasks.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonTasksForm.resx">
+      <DependentUpon>DisciplineLessonTasksForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\ReportDisciplineLessonVariants.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonTask\DisciplineLessonVariantsForm.resx">
+      <DependentUpon>DisciplineLessonVariantsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\DuplicateDisciplineLessonForm.resx">
+      <DependentUpon>DuplicateDisciplineLessonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineLesson\FormDisciplineLessonsForm.resx">
+      <DependentUpon>FormDisciplineLessonsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\ConfiguringDisciplinesControl.resx">
+      <DependentUpon>ConfiguringDisciplinesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.resx">
       <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
@@ -875,12 +1091,9 @@
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.resx">
       <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValuePassport.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\InstallSowtwareForm.resx">
       <DependentUpon>InstallSowtwareForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
       <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
     </EmbeddedResource>
@@ -904,6 +1117,26 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\Software\SoftwareForm.resx">
       <DependentUpon>SoftwareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordByGroupForm.resx">
+      <DependentUpon>DisciplineStudentRecordByGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordBySubgroupForm.resx">
+      <DependentUpon>DisciplineStudentRecordBySubgroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordControl.resx">
+      <DependentUpon>DisciplineStudentRecordControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\DisciplineStudentRecordForm.resx">
+      <DependentUpon>DisciplineStudentRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\FillGroupForm.resx">
+      <DependentUpon>FillGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\ReportDisciplineStudentRecordByGroup.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\DisciplineStudentRecord\ReportDisciplineStudentRecordBySubgroup.rdlc" />
+    <EmbeddedResource Include="Views\LearningProgress\StudentsDistributionControl.resx">
+      <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
@@ -1066,8 +1299,12 @@
       <DependentUpon>SynchronizationUsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineLessonConductedStudentViewModel.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineLessonTaskVariantViewModel.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.DisciplineStudentRecordViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
+    <None Include="Properties\DataSources\DepartmentService.ViewModels.LessonConductedViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueRecordViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.MaterialTechnicalValueViewModel.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.SoftwareRecordViewModel.datasource" />

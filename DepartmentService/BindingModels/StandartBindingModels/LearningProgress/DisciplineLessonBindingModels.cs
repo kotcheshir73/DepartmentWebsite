@@ -7,22 +7,33 @@ namespace DepartmentService.BindingModels
     {
         public Guid? Id { get; set; }
 
+        public Guid? AcademicYearId { get; set; }
+
         public Guid? DisciplineId { get; set; }
 
-        public string LessonType { get; set; }
+        public Guid? EducationDirectionId { get; set; }
+
+        public Guid? TimeNormId { get; set; }
     }
 
-    public class DisciplineLessonRecordBindingModel : PageSettingBinidingModel
+    public class DisciplineLessonRecordBindingModel
     {
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public Guid DisciplineId { get; set; }
-
-        public string Disciplne { get; set; }
+        public Guid AcademicYearId { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public string LessonType { get; set; }
+        public Guid DisciplineId { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public Guid EducationDirectionId { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public Guid TimeNormId { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string Semester { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Title { get; set; }

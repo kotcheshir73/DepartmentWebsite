@@ -5,6 +5,7 @@ using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 
@@ -37,9 +38,14 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.DisciplineLessonTaskVariants.Where(d => !d.IsDeleted&&d.DisciplineLessonTaskId==model.DisciplineLessonTaskId).AsQueryable();
+                var query = _context.DisciplineLessonTaskVariants.Where(x => !x.IsDeleted).AsQueryable();
 
-                query = query.OrderByDescending(d => d.VariantNumber);
+                if (model.DisciplineLessonTaskId.HasValue)
+                {
+                    query = query.Where(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId);
+                }
+
+                query = query.OrderBy(x => x.Order);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -48,6 +54,8 @@ namespace DepartmentService.Services
                                 .Skip(model.PageSize.Value * model.PageNumber.Value)
                                 .Take(model.PageSize.Value);
                 }
+
+                query = query.Include(x => x.DisciplineLessonTask);
 
                 var result = new DisciplineLessonTaskVariantPageViewModel
                 {
