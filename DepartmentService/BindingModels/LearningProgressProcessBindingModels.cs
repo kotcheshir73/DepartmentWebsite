@@ -183,4 +183,19 @@ namespace DepartmentService.BindingModels
 
         public Guid StudentGroupId { get; set; }
     }
+
+    public class FullDisciplineLessonConductedBindingModel
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid DisciplineId { get; set; }
+
+        public Guid EducationDirectionId { get; set; }
+
+        public Guid StudentGroupId { get; set; }
+
+        public Guid TimeNormId { get; set; }
+
+        public string Semester { get; set; }
+    }
 }

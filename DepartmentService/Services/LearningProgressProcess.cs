@@ -808,9 +808,9 @@ namespace DepartmentService.Services
                                     .Include(x => x.EducationDirection)
                                     .Include(x => x.TimeNorm)
                                     .Include(x => x.DisciplineLessonTasks)
-                                    .Where(x => !x.IsDeleted && 
-                                                x.AcademicYearId == model.AcademicYearId && 
-                                                x.DisciplineId == model.DisciplineId && 
+                                    .Where(x => !x.IsDeleted &&
+                                                x.AcademicYearId == model.AcademicYearId &&
+                                                x.DisciplineId == model.DisciplineId &&
                                                 x.EducationDirectionId == model.EducationDirectionId &&
                                                 x.Semester == sem)
                                     .OrderBy(x => x.Semester)
@@ -849,7 +849,7 @@ namespace DepartmentService.Services
                     {
                         StringBuilder task = new StringBuilder(dlt.Task);
                         task.AppendFormat("({0})", dlt.Description);
-                        var dsr = _context.DisciplineStudentRecords.FirstOrDefault(x => x.DisciplineId == dlt.DisciplineLesson.DisciplineId && x.Semester == dlt.DisciplineLesson.Semester && 
+                        var dsr = _context.DisciplineStudentRecords.FirstOrDefault(x => x.DisciplineId == dlt.DisciplineLesson.DisciplineId && x.Semester == dlt.DisciplineLesson.Semester &&
                                                                                         x.StudentId == st.Id);
                         if (dsr != null)
                         {
@@ -992,6 +992,84 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<DisciplineLessonConductedViewModel>> GetFullDisciplineLessonConducteds(FullDisciplineLessonConductedBindingModel model)
+        {
+            try
+            {
+                List<DisciplineLessonConductedViewModel> list = new List<DisciplineLessonConductedViewModel>();
+                Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+                var disciplineLessons = _context.DisciplineLessons
+                                        .Include(x => x.TimeNorm)
+                                        .Where(x => !x.IsDeleted &&
+                                                    x.AcademicYearId == model.AcademicYearId &&
+                                                    x.DisciplineId == model.DisciplineId &&
+                                                    x.EducationDirectionId == model.EducationDirectionId &&
+                                                    x.TimeNormId == model.TimeNormId &&
+                                                    x.Semester == sem)
+                                        .OrderBy(x => x.Order)
+                                        .ToList();
+
+                foreach (var discipLesson in disciplineLessons)
+                {
+                    List<string> subGroup = GetDisciplineLessonSubgroup(new DisciplineLessonSubgroupBindingModel
+                    {
+                        DisciplineId = model.DisciplineId,
+                        StudentGroupId = model.StudentGroupId,
+                        Semester = model.Semester
+                    }).Result;
+                    if (discipLesson.TimeNorm.KindOfLoadType == KindOfLoadType.Группа || discipLesson.TimeNorm.KindOfLoadType == KindOfLoadType.Поток)
+                    {
+                        subGroup.RemoveAll(x => x.Contains("Подгруппа"));
+                    }
+                    else if (discipLesson.TimeNorm.KindOfLoadType == KindOfLoadType.Подгруппа)
+                    {
+                        subGroup = GetDisciplineLessonSubgroup(new DisciplineLessonSubgroupBindingModel
+                        {
+                            DisciplineId = model.DisciplineId,
+                            StudentGroupId = model.StudentGroupId,
+                            Semester = model.Semester
+                        }).Result;
+                        subGroup.RemoveAt(0);
+                    }
+                    for (int i = 0; i < subGroup.Count; ++i)
+                    {
+                        string sg = subGroup[i];
+                        var dlc = _context.DisciplineLessonConducteds
+                                                .Include(x => x.DisciplineLesson)
+                                                .Include(x => x.StudentGroup)
+                                                .FirstOrDefault(x => x.StudentGroupId == model.StudentGroupId && 
+                                                                    x.DisciplineLessonId == discipLesson.Id &&
+                                                                    x.Subgroup == sg);
+                        if (dlc == null)
+                        {
+                            dlc = ModelFacotryFromBindingModel.CreateDisciplineLessonConducted(new DisciplineLessonConductedSetBindingModel
+                            {
+                                DisciplineLessonId = discipLesson.Id,
+                                StudentGroupId = model.StudentGroupId,
+                                Date = DateTime.Now,
+                                Subgroup = sg
+                            });
+
+                            _context.DisciplineLessonConducteds.Add(dlc);
+                            _context.SaveChanges();
+                        }
+
+                        list.Add(ModelFactoryToViewModel.CreateDisciplineLessonConductedViewModel(dlc));
+                    }
+                }
+
+                return ResultService<List<DisciplineLessonConductedViewModel>>.Success(list);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return ResultService<List<DisciplineLessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<DisciplineLessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }
