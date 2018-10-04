@@ -1100,6 +1100,10 @@
     <None Include="Resources\Clear.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DepartmentCalendar\DepartmentCalendar.csproj">
+      <Project>{4b923cb0-b3e7-4a6e-91b9-df405c7fc5dd}</Project>
+      <Name>DepartmentCalendar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>

@@ -89,10 +89,11 @@
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.softwaresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.преподавательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.успеваемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.softwaresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.processAccountingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -232,7 +233,8 @@
             this.toolStripSeparator7,
             this.scheduleLessonTimeToolStripMenuItem,
             this.toolStripSeparator2,
-            this.academicYearsToolStripMenuItem});
+            this.academicYearsToolStripMenuItem,
+            this.processAccountingToolStripMenuItem});
             this.educationalProcessToolStripMenuItem.Name = "educationalProcessToolStripMenuItem";
             this.educationalProcessToolStripMenuItem.Size = new System.Drawing.Size(118, 20);
             this.educationalProcessToolStripMenuItem.Text = "Учебный процесс";
@@ -572,6 +574,13 @@
             this.materialTechnicalValueGroupToolStripMenuItem.Text = "Группы описаний для МТЦ";
             this.materialTechnicalValueGroupToolStripMenuItem.Click += new System.EventHandler(this.materialTechnicalValueGroupToolStripMenuItem_Click);
             // 
+            // softwaresToolStripMenuItem
+            // 
+            this.softwaresToolStripMenuItem.Name = "softwaresToolStripMenuItem";
+            this.softwaresToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
+            this.softwaresToolStripMenuItem.Text = "Список ПО";
+            this.softwaresToolStripMenuItem.Click += new System.EventHandler(this.softwaresToolStripMenuItem_Click);
+            // 
             // softwareRecordsToolStripMenuItem
             // 
             this.softwareRecordsToolStripMenuItem.Name = "softwareRecordsToolStripMenuItem";
@@ -590,17 +599,16 @@
             // успеваемостьToolStripMenuItem
             // 
             this.успеваемостьToolStripMenuItem.Name = "успеваемостьToolStripMenuItem";
-            this.успеваемостьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.успеваемостьToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.успеваемостьToolStripMenuItem.Text = "Успеваемость";
             this.успеваемостьToolStripMenuItem.Click += new System.EventHandler(this.успеваемостьToolStripMenuItem_Click);
-
-            // softwaresToolStripMenuItem
             // 
-            this.softwaresToolStripMenuItem.Name = "softwaresToolStripMenuItem";
-            this.softwaresToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.softwaresToolStripMenuItem.Text = "Список ПО";
-            this.softwaresToolStripMenuItem.Click += new System.EventHandler(this.softwaresToolStripMenuItem_Click);
-
+            // processAccountingToolStripMenuItem
+            // 
+            this.processAccountingToolStripMenuItem.Name = "processAccountingToolStripMenuItem";
+            this.processAccountingToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.processAccountingToolStripMenuItem.Text = "Учет процессов";
+            this.processAccountingToolStripMenuItem.Click += new System.EventHandler(this.processAccountingToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -687,7 +695,7 @@
         private System.Windows.Forms.ToolStripMenuItem преподавательToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem успеваемостьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem softwaresToolStripMenuItem;
-
+        private System.Windows.Forms.ToolStripMenuItem processAccountingToolStripMenuItem;
     }
 }
 

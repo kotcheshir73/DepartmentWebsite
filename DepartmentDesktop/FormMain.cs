@@ -1,4 +1,5 @@
-﻿using DepartmentDesktop.Views.LearningProgress;
+﻿using DepartmentCalendar.Controllers;
+using DepartmentDesktop.Views.LearningProgress;
 using DepartmentModel.Enums;
 using System;
 using System.Windows.Forms;
@@ -299,6 +300,17 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
+
+        /// <summary>
+        /// Учет учебных процессов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void processAccountingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = new CalendarControl();
+            ApplyControl(control);
+        }
         #endregion
 
         #endregion
@@ -533,5 +545,6 @@ namespace DepartmentDesktop
         }
         #endregion
 
+        
     }
 }
