@@ -12,7 +12,7 @@ namespace DepartmentWebsite.Controllers
 {
     public class DescriptionBox : UserControl
     {
-        private readonly IDepartmentProcessService _serviceD;
+        #region Переменные
         private TextBox textBoxHead;
         private Button buttonAddDate;
         private CheckBox checkBoxCurrentDate;
@@ -23,12 +23,27 @@ namespace DepartmentWebsite.Controllers
         private Label labelDescription;
         private ComboBox comboBoxProcess;
         private TextBox textBoxDescription;
+        private Button buttonBackward;
+        private Button buttonForward;
+        private Button buttonDeleteProcess;
         private MonthView _monthView;
+        #endregion
 
         public DescriptionBox(MonthView monthView)
         {
             this._monthView = monthView;
             InitializeComponent();
+            //Добавление дат семестра в comboBox
+            comboBoxSemesterDates.DataSource = Enum.GetValues(typeof(DepartmentModel.Enums.SemesterDates));
+            comboBoxSemesterDates.SelectedItem = DepartmentModel.Enums.SemesterDates.НПП;
+
+            //Добавление статусов в comboBox
+            comboBoxProcess.DataSource = Enum.GetValues(typeof(DepartmentModel.Enums.ProcessStatus));
+            comboBoxProcess.SelectedItem = DepartmentModel.Enums.ProcessStatus.запущен;
+
+            this.buttonBackward.Visible = false;
+            this.buttonForward.Visible = false;
+            this.buttonDeleteProcess.Visible = false;
         }
 
         public DescriptionBox()
@@ -56,30 +71,34 @@ namespace DepartmentWebsite.Controllers
             this.labelProcess = new System.Windows.Forms.Label();
             this.labelDescription = new System.Windows.Forms.Label();
             this.comboBoxProcess = new System.Windows.Forms.ComboBox();
+            this.buttonBackward = new System.Windows.Forms.Button();
+            this.buttonForward = new System.Windows.Forms.Button();
+            this.buttonDeleteProcess = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxHead
             // 
-            this.textBoxHead.Location = new System.Drawing.Point(25, 109);
+            this.textBoxHead.Location = new System.Drawing.Point(25, 102);
             this.textBoxHead.Name = "textBoxHead";
             this.textBoxHead.Size = new System.Drawing.Size(304, 20);
             this.textBoxHead.TabIndex = 0;
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(25, 203);
+            this.textBoxDescription.Location = new System.Drawing.Point(25, 181);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.Size = new System.Drawing.Size(304, 127);
+            this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxDescription.Size = new System.Drawing.Size(304, 104);
             this.textBoxDescription.TabIndex = 2;
             // 
             // buttonAddDate
             // 
-            this.buttonAddDate.Location = new System.Drawing.Point(202, 357);
+            this.buttonAddDate.Location = new System.Drawing.Point(202, 329);
             this.buttonAddDate.Name = "buttonAddDate";
             this.buttonAddDate.Size = new System.Drawing.Size(127, 23);
             this.buttonAddDate.TabIndex = 3;
-            this.buttonAddDate.Text = "Добавить дату";
+            this.buttonAddDate.Text = "Добавить событие";
             this.buttonAddDate.UseVisualStyleBackColor = true;
             this.buttonAddDate.Click += new System.EventHandler(this.buttonAddDate_Click);
             // 
@@ -105,6 +124,7 @@ namespace DepartmentWebsite.Controllers
             // 
             // comboBoxSemesterDates
             // 
+            this.comboBoxSemesterDates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSemesterDates.FormattingEnabled = true;
             this.comboBoxSemesterDates.Location = new System.Drawing.Point(186, 54);
             this.comboBoxSemesterDates.Name = "comboBoxSemesterDates";
@@ -114,7 +134,7 @@ namespace DepartmentWebsite.Controllers
             // labelHead
             // 
             this.labelHead.AutoSize = true;
-            this.labelHead.Location = new System.Drawing.Point(22, 93);
+            this.labelHead.Location = new System.Drawing.Point(22, 86);
             this.labelHead.Name = "labelHead";
             this.labelHead.Size = new System.Drawing.Size(64, 13);
             this.labelHead.TabIndex = 6;
@@ -123,7 +143,7 @@ namespace DepartmentWebsite.Controllers
             // labelProcess
             // 
             this.labelProcess.AutoSize = true;
-            this.labelProcess.Location = new System.Drawing.Point(22, 144);
+            this.labelProcess.Location = new System.Drawing.Point(22, 140);
             this.labelProcess.Name = "labelProcess";
             this.labelProcess.Size = new System.Drawing.Size(44, 13);
             this.labelProcess.TabIndex = 7;
@@ -132,7 +152,7 @@ namespace DepartmentWebsite.Controllers
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(22, 187);
+            this.labelDescription.Location = new System.Drawing.Point(22, 165);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(60, 13);
             this.labelDescription.TabIndex = 8;
@@ -140,14 +160,45 @@ namespace DepartmentWebsite.Controllers
             // 
             // comboBoxProcess
             // 
+            this.comboBoxProcess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProcess.FormattingEnabled = true;
-            this.comboBoxProcess.Location = new System.Drawing.Point(82, 141);
+            this.comboBoxProcess.Location = new System.Drawing.Point(82, 137);
             this.comboBoxProcess.Name = "comboBoxProcess";
             this.comboBoxProcess.Size = new System.Drawing.Size(247, 21);
             this.comboBoxProcess.TabIndex = 9;
             // 
+            // buttonBackward
+            // 
+            this.buttonBackward.Location = new System.Drawing.Point(25, 300);
+            this.buttonBackward.Name = "buttonBackward";
+            this.buttonBackward.Size = new System.Drawing.Size(75, 23);
+            this.buttonBackward.TabIndex = 10;
+            this.buttonBackward.Text = "<";
+            this.buttonBackward.UseVisualStyleBackColor = true;
+            // 
+            // buttonForward
+            // 
+            this.buttonForward.Location = new System.Drawing.Point(254, 300);
+            this.buttonForward.Name = "buttonForward";
+            this.buttonForward.Size = new System.Drawing.Size(75, 23);
+            this.buttonForward.TabIndex = 11;
+            this.buttonForward.Text = ">";
+            this.buttonForward.UseVisualStyleBackColor = true;
+            // 
+            // buttonDeleteProcess
+            // 
+            this.buttonDeleteProcess.Location = new System.Drawing.Point(202, 358);
+            this.buttonDeleteProcess.Name = "buttonDeleteProcess";
+            this.buttonDeleteProcess.Size = new System.Drawing.Size(127, 23);
+            this.buttonDeleteProcess.TabIndex = 12;
+            this.buttonDeleteProcess.Text = "Удалить событие";
+            this.buttonDeleteProcess.UseVisualStyleBackColor = true;
+            // 
             // DescriptionBox
             // 
+            this.Controls.Add(this.buttonDeleteProcess);
+            this.Controls.Add(this.buttonForward);
+            this.Controls.Add(this.buttonBackward);
             this.Controls.Add(this.comboBoxProcess);
             this.Controls.Add(this.labelDescription);
             this.Controls.Add(this.labelProcess);
@@ -159,32 +210,22 @@ namespace DepartmentWebsite.Controllers
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.textBoxHead);
             this.Name = "DescriptionBox";
-            this.Size = new System.Drawing.Size(364, 404);
+            this.Size = new System.Drawing.Size(364, 455);
             this.Load += new System.EventHandler(this.DescriptionBox_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
-        private void buttonAddDate_Click(object sender, System.EventArgs e)
+        private void buttonAddDate_Click(object sender, EventArgs e)
         {
             //Сохранять событие в БД
+
         }
 
         private void DescriptionBox_Load(object sender, EventArgs e)
         {
-        //    var resultD = _serviceD.GetAcademicYearProcesses(new AcademicYearProcessGetBindingModel { });
-        //    if (!resultD.Succeeded)
-        //    {
-        //        MessageBox.Show("Error");
-        //        Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
-        //        return;
-        //    }
-
-        //    comboBoxProcess.ValueMember = "Value";
-        //    comboBoxProcess.DisplayMember = "Display";
-        //    comboBoxProcess.DataSource = resultD.Result.List.Select(d => new { Value = d.Id, Display = d.DisciplineName }).ToList();
-        //    comboBoxSemesterDates.SelectedItem = null;
+            
         }
     }
 }

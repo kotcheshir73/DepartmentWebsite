@@ -1,5 +1,4 @@
 ﻿using DepartmentModel.Enums;
-using DepartmentProcessAccountingModel.Enums;
 using DepartmentService.BindingModels;
 using System;
 using System.Collections.Generic;

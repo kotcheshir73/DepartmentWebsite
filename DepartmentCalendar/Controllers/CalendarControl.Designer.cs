@@ -34,9 +34,9 @@
             // 
             // descriptionBox1
             // 
-            this.descriptionBox1.Location = new System.Drawing.Point(962, 23);
+            this.descriptionBox1.Location = new System.Drawing.Point(981, 53);
             this.descriptionBox1.Name = "descriptionBox1";
-            this.descriptionBox1.Size = new System.Drawing.Size(364, 384);
+            this.descriptionBox1.Size = new System.Drawing.Size(345, 384);
             this.descriptionBox1.TabIndex = 1;
             // 
             // monthView1
@@ -55,6 +55,7 @@
             this.Controls.Add(this.monthView1);
             this.Name = "CalendarControl";
             this.Size = new System.Drawing.Size(1344, 707);
+            this.Load += new System.EventHandler(this.CalendarControl_Load);
             this.ResumeLayout(false);
 
         }

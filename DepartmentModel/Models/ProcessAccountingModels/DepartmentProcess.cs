@@ -1,6 +1,5 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentProcessAccountingModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

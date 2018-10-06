@@ -78,6 +78,10 @@
       <Project>{7a5bd495-87a2-4571-ac99-f149f956ef8c}</Project>
       <Name>DepartmentProcessAccountingService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
+      <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
+      <Name>DepartmentService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

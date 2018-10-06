@@ -13,6 +13,7 @@ namespace DepartmentWebsite
     public class MonthView
         : ContainerControl
     {
+        #region Поля
         private int _forwardMonthIndex;
         private MonthViewDay _lastHitted;
         private bool _mouseDown;
@@ -44,12 +45,16 @@ namespace DepartmentWebsite
         private bool _backwardButtonSelected;
         private bool _mouseDoubleClicked;
         private bool _viewOneMonth;
+        #endregion
 
+        #region События
         /// <summary>
         /// Вызывается при выборе даты
         /// </summary>
         public event EventHandler SelectionChanged;
+        #endregion
 
+        #region Свойства
         /// <summary>
         /// Размер квадрата выбранного дня
         /// </summary>
@@ -193,7 +198,9 @@ namespace DepartmentWebsite
                 return month.Date.AddDays(DateTime.DaysInMonth(month.Year, month.Month));
             }
         }
+        #endregion
 
+        #region Свойства цвета
         /// <summary>
         /// Получает или задает фоновый цвет дня.
         /// </summary>
@@ -202,6 +209,7 @@ namespace DepartmentWebsite
             get { return _dayBackgroundColor; }
             set { _dayBackgroundColor = value; }
         }
+        #endregion
 
         /// <summary>
         /// Инициализирует новый экземпляр класса "MonthView"/>.
@@ -236,6 +244,7 @@ namespace DepartmentWebsite
             UpdateMonths();
         }
 
+        #region Публичные методы
         /// <summary>
         /// Проверяет, выбран ли день в указанном месте
         /// </summary>
@@ -273,7 +282,9 @@ namespace DepartmentWebsite
         {
             ViewStart = ViewStart.AddMonths(-1);
         }
+        #endregion
 
+        #region Приватные методы
         /// <summary>
         /// Устанавливает границы кнопки "Вперед".
         /// </summary>
@@ -463,7 +474,9 @@ namespace DepartmentWebsite
             SetBackwardButtonBounds(new Rectangle(first.Bounds.Left + ItemPadding.Left, first.Bounds.Top + ItemPadding.Top, DaySize.Height - ItemPadding.Horizontal, DaySize.Height - ItemPadding.Vertical));
             SetForwardButtonBounds(new Rectangle(first.Bounds.Right - ItemPadding.Right - BackwardButtonBounds.Width, first.Bounds.Top + ItemPadding.Top, BackwardButtonBounds.Width, BackwardButtonBounds.Height));
         }
+        #endregion
 
+        #region Overrides
         /// <summary>
         /// Вызывает событие System.Windows.Forms.Control.MouseDown
         /// </summary>
@@ -781,5 +794,6 @@ namespace DepartmentWebsite
                 SelectionChanged(this, e);
             }
         }
+        #endregion
     }
 }
