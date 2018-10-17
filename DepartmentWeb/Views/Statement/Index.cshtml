@@ -1,33 +1,41 @@
-﻿@model DepartmentService.ViewModels.AcademicYearPageViewModel
+﻿@model Tuple<DepartmentService.ViewModels.AcademicYearPageViewModel, DepartmentService.ViewModels.LecturerViewModel>
+
+
+@*@model DepartmentService.ViewModels.AcademicYearPageViewModel*@
 
 @{
     ViewBag.Title = "Statement";
 }
 
 
-<h3>Ведомости</h3>
+<h3>Ведомости &nbsp;-&nbsp; @Model.Item2.FullName</h3>
+<br />
 
-<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")</h4>
+<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.Item1.List, new SelectList(Model.Item1.List, "Id", "Title"), "")</h4>
+<br />
+
+@*<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")</h4>*@
+
 
 <div id="vedok"></div>
 @section Scripts {
     <script>
         var GetValue = function () {
             console.log('retertreter')
-            var yearId = $('#List').val();
+            var yearId = $('#Item1_List').val();
             $.ajax({
                 url: '/Statement/getTableStatements',
                 type: "POST",
                 //dataType: "json",
-                //contentType: "application/json; charset=utf-8", 
+                //contentType: "application/json; charset=utf-8",
                 //processData: false,
-                //contentType: false, 
+                //contentType: false,
                 data: { YearId: yearId },
                 success: function (cities) {
                     $("#vedok").html(cities);
                 }
             });
         }
-        $('#List').on('change', GetValue)
+        $('#Item1_List').on('change', GetValue)
     </script>
 }

@@ -15,19 +15,27 @@ namespace DepartmentWeb.Controllers
         private IAcademicYearService _serviceAY;
         private IStatementService _serviceS;
         private IStatementRecordService _serviceSR;
+        private ILecturerService _serviceL;
 
-        public StatementController( IAcademicYearService serviceAY, IStatementService serviceS, IStatementRecordService serviceSR)
+        public StatementController( IAcademicYearService serviceAY, IStatementService serviceS, IStatementRecordService serviceSR, ILecturerService serviceL)
         {
             _serviceS = serviceS;
             _serviceAY = serviceAY;
             _serviceSR = serviceSR;
+            _serviceL = serviceL;
 
         }
         // GET: Statement
         public ActionResult Index()
         {            
-            var tmp = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());            
-            return View(tmp.Result);
+            var tmpAY = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            var tmpL = _serviceL.GetLecturer(new DepartmentService.BindingModels.LecturerGetBindingModel() { Id = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7") });
+
+            var tuple = new Tuple<DepartmentService.ViewModels.AcademicYearPageViewModel, DepartmentService.ViewModels.LecturerViewModel>(tmpAY.Result, tmpL.Result);
+
+            return View(tuple);
+
+            //return View(tmpAY.Result);
         }
 
         [HttpPost]
@@ -39,7 +47,7 @@ namespace DepartmentWeb.Controllers
             }
             var tmp = _serviceS.GetStatements(new DepartmentService.BindingModels.StatementGetBindingModel()
             {
-                LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
+                LecturerId = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7"),
                 AcademicYearId = new Guid(yearId)
             });
             return PartialView("~/Views/Statement/StatementList.cshtml", tmp.Result.List);

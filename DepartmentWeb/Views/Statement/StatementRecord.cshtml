@@ -21,6 +21,7 @@
 
     @using (Html.BeginForm())
     {
+
         for (int i = 0; i < Model.Count; i++)
         {
             @Html.HiddenFor(m => m[i].Id)
@@ -44,49 +45,4 @@
         @: </table> <br>
         <input type="submit" />
     }
-
-@*@foreach (var item in Model)
-    {
-        @Html.HiddenFor(modelItem => item.Id)
-        <tr>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentName)
-            </td>
-            <td>
-                @Html.EditorFor(modelItem => item.Score)
-            </td>
-
-        </tr>
-    }*@
-
-
-
-@*<form><input type="submit" value="Send" /></form>*@
-
-@*@section Scripts {
-        <script>
-        $('form').on('submit', function (e) {
-            var form = $(this);
-            var formObject = {},
-                formDataArray = form.serializeArray();
-            debugger;
-            $.map(formDataArray, function (object, index) { //стандартная штука
-                var key = skipHtmlFieldPrefix ? object['name'].split('.').pop() : object['name'];
-                formObject[key] = object['value'];
-            });
-
-            $.ajax({
-                url: '/Statement/saveStatementRecords',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formObject)
-                //success: function (cities) { //эти две строки я взяла из индекса, что мне с ними делать
-                //    $("#vedok").html(cities);
-                //}
-            });
-        });
-
-        </script>
-    }*@
 
