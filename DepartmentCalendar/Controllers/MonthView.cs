@@ -1,8 +1,12 @@
 ﻿using DepartmentWebsite.Controllers;
+using DepartmentProcessAccountingService.BindingModels;
+using DepartmentProcessAccountingService.IServices;
+using DepartmentProcessAccountingService.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using DepartmentModel;
 
 namespace DepartmentWebsite
 {
@@ -45,6 +49,7 @@ namespace DepartmentWebsite
         private bool _backwardButtonSelected;
         private bool _mouseDoubleClicked;
         private bool _viewOneMonth;
+        private readonly IDepartmentProcessService service;
         #endregion
 
         #region События
@@ -735,11 +740,24 @@ namespace DepartmentWebsite
                             evtDay.BorderColor = _todayBorderColor;
                         }
 
-                        //Проходить по событиям в БД, менять у дней-событий BackgroundColor
-
-                        if (day.Date.Equals(new DateTime(2019, 3, 8)) && !day.Selected)
+                        ResultService<AcademicYearProcessPageViewModel> result = service.GetAcademicYearProcesses(new AcademicYearProcessGetBindingModel());
+                        if (result.Succeeded)
                         {
-                            evtDay.BackgroundColor = Color.Red;
+                            foreach (AcademicYearProcessViewModel academicYearProcess in result.Result.List)
+                            {
+                                ResultService<DepartmentProcessViewModel> resultService = service.GetDepartmentProcess(
+                                    new DepartmentProcessGetBindingModel {
+                                        Id = academicYearProcess.DepartmentProcessId
+                                    }
+                                );
+                                if (resultService.Succeeded) {
+                                    DepartmentProcessViewModel departmentProcessViewModel = resultService.Result;
+                                    if (departmentProcessViewModel.DateStart <= day.Date && day.Date <= departmentProcessViewModel.DateFinish && !day.Selected)
+                                    {
+                                        evtDay.BackgroundColor = Color.Red;
+                                    }
+                                }
+                            }
                         }
 
                         DrawBox(evtDay);

@@ -1,5 +1,6 @@
 ﻿using DepartmentProcessAccountingService.BindingModels;
 using DepartmentProcessAccountingService.IServices;
+using DepartmentProcessAccountingService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,14 @@ namespace DepartmentWebsite.Controllers
         private Button buttonForward;
         private Button buttonDeleteProcess;
         private MonthView _monthView;
+
+        private readonly IDepartmentProcessService service;
+
+        public List<Guid> EventsIds { set { eventsIds = value; } }
+        private List<Guid> eventsIds;
+
+        public Guid EvenvtId { set { eventId = value; } }
+        private Guid? eventId;
         #endregion
 
         public DescriptionBox(MonthView monthView)
@@ -175,6 +184,7 @@ namespace DepartmentWebsite.Controllers
             this.buttonBackward.TabIndex = 10;
             this.buttonBackward.Text = "<";
             this.buttonBackward.UseVisualStyleBackColor = true;
+            this.buttonBackward.Click += new System.EventHandler(this.buttonBackward_Click);
             // 
             // buttonForward
             // 
@@ -184,6 +194,7 @@ namespace DepartmentWebsite.Controllers
             this.buttonForward.TabIndex = 11;
             this.buttonForward.Text = ">";
             this.buttonForward.UseVisualStyleBackColor = true;
+            this.buttonForward.Click += new System.EventHandler(this.buttonForward_Click);
             // 
             // buttonDeleteProcess
             // 
@@ -193,6 +204,7 @@ namespace DepartmentWebsite.Controllers
             this.buttonDeleteProcess.TabIndex = 12;
             this.buttonDeleteProcess.Text = "Удалить событие";
             this.buttonDeleteProcess.UseVisualStyleBackColor = true;
+            this.buttonDeleteProcess.Click += new System.EventHandler(this.buttonDeleteProcess_Click);
             // 
             // DescriptionBox
             // 
@@ -220,12 +232,121 @@ namespace DepartmentWebsite.Controllers
         private void buttonAddDate_Click(object sender, EventArgs e)
         {
             //Сохранять событие в БД
-
+            if (!checkBoxCurrentDate.Checked || !checkBoxSemesterDate.Checked)
+            {
+                MessageBox.Show("Параметр даты не выбран", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (checkBoxSemesterDate.Checked && comboBoxSemesterDates.SelectedItem == null)
+            {
+                MessageBox.Show("Дата семестра не выбрана", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(textBoxHead.Text))
+            {
+                MessageBox.Show("Не введен заголовок события", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                if (eventId.HasValue)
+                {
+                    service.UpdateDepartmentProcess(new DepartmentProcessRecordBindingModel
+                    {
+                        Id = eventId.Value,
+                        Description = textBoxDescription.Text
+                    }
+                    );
+                }
+                else
+                {
+                    service.CreateDepartmentProcess(new DepartmentProcessRecordBindingModel
+                    {
+                        Description = textBoxDescription.Text,
+                        Title = textBoxHead.Text
+                    }
+                    );
+                }
+                MessageBox.Show("Добавлено новое блюдо", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void DescriptionBox_Load(object sender, EventArgs e)
         {
-            
+            if (eventId.HasValue)
+            {
+                try
+                {
+                    var dpgbm = new DepartmentProcessGetBindingModel();
+                    dpgbm.Id = eventId.Value;
+                    var result = service.GetDepartmentProcess(dpgbm);
+                    if (result.Succeeded)
+                    {
+                        DepartmentProcessViewModel view = result.Result;
+                        if (view != null)
+                        {
+                            textBoxHead.Text = view.Title;
+                            //comboBoxProcess.SelectedItem = view.P;
+                            textBoxDescription.Text = view.Description;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось загрузить процесс", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonDeleteProcess_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Удалить процесс?", "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    service.DeleteDepartmentProcess(new DepartmentProcessGetBindingModel
+                    {
+                        Id = eventId.Value
+                    }
+                    );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonBackward_Click(object sender, EventArgs e)
+        {
+            if (eventId.HasValue)
+            {
+                int index = eventsIds.IndexOf(eventId.Value);
+                if (0 < index)
+                {
+                    eventId = eventsIds[index - 1];
+                }
+            }
+        }
+
+        private void buttonForward_Click(object sender, EventArgs e)
+        {
+            if (eventId.HasValue)
+            {
+                int index = eventsIds.IndexOf(eventId.Value);
+                if (index < eventsIds.Count - 1)
+                {
+                    eventId = eventsIds[index + 1];
+                }
+            }
         }
     }
 }

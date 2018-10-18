@@ -24,7 +24,6 @@ namespace DepartmentCalendar.Controllers
         public CalendarControl(IContainer container)
         {
             container.Add(this);
-
             InitializeComponent();
         }
 
