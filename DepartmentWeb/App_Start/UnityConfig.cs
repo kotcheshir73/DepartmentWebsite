@@ -101,6 +101,10 @@ namespace DepartmentWeb
             container.RegisterType<IIndividualPlanTitleService, IndividualPlanTitleService>(new HierarchicalLifetimeManager());
             container.RegisterType<IIndividualPlanRecordService, IndividualPlanRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IIndividualPlanKindOfWorkService, IndividualPlanKindOfWorkService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IGraficService, GraficService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGraficRecordService, GraficRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGraficClassroomService, GraficClassroomService>(new HierarchicalLifetimeManager());
         }
     }
 }

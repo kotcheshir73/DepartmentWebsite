@@ -67,6 +67,8 @@
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
     <Compile Include="Enums\TimeNormKoef.cs" />
+    <Compile Include="Models\BaseEnities\GraficClassroom.cs" />
+    <Compile Include="Models\BaseEnities\GraficRecord.cs" />
     <Compile Include="Models\BaseEnities\IndividualPlanRecord.cs" />
     <Compile Include="Models\BaseEnities\IndividualPlanKindOfWork.cs" />
     <Compile Include="Models\BaseEnities\IndividualPlanTitle.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
     <Compile Include="Models\BaseEnities\SoftwareRecord.cs" />
+    <Compile Include="Models\BaseEnities\Grafic.cs" />
     <Compile Include="Models\BaseEnities\Statement.cs" />
     <Compile Include="Models\BaseEnities\StreamLesson.cs" />
     <Compile Include="Models\BaseEnities\StreamingLesson.cs" />

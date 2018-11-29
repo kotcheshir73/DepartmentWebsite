@@ -444,6 +444,46 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static GraficViewModel CreateGraficViewModel(Grafic entity)
+        {
+            return new GraficViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
+                StudentGroupId = entity.StudentGroupId,
+                Comment = entity.Comment.ToString(),
+                CommentWishesOfTeacher = entity.CommentWishesOfTeacher.ToString(),
+                Semester = entity.AcademicPlanRecord.Semester.ToString(),
+                DisciplineName = entity.AcademicPlanRecord.Discipline.DisciplineName.ToString(),
+                StudentGroupName = entity.StudentGroup.GroupName.ToString()
+            };
+        }
+
+        public static GraficRecordViewModel CreateGraficRecordViewModel(GraficRecord entity)
+        {
+            return new GraficRecordViewModel
+            {
+                Id = entity.Id,
+                GraficId = entity.GraficId,
+                TimeNormId = entity.TimeNormId,
+                WeekNumber = entity.WeekNumber,
+                Hours = entity.Hours,
+                TimeNormName = entity.TimeNorm.TimeNormName,
+                TimeNormHours = entity.TimeNorm.Hours.ToString()
+            };
+        }
+
+        public static GraficClassroomViewModel CreateGraficClassroomViewModel(GraficClassroom entity)
+        {
+            return new GraficClassroomViewModel
+            {
+                Id = entity.Id,
+                GraficId = entity.GraficId,
+                TimeNormId = entity.TimeNormId,
+                ClassroomDescription = entity.ClassroomDescription
+            };
+        }
+
         #endregion
 
 

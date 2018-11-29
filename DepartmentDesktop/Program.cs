@@ -88,6 +88,10 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IIndividualPlanKindOfWorkService, IndividualPlanKindOfWorkService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IIndividualPlanRecordService, IndividualPlanRecordService>(new HierarchicalLifetimeManager());
 
+            currentContainer.RegisterType<IGraficService, GraficService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IGraficRecordService, GraficRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IGraficClassroomService, GraficClassroomService>(new HierarchicalLifetimeManager());
+
             currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
 
             currentContainer

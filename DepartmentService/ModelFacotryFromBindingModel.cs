@@ -434,6 +434,44 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static Grafic CreateGrafic(GraficSetBindingModel model, Grafic entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Grafic();
+            }
+            entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.Comment = model.Comment;
+            entity.CommentWishesOfTeacher = model.CommentWishesOfTeacher;
+            return entity;
+        }
+
+        public static GraficRecord CreateGraficRecord(GraficRecordSetBindingModel model, GraficRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new GraficRecord();
+            }
+            entity.GraficId = model.GraficId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.WeekNumber = model.WeekNumber;
+            entity.Hours = model.Hours;
+            return entity;
+        }
+
+        public static GraficClassroom CreateGraficClassroom(GraficClassroomSetBindingModel model, GraficClassroom entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new GraficClassroom();
+            }
+            entity.GraficId = model.GraficId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.ClassroomDescription = model.ClassroomDescription;
+            return entity;
+        }
+
         #endregion
 
         #region Schedule
