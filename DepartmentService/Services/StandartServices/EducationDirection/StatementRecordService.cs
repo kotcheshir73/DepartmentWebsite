@@ -121,7 +121,7 @@ namespace DepartmentService.Services
                             {
                                 StatementId = sttmnt.Id,
                                 StudentId = stdnt.Id,
-                                Score = "Нет"
+                                Score = "Не допущен"
                             });
                             _context.StatementRecords.Add(entity);
                         }
