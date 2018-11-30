@@ -54,6 +54,37 @@ namespace DepartmentWeb.Controllers
         }
 
         [HttpPost]
+        public ActionResult StatementList(List<DepartmentService.ViewModels.StatementViewModel> statementViewModels)
+        {
+
+            foreach (var tmp in statementViewModels)
+            {
+                var element = _serviceS.GetStatement(new DepartmentService.BindingModels.StatementGetBindingModel()
+                {
+                    Id = tmp.Id
+                });
+                _serviceS.UpdateStatement(new DepartmentService.BindingModels.StatementSetBindingModel()
+                {
+                    Id = element.Result.Id,
+                    Date = tmp.Date,
+                    AcademicPlanRecordId = element.Result.AcademicPlanRecordId,
+                    Course = element.Result.Course,
+                    LecturerId = element.Result.LecturerId,
+                    Semester = element.Result.Semester,
+                    StudentGroupId = element.Result.StudentGroupId,
+                    TypeOfTest = element.Result.TypeOfTest
+                });
+            }
+
+            var tmpAY = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            var tmpL = _serviceL.GetLecturer(new DepartmentService.BindingModels.LecturerGetBindingModel() { Id = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7") });
+
+            var tuple = new Tuple<DepartmentService.ViewModels.AcademicYearPageViewModel, DepartmentService.ViewModels.LecturerViewModel>(tmpAY.Result, tmpL.Result);
+
+            return View("Index", tuple);
+        }
+
+        [HttpPost]
         public ActionResult StatementRecord(List<DepartmentService.ViewModels.StatementRecordViewModel> statementRecordViewModels)
         {
             
@@ -72,8 +103,12 @@ namespace DepartmentWeb.Controllers
                 });
             }
 
-            var year = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
-            return View("Index", year.Result);
+            var tmpAY = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            var tmpL = _serviceL.GetLecturer(new DepartmentService.BindingModels.LecturerGetBindingModel() { Id = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7") });
+
+            var tuple = new Tuple<DepartmentService.ViewModels.AcademicYearPageViewModel, DepartmentService.ViewModels.LecturerViewModel>(tmpAY.Result, tmpL.Result);
+
+            return View("Index" ,tuple);
         }
 
         public ActionResult StatementRecord(string id)
