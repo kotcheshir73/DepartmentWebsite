@@ -42,7 +42,7 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(record => record.StudentId == model.StudentId);
                 }
-                query = query.Include(record => record.Statement.AcademicPlanRecord.Discipline).Include(record => record.Student.StudentGroup);
+                query = query.Include(record => record.Statement.AcademicPlanRecord.Discipline).Include(record => record.Student.StudentGroup).Include(record => record.StatementRecordExtendeds);
                 query = query.OrderBy(record => record.StatementId).ThenBy(record => record.StudentId);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
@@ -52,13 +52,12 @@ namespace DepartmentService.Services
                                 .Skip(model.PageSize.Value * model.PageNumber.Value)
                                 .Take(model.PageSize.Value);
                 }
-                
+
                 var result = new StatementRecordPageViewModel
                 {
                     MaxCount = countPages,
                     List = query.Select(ModelFactoryToViewModel.CreateStatementRecordViewModel).ToList()
                 };
-
                 return ResultService<StatementRecordPageViewModel>.Success(result);
             }
             catch (DbEntityValidationException ex)
@@ -123,6 +122,15 @@ namespace DepartmentService.Services
                                 StudentId = stdnt.Id,
                                 Score = "Не допущен"
                             });
+                            if(sttmnt.TypeOfTest == TypeOfTest.Курсовая_работа)
+                            {
+                                var entityTo = ModelFacotryFromBindingModel.CreateStatementRecordExtended(new StatementRecordExtendedSetBindingModel()
+                                {
+                                    StatementRecordId = entity.Id,
+                                    Name = "Нет темы"
+                                });
+                                _context.StatementRecordExtendeds.Add(entityTo);
+                            }
                             _context.StatementRecords.Add(entity);
                         }
                     }

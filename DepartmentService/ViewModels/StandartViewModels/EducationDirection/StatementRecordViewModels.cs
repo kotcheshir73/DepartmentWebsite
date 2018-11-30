@@ -17,5 +17,7 @@ namespace DepartmentService.ViewModels
         public string Title { get; set; }
 
         public string Score { get; set; }
+
+        public string Name { get; set; }
     }
 }

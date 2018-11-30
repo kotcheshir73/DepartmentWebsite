@@ -16,7 +16,15 @@
         <th>
             Оценка
         </th>
+        @if (Model.FirstOrDefault().Title.Split('(')[1].Contains("Курсовая"))
+        {
+            <th>
+                Название работы
+            </th>
+        }
     </tr>
+
+    
 
 
     @using (Html.BeginForm())
@@ -26,19 +34,26 @@
         {
             @Html.HiddenFor(m => m[i].Id)
             @:
-            <tr>
-                
-                <td>
-                     @Html.DisplayFor(m => m[i].StudentName)
-                    
-                </td>
-                
-                <td>
-                     @Html.EditorFor(m => m[i].Score)
-                    
-                </td>
-                
-            </tr>
+    <tr>
+
+        <td>
+            @Html.DisplayFor(m => m[i].StudentName)
+
+        </td>
+
+        <td>
+            @Html.EditorFor(m => m[i].Score)
+
+        </td>
+        @if (Model.FirstOrDefault().Title.Split('(')[1].Contains("Курсовая") )
+        {
+            <td>
+                @Html.EditorFor(m => m[i].Name)
+
+            </td>
+        }
+
+    </tr>
 
 
         }

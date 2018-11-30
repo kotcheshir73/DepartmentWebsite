@@ -280,7 +280,7 @@ namespace DepartmentService.ViewModels
                 Course = entity.Course.ToString(),
                 Date = entity.Date,
                 Semester = entity.Semester.ToString(),
-                TypeOfTest = entity.TypeOfTest.ToString(),
+                TypeOfTest = entity.TypeOfTest.ToString().Replace('_', ' '),
                 DisciplineName = entity.AcademicPlanRecord.Discipline.DisciplineName.ToString(),
                 StudentGroupName = entity.StudentGroup.GroupName.ToString()
             };
@@ -294,8 +294,19 @@ namespace DepartmentService.ViewModels
                 StatementId = entity.StatementId,
                 StudentId = entity.StudentId,
                 Score = entity.Score,
-                StudentName=entity.Student.LastName+" "+ entity.Student.FirstName + " " + entity.Student.Patronymic,
-                Title=entity.Statement.AcademicPlanRecord.Discipline.DisciplineName+" "+entity.Statement.StudentGroup.GroupName
+                StudentName = entity.Student.LastName + " " + entity.Student.FirstName + " " + entity.Student.Patronymic,
+                Title = entity.Statement.AcademicPlanRecord.Discipline.DisciplineName + " - " + entity.Statement.StudentGroup.GroupName + " (" + entity.Statement.TypeOfTest.ToString().Replace('_', ' ') + ")",
+                Name = entity.StatementRecordExtendeds.Count == 0 ? "" : entity.StatementRecordExtendeds[0].Name
+            };
+        }
+
+        public static StatementRecordExtendedViewModel CreateStatementRecordExtendedViewModel(StatementRecordExtended entity)
+        {
+            return new StatementRecordExtendedViewModel
+            {
+                Id = entity.Id,
+                StatementRecordId = entity.StatementRecordId,
+                Name = entity.Name
             };
         }
 

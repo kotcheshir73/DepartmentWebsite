@@ -17,19 +17,8 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-
+input,
 select,
 textarea {
     max-width: 280px;
-}
-
-input
- {
-    max-width:25px;
-}
-
-button, html input[type="button"], input[type="reset"], input[type="submit"] {
-    max-width: 280px;
-    cursor: pointer;
-    -webkit-appearance: button;
 }

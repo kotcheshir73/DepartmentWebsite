@@ -286,6 +286,17 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static StatementRecordExtended CreateStatementRecordExtended(StatementRecordExtendedSetBindingModel model, StatementRecordExtended entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StatementRecordExtended();
+            }
+            entity.StatementRecordId = model.StatementRecordId;
+            entity.Name = model.Name;
+            return entity;
+        }
+
         public static StreamLesson CreateStreamLesson(StreamLessonSetBindingModel model, StreamLesson entity = null)
         {
             if (entity == null)

@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using DepartmentService;
 using DepartmentService.IServices;
-using DepartmentWeb.Models;
 
 namespace DepartmentWeb.Controllers
 {
@@ -15,13 +14,15 @@ namespace DepartmentWeb.Controllers
         private IAcademicYearService _serviceAY;
         private IStatementService _serviceS;
         private IStatementRecordService _serviceSR;
+        private IStatementRecordExtendedService _serviceSRE;
         private ILecturerService _serviceL;
 
-        public StatementController( IAcademicYearService serviceAY, IStatementService serviceS, IStatementRecordService serviceSR, ILecturerService serviceL)
+        public StatementController( IAcademicYearService serviceAY, IStatementService serviceS, IStatementRecordService serviceSR, IStatementRecordExtendedService serviceSRE, ILecturerService serviceL)
         {
             _serviceS = serviceS;
             _serviceAY = serviceAY;
             _serviceSR = serviceSR;
+            _serviceSRE = serviceSRE;
             _serviceL = serviceL;
 
         }
@@ -101,6 +102,19 @@ namespace DepartmentWeb.Controllers
                     StudentId = element.Result.StudentId,
                     Score = tmp.Score
                 });
+                if (tmp.Name != null)
+                {
+                    var elementTo = _serviceSRE.GetStatementRecordExtendeds(new DepartmentService.BindingModels.StatementRecordExtendedGetBindingModel()
+                    {
+                        StatementRecordId = tmp.Id
+                    });
+                    _serviceSRE.UpdateStatementRecordExtended(new DepartmentService.BindingModels.StatementRecordExtendedSetBindingModel()
+                    {
+                        Id = elementTo.Result.List[0].Id,
+                        StatementRecordId = tmp.Id,
+                        Name = tmp.Name
+                    });
+                }
             }
 
             var tmpAY = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());

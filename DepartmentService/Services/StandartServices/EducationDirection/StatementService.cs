@@ -122,14 +122,14 @@ namespace DepartmentService.Services
                 }
                 var statement = _context.Statements.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id);
                 var timeNorm = _context.TimeNorms.Where(record => !record.IsDeleted && record.AcademicYearId == model.Id 
-                    && (record.KindOfLoadName == "Экзамен" || record.KindOfLoadName == "Зачет" || record.KindOfLoadName == "Зачет с оценкой")); //Получение трех норм времени для поиска ведомостей
+                    && (record.KindOfLoadName == "Экзамен" || record.KindOfLoadName == "Зачет" || record.KindOfLoadName == "Зачет с оценкой" || record.KindOfLoadName == "Курсовая работа")); //Получение трех норм времени для поиска ведомостей
                 foreach(var tn in timeNorm)
                 {
                     //Поиск найзначеных часов преподавателям
                     var APRM = _context.AcademicPlanRecordMissions.Where(record => !record.IsDeleted).Include(record => record.AcademicPlanRecordElement.AcademicPlanRecord.Contingent)
                         .Include(record => record.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
                         .Where(record => record.AcademicPlanRecordElement.TimeNormId == tn.Id);
-                    string nameTN = tn.KindOfLoadName == "Зачет с оценкой" ? "Диференцированный_зачет" : tn.KindOfLoadName;
+                    string nameTN = tn.KindOfLoadName == "Зачет с оценкой" ? "Диференцированный_зачет" : tn.KindOfLoadName == "Курсовая работа" ? "Курсовая_работа" : tn.KindOfLoadName;
                     foreach (var APRMRecord in APRM)
                     {
 

@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using DepartmentService;
 using DepartmentService.IServices;
-using DepartmentWeb.Models;
 
 namespace DepartmentWeb.Controllers
 {

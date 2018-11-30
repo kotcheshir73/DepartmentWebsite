@@ -74,6 +74,7 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanTitleBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordExtendedBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordMissionBindingModels.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordExtendedService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
@@ -159,6 +161,10 @@
     <Compile Include="Migrations\201809191406096_ADDGraficsTables1.cs" />
     <Compile Include="Migrations\201809191406096_ADDGraficsTables1.Designer.cs">
       <DependentUpon>201809191406096_ADDGraficsTables1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.cs" />
+    <Compile Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.Designer.cs">
+      <DependentUpon>201811301435014_CreateTable_StatementRecordExtended.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -228,6 +234,7 @@
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\GraficRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StatementRecordExtendedService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StatementRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\GraficService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StatementService.cs" />
@@ -276,6 +283,7 @@
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordExtendedViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementViewModels.cs" />
@@ -324,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809191406096_ADDGraficsTables1.resx">
       <DependentUpon>201809191406096_ADDGraficsTables1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.resx">
+      <DependentUpon>201811301435014_CreateTable_StatementRecordExtended.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

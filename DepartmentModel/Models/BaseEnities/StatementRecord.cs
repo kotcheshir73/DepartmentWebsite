@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace DepartmentModel.Models
@@ -28,5 +30,8 @@ namespace DepartmentModel.Models
         public virtual Student Student { get; set; }
 
         //-------------------------------------------------------------------------
+        
+        [ForeignKey("StatementRecordId")]
+        public virtual List<StatementRecordExtended> StatementRecordExtendeds { get; set; }
     }
 }
