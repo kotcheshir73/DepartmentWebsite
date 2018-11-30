@@ -177,10 +177,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
-    <Compile Include="Controllers\GraficController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndividualPlanController.cs" />
     <Compile Include="Controllers\NIRController.cs" />
+    <Compile Include="Controllers\GraficController.cs" />
     <Compile Include="Controllers\StatementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -234,6 +234,9 @@
     <Content Include="Views\IndividualPlan\Vospit.cshtml" />
     <Content Include="Views\IndividualPlan\NIR.cshtml" />
     <Content Include="Views\Grafic\Index.cshtml" />
+    <Content Include="Views\Grafic\GraficList.cshtml" />
+    <Content Include="Views\Grafic\GraficRecord.cshtml" />
+    <Content Include="Views\Grafic\Partial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

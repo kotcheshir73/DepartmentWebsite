@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace DepartmentModel.Models
 {
     /// <summary>
-    /// Класс, описывающий виды работ индивидуального плана
+    /// Класс, описывающий заголовки индивидуального плана
     /// </summary>
     [DataContract]
     public class IndividualPlanTitle : BaseEntity

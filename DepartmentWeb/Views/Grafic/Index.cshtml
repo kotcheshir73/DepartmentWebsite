@@ -1,11 +1,33 @@
-﻿@model DepartmentService.ViewModels.StudentGroupPageViewModel
+﻿@model DepartmentService.ViewModels.AcademicYearPageViewModel
 
 @{
-    ViewBag.Title = "Расчасовки";
+    ViewBag.Title = "Grafic";
 }
 
 
 <h3>Расчасовки</h3>
 
-<h4>Выберите группу &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "GroupName"), "")</h4>
+<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Title"), "")</h4>
 
+<div id="vedok"></div>
+@section Scripts {
+    <script>
+        var GetValue = function () {
+            console.log('retertreter')
+            var yearId = $('#List').val();
+            $.ajax({
+                url: '/Grafic/getTableGrafics',
+                type: "POST",
+                //dataType: "json",
+                //contentType: "application/json; charset=utf-8", 
+                //processData: false,
+                //contentType: false, 
+                data: { YearId: yearId },
+                success: function (cities) {
+                    $("#vedok").html(cities);
+                }
+            });
+        }
+        $('#List').on('change', GetValue)
+    </script>
+}

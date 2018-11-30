@@ -68,9 +68,12 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficClassroomBindingModels .cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanKindOfWorkBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanTitleBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordMissionBindingModels.cs" />
@@ -110,6 +113,8 @@
     <Compile Include="IServices\IAdministrationProcess.cs" />
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficClassroomService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanKindOfWorkService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanTitleService.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IDisciplineLessonTaskService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
@@ -145,6 +151,14 @@
     <Compile Include="Migrations\201809131211426_LinkedTablesIndividualPlanRecordAndLecture.cs" />
     <Compile Include="Migrations\201809131211426_LinkedTablesIndividualPlanRecordAndLecture.Designer.cs">
       <DependentUpon>201809131211426_LinkedTablesIndividualPlanRecordAndLecture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809191309179_ADDGraficsTables.cs" />
+    <Compile Include="Migrations\201809191309179_ADDGraficsTables.Designer.cs">
+      <DependentUpon>201809191309179_ADDGraficsTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809191406096_ADDGraficsTables1.cs" />
+    <Compile Include="Migrations\201809191406096_ADDGraficsTables1.Designer.cs">
+      <DependentUpon>201809191406096_ADDGraficsTables1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
@@ -201,6 +215,7 @@
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
     <Compile Include="Services\ScheduleServices\ExaminationRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\GraficClassroomService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanKindOfWorkService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanTitleService.cs" />
@@ -212,7 +227,9 @@
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\GraficRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StatementRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\GraficService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StatementService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamLessonRecordService.cs" />
@@ -233,6 +250,8 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficClassroomViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanKindOfWorkViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanTitleViewModels.cs" />
@@ -258,6 +277,7 @@
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
@@ -298,6 +318,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809131211426_LinkedTablesIndividualPlanRecordAndLecture.resx">
       <DependentUpon>201809131211426_LinkedTablesIndividualPlanRecordAndLecture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809191309179_ADDGraficsTables.resx">
+      <DependentUpon>201809191309179_ADDGraficsTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809191406096_ADDGraficsTables1.resx">
+      <DependentUpon>201809191406096_ADDGraficsTables1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
