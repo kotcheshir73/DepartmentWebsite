@@ -269,7 +269,7 @@ namespace DepartmentService.BindingModels
             entity.StudentGroupId = model.StudentGroupId;
             entity.Course = (AcademicCourse)Enum.Parse(typeof(AcademicCourse), model.Course); //TODO: тут нужно проверить правильность перечислений
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
-            entity.TypeOfTest = (TypeOfTest)Enum.Parse(typeof(TypeOfTest), model.TypeOfTest);
+            entity.TypeOfTest = (TypeOfTest)Enum.Parse(typeof(TypeOfTest), model.TypeOfTest.Replace(' ', '_'));
             entity.Date = model.Date;
             return entity;
         }

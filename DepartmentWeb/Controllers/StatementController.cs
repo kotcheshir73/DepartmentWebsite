@@ -54,6 +54,7 @@ namespace DepartmentWeb.Controllers
             return PartialView("~/Views/Statement/StatementList.cshtml", tmp.Result.List);
         }
 
+        /*
         [HttpPost]
         public ActionResult StatementList(List<DepartmentService.ViewModels.StatementViewModel> statementViewModels)
         {
@@ -67,7 +68,7 @@ namespace DepartmentWeb.Controllers
                 _serviceS.UpdateStatement(new DepartmentService.BindingModels.StatementSetBindingModel()
                 {
                     Id = element.Result.Id,
-                    Date = tmp.Date,
+                    Date = DateTime.Parse(tmp.Date),
                     AcademicPlanRecordId = element.Result.AcademicPlanRecordId,
                     Course = element.Result.Course,
                     LecturerId = element.Result.LecturerId,
@@ -84,6 +85,7 @@ namespace DepartmentWeb.Controllers
 
             return View("Index", tuple);
         }
+        */
 
         [HttpPost]
         public ActionResult StatementRecord(List<DepartmentService.ViewModels.StatementRecordViewModel> statementRecordViewModels)
@@ -132,6 +134,49 @@ namespace DepartmentWeb.Controllers
                 StatementId=new Guid(id)
             });
             return View(tmp.Result.List);
+        }
+
+        [HttpPost]
+        public ActionResult StatementEditDate(DepartmentService.ViewModels.StatementViewModel statementViewModels)
+        {
+            try
+            {
+                var element = _serviceS.GetStatement(new DepartmentService.BindingModels.StatementGetBindingModel()
+                {
+                    Id = statementViewModels.Id
+                }).Result;
+                _serviceS.UpdateStatement(new DepartmentService.BindingModels.StatementSetBindingModel()
+                {
+                    Id = element.Id,
+                    AcademicPlanRecordId = element.AcademicPlanRecordId,
+                    Course = element.Course,
+                    LecturerId = element.LecturerId,
+                    Semester = element.Semester,
+                    StudentGroupId = element.StudentGroupId,
+                    TypeOfTest = element.TypeOfTest,
+                    Date = DateTime.Parse(statementViewModels.Date)
+                });
+            }
+            catch (Exception ex)
+            {
+                return HttpNotFound(ex.Message);
+            }
+
+            var tmpAY = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            var tmpL = _serviceL.GetLecturer(new DepartmentService.BindingModels.LecturerGetBindingModel() { Id = new Guid("0F121F0F-5BEF-4BAD-AE3F-DF06CD435EC7") });
+
+            var tuple = new Tuple<DepartmentService.ViewModels.AcademicYearPageViewModel, DepartmentService.ViewModels.LecturerViewModel>(tmpAY.Result, tmpL.Result);
+
+            return View("Index", tuple);
+        }
+
+        public ActionResult StatementEditDate(string id)
+        {
+            var tmp = _serviceS.GetStatement(new DepartmentService.BindingModels.StatementGetBindingModel()
+            {
+                Id = new Guid(id)
+            });
+            return View(tmp.Result);
         }
     }
 }

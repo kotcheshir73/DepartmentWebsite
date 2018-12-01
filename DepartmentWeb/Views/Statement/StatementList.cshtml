@@ -18,6 +18,9 @@
         <th>
             Семестр
         </th>
+        <th>
+            Дата
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -35,7 +38,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Semester)
         </td>
-
+        <td>
+            @Html.ActionLink(item.Date, "StatementEditDate", new { id = item.Id })
+        </td>
     </tr>
     }
 

@@ -278,7 +278,7 @@ namespace DepartmentService.ViewModels
                 LecturerId = entity.LecturerId,
                 StudentGroupId = entity.StudentGroupId,
                 Course = entity.Course.ToString(),
-                Date = entity.Date,
+                Date = entity.Date.Value.Day.ToString() + '/' + entity.Date.Value.Month.ToString() + '/' + entity.Date.Value.Year.ToString(),
                 Semester = entity.Semester.ToString(),
                 TypeOfTest = entity.TypeOfTest.ToString().Replace('_', ' '),
                 DisciplineName = entity.AcademicPlanRecord.Discipline.DisciplineName.ToString(),

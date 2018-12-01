@@ -84,7 +84,7 @@ namespace DepartmentWeb
 
             container.RegisterType<IStatementService, StatementService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStatementRecordService, StatementRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStatementRecordExtendedService, StatementRecordExtendedService>();
+            container.RegisterType<IStatementRecordExtendedService, StatementRecordExtendedService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
