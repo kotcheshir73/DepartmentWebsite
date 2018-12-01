@@ -232,7 +232,7 @@
     <Content Include="Views\IndividualPlan\Index.cshtml" />
     <Content Include="Views\IndividualPlan\Organizac.cshtml" />
     <Content Include="Views\IndividualPlan\Vospit.cshtml" />
-    <Content Include="Views\IndividualPlan\NIR.cshtml" />
+    <Content Include="Views\NIR\Index.cshtml" />
     <Content Include="Views\Grafic\Index.cshtml" />
     <Content Include="Views\Grafic\GraficList.cshtml" />
     <Content Include="Views\Grafic\GraficRecord.cshtml" />

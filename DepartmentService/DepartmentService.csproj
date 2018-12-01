@@ -170,6 +170,10 @@
     <Compile Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.Designer.cs">
       <DependentUpon>201811301435014_CreateTable_StatementRecordExtended.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....cs" />
+    <Compile Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....Designer.cs">
+      <DependentUpon>201812011941369_AddTables_IndividualPlanNIR....cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -343,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.resx">
       <DependentUpon>201811301435014_CreateTable_StatementRecordExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....resx">
+      <DependentUpon>201812011941369_AddTables_IndividualPlanNIR....cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
