@@ -69,6 +69,8 @@
     <Compile Include="Enums\TimeNormKoef.cs" />
     <Compile Include="Models\BaseEnities\GraficClassroom.cs" />
     <Compile Include="Models\BaseEnities\GraficRecord.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanNIRContractualWork.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanNIRScientificArticle.cs" />
     <Compile Include="Models\BaseEnities\IndividualPlanRecord.cs" />
     <Compile Include="Models\BaseEnities\IndividualPlanKindOfWork.cs" />
     <Compile Include="Models\BaseEnities\IndividualPlanTitle.cs" />

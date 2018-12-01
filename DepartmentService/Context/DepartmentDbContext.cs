@@ -44,6 +44,8 @@ namespace DepartmentService.Context
         public virtual DbSet<IndividualPlanKindOfWork> IndividualPlanKindOfWorks { get; set; }
         public virtual DbSet<IndividualPlanRecord> IndividualPlanRecords { get; set; }
         public virtual DbSet<IndividualPlanTitle> IndividualPlanTitles { get; set; }
+        public virtual DbSet<IndividualPlanNIRScientificArticle> IndividualPlanNIRScientificArticles { get; set; }
+        public virtual DbSet<IndividualPlanNIRContractualWork> IndividualPlanNIRContractualWorks { get; set; }
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
         public virtual DbSet<LecturerPost> LecturerPosts { get; set; }

@@ -71,6 +71,8 @@
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficClassroomBindingModels .cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanKindOfWorkBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanNIRContractualWorkBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanNIRScientificArticleBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanTitleBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficBindingModels.cs" />
@@ -117,6 +119,8 @@
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficClassroomService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanKindOfWorkService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanNIRContractualWorkService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanNIRScientificArticleService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanTitleService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordMissionService.cs" />
@@ -223,6 +227,8 @@
     <Compile Include="Services\ScheduleServices\ExaminationRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\GraficClassroomService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanKindOfWorkService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanNIRContractualWorkService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanNIRScientificArticleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanTitleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerPostSerivce.cs" />
@@ -260,6 +266,8 @@
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficClassroomViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanKindOfWorkViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanNIRContractualWorkViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanNIRScientificArticleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanTitleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordMissionViewModels.cs" />

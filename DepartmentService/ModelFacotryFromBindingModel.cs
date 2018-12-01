@@ -445,6 +445,36 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static IndividualPlanNIRScientificArticle CreateIndividualPlanNIRScientificArticle(IndividualPlanNIRScientificArticleSetBindingModel model, IndividualPlanNIRScientificArticle entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanNIRScientificArticle();
+            }
+            entity.LecturerId = model.LecturerId;
+            entity.Name = model.Name;
+            entity.Publishing = model.Publishing;
+            entity.Status = model.Status;
+            entity.TypeOfPublication = model.TypeOfPublication;
+            entity.Volume = model.Volume;
+            entity.Year = model.Year;
+            return entity;
+        }
+
+        public static IndividualPlanNIRContractualWork CreateIndividualPlanNIRContractualWork(IndividualPlanNIRContractualWorkSetBindingModel model, IndividualPlanNIRContractualWork entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanNIRContractualWork();
+            }
+            entity.LecturerId = model.LecturerId;
+            entity.JobContent = model.JobContent;
+            entity.PlannedTerm = model.PlannedTerm;
+            entity.Post = model.Post;
+            entity.ReadyMark = model.ReadyMark;
+            return entity;
+        }
+
         public static Grafic CreateGrafic(GraficSetBindingModel model, Grafic entity = null)
         {
             if (entity == null)

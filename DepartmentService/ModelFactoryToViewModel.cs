@@ -455,6 +455,34 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static IndividualPlanNIRScientificArticleViewModel CreateIndividualPlanNIRScientificArticleViewModel(IndividualPlanNIRScientificArticle entity)
+        {
+            return new IndividualPlanNIRScientificArticleViewModel
+            {
+                Id = entity.Id,
+                LecturerName = entity.Lecturer.ToString(),
+                Name = entity.Name,
+                Publishing = entity.Publishing,
+                Status = entity.Status,
+                TypeOfPublication = entity.TypeOfPublication,
+                Volume = entity.Volume,
+                Year = entity.Year
+            };
+        }
+
+        public static IndividualPlanNIRContractualWorkViewModel CreateIndividualPlanNIRContractualWorkViewModel(IndividualPlanNIRContractualWork entity)
+        {
+            return new IndividualPlanNIRContractualWorkViewModel
+            {
+                Id = entity.Id,
+                LecturerName = entity.Lecturer.ToString(),
+                JobContent = entity.JobContent,
+                PlannedTerm = entity.PlannedTerm,
+                Post = entity.Post,
+                ReadyMark = entity.ReadyMark
+            };
+        }
+
         public static GraficViewModel CreateGraficViewModel(Grafic entity)
         {
             return new GraficViewModel
