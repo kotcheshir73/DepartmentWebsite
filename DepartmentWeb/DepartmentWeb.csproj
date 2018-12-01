@@ -181,6 +181,7 @@
     <Compile Include="Controllers\IndividualPlanController.cs" />
     <Compile Include="Controllers\NIRController.cs" />
     <Compile Include="Controllers\GraficController.cs" />
+    <Compile Include="Controllers\SummaryStatementController.cs" />
     <Compile Include="Controllers\StatementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -237,6 +238,8 @@
     <Content Include="Views\Grafic\GraficRecord.cshtml" />
     <Content Include="Views\Grafic\Partial.cshtml" />
     <Content Include="Views\Statement\StatementEditDate.cshtml" />
+    <Content Include="Views\SummaryStatement\SummaryStatement.cshtml" />
+    <Content Include="Views\SummaryStatement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DepartmentService.ViewModels.StudentGroupViewModel>
+
+@{
+    ViewBag.Title = "SummaryStatement";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Группа
+        </th>
+        <th>
+            Курс
+        </th>
+        <th>
+            Кол-во студентов
+        </th>
+        <th>
+            Куратор
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.GroupName, "SummaryStatement", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountStudents)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Curator)
+            </td>
+        </tr>
+    }
+
+</table>

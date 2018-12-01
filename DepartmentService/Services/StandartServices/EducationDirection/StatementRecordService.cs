@@ -5,6 +5,7 @@ using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -14,12 +15,15 @@ namespace DepartmentService.Services
     public class StatementRecordService : IStatementRecordService
     {
         private readonly DepartmentDbContext _context;
+        
+        private readonly IStudentService _serviceStd;
 
         private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_планы;
 
-        public StatementRecordService(DepartmentDbContext context)
+        public StatementRecordService(DepartmentDbContext context, IStudentService serviceStd)
         {
             _context = context;
+            _serviceStd = serviceStd;
         }
 
         public ResultService<StatementRecordPageViewModel> GetStatementRecords(StatementRecordGetBindingModel model)
@@ -95,6 +99,76 @@ namespace DepartmentService.Services
             catch (Exception ex)
             {
                 return ResultService<StatementRecordViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<object[]>> GetSummaryStatement(StudentGroupGetBindingModel model)
+        {
+            try
+            {
+                List<object[]> list = new List<object[]>();
+                var tmpStatements =  _context.Statements.Where(record => !record.IsDeleted && record.StudentGroupId == model.Id).AsQueryable();
+                tmpStatements = tmpStatements.OrderBy(record => record.Semester).ThenBy(record => record.AcademicPlanRecord.Discipline.DisciplineName);
+                tmpStatements = tmpStatements.Include(apre => apre.AcademicPlanRecord.AcademicPlan).Include(apre => apre.Lecturer).Include(apre => apre.StudentGroup).Include(apre => apre.AcademicPlanRecord.Discipline);
+                var statements = new StatementPageViewModel
+                {
+                    List = tmpStatements.Select(ModelFactoryToViewModel.CreateStatementViewModel).ToList()
+                }.List;
+
+                var students = _serviceStd.GetStudents(new StudentGetBindingModel { StudentGroupId = model.Id }).Result.List;
+                var statementRecord = _context.StatementRecords.Where(record => !record.IsDeleted).AsQueryable();
+
+                List<object> element = new List<object>();
+                element.Add("Студенты\\Предметы");
+                
+                foreach (var record in statements)
+                {
+                    element.Add(record.DisciplineName + '(' + record.TypeOfTest.Substring(0, 3) + ')');
+                }
+                
+                list.Add(element.ToArray());
+
+                foreach (var student in students)
+                {
+                    element = new List<object>();
+                    element.Add(student.FullName);
+
+                    foreach (var statement in statements)
+                    {
+                        var tmp = statementRecord.FirstOrDefault(x => x.StatementId == statement.Id && x.StudentId == student.Id);
+                        switch (tmp.Score.ToLower())
+                        {
+                            case "отлично":
+                                element.Add("5");
+                                break;
+                            case "хорошо":
+                                element.Add("4");
+                                break;
+                            case "удовлетворительно":
+                                element.Add("3");
+                                break;
+                            case "не удовлетворительно":
+                            case "неудовлетворительно":
+                                element.Add("2");
+                                break;
+                            case "не допущен":
+                                element.Add("-");
+                                break;
+                            default:
+                                element.Add(tmp.Score);
+                                break;
+                        }
+                        
+                    }
+
+                    list.Add(element.ToArray());
+                }
+
+                return ResultService<List<object[]>>.Success(list);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<object[]>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 

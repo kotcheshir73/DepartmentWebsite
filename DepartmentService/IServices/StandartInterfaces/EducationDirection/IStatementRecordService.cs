@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
 using DepartmentService.ViewModels;
+using System.Collections.Generic;
 
 namespace DepartmentService.IServices
 {
@@ -19,6 +20,12 @@ namespace DepartmentService.IServices
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<StatementRecordViewModel> GetStatementRecord(StatementRecordGetBindingModel model);
+
+        /// <summary>
+        /// Для вывода сводной ведомости
+        /// </summary>
+        /// <returns></returns>
+        ResultService<List<object[]>> GetSummaryStatement(StudentGroupGetBindingModel model);
 
         /// <summary>
         /// Создание новой элемента записи учебного плана
