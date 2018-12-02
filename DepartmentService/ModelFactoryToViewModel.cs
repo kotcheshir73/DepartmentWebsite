@@ -460,6 +460,7 @@ namespace DepartmentService.ViewModels
             return new IndividualPlanNIRScientificArticleViewModel
             {
                 Id = entity.Id,
+                LecturerId = entity.LecturerId,
                 LecturerName = entity.Lecturer.ToString(),
                 Name = entity.Name,
                 Publishing = entity.Publishing,
@@ -475,6 +476,7 @@ namespace DepartmentService.ViewModels
             return new IndividualPlanNIRContractualWorkViewModel
             {
                 Id = entity.Id,
+                LecturerId = entity.LecturerId,
                 LecturerName = entity.Lecturer.ToString(),
                 JobContent = entity.JobContent,
                 PlannedTerm = entity.PlannedTerm,

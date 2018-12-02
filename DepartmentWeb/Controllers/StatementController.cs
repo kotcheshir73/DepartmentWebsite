@@ -159,7 +159,7 @@ namespace DepartmentWeb.Controllers
             }
             catch (Exception ex)
             {
-                return HttpNotFound(ex.Message);
+                return View("Error");
             }
 
             var tmpAY = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());

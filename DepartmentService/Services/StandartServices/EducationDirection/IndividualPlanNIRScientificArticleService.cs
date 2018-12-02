@@ -38,7 +38,7 @@ namespace DepartmentService.Services
                 {
                     query = query.Where(aprm => aprm.LecturerId == model.LecturerId);
                 }
-                if (model.Status == null)
+                if (model.Status != null)
                 {
                     query = query.Where(aprm => aprm.Status.Equals(model.Status));
                 }

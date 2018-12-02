@@ -240,6 +240,15 @@
     <Content Include="Views\Statement\StatementEditDate.cshtml" />
     <Content Include="Views\SummaryStatement\SummaryStatement.cshtml" />
     <Content Include="Views\SummaryStatement\Index.cshtml" />
+    <Content Include="Views\NIR\ContractualWork.cshtml" />
+    <Content Include="Views\NIR\CreateContractualWork.cshtml" />
+    <Content Include="Views\NIR\ScientificArticleOfPrint.cshtml" />
+    <Content Include="Views\NIR\CreateScientificArticleOfPrint.cshtml" />
+    <Content Include="Views\NIR\UpdateContractualWork.cshtml" />
+    <Content Include="Views\NIR\UpdateScientificArticleOfPrint.cshtml" />
+    <Content Include="Views\NIR\CreateScientificArticleOfPublished.cshtml" />
+    <Content Include="Views\NIR\ScientificArticleOfPublished.cshtml" />
+    <Content Include="Views\NIR\UpdateScientificArticleOfPublished.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
