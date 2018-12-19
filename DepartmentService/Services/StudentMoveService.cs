@@ -35,7 +35,7 @@ namespace DepartmentService.Services
 				try
 				{
 					var list = new List<StudentViewModel>();
-					for (int i = 2; i < table.Rows.Count; ++i)
+					for (int i = 2; i <= table.Rows.Count; ++i)
 					{
 						var studentModel = new StudentViewModel
 						{
@@ -114,7 +114,7 @@ namespace DepartmentService.Services
 						{
 							StudentId = entity.Id,
 							DateCreate = DateTime.Now,
-							TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroup.GroupName,
+							TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroupId,
 							model.OrderNumber, model.OrderDate.ToShortDateString())
 						};
 

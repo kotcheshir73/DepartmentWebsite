@@ -40,7 +40,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 				Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
 				return;
 			}
-			dataGridViewList.DataSource = result.Result;
+			dataGridViewList.DataSource = result.Result.List;
 			if (dataGridViewList.Columns.Count > 0)
             {
                 dataGridViewList.Columns[0].Visible = false;

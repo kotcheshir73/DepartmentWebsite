@@ -66,7 +66,18 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.Synchronization.SynchronizationRolesControl>();
             ApplyControl(control);
         }
-        
+        /// <summary>
+        /// Успеваемость
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void progressToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         /// <summary>
         /// Синхронизация пользователей
         /// </summary>
@@ -77,6 +88,7 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.Synchronization.SynchronizationUsersControl>();
             ApplyControl(control);
         }
+        #endregion
 
         #region Работа с БД
         /// <summary>
@@ -99,7 +111,6 @@ namespace DepartmentDesktop
             var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
             ApplyControl(control);
         }
-        #endregion
         #endregion
 
         #region Администрирование
@@ -499,9 +510,46 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
+        private void softwaresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.Software.SoftwareControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         private void softwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LaboratoryHead.SoftwareRecord.SoftwareRecordControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        #endregion
+
+        #region Преподаватель
+        private void configuringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void studentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void посещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConductedLessonsControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.AcceptTasksControl>();
             ApplyControl(control);
             control.LoadData();
         }

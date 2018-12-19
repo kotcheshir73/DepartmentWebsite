@@ -16,11 +16,23 @@ namespace DepartmentModel.Models
     {
         [Required]
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [Required]
+        [DataMember]
+        public Guid EducationDirectionId { get; set; }
+
+        [Required]
+        [DataMember]
         public Guid DisciplineId { get; set; }
 
-		[Required]
+        [Required]
         [DataMember]
-        public LessonTypes LessonType { get; set; }
+        public Guid TimeNormId { get; set; }
+
+        [Required]
+        [DataMember]
+        public Semesters Semester { get; set; }
         
 		[MaxLength(100)]
 		[Required]
@@ -30,9 +42,29 @@ namespace DepartmentModel.Models
         [DataMember]
         public string Description { get; set; }
 
+        [Required]
+        [DataMember]
+        public int Order { get; set; }
+
+        [Required]
+        [DataMember]
+        public int CountOfPairs { get; set; }
+
+        [DataMember]
+        public DateTime? Date { get; set; }
+
+        [DataMember]
+        public byte[] DisciplineLessonFile { get; set; }
+
         //-------------------------------------------------------------------------
 
+        public virtual AcademicYear AcademicYear { get; set; }
+
+        public virtual EducationDirection EducationDirection { get; set; }
+
         public virtual Discipline Discipline { get; set; }
+
+        public virtual TimeNorm TimeNorm { get; set; }
 
         //-------------------------------------------------------------------------
 
@@ -40,6 +72,6 @@ namespace DepartmentModel.Models
 		public virtual List<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
 
 		[ForeignKey("DisciplineLessonId")]
-		public virtual List<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
+		public virtual List<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
 	}
 }

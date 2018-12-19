@@ -19,6 +19,7 @@ namespace DepartmentService.Context
         public virtual DbSet<AcademicPlan> AcademicPlans { get; set; }
         public virtual DbSet<AcademicPlanRecord> AcademicPlanRecords { get; set; }
         public virtual DbSet<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
+        public virtual DbSet<AcademicPlanRecordMission> AcademicPlanRecordMissions { get; set; }
         public virtual DbSet<AcademicYear> AcademicYears { get; set; }
         public virtual DbSet<Access> Accesses { set; get; }
         public virtual DbSet<Classroom> Classrooms { set; get; }
@@ -28,12 +29,12 @@ namespace DepartmentService.Context
         public virtual DbSet<Discipline> Disciplines { set; get; }
         public virtual DbSet<DisciplineBlock> DisciplineBlocks { get; set; }
         public virtual DbSet<DisciplineLesson> DisciplineLessons { get; set; }
-        public virtual DbSet<DisciplineLessonStudentRecord> DisciplineLessonStudentRecords { get; set; }
         public virtual DbSet<DisciplineLessonTask> DisciplineLessonTasks { get; set; }
-        public virtual DbSet<DisciplineLessonTaskImageContext> DisciplineLessonTaskImageContexts { get; set; }
-        public virtual DbSet<DisciplineLessonTaskTextContext> DisciplineLessonTaskTextContexts { get; set; }
-        public virtual DbSet<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
+        public virtual DbSet<DisciplineLessonTaskVariant> DisciplineLessonTaskVariants { get; set; }
+        public virtual DbSet<DisciplineLessonTaskStudentAccept> DisciplineLessonTaskStudentAccepts { get; set; }
         public virtual DbSet<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
+        public virtual DbSet<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
+        public virtual DbSet<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
@@ -45,6 +46,7 @@ namespace DepartmentService.Context
         public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }
         public virtual DbSet<SoftwareRecord> SoftwareRecords { get; set; }
+        public virtual DbSet<Software> Softwares { get; set; }
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
         public virtual DbSet<StreamLesson> StreamLessons { set; get; }

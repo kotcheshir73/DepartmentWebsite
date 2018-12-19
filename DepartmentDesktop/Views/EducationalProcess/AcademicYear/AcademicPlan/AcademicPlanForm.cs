@@ -31,7 +31,6 @@ namespace DepartmentDesktop.Views.EducationalProcess.AcademicPlan
             {
                 _id = id;
             }
-
         }
 
 		private void AcademicPlanForm_Load(object sender, EventArgs e)

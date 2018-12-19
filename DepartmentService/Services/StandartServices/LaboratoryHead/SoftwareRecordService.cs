@@ -19,16 +19,24 @@ namespace DepartmentService.Services
 
         private readonly IMaterialTechnicalValueService _serviceM;
 
-        public SoftwareRecordService(DepartmentDbContext context, IMaterialTechnicalValueService serviceM)
+        private readonly ISoftwareService _serviceS;
+
+        public SoftwareRecordService(DepartmentDbContext context, IMaterialTechnicalValueService serviceM, ISoftwareService serviceS)
         {
             _context = context;
             _serviceM = serviceM;
+            _serviceS = serviceS;
         }
 
 
         public ResultService<MaterialTechnicalValuePageViewModel> GetMaterialTechnicalValues(MaterialTechnicalValueGetBindingModel model)
         {
             return _serviceM.GetMaterialTechnicalValues(model);
+        }
+
+        public ResultService<SoftwarePageViewModel> GetSoftwares(SoftwareGetBindingModel model)
+        {
+            return _serviceS.GetSoftwares(model);
         }
 
 
@@ -42,14 +50,19 @@ namespace DepartmentService.Services
                 }
 
                 int countPages = 0;
-                var query = _context.SoftwareRecords.Where(sr => !sr.IsDeleted).AsQueryable();
+                var query = _context.SoftwareRecords.Where(x => !x.IsDeleted).AsQueryable();
 
                 if (model.MaterialTechnicalValueId.HasValue)
                 {
-                    query = query.Where(sr => sr.MaterialTechnicalValueId == model.MaterialTechnicalValueId);
+                    query = query.Where(x => x.MaterialTechnicalValueId == model.MaterialTechnicalValueId);
                 }
 
-                query = query.OrderBy(sr => sr.MaterialTechnicalValue.InventoryNumber).ThenBy(sr => sr.SoftwareName).ThenBy(sr => sr.DateCreate);
+                if (model.SoftwareId.HasValue)
+                {
+                    query = query.Where(x => x.SoftwareId == model.SoftwareId);
+                }
+
+                query = query.OrderBy(x => x.MaterialTechnicalValue.InventoryNumber).ThenBy(x => x.Software.SoftwareName).ThenBy(x => x.DateCreate);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -59,7 +72,7 @@ namespace DepartmentService.Services
                                 .Take(model.PageSize.Value);
                 }
 
-                query = query.Include(sr => sr.MaterialTechnicalValue);
+                query = query.Include(x => x.MaterialTechnicalValue).Include(x => x.Software);
 
                 var result = new SoftwareRecordPageViewModel
                 {
@@ -89,8 +102,9 @@ namespace DepartmentService.Services
                 }
 
                 var entity = _context.SoftwareRecords
-                                .Include(ap => ap.MaterialTechnicalValue)
-                                .FirstOrDefault(ap => ap.Id == model.Id && !ap.IsDeleted);
+                                .Include(x => x.MaterialTechnicalValue)
+                                .Include(x => x.Software)
+                                .FirstOrDefault(x => x.Id == model.Id && !x.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService<SoftwareRecordViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

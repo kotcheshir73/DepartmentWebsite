@@ -56,6 +56,7 @@
     <Compile Include="Enums\ClassroomTypes.cs" />
     <Compile Include="Enums\DisciplineLessonStudentStatus.cs" />
     <Compile Include="Enums\DisciplineLessonTaskStudentResult.cs" />
+    <Compile Include="Enums\DisciplineLessonTypes.cs" />
     <Compile Include="Enums\KindOfLoadType.cs" />
     <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\Post.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecordElement.cs" />
+    <Compile Include="Models\BaseEnities\AcademicPlanRecordMission.cs" />
     <Compile Include="Models\BaseEnities\AcademicYear.cs" />
     <Compile Include="Models\BaseEnities\Access.cs" />
     <Compile Include="Models\BaseEnities\Classroom.cs" />
@@ -76,12 +78,11 @@
     <Compile Include="Models\BaseEnities\Discipline.cs" />
     <Compile Include="Models\BaseEnities\DisciplineBlock.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLesson.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonConducted.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonConductedStudent.cs" />
     <Compile Include="Models\BaseEnities\DisciplineLessonTask.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonTaskContext.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonTaskContext\DisciplineLessonTaskImageContext.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonTaskContext\DisciplineLessonTaskTextContext.cs" />
-    <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentRecord.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskStudentAccept.cs" />
+    <Compile Include="Models\BaseEnities\DisciplineLessonTaskVariant.cs" />
     <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\EducationDirection.cs" />
     <Compile Include="Models\BaseEnities\Lecturer.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Models\BaseEnities\Role.cs" />
     <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
+    <Compile Include="Models\BaseEnities\Software.cs" />
     <Compile Include="Models\BaseEnities\SoftwareRecord.cs" />
     <Compile Include="Models\BaseEnities\StreamLesson.cs" />
     <Compile Include="Models\BaseEnities\StreamingLesson.cs" />

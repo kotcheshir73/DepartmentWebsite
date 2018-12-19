@@ -29,9 +29,9 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 150, Visible = false },
                 new ColumnConfig { Name = "InventoryNumber", Title = "Инв. номер", Width = 100, Visible = true },
-                new ColumnConfig { Name = "DateSetup", Title = "Дата устанвоки", Width = 150, Visible = true },
                 new ColumnConfig { Name = "SoftwareName", Title = "Название ПО", Width = 250, Visible = true },
-                new ColumnConfig { Name = "SoftwareDescription", Title = "Описание", Width = 350, Visible = true },
+                new ColumnConfig { Name = "DateSetup", Title = "Дата устанвоки", Width = 150, Visible = true },
+                new ColumnConfig { Name = "SetupDescription", Title = "Особенности установки", Width = 350, Visible = true },
                 new ColumnConfig { Name = "SoftwareKey", Title = "Ключ", Width = 250, Visible = true },
                 new ColumnConfig { Name = "ClaimNumber", Title = "Номер заявки", Width = 200, Visible = true }
             };
@@ -41,7 +41,8 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
                     { "UpdateSoftwareRecordsToolStripMenuItem", "Изменить подобные"},
-                    { "AddClaimToolStripMenuItem", "Добавить заявку"},
+                    { "InstallSoftwareToolStripMenuItem", "Установить ПО"},
+                    { "UnInstallSowtwareToolStripMenuItem", "Деинсталяция ПО"},
                     { "PrintReportForClassroomToolStripMenuItem", "Получить список ПО по аудитории"},
                     { "PrintReportForClaimToolStripMenuItem", "Получить список ПО по заявке"},
                     { "PrintReportForInventoryNumberToolStripMenuItem", "Получить список ПО по инв. номеру"}
@@ -53,8 +54,9 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
-            standartControl.ToolStripButtonMoveEventClickAddEvent("AddClaimToolStripMenuItem", AddClaimToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("UpdateSoftwareRecordsToolStripMenuItem", UpdateSoftwareRecordsToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("InstallSoftwareToolStripMenuItem", InstallSoftwareToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("UnInstallSowtwareToolStripMenuItem", UnInstallSowtwareToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForClassroomToolStripMenuItem", PrintReportForClassroomToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForClaimToolStripMenuItem", PrintReportForClaimToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("PrintReportForInventoryNumberToolStripMenuItem", PrintReportForInventoryNumberToolStripMenuItem_Click);
@@ -94,9 +96,9 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.InventoryNumber,
-                    res.DateSetup.ToShortDateString(),
                     res.SoftwareName,
-                    res.SoftwareDescription,
+                    res.DateSetup.ToShortDateString(),
+                    res.SetupDescription,
                     res.SoftwareKey,
                     res.ClaimNumber
                 );
@@ -176,9 +178,15 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             }
         }
 
-        private void AddClaimToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InstallSoftwareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<SoftwareRecordAddClaimForm>();
+            var form = Container.Resolve<InstallSowtwareForm>();
+            form.Show();
+        }
+
+        private void UnInstallSowtwareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<UnInstallSowtwareForm>();
             form.Show();
         }
 

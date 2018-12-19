@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DepartmentModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -21,7 +22,11 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public int Variant { get; set; }
+        public Semesters Semester { get; set; }
+
+        [Required]
+        [DataMember]
+        public string Variant { get; set; }
 
         [DataMember]
         public int SubGroup { get; set; }
