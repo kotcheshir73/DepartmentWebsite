@@ -45,5 +45,12 @@ namespace DepartmentTablet
         {
 
         }
+
+        private void StudentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Student.ControlStudentConfig>();
+            ApplyControl(control);
+            control.LoadData();
+        }
     }
 }

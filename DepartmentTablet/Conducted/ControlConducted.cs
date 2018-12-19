@@ -36,7 +36,7 @@ namespace DepartmentTablet.Conducted
 
         public void LoadData()
         {
-            ControlAcademicYear control = Container.Resolve<ControlAcademicYear>();
+            CustomControl control = Container.Resolve<ControlAcademicYear>();
             control.SelectValue += ControlAY_SelectValue;
             control.Title = "Учебные года";
             control.LoadData();

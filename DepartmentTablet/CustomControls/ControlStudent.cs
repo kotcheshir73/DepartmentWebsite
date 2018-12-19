@@ -1,5 +1,4 @@
-﻿using DepartmentModel.Enums;
-using DepartmentService.BindingModels;
+﻿using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
 using System.Collections;
@@ -10,53 +9,27 @@ using Unity.Attributes;
 
 namespace DepartmentTablet.CustomControls
 {
-    public partial class ControlStudentGroup : CustomControl
+    public partial class ControlStudent : CustomControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IStudentGroupService _service;
+        private readonly IStudentService _service;
 
-        public ControlStudentGroup(IStudentGroupService service)
+        public ControlStudent(IStudentService service)
         {
             InitializeComponent();
             Font = Program.Font;
             _service = service;
-            _elemensInRow = 1;
+            _elemensInRow = 5;
         }
 
         public override void LoadData(ArrayList list = null)
         {
-            var model = new StudentGroupGetBindingModel
+            var result = _service.GetStudents(new StudentGetBindingModel
             {
-                EducationDirectionId = new Guid(list[0].ToString())
-            };
-            if (list.Count > 1)
-            {
-                Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), list[1].ToString());
-                AcademicCourse course = AcademicCourse.Course_1;
-                switch (sem)
-                {
-                    case Semesters.Первый:
-                    case Semesters.Второй:
-                        course = AcademicCourse.Course_1;
-                        break;
-                    case Semesters.Третий:
-                    case Semesters.Четвертый:
-                        course = AcademicCourse.Course_2;
-                        break;
-                    case Semesters.Пятый:
-                    case Semesters.Шестой:
-                        course = AcademicCourse.Course_3;
-                        break;
-                    case Semesters.Седьмой:
-                    case Semesters.Восьмой:
-                        course = AcademicCourse.Course_4;
-                        break;
-                }
-                model.Course = course.ToString();
-            }
-            var result = _service.GetStudentGroups(model);
+                StudentGroupId = new Guid(list[0].ToString())
+            });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -74,7 +47,7 @@ namespace DepartmentTablet.CustomControls
                     Size = new Size(300, 150),
                     TabIndex = i + j,
                     Tag = res.Id,
-                    Text = res.GroupName,
+                    Text = res.FullName,
                     UseVisualStyleBackColor = true,
                     Cursor = Cursors.Hand
                 };

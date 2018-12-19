@@ -32,6 +32,7 @@
             this.LearningProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConductedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AcceptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StudentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -39,7 +40,8 @@
             // 
             this.menuStripMain.GripMargin = new System.Windows.Forms.Padding(2);
             this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LearningProcessToolStripMenuItem});
+            this.LearningProcessToolStripMenuItem,
+            this.StudentsToolStripMenuItem});
             this.menuStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.menuStripMain.Location = new System.Drawing.Point(0, 0);
             this.menuStripMain.Name = "menuStripMain";
@@ -72,6 +74,13 @@
             this.AcceptToolStripMenuItem.Text = "Успеваемость";
             this.AcceptToolStripMenuItem.Click += new System.EventHandler(this.AcceptToolStripMenuItem_Click);
             // 
+            // StudentsToolStripMenuItem
+            // 
+            this.StudentsToolStripMenuItem.Name = "StudentsToolStripMenuItem";
+            this.StudentsToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.StudentsToolStripMenuItem.Text = "Студенты";
+            this.StudentsToolStripMenuItem.Click += new System.EventHandler(this.StudentsToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -97,5 +106,6 @@
         private System.Windows.Forms.ToolStripMenuItem LearningProcessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ConductedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AcceptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StudentsToolStripMenuItem;
     }
 }
