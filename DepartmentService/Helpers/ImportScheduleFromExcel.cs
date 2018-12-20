@@ -19,6 +19,8 @@ namespace DepartmentService.Helpers
 
         private static List<OffsetRecordRecordBindingModel> _findOffsetRecords;
 
+        private static List<ExaminationRecordRecordBindingModel> _findExamRecords;
+
         public static ResultService ImportOffsets(DepartmentDbContext context, ImportToOffsetFromExcel model)
         {
             try
@@ -266,12 +268,10 @@ namespace DepartmentService.Helpers
                                               r.LessonLecturer == record.LessonLecturer && r.LessonClassroom != record.LessonClassroom);
                 if (exsistRecord != null)
                 {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
-                    {
-                        return ResultService.Error("Конфликт (преподаватель " + record.LessonLecturer + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
-                            record.Week + 1, record.Day + 1, record.Lesson + 1,
-                            exsistRecord.LessonDiscipline, exsistRecord.LessonGroup, exsistRecord.LessonClassroom,
-                            record.LessonDiscipline, record.LessonGroup, record.LessonClassroom), ResultServiceStatusCode.Error);
-                    }
+                    return ResultService.Error("Конфликт (преподаватель " + record.LessonLecturer + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
+                        record.Week + 1, record.Day + 1, record.Lesson + 1,
+                        exsistRecord.LessonDiscipline, exsistRecord.LessonGroup, exsistRecord.LessonClassroom,
+                        record.LessonDiscipline, record.LessonGroup, record.LessonClassroom), ResultServiceStatusCode.Error);
                 }
 
                 _findOffsetRecords.Add(record);
@@ -506,191 +506,174 @@ namespace DepartmentService.Helpers
             {
                 _context = context;
                 _seasonDate = ScheduleHelper.GetCurrentDates();
+                _findExamRecords = new List<ExaminationRecordRecordBindingModel>();
                 var dateBeginExamination = Convert.ToDateTime(_seasonDate.DateBeginExamination);
                 var lessons = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен") || slt.Title.Contains("консультация")).ToList();
 
                 var excel = new Application();
                 var resError = new ResultService();
 
-                using (var transaction = context.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+                    for (int w = 0; w < workbook.Worksheets.Count; ++w)
                     {
-                        var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                        var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(w + 1);//Получаем ссылку на лист
+                        var excelcell = excelworksheet.get_Range("A2", "A2");
 
-                        for (int w = 0; w < workbook.Worksheets.Count; ++w)
+                        // заведем прерываетль, чтобы прекратить обход, если лист пустой
+                        int counter = 0;
+                        // идем вниз по первой колонки, пока не встретим текст
+                        while (excelcell.Value2 == null || excelcell.Value2.ToString().ToLower() != "дни недели")
                         {
-                            var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(w + 1);//Получаем ссылку на лист
-                            var excelcell = excelworksheet.get_Range("A2", "A2");
-
-                            // заведем прерываетль, чтобы прекратить обход, если лист пустой
-                            int counter = 0;
-                            // идем вниз по первой колонки, пока не встретим текст
-                            while (excelcell.Value2 == null || excelcell.Value2.ToString().ToLower() != "дни недели")
+                            excelcell = excelcell.get_Offset(1, 0);
+                            counter++;
+                            if (counter > 10)
+                                break;
+                        }
+                        counter = 0;
+                        while (excelcell.Value2 != null && excelcell.Value2.ToString().ToLower() == "дни недели")
+                        {
+                            counter++;
+                            if (counter > 10)
+                                break;
+                            // идем по первой строке с группами
+                            // берем имя группы
+                            var excelGroupNameCell = excelcell.get_Offset(0, 1);
+                            while (excelGroupNameCell.Value2 != null)
                             {
-                                excelcell = excelcell.get_Offset(1, 0);
-                                counter++;
-                                if (counter > 10)
-                                    break;
-                            }
-                            counter = 0;
-                            while (excelcell.Value2 != null && excelcell.Value2.ToString().ToLower() == "дни недели")
-                            {
-                                counter++;
-                                if (counter > 10)
-                                    break;
-                                // идем по первой строке с группами
-                                // берем имя группы
-                                var excelGroupNameCell = excelcell.get_Offset(0, 1);
-                                while (excelGroupNameCell.Value2 != null)
+                                DateTime? dayConsult = null;
+                                string LessonConsultationClassroom = string.Empty;
+                                Guid? ConsultationClassroomId = null;
+                                // 3 недели экзаменов = 21 день, по 3 ячейки на день
+                                for (int i = 0; i < 21; ++i)
                                 {
-                                    DateTime? dayConsult = null;
-                                    string LessonConsultationClassroom = string.Empty;
-                                    Guid? ConsultationClassroomId = null;
-                                    // 3 недели экзаменов = 21 день, по 3 ячейки на день
-                                    for (int i = 0; i < 21; ++i)
+                                    // в первой строке - название экзамена
+                                    var excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 1, 0);
+                                    if (excelDiscNameCell.Value2 != null)
                                     {
-                                        // в первой строке - название экзамена
-                                        var excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 1, 0);
-                                        if (excelDiscNameCell.Value2 != null)
+                                        if (!Regex.IsMatch(excelDiscNameCell.Value2.ToString(), @"\w+"))
                                         {
-                                            if (!Regex.IsMatch(excelDiscNameCell.Value2.ToString(), @"\w+"))
-                                            {
-                                                continue;
-                                            }
-                                            var excelLecturerName = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
-                                            var excelTimeAndClassroomsName = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
-                                            if (!dayConsult.HasValue)
-                                            {
-                                                resError.AddError("Не найдена дата консультации", string.Format("{0} {1} {2}", dateBeginExamination.AddDays(i).ToShortDateString(),
-                                                    excelLecturerName.Value2, excelDiscNameCell.Value2));
-                                            }
-                                            var currentRecord = new ExaminationRecordRecordBindingModel
-                                            {
-                                                DateConsultation = dayConsult.Value,
-                                                DateExamination = dateBeginExamination.AddDays(i),
-                                                LessonDiscipline = excelDiscNameCell.Value2,
-                                                LessonGroup = excelGroupNameCell.Value2,
-                                                LessonLecturer = excelLecturerName.Value2
-                                            };
+                                            continue;
+                                        }
+                                        var excelLecturerName = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
+                                        var excelTimeAndClassroomsName = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
+                                        if (!dayConsult.HasValue)
+                                        {
+                                            resError.AddError("Не найдена дата консультации", string.Format("{0} {1} {2}", dateBeginExamination.AddDays(i).ToShortDateString(),
+                                                excelLecturerName.Value2, excelDiscNameCell.Value2));
+                                        }
+                                        var currentRecord = new ExaminationRecordRecordBindingModel
+                                        {
+                                            DateConsultation = dayConsult.Value,
+                                            DateExamination = dateBeginExamination.AddDays(i),
+                                            LessonDiscipline = excelDiscNameCell.Value2,
+                                            LessonGroup = excelGroupNameCell.Value2,
+                                            LessonLecturer = excelLecturerName.Value2
+                                        };
 
-                                            if (!string.IsNullOrEmpty(LessonConsultationClassroom))
-                                            {
-                                                currentRecord.LessonConsultationClassroom = LessonConsultationClassroom;
-                                            }
-                                            if (ConsultationClassroomId.HasValue)
-                                            {
-                                                currentRecord.ConsultationClassroomId = ConsultationClassroomId;
-                                            }
+                                        if (!string.IsNullOrEmpty(LessonConsultationClassroom))
+                                        {
+                                            currentRecord.LessonConsultationClassroom = LessonConsultationClassroom;
+                                        }
+                                        if (ConsultationClassroomId.HasValue)
+                                        {
+                                            currentRecord.ConsultationClassroomId = ConsultationClassroomId;
+                                        }
 
-                                            // определяем группу
-                                            var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
-                                            if (group != null)
-                                            {
-                                                currentRecord.StudentGroupId = group.Id;
-                                            }
+                                        // определяем группу
+                                        var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
+                                        if (group != null)
+                                        {
+                                            currentRecord.StudentGroupId = group.Id;
+                                        }
 
-                                            // определяем дисциплину
-                                            var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
-                                            var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
-                                            if (discipline != null)
-                                            {
-                                                currentRecord.DisciplineId = discipline.Id;
-                                            }
+                                        // определяем дисциплину
+                                        var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
+                                        var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
+                                        if (discipline != null)
+                                        {
+                                            currentRecord.DisciplineId = discipline.Id;
+                                        }
 
-                                            // определяем преподавателя
-                                            var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                            string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
-                                            string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
-                                            string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
-                                            var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
-                                                                    ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-                                                                    ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
-                                            if (lecturer != null)
-                                            {
-                                                currentRecord.LecturerId = lecturer.Id;
-                                            }
+                                        // определяем преподавателя
+                                        var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                        string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
+                                        string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
+                                        string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
+                                        var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
+                                                                ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
+                                                                ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+                                        if (lecturer != null)
+                                        {
+                                            currentRecord.LecturerId = lecturer.Id;
+                                        }
 
-                                            // определяем время и аудиторию
-                                            string timeAndClassroom = excelTimeAndClassroomsName.Value2.ToLower();
-                                            var timeMatch = Regex.Match(timeAndClassroom, @"\d{1,2}[(\:)*(\.)*(\-)*]+\d{2}"); if (timeMatch.Success)
+                                        // определяем время и аудиторию
+                                        string timeAndClassroom = excelTimeAndClassroomsName.Value2.ToLower();
+                                        var timeMatch = Regex.Match(timeAndClassroom, @"\d{1,2}[(\:)*(\.)*(\-)*]+\d{2}"); if (timeMatch.Success)
+                                        {
+                                            timeAndClassroom = timeAndClassroom.Replace(timeMatch.Value, "");
+                                            currentRecord.DateExamination = currentRecord.DateExamination.AddHours(Convert.ToInt32(Regex.Match(timeMatch.Value, @"^\d{1,2}").Value))
+                                                                                .AddMinutes(Convert.ToInt32(Regex.Match(timeMatch.Value, @"\d{2}$").Value));
+                                            if (currentRecord.DateExamination.ToShortTimeString() !=
+                                                lessons.FirstOrDefault(l => l.Title.Contains("Дневной")).DateBeginLesson.ToShortTimeString())
                                             {
-                                                timeAndClassroom = timeAndClassroom.Replace(timeMatch.Value, "");
-                                                currentRecord.DateExamination = currentRecord.DateExamination.AddHours(Convert.ToInt32(Regex.Match(timeMatch.Value, @"^\d{1,2}").Value))
-                                                                                    .AddMinutes(Convert.ToInt32(Regex.Match(timeMatch.Value, @"\d{2}$").Value));
-                                                if (currentRecord.DateExamination.ToShortTimeString() !=
-                                                    lessons.FirstOrDefault(l => l.Title.Contains("Дневной")).DateBeginLesson.ToShortTimeString())
-                                                {
-                                                    resError.AddError("Неверное время дневного экзамена", string.Format("{0} {1} {2} {3}", currentRecord.DateExamination.ToShortDateString(),
-                                                        currentRecord.DateExamination.ToShortTimeString(), excelLecturerName.Value2, excelDiscNameCell.Value2));
-                                                }
+                                                resError.AddError("Неверное время дневного экзамена", string.Format("{0} {1} {2} {3}", currentRecord.DateExamination.ToShortDateString(),
+                                                    currentRecord.DateExamination.ToShortTimeString(), excelLecturerName.Value2, excelDiscNameCell.Value2));
                                             }
-                                            else
-                                            {
-                                                var time = lessons.FirstOrDefault(l => l.Title.Contains("Утренний")).DateBeginLesson;
-                                                currentRecord.DateExamination = currentRecord.DateExamination.AddHours(time.Hour).AddMinutes(time.Minute);
-                                            }
-                                            var classroomMatch = Regex.Match(timeAndClassroom, @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
-                                            if (classroomMatch.Success)
-                                            {
-                                                currentRecord.LessonClassroom = classroomMatch.Value;
-                                                var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
-                                                if (classroom != null)
-                                                {
-                                                    currentRecord.ClassroomId = classroom.Id;
-                                                }
-                                            }
-                                            var result = CheckNewExaminationRecordForConflictAndSave(currentRecord);
-                                            if (!result.Succeeded)
-                                            {
-                                                foreach (var err in result.Errors)
-                                                {
-                                                    resError.AddError(err.Key, err.Value);
-                                                }
-                                            }
-
-                                            LessonConsultationClassroom = string.Empty;
-                                            ConsultationClassroomId = null;
-                                            dayConsult = null;
                                         }
                                         else
                                         {
-                                            excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
-                                            if (excelDiscNameCell.Value2 != null && excelDiscNameCell.Value2 == "К")
+                                            var time = lessons.FirstOrDefault(l => l.Title.Contains("Утренний")).DateBeginLesson;
+                                            currentRecord.DateExamination = currentRecord.DateExamination.AddHours(time.Hour).AddMinutes(time.Minute);
+                                        }
+                                        var classroomMatch = Regex.Match(timeAndClassroom, @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
+                                        if (classroomMatch.Success)
+                                        {
+                                            currentRecord.LessonClassroom = classroomMatch.Value;
+                                            var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
+                                            if (classroom != null)
                                             {
-                                                dayConsult = dateBeginExamination.AddDays(i);
-                                                var excelTimeAndClassroom = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
-                                                if (excelTimeAndClassroom.Value2 != null)
+                                                currentRecord.ClassroomId = classroom.Id;
+                                            }
+                                        }
+                                        var res = CheckNewExaminationRecordForConflictAndSave(currentRecord);
+                                        if (!res.Succeeded)
+                                        {
+                                            foreach (var err in res.Errors)
+                                            {
+                                                resError.AddError(err.Key, err.Value);
+                                            }
+                                        }
+
+                                        LessonConsultationClassroom = string.Empty;
+                                        ConsultationClassroomId = null;
+                                        dayConsult = null;
+                                    }
+                                    else
+                                    {
+                                        excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
+                                        if (excelDiscNameCell.Value2 != null && excelDiscNameCell.Value2 == "К")
+                                        {
+                                            dayConsult = dateBeginExamination.AddDays(i);
+                                            var excelTimeAndClassroom = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
+                                            if (excelTimeAndClassroom.Value2 != null)
+                                            {
+                                                string timeAndClassroom = excelTimeAndClassroom.Value2;
+                                                var timeMatch = Regex.Match(timeAndClassroom, @"\d{1,2}[(\:)*(\.)*(\-)*]+\d{2}");
+                                                if (timeMatch.Success)
                                                 {
-                                                    string timeAndClassroom = excelTimeAndClassroom.Value2;
-                                                    var timeMatch = Regex.Match(timeAndClassroom, @"\d{1,2}[(\:)*(\.)*(\-)*]+\d{2}");
-                                                    if (timeMatch.Success)
+                                                    timeAndClassroom = timeAndClassroom.Replace(timeMatch.Value, "");
+                                                    dayConsult = dayConsult.Value.AddHours(Convert.ToInt32(Regex.Match(timeMatch.Value, @"^\d{1,2}").Value))
+                                                                                        .AddMinutes(Convert.ToInt32(Regex.Match(timeMatch.Value, @"\d{2}$").Value));
+                                                    if (dayConsult.Value.ToShortTimeString() !=
+                                                        lessons.FirstOrDefault(l => l.Title.Contains("Вторая")).DateBeginLesson.ToShortTimeString())
                                                     {
-                                                        timeAndClassroom = timeAndClassroom.Replace(timeMatch.Value, "");
-                                                        dayConsult = dayConsult.Value.AddHours(Convert.ToInt32(Regex.Match(timeMatch.Value, @"^\d{1,2}").Value))
-                                                                                            .AddMinutes(Convert.ToInt32(Regex.Match(timeMatch.Value, @"\d{2}$").Value));
-                                                        if (dayConsult.Value.ToShortTimeString() !=
-                                                            lessons.FirstOrDefault(l => l.Title.Contains("Вторая")).DateBeginLesson.ToShortTimeString())
-                                                        {
-                                                            resError.AddError("Неверное время консультации", string.Format("{0} {1} {2}", dateBeginExamination.AddDays(i).ToShortDateString(),
-                                                                dayConsult.Value.ToShortTimeString(), excelDiscNameCell.Value2));
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        var time = lessons.FirstOrDefault(l => l.Title.Contains("Первая")).DateBeginLesson;
-                                                        dayConsult = dayConsult.Value.AddHours(time.Hour).AddMinutes(time.Minute);
-                                                    }
-                                                    var classroomMatch = Regex.Match(timeAndClassroom, @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
-                                                    if (classroomMatch.Success)
-                                                    {
-                                                        LessonConsultationClassroom = classroomMatch.Value;
-                                                        var classroom = _context.Classrooms.FirstOrDefault(c => LessonConsultationClassroom.Contains(c.Number) && !c.IsDeleted);
-                                                        if (classroom != null)
-                                                        {
-                                                            ConsultationClassroomId = classroom.Id;
-                                                        }
+                                                        resError.AddError("Неверное время консультации", string.Format("{0} {1} {2}", dateBeginExamination.AddDays(i).ToShortDateString(),
+                                                            dayConsult.Value.ToShortTimeString(), excelDiscNameCell.Value2));
                                                     }
                                                 }
                                                 else
@@ -698,24 +681,49 @@ namespace DepartmentService.Helpers
                                                     var time = lessons.FirstOrDefault(l => l.Title.Contains("Первая")).DateBeginLesson;
                                                     dayConsult = dayConsult.Value.AddHours(time.Hour).AddMinutes(time.Minute);
                                                 }
+                                                var classroomMatch = Regex.Match(timeAndClassroom, @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
+                                                if (classroomMatch.Success)
+                                                {
+                                                    LessonConsultationClassroom = classroomMatch.Value;
+                                                    var classroom = _context.Classrooms.FirstOrDefault(c => LessonConsultationClassroom.Contains(c.Number) && !c.IsDeleted);
+                                                    if (classroom != null)
+                                                    {
+                                                        ConsultationClassroomId = classroom.Id;
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var time = lessons.FirstOrDefault(l => l.Title.Contains("Первая")).DateBeginLesson;
+                                                dayConsult = dayConsult.Value.AddHours(time.Hour).AddMinutes(time.Minute);
                                             }
                                         }
                                     }
-                                    // переходим к следующей группе
-                                    excelGroupNameCell = excelGroupNameCell.get_Offset(0, 1);
                                 }
-                                excelcell = excelcell.get_Offset(64, 0);
+                                // переходим к следующей группе
+                                excelGroupNameCell = excelGroupNameCell.get_Offset(0, 1);
                             }
+                            excelcell = excelcell.get_Offset(64, 0);
                         }
-                        transaction.Commit();
-                        return resError;
                     }
-                    catch (Exception)
+
+                    var result = SaveExamRecords();
+                    if (!result.Succeeded)
                     {
-                        transaction.Rollback();
-                        excel.Quit();
-                        throw;
+                        foreach (var err in result.Errors)
+                        {
+                            resError.AddError(err.Key, err.Value);
+                        }
                     }
+                    return resError;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    excel.Quit();
                 }
             }
             catch (Exception ex)
@@ -739,38 +747,50 @@ namespace DepartmentService.Helpers
                     return ResultService.Success();
                 }
 
+
                 //ищем консультацию/экзамен другой группы в этой аудитории
-                var exsistRecord = _context.ExaminationRecords.FirstOrDefault(r =>
+                var exsistRecord = _findExamRecords.FirstOrDefault(r =>
                                         ((r.DateConsultation == record.DateConsultation &&
                                         ((r.ConsultationClassroomId == record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
                                         (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
                                         (r.DateExamination == record.DateExamination && r.LessonClassroom == record.LessonClassroom))
                                         && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup != record.LessonGroup);
                 if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой в этой аудитории уже есть консультация/экзамен
+                {//если на этой неделе в этот день этой парой в этой аудитории уже есть зачет
                     return ResultService.Error("Конфликт (аудитории):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
                         record.DateConsultation, record.DateExamination,
                         exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
                 }
 
                 //ищем консультацию/экзамен этой группы в другой аудитории
-                exsistRecord = _context.ExaminationRecords.FirstOrDefault(r =>
+                exsistRecord = _findExamRecords.FirstOrDefault(r =>
                                         ((r.DateConsultation == record.DateConsultation &&
                                         ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
-                                        (r.LessonClassroom != record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
+                                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
                                         (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
                                         && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup == record.LessonGroup);
                 if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой у этой группы уже есть консультация/экзамен
-                    return ResultService.Error("Конфликт (аудитории):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
+                    return ResultService.Error("Конфликт (группы):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
                         record.DateConsultation, record.DateExamination,
                         exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
                 }
 
-                var entity = ModelFacotryFromBindingModel.CreateExaminationRecord(record, seasonDate: _seasonDate);
+                //ищем консультацию/экзамен этого преподавателя в другой аудитории
+                exsistRecord = _findExamRecords.FirstOrDefault(r =>
+                                        ((r.DateConsultation == record.DateConsultation &&
+                                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
+                                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
+                                        (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
+                                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonLecturer == record.LessonLecturer);
+                if (exsistRecord != null)
+                {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
+                    return ResultService.Error("Конфликт (преподаватель):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                        record.DateConsultation, record.DateExamination,
+                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                }
 
-                _context.ExaminationRecords.Add(entity);
-                _context.SaveChanges();
+                _findExamRecords.Add(record);
 
                 return ResultService.Success();
             }
@@ -778,6 +798,181 @@ namespace DepartmentService.Helpers
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Проверка существующего расписания на предмет совпадений, затираем пропавшие, перезаписываем изменившиеся
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private static ResultService SaveExamRecords()
+        {
+            // получаем сущестующие записи
+            var exsistRecords = _context.ExaminationRecords.Where(sr => sr.SeasonDatesId == _seasonDate.Id).ToList();
+
+            #region для начала проходим по аудиториям
+            var classrooms = _context.Classrooms.Where(c => !c.IsDeleted && !c.NotUseInSchedule).ToList();
+            foreach (var classroom in classrooms)
+            {
+                var selectedRecords = exsistRecords.Where(sr => sr.ClassroomId == classroom.Id).ToList();
+                foreach (var record in selectedRecords)
+                {
+                    // ищем пары (которые еще не опознаны) в этот день в этой аудитории
+                    var searchRecords = _findExamRecords.Where(rec =>
+                                        (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                                        rec.Id == Guid.Empty && (rec.ClassroomId == record.ClassroomId || rec.LessonClassroom == record.LessonClassroom))
+                                                    .ToList();
+                    // если пара одна
+                    if (searchRecords.Count == 1)
+                    {
+                        searchRecords[0].Id = record.Id;
+                        record.Checked = true;
+                    }
+                    // если пар несколько (проверяем, что потоковые)
+                    else if (searchRecords.Count > 1)
+                    {
+                        return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                            record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                    }
+                }
+            }
+            #endregion
+
+            #region проход по группам
+            var groups = _context.StudentGroups.Where(sg => !sg.IsDeleted).ToList();
+            foreach (var group in groups)
+            {
+                //отбираем еще не проверенные записи
+                var selectedRecords = exsistRecords.Where(sr => sr.StudentGroupId == group.Id && !sr.Checked).ToList();
+                foreach (var record in selectedRecords)
+                {
+                    // ищем пары (которые еще не опознаны) в этот день в этой группе
+                    var searchRecords = _findExamRecords.Where(rec =>
+                                        (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                                        rec.Id == Guid.Empty && (rec.StudentGroupId == record.StudentGroupId || rec.LessonGroup == record.LessonGroup))
+                                                    .ToList();
+                    // если пара одна
+                    if (searchRecords.Count == 1)
+                    {
+                        searchRecords[0].Id = record.Id;
+                        record.Checked = true;
+                    }
+                    // если пар несколько (проверяем, что лабораторные)
+                    else if (searchRecords.Count > 1)
+                    {
+                        return ResultService.Error("Конфликт (группа):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                            record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                    }
+                }
+            }
+            #endregion
+
+            #region проход по преподавателям
+            var lecturers = _context.Lecturers.Where(l => !l.IsDeleted).ToList();
+            foreach (var lecturer in lecturers)
+            {
+                //отбираем еще не проверенные записи
+                var selectedRecords = exsistRecords.Where(sr => sr.LecturerId == lecturer.Id && !sr.Checked).ToList();
+                foreach (var record in selectedRecords)
+                {
+                    // ищем пары (которые еще не опознаны) в этот день этого преподавателя
+                    var searchRecords = _findExamRecords.Where(rec =>
+                                        (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                                        rec.Id == Guid.Empty && (rec.LecturerId == record.LecturerId || rec.LessonLecturer == record.LessonLecturer))
+                                                    .ToList();
+                    // если пара одна
+                    if (searchRecords.Count == 1)
+                    {
+                        searchRecords[0].Id = record.Id;
+                        record.Checked = true;
+                    }
+                    // если пар несколько (проверяем, что потоковые)
+                    else if (searchRecords.Count > 1)
+                    {
+                        return ResultService.Error("Конфликт (преподаватель):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                            record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                    }
+                }
+            }
+            #endregion
+
+            #region проход по дисциплинам
+            var disciplines = _context.Disciplines.Where(d => !d.IsDeleted).ToList();
+            foreach (var discipline in disciplines)
+            {
+                //отбираем еще не проверенные записи
+                var selectedRecords = exsistRecords.Where(sr => sr.DisciplineId == discipline.Id && !sr.Checked).ToList();
+                foreach (var record in selectedRecords)
+                {
+                    // ищем пары (которые еще не опознаны) в этот день в этой группе
+                    var searchRecords = _findExamRecords.Where(rec =>
+                                        (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                                        rec.Id == Guid.Empty && (rec.DisciplineId == record.DisciplineId || rec.LessonDiscipline == record.LessonDiscipline))
+                                                    .ToList();
+                    // если пара одна
+                    if (searchRecords.Count == 1)
+                    {
+                        searchRecords[0].Id = record.Id;
+                        record.Checked = true;
+                    }
+                    // если пар несколько (проверяем, что потоковые)
+                    else if (searchRecords.Count > 1)
+                    {
+                        return ResultService.Error("Конфликт (дисциплина):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                            record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                    }
+                }
+            }
+            #endregion
+
+            var deletedRecords = exsistRecords.Where(sr => !sr.Checked).ToList();
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // удаляем неопознанные
+                    _context.ExaminationRecords.RemoveRange(deletedRecords);
+                    _context.SaveChanges();
+
+                    // получаем опознанные
+                    var knowRecords = _findExamRecords.Where(sr => sr.Id != Guid.Empty).ToList();
+                    foreach (var record in knowRecords)
+                    {
+                        var entity = _context.ExaminationRecords.FirstOrDefault(e => e.Id == record.Id);
+                        if (entity == null)
+                        {
+                            return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+                        }
+
+                        entity = ModelFacotryFromBindingModel.CreateExaminationRecord(record, entity);
+                        _context.SaveChanges();
+                    }
+
+                    // получаем новые
+                    var unknowRecords = _findExamRecords.Where(sr => sr.Id == Guid.Empty).ToList();
+                    foreach (var record in unknowRecords)
+                    {
+                        var entity = ModelFacotryFromBindingModel.CreateExaminationRecord(record, seasonDate: _seasonDate);
+
+                        _context.ExaminationRecords.Add(entity);
+                        _context.SaveChanges();
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return ResultService.Error("Конфликт при сохранении:", ex.Message, ResultServiceStatusCode.Error);
+                }
+            }
+
+            return ResultService.Success();
         }
     }
 }

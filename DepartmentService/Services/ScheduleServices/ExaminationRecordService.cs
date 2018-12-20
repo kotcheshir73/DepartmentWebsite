@@ -80,7 +80,8 @@ namespace DepartmentService.Services
 
                 selectedRecords = selectedRecords
 										.Include(sr => sr.Classroom)
-										.Include(sr => sr.Discipline)
+                                        .Include(sr => sr.ConsultationClassroom)
+                                        .Include(sr => sr.Discipline)
 										.Include(sr => sr.Lecturer)
 										.Include(sr => sr.StudentGroup);
 
