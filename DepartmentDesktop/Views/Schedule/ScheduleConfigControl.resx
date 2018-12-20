@@ -117,4 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="labelOffsetExport.Text" xml:space="preserve">
+    <value>Зачеты. Файл загрузки должен иметь вид:
+В первой колонке должна быть ячейка "Дни недели", с нее начинается обработка
+Каждый зачет должен быть в 3 последовательных строках:
+- Дисциплина
+- Преподаватель
+- Пара и аудитория</value>
+  </data>
 </root>
