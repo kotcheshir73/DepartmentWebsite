@@ -184,6 +184,10 @@
     <Compile Include="Migrations\201809221846289_UpdateDLTSAddTaskField.Designer.cs">
       <DependentUpon>201809221846289_UpdateDLTSAddTaskField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812200631116_AddFieldIsStreamingInOffset.cs" />
+    <Compile Include="Migrations\201812200631116_AddFieldIsStreamingInOffset.Designer.cs">
+      <DependentUpon>201812200631116_AddFieldIsStreamingInOffset.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\Administration\RoleBindingModels.cs" />
@@ -365,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809221846289_UpdateDLTSAddTaskField.resx">
       <DependentUpon>201809221846289_UpdateDLTSAddTaskField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812200631116_AddFieldIsStreamingInOffset.resx">
+      <DependentUpon>201812200631116_AddFieldIsStreamingInOffset.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
