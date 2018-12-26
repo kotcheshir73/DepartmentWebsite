@@ -1,5 +1,6 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
+using DepartmentService.Context;
 using System;
 
 namespace DepartmentService.BindingModels
@@ -442,22 +443,22 @@ namespace DepartmentService.BindingModels
 		#endregion
 
 		#region Administration
-		public static Role CreateRole(RoleSetBindingModel model, Role entity = null)
+		public static DepartmentRole CreateRole(RoleSetBindingModel model, DepartmentRole entity = null)
 		{
 			if (entity == null)
 			{
-				entity = new Role();
+				entity = new DepartmentRole();
 			}
-			entity.RoleName = model.RoleName;
+			entity.Name = model.RoleName;
 
 			return entity;
 		}
 
-		public static Access CreateAccess(AccessSetBindingModel model, Access entity = null)
+		public static DepartmentAccess CreateAccess(AccessSetBindingModel model, DepartmentAccess entity = null)
 		{
 			if (entity == null)
 			{
-				entity = new Access();
+				entity = new DepartmentAccess();
 			}
 			entity.RoleId = model.RoleId;
 			entity.Operation = (AccessOperation)Enum.Parse(typeof(AccessOperation), model.Operation);
@@ -466,22 +467,22 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static User CreateUser(UserSetBindingModel model, User entity = null)
+		public static DepartmentUser CreateUser(UserSetBindingModel model, DepartmentUser entity = null)
 		{
 			if (entity == null)
 			{
-				entity = new User
-				{
-					Password = AccessCheckService.GetPasswordHash(model.Password)
+				entity = new DepartmentUser
+                {
+					PasswordHash = AccessCheckService.GetPasswordHash(model.Password)
 				};
 			}
-			entity.Login = model.Login;
+			entity.UserName = model.Login;
 			entity.Avatar = model.Avatar;
 			entity.LecturerId = model.LecturerId;
 			entity.StudentId = model.StudentId;
-            if (entity.IsBanned != model.IsBanned)
+            if (entity.LockoutEnabled != model.IsBanned)
 			{
-				entity.IsBanned = model.IsBanned;
+				entity.LockoutEnabled = model.IsBanned;
 				if (model.IsBanned)
 				{
 					entity.DateBanned = DateTime.Now;
