@@ -1,6 +1,7 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using DepartmentService.Helpers;
 using System;
 using System.Drawing;
@@ -539,36 +540,36 @@ namespace DepartmentService.ViewModels
         #endregion
 
         #region Administration
-        public static RoleViewModel CreateRoleViewModel(Role entity)
+        public static RoleViewModel CreateRoleViewModel(DepartmentRole entity)
         {
             return new RoleViewModel
             {
                 Id = entity.Id,
-                RoleName = entity.RoleName
+                RoleName = entity.Name
             };
         }
 
-        public static AccessViewModel CreateAccessViewModel(Access entity)
+        public static AccessViewModel CreateAccessViewModel(DepartmentAccess entity)
         {
             return new AccessViewModel
             {
                 Id = entity.Id,
-                RoleName = entity.Role.RoleName,
+                RoleName = entity.Role.Name,
                 Operation = entity.Operation.ToString(),
                 AccessType = entity.AccessType.ToString()
             };
         }
 
-        public static UserViewModel CreateUserViewModel(User entity)
+        public static UserViewModel CreateUserViewModel(DepartmentUser entity)
         {
             return new UserViewModel
             {
                 Id = entity.Id,
-                Login = entity.Login,
+                Login = entity.UserName,
                 StudentId = entity.StudentId,
                 LecturerId = entity.LecturerId,
                 Avatar = entity.Avatar != null && entity.Avatar.Length > 0 ? Image.FromStream(new MemoryStream(entity.Avatar)) : null,
-                IsBanned = entity.IsBanned,
+                IsBanned = entity.LockoutEnabled,
                 DateBanned = entity.DateBanned,
                 DateLastVisit = entity.DateLastVisit
             };

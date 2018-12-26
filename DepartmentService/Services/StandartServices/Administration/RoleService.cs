@@ -33,7 +33,7 @@ namespace DepartmentService.Services
 				int countPages = 0;
 				var query = _context.Roles.Where(r => !r.IsDeleted).AsQueryable();
 
-                query = query.OrderBy(r => r.RoleName);
+                query = query.OrderBy(r => r.Name);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

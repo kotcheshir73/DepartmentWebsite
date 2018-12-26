@@ -72,7 +72,6 @@
     <Compile Include="Models\BaseEnities\AcademicPlanRecordElement.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecordMission.cs" />
     <Compile Include="Models\BaseEnities\AcademicYear.cs" />
-    <Compile Include="Models\BaseEnities\Access.cs" />
     <Compile Include="Models\BaseEnities\Classroom.cs" />
     <Compile Include="Models\BaseEnities\Contingent.cs" />
     <Compile Include="Models\BaseEnities\Discipline.cs" />
@@ -91,7 +90,6 @@
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueGroup.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueRecord.cs" />
     <Compile Include="Models\BaseEnities\Message.cs" />
-    <Compile Include="Models\BaseEnities\Role.cs" />
     <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
     <Compile Include="Models\BaseEnities\Software.cs" />
@@ -103,8 +101,6 @@
     <Compile Include="Models\BaseEnities\StudentGroup.cs" />
     <Compile Include="Models\BaseEnities\StudentHistory.cs" />
     <Compile Include="Models\BaseEnities\TimeNorm.cs" />
-    <Compile Include="Models\BaseEnities\User.cs" />
-    <Compile Include="Models\BaseEnities\UserRole.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\HelperModels\BlueAsteriskBlockType.cs" />
