@@ -1,4 +1,4 @@
-﻿using DepartmentService.IServices;
+﻿using AuthenticationServiceInterfaces.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;

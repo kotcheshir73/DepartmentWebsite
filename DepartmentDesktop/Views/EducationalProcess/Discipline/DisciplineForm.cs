@@ -1,8 +1,10 @@
 ﻿using DepartmentDesktop.Models;
 using DepartmentModel;
 using DepartmentService.BindingModels;
-using DepartmentService.Helpers;
 using DepartmentService.IServices;
+using ScheduleServiceImplementations.Helpers;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,13 +24,16 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
 
         private readonly IEducationalProcessService _processE;
 
+        private readonly IScheduleProcess _processS;
+
         private Guid? _id = null;
 
-        public DisciplineForm(IDisciplineService service, IEducationalProcessService processE, Guid? id = null)
+        public DisciplineForm(IDisciplineService service, IEducationalProcessService processE, IScheduleProcess processS, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
             _processE = processE;
+            _processS = processS;
             if (id != Guid.Empty)
             {
                 _id = id;
@@ -294,7 +299,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.Discipline
         /// <returns></returns>
         private int LoadSchedule(int pageNumber, int pageSize)
         {
-            var result = _processE.GetScheduleRecordsForDiciplinePageViewModel(new ScheduleRecordsForDiciplineBindingModel
+            var result = _processS.GetScheduleRecordsForDiciplinePageViewModel(new ScheduleRecordsForDiciplineBindingModel
             {
                 SeasonDateId = new Guid(comboBoxSeasonDate.SelectedValue.ToString()),
                 DisciplineId = _id.Value,

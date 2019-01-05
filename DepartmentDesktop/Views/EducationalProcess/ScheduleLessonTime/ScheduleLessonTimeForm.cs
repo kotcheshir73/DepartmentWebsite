@@ -1,6 +1,6 @@
 ﻿using DepartmentModel;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Windows.Forms;
 

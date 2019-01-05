@@ -1,26 +1,27 @@
-﻿using System;
+﻿using DepartmentService.BindingModels;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using DepartmentService.IServices;
-using DepartmentService.BindingModels;
-using System.Text;
 using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 
 namespace DepartmentDesktop.Views.Schedule
 {
     public partial class ScheduleConfigControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
-        public ScheduleConfigControl(IScheduleService service)
+        public ScheduleConfigControl(IScheduleProcess process)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
         }
 
         public void LoadData()
         {
-            var resultC = _service.GetClassrooms(new ClassroomGetBindingModel { });
+            var resultC = _process.GetClassrooms(new ClassroomGetBindingModel { });
             if (!resultC.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);
@@ -31,7 +32,7 @@ namespace DepartmentDesktop.Views.Schedule
                 checkedListBoxClassrooms.Items.Add(elem.Number, true);
             }
 
-            var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+            var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
             if (!resultSG.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
@@ -42,7 +43,7 @@ namespace DepartmentDesktop.Views.Schedule
                 checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
             }
 
-            var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
+            var resultL = _process.GetLecturers(new LecturerGetBindingModel { });
             if (!resultL.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultSG.Errors);
@@ -53,7 +54,7 @@ namespace DepartmentDesktop.Views.Schedule
                 checkedListBoxLecturers.Items.Add(elem.FullName, true);
             }
 
-            var resultSD = _service.GetSeasonDaties(new SeasonDatesGetBindingModel { });
+            var resultSD = _process.GetSeasonDaties(new SeasonDatesGetBindingModel { });
             if (!resultSD.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
@@ -64,7 +65,7 @@ namespace DepartmentDesktop.Views.Schedule
             comboBoxSeasonDates.DataSource = resultSD.Result.List
                 .Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
 
-            var resultCD = _service.GetCurrentDates();
+            var resultCD = _process.GetCurrentDates();
             if (!resultCD.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
@@ -141,7 +142,7 @@ namespace DepartmentDesktop.Views.Schedule
         /// <param name="e"></param>
         private void buttonMakeLoadHTMLScheduleForClassrooms_Click(object sender, EventArgs e)
         {
-            var result = _service.ImportHtml(new ImportToSemesterFromHTMLBindingModel
+            var result = _process.ImportHtml(new ImportToSemesterFromHTMLBindingModel
             {
                 ScheduleUrl = textBoxLinkToHtml.Text,
                 IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -171,7 +172,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -192,7 +193,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in studentGroups)
                     {
-                        var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -213,7 +214,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in lecturers)
                     {
-                        var result = _service.ClearSemesterRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -237,7 +238,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -258,7 +259,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -279,7 +280,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in lecturers)
                     {
-                        var result = _service.ClearOffsetRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -303,7 +304,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -324,7 +325,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -345,7 +346,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in lecturers)
                     {
-                        var result = _service.ClearExaminationRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -370,7 +371,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -391,7 +392,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in classrooms)
                     {
-                        var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -412,7 +413,7 @@ namespace DepartmentDesktop.Views.Schedule
                 {
                     foreach (var elem in lecturers)
                     {
-                        var result = _service.ClearConsultationRecords(new ScheduleGetBindingModel
+                        var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
                             IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
@@ -438,7 +439,7 @@ namespace DepartmentDesktop.Views.Schedule
             {
                 if (MessageBox.Show("Сохранить изменения?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var result = _service.UpdateCurrentDates(new SeasonDatesGetBindingModel
+                    var result = _process.UpdateCurrentDates(new SeasonDatesGetBindingModel
                     {
                         Id = new Guid(comboBoxSeasonDates.SelectedValue.ToString()),
                         Title = comboBoxSeasonDates.Text
@@ -464,7 +465,7 @@ namespace DepartmentDesktop.Views.Schedule
 
         private void buttonCheckRecordsIfNotComplite_Click(object sender, EventArgs e)
         {
-            var result = _service.CheckSemesterRecordsIfNotComplite();
+            var result = _process.CheckSemesterRecordsIfNotComplite();
             if (result.Succeeded)
             {
                 MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -487,7 +488,7 @@ namespace DepartmentDesktop.Views.Schedule
             dialog.Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ImportExcel(new ImportToOffsetFromExcel { FileName = dialog.FileName });
+                var result = _process.ImportExcel(new ImportToOffsetFromExcel { FileName = dialog.FileName });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -511,7 +512,7 @@ namespace DepartmentDesktop.Views.Schedule
             dialog.Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ImportExcel(new ImportToExaminationFromExcel { FileName = dialog.FileName });
+                var result = _process.ImportExcel(new ImportToExaminationFromExcel { FileName = dialog.FileName });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -545,7 +546,7 @@ namespace DepartmentDesktop.Views.Schedule
             SaveFileDialog dialog = new SaveFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ExportSemesterRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
+                var result = _process.ExportSemesterRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -574,7 +575,7 @@ namespace DepartmentDesktop.Views.Schedule
             SaveFileDialog dialog = new SaveFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ExportOffsetRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
+                var result = _process.ExportOffsetRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -603,7 +604,7 @@ namespace DepartmentDesktop.Views.Schedule
             SaveFileDialog dialog = new SaveFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ExportExaminationRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
+                var result = _process.ExportExaminationRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -637,7 +638,7 @@ namespace DepartmentDesktop.Views.Schedule
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ExportSemesterRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
+                var result = _process.ExportSemesterRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -666,7 +667,7 @@ namespace DepartmentDesktop.Views.Schedule
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ExportOffsetRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
+                var result = _process.ExportOffsetRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -695,7 +696,7 @@ namespace DepartmentDesktop.Views.Schedule
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _service.ExportExaminationRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
+                var result = _process.ExportExaminationRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);

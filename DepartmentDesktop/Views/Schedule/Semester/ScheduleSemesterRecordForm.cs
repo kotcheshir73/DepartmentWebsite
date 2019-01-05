@@ -1,7 +1,8 @@
 ﻿using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Data;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
     {
         private readonly ISemesterRecordService _service;
 
-        private readonly IScheduleService _serviceS;
+        private readonly IScheduleProcess _process;
 
         private Guid? _id;
 
@@ -21,11 +22,11 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private bool _isFirstHalfSemester;
 
-        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleService serviceS, bool isFirstHalfSemester, Guid? id = null, int? lesson = null)
+        public ScheduleSemesterRecordForm(ISemesterRecordService service, IScheduleProcess process, bool isFirstHalfSemester, Guid? id = null, int? lesson = null)
         {
             InitializeComponent();
             _service = service;
-            _serviceS = serviceS;
+            _process = process;
             _id = id;
             _lesson = lesson;
             _isFirstHalfSemester = isFirstHalfSemester;
@@ -39,28 +40,28 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             }
             comboBoxLessonType.SelectedIndex = -1;
 
-            var resultC = _serviceS.GetClassrooms(new ClassroomGetBindingModel { });
+            var resultC = _process.GetClassrooms(new ClassroomGetBindingModel { });
             if (!resultC.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);
                 return;
             }
 
-            var resultD = _serviceS.GetDisciplines(new DisciplineGetBindingModel { });
+            var resultD = _process.GetDisciplines(new DisciplineGetBindingModel { });
             if (!resultD.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
                 return;
             }
 
-            var resultL = _serviceS.GetLecturers(new LecturerGetBindingModel { });
+            var resultL = _process.GetLecturers(new LecturerGetBindingModel { });
             if (!resultL.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
                 return;
             }
 
-            var resultSG = _serviceS.GetStudentGroups(new StudentGroupGetBindingModel { });
+            var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
             if (!resultSG.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);

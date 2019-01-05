@@ -43,13 +43,6 @@ namespace DepartmentService.IServices
         ResultService<AcademicPlanRecordForDiciplinePageViewModel> GetAcademicPlanRecordsForDiscipline(AcademicPlanRecrodsForDiciplineBindingModel model);
 
         /// <summary>
-        /// Получение записей расписания семестра, зачетов и экзаменов по дисциплине
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<ScheduleRecordsForDisciplinePageViewModel> GetScheduleRecordsForDiciplinePageViewModel(ScheduleRecordsForDiciplineBindingModel model);
-
-        /// <summary>
         /// Дублирование записей из одного учебного года в другой
         /// </summary>
         /// <param name="model"></param>

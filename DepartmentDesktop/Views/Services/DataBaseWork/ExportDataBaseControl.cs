@@ -1,4 +1,4 @@
-﻿using DepartmentService.IServices;
+﻿using AuthenticationServiceInterfaces.Interfaces;
 using System;
 using System.Windows.Forms;
 
@@ -6,12 +6,12 @@ namespace DepartmentDesktop.Views.Services.DataBaseWork
 {
     public partial class ExportDataBaseControl : UserControl
     {
-        private readonly IAdministrationProcess _service;
+        private readonly IAdministrationProcess _process;
 
-        public ExportDataBaseControl(IAdministrationProcess service)
+        public ExportDataBaseControl(IAdministrationProcess process)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
         }
 
         private void ButtonFolderPathJson_Click(object sender, EventArgs e)
@@ -27,7 +27,7 @@ namespace DepartmentDesktop.Views.Services.DataBaseWork
         {
             if (textBoxFolderPathJson.Text != "")
             {
-                var result = _service.ExportDataFromJson(textBoxFolderPathJson.Text);
+                var result = _process.ExportDataFromJson(textBoxFolderPathJson.Text);
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -50,7 +50,7 @@ namespace DepartmentDesktop.Views.Services.DataBaseWork
         {
             if (textBoxFileNameBackUp.Text != "")
             {
-                var result = _service.RestoreBackUp(textBoxFileNameBackUp.Text);
+                var result = _process.RestoreBackUp(textBoxFileNameBackUp.Text);
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При восстановлении backup возникла ошибка: ", result.Errors);

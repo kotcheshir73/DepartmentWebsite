@@ -1,7 +1,8 @@
-﻿using DepartmentModel;
+﻿using AuthenticationServiceInterfaces.BindingModels;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.IServices;
 using System;
 using System.Data;
 using System.Drawing;

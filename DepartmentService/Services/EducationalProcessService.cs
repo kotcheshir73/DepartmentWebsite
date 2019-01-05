@@ -1,10 +1,9 @@
-﻿using DepartmentModel;
+﻿using DepartmentContext;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using DepartmentModel.Models.HelperModels;
 using DepartmentService.BindingModels;
-using DepartmentService.Context;
-using DepartmentService.Enums;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -21,25 +20,25 @@ namespace DepartmentService.Services
     {
         private readonly DepartmentDbContext _context;
 
-        private readonly ISemesterRecordService _serviceSR;
+        //private readonly ISemesterRecordService _serviceSR;
 
-        private readonly IOffsetRecordService _serviceOR;
+        //private readonly IOffsetRecordService _serviceOR;
 
-        private readonly IExaminationRecordService _serviceER;
+        //private readonly IExaminationRecordService _serviceER;
 
-        private readonly IConsultationRecordService _serviceCR;
+        //private readonly IConsultationRecordService _serviceCR;
 
         private readonly ILecturerService _serviceL;
 
         public EducationalProcessService(DepartmentDbContext context,
-            ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR, ILecturerService serviceL)
+          /*  ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
+            IConsultationRecordService serviceCR,*/ ILecturerService serviceL)
         {
             _context = context;
-            _serviceSR = serviceSR;
-            _serviceOR = serviceOR;
-            _serviceER = serviceER;
-            _serviceCR = serviceCR;
+            //_serviceSR = serviceSR;
+            //_serviceOR = serviceOR;
+            //_serviceER = serviceER;
+            //_serviceCR = serviceCR;
             _serviceL = serviceL;
         }
 
@@ -1491,100 +1490,6 @@ namespace DepartmentService.Services
             };
 
             return ResultService<AcademicPlanRecordForDiciplinePageViewModel>.Success(result);
-        }
-
-        public ResultService<ScheduleRecordsForDisciplinePageViewModel> GetScheduleRecordsForDiciplinePageViewModel(ScheduleRecordsForDiciplineBindingModel model)
-        {
-            List<ScheduleRecordsForDisciplineViewModel> list = new List<ScheduleRecordsForDisciplineViewModel>();
-            var modelGet = new ScheduleGetBindingModel { DisciplineId = model.DisciplineId, SeasonDateId = model.SeasonDateId };
-            var semesters = _serviceSR.GetSemesterSchedule(modelGet);
-            var days = new[] { "Пн.", "Вт.", "Ср.", "Чт.", "Пт.", "Сб." };//дни недели
-            if (semesters.Succeeded)
-            {
-                foreach (var rec in semesters.Result)
-                {
-                    list.Add(new ScheduleRecordsForDisciplineViewModel
-                    {
-                        Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("{0} нед., {1} {2} пара", rec.Week + 1, days[rec.Day], rec.Lesson + 1),
-                        LessonType = rec.LessonType,
-                        LessonClassroom = rec.LessonClassroom,
-                        LessonDiscipline = rec.LessonDiscipline,
-                        LessonLecturer = rec.LessonLecturer,
-                        LessonGroup = rec.LessonGroup,
-                        NotParseRecord = rec.NotParseRecord
-                    });
-                }
-            }
-
-            var offsets = _serviceOR.GetOffsetSchedule(modelGet);
-            if (offsets.Succeeded)
-            {
-                foreach (var rec in offsets.Result)
-                {
-                    list.Add(new ScheduleRecordsForDisciplineViewModel
-                    {
-                        Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("{0} нед., {1} {2} пара", rec.Week + 1, days[rec.Day], rec.Lesson + 1),
-                        LessonType = "зачет",
-                        LessonClassroom = rec.LessonClassroom,
-                        LessonDiscipline = rec.LessonDiscipline,
-                        LessonLecturer = rec.LessonLecturer,
-                        LessonGroup = rec.LessonGroup,
-                        NotParseRecord = rec.NotParseRecord
-                    });
-                }
-            }
-
-            var examinations = _serviceER.GetExaminationSchedule(modelGet);
-            if (examinations.Succeeded)
-            {
-                foreach (var rec in examinations.Result)
-                {
-                    list.Add(new ScheduleRecordsForDisciplineViewModel
-                    {
-                        Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("Конс:{0}, Экз:{1}", rec.DateConsultation.ToShortDateString(), rec.DateExamination.ToShortDateString()),
-                        LessonType = "экзамен",
-                        LessonClassroom = rec.LessonClassroom,
-                        LessonDiscipline = rec.LessonDiscipline,
-                        LessonLecturer = rec.LessonLecturer,
-                        LessonGroup = rec.LessonGroup,
-                        NotParseRecord = rec.NotParseRecord
-                    });
-                }
-            }
-
-            var consultations = _serviceCR.GetConsultationSchedule(modelGet);
-            if (consultations.Succeeded)
-            {
-                foreach (var rec in consultations.Result)
-                {
-                    list.Add(new ScheduleRecordsForDisciplineViewModel
-                    {
-                        Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("Дата:{0}, Время:{1}", rec.DateConsultation.ToShortDateString(), rec.DateConsultation.ToShortTimeString()),
-                        LessonType = "консультация",
-                        LessonClassroom = rec.LessonClassroom,
-                        LessonDiscipline = rec.LessonDiscipline,
-                        LessonLecturer = rec.LessonLecturer,
-                        LessonGroup = rec.LessonGroup,
-                        NotParseRecord = rec.NotParseRecord
-                    });
-                }
-            }
-
-            var result = new ScheduleRecordsForDisciplinePageViewModel
-            {
-                MaxCount = 0,
-                List = list
-            };
-
-            return ResultService<ScheduleRecordsForDisciplinePageViewModel>.Success(result);
         }
 
         #region Duplicate Academic Year

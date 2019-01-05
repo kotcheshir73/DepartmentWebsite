@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DepartmentModel</RootNamespace>
     <AssemblyName>DepartmentModel</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -90,7 +90,6 @@
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueGroup.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueRecord.cs" />
     <Compile Include="Models\BaseEnities\Message.cs" />
-    <Compile Include="Models\BaseEnities\ScheduleLessonTime.cs" />
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
     <Compile Include="Models\BaseEnities\Software.cs" />
     <Compile Include="Models\BaseEnities\SoftwareRecord.cs" />
@@ -105,11 +104,6 @@
     <Compile Include="Models\CurrentSettings.cs" />
     <Compile Include="Models\HelperModels\BlueAsteriskBlockType.cs" />
     <Compile Include="Models\HelperModels\BlueAsteriskTypeObject.cs" />
-    <Compile Include="Models\ScheduleRecord.cs" />
-    <Compile Include="Models\ScheduleRecords\ConsultationRecord.cs" />
-    <Compile Include="Models\ScheduleRecords\ExaminationRecord.cs" />
-    <Compile Include="Models\ScheduleRecords\OffsetRecord.cs" />
-    <Compile Include="Models\ScheduleRecords\SemesterRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultService.cs" />
   </ItemGroup>
