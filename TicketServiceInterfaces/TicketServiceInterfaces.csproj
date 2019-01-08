@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,17 +47,20 @@
     <Compile Include="BindingModels\ExaminationTemplateBlockQuestionBindingModels.cs" />
     <Compile Include="BindingModels\ExaminationTemplateTicketBindingModels.cs" />
     <Compile Include="BindingModels\ExaminationTemplateTicketQuestionBindingModels.cs" />
+    <Compile Include="BindingModels\TicketProcessBindingModels.cs" />
     <Compile Include="Interfaces\IExaminationTemplateBlockQuestionService.cs" />
     <Compile Include="Interfaces\IExaminationTemplateBlockService.cs" />
     <Compile Include="Interfaces\IExaminationTemplateService.cs" />
     <Compile Include="Interfaces\IExaminationTemplateTicketQuestionService.cs" />
     <Compile Include="Interfaces\IExaminationTemplateTicketService.cs" />
+    <Compile Include="Interfaces\ITicketProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ExaminationTemplateBlockQuestionViewModels.cs" />
     <Compile Include="ViewModels\ExaminationTemplateBlockViewModels.cs" />
     <Compile Include="ViewModels\ExaminationTemplateTicketQuestionViewModels.cs" />
     <Compile Include="ViewModels\ExaminationTemplateTicketViewModels.cs" />
     <Compile Include="ViewModels\ExaminationTemplateViewModels.cs" />
+    <Compile Include="ViewModels\TicketProcessViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">

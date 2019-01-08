@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DepartmentService.BindingModels;
+using System;
 
 namespace TicketServiceInterfaces.BindingModels
 {
-    public class ExaminationTemplateBlockQuestionGetBindingModel
+    public class ExaminationTemplateBlockQuestionGetBindingModel : PageSettingBinidingModel
     {
         public Guid? Id { get; set; }
 

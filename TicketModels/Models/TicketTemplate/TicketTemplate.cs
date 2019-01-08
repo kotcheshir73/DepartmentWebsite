@@ -1,5 +1,4 @@
 ﻿using DepartmentModel.Models;
-using System;
 
 namespace TicketModels.Models
 {

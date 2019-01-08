@@ -1,5 +1,6 @@
 ﻿using DepartmentService.ViewModels;
 using System;
+using System.Drawing;
 
 namespace TicketServiceInterfaces.ViewModels
 {
@@ -17,6 +18,6 @@ namespace TicketServiceInterfaces.ViewModels
 
         public string QuestionText { get; set; }
 
-        public byte[] QuestionImage { get; set; }
+        public Image QuestionImage { get; set; }
     }
 }

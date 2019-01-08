@@ -1,42 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DepartmentContext;
+﻿using DepartmentContext;
 using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService;
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Linq;
 using TicketServiceInterfaces.BindingModels;
 using TicketServiceInterfaces.Interfaces;
 using TicketServiceInterfaces.ViewModels;
 
 namespace TicketServiceImplementations.Implementations
 {
-    public class ExaminationTemplateTicketService : IExaminationTemplateTicketService
+    public class ExaminationTemplateBlockQuestionService : IExaminationTemplateBlockQuestionService
     {
         private readonly DepartmentDbContext _context;
 
         private readonly AccessOperation _serviceOperation = AccessOperation.СоставлениеЭкзаменов;
 
-        private readonly string _tagName = "билетов экзамена";
+        private readonly string _tagName = "вопросам блока экзамена";
 
-        private readonly IExaminationTemplateService _serviceET;
+        private readonly IExaminationTemplateBlockService _serviceETB;
 
-        public ExaminationTemplateTicketService(DepartmentDbContext context, IExaminationTemplateService serviceET)
+        public ExaminationTemplateBlockQuestionService(DepartmentDbContext context, IExaminationTemplateBlockService serviceETB)
         {
             _context = context;
-            _serviceET = serviceET;
+            _serviceETB = serviceETB;
         }
 
-        public ResultService<ExaminationTemplatePageViewModel> GetExaminationTemplates(ExaminationTemplateGetBindingModel model)
+        public ResultService<ExaminationTemplateBlockPageViewModel> GetExaminationTemplateBlocks(ExaminationTemplateBlockGetBindingModel model)
         {
-            return _serviceET.GetExaminationTemplates(model);
+            return _serviceETB.GetExaminationTemplateBlocks(model);
         }
 
-        public ResultService<ExaminationTemplateTicketPageViewModel> GetExaminationTemplateTickets(ExaminationTemplateTicketGetBindingModel model)
+        public ResultService<ExaminationTemplateBlockQuestionPageViewModel> GetExaminationTemplateBlockQuestions(ExaminationTemplateBlockQuestionGetBindingModel model)
         {
             try
             {
@@ -46,11 +43,11 @@ namespace TicketServiceImplementations.Implementations
                 }
 
                 int countPages = 0;
-                var query = _context.ExaminationTemplateTickets.Where(ed => !ed.IsDeleted).AsQueryable();
+                var query = _context.ExaminationTemplateBlockQuestions.Where(ed => !ed.IsDeleted).AsQueryable();
 
-                if (model.ExaminationTemplateId.HasValue)
+                if (model.ExaminationTemplateBlockId.HasValue)
                 {
-                    query = query.Where(x => x.ExaminationTemplateId == model.ExaminationTemplateId);
+                    query = query.Where(x => x.ExaminationTemplateBlockId == model.ExaminationTemplateBlockId);
                 }
 
                 if (model.Id.HasValue)
@@ -58,7 +55,7 @@ namespace TicketServiceImplementations.Implementations
                     query = query.Where(x => x.Id == model.Id);
                 }
 
-                query = query.OrderBy(x => x.TicketNumber);
+                query = query.OrderBy(x => x.QuestionNumber);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
                 {
@@ -69,27 +66,27 @@ namespace TicketServiceImplementations.Implementations
                 }
 
                 query = query
-                    .Include(x => x.ExaminationTemplate);
+                    .Include(x => x.ExaminationTemplateBlock);
 
-                var result = new ExaminationTemplateTicketPageViewModel
+                var result = new ExaminationTemplateBlockQuestionPageViewModel
                 {
                     MaxCount = countPages,
-                    List = query.Select(TicketModelFactoryToViewModel.CreateExaminationTemplateTicketViewModel).ToList()
+                    List = query.Select(TicketModelFactoryToViewModel.CreateExaminationTemplateBlockQuestionViewModel).ToList()
                 };
 
-                return ResultService<ExaminationTemplateTicketPageViewModel>.Success(result);
+                return ResultService<ExaminationTemplateBlockQuestionPageViewModel>.Success(result);
             }
             catch (DbEntityValidationException ex)
             {
-                return ResultService<ExaminationTemplateTicketPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<ExaminationTemplateBlockQuestionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
             catch (Exception ex)
             {
-                return ResultService<ExaminationTemplateTicketPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<ExaminationTemplateBlockQuestionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService<ExaminationTemplateTicketViewModel> GetExaminationTemplateTicket(ExaminationTemplateTicketGetBindingModel model)
+        public ResultService<ExaminationTemplateBlockQuestionViewModel> GetExaminationTemplateBlockQuestion(ExaminationTemplateBlockQuestionGetBindingModel model)
         {
             try
             {
@@ -98,27 +95,27 @@ namespace TicketServiceImplementations.Implementations
                     throw new Exception(string.Format("Нет доступа на чтение данных по записям {0}", _tagName));
                 }
 
-                var entity = _context.ExaminationTemplateTickets
-                                .Include(x => x.ExaminationTemplate)
+                var entity = _context.ExaminationTemplateBlockQuestions
+                                .Include(x => x.ExaminationTemplateBlock)
                                 .FirstOrDefault(x => x.Id == model.Id && !x.IsDeleted);
                 if (entity == null)
                 {
-                    return ResultService<ExaminationTemplateTicketViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+                    return ResultService<ExaminationTemplateBlockQuestionViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                 }
 
-                return ResultService<ExaminationTemplateTicketViewModel>.Success(TicketModelFactoryToViewModel.CreateExaminationTemplateTicketViewModel(entity));
+                return ResultService<ExaminationTemplateBlockQuestionViewModel>.Success(TicketModelFactoryToViewModel.CreateExaminationTemplateBlockQuestionViewModel(entity));
             }
             catch (DbEntityValidationException ex)
             {
-                return ResultService<ExaminationTemplateTicketViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<ExaminationTemplateBlockQuestionViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
             catch (Exception ex)
             {
-                return ResultService<ExaminationTemplateTicketViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<ExaminationTemplateBlockQuestionViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService CreateExaminationTemplateTicket(ExaminationTemplateTicketSetBindingModel model)
+        public ResultService CreateExaminationTemplateBlockQuestion(ExaminationTemplateBlockQuestionSetBindingModel model)
         {
             try
             {
@@ -127,9 +124,9 @@ namespace TicketServiceImplementations.Implementations
                     throw new Exception(string.Format("Нет доступа на изменение данных по записям {0}", _tagName));
                 }
 
-                var entity = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicket(model);
+                var entity = TicketModelFacotryFromBindingModel.CreateExaminationTemplateBlockQuestion(model);
 
-                _context.ExaminationTemplateTickets.Add(entity);
+                _context.ExaminationTemplateBlockQuestions.Add(entity);
                 _context.SaveChanges();
 
                 return ResultService.Success(entity.Id);
@@ -144,7 +141,7 @@ namespace TicketServiceImplementations.Implementations
             }
         }
 
-        public ResultService UpdateExaminationTemplateTicket(ExaminationTemplateTicketSetBindingModel model)
+        public ResultService UpdateExaminationTemplateBlockQuestion(ExaminationTemplateBlockQuestionSetBindingModel model)
         {
             try
             {
@@ -153,12 +150,12 @@ namespace TicketServiceImplementations.Implementations
                     throw new Exception(string.Format("Нет доступа на изменение данных по записям {0}", _tagName));
                 }
 
-                var entity = _context.ExaminationTemplateTickets.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                var entity = _context.ExaminationTemplateBlockQuestions.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                 }
-                entity = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicket(model, entity);
+                entity = TicketModelFacotryFromBindingModel.CreateExaminationTemplateBlockQuestion(model, entity);
 
                 _context.SaveChanges();
 
@@ -174,7 +171,7 @@ namespace TicketServiceImplementations.Implementations
             }
         }
 
-        public ResultService DeleteExaminationTemplateTicket(ExaminationTemplateTicketGetBindingModel model)
+        public ResultService DeleteExaminationTemplateBlockQuestion(ExaminationTemplateBlockQuestionGetBindingModel model)
         {
             using (var transation = _context.Database.BeginTransaction())
             {
@@ -185,7 +182,7 @@ namespace TicketServiceImplementations.Implementations
                         throw new Exception(string.Format("Нет доступа на удаление данных по записям {0}", _tagName));
                     }
 
-                    var entity = _context.ExaminationTemplateTickets.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
+                    var entity = _context.ExaminationTemplateBlockQuestions.FirstOrDefault(e => e.Id == model.Id && !e.IsDeleted);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
@@ -194,7 +191,7 @@ namespace TicketServiceImplementations.Implementations
                     entity.DateDelete = DateTime.Now;
                     _context.SaveChanges();
 
-                    var examinationTemplateTicketQuestions = _context.ExaminationTemplateTicketQuestions.Where(x => x.ExaminationTemplateTicketId == entity.Id);
+                    var examinationTemplateTicketQuestions = _context.ExaminationTemplateTicketQuestions.Where(x => x.ExaminationTemplateBlockQuestionId == entity.Id);
                     foreach (var examinationTemplateTicketQuestion in examinationTemplateTicketQuestions)
                     {
                         examinationTemplateTicketQuestion.IsDeleted = true;
