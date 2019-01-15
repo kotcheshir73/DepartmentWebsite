@@ -88,7 +88,6 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IDepartmentProcessService, DepartmentProcessService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IProcessDirectionRecordService, ProcessDirectionRecordService>(new HierarchicalLifetimeManager());
 
-
             currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
 
             currentContainer

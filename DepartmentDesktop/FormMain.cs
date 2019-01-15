@@ -1,6 +1,7 @@
 ﻿using DepartmentCalendar.Controllers;
 using DepartmentDesktop.Views.LearningProgress;
 using DepartmentModel.Enums;
+using DepartmentProcessAccountingService.IServices;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -308,7 +309,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void processAccountingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = new CalendarControl();
+            var control = Container.Resolve<CalendarControl>();
             ApplyControl(control);
         }
         #endregion

@@ -38,8 +38,10 @@ namespace DepartmentWebsite.Controllers
         private Guid? eventId;
         #endregion
 
-        public DescriptionBox(MonthView monthView)
+        public DescriptionBox(MonthView monthView, IDepartmentProcessService service)
         {
+            this.service = service;
+
             this._monthView = monthView;
             InitializeComponent();
             //Добавление дат семестра в comboBox

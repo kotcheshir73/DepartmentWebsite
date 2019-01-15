@@ -215,14 +215,30 @@ namespace DepartmentWebsite
             set { _dayBackgroundColor = value; }
         }
         #endregion
-
+         
         /// <summary>
         /// Инициализирует новый экземпляр класса "MonthView"/>.
         /// </summary>
-        public MonthView()
+        public MonthView(IDepartmentProcessService service)
         {
             SetStyle(ControlStyles.Opaque, true);
             DoubleBuffered = true;
+
+            this.service = service;
+
+            _mouseDoubleClicked = false;
+            _viewOneMonth = false;
+            InitializeComponent();
+
+            UpdateMonthSize();
+            UpdateMonths();
+        }
+        public MonthView()
+        {
+            InitializeComponent();
+        }
+            private void InitializeComponent()
+        {
 
             _selectionMode = MonthViewSelection.Manual;
             _workWeekStart = DayOfWeek.Monday;
@@ -242,18 +258,13 @@ namespace DepartmentWebsite
             _dayGrayedText = SystemColors.GrayText;
             _todayBorderColor = Color.Maroon;
 
-            _mouseDoubleClicked = false;
-            _viewOneMonth = false;
-
-            UpdateMonthSize();
-            UpdateMonths();
         }
 
-        #region Публичные методы
-        /// <summary>
-        /// Проверяет, выбран ли день в указанном месте
-        /// </summary>
-        public MonthViewDay HitTest(Point p)
+            #region Публичные методы
+            /// <summary>
+            /// Проверяет, выбран ли день в указанном месте
+            /// </summary>
+            public MonthViewDay HitTest(Point p)
         {
             for (int i = 0; i < Months.Length; i++)
             {
@@ -626,7 +637,7 @@ namespace DepartmentWebsite
                         form.Text = "Создать событие";
                         form.Size = new Size(374, 444);
 
-                        DescriptionBox createBox = new DescriptionBox(this);
+                        DescriptionBox createBox = new DescriptionBox(this, service);
                         form.Controls.Add(createBox);
 
                         form.ShowDialog();

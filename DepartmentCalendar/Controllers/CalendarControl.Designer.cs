@@ -1,4 +1,7 @@
-﻿namespace DepartmentCalendar.Controllers
+﻿using DepartmentProcessAccountingService.IServices;
+using DepartmentWebsite;
+
+namespace DepartmentCalendar.Controllers
 {
     partial class CalendarControl
     {
@@ -6,6 +9,7 @@
         /// Обязательная переменная конструктора.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        
 
         /// <summary> 
         /// Освободить все используемые ресурсы.
@@ -28,34 +32,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.descriptionBox1 = new DepartmentWebsite.Controllers.DescriptionBox();
-            this.monthView1 = new DepartmentWebsite.MonthView();
+            this.descriptionBox2 = new DepartmentWebsite.Controllers.DescriptionBox();
             this.SuspendLayout();
             // 
-            // descriptionBox1
+            // descriptionBox2
             // 
-            this.descriptionBox1.Location = new System.Drawing.Point(981, 53);
-            this.descriptionBox1.Name = "descriptionBox1";
-            this.descriptionBox1.Size = new System.Drawing.Size(345, 384);
-            this.descriptionBox1.TabIndex = 1;
-            // 
-            // monthView1
-            // 
-            this.monthView1.DayBackgroundColor = System.Drawing.Color.Empty;
-            this.monthView1.ItemPadding = new System.Windows.Forms.Padding(2);
-            this.monthView1.Location = new System.Drawing.Point(14, 53);
-            this.monthView1.Name = "monthView1";
-            this.monthView1.Size = new System.Drawing.Size(942, 590);
-            this.monthView1.TabIndex = 0;
-            this.monthView1.Text = "monthView1";
+            this.descriptionBox2.Location = new System.Drawing.Point(17, 13);
+            this.descriptionBox2.Name = "descriptionBox2";
+            this.descriptionBox2.Size = new System.Drawing.Size(364, 455);
+            this.descriptionBox2.TabIndex = 0;
             // 
             // CalendarControl
             // 
-            this.Controls.Add(this.descriptionBox1);
-            this.Controls.Add(this.monthView1);
+            this.Controls.Add(this.descriptionBox2);
             this.Name = "CalendarControl";
-            this.Size = new System.Drawing.Size(1344, 707);
-            this.Load += new System.EventHandler(this.CalendarControl_Load);
+            this.Size = new System.Drawing.Size(893, 563);
             this.ResumeLayout(false);
 
         }
@@ -64,5 +55,6 @@
 
         private DepartmentWebsite.MonthView monthView1;
         private DepartmentWebsite.Controllers.DescriptionBox descriptionBox1;
+        private DepartmentWebsite.Controllers.DescriptionBox descriptionBox2;
     }
 }
