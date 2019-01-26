@@ -15,6 +15,8 @@ namespace TicketServiceInterfaces.ViewModels
 
         public string BlockName { get; set; }
 
+        public string QuestionTagInTemplate { get; set; }
+
         public int CountQuestionInTicket { get; set; }
     }
 }

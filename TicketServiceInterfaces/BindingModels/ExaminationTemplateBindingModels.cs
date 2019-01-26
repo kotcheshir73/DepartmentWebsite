@@ -21,6 +21,6 @@ namespace TicketServiceInterfaces.BindingModels
 
         public Semesters? Semester { get; set; }
 
-        public Guid? TicketTemplateId { get; set; }
+        public string ExaminationTemplateName { get; set; }
     }
 }

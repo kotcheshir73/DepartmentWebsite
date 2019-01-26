@@ -15,12 +15,11 @@ namespace TicketServiceImplementations
             {
                 Id = entity.Id,
                 DisciplineId = entity.DisciplineId,
-                Disciplne = entity.Discipline.DisciplineName,
+                DisciplneName = entity.Discipline.DisciplineName,
                 EducationDirectionId = entity.EducationDirectionId,
                 EducationDirectionName = entity.EducationDirection?.ShortName,
                 Semester = entity.Semester.ToString(),
-                TicketTemplateId = entity.TicketTemplateId,
-                TicketTemplateName = entity.TicketTemplate?.TemplateName
+                ExaminationTemplateName = entity.ExaminationTemplateName
             };
         }
 
@@ -30,7 +29,9 @@ namespace TicketServiceImplementations
             {
                 Id = entity.Id,
                 ExaminationTemplateId = entity.ExaminationTemplateId,
+                ExaminationTemplateName = entity.ExaminationTemplate.ExaminationTemplateName,
                 BlockName = entity.BlockName,
+                QuestionTagInTemplate = entity.QuestionTagInTemplate,
                 CountQuestionInTicket = entity.CountQuestionInTicket
             };
         }
@@ -54,6 +55,7 @@ namespace TicketServiceImplementations
             {
                 Id = entity.Id,
                 ExaminationTemplateId = entity.ExaminationTemplateId,
+                ExaminationTemplateName = entity.ExaminationTemplate.ExaminationTemplateName,
                 TicketNumber = entity.TicketNumber
             };
         }
@@ -71,19 +73,22 @@ namespace TicketServiceImplementations
             };
         }
 
-        public static TicketProcessTicketViewModel CreateTicketProcessTicket(TicketTemplate entity)
+        public static TicketTemplateViewModel CreateTicketTemplate(TicketTemplate entity)
         {
-            return new TicketProcessTicketViewModel
+            return new TicketTemplateViewModel
             {
                 Id = entity.Id,
                 TemplateName = entity.TemplateName,
-                XML = entity.XML,
-                Body = CreateTicketProcessBody(entity.TicketTemplateBody)
+                Body = CreateTicketProcessBody(entity.TicketTemplateBodies?.FirstOrDefault())
             };
         }
 
         public static TicketProcessBodyViewModel CreateTicketProcessBody(TicketTemplateBody entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
             TicketProcessBodyViewModel model = new TicketProcessBodyViewModel
             {
                 Id = entity.Id,

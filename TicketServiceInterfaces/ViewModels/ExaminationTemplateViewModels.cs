@@ -13,14 +13,12 @@ namespace TicketServiceInterfaces.ViewModels
 
         public Guid DisciplineId { get; set; }
 
-        public Guid? TicketTemplateId { get; set; }
-
         public string EducationDirectionName { get; set; }
 
-        public string Disciplne { get; set; }
+        public string DisciplneName { get; set; }
 
         public string Semester { get; set; }
 
-        public string TicketTemplateName { get; set; }
+        public string ExaminationTemplateName { get; set; }
     }
 }

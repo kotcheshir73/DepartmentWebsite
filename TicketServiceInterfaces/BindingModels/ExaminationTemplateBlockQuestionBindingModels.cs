@@ -8,6 +8,8 @@ namespace TicketServiceInterfaces.BindingModels
         public Guid? Id { get; set; }
 
         public Guid? ExaminationTemplateBlockId { get; set; }
+
+        public Guid? ExaminationTemplateId { get; set; }
     }
 
     public class ExaminationTemplateBlockQuestionSetBindingModel

@@ -23,15 +23,13 @@ namespace TicketModels.Models
         public Semesters? Semester { get; set; }
 
         [DataMember]
-        public Guid? TicketTemplateId { get; set; }
+        public string ExaminationTemplateName { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual Discipline Discipline { get; set; }
 
         public virtual EducationDirection EducationDirection { get; set; }
-
-        public virtual TicketTemplate TicketTemplate { get; set; }
 
         //-------------------------------------------------------------------------
 
@@ -40,5 +38,8 @@ namespace TicketModels.Models
 
         [ForeignKey("ExaminationTemplateId")]
         public virtual List<ExaminationTemplateTicket> ExaminationTemplateTickets { get; set; }
+
+        [ForeignKey("ExaminationTemplateId")]
+        public virtual List<TicketTemplate> TicketTemplates { get; set; }
     }
 }

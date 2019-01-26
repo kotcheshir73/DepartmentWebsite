@@ -1395,6 +1395,10 @@
       <Project>{a0ec04b3-171d-4fa9-9ea8-fa9e8ec2307e}</Project>
       <Name>TicketModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TicketViews\TicketViews.csproj">
+      <Project>{b27baf0f-f054-49d6-89fd-c4cbfd9e3655}</Project>
+      <Name>TicketViews</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Down.jpg" />

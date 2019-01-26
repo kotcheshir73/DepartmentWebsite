@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using TicketModels.Models;
 
@@ -42,7 +43,7 @@ namespace TicketServiceImplementations.Helpers
                 int order = 0;
                 foreach (XmlNode elem in xmlNode.ChildNodes)
                 {
-                    childNodes.Add(GetElementaryUnit(elem, order++, ParentElementaryUnitId: ParentElementaryUnitId));
+                    childNodes.Add(GetElementaryUnit(elem, order++, false, ParentElementaryUnitId: ParentElementaryUnitId));
                 }
 
                 return childNodes;
@@ -50,9 +51,9 @@ namespace TicketServiceImplementations.Helpers
             return null;
         }
 
-        private static TicketTemplateElementaryUnit GetElementaryUnit(XmlNode xmlNode, int order, Guid? TicketTemplateParagraphDataId = null, Guid? ParentElementaryUnitId = null)
+        private static TicketTemplateElementaryUnit GetElementaryUnit(XmlNode xmlNode, int order, bool notLink, Guid? TicketTemplateParagraphDataId = null, Guid? ParentElementaryUnitId = null)
         {
-            if(!TicketTemplateParagraphDataId.HasValue && !ParentElementaryUnitId.HasValue)
+            if(!notLink && !TicketTemplateParagraphDataId.HasValue && !ParentElementaryUnitId.HasValue)
             {
                 throw new Exception("Не передан ни один идентификатор для связки ElementaryUnit");
             }
@@ -89,7 +90,7 @@ namespace TicketServiceImplementations.Helpers
             {
                 if (node.LocalName == TicketTemplateConstant.ParagraphFontName)
                 {
-                    paragraphData.Font = GetElementaryUnit(node, 0);
+                    paragraphData.Font = GetElementaryUnit(node, 0, true);
                     paragraphData.FontId = paragraphData.Font.Id;
                 }
                 else if (node.LocalName == TicketTemplateConstant.ParagraphTextName)
@@ -103,11 +104,88 @@ namespace TicketServiceImplementations.Helpers
                     {
                         paragraphData.TicketTemplateElementaryUnits = new List<TicketTemplateElementaryUnit>();
                     }
-                    paragraphData.TicketTemplateElementaryUnits.Add(GetElementaryUnit(node, nodeOrder++, TicketTemplateParagraphDataId: paragraphData.Id));
+                    paragraphData.TicketTemplateElementaryUnits.Add(GetElementaryUnit(node, nodeOrder++, false, TicketTemplateParagraphDataId: paragraphData.Id));
                 }
             }
 
             return paragraphData;
+        }
+
+        /// <summary>
+        /// Убираем лишние данные
+        /// </summary>
+        /// <param name="list"></param>
+        private static void AnalysisDatas(List<TicketTemplateParagraphData> list)
+        {
+            if (list != null)
+            {
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    for (int j = i + 1; j < list.Count; ++j)
+                    {
+                        var dataFirst = list[i];
+                        var dataSecond = list[j];
+                        if (dataFirst.Font == null && dataSecond.Font != null)
+                        {
+                            dataFirst.Font = dataSecond.Font;
+                        }
+                        if (dataFirst.Font != null && dataSecond.Font == null)
+                        {
+                            dataSecond.Font = dataFirst.Font;
+                        }
+                        if (dataFirst.Font != null && dataSecond.Font != null)
+                        {
+                            var brElemFirst = dataFirst.TicketTemplateElementaryUnits?.FirstOrDefault(x => x.Name == "w:br");
+                            var brElemSecond = dataSecond.TicketTemplateElementaryUnits?.FirstOrDefault(x => x.Name == "w:br");
+                            if (brElemFirst != null && brElemSecond == null || brElemFirst == null && brElemSecond != null)
+                            {
+                                break;
+                            }
+                            var tabElemFirst = dataFirst.TicketTemplateElementaryUnits?.FirstOrDefault(x => x.Name == "w:tab");
+                            var tabElemSecond = dataSecond.TicketTemplateElementaryUnits?.FirstOrDefault(x => x.Name == "w:tab");
+                            if (tabElemFirst != null && tabElemSecond == null || tabElemFirst == null && tabElemSecond != null)
+                            {
+                                break;
+                            }
+
+                            var bElemFirst = dataFirst.Font.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:b");
+                            var bElemSecond = dataSecond.Font.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:b");
+                            if (bElemFirst != null && bElemSecond == null || bElemFirst == null && bElemSecond != null)
+                            {
+                                break;
+                            }
+                            var rSizeFirst = dataFirst.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name.StartsWith("w:sz"))?
+                                .TicketTemplateElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val");
+                            var rSizeSecond = dataSecond.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name.StartsWith("w:sz"))?
+                                .TicketTemplateElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val");
+                            if (rSizeFirst != null && rSizeSecond != null)
+                            {
+                                if (rSizeFirst.Value != rSizeSecond.Value)
+                                {
+                                    break;
+                                }
+                            }
+
+                            dataFirst.Text += dataSecond.Text;
+                            if (dataFirst.TicketTemplateElementaryUnits != null && dataSecond.TicketTemplateElementaryUnits != null)
+                            {
+                                dataFirst.TicketTemplateElementaryUnits.AddRange(dataSecond.TicketTemplateElementaryUnits);
+                            }
+                            else if (dataFirst.TicketTemplateElementaryUnits == null && dataSecond.TicketTemplateElementaryUnits != null)
+                            {
+                                dataFirst.TicketTemplateElementaryUnits = dataSecond.TicketTemplateElementaryUnits;
+                            }
+
+                            list.Remove(dataSecond);
+                            j--;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         private static TicketTemplateParagraph GetParagraph(XmlNode xmlNode, int order, Guid? TicketTemplateBodyId = null, Guid? TicketTemplateTableCellId = null)
@@ -135,7 +213,7 @@ namespace TicketServiceImplementations.Helpers
             {
                 if (node.LocalName == TicketTemplateConstant.ParagraphFormatName)
                 {
-                    paragraph.ParagraphFormat = GetElementaryUnit(node, 0);
+                    paragraph.ParagraphFormat = GetElementaryUnit(node, 0, true);
                     paragraph.ParagraphFormatId = paragraph.ParagraphFormat.Id;
                 }
                 else if (node.LocalName == TicketTemplateConstant.ParagraphDataName)
@@ -143,6 +221,8 @@ namespace TicketServiceImplementations.Helpers
                     paragraph.TicketTemplateParagraphDatas.Add(GetParagraphData(node, nodeOrder++, TicketTemplateParagraphId: paragraph.Id));
                 }
             }
+
+            AnalysisDatas(paragraph.TicketTemplateParagraphDatas);
 
             return paragraph;
         }
@@ -166,7 +246,7 @@ namespace TicketServiceImplementations.Helpers
             {
                 if (node.LocalName == TicketTemplateConstant.CellPropertyName)
                 {
-                    cell.Properties = GetElementaryUnit(node, 0);
+                    cell.Properties = GetElementaryUnit(node, 0, true);
                     cell.PropertiesId = cell.Properties.Id;
                 }
                 else if (node.LocalName == TicketTemplateConstant.ParagraphName)
@@ -198,7 +278,7 @@ namespace TicketServiceImplementations.Helpers
             {
                 if (node.LocalName == TicketTemplateConstant.RowPropertyName)
                 {
-                    row.Properties = GetElementaryUnit(node, 0);
+                    row.Properties = GetElementaryUnit(node, 0, true);
                     row.PropertiesId = row.Properties.Id;
                 }
                 else if (node.LocalName == TicketTemplateConstant.CellName)
@@ -229,12 +309,12 @@ namespace TicketServiceImplementations.Helpers
             {
                 if (node.LocalName == TicketTemplateConstant.TablePropertyName)
                 {
-                    table.Properties = GetElementaryUnit(node, 0);
+                    table.Properties = GetElementaryUnit(node, 0, true);
                     table.PropertiesId = table.Properties.Id;
                 }
                 else if (node.LocalName == TicketTemplateConstant.TableGridName)
                 {
-                    table.Columns = GetElementaryUnit(node, 0);
+                    table.Columns = GetElementaryUnit(node, 0, true);
                     table.ColumnsId = table.Columns.Id;
                 }
                 else if (node.LocalName == TicketTemplateConstant.RowName)
@@ -246,7 +326,7 @@ namespace TicketServiceImplementations.Helpers
             return table;
         }
 
-        public static TicketTemplateBody GetBody(string xmlText, Guid TicketTemplateId)
+        public static TicketTemplateBody GetBody(string xmlText, Guid ticketTemplateId)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlText);
@@ -260,7 +340,7 @@ namespace TicketServiceImplementations.Helpers
                     {
                         BodyName = elem.Name,
                         SectName = elem.FirstChild.Name,
-                        TicketTemplateId = TicketTemplateId,
+                        TicketTemplateId = ticketTemplateId,
                         TicketTemplateParagraphs = new List<TicketTemplateParagraph>(),
                         TicketTemplateTables = new List<TicketTemplateTable>()
                     };
@@ -278,7 +358,7 @@ namespace TicketServiceImplementations.Helpers
                         }
                         else if (paragpraphXML.LocalName == TicketTemplateConstant.BodySectName)
                         {
-                            body.BodyFormat = GetElementaryUnit(paragpraphXML, 0);
+                            body.BodyFormat = GetElementaryUnit(paragpraphXML, 0, true);
                             body.BodyFormatId = body.BodyFormat.Id;
                         }
                     }

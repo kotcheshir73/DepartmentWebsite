@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\TicketTemplateAnalyser.cs" />
     <Compile Include="Helpers\TicketTemplateConstant.cs" />
     <Compile Include="Helpers\XMLParser.cs" />
     <Compile Include="Implementations\ExaminationTemplateBlockQuestionService.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Implementations\ExaminationTemplateTicketQuestionService.cs" />
     <Compile Include="Implementations\ExaminationTemplateTicketService.cs" />
     <Compile Include="Implementations\TicketProcess.cs" />
+    <Compile Include="Implementations\TicketTemplateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TicketModelFacotryFromBindingModel.cs" />
     <Compile Include="TicketModelFactoryToViewModel.cs" />

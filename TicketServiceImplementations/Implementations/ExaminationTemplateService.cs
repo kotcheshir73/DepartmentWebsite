@@ -9,12 +9,11 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
-using TicketServiceImplementations;
 using TicketServiceInterfaces.BindingModels;
 using TicketServiceInterfaces.Interfaces;
 using TicketServiceInterfaces.ViewModels;
 
-namespace TicketServiceImplementation.Implementations
+namespace TicketServiceImplementations.Implementations
 {
     public class ExaminationTemplateService : IExaminationTemplateService
     {
@@ -79,8 +78,7 @@ namespace TicketServiceImplementation.Implementations
 
                 query = query
                     .Include(x => x.Discipline)
-                    .Include(x => x.EducationDirection)
-                    .Include(x => x.TicketTemplate);
+                    .Include(x => x.EducationDirection);
 
                 var result = new ExaminationTemplatePageViewModel
                 {
@@ -112,7 +110,6 @@ namespace TicketServiceImplementation.Implementations
                 var entity = _context.ExaminationTemplates
                                 .Include(x => x.Discipline)
                                 .Include(x => x.EducationDirection)
-                                .Include(x => x.TicketTemplate)
                                 .FirstOrDefault(x => x.Id == model.Id && !x.IsDeleted);
                 if (entity == null)
                 {

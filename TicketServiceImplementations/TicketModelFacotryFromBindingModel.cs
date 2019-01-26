@@ -14,7 +14,7 @@ namespace TicketServiceImplementations
             entity.DisciplineId = model.DisciplineId;
             entity.EducationDirectionId = model.EducationDirectionId;
             entity.Semester = model.Semester;
-            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.ExaminationTemplateName = model.ExaminationTemplateName;
 
             return entity;
         }
@@ -27,6 +27,7 @@ namespace TicketServiceImplementations
             }
             entity.ExaminationTemplateId = model.ExaminationTemplateId;
             entity.BlockName = model.BlockName;
+            entity.QuestionTagInTemplate = model.QuestionTagInTemplate;
             entity.CountQuestionInTicket = model.CountQuestionInTicket;
 
             return entity;
@@ -67,6 +68,18 @@ namespace TicketServiceImplementations
             entity.ExaminationTemplateBlockQuestionId = model.ExaminationTemplateBlockQuestionId;
             entity.ExaminationTemplateTicketId = model.ExaminationTemplateTicketId;
             entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static TicketTemplate CreateTicketTemplate(TicketTemplateSetBindingModel model, TicketTemplate entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplate();
+            }
+            entity.ExaminationTemplateId = model.ExaminationTemplateId;
+            entity.TemplateName = model.TemplateName;
 
             return entity;
         }

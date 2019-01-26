@@ -9,9 +9,9 @@ namespace TicketModels.Models
 {
     public class TicketTemplateBody : BaseEntity
     {
-        public Guid TicketTemplateId { get; set; }
-
         public Guid? BodyFormatId { get; set; }
+
+        public Guid? TicketTemplateId { get; set; }
 
         public string BodyName { get; set; }
 

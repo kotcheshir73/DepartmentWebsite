@@ -118,15 +118,4 @@ namespace TicketServiceInterfaces.ViewModels
 
         public List<TicketProcessTableViewModel> Tables { get; set; }
     }
-
-    public class TicketProcessTicketViewModel
-    {
-        public Guid Id { get; set; }
-
-        public string XML { get; set; }
-
-        public string TemplateName { get; set; }
-
-        public TicketProcessBodyViewModel Body { get; set; }
-    }
 }

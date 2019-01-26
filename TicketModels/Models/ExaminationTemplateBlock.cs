@@ -19,6 +19,9 @@ namespace TicketModels.Models
         public string BlockName { get; set; }
 
         [DataMember]
+        public string QuestionTagInTemplate { get; set; }
+
+        [DataMember]
         public int CountQuestionInTicket { get; set; }
 
         //-------------------------------------------------------------------------
