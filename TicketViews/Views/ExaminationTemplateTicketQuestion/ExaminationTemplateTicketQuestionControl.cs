@@ -31,6 +31,7 @@ namespace TicketViews.Views.ExaminationTemplateTicketQuestion
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "ExaminationTemplateTicketNumber", Title = "Номер билета", Width = 100, Visible = true },
                 new ColumnConfig { Name = "ExaminationTemplateBlockQuestionNumber", Title = "Номер вопроса из блока", Width = 150, Visible = true },
+                new ColumnConfig { Name = "ExaminationTemplateBlockQuestionQuestion", Title = "Вопрос", Width = 250, Visible = true },
                 new ColumnConfig { Name = "Order", Title = "Порядковый номер", Width = 150, Visible = true }
             };
 
@@ -87,6 +88,7 @@ namespace TicketViews.Views.ExaminationTemplateTicketQuestion
                     res.Id,
                     res.ExaminationTemplateTicketNumber,
                     res.ExaminationTemplateBlockQuestionNumber,
+                    res.ExaminationTemplateBlockQuestionQuestion,
                     res.Order
                 );
             }

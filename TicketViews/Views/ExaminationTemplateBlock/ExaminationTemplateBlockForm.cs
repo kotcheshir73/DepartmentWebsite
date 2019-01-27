@@ -60,6 +60,8 @@ namespace TicketViews.Views.ExaminationTemplateBlock
             textBoxBlockName.Text = entity.BlockName;
             textBoxQuestionTagInTemplate.Text = entity.QuestionTagInTemplate;
             numericUpDownCountQuestionInTicket.Value = entity.CountQuestionInTicket;
+            checkBoxIsCombine.Checked = entity.IsCombine;
+            textBoxCombineBlocks.Text = entity.CombineBlocks;
         }
 
         private bool CheckFill()
@@ -92,7 +94,9 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                         ExaminationTemplateId = examinationTemplateElement.Id.Value,
                         BlockName = textBoxBlockName.Text,
                         QuestionTagInTemplate = textBoxQuestionTagInTemplate.Text,
-                        CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value
+                        CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value,
+                        IsCombine = checkBoxIsCombine.Checked,
+                        CombineBlocks = textBoxCombineBlocks.Text
                     });
                 }
                 else
@@ -103,7 +107,9 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                         ExaminationTemplateId = examinationTemplateElement.Id.Value,
                         BlockName = textBoxBlockName.Text,
                         QuestionTagInTemplate = textBoxQuestionTagInTemplate.Text,
-                        CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value
+                        CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value,
+                        IsCombine = checkBoxIsCombine.Checked,
+                        CombineBlocks = textBoxCombineBlocks.Text
                     });
                 }
                 if (result.Succeeded)

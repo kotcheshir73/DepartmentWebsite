@@ -33,14 +33,16 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                 new ColumnConfig { Name = "ExaminationTemplateName", Title = "Название экзамена", Width = 300, Visible = true },
                 new ColumnConfig { Name = "BlockName", Title = "Название блока", Width = 200, Visible = true },
                 new ColumnConfig { Name = "QuestionTagInTemplate", Title = "Тег вопроса в шаблоне", Width = 300, Visible = true },
-                new ColumnConfig { Name = "CountQuestionInTicket", Title = "Количество вопросов в билете", Width = 300, Visible = true }
+                new ColumnConfig { Name = "CountQuestionInTicket", Title = "Количество вопросов в билете", Width = 300, Visible = true },
+                new ColumnConfig { Name = "IsCombine", Title = "Объединение", Width = 100, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { };
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "LoadQuestionsToolStripMenuItem", "Загрузить список вопросов"}
+                    { "LoadQuestionsToolStripMenuItem", "Загрузить список вопросов"},
+                    { "SynchronizeBlocksByTemplateToolStripMenuItem", "Синхронизировать блоки по шаблону"}
                 };
 
             standartListControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
@@ -50,6 +52,7 @@ namespace TicketViews.Views.ExaminationTemplateBlock
             standartListControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartListControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartListControl.ToolStripButtonMoveEventClickAddEvent("LoadQuestionsToolStripMenuItem", LoadQuestionsToolStripMenuItem_Click);
+            standartListControl.ToolStripButtonMoveEventClickAddEvent("SynchronizeBlocksByTemplateToolStripMenuItem", SynchronizeBlocksByTemplateToolStripMenuItem_Click);
             standartListControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartListControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -95,7 +98,8 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                     res.ExaminationTemplateName,
                     res.BlockName,
                     res.QuestionTagInTemplate,
-                    res.CountQuestionInTicket
+                    res.CountQuestionInTicket,
+                    res.IsCombine? "Да" : "Нет"
                 );
             }
             return result.Result.MaxCount;
@@ -166,11 +170,38 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     Guid id = new Guid(standartListControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                    _process.LoadQuestions(new TicketProcessLoadQuestionsBindingModel
+                    var result = _process.LoadQuestions(new TicketProcessLoadQuestionsBindingModel
                     {
                         ExaminationTemplateBlockId = id,
                         FileName = ofd.FileName
                     });
+                    if(result.Succeeded)
+                    {
+                        MessageBox.Show("Вопросы загружены", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                    }
+                }
+            }
+        }
+
+        private void SynchronizeBlocksByTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Выполнить синхронизацию", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                var result = _process.SynchronizeBlocksByTemplate(new TicketProcessSynchronizeBlocksByTemplateBindingModel
+                {
+                    ExaminationTemplateId = _examinationTemplateId
+                });
+                if(result.Succeeded)
+                {
+                    standartListControl.LoadPage();
+                }
+                else
+                {
+                    Program.PrintErrorMessage("При синхронизации возникла ошибка: ", result.Errors);
                 }
             }
         }

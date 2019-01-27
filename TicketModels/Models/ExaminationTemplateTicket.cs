@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TicketModels.Models
 {
     /// <summary>
-    /// Класс, описывающий экзамен
+    /// Класс, описывающий билет экзамена
     /// </summary>
     [DataContract]
     public class ExaminationTemplateTicket : BaseEntity

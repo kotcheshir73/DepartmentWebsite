@@ -9,7 +9,11 @@ namespace TicketViews.Views.ExaminationTemplateBlock
     {
         private IExaminationTemplateBlockService _service;
 
-        public IExaminationTemplateBlockService Service { set { _service = value; } }
+        public IExaminationTemplateBlockService Service
+        {
+            set { _service = value; }
+            get { return _service; }
+        }
 
         private Guid? _examinationTemplateId;
 

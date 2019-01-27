@@ -17,6 +17,8 @@ namespace TicketServiceInterfaces.ViewModels
 
         public int ExaminationTemplateBlockQuestionNumber { get; set; }
 
+        public string ExaminationTemplateBlockQuestionQuestion { get; set; }
+
         public int Order { get; set; }
     }
 }

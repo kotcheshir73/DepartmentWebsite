@@ -9,6 +9,8 @@ namespace TicketServiceImplementations.Helpers
     {
         private static Dictionary<string, int> _questions;
 
+        public static Dictionary<string, string> RandomQuestions { get; set; }
+
         public static Dictionary<string, int> AnalysisBody(TicketTemplateBody body, List<ExaminationTemplateBlock> blocks)
         {
             if (_questions == null)
@@ -18,6 +20,14 @@ namespace TicketServiceImplementations.Helpers
             else
             {
                 _questions.Clear();
+            }
+            if (RandomQuestions == null)
+            {
+                RandomQuestions = new Dictionary<string, string>();
+            }
+            else
+            {
+                RandomQuestions.Clear();
             }
             AnalysisParagraphs(body.TicketTemplateParagraphs);
             if (body.TicketTemplateTables != null)
@@ -106,12 +116,33 @@ namespace TicketServiceImplementations.Helpers
                                     }
                                     if(matchValue.StartsWith("random"))
                                     {
+                                        string randomName = matchValue.Split(':')[0];
+                                        if(!randomName.ToLower().Contains("random"))
+                                        {
+                                            randomName = $"random{randomName}";
+                                        }
+                                        if (_questions.ContainsKey(randomName))
+                                        {
+                                            _questions[randomName]++;
+                                        }
+                                        else
+                                        {
+                                            _questions.Add(randomName, 1);
+                                        }
+                                        if(RandomQuestions.ContainsKey(randomName))
+                                        {
+                                            RandomQuestions[randomName] = matchValue.Split(':')[1];
+                                        }
+                                        else
+                                        {
+                                            RandomQuestions.Add(randomName, matchValue.Split(':')[1]);
+                                        }
                                         string[] subMatchValue = matchValue.Split(':')[1].Split(',');
                                         foreach (var subStr in subMatchValue)
                                         {
                                             if (!_questions.ContainsKey(subStr))
                                             {
-                                                _questions.Add(subStr, 1);
+                                                _questions.Add(subStr, 0);
                                             }
                                         }
                                     }

@@ -32,7 +32,9 @@ namespace TicketServiceImplementations
                 ExaminationTemplateName = entity.ExaminationTemplate.ExaminationTemplateName,
                 BlockName = entity.BlockName,
                 QuestionTagInTemplate = entity.QuestionTagInTemplate,
-                CountQuestionInTicket = entity.CountQuestionInTicket
+                CountQuestionInTicket = entity.CountQuestionInTicket,
+                IsCombine = entity.IsCombine,
+                CombineBlocks = entity.CombineBlocks
             };
         }
 
@@ -69,6 +71,7 @@ namespace TicketServiceImplementations
                 ExaminationTemplateBlockQuestionNumber = entity.ExaminationTemplateBlockQuestion.QuestionNumber,
                 ExaminationTemplateTicketId = entity.ExaminationTemplateTicketId,
                 ExaminationTemplateTicketNumber = entity.ExaminationTemplateTicket.TicketNumber,
+                ExaminationTemplateBlockQuestionQuestion = entity.ExaminationTemplateBlockQuestion.QuestionText,
                 Order = entity.Order
             };
         }

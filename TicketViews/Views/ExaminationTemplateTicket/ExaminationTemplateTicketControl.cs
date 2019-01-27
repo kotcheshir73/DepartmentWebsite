@@ -33,12 +33,18 @@ namespace TicketViews.Views.ExaminationTemplateTicket
 
             List<string> hideToolStripButtons = new List<string> { };
 
-            standartListControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "CreateTicketsToolStripMenuItem", "Создать билеты"}
+                };
+
+            standartListControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartListControl.GetPageAddEvent(LoadRecords);
             standartListControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartListControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartListControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartListControl.ToolStripButtonMoveEventClickAddEvent("CreateTicketsToolStripMenuItem", CreateTicketsToolStripMenuItem_Click);
             standartListControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartListControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -139,6 +145,20 @@ namespace TicketViews.Views.ExaminationTemplateTicket
                     }
                     standartListControl.LoadPage();
                 }
+            }
+        }
+
+        private void CreateTicketsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ExaminationTemplateTicketCreateTicketsForm>(
+                new ParameterOverrides
+                {
+                    { "examinationTemplateId", _examinationTemplateId }
+                }
+                .OnType<ExaminationTemplateTicketCreateTicketsForm>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartListControl.LoadPage();
             }
         }
     }

@@ -102,6 +102,10 @@
     <Compile Include="Migrations\201901250507020_UpdateTicketTemplates2.Designer.cs">
       <DependentUpon>201901250507020_UpdateTicketTemplates2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901260556024_UpdateExaminationTemplateBlock.cs" />
+    <Compile Include="Migrations\201901260556024_UpdateExaminationTemplateBlock.Designer.cs">
+      <DependentUpon>201901260556024_UpdateExaminationTemplateBlock.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
@@ -149,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901250507020_UpdateTicketTemplates2.resx">
       <DependentUpon>201901250507020_UpdateTicketTemplates2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901260556024_UpdateExaminationTemplateBlock.resx">
+      <DependentUpon>201901260556024_UpdateExaminationTemplateBlock.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

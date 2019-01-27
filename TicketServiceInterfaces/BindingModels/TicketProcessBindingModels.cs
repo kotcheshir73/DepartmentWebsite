@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using TicketModels.Enums;
 
 namespace TicketServiceInterfaces.BindingModels
 {
@@ -16,5 +18,25 @@ namespace TicketServiceInterfaces.BindingModels
         public string FileName { get; set; }
 
         public Guid ExaminationTemplateBlockId { get; set; }
+    }
+
+    public class TicketProcessSynchronizeBlocksByTemplateBindingModel
+    {
+        public Guid ExaminationTemplateId { get; set; }
+    }
+
+    public class TicketProcessMakeTicketsBindingModel
+    {
+        public Guid ExaminationTemplateId { get; set; }
+
+        public HowCreateTickets HowCreateTickets { get; set; }
+
+        public int? CountTickets { get; set; }
+
+        public Guid? SelectedBlock { get; set; }
+
+        public Dictionary<string, HowUseExaminationBlock> HowUseBlock { get; set; }
+
+        public Dictionary<string, HowGetQuestionFromExaminationBlock> HowGetQuestionFromBlock { get; set; }
     }
 }

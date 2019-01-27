@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\HowCreateTickets.cs" />
+    <Compile Include="Enums\HowGetQuestionFromExaminationBlock.cs" />
+    <Compile Include="Enums\HowUseExaminationBlock.cs" />
     <Compile Include="Models\ExaminationTemplate.cs" />
     <Compile Include="Models\ExaminationTemplateBlock.cs" />
     <Compile Include="Models\ExaminationTemplateBlockQuestion.cs" />

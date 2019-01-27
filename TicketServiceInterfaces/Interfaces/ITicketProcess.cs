@@ -11,5 +11,9 @@ namespace TicketServiceInterfaces.Interfaces
         ResultService SaveTemplate(TicketProcessLoadTemplateBindingModel model);
 
         ResultService LoadQuestions(TicketProcessLoadQuestionsBindingModel model);
+
+        ResultService MakeTickets(TicketProcessMakeTicketsBindingModel model);
+
+        ResultService SynchronizeBlocksByTemplate(TicketProcessSynchronizeBlocksByTemplateBindingModel model);
     }
 }

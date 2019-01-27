@@ -194,6 +194,12 @@
     <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketControl.Designer.cs">
       <DependentUpon>ExaminationTemplateTicketControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketCreateTicketsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketCreateTicketsForm.Designer.cs">
+      <DependentUpon>ExaminationTemplateTicketCreateTicketsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketElement.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     <EmbeddedResource Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketControl.resx">
       <DependentUpon>ExaminationTemplateTicketControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketCreateTicketsForm.resx">
+      <DependentUpon>ExaminationTemplateTicketCreateTicketsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketElement.resx">
       <DependentUpon>ExaminationTemplateTicketElement.cs</DependentUpon>
     </EmbeddedResource>
@@ -386,6 +395,10 @@
     <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
       <Project>{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}</Project>
       <Name>DepartmentService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketModels\TicketModels.csproj">
+      <Project>{A0EC04B3-171D-4FA9-9EA8-FA9E8EC2307E}</Project>
+      <Name>TicketModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\TicketServiceImplementations\TicketServiceImplementations.csproj">
       <Project>{35FBB585-E28B-40F7-AD9A-AEDD7BB3853A}</Project>

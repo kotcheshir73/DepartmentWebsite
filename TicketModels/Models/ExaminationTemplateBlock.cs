@@ -24,6 +24,12 @@ namespace TicketModels.Models
         [DataMember]
         public int CountQuestionInTicket { get; set; }
 
+        [DataMember]
+        public bool IsCombine { get; set; }
+
+        [DataMember]
+        public string CombineBlocks { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual ExaminationTemplate ExaminationTemplate { get; set; }

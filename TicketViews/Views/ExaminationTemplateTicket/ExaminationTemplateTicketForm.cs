@@ -18,10 +18,11 @@ namespace TicketViews.Views.ExaminationTemplateTicket
 
         private Guid? _id = null;
 
-        public ExaminationTemplateTicketForm(IExaminationTemplateTicketService service, Guid? examinationTemplateId = null, Guid? id = null)
+        public ExaminationTemplateTicketForm(IExaminationTemplateTicketService service, IExaminationTemplateService serviceET, Guid? examinationTemplateId = null, Guid? id = null)
         {
             InitializeComponent();
             _service = service;
+            examinationTemplateElement.Service = serviceET;
             examinationTemplateElement.Id = examinationTemplateId;
             if (id != Guid.Empty)
             {

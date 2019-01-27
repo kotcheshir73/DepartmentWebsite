@@ -30,6 +30,8 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
+            this.textBoxQuestionTagInTemplate = new System.Windows.Forms.TextBox();
+            this.labelQuestionTagInTemplate = new System.Windows.Forms.Label();
             this.textBoxBlockName = new System.Windows.Forms.TextBox();
             this.labelBlockName = new System.Windows.Forms.Label();
             this.numericUpDownCountQuestionInTicket = new System.Windows.Forms.NumericUpDown();
@@ -40,8 +42,10 @@
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
-            this.textBoxQuestionTagInTemplate = new System.Windows.Forms.TextBox();
-            this.labelQuestionTagInTemplate = new System.Windows.Forms.Label();
+            this.checkBoxIsCombine = new System.Windows.Forms.CheckBox();
+            this.labelCobineTegs = new System.Windows.Forms.Label();
+            this.textBoxCombineBlocks = new System.Windows.Forms.TextBox();
+            this.labelIsCombine = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCountQuestionInTicket)).BeginInit();
@@ -60,6 +64,10 @@
             // 
             // tabPageConfig
             // 
+            this.tabPageConfig.Controls.Add(this.labelIsCombine);
+            this.tabPageConfig.Controls.Add(this.textBoxCombineBlocks);
+            this.tabPageConfig.Controls.Add(this.labelCobineTegs);
+            this.tabPageConfig.Controls.Add(this.checkBoxIsCombine);
             this.tabPageConfig.Controls.Add(this.textBoxQuestionTagInTemplate);
             this.tabPageConfig.Controls.Add(this.labelQuestionTagInTemplate);
             this.tabPageConfig.Controls.Add(this.textBoxBlockName);
@@ -78,6 +86,22 @@
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Блок экзамена";
             this.tabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // textBoxQuestionTagInTemplate
+            // 
+            this.textBoxQuestionTagInTemplate.Location = new System.Drawing.Point(222, 63);
+            this.textBoxQuestionTagInTemplate.Name = "textBoxQuestionTagInTemplate";
+            this.textBoxQuestionTagInTemplate.Size = new System.Drawing.Size(300, 20);
+            this.textBoxQuestionTagInTemplate.TabIndex = 5;
+            // 
+            // labelQuestionTagInTemplate
+            // 
+            this.labelQuestionTagInTemplate.AutoSize = true;
+            this.labelQuestionTagInTemplate.Location = new System.Drawing.Point(12, 66);
+            this.labelQuestionTagInTemplate.Name = "labelQuestionTagInTemplate";
+            this.labelQuestionTagInTemplate.Size = new System.Drawing.Size(133, 13);
+            this.labelQuestionTagInTemplate.TabIndex = 4;
+            this.labelQuestionTagInTemplate.Text = "Тег вопроса в шаблоне*:";
             // 
             // textBoxBlockName
             // 
@@ -113,10 +137,10 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(201, 137);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(201, 200);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 9;
+            this.buttonSaveAndClose.TabIndex = 13;
             this.buttonSaveAndClose.Text = "Сохранить и закрыть";
             this.buttonSaveAndClose.UseVisualStyleBackColor = true;
             this.buttonSaveAndClose.Click += new System.EventHandler(this.ButtonSaveAndClose_Click);
@@ -141,20 +165,20 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(348, 137);
+            this.buttonClose.Location = new System.Drawing.Point(348, 200);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 10;
+            this.buttonClose.TabIndex = 14;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(120, 137);
+            this.buttonSave.Location = new System.Drawing.Point(120, 200);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 8;
+            this.buttonSave.TabIndex = 12;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
@@ -169,21 +193,40 @@
             this.tabPageRecords.Text = "Вопросы";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // textBoxQuestionTagInTemplate
+            // checkBoxIsCombine
             // 
-            this.textBoxQuestionTagInTemplate.Location = new System.Drawing.Point(222, 63);
-            this.textBoxQuestionTagInTemplate.Name = "textBoxQuestionTagInTemplate";
-            this.textBoxQuestionTagInTemplate.Size = new System.Drawing.Size(300, 20);
-            this.textBoxQuestionTagInTemplate.TabIndex = 5;
+            this.checkBoxIsCombine.AutoSize = true;
+            this.checkBoxIsCombine.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxIsCombine.Location = new System.Drawing.Point(222, 115);
+            this.checkBoxIsCombine.Name = "checkBoxIsCombine";
+            this.checkBoxIsCombine.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxIsCombine.TabIndex = 9;
+            this.checkBoxIsCombine.UseVisualStyleBackColor = true;
             // 
-            // labelQuestionTagInTemplate
+            // labelCobineTegs
             // 
-            this.labelQuestionTagInTemplate.AutoSize = true;
-            this.labelQuestionTagInTemplate.Location = new System.Drawing.Point(12, 66);
-            this.labelQuestionTagInTemplate.Name = "labelQuestionTagInTemplate";
-            this.labelQuestionTagInTemplate.Size = new System.Drawing.Size(133, 13);
-            this.labelQuestionTagInTemplate.TabIndex = 4;
-            this.labelQuestionTagInTemplate.Text = "Тег вопроса в шаблоне*:";
+            this.labelCobineTegs.AutoSize = true;
+            this.labelCobineTegs.Location = new System.Drawing.Point(12, 141);
+            this.labelCobineTegs.Name = "labelCobineTegs";
+            this.labelCobineTegs.Size = new System.Drawing.Size(120, 13);
+            this.labelCobineTegs.TabIndex = 10;
+            this.labelCobineTegs.Text = "Блоки в объединении:";
+            // 
+            // textBoxCombineBlocks
+            // 
+            this.textBoxCombineBlocks.Location = new System.Drawing.Point(222, 138);
+            this.textBoxCombineBlocks.Name = "textBoxCombineBlocks";
+            this.textBoxCombineBlocks.Size = new System.Drawing.Size(300, 20);
+            this.textBoxCombineBlocks.TabIndex = 11;
+            // 
+            // labelIsCombine
+            // 
+            this.labelIsCombine.AutoSize = true;
+            this.labelIsCombine.Location = new System.Drawing.Point(12, 115);
+            this.labelIsCombine.Name = "labelIsCombine";
+            this.labelIsCombine.Size = new System.Drawing.Size(87, 13);
+            this.labelIsCombine.TabIndex = 8;
+            this.labelIsCombine.Text = "Объединенный:";
             // 
             // ExaminationTemplateBlockForm
             // 
@@ -219,5 +262,9 @@
         private System.Windows.Forms.Label labelBlockName;
         private System.Windows.Forms.TextBox textBoxQuestionTagInTemplate;
         private System.Windows.Forms.Label labelQuestionTagInTemplate;
+        private System.Windows.Forms.CheckBox checkBoxIsCombine;
+        private System.Windows.Forms.Label labelIsCombine;
+        private System.Windows.Forms.TextBox textBoxCombineBlocks;
+        private System.Windows.Forms.Label labelCobineTegs;
     }
 }

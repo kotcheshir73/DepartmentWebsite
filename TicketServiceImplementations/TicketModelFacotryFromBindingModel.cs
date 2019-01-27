@@ -29,6 +29,8 @@ namespace TicketServiceImplementations
             entity.BlockName = model.BlockName;
             entity.QuestionTagInTemplate = model.QuestionTagInTemplate;
             entity.CountQuestionInTicket = model.CountQuestionInTicket;
+            entity.IsCombine = model.IsCombine;
+            entity.CombineBlocks = model.CombineBlocks;
 
             return entity;
         }

@@ -28,7 +28,8 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "ExaminationTemplateName", Title = "Название экзамена", Width = 200, Visible = true },
                 new ColumnConfig { Name = "BlockName", Title = "Название блока", Width = 200, Visible = true },
-                new ColumnConfig { Name = "CountQuestionInTicket", Title = "Количество вопросов в билете", Width = 200, Visible = true }
+                new ColumnConfig { Name = "CountQuestionInTicket", Title = "Количество вопросов в билете", Width = 200, Visible = true },
+                new ColumnConfig { Name = "IsCombine", Title = "Объединение", Width = 100, Visible = true }
             };
 
             standartSearchControl.Configurate(columns);
@@ -89,7 +90,8 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                             res.Id,
                             res.ExaminationTemplateName,
                             res.BlockName,
-                            res.CountQuestionInTicket
+                            res.CountQuestionInTicket,
+                            res.IsCombine ? "Да" : "Нет"
                         );
                     }
                 }
@@ -97,9 +99,10 @@ namespace TicketViews.Views.ExaminationTemplateBlock
                 {
                     standartSearchControl.GetDataGridViewRows.Add(
                         res.Id,
-                            res.ExaminationTemplateName,
-                            res.BlockName,
-                            res.CountQuestionInTicket
+                        res.ExaminationTemplateName,
+                        res.BlockName,
+                        res.CountQuestionInTicket,
+                        res.IsCombine ? "Да" : "Нет"
                     );
                 }
             }

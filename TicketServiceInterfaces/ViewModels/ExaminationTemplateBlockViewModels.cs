@@ -18,5 +18,9 @@ namespace TicketServiceInterfaces.ViewModels
         public string QuestionTagInTemplate { get; set; }
 
         public int CountQuestionInTicket { get; set; }
+
+        public bool IsCombine { get; set; }
+
+        public string CombineBlocks { get; set; }
     }
 }
