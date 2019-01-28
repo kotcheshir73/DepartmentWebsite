@@ -17,6 +17,9 @@ namespace TicketModels.Models
         public Guid ExaminationTemplateBlockQuestionId { get; set; }
 
         [DataMember]
+        public Guid ExaminationTemplateBlockId { get; set; }
+
+        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------

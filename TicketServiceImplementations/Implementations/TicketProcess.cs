@@ -5,6 +5,7 @@ using DepartmentService;
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using TicketModels.Enums;
@@ -133,22 +134,6 @@ namespace TicketServiceImplementations.Implementations
             var body = XMLParser.GetBody(text, ticketTemplate.Id);
             ticketTemplate.TicketTemplateBodies.Add(body);
 
-            try
-            {
-                using (var context = new DepartmentDbContext())
-                {
-                    var blocks = context.ExaminationTemplateBlocks.Where(x => x.ExaminationTemplateId == model.ExaminationTemplateId && !x.IsDeleted).ToList();
-                    if (blocks.Count > 0)
-                    {
-                        TicketTemplateAnalyser.AnalysisBody(body, blocks);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return ResultService<TicketTemplateViewModel>.Error(ex, ResultServiceStatusCode.Error);
-            }
-
             return ResultService<TicketTemplateViewModel>.Success(TicketModelFactoryToViewModel.CreateTicketTemplate(ticketTemplate));
         }
 
@@ -217,342 +202,59 @@ namespace TicketServiceImplementations.Implementations
                     {
                         try
                         {
-                            #region Формируем билеты по требуемому количеству билетов
+                            #region
+                            bool stopCreate = false;
                             if (model.HowCreateTickets == HowCreateTickets.ПоКоличествуБилетов)
                             {
                                 if (!model.CountTickets.HasValue || model.CountTickets == 0)
                                 {
                                     throw new Exception("Не указано количество вопросов");
                                 }
-                                for (int i = 0; i < model.CountTickets.Value; ++i)
-                                {
-                                    ExaminationTemplateTicket ticket = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
-                                    {
-                                        ExaminationTemplateId = model.ExaminationTemplateId,
-                                        TicketNumber = i + 1
-                                    });
-
-                                    ticket.ExaminationTemplateTicketQuestions = new List<ExaminationTemplateTicketQuestion>();
-                                    // порядковый номер вопроса в билете
-                                    int order = 0;
-
-                                    foreach (var elem in dublicate)
-                                    {
-                                        if (elem.Key.IsCombine)
-                                        {
-                                            #region Рандомный блок
-                                            // если для блока указано обновлять список, если для билета не хватает вопросов
-                                            // если для рандомного блока не хватает блоков под вопросы
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиБлоков && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Count)
-                                            {
-                                                duplicateRanodm[elem.Key.BlockName].Clear();
-                                                duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
-                                                var keys = counterForRandomBlocks[elem.Key].Keys.ToList();
-                                                for (int k = 0; k < keys.Count; ++k)
-                                                {
-                                                    counterForRandomBlocks[elem.Key][keys[k]] = 0;
-                                                }
-                                            }
-                                            // если для рандомного блока не хватает вопросов по всем оставшимся блокам
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиВопросов && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count))
-                                            {
-                                                duplicateRanodm[elem.Key.BlockName].Clear();
-                                                duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
-                                                var keys = counterForRandomBlocks[elem.Key].Keys.ToList();
-                                                for (int k = 0; k < keys.Count; ++k)
-                                                {
-                                                    counterForRandomBlocks[elem.Key][keys[k]] = 0;
-                                                }
-                                            }
-
-                                            // вытаскиваем вопросы
-                                            for (int j = 0; j < elem.Key.CountQuestionInTicket; ++j)
-                                            {
-                                                // если для блока указано обновлять список, как только закончатся вопросы
-                                                if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПриОкончанииСписка && duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count) == 0)
-                                                {
-                                                    duplicateRanodm[elem.Key.BlockName].Clear();
-                                                    duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
-                                                }
-                                                // выбираем случайный блок
-                                                var indexBlock = random.Next(0, duplicateRanodm[elem.Key.BlockName].Count);
-                                                var randBlock = duplicateRanodm[elem.Key.BlockName].Keys.ToList()[indexBlock];
-
-                                                // ищем вопрос, котрого еще нет в билете
-                                                int index = -1;
-                                                while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == duplicateRanodm[elem.Key.BlockName][randBlock][index].Id))
-                                                {
-                                                    if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
-                                                    {
-                                                        // берем рандомный вопрос, котрого еще не было в этом билете
-                                                        index = random.Next(0, elem.Value.Count);
-                                                    }
-                                                    else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
-                                                    {
-                                                        // берем вопрос по списку
-                                                        index = counterForRandomBlocks[elem.Key][randBlock]++;
-                                                    }
-                                                    if (index >= duplicateRanodm[elem.Key.BlockName][randBlock].Count)
-                                                    {
-                                                        throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
-                                                    }
-                                                }
-
-                                                ExaminationTemplateTicketQuestion ticketQuestion = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
-                                                {
-                                                    ExaminationTemplateBlockQuestionId = duplicateRanodm[elem.Key.BlockName][randBlock][index].Id,
-                                                    ExaminationTemplateTicketId = ticket.Id,
-                                                    Order = order++
-                                                });
-
-                                                ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
-
-                                                duplicateRanodm[elem.Key.BlockName][randBlock].RemoveAt(index);
-
-                                                // если блок вопросов пуст, удаляем его
-                                                if (duplicateRanodm[elem.Key.BlockName][randBlock].Count == 0)
-                                                {
-                                                    duplicateRanodm[elem.Key.BlockName].Remove(randBlock);
-                                                }
-                                            }
-                                            #endregion
-                                        }
-                                        else
-                                        {
-                                            #region простой блок
-                                            // если для блока указано обновлять список, если для билета не хватает вопросов
-                                            // если требуемое количество вопросов в билете превышает доступное, то обновляем список
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетом && elem.Key.CountQuestionInTicket > elem.Value.Count)
-                                            {
-                                                elem.Value.Clear();
-                                                elem.Value.AddRange(GetDuplicateList(constQuestionDisctionary[elem.Key]));
-                                                counterForBlocks[elem.Key] = 0;
-                                            }
-
-                                            // вытаскиваем вопросы
-                                            for (int j = 0; j < elem.Key.CountQuestionInTicket; ++j)
-                                            {
-                                                // если для блока указано обновлять список, как только закончатся вопросы
-                                                if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПриОкончанииСписка && elem.Value.Count == 0)
-                                                {
-                                                    elem.Value.AddRange(GetDuplicateList(constQuestionDisctionary[elem.Key]));
-                                                    counterForBlocks[elem.Key] = 0;
-                                                }
-                                                int index = -1;
-
-                                                // ищем вопрос, котрого еще нет в билете
-                                                while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == elem.Value[index].Id))
-                                                {
-                                                    if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
-                                                    {
-                                                        // берем рандомный вопрос, котрого еще не было в этом билете
-                                                        index = random.Next(0, elem.Value.Count);
-                                                    }
-                                                    else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
-                                                    {
-                                                        // берем вопрос по списку
-                                                        index = counterForBlocks[elem.Key]++;
-                                                    }
-                                                    if (index >= elem.Value.Count)
-                                                    {
-                                                        throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
-                                                    }
-                                                }
-
-                                                ExaminationTemplateTicketQuestion ticketQuestion = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
-                                                {
-                                                    ExaminationTemplateBlockQuestionId = elem.Value[index].Id,
-                                                    ExaminationTemplateTicketId = ticket.Id,
-                                                    Order = order++
-                                                });
-
-                                                ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
-
-                                                elem.Value.RemoveAt(index);
-                                            }
-                                            #endregion
-                                        }
-                                    }
-
-                                    context.ExaminationTemplateTickets.Add(ticket);
-                                    context.SaveChanges();
-                                }
                             }
-                            #endregion
-                            #region Формируем билеты пока есть вопросы
-                            else if (model.HowCreateTickets == HowCreateTickets.ПокаВозможноСоздавать)
-                            {
-                                bool stopCreate = false;
-                                for (int i = 0; !stopCreate; ++i)
-                                {
-                                    ExaminationTemplateTicket ticket = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
-                                    {
-                                        ExaminationTemplateId = model.ExaminationTemplateId,
-                                        TicketNumber = i + 1
-                                    });
-
-                                    ticket.ExaminationTemplateTicketQuestions = new List<ExaminationTemplateTicketQuestion>();
-                                    // порядковый номер вопроса в билете
-                                    int order = 0;
-
-                                    foreach (var elem in dublicate)
-                                    {
-                                        if (elem.Key.IsCombine)
-                                        {
-                                            #region Рандомный блок
-                                            // если для блока указано обновлять список, если для билета не хватает вопросов
-                                            // если для рандомного блока не хватает блоков под вопросы
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиБлоков && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Count)
-                                            {
-                                                stopCreate = true;
-                                                break;
-                                            }
-                                            // если для рандомного блока не хватает вопросов по всем оставшимся блокам
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиВопросов && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count))
-                                            {
-                                                stopCreate = true;
-                                                break;
-                                            }
-
-                                            // вытаскиваем вопросы
-                                            for (int j = 0; j < elem.Key.CountQuestionInTicket; ++j)
-                                            {
-                                                // выбираем случайный блок
-                                                var indexBlock = random.Next(0, duplicateRanodm[elem.Key.BlockName].Count);
-                                                var randBlock = duplicateRanodm[elem.Key.BlockName].Keys.ToList()[indexBlock];
-
-                                                // ищем вопрос, котрого еще нет в билете
-                                                int index = -1;
-                                                while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == duplicateRanodm[elem.Key.BlockName][randBlock][index].Id))
-                                                {
-                                                    if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
-                                                    {
-                                                        // берем рандомный вопрос, котрого еще не было в этом билете
-                                                        index = random.Next(0, elem.Value.Count);
-                                                    }
-                                                    else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
-                                                    {
-                                                        // берем вопрос по списку
-                                                        index = counterForRandomBlocks[elem.Key][randBlock]++;
-                                                    }
-                                                    if (index >= duplicateRanodm[elem.Key.BlockName][randBlock].Count)
-                                                    {
-                                                        throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
-                                                    }
-                                                }
-
-                                                ExaminationTemplateTicketQuestion ticketQuestion = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
-                                                {
-                                                    ExaminationTemplateBlockQuestionId = duplicateRanodm[elem.Key.BlockName][randBlock][index].Id,
-                                                    ExaminationTemplateTicketId = ticket.Id,
-                                                    Order = order++
-                                                });
-
-                                                ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
-
-                                                duplicateRanodm[elem.Key.BlockName][randBlock].RemoveAt(index);
-
-                                                // если блок вопросов пуст, удаляем его
-                                                if (duplicateRanodm[elem.Key.BlockName][randBlock].Count == 0)
-                                                {
-                                                    duplicateRanodm[elem.Key.BlockName].Remove(randBlock);
-                                                }
-                                            }
-                                            #endregion
-                                        }
-                                        else
-                                        {
-                                            #region простой блок
-                                            // если для блока указано обновлять список, если для билета не хватает вопросов
-                                            // если требуемое количество вопросов в билете превышает доступное, то обновляем список
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетом && elem.Key.CountQuestionInTicket > elem.Value.Count)
-                                            {
-                                                stopCreate = true;
-                                                break;
-                                            }
-
-                                            // вытаскиваем вопросы
-                                            for (int j = 0; j < elem.Key.CountQuestionInTicket; ++j)
-                                            {
-                                                int index = -1;
-
-                                                // ищем вопрос, котрого еще нет в билете
-                                                while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == elem.Value[index].Id))
-                                                {
-                                                    if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
-                                                    {
-                                                        // берем рандомный вопрос, котрого еще не было в этом билете
-                                                        index = random.Next(0, elem.Value.Count);
-                                                    }
-                                                    else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
-                                                    {
-                                                        // берем вопрос по списку
-                                                        index = counterForBlocks[elem.Key]++;
-                                                    }
-                                                    if (index >= elem.Value.Count)
-                                                    {
-                                                        throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
-                                                    }
-                                                }
-
-                                                ExaminationTemplateTicketQuestion ticketQuestion = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
-                                                {
-                                                    ExaminationTemplateBlockQuestionId = elem.Value[index].Id,
-                                                    ExaminationTemplateTicketId = ticket.Id,
-                                                    Order = order++
-                                                });
-
-                                                ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
-
-                                                elem.Value.RemoveAt(index);
-                                            }
-                                            #endregion
-                                        }
-                                    }
-
-                                    // если флаг в true, значит сформировать билет уже не получилось
-                                    if (!stopCreate)
-                                    {
-                                        context.ExaminationTemplateTickets.Add(ticket);
-                                        context.SaveChanges();
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region Формируем билет пока есть вопросы в определенном блоке
                             else if (model.HowCreateTickets == HowCreateTickets.ПоВыбранномуБлоку)
                             {
-                                bool stopCreate = false;
                                 if (!model.SelectedBlock.HasValue)
                                 {
                                     throw new Exception("Не выбран блок");
                                 }
-                                for (int i = 0; !stopCreate; ++i)
+                            }
+                            for (int i = 0; !stopCreate; ++i)
+                            {
+                                if (model.HowCreateTickets == HowCreateTickets.ПоКоличествуБилетов && i >= model.CountTickets)
                                 {
-                                    ExaminationTemplateTicket ticket = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
-                                    {
-                                        ExaminationTemplateId = model.ExaminationTemplateId,
-                                        TicketNumber = i + 1
-                                    });
+                                    stopCreate = true;
+                                    break;
+                                }
+                                ExaminationTemplateTicket ticket = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
+                                {
+                                    ExaminationTemplateId = model.ExaminationTemplateId,
+                                    TicketNumber = i + 1
+                                });
 
-                                    ticket.ExaminationTemplateTicketQuestions = new List<ExaminationTemplateTicketQuestion>();
-                                    // порядковый номер вопроса в билете
-                                    int order = 0;
+                                ticket.ExaminationTemplateTicketQuestions = new List<ExaminationTemplateTicketQuestion>();
+                                // порядковый номер вопроса в билете
+                                int order = 0;
 
-                                    foreach (var elem in dublicate)
+                                foreach (var elem in dublicate)
+                                {
+                                    if (elem.Key.IsCombine)
                                     {
-                                        if (elem.Key.IsCombine)
+                                        #region Рандомный блок
+                                        // если для рандомного блока не хватает блоков под вопросы
+                                        if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиБлоков && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Count)
                                         {
-                                            #region Рандомный блок
-                                            // если для блока указано обновлять список, если для билета не хватает вопросов
-                                            // если для рандомного блока не хватает блоков под вопросы
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиБлоков && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Count)
+                                            if (model.HowCreateTickets == HowCreateTickets.ПокаВозможноСоздавать)
                                             {
-                                                if (elem.Key.Id == model.SelectedBlock)
-                                                {
-                                                    stopCreate = true;
-                                                    break;
-                                                }
+                                                stopCreate = true;
+                                                break;
+                                            }
+                                            else if (model.HowCreateTickets == HowCreateTickets.ПоВыбранномуБлоку && elem.Key.Id == model.SelectedBlock)
+                                            {
+                                                stopCreate = true;
+                                                break;
+                                            }
+                                            else
+                                            {
                                                 duplicateRanodm[elem.Key.BlockName].Clear();
                                                 duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
                                                 var keys = counterForRandomBlocks[elem.Key].Keys.ToList();
@@ -561,143 +263,149 @@ namespace TicketServiceImplementations.Implementations
                                                     counterForRandomBlocks[elem.Key][keys[k]] = 0;
                                                 }
                                             }
-                                            // если для рандомного блока не хватает вопросов по всем оставшимся блокам
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиВопросов && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count))
+                                        }
+                                        // если для рандомного блока не хватает вопросов по всем оставшимся блокам
+                                        if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетомПриНехваткиВопросов && elem.Key.CountQuestionInTicket > duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count))
+                                        {
+                                            if (model.HowCreateTickets == HowCreateTickets.ПокаВозможноСоздавать)
                                             {
-                                                if (elem.Key.Id == model.SelectedBlock)
-                                                {
-                                                    stopCreate = true;
-                                                    break;
-                                                }
+                                                stopCreate = true;
+                                                break;
+                                            }
+                                            else if (model.HowCreateTickets == HowCreateTickets.ПоВыбранномуБлоку && elem.Key.Id == model.SelectedBlock)
+                                            {
+                                                stopCreate = true;
+                                                break;
+                                            }
+                                            else
+                                            {
                                                 duplicateRanodm[elem.Key.BlockName].Clear();
                                                 duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
                                                 var keys = counterForRandomBlocks[elem.Key].Keys.ToList();
-                                                for(int k = 0; k < keys.Count; ++k)
+                                                for (int k = 0; k < keys.Count; ++k)
                                                 {
                                                     counterForRandomBlocks[elem.Key][keys[k]] = 0;
                                                 }
                                             }
+                                        }
 
-                                            // вытаскиваем вопросы
-                                            for (int j = 0; j < elem.Key.CountQuestionInTicket; ++j)
+                                        // вытаскиваем вопросы
+                                        for (int j = 0; j < elem.Key.CountQuestionInTicket && !stopCreate; ++j)
+                                        {
+                                            // если для блока указано обновлять список, как только закончатся вопросы
+                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПриОкончанииСписка && duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count) == 0)
                                             {
-                                                // если для блока указано обновлять список, как только закончатся вопросы
-                                                if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПриОкончанииСписка && duplicateRanodm[elem.Key.BlockName].Sum(x => x.Value.Count) == 0)
+                                                duplicateRanodm[elem.Key.BlockName].Clear();
+                                                duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
+                                            }
+                                            // выбираем случайный блок
+                                            var indexBlock = random.Next(0, duplicateRanodm[elem.Key.BlockName].Count);
+                                            var randBlock = duplicateRanodm[elem.Key.BlockName].Keys.ToList()[indexBlock];
+
+                                            // ищем вопрос, котрого еще нет в билете
+                                            int index = -1;
+                                            while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == duplicateRanodm[elem.Key.BlockName][randBlock][index].Id))
+                                            {
+                                                if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
                                                 {
-                                                    duplicateRanodm[elem.Key.BlockName].Clear();
-                                                    duplicateRanodm[elem.Key.BlockName] = GetDublicateDictionary(constBlockRandomQuestionDisctionary[elem.Key.BlockName]);
+                                                    // берем рандомный вопрос, котрого еще не было в этом билете
+                                                    index = random.Next(0, elem.Value.Count);
                                                 }
-                                                // выбираем случайный блок
-                                                var indexBlock = random.Next(0, duplicateRanodm[elem.Key.BlockName].Count);
-                                                var randBlock = duplicateRanodm[elem.Key.BlockName].Keys.ToList()[indexBlock];
-
-                                                // ищем вопрос, котрого еще нет в билете
-                                                int index = -1;
-                                                while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == duplicateRanodm[elem.Key.BlockName][randBlock][index].Id))
+                                                else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
                                                 {
-                                                    if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
-                                                    {
-                                                        // берем рандомный вопрос, котрого еще не было в этом билете
-                                                        index = random.Next(0, elem.Value.Count);
-                                                    }
-                                                    else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
-                                                    {
-                                                        // берем вопрос по списку
-                                                        index = counterForRandomBlocks[elem.Key][randBlock]++;
-                                                    }
-                                                    if (index >= duplicateRanodm[elem.Key.BlockName][randBlock].Count)
-                                                    {
-                                                        throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
-                                                    }
+                                                    // берем вопрос по списку
+                                                    index = counterForRandomBlocks[elem.Key][randBlock]++;
                                                 }
-
-                                                ExaminationTemplateTicketQuestion ticketQuestion = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
+                                                if (index >= duplicateRanodm[elem.Key.BlockName][randBlock].Count)
                                                 {
-                                                    ExaminationTemplateBlockQuestionId = duplicateRanodm[elem.Key.BlockName][randBlock][index].Id,
-                                                    ExaminationTemplateTicketId = ticket.Id,
-                                                    Order = order++
-                                                });
-
-                                                ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
-
-                                                duplicateRanodm[elem.Key.BlockName][randBlock].RemoveAt(index);
-
-                                                // если блок вопросов пуст, удаляем его
-                                                if (duplicateRanodm[elem.Key.BlockName][randBlock].Count == 0)
-                                                {
-                                                    duplicateRanodm[elem.Key.BlockName].Remove(randBlock);
+                                                    throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
                                                 }
                                             }
-                                            #endregion
-                                        }
-                                        else
-                                        {
-                                            #region простой блок
-                                            // если для блока указано обновлять список, если для билета не хватает вопросов
-                                            // если требуемое количество вопросов в билете превышает доступное, то обновляем список
-                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетом && elem.Key.CountQuestionInTicket > elem.Value.Count)
+
+                                            ExaminationTemplateTicketQuestion ticketQuestion = CreateQuestion(duplicateRanodm[elem.Key.BlockName][randBlock][index].Id, ticket.Id, elem.Key.Id, order++);
+
+                                            ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
+
+                                            duplicateRanodm[elem.Key.BlockName][randBlock].RemoveAt(index);
+
+                                            // если блок вопросов пуст, удаляем его
+                                            if (duplicateRanodm[elem.Key.BlockName][randBlock].Count == 0)
                                             {
-                                                if (elem.Key.Id == model.SelectedBlock)
-                                                {
-                                                    stopCreate = true;
-                                                    break;
-                                                }
+                                                duplicateRanodm[elem.Key.BlockName].Remove(randBlock);
+                                            }
+                                        }
+                                        #endregion
+                                    }
+                                    else
+                                    {
+                                        #region простой блок
+                                        // если для блока указано обновлять список, если для билета не хватает вопросов
+                                        // если требуемое количество вопросов в билете превышает доступное, то обновляем список
+                                        if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПередБилетом && elem.Key.CountQuestionInTicket > elem.Value.Count)
+                                        {
+                                            if (model.HowCreateTickets == HowCreateTickets.ПокаВозможноСоздавать)
+                                            {
+                                                stopCreate = true;
+                                                break;
+                                            }
+                                            else if (model.HowCreateTickets == HowCreateTickets.ПоВыбранномуБлоку && elem.Key.Id == model.SelectedBlock)
+                                            {
+                                                stopCreate = true;
+                                                break;
+                                            }
+                                            else
+                                            {
                                                 elem.Value.Clear();
                                                 elem.Value.AddRange(GetDuplicateList(constQuestionDisctionary[elem.Key]));
                                                 counterForBlocks[elem.Key] = 0;
                                             }
-
-                                            // вытаскиваем вопросы
-                                            for (int j = 0; j < elem.Key.CountQuestionInTicket; ++j)
-                                            {
-                                                // если для блока указано обновлять список, как только закончатся вопросы
-                                                if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПриОкончанииСписка && elem.Value.Count == 0)
-                                                {
-                                                    elem.Value.AddRange(GetDuplicateList(constQuestionDisctionary[elem.Key]));
-                                                    counterForBlocks[elem.Key] = 0;
-                                                }
-                                                int index = -1;
-
-                                                // ищем вопрос, котрого еще нет в билете
-                                                while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == elem.Value[index].Id))
-                                                {
-                                                    if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
-                                                    {
-                                                        // берем рандомный вопрос, котрого еще не было в этом билете
-                                                        index = random.Next(0, elem.Value.Count);
-                                                    }
-                                                    else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
-                                                    {
-                                                        // берем вопрос по списку
-                                                        index = counterForBlocks[elem.Key]++;
-                                                    }
-                                                    if (index >= elem.Value.Count)
-                                                    {
-                                                        throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
-                                                    }
-                                                }
-
-                                                ExaminationTemplateTicketQuestion ticketQuestion = TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
-                                                {
-                                                    ExaminationTemplateBlockQuestionId = elem.Value[index].Id,
-                                                    ExaminationTemplateTicketId = ticket.Id,
-                                                    Order = order++
-                                                });
-
-                                                ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
-
-                                                elem.Value.RemoveAt(index);
-                                            }
-                                            #endregion
                                         }
-                                    }
 
-                                    // если флаг в true, значит сформировать билет уже не получилось
-                                    if (!stopCreate)
-                                    {
-                                        context.ExaminationTemplateTickets.Add(ticket);
-                                        context.SaveChanges();
+                                        // вытаскиваем вопросы
+                                        for (int j = 0; j < elem.Key.CountQuestionInTicket && !stopCreate; ++j)
+                                        {
+                                            // если для блока указано обновлять список, как только закончатся вопросы
+                                            if (model.HowUseBlock[elem.Key.BlockName] == HowUseExaminationBlock.СбросПриОкончанииСписка && elem.Value.Count == 0)
+                                            {
+                                                elem.Value.AddRange(GetDuplicateList(constQuestionDisctionary[elem.Key]));
+                                                counterForBlocks[elem.Key] = 0;
+                                            }
+                                            int index = -1;
+
+                                            // ищем вопрос, котрого еще нет в билете
+                                            while (index < 0 || ticket.ExaminationTemplateTicketQuestions.Exists(x => x.ExaminationTemplateBlockQuestionId == elem.Value[index].Id))
+                                            {
+                                                if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.РандомныйВопрос)
+                                                {
+                                                    // берем рандомный вопрос, котрого еще не было в этом билете
+                                                    index = random.Next(0, elem.Value.Count);
+                                                }
+                                                else if (model.HowGetQuestionFromBlock[elem.Key.BlockName] == HowGetQuestionFromExaminationBlock.ПоСписку)
+                                                {
+                                                    // берем вопрос по списку
+                                                    index = counterForBlocks[elem.Key]++;
+                                                }
+                                                if (index >= elem.Value.Count)
+                                                {
+                                                    throw new Exception($"В блоке {elem.Key.BlockName} кончились вопросы. Требуется вопрос под номером {index}");
+                                                }
+                                            }
+
+                                            ExaminationTemplateTicketQuestion ticketQuestion = CreateQuestion(elem.Value[index].Id, ticket.Id, elem.Key.Id, order++);
+
+                                            ticket.ExaminationTemplateTicketQuestions.Add(ticketQuestion);
+
+                                            elem.Value.RemoveAt(index);
+                                        }
+                                        #endregion
                                     }
+                                }
+
+                                // если флаг в true, значит сформировать билет уже не получилось
+                                if (!stopCreate)
+                                {
+                                    context.ExaminationTemplateTickets.Add(ticket);
+                                    context.SaveChanges();
                                 }
                             }
                             #endregion
@@ -798,28 +506,6 @@ namespace TicketServiceImplementations.Implementations
                                 context.SaveChanges();
                             }
 
-                            var blocks = context.ExaminationTemplateBlocks.Where(x => x.ExaminationTemplateId == model.ExaminationTemplateId && !x.IsDeleted).ToList();
-
-                            var questions = TicketTemplateAnalyser.AnalysisBody(body, blocks);
-
-                            if (blocks.Count == 0)
-                            {
-                                foreach (var question in questions)
-                                {
-                                    var block = TicketModelFacotryFromBindingModel.CreateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
-                                    {
-                                        ExaminationTemplateId = model.ExaminationTemplateId.Value,
-                                        BlockName = question.Key,
-                                        CountQuestionInTicket = question.Value,
-                                        QuestionTagInTemplate = question.Key,
-                                        IsCombine = question.Key.ToLower().Contains("random"),
-                                        CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty
-                                    });
-                                    context.ExaminationTemplateBlocks.Add(block);
-                                    context.SaveChanges();
-                                }
-                            }
-
                             transaction.Commit();
                         }
                         catch (Exception ex)
@@ -852,7 +538,7 @@ namespace TicketServiceImplementations.Implementations
 
                     var body = XMLParser.GetBody(ticketTemplate.XML, ticketTemplate.Id);
 
-                    var questions = TicketTemplateAnalyser.AnalysisBody(body, new List<ExaminationTemplateBlock>());
+                    var questions = TicketTemplateAnalyser.AnalysisBody(body);
 
                     using (var transaction = context.Database.BeginTransaction())
                     {
@@ -915,6 +601,100 @@ namespace TicketServiceImplementations.Implementations
             }
         }
 
+        public ResultService UploadTickets(TicketProcessUploadTicketsBindingModel model)
+        {
+            try
+            {
+                using (var context = new DepartmentDbContext())
+                {
+                    int counter = 0;
+                    var ticketTemplate = context.TicketTemplates.FirstOrDefault(x => x.Id == model.TicketTemplateId && !x.IsDeleted);
+                    if(ticketTemplate == null)
+                    {
+                        return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);
+                    }
+
+                    var examinationTemplate = context.ExaminationTemplates
+                        .Include(x => x.Discipline)
+                        .Include(x => x.EducationDirection)
+                        .FirstOrDefault(x => x.Id == ticketTemplate.ExaminationTemplateId && !x.IsDeleted);
+                    if (examinationTemplate == null)
+                    {
+                        return ResultService.Error("Error:", "ExaminationTemplate not found", ResultServiceStatusCode.NotFound);
+                    }
+
+                    var blocks = context.ExaminationTemplateBlocks.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).ToList();
+                    var tickets = context.ExaminationTemplateTickets.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).OrderBy(x => x.TicketNumber);
+
+                    var body = TicketBodyGet.GetBody(context, ticketTemplate.Id);
+
+                    TicketDocCreator docCreator = new TicketDocCreator();
+
+                    using (StreamWriter writer = new StreamWriter(model.FileName + ".xml"))
+                    {
+                        var stratIndex = ticketTemplate.XML.IndexOf("<w:body>");
+                        writer.Write(ticketTemplate.XML.Substring(0, stratIndex));
+                        writer.Write("<w:body><wx:sect>");
+                        foreach(var ticket in tickets)
+                        {
+                            var questions = context.ExaminationTemplateTicketQuestions
+                                                .Where(x => x.ExaminationTemplateTicketId == ticket.Id && !x.IsDeleted)
+                                                .Include(x => x.ExaminationTemplateBlockQuestion)
+                                                .ToList();
+
+                            writer.Write(docCreator.GetBody(body, examinationTemplate, ticket, questions, blocks));
+                        }
+
+                        writer.Write(docCreator.GetBodyFormat(body));
+                        writer.Write("</wx:sect></w:body></w:wordDocument>");
+                    }
+
+                    Application wordApp = new Application();
+                    try
+                    {
+                        object missing = System.Reflection.Missing.Value;
+                        // For reasons of performace and to avoid the user
+                        // messing things up :
+                        wordApp.Visible = false;
+                        wordApp.ScreenUpdating = false;
+
+                        // Word needs a lot of parameters that are optional in VB
+                        // but need to be passed in C#
+                        Object docFormat = WdSaveFormat.wdFormatDocument;
+                        Object openFormat = WdOpenFormat.wdOpenFormatXML;
+                        Object f = model.FileName;
+                        Object fxml = model.FileName + ".xml";
+
+                        wordApp.Documents.Open(ref fxml, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
+                        ref missing, ref openFormat, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+
+                        // Here comes the actual saving part
+                        Document doc = wordApp.ActiveDocument;
+                        doc.SaveAs(ref f, ref docFormat, ref missing, ref missing, ref missing, ref missing, ref missing,
+                        ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
+
+                        doc.Close(ref missing, ref missing, ref missing);
+
+                      //  File.Delete(model.FileName + ".xml");
+                    }
+                    catch (Exception ex)
+                    {
+                        return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                    }
+                    finally
+                    {
+                        wordApp.Quit(WdSaveOptions.wdPromptToSaveChanges, WdOriginalFormat.wdWordDocument, Type.Missing);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+
+            return ResultService.Success();
+        }
+
         private Dictionary<ExaminationTemplateBlock, List<ExaminationTemplateBlockQuestion>> GetDublicateDictionary(Dictionary<ExaminationTemplateBlock, List<ExaminationTemplateBlockQuestion>> original)
         {
             Dictionary<ExaminationTemplateBlock, List<ExaminationTemplateBlockQuestion>> duplicate = new Dictionary<ExaminationTemplateBlock, List<ExaminationTemplateBlockQuestion>>();
@@ -941,6 +721,17 @@ namespace TicketServiceImplementations.Implementations
             }
 
             return questions;
+        }
+
+        private ExaminationTemplateTicketQuestion CreateQuestion(Guid examinationTemplateBlockQuestionId, Guid ticketId, Guid examinationTemplateBlockId, int order)
+        {
+            return TicketModelFacotryFromBindingModel.CreateExaminationTemplateTicketQuestion(new ExaminationTemplateTicketQuestionSetBindingModel
+            {
+                ExaminationTemplateBlockQuestionId = examinationTemplateBlockQuestionId,
+                ExaminationTemplateTicketId = ticketId,
+                ExaminationTemplateBlockId = examinationTemplateBlockId,
+                Order = order
+            });
         }
     }
 }

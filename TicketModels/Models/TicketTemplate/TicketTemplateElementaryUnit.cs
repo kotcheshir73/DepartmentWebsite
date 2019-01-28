@@ -31,32 +31,5 @@ namespace TicketModels.Models
         public virtual List<TicketTemplateElementaryUnit> ChildElementaryUnits { get; set; }
 
         //-------------------------------------------------------------------------
-
-        public override string ToString()
-        {
-            StringBuilder attributes = new StringBuilder();
-            if (TicketTemplateElementaryAttributes != null)
-            {
-                foreach (var attr in TicketTemplateElementaryAttributes)
-                {
-                    attributes.Append(attr?.ToString() ?? string.Empty);
-                }
-            }
-
-            if (ChildElementaryUnits != null && ChildElementaryUnits.Count > 0)
-            {
-                StringBuilder nodes = new StringBuilder();
-                foreach (var child in ChildElementaryUnits)
-                {
-                    nodes.Append(child?.ToString() ?? string.Empty);
-                }
-
-                return string.Format("<{0}{1}>{2}</{0}>", Name ?? string.Empty, attributes.ToString(), nodes.ToString());
-            }
-            else
-            {
-                return string.Format("<{0}{1}/>", Name ?? string.Empty, attributes.ToString());
-            }
-        }
     }
 }

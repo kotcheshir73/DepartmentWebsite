@@ -218,6 +218,12 @@
     <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketSearchForm.Designer.cs">
       <DependentUpon>ExaminationTemplateTicketSearchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateUploadTicketsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ExaminationTemplateTicket\ExaminationTemplateUploadTicketsForm.Designer.cs">
+      <DependentUpon>ExaminationTemplateUploadTicketsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExaminationTemplate\ExaminationTemplateControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -248,11 +254,23 @@
     <Compile Include="Views\TicketTemplate\TicketTemplateControl.Designer.cs">
       <DependentUpon>TicketTemplateControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\TicketTemplate\TicketTemplateElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\TicketTemplate\TicketTemplateElement.Designer.cs">
+      <DependentUpon>TicketTemplateElement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\TicketTemplate\TicketTemplateForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\TicketTemplate\TicketTemplateForm.Designer.cs">
       <DependentUpon>TicketTemplateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TicketTemplate\TicketTemplateSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\TicketTemplate\TicketTemplateSearchForm.Designer.cs">
+      <DependentUpon>TicketTemplateSearchForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controls\StandartElementControl.resx">
       <DependentUpon>StandartElementControl.cs</DependentUpon>
@@ -321,6 +339,9 @@
     <EmbeddedResource Include="Views\ExaminationTemplateTicket\ExaminationTemplateTicketSearchForm.resx">
       <DependentUpon>ExaminationTemplateTicketSearchForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ExaminationTemplateTicket\ExaminationTemplateUploadTicketsForm.resx">
+      <DependentUpon>ExaminationTemplateUploadTicketsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ExaminationTemplate\ExaminationTemplateControl.resx">
       <DependentUpon>ExaminationTemplateControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -336,8 +357,14 @@
     <EmbeddedResource Include="Views\TicketTemplate\TicketTemplateControl.resx">
       <DependentUpon>TicketTemplateControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\TicketTemplate\TicketTemplateElement.resx">
+      <DependentUpon>TicketTemplateElement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\TicketTemplate\TicketTemplateForm.resx">
       <DependentUpon>TicketTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\TicketTemplate\TicketTemplateSearchForm.resx">
+      <DependentUpon>TicketTemplateSearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

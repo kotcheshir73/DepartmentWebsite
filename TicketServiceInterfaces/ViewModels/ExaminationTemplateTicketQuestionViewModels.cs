@@ -13,6 +13,8 @@ namespace TicketServiceInterfaces.ViewModels
 
         public Guid ExaminationTemplateBlockQuestionId { get; set; }
 
+        public Guid ExaminationTemplateBlockId { get; set; }
+
         public int ExaminationTemplateTicketNumber { get; set; }
 
         public int ExaminationTemplateBlockQuestionNumber { get; set; }

@@ -32,30 +32,5 @@ namespace TicketModels.Models
         public virtual List<TicketTemplateTableCell> TicketTemplateTableCells { get; set; }
 
         //-------------------------------------------------------------------------
-
-        public override string ToString()
-        {
-            StringBuilder attributes = new StringBuilder();
-            if (TicketTemplateElementaryAttributes != null)
-            {
-                foreach (var attr in TicketTemplateElementaryAttributes)
-                {
-                    attributes.Append(attr?.ToString() ?? string.Empty);
-                }
-            }
-            StringBuilder nodes = new StringBuilder();
-            if (TicketTemplateTableCells != null)
-            {
-                foreach (var node in TicketTemplateTableCells.OrderBy(x => x.Order))
-                {
-                    if (node != null)
-                    {
-                        nodes.Append(node?.ToString() ?? string.Empty);
-                    }
-                }
-            }
-
-            return string.Format("<{0}{1}>{2}{3}</{0}>", Name ?? string.Empty, attributes.ToString(), Properties?.ToString() ?? string.Empty, nodes.ToString());
-        }
     }
 }

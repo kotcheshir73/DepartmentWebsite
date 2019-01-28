@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\TicketBodyGet.cs" />
+    <Compile Include="Helpers\TicketDocCreator.cs" />
     <Compile Include="Helpers\TicketTemplateAnalyser.cs" />
     <Compile Include="Helpers\TicketTemplateConstant.cs" />
     <Compile Include="Helpers\XMLParser.cs" />

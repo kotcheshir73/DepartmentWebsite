@@ -39,4 +39,11 @@ namespace TicketServiceInterfaces.BindingModels
 
         public Dictionary<string, HowGetQuestionFromExaminationBlock> HowGetQuestionFromBlock { get; set; }
     }
+
+    public class TicketProcessUploadTicketsBindingModel
+    {
+        public string FileName { get; set; }
+
+        public Guid TicketTemplateId { get; set; }
+    }
 }

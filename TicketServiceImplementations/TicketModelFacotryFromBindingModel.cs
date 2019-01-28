@@ -69,6 +69,7 @@ namespace TicketServiceImplementations
             }
             entity.ExaminationTemplateBlockQuestionId = model.ExaminationTemplateBlockQuestionId;
             entity.ExaminationTemplateTicketId = model.ExaminationTemplateTicketId;
+            entity.ExaminationTemplateBlockId = model.ExaminationTemplateBlockId;
             entity.Order = model.Order;
 
             return entity;

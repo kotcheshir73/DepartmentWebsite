@@ -72,6 +72,7 @@ namespace TicketServiceImplementations
                 ExaminationTemplateTicketId = entity.ExaminationTemplateTicketId,
                 ExaminationTemplateTicketNumber = entity.ExaminationTemplateTicket.TicketNumber,
                 ExaminationTemplateBlockQuestionQuestion = entity.ExaminationTemplateBlockQuestion.QuestionText,
+                ExaminationTemplateBlockId = entity.ExaminationTemplateBlockId,
                 Order = entity.Order
             };
         }

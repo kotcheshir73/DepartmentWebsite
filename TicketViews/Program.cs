@@ -13,7 +13,6 @@ namespace TicketViews
 {
     static class Program
     {
-        static IUnityContainer container;
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>

@@ -35,7 +35,8 @@ namespace TicketViews.Views.ExaminationTemplateTicket
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "CreateTicketsToolStripMenuItem", "Создать билеты"}
+                    { "CreateTicketsToolStripMenuItem", "Создать билеты"},
+                    { "UploadTicketsToolStripMenuItem", "Выгрузить билеты"}
                 };
 
             standartListControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
@@ -45,6 +46,7 @@ namespace TicketViews.Views.ExaminationTemplateTicket
             standartListControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartListControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartListControl.ToolStripButtonMoveEventClickAddEvent("CreateTicketsToolStripMenuItem", CreateTicketsToolStripMenuItem_Click);
+            standartListControl.ToolStripButtonMoveEventClickAddEvent("UploadTicketsToolStripMenuItem", UploadTicketsToolStripMenuItem_Click);
             standartListControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartListControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -160,6 +162,17 @@ namespace TicketViews.Views.ExaminationTemplateTicket
             {
                 standartListControl.LoadPage();
             }
+        }
+
+        private void UploadTicketsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ExaminationTemplateUploadTicketsForm>(
+                new ParameterOverrides
+                {
+                    { "examinationTemplateId", _examinationTemplateId }
+                }
+                .OnType<ExaminationTemplateUploadTicketsForm>());
+            form.ShowDialog();
         }
     }
 }

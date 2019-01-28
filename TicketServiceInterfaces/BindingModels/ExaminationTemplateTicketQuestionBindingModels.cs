@@ -18,6 +18,8 @@ namespace TicketServiceInterfaces.BindingModels
 
         public Guid ExaminationTemplateBlockQuestionId { get; set; }
 
+        public Guid ExaminationTemplateBlockId { get; set; }
+
         public int Order { get; set; }
     }
 }

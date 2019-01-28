@@ -41,6 +41,10 @@ namespace TicketViews.Views.ExaminationTemplateTicket
                 int y = 0;
                 foreach (var block in blocks.Result.List)
                 {
+                    if(block.CountQuestionInTicket <= 0)
+                    {
+                        continue;
+                    }
                     Panel panel = new Panel
                     {
                         Name = $"panel{block.Id}",
@@ -203,7 +207,7 @@ namespace TicketViews.Views.ExaminationTemplateTicket
                 }
                 else
                 {
-                    Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                    Program.PrintErrorMessage("При создании возникла ошибка: ", result.Errors);
                 }
             }
         }

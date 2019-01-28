@@ -11,7 +11,7 @@ namespace TicketServiceImplementations.Helpers
 
         public static Dictionary<string, string> RandomQuestions { get; set; }
 
-        public static Dictionary<string, int> AnalysisBody(TicketTemplateBody body, List<ExaminationTemplateBlock> blocks)
+        public static Dictionary<string, int> AnalysisBody(TicketTemplateBody body)
         {
             if (_questions == null)
             {
@@ -46,39 +46,6 @@ namespace TicketServiceImplementations.Helpers
                                 }
                             }
                         }
-                    }
-                }
-            }
-
-            if (blocks.Count > 0)
-            {
-                if (blocks.Count != _questions.Count)
-                {
-                    throw new Exception(string.Format("Количество блоков в экзамене ({0}) не совпадает с количеством блоков в шаблоне ({1})", blocks.Count, _questions.Count));
-                }
-                foreach (var block in blocks)
-                {
-                    if (block.CountQuestionInTicket > 0)
-                    {
-                        if (_questions.ContainsKey(block.QuestionTagInTemplate))
-                        {
-                            if (_questions[block.QuestionTagInTemplate] != block.CountQuestionInTicket)
-                            {
-                                throw new Exception(string.Format("В блоке {0} не совпадает количество вопросов в билете ({1} против {2} в шаблоне)", block.QuestionTagInTemplate,
-                                    block.CountQuestionInTicket, _questions[block.QuestionTagInTemplate]));
-                            }
-                        }
-                        else
-                        {
-                            throw new Exception(string.Format("Блок {0} с тегом {1} не найден в шаблоне", block.BlockName, block.QuestionTagInTemplate));
-                        }
-                    }
-                }
-                foreach (var question in _questions)
-                {
-                    if (!blocks.Exists(x => x.QuestionTagInTemplate == question.Key))
-                    {
-                        throw new Exception(string.Format("В шаблоне имеется вопрос с тегом {0} но нет такого блока", question.Key));
                     }
                 }
             }
