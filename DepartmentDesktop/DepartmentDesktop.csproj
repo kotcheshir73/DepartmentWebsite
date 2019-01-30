@@ -184,14 +184,8 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\DuplicateForm.Designer.cs">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsControl.cs">
-    	<SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Views\LearningProgress\AcceptTasksControl.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LearningProgress\DisciplineLessonsControl.Designer.cs">
-      <DependentUpon>DisciplineLessonsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LearningProgress\AcceptTasksControl.Designer.cs">
       <DependentUpon>AcceptTasksControl.cs</DependentUpon>
@@ -274,9 +268,6 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.Designer.cs">
       <DependentUpon>StreamLessonControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonForm.cs">
-    	<SubType>Form</SubType>
-    </Compile>
     <Compile Include="Views\LearningProgress\DisciplineLesson\DisciplineLessonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,12 +279,6 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.Designer.cs">
       <DependentUpon>StreamLessonForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsForm.Designer.cs">
-      <DependentUpon>DisciplineLessonsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.cs">
       <SubType>UserControl</SubType>
@@ -540,12 +525,6 @@
     </Compile>
     <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.Designer.cs">
       <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.Designer.cs">
-      <DependentUpon>SoftwareRecordAddClaimForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.cs">
       <SubType>UserControl</SubType>
@@ -1011,9 +990,6 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.resx">
       <DependentUpon>StreamLessonForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\DisciplineLesson\DisciplineLessonsForm.resx">
-      <DependentUpon>DisciplineLessonsForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.resx">
       <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1133,16 +1109,11 @@
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
       <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.resx">
       <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.rdlc" />
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.resx">
       <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordAddClaimForm.resx">
-      <DependentUpon>SoftwareRecordAddClaimForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.resx">
       <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
