@@ -1,0 +1,78 @@
+﻿@model  List<DepartmentService.ViewModels.IndividualPlanRecordViewModel>
+
+@{
+    ViewBag.Title = "Научно-исследовательская работа";
+}
+
+<h2>
+    Научно-исследовательская работа
+</h2>
+
+    <input type="button" value="Участие в хоздоговорной НИР" onclick="location.href='@Url.Action("ContractualWork", "NIR")'" />
+    <input type="button" value="Перечень напечатанных материалов" onclick="location.href='@Url.Action("ScientificArticleOfPrint", "NIR")'" />
+    <input type="button" value="Перечень опубликованных материалов" onclick="location.href='@Url.Action("ScientificArticleOfPublished", "NIR")'" />
+
+
+<table class="table">
+    <tr>
+        <th rowspan="2">
+            Вид работы
+        </th>
+        <th rowspan="2">
+            Нормы времени
+        </th>
+        <th colspan="2" align="center">
+            Осенний семестр (количество часов)
+        </th>
+        <th colspan="2" align="center">
+            Весенний семестр (количество часов)
+        </th>
+    </tr>
+    <tr>
+        <th>
+            по факту
+        </th>
+        <th>
+            по плану
+        </th>
+        <th>
+            по факту
+        </th>
+        <th>
+            по плану
+        </th>
+    </tr>
+
+    @using (Html.BeginForm())
+    {
+        for (int i = 0; i < Model.Count; i++)
+        {
+            @Html.HiddenFor(m => m[i].Id)
+            @:
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => m[i].Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m[i].TimeNormDescription)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].PlanAutumn)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].FactAutumn)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].PlanSpring)
+                </td>
+                <td>
+                    @Html.EditorFor(m => m[i].FactSpring)
+                </td>
+            </tr>
+        }
+        @:</table> <br>
+        <input type="submit" />
+    }
+
+        @*<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Name"), "")</h4>*@
+

@@ -33,6 +33,9 @@ namespace DepartmentModel.Models
         public virtual List<StreamLesson> StreamLessons { get; set; }
 
         [ForeignKey("AcademicYearId")]
+        public virtual List<IndividualPlanRecord> IndividualPlanRecords { get; set; }
+        
+        [ForeignKey("AcademicYearId")]
         public virtual List<DisciplineLesson> DisciplineLessons { get; set; }
     }
 }

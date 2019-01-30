@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DepartmentService.ViewModels.GraficViewModel>
+
+@{
+    ViewBag.Title = "GraficList";
+}
+
+<h2>Расчасовки</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Дисциплина
+        </th>
+        <th>
+            Группа
+        </th>
+        <th>
+            Семестр
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.DisciplineName, "GraficRecord", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentGroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semester)
+            </td>
+
+        </tr>
+    }
+
+</table>
+

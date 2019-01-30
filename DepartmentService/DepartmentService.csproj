@@ -97,8 +97,19 @@
     <Compile Include="BindingModels\ScheduleBindingModels\ExportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\ImportBindingModels.cs" />
     <Compile Include="BindingModels\ScheduleBindingModels\OffsetRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficClassroomBindingModels .cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficRecordBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\LecturerWorkloadBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanKindOfWorkBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanNIRContractualWorkBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanNIRScientificArticleBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\IndividualPlanTitleBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\GraficBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordExtendedBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementRecordBindingModels.cs" />
+    <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StatementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordMissionBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\AcademicPlanRecordElementBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\LearningProgress\DisciplineLessonConductedBindingModels.cs" />
@@ -153,7 +164,14 @@
     <Compile Include="IServices\ILaboratoryProcess.cs" />
     <Compile Include="IServices\ILearningProgressProcess.cs" />
     <Compile Include="IServices\IStudentMoveService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficClassroomService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerWorkloadService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanKindOfWorkService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanNIRContractualWorkService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanNIRScientificArticleService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IIndividualPlanTitleService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IAcademicPlanRecordMissionService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonConductedService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonService.cs" />
@@ -163,6 +181,10 @@
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskStudentAcceptService.cs" />
     <Compile Include="IServices\StandartInterfaces\LearningProgress\IDisciplineLessonTaskVariantService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\ILecturerPostSerivce.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementRecordExtendedService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IGraficService.cs" />
+    <Compile Include="IServices\StandartInterfaces\EducationDirection\IStatementService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonRecordService.cs" />
     <Compile Include="IServices\StandartInterfaces\EducationDirection\IStreamLessonService.cs" />
     <Compile Include="IServices\StandartInterfaces\LaboratoryHead\IMaterialTechnicalValueGroupService.cs" />
@@ -175,33 +197,65 @@
     <Compile Include="Migrations\201807131624088_InitMigration.Designer.cs">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809041347152_add_statement.cs" />
+    <Compile Include="Migrations\201809041347152_add_statement.Designer.cs">
+      <DependentUpon>201809041347152_add_statement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201809061938400_add_LecturerWorkload.cs" />
     <Compile Include="Migrations\201809061938400_add_LecturerWorkload.Designer.cs">
       <DependentUpon>201809061938400_add_LecturerWorkload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809051326074_Add_IndividualPlan.cs" />
+    <Compile Include="Migrations\201809051326074_Add_IndividualPlan.Designer.cs">
+      <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201809050604321_AddSoftwareTable.cs" />
     <Compile Include="Migrations\201809050604321_AddSoftwareTable.Designer.cs">
       <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809101632560_edit_statement.cs" />
+    <Compile Include="Migrations\201809101632560_edit_statement.Designer.cs">
+      <DependentUpon>201809101632560_edit_statement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201809080547151_DisiplineLessonMigration.cs" />
     <Compile Include="Migrations\201809080547151_DisiplineLessonMigration.Designer.cs">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809131211426_LinkedTablesIndividualPlanRecordAndLecture.cs" />
+    <Compile Include="Migrations\201809131211426_LinkedTablesIndividualPlanRecordAndLecture.Designer.cs">
+      <DependentUpon>201809131211426_LinkedTablesIndividualPlanRecordAndLecture.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.cs" />
     <Compile Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.Designer.cs">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809191309179_ADDGraficsTables.cs" />
+    <Compile Include="Migrations\201809191309179_ADDGraficsTables.Designer.cs">
+      <DependentUpon>201809191309179_ADDGraficsTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201809080840330_DisiplineLessonAddSemester.cs" />
     <Compile Include="Migrations\201809080840330_DisiplineLessonAddSemester.Designer.cs">
       <DependentUpon>201809080840330_DisiplineLessonAddSemester.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809191406096_ADDGraficsTables1.cs" />
+    <Compile Include="Migrations\201809191406096_ADDGraficsTables1.Designer.cs">
+      <DependentUpon>201809191406096_ADDGraficsTables1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201809081433404_DisiplineLessonLinkTimeNorm.cs" />
     <Compile Include="Migrations\201809081433404_DisiplineLessonLinkTimeNorm.Designer.cs">
       <DependentUpon>201809081433404_DisiplineLessonLinkTimeNorm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.cs" />
+    <Compile Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.Designer.cs">
+      <DependentUpon>201811301435014_CreateTable_StatementRecordExtended.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.cs" />
     <Compile Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.Designer.cs">
       <DependentUpon>201809081701310_DisiplineLessonLinkEducationDirection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....cs" />
+    <Compile Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....Designer.cs">
+      <DependentUpon>201812011941369_AddTables_IndividualPlanNIR....cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.cs" />
     <Compile Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.Designer.cs">
@@ -303,6 +357,12 @@
     <Compile Include="Services\EducationalProcessService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\EducationDirectionService.cs" />
     <Compile Include="Services\ScheduleServices\ExaminationRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\GraficClassroomService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanKindOfWorkService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanNIRContractualWorkService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanNIRScientificArticleService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\IndividualPlanTitleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerPostSerivce.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\LecturerService.cs" />
     <Compile Include="Services\StandartServices\Administration\RoleService.cs" />
@@ -311,6 +371,11 @@
     <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\SeasonDatesService.cs" />
     <Compile Include="Services\ScheduleServices\SemesterRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\GraficRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StatementRecordExtendedService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StatementRecordService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\GraficService.cs" />
+    <Compile Include="Services\StandartServices\EducationDirection\StatementService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamingLessonService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamLessonRecordService.cs" />
     <Compile Include="Services\StandartServices\EducationDirection\StreamLessonService.cs" />
@@ -333,7 +398,14 @@
     <Compile Include="ViewModels\ScheduleViewModels\ConsultationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\ExaminationRecordViewModels.cs" />
     <Compile Include="ViewModels\ScheduleViewModels\OffsetRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficClassroomViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\LecturerWorkloadViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanKindOfWorkViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanNIRContractualWorkViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanNIRScientificArticleViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\IndividualPlanTitleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\AcademicPlanRecordMissionViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonConductedViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\LearningProgress\DisciplineLessonConductedStudentViewModels.cs" />
@@ -360,6 +432,10 @@
     <Compile Include="ModelFactoryToViewModel.cs" />
     <Compile Include="ViewModels\StandartViewModels\Administration\RoleViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\SeasonDatesViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordExtendedViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementRecordViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\GraficViewModels.cs" />
+    <Compile Include="ViewModels\StandartViewModels\EducationDirection\StatementViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonRecordViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StreamLessonViewModels.cs" />
     <Compile Include="ViewModels\StandartViewModels\EducationDirection\StudentHistoryViewModels.cs" />
@@ -390,26 +466,50 @@
     <EmbeddedResource Include="Migrations\201807131624088_InitMigration.resx">
       <DependentUpon>201807131624088_InitMigration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809041347152_add_statement.resx">
+      <DependentUpon>201809041347152_add_statement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809061938400_add_LecturerWorkload.resx">
       <DependentUpon>201809061938400_add_LecturerWorkload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809051326074_Add_IndividualPlan.resx">
+      <DependentUpon>201809051326074_Add_IndividualPlan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809050604321_AddSoftwareTable.resx">
       <DependentUpon>201809050604321_AddSoftwareTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809101632560_edit_statement.resx">
+      <DependentUpon>201809101632560_edit_statement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080547151_DisiplineLessonMigration.resx">
       <DependentUpon>201809080547151_DisiplineLessonMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809131211426_LinkedTablesIndividualPlanRecordAndLecture.resx">
+      <DependentUpon>201809131211426_LinkedTablesIndividualPlanRecordAndLecture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080635508_DisiplineLessonLinkAcademicYear.resx">
       <DependentUpon>201809080635508_DisiplineLessonLinkAcademicYear.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809191309179_ADDGraficsTables.resx">
+      <DependentUpon>201809191309179_ADDGraficsTables.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809080840330_DisiplineLessonAddSemester.resx">
       <DependentUpon>201809080840330_DisiplineLessonAddSemester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809191406096_ADDGraficsTables1.resx">
+      <DependentUpon>201809191406096_ADDGraficsTables1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809081433404_DisiplineLessonLinkTimeNorm.resx">
       <DependentUpon>201809081433404_DisiplineLessonLinkTimeNorm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811301435014_CreateTable_StatementRecordExtended.resx">
+      <DependentUpon>201811301435014_CreateTable_StatementRecordExtended.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809081701310_DisiplineLessonLinkEducationDirection.resx">
       <DependentUpon>201809081701310_DisiplineLessonLinkEducationDirection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....resx">
+      <DependentUpon>201812011941369_AddTables_IndividualPlanNIR....cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809120819193_DisiplineStudnetRecordUpdateTable.resx">
       <DependentUpon>201809120819193_DisiplineStudnetRecordUpdateTable.cs</DependentUpon>

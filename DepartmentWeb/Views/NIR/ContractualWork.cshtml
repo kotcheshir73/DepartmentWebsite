@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DepartmentService.ViewModels.IndividualPlanNIRContractualWorkViewModel>
+
+@{
+    ViewBag.Title = "Участие в хоздоговорной НИР";
+}
+
+<h2>
+    Участие в хоздоговорной НИР
+    (сверх 6-часового рабочего дня преподавателя)
+</h2>
+
+<p>
+    @Html.ActionLink("Добавить новый", "CreateContractualWork")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Содержание выполняемой работы
+        </th>
+        <th>
+            В качестве кого участвует
+        </th>
+        <th>
+            Планируемый срок выполнения
+        </th>
+        <th>
+            Отметка о фактическом выполнении
+        </th>
+        <th></th>
+    </tr>
+    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Post)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlannedTerm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadyMark)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить |", "UpdateContractualWork", new { id = item.Id })
+                    @Html.ActionLink(" Удалить", "DeleteContractualWork", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+</table>
+

@@ -1,0 +1,63 @@
+﻿@model List<DepartmentService.ViewModels.StatementRecordViewModel>
+
+@{
+    ViewBag.Title = "Редактирование ведомости";
+}
+<br>
+<h2>@Html.DisplayFor(model => model.FirstOrDefault().Title)</h2>
+<br>
+<br>
+
+<table class="table">
+    <tr>
+        <th>
+            ФИО
+        </th>
+        <th>
+            Оценка
+        </th>
+        @if (Model.FirstOrDefault().Title.Split('(')[1].Contains("Курсовая"))
+        {
+            <th>
+                Название работы
+            </th>
+        }
+    </tr>
+
+    
+
+
+    @using (Html.BeginForm())
+    {
+
+        for (int i = 0; i < Model.Count; i++)
+        {
+            @Html.HiddenFor(m => m[i].Id)
+            @:
+    <tr>
+
+        <td>
+            @Html.DisplayFor(m => m[i].StudentName)
+
+        </td>
+
+        <td>
+            @Html.EditorFor(m => m[i].Score)
+
+        </td>
+        @if (Model.FirstOrDefault().Title.Split('(')[1].Contains("Курсовая") )
+        {
+            <td>
+                @Html.EditorFor(m => m[i].Name)
+
+            </td>
+        }
+
+    </tr>
+
+
+        }
+        @: </table> <br>
+        <input type="submit" />
+    }
+

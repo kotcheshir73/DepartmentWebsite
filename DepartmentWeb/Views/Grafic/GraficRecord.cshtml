@@ -1,0 +1,108 @@
+﻿
+@model DepartmentService.ViewModels.GraficViewModel
+@{
+
+    ViewBag.Title = "Расчасовка";
+}
+
+<table class="table">
+    @using (Html.BeginForm())
+    {
+
+        <tr>
+            <th>
+                Факультет: ФИСТ
+            </th>
+            <th>
+                Направление:
+            </th>
+            <th>
+                Группа: @Html.Label(Model.StudentGroupName.ToString())
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Дисциплина: @Html.Label(Model.DisciplineName.ToString())
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Объединить с потоком: @Html.TextAreaFor(m => m.Comment)
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Пожелания преподавателя: @Html.TextAreaFor(m => m.CommentWishesOfTeacher)
+            </th>
+        </tr>
+        @:</table> 
+        @*<br>
+    <input type="submit" />*@
+}
+
+    @Html.Action("ConvertPartial");
+    @*<input type="submit" />*@
+
+    <br>
+
+
+
+
+    @*<div id="Partial">*@
+    @{
+        //var tmp =
+        //Html.RenderPartial("Partial", tmp);
+    }
+    @*</div>*@
+
+
+
+    @* </table> <br>
+        <input type="submit" />
+         }*@
+
+    @*@foreach (var item in Model)
+        {
+            @Html.HiddenFor(modelItem => item.Id)
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => item.Score)
+                </td>
+
+            </tr>
+        }*@
+
+
+
+    @*<form><input type="submit" value="Send" /></form>*@
+
+    @*@section Scripts {
+            <script>
+            $('form').on('submit', function (e) {
+                var form = $(this);
+                var formObject = {},
+                    formDataArray = form.serializeArray();
+                debugger;
+                $.map(formDataArray, function (object, index) { //стандартная штука
+                    var key = skipHtmlFieldPrefix ? object['name'].split('.').pop() : object['name'];
+                    formObject[key] = object['value'];
+                });
+
+                $.ajax({
+                    url: '/Statement/saveStatementRecords',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formObject)
+                    //success: function (cities) { //эти две строки я взяла из индекса, что мне с ними делать
+                    //    $("#vedok").html(cities);
+                    //}
+                });
+            });
+
+            </script>
+        }*@
+

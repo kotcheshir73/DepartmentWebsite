@@ -38,6 +38,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.buttonCreateGrafics = new System.Windows.Forms.Button();
+            this.buttonCreateNIRRecords = new System.Windows.Forms.Button();
+            this.buttonCreatStatement = new System.Windows.Forms.Button();
             this.buttonCalcFactHours = new System.Windows.Forms.Button();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelSelectAcademicYear = new System.Windows.Forms.Label();
@@ -60,7 +63,7 @@
             this.dataGridViewList.ReadOnly = true;
             this.dataGridViewList.RowHeadersVisible = false;
             this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewList.Size = new System.Drawing.Size(800, 440);
+            this.dataGridViewList.Size = new System.Drawing.Size(899, 440);
             this.dataGridViewList.TabIndex = 2;
             this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
             this.dataGridViewList.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewList_CellPainting);
@@ -78,7 +81,7 @@
             this.toolStripButtonRef});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
+            this.toolStripMenu.Size = new System.Drawing.Size(899, 25);
             this.toolStripMenu.TabIndex = 0;
             this.toolStripMenu.Text = "Действия";
             // 
@@ -135,14 +138,47 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.buttonCreateGrafics);
+            this.panelTop.Controls.Add(this.buttonCreateNIRRecords);
+            this.panelTop.Controls.Add(this.buttonCreatStatement);
             this.panelTop.Controls.Add(this.buttonCalcFactHours);
             this.panelTop.Controls.Add(this.comboBoxAcademicYear);
             this.panelTop.Controls.Add(this.labelSelectAcademicYear);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 25);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(800, 35);
+            this.panelTop.Size = new System.Drawing.Size(899, 35);
             this.panelTop.TabIndex = 1;
+            // 
+            // buttonCreateGrafics
+            // 
+            this.buttonCreateGrafics.Location = new System.Drawing.Point(722, 5);
+            this.buttonCreateGrafics.Name = "buttonCreateGrafics";
+            this.buttonCreateGrafics.Size = new System.Drawing.Size(164, 23);
+            this.buttonCreateGrafics.TabIndex = 6;
+            this.buttonCreateGrafics.Text = "Создать расчасовки";
+            this.buttonCreateGrafics.UseVisualStyleBackColor = true;
+            this.buttonCreateGrafics.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // buttonCreateNIRRecords
+            // 
+            this.buttonCreateNIRRecords.Location = new System.Drawing.Point(582, 5);
+            this.buttonCreateNIRRecords.Name = "buttonCreateNIRRecords";
+            this.buttonCreateNIRRecords.Size = new System.Drawing.Size(138, 23);
+            this.buttonCreateNIRRecords.TabIndex = 5;
+            this.buttonCreateNIRRecords.Text = "Создать записи НИР";
+            this.buttonCreateNIRRecords.UseVisualStyleBackColor = true;
+            this.buttonCreateNIRRecords.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // buttonCreatStatement
+            // 
+            this.buttonCreatStatement.Location = new System.Drawing.Point(436, 6);
+            this.buttonCreatStatement.Name = "buttonCreatStatement";
+            this.buttonCreatStatement.Size = new System.Drawing.Size(140, 23);
+            this.buttonCreatStatement.TabIndex = 4;
+            this.buttonCreatStatement.Text = "СОздать ведомости";
+            this.buttonCreatStatement.UseVisualStyleBackColor = true;
+            this.buttonCreatStatement.Click += new System.EventHandler(this.buttonCreatStatement_Click);
             // 
             // buttonCalcFactHours
             // 
@@ -181,7 +217,7 @@
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.toolStripMenu);
             this.Name = "LoadDistributionControl";
-            this.Size = new System.Drawing.Size(800, 500);
+            this.Size = new System.Drawing.Size(899, 500);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).EndInit();
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
@@ -207,5 +243,8 @@
         private System.Windows.Forms.Label labelSelectAcademicYear;
         private System.Windows.Forms.ComboBox comboBoxAcademicYear;
         private System.Windows.Forms.Button buttonCalcFactHours;
+        private System.Windows.Forms.Button buttonCreatStatement;
+        private System.Windows.Forms.Button buttonCreateNIRRecords;
+        private System.Windows.Forms.Button buttonCreateGrafics;
     }
 }

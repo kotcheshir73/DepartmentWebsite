@@ -1,0 +1,55 @@
+﻿@model List<DepartmentService.ViewModels.GraficRecordViewModel>
+
+<br>
+
+<table class="table">
+    @using (Html.BeginForm(@*"SaveModel", "GraficController", FormMethod.Post*@))
+    {
+        for (int i = -1; i < 3; i++)
+        {
+            if (i == -1)
+            {
+                <tr>
+                    <th>
+                        Форма занятия
+                    </th>
+
+                    
+
+                    @for (int j = 0; j < Model.Count / 3; j++)
+                    {
+                        <th>
+                            @Html.DisplayFor(m => m[j].WeekNumber)
+                        </th>
+                    }
+
+                    <th>
+                        Количество часов
+                    </th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(m => m[i * Model.Count / 3].TimeNormName)
+                    </th>
+
+                    @for (int j = 0; j < Model.Count / 3; j++)
+                    {
+                        @Html.HiddenFor(m => m[j + i * Model.Count / 3].Id)
+                        <th>
+                            @Html.EditorFor(m => m[j + i * Model.Count / 3].Hours)
+                        </th>
+                    }
+
+                    <th>
+                        @Html.DisplayFor(m => m[i * Model.Count / 3].TimeNormHours)
+                    </th>
+                </tr>
+            }
+        }
+    @:</table> <br>
+    <input  type="submit" />
+}
+
