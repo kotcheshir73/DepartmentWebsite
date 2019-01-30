@@ -41,5 +41,7 @@ namespace DepartmentService.ViewModels
         public decimal? NumKoef { get; set; }
 
         public string TimeNormKoef { get; set; }
+
+        public bool UseInLearningProgress { get; set; }
     }
 }

@@ -68,10 +68,10 @@ namespace DepartmentService.Services
                 //}
 				if (model.IsBanned.HasValue)
 				{
-					query = query.Where(u => u.IsBanned == model.IsBanned.Value);
+					query = query.Where(u => u.LockoutEnabled == model.IsBanned.Value);
                 }
 
-                query = query.OrderBy(u => u.Login).ThenBy(u => u.DateLastVisit);
+                query = query.OrderBy(u => u.UserName).ThenBy(u => u.DateLastVisit);
 
                 if (model.PageNumber.HasValue && model.PageSize.HasValue)
 				{

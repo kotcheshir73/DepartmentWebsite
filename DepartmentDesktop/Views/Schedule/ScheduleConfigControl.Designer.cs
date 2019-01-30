@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScheduleConfigControl));
             this.groupBoxLoadHTMLScheduleForClassrooms = new System.Windows.Forms.GroupBox();
+            this.checkBoxIsFirstHalfSemester = new System.Windows.Forms.CheckBox();
             this.textBoxLinkToHtml = new System.Windows.Forms.TextBox();
             this.labelLinkToHtml = new System.Windows.Forms.Label();
             this.buttonMakeLoadHTMLScheduleForClassrooms = new System.Windows.Forms.Button();
@@ -59,7 +61,8 @@
             this.checkedListBoxStudentGroups = new System.Windows.Forms.CheckedListBox();
             this.groupBoxLecturers = new System.Windows.Forms.GroupBox();
             this.checkedListBoxLecturers = new System.Windows.Forms.CheckedListBox();
-            this.checkBoxIsFirstHalfSemester = new System.Windows.Forms.CheckBox();
+            this.groupBoxExportInfo = new System.Windows.Forms.GroupBox();
+            this.labelOffsetExport = new System.Windows.Forms.Label();
             this.groupBoxLoadHTMLScheduleForClassrooms.SuspendLayout();
             this.groupBoxClassrooms.SuspendLayout();
             this.groupBoxClearClassrooms.SuspendLayout();
@@ -69,6 +72,7 @@
             this.groupBoxImport.SuspendLayout();
             this.groupBoxStudentGroups.SuspendLayout();
             this.groupBoxLecturers.SuspendLayout();
+            this.groupBoxExportInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxLoadHTMLScheduleForClassrooms
@@ -83,6 +87,16 @@
             this.groupBoxLoadHTMLScheduleForClassrooms.TabIndex = 1;
             this.groupBoxLoadHTMLScheduleForClassrooms.TabStop = false;
             this.groupBoxLoadHTMLScheduleForClassrooms.Text = "Обновление расписания по аудиториям";
+            // 
+            // checkBoxIsFirstHalfSemester
+            // 
+            this.checkBoxIsFirstHalfSemester.AutoSize = true;
+            this.checkBoxIsFirstHalfSemester.Location = new System.Drawing.Point(16, 62);
+            this.checkBoxIsFirstHalfSemester.Name = "checkBoxIsFirstHalfSemester";
+            this.checkBoxIsFirstHalfSemester.Size = new System.Drawing.Size(128, 17);
+            this.checkBoxIsFirstHalfSemester.TabIndex = 5;
+            this.checkBoxIsFirstHalfSemester.Text = "Первый полупериод";
+            this.checkBoxIsFirstHalfSemester.UseVisualStyleBackColor = true;
             // 
             // textBoxLinkToHtml
             // 
@@ -191,7 +205,7 @@
             this.groupBoxExport.Controls.Add(this.buttonExportOffsetRecordExcel);
             this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordExcel);
             this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordHTML);
-            this.groupBoxExport.Location = new System.Drawing.Point(769, 126);
+            this.groupBoxExport.Location = new System.Drawing.Point(725, 126);
             this.groupBoxExport.Name = "groupBoxExport";
             this.groupBoxExport.Size = new System.Drawing.Size(200, 280);
             this.groupBoxExport.TabIndex = 3;
@@ -322,7 +336,7 @@
             // 
             this.groupBoxImport.Controls.Add(this.buttonImportExaminationFromExcel);
             this.groupBoxImport.Controls.Add(this.buttonImportOffsetFromExcel);
-            this.groupBoxImport.Location = new System.Drawing.Point(769, 0);
+            this.groupBoxImport.Location = new System.Drawing.Point(725, 0);
             this.groupBoxImport.Name = "groupBoxImport";
             this.groupBoxImport.Size = new System.Drawing.Size(200, 120);
             this.groupBoxImport.TabIndex = 6;
@@ -387,20 +401,31 @@
             this.checkedListBoxLecturers.Size = new System.Drawing.Size(120, 231);
             this.checkedListBoxLecturers.TabIndex = 0;
             // 
-            // checkBoxIsFirstHalfSemester
+            // groupBoxExportInfo
             // 
-            this.checkBoxIsFirstHalfSemester.AutoSize = true;
-            this.checkBoxIsFirstHalfSemester.Location = new System.Drawing.Point(16, 62);
-            this.checkBoxIsFirstHalfSemester.Name = "checkBoxIsFirstHalfSemester";
-            this.checkBoxIsFirstHalfSemester.Size = new System.Drawing.Size(128, 17);
-            this.checkBoxIsFirstHalfSemester.TabIndex = 5;
-            this.checkBoxIsFirstHalfSemester.Text = "Первый полупериод";
-            this.checkBoxIsFirstHalfSemester.UseVisualStyleBackColor = true;
+            this.groupBoxExportInfo.Controls.Add(this.labelOffsetExport);
+            this.groupBoxExportInfo.Location = new System.Drawing.Point(931, 0);
+            this.groupBoxExportInfo.Name = "groupBoxExportInfo";
+            this.groupBoxExportInfo.Size = new System.Drawing.Size(443, 406);
+            this.groupBoxExportInfo.TabIndex = 7;
+            this.groupBoxExportInfo.TabStop = false;
+            this.groupBoxExportInfo.Text = "Информация по экспорту";
+            // 
+            // labelOffsetExport
+            // 
+            this.labelOffsetExport.AutoSize = true;
+            this.labelOffsetExport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelOffsetExport.Location = new System.Drawing.Point(6, 16);
+            this.labelOffsetExport.Name = "labelOffsetExport";
+            this.labelOffsetExport.Size = new System.Drawing.Size(430, 80);
+            this.labelOffsetExport.TabIndex = 0;
+            this.labelOffsetExport.Text = resources.GetString("labelOffsetExport.Text");
             // 
             // ScheduleConfigControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxExportInfo);
             this.Controls.Add(this.groupBoxLecturers);
             this.Controls.Add(this.groupBoxStudentGroups);
             this.Controls.Add(this.groupBoxImport);
@@ -411,7 +436,7 @@
             this.Controls.Add(this.groupBoxClassrooms);
             this.Controls.Add(this.groupBoxLoadHTMLScheduleForClassrooms);
             this.Name = "ScheduleConfigControl";
-            this.Size = new System.Drawing.Size(993, 500);
+            this.Size = new System.Drawing.Size(1386, 500);
             this.groupBoxLoadHTMLScheduleForClassrooms.ResumeLayout(false);
             this.groupBoxLoadHTMLScheduleForClassrooms.PerformLayout();
             this.groupBoxClassrooms.ResumeLayout(false);
@@ -423,6 +448,8 @@
             this.groupBoxImport.ResumeLayout(false);
             this.groupBoxStudentGroups.ResumeLayout(false);
             this.groupBoxLecturers.ResumeLayout(false);
+            this.groupBoxExportInfo.ResumeLayout(false);
+            this.groupBoxExportInfo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -461,5 +488,7 @@
         private System.Windows.Forms.GroupBox groupBoxLecturers;
         private System.Windows.Forms.CheckedListBox checkedListBoxLecturers;
         private System.Windows.Forms.CheckBox checkBoxIsFirstHalfSemester;
+        private System.Windows.Forms.GroupBox groupBoxExportInfo;
+        private System.Windows.Forms.Label labelOffsetExport;
     }
 }
