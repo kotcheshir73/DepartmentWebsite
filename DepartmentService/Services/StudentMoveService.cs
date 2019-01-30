@@ -35,7 +35,7 @@ namespace DepartmentService.Services
 				try
 				{
 					var list = new List<StudentViewModel>();
-					for (int i = 2; i < table.Rows.Count; ++i)
+					for (int i = 2; i <= table.Rows.Count; ++i)
 					{
 						var studentModel = new StudentViewModel
 						{

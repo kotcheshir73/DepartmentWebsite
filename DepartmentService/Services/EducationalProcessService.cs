@@ -1318,21 +1318,8 @@ namespace DepartmentService.Services
                                 elementApr.Add(null);
                             }
                         }
-                        //TODO: Дописать 
-                        foreach (var lect in lecturers)
-                        {
-                            var lectHours = _context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lect.Id && x.AcademicPlanRecordElement.AcademicPlanRecordId == apr.Id && !x.IsDeleted);
-                            if (lectHours.Count() > 0)
-                            {
-                                elementApr.Add(lectHours.Sum(x => x.Hours));
-                            }
-                            else
-                            {
-                                elementApr.Add(null);
-                            }
-                             //== null ? Convert.ToDecimal(0) : x.Hours
-                        }
 
+                        // Итог - дисциплин
                         if (factTotal != 0)
                         {
                             elementApr.Add(factTotal);
@@ -1341,6 +1328,34 @@ namespace DepartmentService.Services
                         {
                             elementApr.Add(null);
                         }
+
+                        decimal lectTotal = 0;
+                        foreach (var lect in lecturers)
+                        {
+                            var lectHours = _context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lect.Id && x.AcademicPlanRecordElement.AcademicPlanRecordId == apr.Id && !x.IsDeleted);
+                            if (lectHours.Count() > 0)
+                            {
+                                elementApr.Add(lectHours.Sum(x => x.Hours));
+                                lectTotal += lectHours.Sum(x => x.Hours);
+                            }
+                            else
+                            {
+                                elementApr.Add(null);
+                            }
+                        }
+
+                        // Итог - дисциплин
+                        if (lectTotal != 0)
+                        {
+                            elementApr.Add(lectTotal);
+                        }
+                        else
+                        {
+                            elementApr.Add(null);
+                        }
+
+                        // Итог - разница
+                        elementApr.Add(factTotal - lectTotal);
 
                         list.Add(elementApr.ToArray());
                     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace DepartmentModel.Models
@@ -23,6 +24,17 @@ namespace DepartmentModel.Models
 
         [DataMember]
         public string LessonConsultationClassroom { get; set; }
+
+        /// <summary>
+        /// При загрузке расписания отметка, проверена пара или нет
+        /// </summary>
+        [NotMapped]
+        public bool Checked { get; set; }
+
+        public ExaminationRecord() : base()
+        {
+            Checked = false;
+        }
 
         //-------------------------------------------------------------------------
 

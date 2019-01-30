@@ -26,7 +26,7 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
         
         private Guid _academicPlanRecordId;
         
-        private Guid? _lecturerId = null; // 00000000-0000-0000-0000-000000000000 - пустое значение
+        private Guid? _lecturerId = null;
 
         private HashSet<int> listNumEditRows;
 
@@ -56,6 +56,8 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
                 LoadColomnsAPRM();
                 LoadDataAPRM();
             }
+            
+            this.buttonAutoComplete.Visible = this._lecturerId != null;
         }
 
         private void LoadColomnsAPRE()
@@ -404,6 +406,15 @@ namespace DepartmentDesktop.Views.Services.LoadDistribution
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void buttonAutoComplete_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < dataGridView.Rows.Count; i++)
+            {
+                dataGridView[6, i].Value = dataGridView[5, i].Value;
+                listNumEditRows.Add(i);
+            }
         }
     }
 }

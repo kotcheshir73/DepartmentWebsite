@@ -82,6 +82,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					Description = dataGridViewStudents.Rows[i].Cells[5].Value.ToString(),
 					StudentGroupId = _id.Value,
                     Email = "no"
+                    Email = "неизвестно"
 				};
 				list.Add(model);
 			}

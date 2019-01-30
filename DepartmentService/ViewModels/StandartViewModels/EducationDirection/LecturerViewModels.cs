@@ -34,7 +34,9 @@ namespace DepartmentService.ViewModels
 
         public string LecturerPost { get; set; }
 
-		public string Rank { get; set; }
+        public double Workload { get; set; }
+
+        public string Rank { get; set; }
 
         public string Rank2 { get; set; }
 

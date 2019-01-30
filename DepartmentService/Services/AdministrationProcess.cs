@@ -19,26 +19,29 @@ namespace DepartmentService.Services
     {
         private readonly DepartmentDbContext _context;
 
+        private DepartmentUserManager userManager;
+
         public AdministrationProcess(DepartmentDbContext context)
         {
             _context = context;
+            userManager = new DepartmentUserManager(new DepartmentUserStore(context));
         }
 
         public ResultService CheckExsistData()
         {
             try
             {
-                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Администратор");
+                var role = _context.Roles.FirstOrDefault(x => x.Name == "Администратор");
                 if (role == null)
                 {
                     CreateAdministrationRoleAndUserWithAllAccess();
                 }
-                role = _context.Roles.FirstOrDefault(x => x.RoleName == "Преподаватель");
+                role = _context.Roles.FirstOrDefault(x => x.Name == "Преподаватель");
                 if (role == null)
                 {
                     CreateLecturerRolesWithAllAccess();
                 }
-                role = _context.Roles.FirstOrDefault(x => x.RoleName == "Студент");
+                role = _context.Roles.FirstOrDefault(x => x.Name == "Студент");
                 if (role == null)
                 {
                     CreateStudentRolesWithAllAccess();
@@ -219,19 +222,21 @@ namespace DepartmentService.Services
 
         private void CreateAdministrationRoleAndUserWithAllAccess()
         {
+            DepartmentRole role = null;
+            DepartmentUser user = null;
             using (var transaction = _context.Database.BeginTransaction())
             {
-                Role role = new Role
+                role = new DepartmentRole
                 {
-                    RoleName = "Администратор"
+                    Name = "Администратор"
                 };
                 _context.Roles.Add(role);
                 _context.SaveChanges();
 
-                List<Access> accesses = new List<Access>();
+                List<DepartmentAccess> accesses = new List<DepartmentAccess>();
                 foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
                 {
-                    accesses.Add(new Access
+                    accesses.Add(new DepartmentAccess
                     {
                         AccessType = AccessType.Administrator,
                         Operation = elem,
@@ -242,33 +247,27 @@ namespace DepartmentService.Services
                 _context.SaveChanges();
 
                 var md5 = new MD5CryptoServiceProvider();
-                User user = new User
+                user = new DepartmentUser
                 {
-                    Login = "admin",
-                    Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
+                    UserName = "admin",
+                    PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
                 };
                 _context.Users.Add(user);
                 _context.SaveChanges();
 
-                UserRole ur = new UserRole
-                {
-                    RoleId = role.Id,
-                    UserId = user.Id
-                };
-                _context.UserRoles.Add(ur);
-                _context.SaveChanges();
-
                 transaction.Commit();
             }
+
+            userManager.AddToRoleAsync(user.Id, role.Name).Wait();
         }
 
         private void CreateLecturerRolesWithAllAccess()
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
-                Role role = new Role
+                DepartmentRole role = new DepartmentRole
                 {
-                    RoleName = "Преподаватель"
+                    Name = "Преподаватель"
                 };
                 _context.Roles.Add(role);
                 _context.SaveChanges();
@@ -294,9 +293,9 @@ namespace DepartmentService.Services
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
-                Role role = new Role
+                DepartmentRole role = new DepartmentRole
                 {
-                    RoleName = "Студент"
+                    Name = "Студент"
                 };
                 _context.Roles.Add(role);
                 _context.SaveChanges();
@@ -320,20 +319,20 @@ namespace DepartmentService.Services
 
         private void CheckAdministrationAccesses()
         {
-            var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Администратор");
+            var role = _context.Roles.FirstOrDefault(x => x.Name == "Администратор");
             if (role == null)
             {
                 throw new Exception("Остуствует роль \"Администратор\"");
             }
             using (var transaction = _context.Database.BeginTransaction())
             {
-                List<Access> accesses = new List<Access>();
+                List<DepartmentAccess> accesses = new List<DepartmentAccess>();
                 var accessInBD = _context.Accesses.Where(x => x.RoleId == role.Id).ToList();
                 foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
                 {
                     if (!accessInBD.Exists(x => x.Operation == elem))
                     {
-                        accesses.Add(new Access
+                        accesses.Add(new DepartmentAccess
                         {
                             AccessType = AccessType.Administrator,
                             Operation = elem,
@@ -365,7 +364,7 @@ namespace DepartmentService.Services
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
-                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Преподаватель");
+                var role = _context.Roles.FirstOrDefault(x => x.Name == "Преподаватель");
                 if (role == null)
                 {
                     throw new Exception("Отсутствует роль \"Преподаватель\"");
@@ -378,37 +377,25 @@ namespace DepartmentService.Services
                     var user = _context.Users.FirstOrDefault(x => x.LecturerId == lecturer.Id);
                     if (user == null)
                     {
-                        user = new User
+                        user = new DepartmentUser
                         {
-                            Login = lecturer.ToString(),
-                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.ToString()))),
+                            UserName = lecturer.ToString(),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.ToString()))),
                             LecturerId = lecturer.Id
                         };
                         _context.Users.Add(user);
                         _context.SaveChanges();
-
-                        var userRole = new UserRole
-                        {
-                            RoleId = role.Id,
-                            UserId = user.Id
-                        };
-                        _context.UserRoles.Add(userRole);
-                        _context.SaveChanges();
+                        
+                        userManager.AddToRoleAsync(user.Id, role.Name);
                     }
                     else
                     {
-                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
-                        if (userRole == null)
+                        var userRole = userManager.GetRolesAsync(user.Id);
+                        if (!userRole.Result.Contains(role.Name))
                         {
-                            userRole = new UserRole
-                            {
-                                RoleId = role.Id,
-                                UserId = user.Id
-                            };
-                            _context.UserRoles.Add(userRole);
-                            _context.SaveChanges();
+                            userManager.AddToRoleAsync(user.Id, role.Name);
                         }
-                        user.IsBanned = false;
+                        user.LockoutEnabled = false;
                         user.DateBanned = null;
                         user.IsDeleted = false;
                         user.DateDelete = null;
@@ -440,7 +427,7 @@ namespace DepartmentService.Services
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
-                var role = _context.Roles.FirstOrDefault(x => x.RoleName == "Студент");
+                var role = _context.Roles.FirstOrDefault(x => x.Name == "Студент");
                 if (role == null)
                 {
                     throw new Exception("Отсутствует роль \"Студент\"");
@@ -453,37 +440,26 @@ namespace DepartmentService.Services
                     var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
                     if (user == null)
                     {
-                        user = new User
+                        user = new DepartmentUser
                         {
-                            Login = student.ToString(),
-                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            UserName = student.ToString(),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
                             StudentId = student.Id
                         };
                         _context.Users.Add(user);
                         _context.SaveChanges();
 
-                        var userRole = new UserRole
-                        {
-                            RoleId = role.Id,
-                            UserId = user.Id
-                        };
-                        _context.UserRoles.Add(userRole);
-                        _context.SaveChanges();
+
+                        userManager.AddToRoleAsync(user.Id, role.Name);
                     }
                     else
                     {
-                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
-                        if (userRole == null)
+                        var userRole = userManager.GetRolesAsync(user.Id);
+                        if (!userRole.Result.Contains(role.Name))
                         {
-                            userRole = new UserRole
-                            {
-                                RoleId = role.Id,
-                                UserId = user.Id
-                            };
-                            _context.UserRoles.Add(userRole);
-                            _context.SaveChanges();
+                            userManager.AddToRoleAsync(user.Id, role.Name);
                         }
-                        user.IsBanned = false;
+                        user.LockoutEnabled = false;
                         user.DateBanned = null;
                         user.IsDeleted = false;
                         user.DateDelete = null;
@@ -498,40 +474,28 @@ namespace DepartmentService.Services
                     var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
                     if (user == null)
                     {
-                        user = new User
+                        user = new DepartmentUser
                         {
-                            Login = student.ToString(),
-                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            UserName = student.ToString(),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
                             StudentId = student.Id
                         };
                         _context.Users.Add(user);
                         _context.SaveChanges();
-
-                        var userRole = new UserRole
-                        {
-                            RoleId = role.Id,
-                            UserId = user.Id
-                        };
-                        _context.UserRoles.Add(userRole);
-                        _context.SaveChanges();
+                        
+                        userManager.AddToRoleAsync(user.Id, role.Name);
                     }
                     else
                     {
-                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
-                        if (userRole == null)
+                        var userRole = userManager.GetRolesAsync(user.Id);
+                        if (!userRole.Result.Contains(role.Name))
                         {
-                            userRole = new UserRole
-                            {
-                                RoleId = role.Id,
-                                UserId = user.Id
-                            };
-                            _context.UserRoles.Add(userRole);
-                            _context.SaveChanges();
+                            userManager.AddToRoleAsync(user.Id, role.Name);
                         }
                     }
-                    if (!user.IsBanned)
+                    if (!user.LockoutEnabled)
                     {
-                        user.IsBanned = false;
+                        user.LockoutEnabled = false;
                         user.DateBanned = DateTime.Now;
                     }
                     user.IsDeleted = false;
@@ -546,35 +510,23 @@ namespace DepartmentService.Services
                     var user = _context.Users.FirstOrDefault(x => x.StudentId == student.Id);
                     if (user == null)
                     {
-                        user = new User
+                        user = new DepartmentUser
                         {
-                            Login = student.ToString(),
-                            Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            UserName = student.ToString(),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
                             StudentId = student.Id
                         };
                         _context.Users.Add(user);
                         _context.SaveChanges();
 
-                        var userRole = new UserRole
-                        {
-                            RoleId = role.Id,
-                            UserId = user.Id
-                        };
-                        _context.UserRoles.Add(userRole);
-                        _context.SaveChanges();
+                        userManager.AddToRoleAsync(user.Id, role.Name);
                     }
                     else
                     {
-                        var userRole = _context.UserRoles.FirstOrDefault(x => x.RoleId == role.Id && x.UserId == user.Id);
-                        if (userRole == null)
+                        var userRole = userManager.GetRolesAsync(user.Id);
+                        if (!userRole.Result.Contains(role.Name))
                         {
-                            userRole = new UserRole
-                            {
-                                RoleId = role.Id,
-                                UserId = user.Id
-                            };
-                            _context.UserRoles.Add(userRole);
-                            _context.SaveChanges();
+                            userManager.AddToRoleAsync(user.Id, role.Name);
                         }
                     }
                     if (!user.IsDeleted)

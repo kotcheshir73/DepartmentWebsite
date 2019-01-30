@@ -17,43 +17,36 @@ namespace DepartmentService.Context
         protected override void Seed(DepartmentDbContext context)
         {
             base.Seed(context);
-
+            DepartmentUserManager userManager = new DepartmentUserManager(new DepartmentUserStore(context));
             using (var transaction = context.Database.BeginTransaction())
             {
-                Role role = new Role
+                DepartmentRole role = new DepartmentRole
                 {
-                    DateCreate = DateTime.Now,
-                    RoleName = "Администратор"
+                    Name = "Администратор"
                 };
                 context.Roles.Add(role);
 
                 context.SaveChanges();
 
                 var md5 = new MD5CryptoServiceProvider();
-                User user = new User
+                DepartmentUser user = new DepartmentUser
                 {
-                    Login = "admin",
-                    Password = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
+                    UserName = "admin",
+                    PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
                 };
 
                 context.Users.Add(user);
 
                 context.SaveChanges();
 
-                UserRole ur = new UserRole
-                {
-                    RoleId = role.Id,
-                    UserId = user.Id
-                };
-
-                context.UserRoles.Add(ur);
-
                 context.SaveChanges();
 
-                List<Access> accesses = new List<Access>();
+                userManager.AddToRoleAsync(user.Id, role.Name).Wait();
+
+                List<DepartmentAccess> accesses = new List<DepartmentAccess>();
                 foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
                 {
-                    accesses.Add(new Access
+                    accesses.Add(new DepartmentAccess
                     {
                         AccessType = AccessType.Administrator,
                         Operation = elem,
