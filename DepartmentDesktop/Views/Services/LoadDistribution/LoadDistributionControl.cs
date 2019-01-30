@@ -38,8 +38,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
         private bool notLoading;
 
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, IStatementService serviceS, IIndividualPlanRecordService serviceIPR, IGraficService serviceG)
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, ILecturerWorkloadService serviceLW, ILecturerPostSerivce serviceLP)
+		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, IStatementService serviceS, 
+            IIndividualPlanRecordService serviceIPR, IGraficService serviceG, ILecturerWorkloadService serviceLW, ILecturerPostSerivce serviceLP)
 		{
 			InitializeComponent();
             _serviceAY = serviceAY;
@@ -332,9 +332,19 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
         }
 
         private void buttonCreatStatement_Click(object sender, EventArgs e)
-        private void editHoursForAllLecturers()
         {
             _serviceS.CreateAllFindStatement(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
+        }
+
+        private void editHoursForAllLecturers()
+        {
+            for (int j = 0; j < dataGridViewList.Columns.Count; j++)
+            {
+                if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+                {
+                    editHoursForLecturer(j);
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
