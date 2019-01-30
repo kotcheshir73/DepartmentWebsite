@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201901271630550_UpdateExaminationTemplateTicketQuestion.Designer.cs">
       <DependentUpon>201901271630550_UpdateExaminationTemplateTicketQuestion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901301329029_GlobalUpdateWebAndLoadDistribute.cs" />
+    <Compile Include="Migrations\201901301329029_GlobalUpdateWebAndLoadDistribute.Designer.cs">
+      <DependentUpon>201901301329029_GlobalUpdateWebAndLoadDistribute.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
@@ -163,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901271630550_UpdateExaminationTemplateTicketQuestion.resx">
       <DependentUpon>201901271630550_UpdateExaminationTemplateTicketQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301329029_GlobalUpdateWebAndLoadDistribute.resx">
+      <DependentUpon>201901301329029_GlobalUpdateWebAndLoadDistribute.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
