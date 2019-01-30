@@ -607,7 +607,6 @@ namespace TicketServiceImplementations.Implementations
             {
                 using (var context = new DepartmentDbContext())
                 {
-                    int counter = 0;
                     var ticketTemplate = context.TicketTemplates.FirstOrDefault(x => x.Id == model.TicketTemplateId && !x.IsDeleted);
                     if(ticketTemplate == null)
                     {
@@ -653,13 +652,9 @@ namespace TicketServiceImplementations.Implementations
                     try
                     {
                         object missing = System.Reflection.Missing.Value;
-                        // For reasons of performace and to avoid the user
-                        // messing things up :
                         wordApp.Visible = false;
                         wordApp.ScreenUpdating = false;
-
-                        // Word needs a lot of parameters that are optional in VB
-                        // but need to be passed in C#
+                        
                         Object docFormat = WdSaveFormat.wdFormatDocument;
                         Object openFormat = WdOpenFormat.wdOpenFormatXML;
                         Object f = model.FileName;
@@ -667,15 +662,14 @@ namespace TicketServiceImplementations.Implementations
 
                         wordApp.Documents.Open(ref fxml, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
                         ref missing, ref openFormat, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-
-                        // Here comes the actual saving part
+                        
                         Document doc = wordApp.ActiveDocument;
                         doc.SaveAs(ref f, ref docFormat, ref missing, ref missing, ref missing, ref missing, ref missing,
                         ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
 
                         doc.Close(ref missing, ref missing, ref missing);
 
-                      //  File.Delete(model.FileName + ".xml");
+                        File.Delete(model.FileName + ".xml");
                     }
                     catch (Exception ex)
                     {
@@ -693,6 +687,28 @@ namespace TicketServiceImplementations.Implementations
             }
 
             return ResultService.Success();
+        }
+
+        public ResultService<List<TicketProcessGetParagraphDatasViewModel>> GetParagraphDatas(TicketProcessGetParagraphDatasBindingModel model)
+        {
+            List<TicketProcessGetParagraphDatasViewModel> datas = new List<TicketProcessGetParagraphDatasViewModel>();
+            try
+            {
+                using (var context = new DepartmentDbContext())
+                {
+                    var body = TicketBodyGet.GetBody(context, model.TicketTemplateId);
+                    if(body != null)
+                    {
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                return ResultService<List<TicketProcessGetParagraphDatasViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+
+            return ResultService<List<TicketProcessGetParagraphDatasViewModel>>.Success(datas);
         }
 
         private Dictionary<ExaminationTemplateBlock, List<ExaminationTemplateBlockQuestion>> GetDublicateDictionary(Dictionary<ExaminationTemplateBlock, List<ExaminationTemplateBlockQuestion>> original)

@@ -118,4 +118,17 @@ namespace TicketServiceInterfaces.ViewModels
 
         public List<TicketProcessTableViewModel> Tables { get; set; }
     }
+
+    public class TicketProcessGetParagraphDatasViewModel
+    {
+        public Guid ParagraphDataID { get; set; }
+
+        public string Text { get; set; }
+
+        public bool IsBold { get; set; }
+
+        public bool IsUnderline { get; set; }
+
+        public bool IsItalic { get; set; }
+    }
 }

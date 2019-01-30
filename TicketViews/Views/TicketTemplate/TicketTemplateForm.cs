@@ -236,6 +236,16 @@ namespace TicketViews.Views.TicketTemplate
                     {
                         text = $"<b>{text}</b>";
                     }
+                    var underline = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:u");
+                    if (underline != null)
+                    {
+                        text = $"<u>{text}</u>";
+                    }
+                    var italic = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:i");
+                    if (italic != null)
+                    {
+                        text = $"<i>{text}</i>";
+                    }
                     var rSize = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name.StartsWith("w:sz"))?
                         .ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val");
                     if (rSize != null)

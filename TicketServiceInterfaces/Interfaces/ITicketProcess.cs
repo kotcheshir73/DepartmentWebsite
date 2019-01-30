@@ -1,4 +1,5 @@
 ﻿using DepartmentModel;
+using System.Collections.Generic;
 using TicketServiceInterfaces.BindingModels;
 using TicketServiceInterfaces.ViewModels;
 
@@ -17,5 +18,7 @@ namespace TicketServiceInterfaces.Interfaces
         ResultService SynchronizeBlocksByTemplate(TicketProcessSynchronizeBlocksByTemplateBindingModel model);
 
         ResultService UploadTickets(TicketProcessUploadTicketsBindingModel model);
+
+        ResultService<List<TicketProcessGetParagraphDatasViewModel>> GetParagraphDatas(TicketProcessGetParagraphDatasBindingModel model);
     }
 }

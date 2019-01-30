@@ -110,7 +110,6 @@
             this.groupBoxConfig.Controls.Add(this.panelBlockConfig);
             this.groupBoxConfig.Controls.Add(this.panelHardConfig);
             this.groupBoxConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxConfig.Enabled = false;
             this.groupBoxConfig.Location = new System.Drawing.Point(0, 57);
             this.groupBoxConfig.Name = "groupBoxConfig";
             this.groupBoxConfig.Size = new System.Drawing.Size(1205, 651);

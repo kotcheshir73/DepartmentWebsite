@@ -140,7 +140,6 @@ namespace TicketViews.Views.ExaminationTemplateTicket
 
         private void RadioButtonWhileCanCreate_CheckedChanged(object sender, EventArgs e)
         {
-            groupBoxConfig.Enabled = !radioButtonWhileCanCreate.Checked;
         }
 
         private void RadioButtonByCountTickets_CheckedChanged(object sender, EventArgs e)

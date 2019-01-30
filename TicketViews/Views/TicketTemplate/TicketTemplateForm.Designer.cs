@@ -42,6 +42,7 @@
             this.labelExaminationTemplate = new System.Windows.Forms.Label();
             this.tabPageTicketTemplate = new System.Windows.Forms.TabPage();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.tabPageParagraphsData = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.tabPageTicketTemplate.SuspendLayout();
@@ -67,11 +68,12 @@
             // 
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageTicketTemplate);
+            this.tabControl.Controls.Add(this.tabPageParagraphsData);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1163, 667);
+            this.tabControl.Size = new System.Drawing.Size(1184, 661);
             this.tabControl.TabIndex = 1;
             // 
             // tabPageConfig
@@ -188,11 +190,21 @@
             this.webBrowser.Size = new System.Drawing.Size(1149, 635);
             this.webBrowser.TabIndex = 0;
             // 
+            // tabPageParagraphsData
+            // 
+            this.tabPageParagraphsData.Location = new System.Drawing.Point(4, 22);
+            this.tabPageParagraphsData.Name = "tabPageParagraphsData";
+            this.tabPageParagraphsData.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageParagraphsData.Size = new System.Drawing.Size(1176, 635);
+            this.tabPageParagraphsData.TabIndex = 2;
+            this.tabPageParagraphsData.Text = "Параграфы";
+            this.tabPageParagraphsData.UseVisualStyleBackColor = true;
+            // 
             // TicketTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1163, 667);
+            this.ClientSize = new System.Drawing.Size(1184, 661);
             this.Controls.Add(this.tabControl);
             this.Name = "TicketTemplateForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -221,5 +233,6 @@
         private System.Windows.Forms.Button buttonLoadTemplate;
         private System.Windows.Forms.Label labelLinkToFile;
         private System.Windows.Forms.TextBox textBoxLinkToFile;
+        private System.Windows.Forms.TabPage tabPageParagraphsData;
     }
 }

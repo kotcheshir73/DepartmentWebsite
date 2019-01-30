@@ -46,4 +46,9 @@ namespace TicketServiceInterfaces.BindingModels
 
         public Guid TicketTemplateId { get; set; }
     }
+
+    public class TicketProcessGetParagraphDatasBindingModel
+    {
+        public Guid TicketTemplateId { get; set; }
+    }
 }
