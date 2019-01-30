@@ -1,4 +1,5 @@
-﻿using DepartmentService;
+﻿using AuthenticationServiceInterfaces.ViewModels;
+using DepartmentService;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace DepartmentDesktop
 
 		public static bool Login(string userName, string password)
 		{
-			_user = AccessCheckService.Login(userName, password);
+			AccessCheckService.Login(userName, password);
 			return _user != null;
 		}
 

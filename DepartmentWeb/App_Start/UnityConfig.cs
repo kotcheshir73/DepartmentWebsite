@@ -1,6 +1,10 @@
-using DepartmentService.Context;
+using AuthenticationServiceImplementations.Implementations;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentContext;
 using DepartmentService.IServices;
 using DepartmentService.Services;
+using ScheduleServiceImplementations.Services;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Data.Entity;
 using Unity;
@@ -63,7 +67,7 @@ namespace DepartmentWeb
             container.RegisterType<IStudentMoveService, StudentMoveService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
             container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());

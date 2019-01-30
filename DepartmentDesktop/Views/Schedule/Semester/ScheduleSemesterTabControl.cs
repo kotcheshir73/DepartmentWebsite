@@ -1,5 +1,6 @@
 ﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,16 +8,16 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 {
     public partial class ScheduleSemesterTabControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly ISemesterRecordService _serviceSR;
 
         private readonly IConsultationRecordService _serviceCR;
 
-        public ScheduleSemesterTabControl(IScheduleService service, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR)
+        public ScheduleSemesterTabControl(IScheduleProcess process, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
             _serviceSR = serviceSR;
             _serviceCR = serviceCR;
         }
@@ -27,7 +28,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
             switch (type)
             {
                 case 0://расписание по аудиториям
-                    var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { });
+                    var resultClassrooms = _process.GetClassrooms(new ClassroomGetBindingModel { });
                     if (!resultClassrooms.Succeeded)
                     {
                         Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);
@@ -49,7 +50,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                                 Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleSemesterControl(_service, _serviceSR, _serviceCR)
+                            var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -59,7 +60,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     }
                     break;
                 case 1://расписание по группам
-                    var resultStudentGroups = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+                    var resultStudentGroups = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
                     if (!resultStudentGroups.Succeeded)
                     {
                         Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
@@ -81,7 +82,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                                 Text = studentGroups[i].GroupName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleSemesterControl(_service, _serviceSR, _serviceCR)
+                            var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -91,7 +92,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     }
                     break;
                 case 2://расписание по преподавателям
-                    var resultLecturers = _service.GetLecturers(new LecturerGetBindingModel { });
+                    var resultLecturers = _process.GetLecturers(new LecturerGetBindingModel { });
                     if (!resultLecturers.Succeeded)
                     {
                         Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultLecturers.Errors);
@@ -113,7 +114,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                                 Text = lecturers[i].FullName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleSemesterControl(_service, _serviceSR, _serviceCR)
+                            var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };

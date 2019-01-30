@@ -23,15 +23,4 @@ namespace DepartmentService.ViewModels
 
         public int Zet { get; set; }
     }
-
-    public class ScheduleRecordsForDisciplinePageViewModel : PageViewModel<ScheduleRecordsForDisciplineViewModel> { }
-
-    public class ScheduleRecordsForDisciplineViewModel : ScheduleRecordShortViewModels
-    {
-        public ScheduleRecordTypeForDiscipline Type {get; set;}
-
-        public string LessonType { get; set; }
-
-        public string Date { get; set; }        
-    }
 }

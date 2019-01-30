@@ -1,6 +1,10 @@
-﻿using DepartmentService.Context;
+﻿using AuthenticationServiceImplementations.Implementations;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentContext;
 using DepartmentService.IServices;
 using DepartmentService.Services;
+using ScheduleServiceImplementations.Services;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -52,7 +56,7 @@ namespace DepartmentDesktop
 			currentContainer.RegisterType<IStudentMoveService, StudentMoveService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
-            currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());

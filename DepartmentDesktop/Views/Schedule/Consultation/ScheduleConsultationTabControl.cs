@@ -1,5 +1,6 @@
 ﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,14 +8,14 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 {
     public partial class ScheduleConsultationTabControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly IConsultationRecordService _serviceCR;
 
-        public ScheduleConsultationTabControl(IScheduleService service, IConsultationRecordService serviceCR)
+        public ScheduleConsultationTabControl(IScheduleProcess process, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
             _serviceCR = serviceCR;
         }
 
@@ -25,7 +26,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
             switch (type)
             {
                 case 0:
-                    var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { });
+                    var resultClassrooms = _process.GetClassrooms(new ClassroomGetBindingModel { });
 					if (!resultClassrooms.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);
@@ -47,7 +48,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                                 Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleConsultationControl(_service, _serviceCR)
+                            var control = new ScheduleConsultationControl(_process, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -57,7 +58,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                     }
                     break;
                 case 1:
-                    var resultStudentGroups = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+                    var resultStudentGroups = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
 					if (!resultStudentGroups.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
@@ -79,7 +80,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                                 Text = studentGroups[i].GroupName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleConsultationControl(_service, _serviceCR)
+                            var control = new ScheduleConsultationControl(_process, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -89,7 +90,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                     }
                     break;
 				case 2://расписание по преподавателям
-					var resultLecturers = _service.GetLecturers(new LecturerGetBindingModel { });
+					var resultLecturers = _process.GetLecturers(new LecturerGetBindingModel { });
 					if (!resultLecturers.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultLecturers.Errors);
@@ -111,7 +112,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
                                 Text = lecturers[i].FullName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleConsultationControl(_service, _serviceCR)
+                            var control = new ScheduleConsultationControl(_process, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };

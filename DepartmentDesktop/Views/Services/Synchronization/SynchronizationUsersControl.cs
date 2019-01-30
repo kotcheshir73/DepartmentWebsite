@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AuthenticationServiceInterfaces.Interfaces;
+using System;
 using System.Windows.Forms;
-using Unity.Attributes;
 using Unity;
-using DepartmentService.IServices;
+using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.Services.Synchronization
 {

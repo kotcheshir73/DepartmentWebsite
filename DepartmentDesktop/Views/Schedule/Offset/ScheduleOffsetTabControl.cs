@@ -1,5 +1,6 @@
 ﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,17 +8,17 @@ namespace DepartmentDesktop.Views.Schedule.Offset
 {
     public partial class ScheduleOffsetTabControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly IOffsetRecordService _serviceOR;
 
         private readonly IConsultationRecordService _serviceCR;
 
-        public ScheduleOffsetTabControl(IScheduleService service, IOffsetRecordService serviceOR,
+        public ScheduleOffsetTabControl(IScheduleProcess process, IOffsetRecordService serviceOR,
             IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
             _serviceOR = serviceOR;
             _serviceCR = serviceCR;
         }
@@ -28,7 +29,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
             switch (type)
             {
                 case 0://расписание по аудиториям
-					var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { });
+					var resultClassrooms = _process.GetClassrooms(new ClassroomGetBindingModel { });
 					if (!resultClassrooms.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);
@@ -50,7 +51,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                                 Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleOffsetControl(_service, _serviceOR, _serviceCR)
+                            var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -60,7 +61,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     }
                     break;
                 case 1:
-					var resultStudentGroups = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+					var resultStudentGroups = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
 					if (!resultStudentGroups.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
@@ -82,7 +83,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                                 Text = studentGroups[i].GroupName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleOffsetControl(_service, _serviceOR, _serviceCR)
+                            var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -92,7 +93,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     }
                     break;
 				case 2://расписание по преподавателям
-					var resultLecturers = _service.GetLecturers(new LecturerGetBindingModel { });
+					var resultLecturers = _process.GetLecturers(new LecturerGetBindingModel { });
 					if (!resultLecturers.Succeeded)
 					{
 						Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultLecturers.Errors);
@@ -114,7 +115,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                                 Text = lecturers[i].FullName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleOffsetControl(_service, _serviceOR, _serviceCR)
+                            var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
                             {
                                 Dock = DockStyle.Fill
                             };

@@ -1,8 +1,8 @@
-﻿using DepartmentModel;
-using DepartmentDesktop.Views.Schedule.Consultation;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Views.Schedule.Consultation;
+using DepartmentModel;
 using DepartmentService.ViewModels;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,7 +13,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
 {
     public partial class ScheduleExaminationControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly IExaminationRecordService _serviceER;
 
@@ -35,21 +35,21 @@ namespace DepartmentDesktop.Views.Schedule.Examination
 
         private KeyValuePair<DateTime, int> _examSecondIndex;
 
-        public ScheduleExaminationControl(IScheduleService service, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
+        public ScheduleExaminationControl(IScheduleProcess service, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = service;
             _serviceER = serviceER;
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
 
-            var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+            var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
             }
             var lessons = result.Result.List;
-            result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+            result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
@@ -86,7 +86,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
             {
                 _model = model;
 
-                var resultCD = _service.GetCurrentDates();
+                var resultCD = _process.GetCurrentDates();
                 if (!resultCD.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
@@ -282,13 +282,13 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                     {//если в Tag есть данные, то это id записи
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                         {
-                            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
+                            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process,
                                 new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
                         else
                         {
-                            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
                                   new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
@@ -296,7 +296,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                     else
                     {//иначе пустая ячейка
                         DateTime datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
-                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service);
+                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process);
                         form.ShowDialog();
                     }
                     LoadRecords();
@@ -319,7 +319,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                               dataGridViewFirstWeek.SelectedCells[0].RowIndex * 10 +
                               dataGridViewFirstWeek.SelectedCells[0].ColumnIndex;
             }
-            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service);
+            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process);
             form.ShowDialog();
         }
 
@@ -332,13 +332,13 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 {//если в Tag есть данные, то это id записи
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _service,
+                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process,
                             new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
-                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
@@ -394,13 +394,13 @@ namespace DepartmentDesktop.Views.Schedule.Examination
             if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
             {
                 datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
-                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
+                var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
                 }
                 var lessons = result.Result.List;
-                result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
+                result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
@@ -408,7 +408,7 @@ namespace DepartmentDesktop.Views.Schedule.Examination
                 lessons.AddRange(result.Result.List);
                 datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
                                 .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
                 form.ShowDialog();
             }
         }

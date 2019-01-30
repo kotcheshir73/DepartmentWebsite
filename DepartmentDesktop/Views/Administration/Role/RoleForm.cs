@@ -1,7 +1,7 @@
-﻿using DepartmentDesktop.Views.Administration.Access;
+﻿using AuthenticationServiceInterfaces.BindingModels;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentDesktop.Views.Administration.Access;
 using DepartmentModel;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
 using System;
 using System.Windows.Forms;
 using Unity;
