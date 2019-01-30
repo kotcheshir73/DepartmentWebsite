@@ -658,6 +658,12 @@
     <Compile Include="Views\Services\LoadDistribution\LoadDistributionControl.Designer.cs">
       <DependentUpon>LoadDistributionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Services\LoadDistribution\LoadDistributionEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Services\LoadDistribution\LoadDistributionEditForm.Designer.cs">
+      <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Services\LoadDistribution\LoadDistributionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1176,6 +1182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionControl.resx">
       <DependentUpon>LoadDistributionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionEditForm.resx">
+      <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionForm.resx">
       <DependentUpon>LoadDistributionForm.cs</DependentUpon>

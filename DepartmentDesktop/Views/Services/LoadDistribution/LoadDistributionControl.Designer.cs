@@ -55,10 +55,11 @@
             this.dataGridViewList.ColumnHeadersHeight = 110;
             this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewList.Location = new System.Drawing.Point(0, 60);
+            this.dataGridViewList.MultiSelect = false;
             this.dataGridViewList.Name = "dataGridViewList";
             this.dataGridViewList.ReadOnly = true;
             this.dataGridViewList.RowHeadersVisible = false;
-            this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridViewList.Size = new System.Drawing.Size(800, 440);
             this.dataGridViewList.TabIndex = 2;
             this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);

@@ -47,6 +47,17 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static LecturerWorkloadViewModel CreateLecturerWorkloadViewModel(LecturerWorkload entity)
+        {
+            return new LecturerWorkloadViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                LecturerId = entity.LecturerId,
+                Workload = entity.Workload
+            };
+        }
+
 
         public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
         {
@@ -219,6 +230,17 @@ namespace DepartmentService.ViewModels
                 KindOfLoadName = entity.TimeNorm.KindOfLoadName,
                 PlanHours = entity.PlanHours,
                 FactHours = entity.FactHours
+            };
+        }
+
+        public static AcademicPlanRecordMissionViewModel CreateAcademicPlanRecordMissionViewModel(AcademicPlanRecordMission entity)
+        {
+            return new AcademicPlanRecordMissionViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                LecturerId = entity.LecturerId,
+                Hours = entity.Hours
             };
         }
 

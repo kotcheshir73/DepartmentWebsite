@@ -1,4 +1,5 @@
 ﻿using DepartmentDesktop.Models;
+using DepartmentDesktop.Views.Services.LoadDistribution;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
@@ -8,11 +9,17 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Unity;
+using Unity.Attributes;
+using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 {
 	public partial class LoadDistributionControl : UserControl
-	{
+    {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         private readonly IAcademicYearService _serviceAY;
 
         private readonly ITimeNormService _serviceTN;
@@ -21,16 +28,36 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
         private readonly ILecturerService _serviceL;
 
+        private readonly ILecturerWorkloadService _serviceLW;
+
+        private readonly ILecturerPostSerivce _serviceLP;
+
         private bool notLoading;
 
-		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL)
+		public LoadDistributionControl(IAcademicYearService serviceAY, ITimeNormService serviceTN, IEducationalProcessService serviceEP, ILecturerService serviceL, ILecturerWorkloadService serviceLW, ILecturerPostSerivce serviceLP)
 		{
 			InitializeComponent();
             _serviceAY = serviceAY;
             _serviceTN = serviceTN;
             _serviceEP = serviceEP;
             _serviceL = serviceL;
+            _serviceLW = serviceLW;
+            _serviceLP = serviceLP;
 
+            /*   это нужно было для создания ставок, пока жалко удалять
+            
+            var lecturerList = serviceL.GetLecturers(new LecturerGetBindingModel());  // 134ED8EA-5BC8-4FF1-9A52-8FF6DD8775FC
+            foreach(var tmp in lecturerList.Result.List)
+            {
+                string name = tmp.FullName;
+                serviceLW.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel()
+                {
+                    AcademicYearId = new Guid("134ED8EA-5BC8-4FF1-9A52-8FF6DD8775FC"),
+                    LecturerId = tmp.Id,
+                    Workload = 1
+                });
+            }
+            */
             setDoubleBuffered(dataGridViewList, true);
 		}
 
@@ -58,6 +85,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             {
                 LoadGrid();
                 LoadRecords();
+                editHoursForAllLecturers();
             }
         }
 
@@ -67,7 +95,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "APR_Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "Semester", Title = "Сем", Width = 50, Visible = true },
+                new ColumnConfig { Name = "Semester", Title = "Сем", Width = 50, Visible = true,  },
                 new ColumnConfig { Name = "EducationDirection", Title = "Код напр.", Width = 80, Visible = true },
                 new ColumnConfig { Name = "Discipline", Title = "Дисциплина", Width = 200, Visible = true },
                 new ColumnConfig { Name = "IsSelecetedDiscipline", Title = "Выб", Width = 30, Visible = true },
@@ -80,15 +108,29 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicYearId = id });
             foreach (var tn in timeNorms.Result.List)
             {
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Id{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+                columns.Add(new ColumnConfig { Name = string.Format("APRE_Id_{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
+                columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+                columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
             }
+            columns.Add(new ColumnConfig { Name = "Itog_APR", Title = "Итого (дисц.)", Width = 40, Visible = true });
             var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel () );
             foreach (var lect in lecturers.Result.List)
             {
-                columns.Add(new ColumnConfig { Name = string.Format("LecturerId_{0}", lect.Id), Title = lect.FullName, Width = 50, Visible = true });
+                // ниже костыль, нужно исправить
+                var workloadThisLector = _serviceLW.GetLecturerWorkloads(new LecturerWorkloadGetBindingModel()
+                {
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    LecturerId = lect.Id
+                });
+                var hourThisLector = _serviceLP.GetLecturerPost(new LecturerPostGetBindingModel()
+                {
+                    Id = lect.LecturerPostId
+                });
+                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName + "\n" 
+                    + (workloadThisLector.Result.List.Count == 0 ? "" : workloadThisLector.Result.List[0].Workload.ToString() + " - " 
+                    + hourThisLector.Result.Hours * workloadThisLector.Result.List[0].Workload + " - "), Width = 50, Visible = true });
             }
+            columns.Add(new ColumnConfig { Name = "Itog_Lecturer", Title = "Итого (лект.)", Width = 40, Visible = true });
             columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
             dataGridViewList.Columns.Clear();
             foreach (var column in columns)
@@ -103,6 +145,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
                     AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
                 });
             }
+            dataGridViewList.Columns[3].Frozen = true;
+
         }
 
         private void LoadRecords()
@@ -125,12 +169,51 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 
 		private void AddRecord()
 		{
-			
-		}
 
-		private void UpdRecord()
+        }
+
+        private void UpdRecord()
 		{
-			
+            int i, j;
+            if(dataGridViewList.SelectedCells.Count == 1)
+            {
+                i = dataGridViewList.SelectedCells[0].RowIndex;
+                j = dataGridViewList.SelectedCells[0].ColumnIndex;
+
+                if (dataGridViewList[0, i].Value == null)
+                {
+                    return;
+                }
+                
+                if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+                {
+                    var editForm = Container.Resolve<LoadDistributionEditForm>(
+                        new ParameterOverrides
+                        {
+                            { "academicYearId", comboBoxAcademicYear.SelectedValue.ToString() },
+                            { "academicPlanRecordId", dataGridViewList[0, i].Value.ToString() },
+                            { "lecturerId", dataGridViewList.Columns[j].Name.Split('_')[1] },
+                            { "disciplineName", dataGridViewList[3, i].Value.ToString() },
+                            { "lecturerName", dataGridViewList.Columns[j].HeaderText }
+                        }
+                        .OnType<LoadDistributionEditForm>());
+                    editForm.Show();
+                }
+                else if(dataGridViewList.Columns[j].Name.StartsWith("ColumnAPRE"))
+                {
+                    var editForm = Container.Resolve<LoadDistributionEditForm>(
+                        new ParameterOverrides
+                        {
+                            { "academicYearId", comboBoxAcademicYear.SelectedValue.ToString() },
+                            { "academicPlanRecordId", dataGridViewList[0, i].Value.ToString() },
+                            { "lecturerId", "" },
+                            { "disciplineName", dataGridViewList[3, i].Value.ToString() },
+                            { "lecturerName", "" }
+                        }
+                        .OnType<LoadDistributionEditForm>());
+                    editForm.Show();
+                }
+            }
 		}
 
 		private void DelRecord()
@@ -156,7 +239,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 		private void toolStripButtonRef_Click(object sender, EventArgs e)
 		{
 			LoadRecords();
-		}
+            editHoursForAllLecturers();
+        }
 
 		private void dataGridViewList_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -236,6 +320,37 @@ namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
             {
                 MessageBox.Show("Выберите нужный год");
             }
+        }
+
+        private void editHoursForAllLecturers()
+        {
+            for(int j = 0; j < dataGridViewList.Columns.Count; j++)
+            {
+                if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+                {
+                    editHoursForLecturer(j);
+                }
+            }
+        }
+
+        private void editHoursForLecturer(int j)
+        {
+            if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
+            {
+                dataGridViewList.Columns[j].HeaderText = dataGridViewList.Columns[j].HeaderText.Split('-')[0] + "-"
+                    + dataGridViewList.Columns[j].HeaderText.Split('-')[1] + "- " 
+                    + (Convert.ToDouble(dataGridViewList.Columns[j].HeaderText.Split('-')[1]) - getSumHourOfLecturer(j));
+            }
+        }
+
+        private double getSumHourOfLecturer(int j)
+        {
+            double sum = 0;
+            for(int i = 0; i < dataGridViewList.Rows.Count; i++)
+            {
+                sum += dataGridViewList[j, i].Value == null ? 0 : Convert.ToDouble(dataGridViewList[j, i].Value);
+            }
+            return sum;
         }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\EducationDirection.cs" />
     <Compile Include="Models\BaseEnities\Lecturer.cs" />
+    <Compile Include="Models\BaseEnities\LecturerWorkload.cs" />
     <Compile Include="Models\BaseEnities\LecturerPost.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValue.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueGroup.cs" />

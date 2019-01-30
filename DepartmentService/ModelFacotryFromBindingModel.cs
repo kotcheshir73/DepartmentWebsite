@@ -47,7 +47,20 @@ namespace DepartmentService.BindingModels
 
             return entity;
         }
-        
+
+        public static LecturerWorkload CreateLecturerWorkload(LecturerWorkloadSetBindingModel model, LecturerWorkload entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new LecturerWorkload();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.LecturerId = model.LecturerId;
+            entity.Workload = model.Workload;
+
+            return entity;
+        }
+
 
         public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
 		{
@@ -201,6 +214,18 @@ namespace DepartmentService.BindingModels
             entity.TimeNormId = model.TimeNormId;
             entity.PlanHours = model.PlanHours;
             entity.FactHours = model.FactHours;
+            return entity;
+        }
+
+        public static AcademicPlanRecordMission CreateAcademicPlanRecordMission(AcademicPlanRecordMissionSetBindingModel model, AcademicPlanRecordMission entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new AcademicPlanRecordMission();
+            }
+            entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
+            entity.LecturerId = model.LecturerId;
+            entity.Hours = model.Hours;
             return entity;
         }
 

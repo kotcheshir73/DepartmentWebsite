@@ -41,6 +41,7 @@ namespace DepartmentService.Context
         public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
         public virtual DbSet<LecturerPost> LecturerPosts { get; set; }
+        public virtual DbSet<LecturerWorkload> LecturerWorkload { get; set; }
         public virtual DbSet<MaterialTechnicalValue> MaterialTechnicalValues { set; get; }
         public virtual DbSet<MaterialTechnicalValueGroup> MaterialTechnicalValueGroups { set; get; }
         public virtual DbSet<MaterialTechnicalValueRecord> MaterialTechnicalValueRecords { set; get; }

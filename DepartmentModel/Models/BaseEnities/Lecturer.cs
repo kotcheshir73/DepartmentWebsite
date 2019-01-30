@@ -87,6 +87,9 @@ namespace DepartmentModel.Models
         [ForeignKey("LecturerId")]
         public virtual List<AcademicPlanRecordMission> AcademicPlanRecordMissions { get; set; }
 
+        [ForeignKey("LecturerId")]
+        public virtual List<LecturerWorkload> LecturerWorkloads { get; set; }
+
         //-------------------------------------------------------------------------
 
         public override string ToString()
