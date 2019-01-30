@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DepartmentService.ViewModels.IndividualPlanNIRScientificArticleViewModel>
+
+@{
+    ViewBag.Title = "Перечень материалов, сданных в учебном году в печать";
+}
+
+<h2>Перечень материалов, сданных в учебном году в печать</h2>
+
+<p>
+    @Html.ActionLink("Добавить новый", "CreateScientificArticleOfPrint")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+        <th>
+            Вид публикации
+        </th>
+        <th>
+            Объем
+        </th>
+        <th>
+            Издательство
+        </th>
+        <th>
+            Год
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfPublication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Volume)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Publishing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.ActionLink("Изменить | ", "UpdateScientificArticleOfPrint", new { id = item.Id })
+            @Html.ActionLink("Удалить", "DeleteScientificArticleOfPrint", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

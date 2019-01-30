@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\TypeOfTest.cs" />
     <Compile Include="Enums\AcademicCourse.cs" />
     <Compile Include="Enums\AcademicLevel.cs" />
     <Compile Include="Enums\AccessOperation.cs" />
@@ -67,6 +68,13 @@
     <Compile Include="Enums\Semesters.cs" />
     <Compile Include="Enums\StudentState.cs" />
     <Compile Include="Enums\TimeNormKoef.cs" />
+    <Compile Include="Models\BaseEnities\GraficClassroom.cs" />
+    <Compile Include="Models\BaseEnities\GraficRecord.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanNIRContractualWork.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanNIRScientificArticle.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanRecord.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanKindOfWork.cs" />
+    <Compile Include="Models\BaseEnities\IndividualPlanTitle.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlan.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecord.cs" />
     <Compile Include="Models\BaseEnities\AcademicPlanRecordElement.cs" />
@@ -85,6 +93,7 @@
     <Compile Include="Models\BaseEnities\DisciplineStudentRecord.cs" />
     <Compile Include="Models\BaseEnities\EducationDirection.cs" />
     <Compile Include="Models\BaseEnities\Lecturer.cs" />
+    <Compile Include="Models\BaseEnities\LecturerWorkload.cs" />
     <Compile Include="Models\BaseEnities\LecturerPost.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValue.cs" />
     <Compile Include="Models\BaseEnities\MaterialTechnicalValueGroup.cs" />
@@ -93,8 +102,12 @@
     <Compile Include="Models\BaseEnities\SeasonDates.cs" />
     <Compile Include="Models\BaseEnities\Software.cs" />
     <Compile Include="Models\BaseEnities\SoftwareRecord.cs" />
+    <Compile Include="Models\BaseEnities\Grafic.cs" />
+    <Compile Include="Models\BaseEnities\Statement.cs" />
+    <Compile Include="Models\BaseEnities\StatementRecordExtended.cs" />
     <Compile Include="Models\BaseEnities\StreamLesson.cs" />
     <Compile Include="Models\BaseEnities\StreamingLesson.cs" />
+    <Compile Include="Models\BaseEnities\StatementRecord.cs" />
     <Compile Include="Models\BaseEnities\StreamLessonRecord.cs" />
     <Compile Include="Models\BaseEnities\Student.cs" />
     <Compile Include="Models\BaseEnities\StudentGroup.cs" />

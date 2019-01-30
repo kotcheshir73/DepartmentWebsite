@@ -1,0 +1,48 @@
+﻿@model IEnumerable<DepartmentService.ViewModels.StatementViewModel>
+
+@{
+    ViewBag.Title = "StatementList";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Дисциплина
+        </th>
+        <th>
+            Тип испытания
+        </th>
+        <th>
+            Группа
+        </th>
+        <th>
+            Семестр
+        </th>
+        <th>
+            Дата
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.ActionLink(item.DisciplineName, "StatementRecord", new { id = item.Id })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfTest)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentGroupName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Semester)
+        </td>
+        <td>
+            @Html.ActionLink(item.Date, "StatementEditDate", new { id = item.Id })
+        </td>
+    </tr>
+    }
+
+</table>
+

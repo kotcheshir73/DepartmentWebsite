@@ -130,6 +130,12 @@ namespace DepartmentModel.Models
         public virtual List<AcademicPlanRecordElement> AcademicPlanRecordElements { get; set; }
 
         [ForeignKey("TimeNormId")]
+        public virtual List<GraficRecord> GraficRecords { get; set; }
+        
+        [ForeignKey("TimeNormId")]
         public virtual List<DisciplineLesson> DisciplineLessons { get; set; }
+
+        [ForeignKey("TimeNormId")]
+        public virtual List<GraficClassroom> GraficClassroomss { get; set; }
     }
 }

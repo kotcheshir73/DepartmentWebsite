@@ -1,0 +1,16 @@
+﻿@model DepartmentService.ViewModels.StatementViewModel
+
+@{
+    ViewBag.Title = "Дата ведомости - Редактирование";
+}
+
+<h2>Дата ведомости - Редактирование</h2>
+
+
+@using (Html.BeginForm())
+{
+    //@Html.HiddenFor(model => model.Id.ToString())
+    @Html.TextBoxFor(model => model.Date)
+
+    <input type="submit" />
+}

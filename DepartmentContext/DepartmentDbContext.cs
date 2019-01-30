@@ -1,11 +1,15 @@
 ﻿using AuthenticationModels.Models;
+using DepartmentModel;
+using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ScheduleModels.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using TicketModels.Models;
+using System.Data.Entity.Validation;
 
 namespace DepartmentContext
 {
@@ -42,10 +46,22 @@ namespace DepartmentContext
         public virtual DbSet<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
         public virtual DbSet<DisciplineLessonConductedStudent> DisciplineLessonConductedStudents { get; set; }
         public virtual DbSet<EducationDirection> EducationDirections { set; get; }
+        public virtual DbSet<Grafic> Grafics { get; set; }
+        public virtual DbSet<GraficRecord> GraficRecords { get; set; }
+        public virtual DbSet<GraficClassroom> GraficClassrooms { get; set; }
+        public virtual DbSet<IndividualPlanKindOfWork> IndividualPlanKindOfWorks { get; set; }
+        public virtual DbSet<IndividualPlanRecord> IndividualPlanRecords { get; set; }
+        public virtual DbSet<IndividualPlanTitle> IndividualPlanTitles { get; set; }
+        public virtual DbSet<IndividualPlanNIRScientificArticle> IndividualPlanNIRScientificArticles { get; set; }
+        public virtual DbSet<IndividualPlanNIRContractualWork> IndividualPlanNIRContractualWorks { get; set; }
         public virtual DbSet<Lecturer> Lecturers { set; get; }
         public virtual DbSet<LecturerPost> LecturerPosts { get; set; }
+        public virtual DbSet<LecturerWorkload> LecturerWorkload { get; set; }
         public virtual DbSet<Message> Messages { set; get; }
         public virtual DbSet<SeasonDates> SeasonDates { set; get; }
+        public virtual DbSet<Statement> Statements { set; get; }
+        public virtual DbSet<StatementRecord> StatementRecords { set; get; }
+        public virtual DbSet<StatementRecordExtended> StatementRecordExtendeds { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
         public virtual DbSet<StreamLesson> StreamLessons { set; get; }
         public virtual DbSet<StreamLessonRecord> StreamLessonRecords { set; get; }
@@ -92,7 +108,12 @@ namespace DepartmentContext
             {
                 return base.SaveChanges();
             }
-            catch (Exception)
+            catch (DbEntityValidationException ex)
+            {
+                var ffhf = ResultService.Error(ex, ResultServiceStatusCode.Error);
+                return 0;
+            }
+            catch (Exception ex)
             {
                 foreach (var entry in ChangeTracker.Entries())
                 {

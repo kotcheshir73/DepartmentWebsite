@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-                query = query.Include(l => l.LecturerPost);
+                query = query.Include(l => l.LecturerPost).Include(l => l.LecturerWorkloads);
 
 				var result = new LecturerPageViewModel
 				{
