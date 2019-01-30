@@ -198,10 +198,6 @@
     <Compile Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....Designer.cs">
       <DependentUpon>201812011941369_AddTables_IndividualPlanNIR....cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809121118014_AddDisciplineStudentRecord.cs" />
-    <Compile Include="Migrations\201809121118014_AddDisciplineStudentRecord.Designer.cs">
-      <DependentUpon>201809121118014_AddDisciplineStudentRecord.cs</DependentUpon>
-    </Compile>
     <Compile Include="ModelFacotryFromBindingModel.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\SeasonDatesBindingModels.cs" />
     <Compile Include="BindingModels\StandartBindingModels\EducationDirection\StreamingLessonBindingModels.cs" />
@@ -342,6 +338,7 @@
       <Name>DepartmentModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Migrations\201809041347152_add_statement.resx">
       <DependentUpon>201809041347152_add_statement.cs</DependentUpon>
     </EmbeddedResource>
@@ -369,9 +366,7 @@
     <EmbeddedResource Include="Migrations\201812011941369_AddTables_IndividualPlanNIR....resx">
       <DependentUpon>201812011941369_AddTables_IndividualPlanNIR....cs</DependentUpon>
     </EmbeddedResource>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809121118014_AddDisciplineStudentRecord.resx">
-      <DependentUpon>201809121118014_AddDisciplineStudentRecord.cs</DependentUpon>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
