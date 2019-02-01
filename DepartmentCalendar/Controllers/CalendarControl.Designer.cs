@@ -32,29 +32,39 @@ namespace DepartmentCalendar.Controllers
         /// </summary>
         private void InitializeComponent()
         {
-            this.descriptionBox2 = new DepartmentWebsite.Controllers.DescriptionBox();
+            this.panel = new System.Windows.Forms.Panel();
+            this.panelDB = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // descriptionBox2
+            // panel
             // 
-            this.descriptionBox2.Location = new System.Drawing.Point(17, 13);
-            this.descriptionBox2.Name = "descriptionBox2";
-            this.descriptionBox2.Size = new System.Drawing.Size(364, 455);
-            this.descriptionBox2.TabIndex = 0;
+            this.panel.Location = new System.Drawing.Point(453, 20);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(881, 632);
+            this.panel.TabIndex = 1;
+            // 
+            // panelDB
+            // 
+            this.panelDB.Location = new System.Drawing.Point(12, 20);
+            this.panelDB.Name = "panelDB";
+            this.panelDB.Size = new System.Drawing.Size(435, 632);
+            this.panelDB.TabIndex = 0;
             // 
             // CalendarControl
             // 
-            this.Controls.Add(this.descriptionBox2);
+            this.Controls.Add(this.panelDB);
+            this.Controls.Add(this.panel);
             this.Name = "CalendarControl";
-            this.Size = new System.Drawing.Size(893, 563);
+            this.Size = new System.Drawing.Size(1348, 668);
+            this.Load += new System.EventHandler(this.CalendarControl_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private DepartmentWebsite.MonthView monthView1;
-        private DepartmentWebsite.Controllers.DescriptionBox descriptionBox1;
-        private DepartmentWebsite.Controllers.DescriptionBox descriptionBox2;
+        
+        private DepartmentWebsite.Controllers.DescriptionBox descriptionBox3;
+        private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.Panel panelDB;
     }
 }

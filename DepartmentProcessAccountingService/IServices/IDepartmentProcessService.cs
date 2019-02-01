@@ -12,20 +12,6 @@ namespace DepartmentProcessAccountingService.IServices
     public interface IDepartmentProcessService
     {
         /// <summary>
-        /// Получение списка процессов в году
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<AcademicYearProcessPageViewModel> GetAcademicYearProcesses(AcademicYearProcessGetBindingModel model);
-
-        /// <summary>
-        /// Получение списка привязок процессов к направлениям
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<ProcessDirectionRecordPageViewModel> GetProcessDirectionRecords(ProcessDirectionRecordGetBindingModel model);
-
-        /// <summary>
         /// Получение списка процессов
         /// </summary>
         /// <param name="model"></param>
@@ -59,5 +45,12 @@ namespace DepartmentProcessAccountingService.IServices
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService DeleteDepartmentProcess(DepartmentProcessGetBindingModel model);
+
+        /// <summary>
+        /// Получение процесса по дате
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<DepartmentProcessViewModel> GetDepartmentProcessByDate(DateTime date);
     }
 }

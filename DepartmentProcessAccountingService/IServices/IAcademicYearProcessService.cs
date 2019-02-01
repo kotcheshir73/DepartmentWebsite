@@ -11,6 +11,14 @@ namespace DepartmentProcessAccountingService.IServices
 {
     public interface IAcademicYearProcessService
     {
+
+        /// <summary>
+        /// Получение списка процессов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<DepartmentProcessPageViewModel> GetDepartmentProcesses(DepartmentProcessGetBindingModel model);
+
         /// <summary>
         /// Получение списка процессов в году
         /// </summary>

@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using DepartmentModel;
+using Unity.Attributes;
+using Unity;
 
 namespace DepartmentWebsite
 {
@@ -17,6 +19,9 @@ namespace DepartmentWebsite
     public class MonthView
         : ContainerControl
     {
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
         #region Поля
         private int _forwardMonthIndex;
         private MonthViewDay _lastHitted;
@@ -50,6 +55,7 @@ namespace DepartmentWebsite
         private bool _mouseDoubleClicked;
         private bool _viewOneMonth;
         private readonly IDepartmentProcessService service;
+        private readonly IAcademicYearProcessService serviceAY;
         #endregion
 
         #region События
@@ -215,16 +221,16 @@ namespace DepartmentWebsite
             set { _dayBackgroundColor = value; }
         }
         #endregion
-         
+
         /// <summary>
         /// Инициализирует новый экземпляр класса "MonthView"/>.
         /// </summary>
-        public MonthView(IDepartmentProcessService service)
+        public MonthView(IDepartmentProcessService _service, IAcademicYearProcessService _serviceAY)
         {
             SetStyle(ControlStyles.Opaque, true);
             DoubleBuffered = true;
-
-            this.service = service;
+            this.service = _service;
+            this.serviceAY = _serviceAY;
 
             _mouseDoubleClicked = false;
             _viewOneMonth = false;
@@ -233,11 +239,12 @@ namespace DepartmentWebsite
             UpdateMonthSize();
             UpdateMonths();
         }
+
         public MonthView()
         {
-            InitializeComponent();
         }
-            private void InitializeComponent()
+
+        private void InitializeComponent()
         {
 
             _selectionMode = MonthViewSelection.Manual;
@@ -260,11 +267,11 @@ namespace DepartmentWebsite
 
         }
 
-            #region Публичные методы
-            /// <summary>
-            /// Проверяет, выбран ли день в указанном месте
-            /// </summary>
-            public MonthViewDay HitTest(Point p)
+        #region Публичные методы
+        /// <summary>
+        /// Проверяет, выбран ли день в указанном месте
+        /// </summary>
+        public MonthViewDay HitTest(Point p)
         {
             for (int i = 0; i < Months.Length; i++)
             {
@@ -637,7 +644,12 @@ namespace DepartmentWebsite
                         form.Text = "Создать событие";
                         form.Size = new Size(374, 444);
 
-                        DescriptionBox createBox = new DescriptionBox(this, service);
+                        DescriptionBox createBox = new DescriptionBox(this, service, true);
+                        var res = service.GetDepartmentProcessByDate(day.Date);
+                        if (res.Result != null)
+                        {
+                            createBox.EvenvtId = res.Result.Id;
+                        }
                         form.Controls.Add(createBox);
 
                         form.ShowDialog();
@@ -751,17 +763,19 @@ namespace DepartmentWebsite
                             evtDay.BorderColor = _todayBorderColor;
                         }
 
-                        ResultService<AcademicYearProcessPageViewModel> result = service.GetAcademicYearProcesses(new AcademicYearProcessGetBindingModel());
+                        var result = serviceAY.GetAcademicYearProcesses(new AcademicYearProcessGetBindingModel { });
                         if (result.Succeeded)
                         {
                             foreach (AcademicYearProcessViewModel academicYearProcess in result.Result.List)
                             {
                                 ResultService<DepartmentProcessViewModel> resultService = service.GetDepartmentProcess(
-                                    new DepartmentProcessGetBindingModel {
+                                    new DepartmentProcessGetBindingModel
+                                    {
                                         Id = academicYearProcess.DepartmentProcessId
                                     }
                                 );
-                                if (resultService.Succeeded) {
+                                if (resultService.Succeeded && resultService.Result != null)
+                                {
                                     DepartmentProcessViewModel departmentProcessViewModel = resultService.Result;
                                     if (departmentProcessViewModel.DateStart <= day.Date && day.Date <= departmentProcessViewModel.DateFinish && !day.Selected)
                                     {

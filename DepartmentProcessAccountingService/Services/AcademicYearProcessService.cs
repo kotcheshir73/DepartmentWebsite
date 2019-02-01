@@ -18,22 +18,26 @@ namespace DepartmentProcessAccountingService.Services
     public class AcademicYearProcessService : IAcademicYearProcessService
     {
         private readonly DepartmentDbContext _context;
+
         private readonly AccessOperation _serviceOperation = AccessOperation.Каф_процессы;
 
-        public AcademicYearProcessService(DepartmentDbContext context)
+        private readonly IDepartmentProcessService _service;
+
+        public AcademicYearProcessService(DepartmentDbContext context, IDepartmentProcessService service)
         {
             _context = context;
+            _service = service;
         }
-        
+
+        public ResultService<DepartmentProcessPageViewModel> GetDepartmentProcesses(DepartmentProcessGetBindingModel model)
+        {
+            return _service.GetDepartmentProcesses(model);
+        }
+
         public ResultService<AcademicYearProcessPageViewModel> GetAcademicYearProcesses(AcademicYearProcessGetBindingModel model)
         {
             try
             {
-                if (!AccessCheckService.CheckAccess(_serviceOperation, AccessType.View))
-                {
-                    throw new Exception("Нет доступа на чтение данных по дисциплинам");
-                }
-
                 int countPages = 0;
                 var query = _context.AcademicYearProcesses.Where(d => !d.IsDeleted).AsQueryable();
 

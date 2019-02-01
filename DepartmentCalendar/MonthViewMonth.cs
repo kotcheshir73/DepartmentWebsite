@@ -108,7 +108,7 @@ namespace DepartmentWebsite
 
             int preDays = (new int[] { 0, 1, 2, 3, 4, 5, 6 })[(int)date.DayOfWeek] - (int)MonthView.FirstDayOfWeek;
             days = new MonthViewDay[6 * 7];
-            DateTime curDate = date.AddDays(-preDays);
+            DateTime curDate = date.AddDays(preDays);
             DayHeaders = new string[7];
 
             for (int i = 0; i < days.Length; i++)
