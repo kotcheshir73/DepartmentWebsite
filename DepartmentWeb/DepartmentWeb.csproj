@@ -274,6 +274,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
+      <Project>{B8F97CE3-C035-4FC7-A316-877610E7ADF4}</Project>
+      <Name>AuthenticationModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AuthenticationServiceImplementations\AuthenticationServiceImplementations.csproj">
       <Project>{2c74a2f4-ad9b-4eaf-992e-4d82b7c59591}</Project>
       <Name>AuthenticationServiceImplementations</Name>

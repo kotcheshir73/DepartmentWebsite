@@ -47,7 +47,7 @@ namespace DepartmentService
 		/// <param name="login"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public static void Login(string login, string password)
+		public static DepartmentUser Login(string login, string password)
 		{
 			var passHash = GetPasswordHash(password);
 			var user = _context.Users.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
@@ -62,6 +62,8 @@ namespace DepartmentService
 			user.DateLastVisit = DateTime.Now;
 			_context.SaveChanges();
 			_user = user;
+
+            return user;
 		}
 
 		/// <summary>
