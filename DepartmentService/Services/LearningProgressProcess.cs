@@ -1,14 +1,14 @@
-﻿using DepartmentModel;
+﻿using DepartmentContext;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Data.Entity;
 using System.Text;
 
 namespace DepartmentService.Services

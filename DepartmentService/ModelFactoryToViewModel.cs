@@ -1,7 +1,5 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentService.BindingModels;
-using DepartmentService.Helpers;
 using System;
 using System.Drawing;
 using System.IO;
@@ -43,6 +41,17 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 PostTitle = entity.PostTitle,
                 Hours = entity.Hours
+            };
+        }
+
+        public static LecturerWorkloadViewModel CreateLecturerWorkloadViewModel(LecturerWorkload entity)
+        {
+            return new LecturerWorkloadViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                LecturerId = entity.LecturerId,
+                Workload = entity.Workload
             };
         }
 
@@ -221,12 +230,64 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static AcademicPlanRecordMissionViewModel CreateAcademicPlanRecordMissionViewModel(AcademicPlanRecordMission entity)
+        {
+            return new AcademicPlanRecordMissionViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                LecturerId = entity.LecturerId,
+                Hours = entity.Hours
+            };
+        }
+
         public static AcademicYearViewModel CreateAcademicYearViewModel(AcademicYear entity)
         {
             return new AcademicYearViewModel
             {
                 Id = entity.Id,
                 Title = entity.Title
+            };
+        }
+
+        public static StatementViewModel CreateStatementViewModel(Statement entity)
+        {
+            return new StatementViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
+                LecturerId = entity.LecturerId,
+                StudentGroupId = entity.StudentGroupId,
+                Course = entity.Course.ToString(),
+                Date = entity.Date.Value.Day.ToString() + '/' + entity.Date.Value.Month.ToString() + '/' + entity.Date.Value.Year.ToString(),
+                Semester = entity.Semester.ToString(),
+                TypeOfTest = entity.TypeOfTest.ToString().Replace('_', ' '),
+                DisciplineName = entity.AcademicPlanRecord.Discipline.DisciplineName.ToString(),
+                StudentGroupName = entity.StudentGroup.GroupName.ToString()
+            };
+        }
+
+        public static StatementRecordViewModel CreateStatementRecordViewModel(StatementRecord entity)
+        {
+            return new StatementRecordViewModel
+            {
+                Id = entity.Id,
+                StatementId = entity.StatementId,
+                StudentId = entity.StudentId,
+                Score = entity.Score,
+                StudentName = entity.Student.LastName + " " + entity.Student.FirstName + " " + entity.Student.Patronymic,
+                Title = entity.Statement.AcademicPlanRecord.Discipline.DisciplineName + " - " + entity.Statement.StudentGroup.GroupName + " (" + entity.Statement.TypeOfTest.ToString().Replace('_', ' ') + ")",
+                Name = entity.StatementRecordExtendeds.Count == 0 ? "" : entity.StatementRecordExtendeds[0].Name
+            };
+        }
+
+        public static StatementRecordExtendedViewModel CreateStatementRecordExtendedViewModel(StatementRecordExtended entity)
+        {
+            return new StatementRecordExtendedViewModel
+            {
+                Id = entity.Id,
+                StatementRecordId = entity.StatementRecordId,
+                Name = entity.Name
             };
         }
 
@@ -319,25 +380,117 @@ namespace DepartmentService.ViewModels
             };
         }
 
-        public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
+        public static IndividualPlanTitleViewModel CreateIndividualPlanTitleViewModel(IndividualPlanTitle entity)
         {
-            string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
-                entity.DateEndLesson.ToShortTimeString());
-            return new ScheduleLessonTimeViewModel
+            return new IndividualPlanTitleViewModel
             {
                 Id = entity.Id,
-                Text = text,
-                Title = entity.Title,
-                Order = entity.Order,
-                TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
-                TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
-                DateBeginLesson = entity.DateBeginLesson,
-                DateEndLesson = entity.DateEndLesson
+                Title = entity.Title
             };
         }
+
+        public static IndividualPlanKindOfWorkViewModel CreateIndividualPlanKindOfWorkViewModel(IndividualPlanKindOfWork entity)
+        {
+            return new IndividualPlanKindOfWorkViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanTitleId = entity.IndividualPlanTitleId,
+                Name = entity.Name,
+                TimeNormDescription = entity.TimeNormDescription,
+                Title = entity.IndividualPlanTitle.Title
+            };
+        }
+
+        public static IndividualPlanRecordViewModel CreateIndividualPlanRecordViewModel(IndividualPlanRecord entity)
+        {
+            return new IndividualPlanRecordViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanKindOfWorkId = entity.IndividualPlanKindOfWorkId,
+                Name = entity.IndividualPlanKindOfWorks.Name,
+                TimeNormDescription = entity.IndividualPlanKindOfWorks.TimeNormDescription,
+                LecturerId = entity.LecturerId,
+                AcademicYearId = entity.AcademicYearId,
+                PlanAutumn = entity.PlanAutumn,
+                FactAutumn = entity.FactAutumn,
+                PlanSpring = entity.PlanSpring,
+                FactSpring = entity.FactSpring,
+                Title = entity.IndividualPlanKindOfWorks.IndividualPlanTitle.Title
+            };
+        }
+
+        public static IndividualPlanNIRScientificArticleViewModel CreateIndividualPlanNIRScientificArticleViewModel(IndividualPlanNIRScientificArticle entity)
+        {
+            return new IndividualPlanNIRScientificArticleViewModel
+            {
+                Id = entity.Id,
+                LecturerId = entity.LecturerId,
+                LecturerName = entity.Lecturer.ToString(),
+                Name = entity.Name,
+                Publishing = entity.Publishing,
+                Status = entity.Status,
+                TypeOfPublication = entity.TypeOfPublication,
+                Volume = entity.Volume,
+                Year = entity.Year
+            };
+        }
+
+        public static IndividualPlanNIRContractualWorkViewModel CreateIndividualPlanNIRContractualWorkViewModel(IndividualPlanNIRContractualWork entity)
+        {
+            return new IndividualPlanNIRContractualWorkViewModel
+            {
+                Id = entity.Id,
+                LecturerId = entity.LecturerId,
+                LecturerName = entity.Lecturer.ToString(),
+                JobContent = entity.JobContent,
+                PlannedTerm = entity.PlannedTerm,
+                Post = entity.Post,
+                ReadyMark = entity.ReadyMark
+            };
+        }
+
+        public static GraficViewModel CreateGraficViewModel(Grafic entity)
+        {
+            return new GraficViewModel
+            {
+                Id = entity.Id,
+                AcademicPlanRecordId = entity.AcademicPlanRecordId,
+                StudentGroupId = entity.StudentGroupId,
+                Comment = entity.Comment.ToString(),
+                CommentWishesOfTeacher = entity.CommentWishesOfTeacher.ToString(),
+                Semester = entity.AcademicPlanRecord.Semester.ToString(),
+                DisciplineName = entity.AcademicPlanRecord.Discipline.DisciplineName.ToString(),
+                StudentGroupName = entity.StudentGroup.GroupName.ToString()
+            };
+        }
+
+        public static GraficRecordViewModel CreateGraficRecordViewModel(GraficRecord entity)
+        {
+            return new GraficRecordViewModel
+            {
+                Id = entity.Id,
+                GraficId = entity.GraficId,
+                TimeNormId = entity.TimeNormId,
+                WeekNumber = entity.WeekNumber,
+                Hours = entity.Hours,
+                TimeNormName = entity.TimeNorm.TimeNormName,
+                TimeNormHours = entity.TimeNorm.Hours.ToString()
+            };
+        }
+
+        public static GraficClassroomViewModel CreateGraficClassroomViewModel(GraficClassroom entity)
+        {
+            return new GraficClassroomViewModel
+            {
+                Id = entity.Id,
+                GraficId = entity.GraficId,
+                TimeNormId = entity.TimeNormId,
+                ClassroomDescription = entity.ClassroomDescription
+            };
+        }
+
         #endregion
-
-
+        
         public static AcademicPlanRecordForDiciplineViewModel CreateAcademicPlanRecordForDiciplineViewModel(AcademicPlanRecord entity)
         {
             return new AcademicPlanRecordForDiciplineViewModel
@@ -350,230 +503,6 @@ namespace DepartmentService.ViewModels
                 Semester = entity.Semester.ToString()
             };
         }
-
-        #region Schedule
-        public static ScheduleRecordViewModels CreateScheduleRecordViewModel(ScheduleRecord entity)
-        {
-            return new ScheduleRecordViewModels
-            {
-                Id = entity.Id,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
-
-        public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
-        {
-            return new SemesterRecordViewModel
-            {
-                Id = entity.Id,
-                Day = entity.Day,
-                Week = entity.Week,
-                Lesson = entity.Lesson,
-                NotParseRecord = entity.NotParseRecord,
-                IsFirstHalfSemester = entity.IsFirstHalfSemester,
-                IsStreaming = entity.IsStreaming,
-                IsSubgroup = entity.IsSubgroup,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                LessonType = entity.LessonType.ToString(),
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
-
-        public static SemesterRecordShortViewModel CreateSemesterRecordShortViewModel(SemesterRecord entity, string groups)
-        {
-            return new SemesterRecordShortViewModel
-            {
-                Id = entity.Id,
-                Week = entity.Week,
-                Day = entity.Day,
-                Lesson = entity.Lesson,
-                LessonType = entity.LessonType.ToString(),
-                IsStreaming = entity.IsStreaming,
-                IsSubgroup = entity.IsSubgroup,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = groups,
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-            };
-        }
-
-        public static OffsetRecordViewModel CreateOffsetRecordViewModel(OffsetRecord entity)
-        {
-            return new OffsetRecordViewModel
-            {
-                Id = entity.Id,
-                Day = entity.Day,
-                Week = entity.Week,
-                Lesson = entity.Lesson,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
-
-        public static OffsetRecordShortViewModel CreateOffsetRecordShortViewModel(OffsetRecord entity)
-        {
-            return new OffsetRecordShortViewModel
-            {
-                Id = entity.Id,
-                Week = entity.Week,
-                Day = entity.Day,
-                Lesson = entity.Lesson,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-            };
-        }
-
-        public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
-        {
-            return new ExaminationRecordViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                DateExamination = entity.DateExamination,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonConsultationClassroom = entity.LessonConsultationClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                ConsultationClassroomId = entity.ConsultationClassroomId,
-                ConsultationClassroom = entity.ConsultationClassroomId != null ? entity.ConsultationClassroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
-
-        public static ExaminationRecordShortViewModel CreateExaminationRecordShortViewModel(ExaminationRecord entity)
-        {
-            return new ExaminationRecordShortViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                DateExamination = entity.DateExamination,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity),
-                LessonConsultationClassroom = ScheduleHelper.GetLessonConsultationClassroom(entity)
-            };
-        }
-
-        public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
-        {
-            return new ConsultationRecordViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
-
-        public static ConsultationRecordShortViewModel CreateConsultationRecordShortViewModel(ConsultationRecord entity, ConsultationRecordRecordBindingModel model)
-        {
-            return new ConsultationRecordShortViewModel
-            {
-                Id = entity.Id,
-                Week = model.Week.Value,
-                Day = model.Day.Value,
-                Lesson = model.Lesson.Value,
-                DateConsultation = entity.DateConsultation,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-            };
-        }
-        #endregion
-
-        #region Administration
-        public static RoleViewModel CreateRoleViewModel(Role entity)
-        {
-            return new RoleViewModel
-            {
-                Id = entity.Id,
-                RoleName = entity.RoleName
-            };
-        }
-
-        public static AccessViewModel CreateAccessViewModel(Access entity)
-        {
-            return new AccessViewModel
-            {
-                Id = entity.Id,
-                RoleName = entity.Role.RoleName,
-                Operation = entity.Operation.ToString(),
-                AccessType = entity.AccessType.ToString()
-            };
-        }
-
-        public static UserViewModel CreateUserViewModel(User entity)
-        {
-            return new UserViewModel
-            {
-                Id = entity.Id,
-                Login = entity.Login,
-                StudentId = entity.StudentId,
-                LecturerId = entity.LecturerId,
-                Avatar = entity.Avatar != null && entity.Avatar.Length > 0 ? Image.FromStream(new MemoryStream(entity.Avatar)) : null,
-                IsBanned = entity.IsBanned,
-                DateBanned = entity.DateBanned,
-                DateLastVisit = entity.DateLastVisit
-            };
-        }
-        #endregion
 
         #region LaboratoryHead
         public static MaterialTechnicalValueViewModel CreateMaterialTechnicalValueViewModel(MaterialTechnicalValue entity)

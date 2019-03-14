@@ -1,8 +1,8 @@
-﻿using DepartmentModel;
-using DepartmentDesktop.Views.Schedule.Consultation;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Views.Schedule.Consultation;
+using DepartmentModel;
 using DepartmentService.ViewModels;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,7 +11,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
 {
     public partial class ScheduleOffsetControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly IOffsetRecordService _serviceOR;
 
@@ -25,15 +25,15 @@ namespace DepartmentDesktop.Views.Schedule.Offset
 
         private Color _consultationColor = Color.Green;
 
-        public ScheduleOffsetControl(IScheduleService service, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
+        public ScheduleOffsetControl(IScheduleProcess process, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
             _serviceOR = serviceOR;
             _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
 
-            var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+            var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
             if (!result.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
@@ -55,7 +55,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
             {
                 _model = model;
 
-                var resultCD = _service.GetCurrentDates();
+                var resultCD = _process.GetCurrentDates();
                 if (!resultCD.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
@@ -224,7 +224,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                     {//если в Tag есть данные, то это id записи
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != Color.Green)
                         {
-                            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
+                            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
                                 new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
                             form.ShowDialog();
                         }
@@ -235,7 +235,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                             Convert.ToInt32(((DataGridView)sender).Tag) * 100 +
                             ((DataGridView)sender).SelectedCells[0].RowIndex * 10 +
                             ((DataGridView)sender).SelectedCells[0].ColumnIndex;
-                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service, lesson: lesson);
+                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process, lesson: lesson);
                         form.ShowDialog();
                     }
                     LoadRecords();
@@ -264,7 +264,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                               dataGridViewSecondWeek.SelectedCells[0].RowIndex * 10 +
                               dataGridViewSecondWeek.SelectedCells[0].ColumnIndex;
             }
-            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service, lesson: lesson);
+            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process, lesson: lesson);
             form.ShowDialog();
         }
 
@@ -276,13 +276,13 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                 {//если в Tag есть данные, то это id записи
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
+                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
                             new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
-                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
@@ -295,13 +295,13 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                 {//если в Tag есть dataGridViewSecondWeek, то это id записи
                     if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _service,
+                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
                             new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
                     else
                     {
-                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service,
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
                            new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
@@ -386,7 +386,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
             if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
             {
                 datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
-                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
@@ -394,13 +394,13 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                 var lessons = result.Result.List;
                 datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
                                 .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
                 form.ShowDialog();
             }
             if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
             {
                 datetime = _selectDate.Date.AddDays(dataGridViewSecondWeek.SelectedCells[0].RowIndex + 7);
-                var result = _service.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
+                var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
                 if (!result.Succeeded)
                 {
                     Program.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
@@ -408,7 +408,7 @@ namespace DepartmentDesktop.Views.Schedule.Offset
                 var lessons = result.Result.List;
                 datetime = datetime.Value.AddHours(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
                                 .AddMinutes(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _service, datetime: datetime, model: _model);
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
                 form.ShowDialog();
             }
         }

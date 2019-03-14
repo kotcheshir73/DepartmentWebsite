@@ -1,6 +1,7 @@
 ﻿using DepartmentModel;
 using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Data;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
     {
         private readonly IConsultationRecordService _service;
 
-        private readonly IScheduleService _serviceS;
+        private readonly IScheduleProcess _process;
 
         private Guid? _id;
 
@@ -20,12 +21,12 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 
         private ScheduleGetBindingModel _model;
 
-        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleService serviceS, Guid? id = null, DateTime? datetime = null,
+        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleProcess process, Guid? id = null, DateTime? datetime = null,
             ScheduleGetBindingModel model = null)
         {
             InitializeComponent();
             _service = service;
-            _serviceS = serviceS;
+            _process = process;
             _id = id;
             _datetime = datetime;
             _model = model;
@@ -33,28 +34,28 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 
         private void ScheduleConsultationRecordForm_Load(object sender, EventArgs e)
 		{
-			var resultS = _serviceS.GetClassrooms(new ClassroomGetBindingModel { });
+			var resultS = _process.GetClassrooms(new ClassroomGetBindingModel { });
 			if (!resultS.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
 				return;
             }
 
-            var resultD = _serviceS.GetDisciplines(new DisciplineGetBindingModel { });
+            var resultD = _process.GetDisciplines(new DisciplineGetBindingModel { });
             if (!resultD.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
                 return;
             }
 
-            var resultL = _serviceS.GetLecturers(new LecturerGetBindingModel { });
+            var resultL = _process.GetLecturers(new LecturerGetBindingModel { });
             if (!resultL.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
                 return;
             }
 
-			var resultSG = _serviceS.GetStudentGroups(new StudentGroupGetBindingModel { });
+			var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
 			if (!resultSG.Succeeded)
 			{
 				Program.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);

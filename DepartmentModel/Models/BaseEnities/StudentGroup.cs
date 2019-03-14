@@ -50,6 +50,9 @@ namespace DepartmentModel.Models
         public virtual List<Student> Students { get; set; }
 
         [ForeignKey("StudentGroupId")]
+        public virtual List<Statement> Statement { get; set; }
+        
+        [ForeignKey("StudentGroupId")]
         public virtual List<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
     }
 }

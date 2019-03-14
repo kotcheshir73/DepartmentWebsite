@@ -1,6 +1,6 @@
-﻿using DepartmentDesktop.Models;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+﻿using AuthenticationServiceInterfaces.BindingModels;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentDesktop.Models;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;

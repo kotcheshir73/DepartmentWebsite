@@ -1,0 +1,32 @@
+﻿@model List<object[]>
+
+@{
+    ViewBag.Title = "SummaryStatement";
+}
+
+<table class="table">
+    <tr>
+        @for(int j = 0; j < Model[0].Length; j++)
+        { 
+            <th>
+                @Model[0][j]
+            </th>
+        }
+    </tr>
+
+    @for (int i = 1; i < Model.Count; i++)
+    {
+        <tr>
+            <td>
+                @Model[i][0].ToString()
+            </td>
+            @for (int j = 1; j < Model[i].Length; j++)
+            {
+                <td>
+                    @Model[i][j].ToString()
+                </td>
+            }
+        </tr>
+    }
+
+</table>

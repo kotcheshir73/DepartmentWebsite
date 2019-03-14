@@ -1,7 +1,7 @@
-﻿using DepartmentModel;
+﻿using DepartmentContext;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -53,7 +53,7 @@ namespace DepartmentService.Services
 								.Take(model.PageSize.Value);
 				}
 
-                query = query.Include(l => l.LecturerPost);
+                query = query.Include(l => l.LecturerPost).Include(l => l.LecturerWorkloads);
 
 				var result = new LecturerPageViewModel
 				{

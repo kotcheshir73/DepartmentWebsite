@@ -1,4 +1,5 @@
-﻿using DepartmentModel.Enums;
+﻿using AuthenticationModels.Models;
+using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using System;
 
@@ -46,7 +47,20 @@ namespace DepartmentService.BindingModels
 
             return entity;
         }
-        
+
+        public static LecturerWorkload CreateLecturerWorkload(LecturerWorkloadSetBindingModel model, LecturerWorkload entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new LecturerWorkload();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.LecturerId = model.LecturerId;
+            entity.Workload = model.Workload;
+
+            return entity;
+        }
+
 
         public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
 		{
@@ -203,6 +217,18 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static AcademicPlanRecordMission CreateAcademicPlanRecordMission(AcademicPlanRecordMissionSetBindingModel model, AcademicPlanRecordMission entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new AcademicPlanRecordMission();
+            }
+            entity.AcademicPlanRecordElementId = model.AcademicPlanRecordElementId;
+            entity.LecturerId = model.LecturerId;
+            entity.Hours = model.Hours;
+            return entity;
+        }
+
         public static AcademicYear CreateAcademicYear(AcademicYearSetBindingModel model, AcademicYear entity = null)
 		{
 			if (entity == null)
@@ -213,6 +239,45 @@ namespace DepartmentService.BindingModels
 
 			return entity;
 		}
+
+        public static Statement CreateStatement(StatementSetBindingModel model, Statement entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Statement();
+            }
+            entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
+            entity.LecturerId = model.LecturerId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.Course = (AcademicCourse)Enum.Parse(typeof(AcademicCourse), model.Course); //TODO: тут нужно проверить правильность перечислений
+            entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.TypeOfTest = (TypeOfTest)Enum.Parse(typeof(TypeOfTest), model.TypeOfTest.Replace(' ', '_'));
+            entity.Date = model.Date;
+            return entity;
+        }
+
+        public static StatementRecord CreateStatementRecord(StatementRecordSetBindingModel model, StatementRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StatementRecord();
+            }
+            entity.StatementId = model.StatementId;
+            entity.StudentId = model.StudentId;
+            entity.Score = model.Score;
+            return entity;
+        }
+
+        public static StatementRecordExtended CreateStatementRecordExtended(StatementRecordExtendedSetBindingModel model, StatementRecordExtended entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StatementRecordExtended();
+            }
+            entity.StatementRecordId = model.StatementRecordId;
+            entity.Name = model.Name;
+            return entity;
+        }
 
         public static StreamLesson CreateStreamLesson(StreamLessonSetBindingModel model, StreamLesson entity = null)
         {
@@ -310,185 +375,113 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static ScheduleLessonTime CreateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model, ScheduleLessonTime entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new ScheduleLessonTime();
-			}
-			entity.Title = model.Title;
-            entity.Order = model.Order;
-			entity.DateBeginLesson = model.DateBeginLesson;
-			entity.DateEndLesson = model.DateEndLesson;
-
-			return entity;
-		}
-        #endregion
-
-        #region Schedule
-        private static void CreateScheduleRecord(ScheduleRecordBindingModel model, ScheduleRecord entity = null)
-        {
-            if (!string.IsNullOrEmpty(model.LessonClassroom))
-            {
-                entity.LessonClassroom = model.LessonClassroom;
-            }
-            if (!string.IsNullOrEmpty(model.LessonDiscipline))
-            {
-                entity.LessonDiscipline = model.LessonDiscipline;
-            }
-            if (!string.IsNullOrEmpty(model.LessonLecturer))
-            {
-                entity.LessonLecturer = model.LessonLecturer;
-            }
-            if (!string.IsNullOrEmpty(model.LessonGroup))
-            {
-                entity.LessonGroup = model.LessonGroup;
-            }
-            if (model.ClassroomId.HasValue)
-            {
-                entity.ClassroomId = model.ClassroomId;
-            }
-            if (model.DisciplineId.HasValue)
-            {
-                entity.DisciplineId = model.DisciplineId;
-            }
-            if (model.LecturerId.HasValue)
-            {
-                entity.LecturerId = model.LecturerId;
-            }
-            if (model.StudentGroupId.HasValue)
-            {
-                entity.StudentGroupId = model.StudentGroupId;
-            }
-        }
-
-        public static SemesterRecord CreateSemesterRecord(SemesterRecordRecordBindingModel model, SemesterRecord entity = null, SeasonDates seasonDate = null)
+        public static IndividualPlanTitle CreateIndividualPlanTitle(IndividualPlanTitleSetBindingModel model, IndividualPlanTitle entity = null)
         {
             if (entity == null)
             {
-                entity = new SemesterRecord()
-                {
-                    Week = model.Week,
-                    Day = model.Day,
-                    Lesson = model.Lesson,
-                    SeasonDatesId = seasonDate.Id
-                };
+                entity = new IndividualPlanTitle();
             }
-            if (model.LessonType != LessonTypes.нд.ToString())
+
+            entity.Title = model.Title;
+            return entity;
+        }
+
+        public static IndividualPlanKindOfWork CreateIndividualPlanKindOfWork(IndividualPlanKindOfWorkSetBindingModel model, IndividualPlanKindOfWork entity = null)
+        {
+            if (entity == null)
             {
-                entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
+                entity = new IndividualPlanKindOfWork();
             }
-            entity.IsFirstHalfSemester = model.IsFirstHalfSemester;
-            entity.IsStreaming = model.IsStreaming;
-            entity.IsSubgroup = model.IsSubgroup;
-            entity.NotParseRecord = model.NotParseRecord;
-            CreateScheduleRecord(model, entity);
-
+            entity.IndividualPlanTitleId = model.IndividualPlanTitleId;
+            entity.Name = model.Name;
+            entity.TimeNormDescription = model.TimeNormDescription;
             return entity;
-		}
+        }
 
-		public static OffsetRecord CreateOffsetRecord(OffsetRecordRecordBindingModel model, OffsetRecord entity = null, SeasonDates seasonDate = null)
-		{
-			if (entity == null)
-			{
-				entity = new OffsetRecord()
-				{
-					Week = model.Week,
-					Day = model.Day,
-					Lesson = model.Lesson,
-					NotParseRecord = model.NotParseRecord,
-					SeasonDatesId = seasonDate.Id
-				};
+        public static IndividualPlanRecord CreateIndividualPlanRecord(IndividualPlanRecordSetBindingModel model, IndividualPlanRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanRecord();
             }
-            CreateScheduleRecord(model, entity);
-
+            entity.IndividualPlanKindOfWorkId = model.IndividualPlanKindOfWorkId;
+            entity.LecturerId = model.LecturerId;
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.PlanAutumn = model.PlanAutumn;
+            entity.FactAutumn = model.FactAutumn;
+            entity.PlanSpring = model.PlanSpring;
+            entity.FactSpring = model.FactSpring;
             return entity;
-		}
+        }
 
-		public static ExaminationRecord CreateExaminationRecord(ExaminationRecordRecordBindingModel model, ExaminationRecord entity = null, SeasonDates seasonDate = null)
-		{
-			if (entity == null)
-			{
-				entity = new ExaminationRecord()
-				{
-					DateConsultation = model.DateConsultation,
-					DateExamination = model.DateExamination,
-					NotParseRecord = model.NotParseRecord,
-					SeasonDatesId = seasonDate.Id,
-                    ConsultationClassroomId = model.ConsultationClassroomId,
-                    LessonConsultationClassroom = model.LessonConsultationClassroom
-				};
-			}
-            CreateScheduleRecord(model, entity);
-
-            return entity;
-		}
-
-		public static ConsultationRecord CreateConsultationRecord(ConsultationRecordRecordBindingModel model, ConsultationRecord entity = null, SeasonDates seasonDate = null)
-		{
-			if (entity == null)
-			{
-				entity = new ConsultationRecord()
-				{
-					DateConsultation = model.DateConsultation,
-					NotParseRecord = model.NotParseRecord,
-					SeasonDatesId = seasonDate.Id
-				};
+        public static IndividualPlanNIRScientificArticle CreateIndividualPlanNIRScientificArticle(IndividualPlanNIRScientificArticleSetBindingModel model, IndividualPlanNIRScientificArticle entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanNIRScientificArticle();
             }
-            CreateScheduleRecord(model, entity);
-
+            entity.LecturerId = model.LecturerId;
+            entity.Name = model.Name;
+            entity.Publishing = model.Publishing;
+            entity.Status = model.Status;
+            entity.TypeOfPublication = model.TypeOfPublication;
+            entity.Volume = model.Volume;
+            entity.Year = model.Year;
             return entity;
-		}
-		#endregion
+        }
 
-		#region Administration
-		public static Role CreateRole(RoleSetBindingModel model, Role entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new Role();
-			}
-			entity.RoleName = model.RoleName;
+        public static IndividualPlanNIRContractualWork CreateIndividualPlanNIRContractualWork(IndividualPlanNIRContractualWorkSetBindingModel model, IndividualPlanNIRContractualWork entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanNIRContractualWork();
+            }
+            entity.LecturerId = model.LecturerId;
+            entity.JobContent = model.JobContent;
+            entity.PlannedTerm = model.PlannedTerm;
+            entity.Post = model.Post;
+            entity.ReadyMark = model.ReadyMark;
+            return entity;
+        }
 
-			return entity;
-		}
+        public static Grafic CreateGrafic(GraficSetBindingModel model, Grafic entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Grafic();
+            }
+            entity.AcademicPlanRecordId = model.AcademicPlanRecordId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.Comment = model.Comment;
+            entity.CommentWishesOfTeacher = model.CommentWishesOfTeacher;
+            return entity;
+        }
 
-		public static Access CreateAccess(AccessSetBindingModel model, Access entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new Access();
-			}
-			entity.RoleId = model.RoleId;
-			entity.Operation = (AccessOperation)Enum.Parse(typeof(AccessOperation), model.Operation);
-			entity.AccessType = (AccessType)Enum.Parse(typeof(AccessType), model.AccessType);
+        public static GraficRecord CreateGraficRecord(GraficRecordSetBindingModel model, GraficRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new GraficRecord();
+            }
+            entity.GraficId = model.GraficId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.WeekNumber = model.WeekNumber;
+            entity.Hours = model.Hours;
+            return entity;
+        }
 
-			return entity;
-		}
+        public static GraficClassroom CreateGraficClassroom(GraficClassroomSetBindingModel model, GraficClassroom entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new GraficClassroom();
+            }
+            entity.GraficId = model.GraficId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.ClassroomDescription = model.ClassroomDescription;
+            return entity;
+        }
 
-		public static User CreateUser(UserSetBindingModel model, User entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new User
-				{
-					Password = AccessCheckService.GetPasswordHash(model.Password)
-				};
-			}
-			entity.Login = model.Login;
-			entity.Avatar = model.Avatar;
-			entity.LecturerId = model.LecturerId;
-			entity.StudentId = model.StudentId;
-            if (entity.IsBanned != model.IsBanned)
-			{
-				entity.IsBanned = model.IsBanned;
-				if (model.IsBanned)
-				{
-					entity.DateBanned = DateTime.Now;
-				}
-			}
-			return entity;
-		}
         #endregion
 
         #region LaboratoryHead

@@ -1,5 +1,5 @@
-﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+﻿using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Windows.Forms;
 
@@ -7,16 +7,16 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 {
     public partial class ScheduleConsultationControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly IConsultationRecordService _serviceCR;
 
         private ScheduleGetBindingModel _model;
 
-        public ScheduleConsultationControl(IScheduleService service, IConsultationRecordService serviceCR)
+        public ScheduleConsultationControl(IScheduleProcess process, IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
             _serviceCR = serviceCR;
         }
 
@@ -58,7 +58,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            var form = new ScheduleConsultationRecordForm(_serviceCR, _service);
+            var form = new ScheduleConsultationRecordForm(_serviceCR, _process);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadRecords();
@@ -70,7 +70,7 @@ namespace DepartmentDesktop.Views.Schedule.Consultation
             if (dataGridViewList.SelectedRows.Count == 1)
             {
                 Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
-                var form = new ScheduleConsultationRecordForm(_serviceCR, _service, id);
+                var form = new ScheduleConsultationRecordForm(_serviceCR, _process, id);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadRecords();

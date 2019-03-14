@@ -554,5 +554,14 @@ namespace DepartmentDesktop
             control.LoadData();
         }
         #endregion
+
+        #region
+        private void examinationTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = TicketViews.PublicViews.GetExaminationTemplateControl();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        #endregion
     }
 }

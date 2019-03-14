@@ -93,9 +93,11 @@
             this.softwareRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.преподавательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configuringDisciplinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.studentsDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.посещаемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.успеваемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.studentsDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.examinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.examinationTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,7 +109,8 @@
             this.educationalProcessToolStripMenuItem,
             this.scheduleToolStripMenuItem,
             this.laboratoryHeadToolStripMenuItem,
-            this.преподавательToolStripMenuItem});
+            this.преподавательToolStripMenuItem,
+            this.examinationToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(784, 24);
@@ -607,6 +610,13 @@
             this.configuringDisciplinesToolStripMenuItem.Text = "Конфигурирование дисциплин";
             this.configuringDisciplinesToolStripMenuItem.Click += new System.EventHandler(this.configuringDisciplinesToolStripMenuItem_Click);
             // 
+            // studentsDistributionToolStripMenuItem
+            // 
+            this.studentsDistributionToolStripMenuItem.Name = "studentsDistributionToolStripMenuItem";
+            this.studentsDistributionToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.studentsDistributionToolStripMenuItem.Text = "Распределение студентов";
+            this.studentsDistributionToolStripMenuItem.Click += new System.EventHandler(this.studentsDistributionToolStripMenuItem_Click);
+            // 
             // посещаемостьToolStripMenuItem
             // 
             this.посещаемостьToolStripMenuItem.Name = "посещаемостьToolStripMenuItem";
@@ -621,12 +631,20 @@
             this.успеваемостьToolStripMenuItem.Text = "Успеваемость";
             this.успеваемостьToolStripMenuItem.Click += new System.EventHandler(this.успеваемостьToolStripMenuItem_Click);
             // 
-            // studentsDistributionToolStripMenuItem
+            // examinationToolStripMenuItem
             // 
-            this.studentsDistributionToolStripMenuItem.Name = "studentsDistributionToolStripMenuItem";
-            this.studentsDistributionToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-            this.studentsDistributionToolStripMenuItem.Text = "Распределение студентов";
-            this.studentsDistributionToolStripMenuItem.Click += new System.EventHandler(this.studentsDistributionToolStripMenuItem_Click);
+            this.examinationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.examinationTemplateToolStripMenuItem});
+            this.examinationToolStripMenuItem.Name = "examinationToolStripMenuItem";
+            this.examinationToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.examinationToolStripMenuItem.Text = "Экзамены";
+            // 
+            // examinationTemplateToolStripMenuItem
+            // 
+            this.examinationTemplateToolStripMenuItem.Name = "examinationTemplateToolStripMenuItem";
+            this.examinationTemplateToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.examinationTemplateToolStripMenuItem.Text = "Формирование экзаменов";
+            this.examinationTemplateToolStripMenuItem.Click += new System.EventHandler(this.examinationTemplateToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -716,6 +734,8 @@
         private System.Windows.Forms.ToolStripMenuItem посещаемостьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem успеваемостьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem studentsDistributionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem examinationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem examinationTemplateToolStripMenuItem;
     }
 }
 

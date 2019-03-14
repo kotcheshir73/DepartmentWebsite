@@ -1,7 +1,7 @@
-﻿using DepartmentModel;
+﻿using DepartmentContext;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -100,8 +100,8 @@ namespace DepartmentService.Services
                     throw new Exception("Нет доступа на чтение данных по элементам записей учебного плана");
                 }
 
-                var entity = _context.AcademicPlanRecordElements
-                                .FirstOrDefault(apre => apre.Id == model.Id && !apre.IsDeleted);
+                var entity = _context.AcademicPlanRecordElements.Include(x => x.AcademicPlanRecord).Include(x => x.AcademicPlanRecord.Discipline).Include(x => x.TimeNorm)
+                    .FirstOrDefault(apre => apre.Id == model.Id && !apre.IsDeleted);
                 if (entity == null)
                 {
                     return ResultService<AcademicPlanRecordElementViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);

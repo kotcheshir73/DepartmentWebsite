@@ -1,5 +1,7 @@
-﻿using DepartmentModel.Enums;
-using DepartmentService.Context;
+﻿using AuthenticationModels.Models;
+using DepartmentContext;
+using DepartmentContext.Stores;
+using DepartmentModel.Enums;
 using DepartmentService.ViewModels;
 using System;
 using System.Linq;
@@ -17,7 +19,7 @@ namespace DepartmentService
 
 		private static Encoding ascii = Encoding.ASCII;
 
-		private static UserViewModel _user;
+		private static DepartmentUser _user;
 
 		/// <summary>
 		/// Авторизация пользователя к операции
@@ -27,9 +29,11 @@ namespace DepartmentService
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		public static bool CheckAccess(AccessOperation operation, AccessType type)
-		{
-            var roles = _context.UserRoles.Where(ur => ur.UserId == _user.Id).Select(ur => ur.RoleId);
-			var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && roles.Contains(a.Role.Id));
+        {
+            var userManager = new DepartmentUserManager(new DepartmentUserStore(_context));
+            var userRole = userManager.GetRolesAsync(_user.Id);
+            var roles = userRole.Result;
+			var access = _context.Accesses.FirstOrDefault(a => a.Operation == operation && roles.Contains(a.Role.Name));
 			if (access != null)
 			{
 				return access.AccessType >= type;
@@ -43,22 +47,21 @@ namespace DepartmentService
 		/// <param name="login"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public static UserViewModel Login(string login, string password)
+		public static void Login(string login, string password)
 		{
 			var passHash = GetPasswordHash(password);
-			var user = _context.Users.FirstOrDefault(u => u.Login == login && u.Password == passHash);
+			var user = _context.Users.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
 			if (user == null)
 			{
 				throw new Exception("Введен неверный логин/пароль");
 			}
-			if (user.IsBanned)
+			if (user.LockoutEnabled)
 			{
 				throw new Exception("Пользователь забаннен");
 			}
 			user.DateLastVisit = DateTime.Now;
 			_context.SaveChanges();
-			_user = ModelFactoryToViewModel.CreateUserViewModel(user);
-			return _user;
+			_user = user;
 		}
 
 		/// <summary>
@@ -70,16 +73,16 @@ namespace DepartmentService
 		public static void ChangePassword(string login, string oldPassword, string newPassword)
 		{
 			var passHash = GetPasswordHash(oldPassword);
-			var user = _context.Users.SingleOrDefault(u => u.Login == login && u.Password == passHash);
+			var user = _context.Users.SingleOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
 			if (user == null)
 			{
 				throw new Exception("Введен неверный логин/пароль");
 			}
-			if (user.IsBanned)
+			if (user.LockoutEnabled)
 			{
 				throw new Exception("Пользователь забаннен");
 			}
-			user.Password = GetPasswordHash(newPassword);
+			user.PasswordHash = GetPasswordHash(newPassword);
 			_context.SaveChanges();
 		}
 

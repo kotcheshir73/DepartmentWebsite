@@ -60,7 +60,10 @@ namespace DepartmentModel.Models
         [ForeignKey("StudentId")]
         public virtual List<StudentHistory> StudentHistory { get; set; }
 
-		[ForeignKey("StudentId")]
+        [ForeignKey("StudentId")]
+        public virtual List<StatementRecord> StatementRecords { get; set; }
+
+        [ForeignKey("StudentId")]
 		public virtual List<DisciplineStudentRecord> DisciplineStudentRecords { get; set; }
 
         [ForeignKey("StudentId")]

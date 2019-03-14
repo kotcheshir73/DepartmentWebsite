@@ -2,7 +2,8 @@
 using DepartmentDesktop.Views.Schedule.Offset;
 using DepartmentDesktop.Views.Schedule.Semester;
 using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+using ScheduleServiceInterfaces.BindingModels;
+using ScheduleServiceInterfaces.Interfaces;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,7 +12,7 @@ namespace DepartmentDesktop.Views.Schedule
 {
     public partial class CurrentClassroomControl : UserControl
     {
-        private readonly IScheduleService _service;
+        private readonly IScheduleProcess _process;
 
         private readonly ISemesterRecordService _serviceSR;
 
@@ -21,11 +22,11 @@ namespace DepartmentDesktop.Views.Schedule
 
         private readonly IConsultationRecordService _serviceCR;
 
-        public CurrentClassroomControl(IScheduleService service, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER, 
+        public CurrentClassroomControl(IScheduleProcess process, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER, 
             IConsultationRecordService serviceCR)
         {
             InitializeComponent();
-            _service = service;
+            _process = process;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
             _serviceER = serviceER;
@@ -36,7 +37,7 @@ namespace DepartmentDesktop.Views.Schedule
         {
             tabControlClassroom.TabPages.Clear();
 
-            var resultCD = _service.GetCurrentDates();
+            var resultCD = _process.GetCurrentDates();
             if (!resultCD.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
@@ -45,7 +46,7 @@ namespace DepartmentDesktop.Views.Schedule
 
             var currentDate = DateTime.Now;
 
-            var resultClassrooms = _service.GetClassrooms(new ClassroomGetBindingModel { });
+            var resultClassrooms = _process.GetClassrooms(new ClassroomGetBindingModel { });
             if (!resultClassrooms.Succeeded)
             {
                 Program.PrintErrorMessage("При загрузке возникла ошибка: ", resultClassrooms.Errors);
@@ -70,7 +71,7 @@ namespace DepartmentDesktop.Views.Schedule
                             Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
-                        var control = new ScheduleSemesterControl(_service, _serviceSR, _serviceCR)
+                        var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };
@@ -93,7 +94,7 @@ namespace DepartmentDesktop.Views.Schedule
                             Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
-                        var control = new ScheduleOffsetControl(_service, _serviceOR, _serviceCR)
+                        var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };
@@ -116,7 +117,7 @@ namespace DepartmentDesktop.Views.Schedule
                             Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
-                        var control = new ScheduleExaminationControl(_service, _serviceER, _serviceCR)
+                        var control = new ScheduleExaminationControl(_process, _serviceER, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };
