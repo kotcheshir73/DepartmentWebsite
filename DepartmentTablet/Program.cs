@@ -1,4 +1,6 @@
-﻿using DepartmentService.Context;
+﻿using AuthenticationServiceImplementations.Implementations;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentContext;
 using DepartmentService.IServices;
 using DepartmentService.Services;
 using System;
@@ -72,12 +74,12 @@ namespace DepartmentTablet
             currentContainer.RegisterType<IStudentMoveService, StudentMoveService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
-            currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IContingentService, ContingentService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ITimeNormService, TimeNormService>(new HierarchicalLifetimeManager());

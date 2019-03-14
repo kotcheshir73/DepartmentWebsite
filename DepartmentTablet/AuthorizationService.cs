@@ -1,4 +1,5 @@
-﻿using DepartmentService;
+﻿using AuthenticationModels.Models;
+using DepartmentService;
 using DepartmentService.ViewModels;
 using System;
 
@@ -6,9 +7,9 @@ namespace DepartmentTablet
 {
     public static class AuthorizationService
     {
-        private static UserViewModel _user;
+        private static DepartmentUser _user;
 
-        public static UserViewModel User { get { return _user ?? null; } }
+        public static DepartmentUser User { get { return _user ?? null; } }
 
         public static Guid? UserId { get { return _user?.Id ?? null; } }
 
