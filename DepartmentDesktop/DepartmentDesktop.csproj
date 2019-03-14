@@ -1364,6 +1364,10 @@
     <None Include="Resources\Clear.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
+      <Project>{B8F97CE3-C035-4FC7-A316-877610E7ADF4}</Project>
+      <Name>AuthenticationModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AuthenticationServiceImplementations\AuthenticationServiceImplementations.csproj">
       <Project>{2C74A2F4-AD9B-4EAF-992E-4D82B7C59591}</Project>
       <Name>AuthenticationServiceImplementations</Name>
