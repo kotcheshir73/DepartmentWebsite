@@ -31,12 +31,12 @@ namespace ScheduleServiceImplementations.Helpers
 
                     #region тело
                     writer.WriteLine(string.Format("<p class=\"rteright\">Дата обновления: {0} </ p >", DateTime.Now.ToShortDateString()));
-                    for (int j = 0; j < 2; j++)
+                    for (int week = 0; week < 2; week++)
                     {
                         writer.WriteLine("<table align='center' border='1' cellpadding='1' cellspacing='1'>\r\n\t<tbody>");
                         writer.WriteLine("\t\t<tr>");
                         writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
-                        if (j == 0)
+                        if (week == 0)
                         {
                             writer.WriteLine("\t\t\t<span style='color:#ffffff;'>I</span><span style='color:#ffffff;'> неделя</span></td>");
                         }
@@ -50,14 +50,14 @@ namespace ScheduleServiceImplementations.Helpers
                             writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
                             writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
                         }
-                        for (int k = 0; k < 6; k++)
+                        for (int day = 0; day < 6; day++)
                         {
                             writer.WriteLine("\t\t<tr style='height: 40px'>");
                             writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(153, 0, 0)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;'>{0}</span></td>", days[k]));
-                            for (int r = 0; r < 8; r++)
+                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;'>{0}</span></td>", days[day]));
+                            for (int lesson = 0; lesson < 8; lesson++)
                             {
-                                if (r % 2 != 0)
+                                if (lesson % 2 != 0)
                                 {
                                     writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
                                 }
@@ -65,11 +65,34 @@ namespace ScheduleServiceImplementations.Helpers
                                 {
                                     writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
                                 }
-                                if (list.Exists(rec => rec.Week == j && rec.Day == k && rec.Lesson == r))
+
+
+                                var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson);
+                                if (elems != null && elems.Count() > 0)
                                 {
-                                    var record = list.Find(rec => rec.Week == j && rec.Day == k && rec.Lesson == r);
-                                    writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
-                                        record.LessonType, record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                                    // одна пара
+                                    if (elems.Count() == 1)
+                                    {
+                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
+                                            elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonLecturer, elems.First().LessonGroup));
+                                    }
+                                    else
+                                    {
+                                        // подгруппы
+                                        if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
+                                        {
+                                            writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
+                                                elems.First().LessonType, string.Join("/", elems.Select(x => string.Format("{0} {1}", x.LessonDiscipline, x.LessonClassroom))),
+                                                string.Join("/", elems.Select(x => x.LessonLecturer)), elems.First().LessonGroup));
+                                        }
+                                        // поток
+                                        else
+                                        {
+                                            string groups = string.Join(",", elems.Select(x => x.LessonGroup));
+                                            writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
+                                                elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonLecturer, groups));
+                                        }
+                                    }
                                 }
                                 else
                                 {

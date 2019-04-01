@@ -52,16 +52,16 @@
             this.labelLessonLecturer = new System.Windows.Forms.Label();
             this.labelLessonDiscipline = new System.Windows.Forms.Label();
             this.dataGridViewRecords = new System.Windows.Forms.DataGridView();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ColumnRecord = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBoxSearchBy = new System.Windows.Forms.GroupBox();
+            this.buttonSaveOther = new System.Windows.Forms.Button();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.checkBoxClassroom = new System.Windows.Forms.CheckBox();
             this.checkBoxGroupName = new System.Windows.Forms.CheckBox();
             this.checkBoxLecturer = new System.Windows.Forms.CheckBox();
             this.checkBoxDiscipline = new System.Windows.Forms.CheckBox();
-            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ColumnRecord = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonSaveOther = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxNotParseRecord = new System.Windows.Forms.TextBox();
@@ -77,7 +77,7 @@
             // labelLessonType
             // 
             this.labelLessonType.AutoSize = true;
-            this.labelLessonType.Location = new System.Drawing.Point(12, 125);
+            this.labelLessonType.Location = new System.Drawing.Point(8, 161);
             this.labelLessonType.Name = "labelLessonType";
             this.labelLessonType.Size = new System.Drawing.Size(70, 13);
             this.labelLessonType.TabIndex = 4;
@@ -92,7 +92,7 @@
             this.panelDateTime.Controls.Add(this.labelLesson);
             this.panelDateTime.Controls.Add(this.comboBoxLesson);
             this.panelDateTime.Controls.Add(this.comboBoxDay);
-            this.panelDateTime.Location = new System.Drawing.Point(104, 152);
+            this.panelDateTime.Location = new System.Drawing.Point(100, 2);
             this.panelDateTime.Name = "panelDateTime";
             this.panelDateTime.Size = new System.Drawing.Size(386, 38);
             this.panelDateTime.TabIndex = 7;
@@ -178,7 +178,7 @@
             this.panelBaseData.Controls.Add(this.comboBoxLecturer);
             this.panelBaseData.Controls.Add(this.comboBoxClassroom);
             this.panelBaseData.Controls.Add(this.comboBoxStudentGroup);
-            this.panelBaseData.Location = new System.Drawing.Point(300, 10);
+            this.panelBaseData.Location = new System.Drawing.Point(296, 46);
             this.panelBaseData.Name = "panelBaseData";
             this.panelBaseData.Size = new System.Drawing.Size(190, 136);
             this.panelBaseData.TabIndex = 6;
@@ -231,7 +231,7 @@
             this.panelTextData.Controls.Add(this.comboBoxLessonType);
             this.panelTextData.Controls.Add(this.textBoxLessonGroup);
             this.panelTextData.Controls.Add(this.textBoxClassroom);
-            this.panelTextData.Location = new System.Drawing.Point(104, 10);
+            this.panelTextData.Location = new System.Drawing.Point(100, 46);
             this.panelTextData.Name = "panelTextData";
             this.panelTextData.Size = new System.Drawing.Size(190, 136);
             this.panelTextData.TabIndex = 5;
@@ -275,7 +275,7 @@
             // labelClassroom
             // 
             this.labelClassroom.AutoSize = true;
-            this.labelClassroom.Location = new System.Drawing.Point(12, 99);
+            this.labelClassroom.Location = new System.Drawing.Point(8, 135);
             this.labelClassroom.Name = "labelClassroom";
             this.labelClassroom.Size = new System.Drawing.Size(60, 13);
             this.labelClassroom.TabIndex = 3;
@@ -284,7 +284,7 @@
             // labelLessonGroup
             // 
             this.labelLessonGroup.AutoSize = true;
-            this.labelLessonGroup.Location = new System.Drawing.Point(12, 73);
+            this.labelLessonGroup.Location = new System.Drawing.Point(8, 109);
             this.labelLessonGroup.Name = "labelLessonGroup";
             this.labelLessonGroup.Size = new System.Drawing.Size(42, 13);
             this.labelLessonGroup.TabIndex = 2;
@@ -293,7 +293,7 @@
             // labelLessonLecturer
             // 
             this.labelLessonLecturer.AutoSize = true;
-            this.labelLessonLecturer.Location = new System.Drawing.Point(12, 47);
+            this.labelLessonLecturer.Location = new System.Drawing.Point(8, 83);
             this.labelLessonLecturer.Name = "labelLessonLecturer";
             this.labelLessonLecturer.Size = new System.Drawing.Size(86, 13);
             this.labelLessonLecturer.TabIndex = 1;
@@ -302,7 +302,7 @@
             // labelLessonDiscipline
             // 
             this.labelLessonDiscipline.AutoSize = true;
-            this.labelLessonDiscipline.Location = new System.Drawing.Point(12, 21);
+            this.labelLessonDiscipline.Location = new System.Drawing.Point(8, 57);
             this.labelLessonDiscipline.Name = "labelLessonDiscipline";
             this.labelLessonDiscipline.Size = new System.Drawing.Size(52, 13);
             this.labelLessonDiscipline.TabIndex = 0;
@@ -318,11 +318,31 @@
             this.ColumnId,
             this.ColumnSelect,
             this.ColumnRecord});
-            this.dataGridViewRecords.Location = new System.Drawing.Point(496, 116);
+            this.dataGridViewRecords.Location = new System.Drawing.Point(492, 109);
             this.dataGridViewRecords.Name = "dataGridViewRecords";
             this.dataGridViewRecords.RowHeadersVisible = false;
             this.dataGridViewRecords.Size = new System.Drawing.Size(350, 129);
             this.dataGridViewRecords.TabIndex = 8;
+            // 
+            // ColumnId
+            // 
+            this.ColumnId.HeaderText = "Id";
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.Visible = false;
+            // 
+            // ColumnSelect
+            // 
+            this.ColumnSelect.HeaderText = "Выбрать";
+            this.ColumnSelect.Name = "ColumnSelect";
+            this.ColumnSelect.Width = 60;
+            // 
+            // ColumnRecord
+            // 
+            this.ColumnRecord.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnRecord.HeaderText = "Запись";
+            this.ColumnRecord.Name = "ColumnRecord";
+            this.ColumnRecord.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColumnRecord.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // groupBoxSearchBy
             // 
@@ -332,12 +352,22 @@
             this.groupBoxSearchBy.Controls.Add(this.checkBoxGroupName);
             this.groupBoxSearchBy.Controls.Add(this.checkBoxLecturer);
             this.groupBoxSearchBy.Controls.Add(this.checkBoxDiscipline);
-            this.groupBoxSearchBy.Location = new System.Drawing.Point(496, 10);
+            this.groupBoxSearchBy.Location = new System.Drawing.Point(492, 3);
             this.groupBoxSearchBy.Name = "groupBoxSearchBy";
             this.groupBoxSearchBy.Size = new System.Drawing.Size(350, 100);
             this.groupBoxSearchBy.TabIndex = 9;
             this.groupBoxSearchBy.TabStop = false;
             this.groupBoxSearchBy.Text = "Найти пары по";
+            // 
+            // buttonSaveOther
+            // 
+            this.buttonSaveOther.Location = new System.Drawing.Point(257, 59);
+            this.buttonSaveOther.Name = "buttonSaveOther";
+            this.buttonSaveOther.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveOther.TabIndex = 5;
+            this.buttonSaveOther.Text = "Сохранить";
+            this.buttonSaveOther.UseVisualStyleBackColor = true;
+            this.buttonSaveOther.Click += new System.EventHandler(this.ButtonSaveOther_Click);
             // 
             // buttonSearch
             // 
@@ -389,39 +419,9 @@
             this.checkBoxDiscipline.Text = "Дисциплина";
             this.checkBoxDiscipline.UseVisualStyleBackColor = true;
             // 
-            // ColumnId
-            // 
-            this.ColumnId.HeaderText = "Id";
-            this.ColumnId.Name = "ColumnId";
-            this.ColumnId.Visible = false;
-            // 
-            // ColumnSelect
-            // 
-            this.ColumnSelect.HeaderText = "Выбрать";
-            this.ColumnSelect.Name = "ColumnSelect";
-            this.ColumnSelect.Width = 60;
-            // 
-            // ColumnRecord
-            // 
-            this.ColumnRecord.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnRecord.HeaderText = "Запись";
-            this.ColumnRecord.Name = "ColumnRecord";
-            this.ColumnRecord.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColumnRecord.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // buttonSaveOther
-            // 
-            this.buttonSaveOther.Location = new System.Drawing.Point(257, 59);
-            this.buttonSaveOther.Name = "buttonSaveOther";
-            this.buttonSaveOther.Size = new System.Drawing.Size(75, 23);
-            this.buttonSaveOther.TabIndex = 5;
-            this.buttonSaveOther.Text = "Сохранить";
-            this.buttonSaveOther.UseVisualStyleBackColor = true;
-            this.buttonSaveOther.Click += new System.EventHandler(this.ButtonSaveOther_Click);
-            // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(415, 222);
+            this.buttonClose.Location = new System.Drawing.Point(411, 214);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 11;
@@ -431,7 +431,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(279, 222);
+            this.buttonSave.Location = new System.Drawing.Point(275, 214);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(130, 23);
             this.buttonSave.TabIndex = 10;
@@ -441,7 +441,7 @@
             // 
             // textBoxNotParseRecord
             // 
-            this.textBoxNotParseRecord.Location = new System.Drawing.Point(104, 196);
+            this.textBoxNotParseRecord.Location = new System.Drawing.Point(100, 188);
             this.textBoxNotParseRecord.Name = "textBoxNotParseRecord";
             this.textBoxNotParseRecord.ReadOnly = true;
             this.textBoxNotParseRecord.Size = new System.Drawing.Size(386, 20);
@@ -450,7 +450,7 @@
             // labelNotParseRecord
             // 
             this.labelNotParseRecord.AutoSize = true;
-            this.labelNotParseRecord.Location = new System.Drawing.Point(12, 199);
+            this.labelNotParseRecord.Location = new System.Drawing.Point(8, 191);
             this.labelNotParseRecord.Name = "labelNotParseRecord";
             this.labelNotParseRecord.Size = new System.Drawing.Size(46, 13);
             this.labelNotParseRecord.TabIndex = 8;
@@ -458,7 +458,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(198, 222);
+            this.buttonAdd.Location = new System.Drawing.Point(194, 214);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 12;
@@ -466,11 +466,11 @@
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
-            // ScheduleSemesterRecordForm2
+            // ScheduleSemesterRecordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 256);
+            this.ClientSize = new System.Drawing.Size(850, 247);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.labelNotParseRecord);
             this.Controls.Add(this.textBoxNotParseRecord);
@@ -486,8 +486,8 @@
             this.Controls.Add(this.labelLessonGroup);
             this.Controls.Add(this.labelLessonLecturer);
             this.Controls.Add(this.labelLessonDiscipline);
-            this.Name = "ScheduleSemesterRecordForm2";
-            this.Text = "ScheduleSemesterRecordForm2";
+            this.Name = "ScheduleSemesterRecordForm";
+            this.Text = "Запись семестра";
             this.Load += new System.EventHandler(this.ScheduleSemesterRecordForm_Load);
             this.panelDateTime.ResumeLayout(false);
             this.panelDateTime.PerformLayout();
