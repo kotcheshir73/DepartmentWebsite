@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F1AF902-F53F-4AC4-86CD-C296C4CBCC67}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Models</RootNamespace>
+    <AssemblyName>Models</AssemblyName>
+    <DefaultLanguage>ru-RU</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AcademicYear\AcademicPlan.cs" />
+    <Compile Include="AcademicYear\AcademicPlanRecord.cs" />
+    <Compile Include="AcademicYear\AcademicPlanRecordElement.cs" />
+    <Compile Include="AcademicYear\AcademicPlanRecordMission.cs" />
+    <Compile Include="AcademicYear\AcademicYear.cs" />
+    <Compile Include="AcademicYear\Contingent.cs" />
+    <Compile Include="AcademicYear\LecturerWorkload.cs" />
+    <Compile Include="Attributes\ClassUseAttribute.cs" />
+    <Compile Include="CurrentSettings.cs" />
+    <Compile Include="Enums\Examination\HowCreateTickets.cs" />
+    <Compile Include="Enums\Examination\HowGetQuestionFromExaminationBlock.cs" />
+    <Compile Include="Enums\Examination\HowUseExaminationBlock.cs" />
+    <Compile Include="Examination\ExaminationList.cs" />
+    <Compile Include="Examination\ExaminationTemplate\ExaminationTemplate.cs" />
+    <Compile Include="Examination\ExaminationTemplate\ExaminationTemplateBlock.cs" />
+    <Compile Include="Examination\ExaminationTemplate\ExaminationTemplateBlockQuestion.cs" />
+    <Compile Include="Examination\ExaminationTemplate\ExaminationTemplateTicket.cs" />
+    <Compile Include="Examination\ExaminationTemplate\ExaminationTemplateTicketQuestion.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplate.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateBody.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateElementaryAttribute.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateElementaryUnit.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateParagraph.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateParagraphData.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateTable.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateTableCell.cs" />
+    <Compile Include="Examination\TicketTemplate\TicketTemplateTableRow.cs" />
+    <Compile Include="HelperModels\BlueAsteriskBlockType.cs" />
+    <Compile Include="HelperModels\BlueAsteriskTypeObject.cs" />
+    <Compile Include="Lecturer\IndividualPlan.cs" />
+    <Compile Include="Schedule\StreamingLesson.cs" />
+    <Compile Include="AcademicYear\StreamLesson.cs" />
+    <Compile Include="AcademicYear\StreamLessonRecord.cs" />
+    <Compile Include="AcademicYear\TimeNorm.cs" />
+    <Compile Include="Authentication\DepartmentAccess.cs" />
+    <Compile Include="Authentication\DepartmentRole.cs" />
+    <Compile Include="Authentication\DepartmentUser.cs" />
+    <Compile Include="Authentication\DepartmentUserClaim.cs" />
+    <Compile Include="Authentication\DepartmentUserLogin.cs" />
+    <Compile Include="Authentication\DepartmentUserRole.cs" />
+    <Compile Include="Base\Classroom.cs" />
+    <Compile Include="Base\Discipline.cs" />
+    <Compile Include="Base\DisciplineBlock.cs" />
+    <Compile Include="Base\EducationDirection.cs" />
+    <Compile Include="Base\Lecturer.cs" />
+    <Compile Include="Base\LecturerPost.cs" />
+    <Compile Include="AcademicYear\SeasonDates.cs" />
+    <Compile Include="Base\Student.cs" />
+    <Compile Include="Base\StudentGroup.cs" />
+    <Compile Include="Base\StudentHistory.cs" />
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Enums\AcademicYear\AcademicCourse.cs" />
+    <Compile Include="Enums\AcademicYear\AcademicLevel.cs" />
+    <Compile Include="Enums\Authentication\AccessOperation.cs" />
+    <Compile Include="Enums\Authentication\AccessType.cs" />
+    <Compile Include="Enums\ClassroomTypes.cs" />
+    <Compile Include="Enums\LearningProgress\DisciplineLessonStudentStatus.cs" />
+    <Compile Include="Enums\LearningProgress\DisciplineLessonTaskStudentResult.cs" />
+    <Compile Include="Enums\LearningProgress\DisciplineLessonTypes.cs" />
+    <Compile Include="Enums\AcademicYear\KindOfLoadType.cs" />
+    <Compile Include="Enums\Schedule\LessonTypes.cs" />
+    <Compile Include="Enums\Post.cs" />
+    <Compile Include="Enums\Rank.cs" />
+    <Compile Include="Enums\Rank2.cs" />
+    <Compile Include="Enums\ResultServiceStatusCode.cs" />
+    <Compile Include="Enums\Schedule\ScheduleStopWordTypes.cs" />
+    <Compile Include="Enums\AcademicYear\Semesters.cs" />
+    <Compile Include="Enums\StudentState.cs" />
+    <Compile Include="Enums\AcademicYear\TimeNormKoef.cs" />
+    <Compile Include="Enums\Examination\TypeOfTest.cs" />
+    <Compile Include="LaboratoryHead\MaterialTechnicalValue.cs" />
+    <Compile Include="LaboratoryHead\MaterialTechnicalValueGroup.cs" />
+    <Compile Include="LaboratoryHead\MaterialTechnicalValueRecord.cs" />
+    <Compile Include="LaboratoryHead\Software.cs" />
+    <Compile Include="LaboratoryHead\SoftwareRecord.cs" />
+    <Compile Include="LearningProgress\DisciplineLesson.cs" />
+    <Compile Include="LearningProgress\DisciplineLessonConducted.cs" />
+    <Compile Include="LearningProgress\DisciplineLessonConductedStudent.cs" />
+    <Compile Include="LearningProgress\DisciplineLessonTask.cs" />
+    <Compile Include="LearningProgress\DisciplineLessonTaskStudentAccept.cs" />
+    <Compile Include="LearningProgress\DisciplineLessonTaskVariant.cs" />
+    <Compile Include="LearningProgress\DisciplineStudentRecord.cs" />
+    <Compile Include="AcademicYear\DisciplineTimeDistribution.cs" />
+    <Compile Include="AcademicYear\DisciplineTimeDistributionClassroom.cs" />
+    <Compile Include="AcademicYear\DisciplineTimeDistributionRecord.cs" />
+    <Compile Include="Lecturer\IndividualPlanKindOfWork.cs" />
+    <Compile Include="Lecturer\IndividualPlanNIRContractualWork.cs" />
+    <Compile Include="Lecturer\IndividualPlanNIRScientificArticle.cs" />
+    <Compile Include="Lecturer\IndividualPlanRecord.cs" />
+    <Compile Include="Lecturer\IndividualPlanTitle.cs" />
+    <Compile Include="Examination\Statement.cs" />
+    <Compile Include="Examination\StatementRecord.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schedule\ConsultationRecord.cs" />
+    <Compile Include="Schedule\ExaminationRecord.cs" />
+    <Compile Include="Schedule\OffsetRecord.cs" />
+    <Compile Include="Schedule\ScheduleLessonTime.cs" />
+    <Compile Include="ScheduleRecord.cs" />
+    <Compile Include="Schedule\SemesterRecord.cs" />
+    <EmbeddedResource Include="Properties\Models.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <Version>2.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.6</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
