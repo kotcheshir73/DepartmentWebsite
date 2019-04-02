@@ -2,11 +2,7 @@
 using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService;
-using DepartmentService.BindingModels;
-using DepartmentService.Helpers;
-using DepartmentService.ViewModels;
 using ScheduleServiceImplementations.Helpers;
-using ScheduleServiceInterfaces;
 using ScheduleServiceInterfaces.BindingModels;
 using ScheduleServiceInterfaces.Interfaces;
 using ScheduleServiceInterfaces.ViewModels;

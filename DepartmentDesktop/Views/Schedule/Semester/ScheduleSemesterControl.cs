@@ -123,7 +123,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         for (int lesson = 0; lesson < 8; lesson++)
                         {
-                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson);
+                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson).OrderBy(x => x.LessonGroup);
                             if (elems != null && elems.Count() > 0)
                             {
                                 // одна пара
@@ -505,7 +505,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
                 form.ShowDialog();
             }
-            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
+            else if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
             {
                 datetime = _selectDate.Date.AddDays(dataGridViewSecondWeek.SelectedCells[0].RowIndex + 7);
                 var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
@@ -517,6 +517,11 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 datetime = datetime.Value.AddHours(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
                                 .AddMinutes(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
                 ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
+                form.ShowDialog();
+            }
+            else
+            {
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, model: _model);
                 form.ShowDialog();
             }
         }
