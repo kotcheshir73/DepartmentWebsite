@@ -48,7 +48,7 @@ namespace ScheduleServiceImplementations.Helpers
                 int lesson = 7;
 
                 // получаем время пар
-                var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("пара")).ToList();
+                var times = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("пара")).OrderBy(x => x.DateBeginLesson).ToList();
                 if (times == null || times.Count == 0)
                 {
                     throw new Exception("LessonTime not found");

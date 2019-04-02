@@ -5,6 +5,7 @@ using DepartmentService.ViewModels;
 using ScheduleServiceInterfaces.BindingModels;
 using ScheduleServiceInterfaces.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -115,64 +116,80 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     Program.PrintErrorMessage("Невозможно получить список занятий в семестре: ", result.Errors);
                 }
                 var list = result.Result;
-                for (int r = 0; r < list.Count; ++r)
+                List<DataGridView> grids = new List<DataGridView> { dataGridViewFirstWeek, dataGridViewSecondWeek };
+                for (int week = 0; week < 2; week++)
                 {
-                    string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", list[r].LessonType, list[r].LessonDiscipline, list[r].LessonClassroom,
-                        Environment.NewLine, list[r].LessonLecturer, list[r].LessonGroup);
-                    if (list[r].Week == 0)
+                    for (int day = 0; day < 6; day++)
                     {
-                        if (list[r].IsStreaming)
+                        for (int lesson = 0; lesson < 8; lesson++)
                         {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
-                        }
-                        if (list[r].IsSubgroup)
-                        {
-                            if (dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value == null)
+                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson).OrderBy(x => x.LessonGroup);
+                            if (elems != null && elems.Count() > 0)
                             {
-                                var lesson = list.Where(rec => rec.Week == list[r].Week && rec.Day == list[r].Day && rec.Lesson == list[r].Lesson &&
-                                                                            rec.Id != list[r].Id).FirstOrDefault();
-                                if (lesson != null)
+                                // одна пара
+                                if (elems.Count() == 1)
                                 {
-                                    text = string.Format("{0} {1} {2}   {3} {4}{5}{6}   {7}{5}{8}", list[r].LessonType, list[r].LessonDiscipline,
-                                        list[r].LessonClassroom, lesson.LessonDiscipline, lesson.LessonClassroom,
-                                        Environment.NewLine, list[r].LessonLecturer, lesson.LessonLecturer, list[r].LessonGroup);
+                                    string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonClassroom,
+                                        Environment.NewLine, elems.First().LessonLecturer, elems.First().LessonGroup);
+                                    if (elems.First().LessonType == LessonTypes.нд.ToString())
+                                    {
+                                        grids[week].Rows[day].Cells[lesson + 1].Style.BackColor = Color.YellowGreen;
+                                    }
+                                    if (elems.First().LessonType == LessonTypes.удл.ToString())
+                                    {
+                                        grids[week].Rows[day].Cells[lesson + 1].Style.BackColor = Color.Gray;
+                                    }
+                                    if (grids[week].Rows[day].Cells[lesson + 1].Value == null)
+                                    {
+                                        grids[week].Rows[day].Cells[lesson + 1].Value = text;
+                                        grids[week].Rows[day].Cells[lesson + 1].Tag = elems.First().Id;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Накладка");
+                                    }
                                 }
-                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
-                                dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
+                                else
+                                {
+                                    // подгруппы
+                                    if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
+                                    {
+                                        string text = string.Format("{0} {1} {2} {3}{2}  {4}", elems.First().LessonType,
+                                            string.Join("/", elems.Select(x => string.Format("{0} {1}", x.LessonDiscipline, x.LessonClassroom))),
+                                            Environment.NewLine, string.Join("/", elems.Select(x => x.LessonLecturer)), elems.First().LessonGroup);
+                                        if (grids[week].Rows[day].Cells[lesson + 1].Value == null)
+                                        {
+                                            grids[week].Rows[day].Cells[lesson + 1].Value = text;
+                                            grids[week].Rows[day].Cells[lesson + 1].Tag = string.Join(",", elems.Select(x => x.Id));
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Накладка");
+                                        }
+                                    }
+                                    // поток
+                                    else
+                                    {
+                                        string groups = string.Join(",", elems.Select(x => x.LessonGroup));
+                                        string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonClassroom,
+                                            Environment.NewLine, elems.First().LessonLecturer, groups);
+                                        if (grids[week].Rows[day].Cells[lesson + 1].Value == null)
+                                        {
+                                            grids[week].Rows[day].Cells[lesson + 1].Style.BackColor = Color.FloralWhite;
+                                            grids[week].Rows[day].Cells[lesson + 1].Value = text;
+                                            grids[week].Rows[day].Cells[lesson + 1].Tag = string.Join(",", elems.Select(x => x.Id));
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Накладка");
+                                        }
+                                    }
+                                }
                             }
                         }
-                        else
-                        {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
-                        }
-                        if (list[r].LessonType == LessonTypes.нд.ToString())
-                        {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
-                        }
-                        if (list[r].LessonType == LessonTypes.удл.ToString())
-                        {
-                            dataGridViewFirstWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
-                        }
-                    }
-                    if (list[r].Week == 1)
-                    {
-                        if (list[r].IsStreaming)
-                        {
-                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.FloralWhite;
-                        }
-                        if (list[r].LessonType == LessonTypes.нд.ToString())
-                        {
-                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.YellowGreen;
-                        }
-                        if (list[r].LessonType == LessonTypes.удл.ToString())
-                        {
-                            dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Style.BackColor = Color.Gray;
-                        }
-                        dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Value = text;
-                        dataGridViewSecondWeek.Rows[list[r].Day].Cells[list[r].Lesson + 1].Tag = list[r].Id;
                     }
                 }
+                
                 var dateFinish = _selectDate.AddDays(14);
 
                 _model.DateBegin = _selectDate;
@@ -292,9 +309,12 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {//если в Tag есть данные, то это id записи
                         if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
                         {
-                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, _model.IsFirstHalfSemester.Value,
-                                new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
-                            form.ShowDialog();
+                            var tags = ((DataGridView)sender).SelectedCells[0].Tag.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach(var tag in tags)
+                            {
+                                ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, _model.IsFirstHalfSemester.Value, new Guid(tag));
+                                form.Show();
+                            }
                         }
                         else
                         {
@@ -350,9 +370,12 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 {//если в Tag есть данные, то это id записи
                     if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, _model.IsFirstHalfSemester.Value,
-                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
+                        var tags = dataGridViewFirstWeek.SelectedCells[0].Tag.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var tag in tags)
+                        {
+                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, _model.IsFirstHalfSemester.Value, new Guid(tag));
+                            form.Show();
+                        }
                     }
                     else
                     {
@@ -360,7 +383,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
                         form.ShowDialog();
                     }
-                LoadRecrods();
+                    LoadRecrods();
                 }
             }
             if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
@@ -369,9 +392,12 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 {//если в Tag есть dataGridViewSecondWeek, то это id записи
                     if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
                     {
-                        ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, _model.IsFirstHalfSemester.Value,
-                            new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
+                        var tags = dataGridViewSecondWeek.SelectedCells[0].Tag.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var tag in tags)
+                        {
+                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, _model.IsFirstHalfSemester.Value, new Guid(tag));
+                            form.Show();
+                        }
                     }
                     else
                     {
@@ -394,11 +420,15 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
+                            var tags = dataGridViewFirstWeek.SelectedCells[0].Tag.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var tag in tags)
                             {
-                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                                Guid id = new Guid(tag);
+                                var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
+                                if (!result.Succeeded)
+                                {
+                                    Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                                }
                             }
                         }
                     }
@@ -424,11 +454,15 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                     {
                         if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
+                            var tags = dataGridViewSecondWeek.SelectedCells[0].Tag.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var tag in tags)
                             {
-                                Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                                Guid id = new Guid(tag);
+                                var result = _serviceSR.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
+                                if (!result.Succeeded)
+                                {
+                                    Program.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                                }
                             }
                         }
                     }
@@ -471,7 +505,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
                 form.ShowDialog();
             }
-            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
+            else if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
             {
                 datetime = _selectDate.Date.AddDays(dataGridViewSecondWeek.SelectedCells[0].RowIndex + 7);
                 var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
@@ -483,6 +517,11 @@ namespace DepartmentDesktop.Views.Schedule.Semester
                 datetime = datetime.Value.AddHours(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
                                 .AddMinutes(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
                 ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
+                form.ShowDialog();
+            }
+            else
+            {
+                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, model: _model);
                 form.ShowDialog();
             }
         }
