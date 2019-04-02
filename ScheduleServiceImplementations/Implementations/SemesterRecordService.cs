@@ -113,52 +113,17 @@ namespace ScheduleServiceImplementations.Services
                 List<SemesterRecordShortViewModel> result = new List<SemesterRecordShortViewModel>();
                 for (int i = 0; i < records.Count; ++i)
                 {
-                    string groups = ScheduleHelper.GetLessonGroup(records[i]);
-                    if (records[i].IsStreaming && (!string.IsNullOrEmpty(model.ClassroomNumber) || model.LecturerId.HasValue))
-                    {//если потоковая пара
-                        var recs = records.Where(rec => rec.Week == records[i].Week && rec.Day == records[i].Day && rec.Lesson == records[i].Lesson &&
-                                                rec.LessonClassroom == records[i].LessonClassroom && rec.IsStreaming).ToList();
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var rec in recs)
-                        {
-                            sb.Append(rec.LessonGroup + ";");
-                            if (records[i] != rec)
-                            {
-                                records.Remove(rec);
-                            }
-                        }
-                        groups = sb.Remove(sb.Length - 1, 1).ToString();
-                        //пытаемся найти запись о потоковом занятии
-                        var streamingLesson = _context.StreamingLessons.FirstOrDefault(sl => sl.IncomingGroups == groups);
-                        if (streamingLesson != null)
-                        {
-                            groups = streamingLesson.StreamName;
-                        }
-                        else
-                        {
-                            var entity = ModelFacotryFromBindingModel.CreateStreamingLesson(new StreamingLessonSetBindingModel
-                            {
-                                IncomingGroups = groups,
-                                StreamName = groups
-                            });
-
-                            _context.StreamingLessons.Add(entity);
-                            _context.SaveChanges();
-                        }
-                    }
-
                     if (records[i].LessonType == LessonTypes.удл)
                     {//не выводим занятие, если оно удаленное и в эту пару поставили пару
                         var recordExists = records.Exists(r => r.Week == records[i].Week && r.Day == records[i].Day && r.Lesson == records[i].Lesson &&
                                                         r.LessonType != LessonTypes.удл);
                         if (recordExists)
                         {
-                            records.Remove(records[i--]);
                             continue;
                         }
                     }
 
-                    result.Add(ScheduleModelFactoryToViewModel.CreateSemesterRecordShortViewModel(records[i], groups));
+                    result.Add(ScheduleModelFactoryToViewModel.CreateSemesterRecordShortViewModel(records[i]));
                 }
 
                 return ResultService<List<SemesterRecordShortViewModel>>.Success(result.OrderBy(e => e.Id).ToList());

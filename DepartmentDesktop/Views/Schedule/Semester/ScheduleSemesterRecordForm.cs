@@ -154,7 +154,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private void ComboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text) && comboBoxDiscipline.SelectedIndex > -1)
+            if (comboBoxDiscipline.SelectedIndex > -1)
             {
                 textBoxLessonDiscipline.Text = comboBoxDiscipline.Text;
             }
@@ -162,7 +162,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private void ComboBoxLecturer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text) && comboBoxLecturer.SelectedIndex > -1)
+            if (comboBoxLecturer.SelectedIndex > -1)
             {
                 textBoxLessonLecturer.Text = comboBoxLecturer.Text;
             }
@@ -170,7 +170,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private void ComboBoxStudentGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxStudentGroup.SelectedIndex > -1)
+            if (comboBoxStudentGroup.SelectedIndex > -1)
             {
                 textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
             }
@@ -178,7 +178,7 @@ namespace DepartmentDesktop.Views.Schedule.Semester
 
         private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxClassroom.Text) && comboBoxClassroom.SelectedIndex > -1)
+            if (comboBoxClassroom.SelectedIndex > -1)
             {
                 textBoxClassroom.Text = comboBoxClassroom.Text;
             }

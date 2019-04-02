@@ -57,7 +57,7 @@ namespace ScheduleServiceImplementations
             };
         }
 
-        public static SemesterRecordShortViewModel CreateSemesterRecordShortViewModel(SemesterRecord entity, string groups)
+        public static SemesterRecordShortViewModel CreateSemesterRecordShortViewModel(SemesterRecord entity)
         {
             return new SemesterRecordShortViewModel
             {
@@ -70,7 +70,7 @@ namespace ScheduleServiceImplementations
                 IsSubgroup = entity.IsSubgroup,
                 LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
                 LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = groups,
+                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
                 LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
             };
         }
