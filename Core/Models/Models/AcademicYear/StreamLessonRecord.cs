@@ -11,7 +11,7 @@ namespace Models.AcademicYear
     {
         [DataMember]
         public Guid StreamLessonId { get; set; }
-
+        //TODO cicle
         [DataMember]
         public Guid AcademicPlanRecordElementId { get; set; }
 

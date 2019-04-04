@@ -16,6 +16,7 @@ namespace Models.AcademicYear
         [DataMember]
         public Guid AcademicPlanRecordId { get; set; }
 
+        //TODO cicle
         [Required]
         [DataMember]
         public Guid TimeNormId { get; set; }

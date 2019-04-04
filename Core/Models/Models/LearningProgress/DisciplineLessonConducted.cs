@@ -16,7 +16,7 @@ namespace Models.LearningProgress
         [Required]
         [DataMember]
         public Guid DisciplineLessonId { get; set; }
-
+        //TODO cicle
         [Required]
         [DataMember]
         public Guid StudentGroupId { get; set; }

@@ -22,6 +22,8 @@ namespace DepartmentDesktop
         [STAThread]
         static void Main()
         {
+            
+
             var container = BuildUnityContainer();
 
             IAdministrationProcess administrationProcess = container.Resolve<IAdministrationProcess>();

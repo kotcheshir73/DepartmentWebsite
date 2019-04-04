@@ -635,7 +635,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TimeNormId,
                         principalTable: "TimeNorms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -940,7 +940,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TimeNormId,
                         principalTable: "TimeNorms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1053,7 +1053,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.StudentGroupId,
                         principalTable: "StudentGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1432,7 +1432,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.AcademicPlanRecordElementId,
                         principalTable: "AcademicPlanRecordElements",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_StreamLessonRecords_StreamLessons_StreamLessonId",
                         column: x => x.StreamLessonId,
@@ -1467,7 +1467,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TimeNormId,
                         principalTable: "TimeNorms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1497,7 +1497,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TimeNormId,
                         principalTable: "TimeNorms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1755,7 +1755,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.ExaminationTemplateBlockQuestionId,
                         principalTable: "ExaminationTemplateBlockQuestions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ExaminationTemplateTicketQuestions_ExaminationTemplateTickets_ExaminationTemplateTicketId",
                         column: x => x.ExaminationTemplateTicketId,

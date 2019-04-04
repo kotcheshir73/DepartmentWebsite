@@ -11,7 +11,7 @@ namespace Models.Examination
     {
         [DataMember]
         public Guid ExaminationTemplateTicketId { get; set; }
-
+        //TODO cicle
         [DataMember]
         public Guid ExaminationTemplateBlockQuestionId { get; set; }
 

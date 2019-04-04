@@ -13,7 +13,7 @@ namespace Models.AcademicYear
         [Required]
         [DataMember]
         public Guid DisciplineTimeDistributionId { get; set; }
-
+        //TODO cicle
         [Required]
         [DataMember]
         public Guid TimeNormId { get; set; }
