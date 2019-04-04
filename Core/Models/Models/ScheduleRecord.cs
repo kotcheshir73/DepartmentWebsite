@@ -1,4 +1,4 @@
-﻿using Models.AcademicYear;
+﻿using Models.AcademicYearData;
 using Models.Base;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -54,7 +54,7 @@ namespace Models
 
         public virtual StudentGroup StudentGroup { get; set; }
 
-        public virtual Base.Lecturer Lecturer { get; set; }
+        public virtual Lecturer Lecturer { get; set; }
 
 		public virtual Discipline Discipline { get; set; }
 

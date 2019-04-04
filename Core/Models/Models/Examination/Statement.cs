@@ -1,4 +1,4 @@
-﻿using Models.AcademicYear;
+﻿using Models.AcademicYearData;
 using Models.Base;
 using Models.Enums;
 using System;
@@ -40,9 +40,9 @@ namespace Models.Examination
 
         //-------------------------------------------------------------------------
 
-        public virtual Base.Lecturer Lecturer { get; set; }
+        public virtual Lecturer Lecturer { get; set; }
         
-        public virtual AcademicYear.AcademicYear AcademicYear { get; set; }
+        public virtual AcademicYear AcademicYear { get; set; }
 
         public virtual Discipline Discipline { get; set; }
 

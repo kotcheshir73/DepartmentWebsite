@@ -1,4 +1,4 @@
-﻿using Models.AcademicYear;
+﻿using Models.AcademicYearData;
 using Models.Attributes;
 using Models.Examination;
 using Models.LearningProgress;

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.AcademicYear;
+using Models.AcademicYearData;
 using Models.Authentication;
 using Models.Base;
 using Models.Examination;
 using Models.LaboratoryHead;
 using Models.LearningProgress;
-using Models.Lecturer;
+using Models.LecturerData;
 using Models.Schedule;
 using System;
 

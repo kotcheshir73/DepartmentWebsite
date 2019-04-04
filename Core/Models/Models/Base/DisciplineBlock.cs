@@ -1,4 +1,4 @@
-﻿using Models.AcademicYear;
+﻿using Models.AcademicYearData;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

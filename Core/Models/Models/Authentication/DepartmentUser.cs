@@ -35,7 +35,7 @@ namespace Models.Authentication
 
         //-------------------------------------------------------------------------
 
-        public virtual Base.Lecturer Lecturer { get; set; }
+        public virtual Lecturer Lecturer { get; set; }
 
         public virtual Student Student { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using Models.AcademicYear;
+﻿using Models.AcademicYearData;
 using Models.Base;
 using Models.Enums;
 using System;
@@ -61,7 +61,7 @@ namespace Models.LearningProgress
 
         //-------------------------------------------------------------------------
 
-        public virtual AcademicYear.AcademicYear AcademicYear { get; set; }
+        public virtual AcademicYear AcademicYear { get; set; }
 
         public virtual EducationDirection EducationDirection { get; set; }
 

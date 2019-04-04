@@ -1,8 +1,8 @@
-﻿using Models.AcademicYear;
+﻿using Models.AcademicYearData;
 using Models.Attributes;
 using Models.Enums;
 using Models.Examination;
-using Models.Lecturer;
+using Models.LecturerData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
