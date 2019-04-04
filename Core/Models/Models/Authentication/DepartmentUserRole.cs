@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
 namespace Models.Authentication
@@ -8,8 +7,14 @@ namespace Models.Authentication
     /// Связка пользователь - роль
     /// </summary>
     [DataContract]
-    public class DepartmentUserRole : IdentityUserRole<Guid>
+    public class DepartmentUserRole : BaseEntity
     {
+        [DataMember]
+        public Guid RoleId { get; set; }
+
+        [DataMember]
+        public Guid UserId { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual DepartmentRole Role { get; set; }

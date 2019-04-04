@@ -36,7 +36,7 @@ namespace Models.LearningProgress
         public string Description { get; set; }
 
         [DataMember]
-        public byte?[] Image { get; set; }
+        public byte[] Image { get; set; }
 
         //-------------------------------------------------------------------------
 

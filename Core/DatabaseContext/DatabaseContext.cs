@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.AcademicYear;
 using Models.Authentication;
@@ -14,31 +13,26 @@ using System;
 namespace DatabaseContext
 {
     //https://docs.microsoft.com/ru-ru/aspnet/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity
-    public class DatabaseContext :  IdentityDbContext<DepartmentUser, DepartmentRole, Guid, DepartmentUserClaim, DepartmentUserRole, DepartmentUserLogin, DepartmentRoleClaim, DepartmentUserToken>
+    //https://docs.microsoft.com/en-us/ef/core/get-started/uwp/getting-started
+    public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
-        }
-        //public DatabaseContext() : base("DepartmentDatabaseContext")
-        //{//настройки конфигурации для entity
-        //    Configuration.ProxyCreationEnabled = false;
-        //    Configuration.LazyLoadingEnabled = false;
-        //    var ensureDLLIsCopied = SqlServer.SqlProviderServices.Instance;
-        //    Database.SetInitializer(new DatabaseInitializer());
-        //}
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+
+        public DatabaseContext() : base() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (optionsBuilder.IsConfigured == false)
             {
-                if (optionsBuilder.IsConfigured == false)
-                {
-                    optionsBuilder.UseSqlServer( @"Data Source=COMP\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=True;MultipleActiveResultSets=True;");
-                }
-                base.OnConfiguring(optionsBuilder);
+                optionsBuilder.UseSqlServer(@"Data Source=COMP\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=True;MultipleActiveResultSets=True;");
             }
+            base.OnConfiguring(optionsBuilder);
         }
 
-        public virtual DbSet<DepartmentAccess> Accesses { set; get; }
+        public virtual DbSet<DepartmentAccess> DepartmentAccesses { set; get; }
+        public virtual DbSet<DepartmentRole> DepartmentRoles { set; get; }
+        public virtual DbSet<DepartmentUser> DepartmentUsers { set; get; }
+        public virtual DbSet<DepartmentUserRole> DepartmentUserRoles { set; get; }
 
         #region Base
         public virtual DbSet<Classroom> Classrooms { set; get; }
@@ -133,36 +127,31 @@ namespace DatabaseContext
         /// Перегружаем метод созранения изменений. Если возникла ошибка - очищаем все изменения
         /// </summary>
         /// <returns></returns>
-        //public override int SaveChanges()
-        //{
-        //    try
-        //    {
-        //        return base.SaveChanges();
-        //    }
-        //    catch (DbEntityValidationException ex)
-        //    {
-        //        var ffhf = ResultService.Error(ex, ResultServiceStatusCode.Error);
-        //        return 0;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        foreach (var entry in ChangeTracker.Entries())
-        //        {
-        //            switch (entry.State)
-        //            {
-        //                case EntityState.Modified:
-        //                    entry.State = EntityState.Unchanged;
-        //                    break;
-        //                case EntityState.Deleted:
-        //                    entry.Reload();
-        //                    break;
-        //                case EntityState.Added:
-        //                    entry.State = EntityState.Detached;
-        //                    break;
-        //            }
-        //        }
-        //        throw;
-        //    }
-        //}
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (Exception)
+            {
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    switch (entry.State)
+                    {
+                        case EntityState.Modified:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                        case EntityState.Deleted:
+                            entry.Reload();
+                            break;
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                    }
+                }
+                throw;
+            }
+        }
     }
 }

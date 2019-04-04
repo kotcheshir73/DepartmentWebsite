@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
@@ -10,13 +8,10 @@ namespace Models.Authentication
     /// Класс, описывающий роль в системе
     /// </summary>
     [DataContract]
-    public class DepartmentRole : IdentityRole<Guid>
+    public class DepartmentRole : BaseEntity
     {
         [DataMember]
-        public DateTime? DateDelete { get; set; }
-
-        [DataMember]
-        public bool IsDeleted { get; set; }
+        public string RoleName { get; set; }
 
         //-------------------------------------------------------------------------
 
@@ -24,20 +19,5 @@ namespace Models.Authentication
 
         [ForeignKey("RoleId")]
         public virtual List<DepartmentAccess> Access { get; set; }
-
-        public DepartmentRole()
-        {
-            Id = Guid.NewGuid();
-            DateDelete = null;
-            IsDeleted = false;
-        }
-
-        public DepartmentRole(string name)
-        {
-            Id = Guid.NewGuid();
-            Name = name;
-            DateDelete = null;
-            IsDeleted = false;
-        }
     }
 }

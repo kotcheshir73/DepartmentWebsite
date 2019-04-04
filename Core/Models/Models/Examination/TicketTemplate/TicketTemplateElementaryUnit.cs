@@ -18,7 +18,8 @@ namespace Models.Examination
 
         //-------------------------------------------------------------------------
 
-        public virtual TicketTemplateParagraphData TicketTemplateParagraphData { get; set; }
+            //TODO not link
+       // public virtual TicketTemplateParagraphData TicketTemplateParagraphData { get; set; }
 
         //-------------------------------------------------------------------------
 

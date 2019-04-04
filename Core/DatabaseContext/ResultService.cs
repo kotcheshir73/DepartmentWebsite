@@ -1,7 +1,6 @@
 ﻿using Models.Enums;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 
 namespace DatabaseContext
 {
@@ -67,26 +66,6 @@ namespace DatabaseContext
             {
                 error = error.InnerException;
                 result.Errors.Add(new KeyValuePair<string, string>("Inner error:", error.Message));
-            }
-            result.StatusCode = statusCode;
-
-            return result;
-        }
-
-        public static ResultService Error(DbEntityValidationException error, ResultServiceStatusCode statusCode)
-        {
-            var result = new ResultService
-            {
-                Succeeded = false
-            };
-            result.Errors.Add(new KeyValuePair<string, string>("DbEntityValidation Error:", error.Message));
-            foreach (var eve in error.EntityValidationErrors)
-            {
-                foreach (var ve in eve.ValidationErrors)
-                {
-                    result.Errors.Add(new KeyValuePair<string, string>("ValidationErrors:", string.Format("- Entity: \"{0}\", Error: \"{1}\"\r\n",
-                        ve.PropertyName, ve.ErrorMessage)));
-                }
             }
             result.StatusCode = statusCode;
 
@@ -164,26 +143,6 @@ namespace DatabaseContext
             {
                 error = error.InnerException;
                 result.Errors.Add(new KeyValuePair<string, string>("Inner Error:", error.Message));
-            }
-            result.StatusCode = statusCode;
-
-            return result;
-        }
-
-        public static ResultService<T> Error(DbEntityValidationException error, ResultServiceStatusCode statusCode)
-        {
-            var result = new ResultService<T>
-            {
-                Succeeded = false
-            };
-            result.Errors.Add(new KeyValuePair<string, string>("DbEntityValidation Error:", error.Message));
-            foreach (var eve in error.EntityValidationErrors)
-            {
-                foreach (var ve in eve.ValidationErrors)
-                {
-                    result.Errors.Add(new KeyValuePair<string, string>("ValidationErrors:", string.Format("- Entity: \"{0}\", Error: \"{1}\"\r\n",
-                        ve.PropertyName, ve.ErrorMessage)));
-                }
             }
             result.StatusCode = statusCode;
 

@@ -1,7 +1,6 @@
 ﻿using Models.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace Models.Authentication
@@ -10,21 +9,8 @@ namespace Models.Authentication
     /// Класс, описывающий возможные действия для роли
     /// </summary>
     [DataContract]
-    public class DepartmentAccess
+    public class DepartmentAccess : BaseEntity
     {
-        [DataMember]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid Id { get; set; }
-
-        [DataMember]
-        public DateTime DateCreate { get; set; }
-
-        [DataMember]
-        public DateTime? DateDelete { get; set; }
-
-        [DataMember]
-        public bool IsDeleted { get; set; }
-
         [Required]
         [DataMember]
         public Guid RoleId { get; set; }
@@ -42,13 +28,5 @@ namespace Models.Authentication
         public virtual DepartmentRole Role { get; set; }
 
         //-------------------------------------------------------------------------
-
-        public DepartmentAccess()
-        {
-            Id = Guid.NewGuid();
-            DateCreate = DateTime.Now;
-            DateDelete = null;
-            IsDeleted = false;
-        }
     }
 }

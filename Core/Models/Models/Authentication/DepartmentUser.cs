@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Models.Base;
+﻿using Models.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,16 +10,13 @@ namespace Models.Authentication
     /// Класс, описывающий пользователя системы
     /// </summary>
     [DataContract]
-    public class DepartmentUser : IdentityUser<Guid>
+    public class DepartmentUser : BaseEntity
     {
         [DataMember]
-        public DateTime DateCreate { get; set; }
+        public string UserName { get; set; }
 
         [DataMember]
-        public DateTime? DateDelete { get; set; }
-
-        [DataMember]
-        public bool IsDeleted { get; set; }
+        public string PasswordHash { get; set; }
 
         [DataMember]
         public Guid? StudentId { get; set; }
@@ -47,22 +43,5 @@ namespace Models.Authentication
 
         [ForeignKey("UserId")]
         public virtual List<DepartmentUserRole> UserRoles { get; set; }
-
-        public DepartmentUser()
-        {
-            Id = Guid.NewGuid();
-            DateCreate = DateTime.Now;
-            DateDelete = null;
-            IsDeleted = false;
-        }
-
-        public DepartmentUser(string name)
-        {
-            Id = Guid.NewGuid();
-            DateCreate = DateTime.Now;
-            UserName = name;
-            DateDelete = null;
-            IsDeleted = false;
-        }
     }
 }
