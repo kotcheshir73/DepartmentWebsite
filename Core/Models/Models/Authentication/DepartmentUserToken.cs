@@ -3,5 +3,5 @@ using System;
 
 namespace Models.Authentication
 {
-    public class DepartmentUserLogin : IdentityUserLogin<Guid> { }
+    public class DepartmentUserToken : IdentityUserToken<Guid> { }
 }

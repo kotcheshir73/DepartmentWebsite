@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +10,7 @@ namespace Models.Authentication
     /// Класс, описывающий роль в системе
     /// </summary>
     [DataContract]
-    public class DepartmentRole : IdentityRole<Guid, DepartmentUserRole>
+    public class DepartmentRole : IdentityRole<Guid>
     {
         [DataMember]
         public DateTime? DateDelete { get; set; }

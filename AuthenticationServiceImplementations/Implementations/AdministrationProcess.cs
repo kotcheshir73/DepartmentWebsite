@@ -107,7 +107,7 @@ namespace AuthenticationServiceImplementations.Implementations
                     {
                         elem = schedule.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                     }
-                    else if (elem == null)
+                    if (elem == null)
                     {
                         elem = auth.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                     }

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
 using Models.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Models.Authentication
 {
@@ -14,7 +11,7 @@ namespace Models.Authentication
     /// Класс, описывающий пользователя системы
     /// </summary>
     [DataContract]
-    public class DepartmentUser : IdentityUser<Guid, DepartmentUserLogin, DepartmentUserRole, DepartmentUserClaim>
+    public class DepartmentUser : IdentityUser<Guid>
     {
         [DataMember]
         public DateTime DateCreate { get; set; }
@@ -50,14 +47,6 @@ namespace Models.Authentication
 
         [ForeignKey("UserId")]
         public virtual List<DepartmentUserRole> UserRoles { get; set; }
-
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<DepartmentUser, Guid> manager)
-        {
-            // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Здесь добавьте утверждения пользователя
-            return userIdentity;
-        }
 
         public DepartmentUser()
         {
