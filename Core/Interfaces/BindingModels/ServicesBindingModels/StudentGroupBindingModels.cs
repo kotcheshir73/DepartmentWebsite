@@ -21,8 +21,6 @@ namespace Interfaces.BindingModels
         
         public int Course { get; set; }
 
-        public string StewardName { get; set; }
-
         public Guid? CuratorId { get; set; }
 	}
 }

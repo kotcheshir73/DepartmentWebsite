@@ -34,12 +34,6 @@ namespace Models.Base
         [DataMember]
         public AcademicCourse Course { get; set; }
 
-        /// <summary>
-        /// Староста группы ФИО
-        /// </summary>
-        [DataMember]        
-        public string StewardName { get; set; }
-
         //-------------------------------------------------------------------------
 
         public virtual EducationDirection EducationDirection { get; set; }

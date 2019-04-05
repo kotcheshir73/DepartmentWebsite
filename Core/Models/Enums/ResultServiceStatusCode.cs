@@ -21,6 +21,10 @@
 		/// <summary>
 		/// Не найден файл
 		/// </summary>
-		FileNotFound = 405
-	}
+		FileNotFound = 405,
+        /// <summary>
+        /// Запись удалена
+        /// </summary>
+        WasDelete = 402
+    }
 }

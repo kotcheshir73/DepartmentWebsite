@@ -29,7 +29,10 @@ namespace Models.Authentication
         
         [DataMember]
         public DateTime? DateLastVisit { get; set; }
-        
+
+        [DataMember]
+        public bool IsLocked { get; set; }
+
         [DataMember]
         public DateTime? DateBanned { get; set; }
 

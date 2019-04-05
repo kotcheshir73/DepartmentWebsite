@@ -47,15 +47,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AcademicYear", "AcademicYea
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{356D8E26-8DAD-4414-BFF1-F84E3E1D840E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Core\Models\Models.csproj", "{44BE06DA-6E7E-4F9D-A372-D1A0CA7615CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Core\Models\Models.csproj", "{44BE06DA-6E7E-4F9D-A372-D1A0CA7615CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseContext", "Core\DatabaseContext\DatabaseContext.csproj", "{E1894E2C-6C75-4814-A258-B1CBE3749480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseContext", "Core\DatabaseContext\DatabaseContext.csproj", "{E1894E2C-6C75-4814-A258-B1CBE3749480}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMigrationApp", "Core\ConsoleMigrationApp\ConsoleMigrationApp.csproj", "{6CA5A7FC-5623-4261-842C-424EA412C8BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMigrationApp", "Core\ConsoleMigrationApp\ConsoleMigrationApp.csproj", "{6CA5A7FC-5623-4261-842C-424EA412C8BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationInterfaces", "Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj", "{5A871E8A-69FF-4338-A42F-30305B18FAE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationInterfaces", "Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj", "{5A871E8A-69FF-4338-A42F-30305B18FAE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Core\Interfaces\Interfaces.csproj", "{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Core\Interfaces\Interfaces.csproj", "{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implementations", "Core\Implementations\Implementations.csproj", "{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -409,6 +411,22 @@ Global
 		{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E}.Release|x64.Build.0 = Release|Any CPU
 		{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E}.Release|x86.ActiveCfg = Release|Any CPU
 		{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E}.Release|x86.Build.0 = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|x64.Build.0 = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Debug|x86.Build.0 = Debug|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|ARM.Build.0 = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|x64.ActiveCfg = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|x64.Build.0 = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -429,6 +447,7 @@ Global
 		{6CA5A7FC-5623-4261-842C-424EA412C8BF} = {84CE3BD5-DF6E-440B-A88C-19AA396A2FDC}
 		{5A871E8A-69FF-4338-A42F-30305B18FAE9} = {356D8E26-8DAD-4414-BFF1-F84E3E1D840E}
 		{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E} = {84CE3BD5-DF6E-440B-A88C-19AA396A2FDC}
+		{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0} = {84CE3BD5-DF6E-440B-A88C-19AA396A2FDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD70DF74-4FDA-48C1-8C85-D1B0880CFFFE}
