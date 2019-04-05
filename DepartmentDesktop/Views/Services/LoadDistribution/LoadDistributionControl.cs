@@ -3,19 +3,17 @@ using DepartmentDesktop.Views.Services.LoadDistribution;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Unity;
-using Unity.Attributes;
 using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.LoadDistribution
 {
-	public partial class LoadDistributionControl : UserControl
+    public partial class LoadDistributionControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }

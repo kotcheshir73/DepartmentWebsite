@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
-using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 {
-	public partial class StudentGroupToAcademForm : Form
+    public partial class StudentGroupToAcademForm : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }

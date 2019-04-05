@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Unity;
-using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.LearningProgress
 {

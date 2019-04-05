@@ -3,7 +3,7 @@ using Models.Authentication;
 using System.Drawing;
 using System.IO;
 
-namespace AuthenticationServiceImplementations
+namespace AuthenticationImplementations
 {
     public static class AuthenticationModelFactoryToViewModel
     {

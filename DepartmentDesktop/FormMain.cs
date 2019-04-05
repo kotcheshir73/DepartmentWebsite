@@ -2,7 +2,6 @@
 using System;
 using System.Windows.Forms;
 using Unity;
-using Unity.Attributes;
 
 namespace DepartmentDesktop
 {
@@ -121,7 +120,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void UsersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Administration.User.UsersControl>();
+			var control = AuthenticationControlsAndForms.Controller.GetControlUser;
 			ApplyControl(control);
 			control.LoadData();
 		}
@@ -132,7 +131,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void RolesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Administration.Role.RoleControl>();
+            var control = AuthenticationControlsAndForms.Controller.GetControlRole;
             ApplyControl(control);
             control.LoadData();
         }

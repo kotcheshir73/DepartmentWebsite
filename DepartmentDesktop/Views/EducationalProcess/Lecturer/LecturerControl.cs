@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
-using Unity.Attributes;
 using Unity.Resolution;
 
 namespace DepartmentDesktop.Views.EducationalProcess.Lecturer

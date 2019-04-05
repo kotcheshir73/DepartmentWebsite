@@ -8,7 +8,7 @@ using Models.Enums;
 using System;
 using System.Linq;
 
-namespace DepartmentService.Services
+namespace Implementations.Services
 {
     public class LecturerPostSerivce : ILecturerPostSerivce
     {

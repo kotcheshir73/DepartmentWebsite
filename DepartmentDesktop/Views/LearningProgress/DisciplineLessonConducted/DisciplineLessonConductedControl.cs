@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Unity.Attributes;
-using Unity;
-using DepartmentService.IServices;
+﻿using DepartmentDesktop.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.IServices;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using Unity;
 using Unity.Resolution;
-using DepartmentDesktop.Models;
 
 namespace DepartmentDesktop.Views.LearningProgress.DisciplineLessonConducted
 {

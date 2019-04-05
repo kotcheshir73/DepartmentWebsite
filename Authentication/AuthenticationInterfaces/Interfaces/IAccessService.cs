@@ -2,7 +2,7 @@
 using AuthenticationInterfaces.ViewModels;
 using Interfaces;
 
-namespace AuthenticationServiceInterfaces.Interfaces
+namespace AuthenticationInterfaces.Interfaces
 {
     public interface IAccessService
 	{

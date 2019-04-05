@@ -1,7 +1,6 @@
 ﻿using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.Interfaces;
 using AuthenticationInterfaces.ViewModels;
-using AuthenticationServiceImplementations;
-using AuthenticationServiceInterfaces.Interfaces;
 using DatabaseContext;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;

@@ -33,7 +33,13 @@ namespace DepartmentDesktop
                 PrintErrorMessage("Не удалось восстановить данные. {0}", result.Errors);
             }
 
-			Application.EnableVisualStyles();
+            DatabaseContext.DepartmentUserManager.CheckExsistData();
+            DatabaseContext.DepartmentUserManager.SynchronizationRolesAndAccess();
+            DatabaseContext.DepartmentUserManager.SynchronizationUsers();
+            DatabaseContext.DepartmentUserManager.Login("admin", "qwerty");
+
+
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 			AuthorizationService.Login("admin", "qwerty");
 

@@ -4,7 +4,7 @@ using Interfaces;
 using Interfaces.BindingModels;
 using Interfaces.ViewModels;
 
-namespace AuthenticationServiceInterfaces.Interfaces
+namespace AuthenticationInterfaces.Interfaces
 {
     public interface IUserService
 	{

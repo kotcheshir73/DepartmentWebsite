@@ -1,7 +1,6 @@
-﻿using AuthenticationImplementations;
-using AuthenticationInterfaces.BindingModels;
+﻿using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.Interfaces;
 using AuthenticationInterfaces.ViewModels;
-using AuthenticationServiceInterfaces.Interfaces;
 using DatabaseContext;
 using Interfaces;
 using Interfaces.BindingModels;
@@ -11,7 +10,7 @@ using Models.Enums;
 using System;
 using System.Linq;
 
-namespace AuthenticationServiceImplementations.Implementations
+namespace AuthenticationImplementations.Implementations
 {
     public class UserService : IUserService
 	{

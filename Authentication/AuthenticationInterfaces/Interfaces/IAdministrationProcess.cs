@@ -1,15 +1,9 @@
 ﻿using Interfaces;
 
-namespace AuthenticationServiceInterfaces.Interfaces
+namespace AuthenticationInterfaces.Interfaces
 {
     public interface IAdministrationProcess
     {
-        ResultService CheckExsistData();
-
-        ResultService SynchronizationRolesAndAccess();
-
-        ResultService SynchronizationUsers();
-
         ResultService ImportDataToJson(string folderName);
 
         ResultService ExportDataFromJson(string folderName);
