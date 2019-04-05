@@ -1,18 +1,19 @@
-﻿using AuthenticationServiceInterfaces.Interfaces;
+﻿using AuthenticationInterfaces.Interfaces;
+using ControlsAndForms.Messangers;
 using System;
 using System.Windows.Forms;
 using Unity;
 
-namespace DepartmentDesktop.Views.Services.Synchronization
+namespace AuthenticationControlsAndForms.Services.Synchronization
 {
-    public partial class SynchronizationRolesControl : UserControl
+    public partial class SynchronizationUsersControl : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IAdministrationProcess _process;
 
-        public SynchronizationRolesControl(IAdministrationProcess process)
+        public SynchronizationUsersControl(IAdministrationProcess process)
         {
             InitializeComponent();
             _process = process;
@@ -22,17 +23,17 @@ namespace DepartmentDesktop.Views.Services.Synchronization
         {
             try
             {
-                var result = _process.SynchronizationRolesAndAccess();
+                var result = _process.SynchronizationUsers();
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Синхронизация выполнена успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    Program.PrintErrorMessage("", result.Errors);
+                    ErrorMessanger.PrintErrorMessage("", result.Errors);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

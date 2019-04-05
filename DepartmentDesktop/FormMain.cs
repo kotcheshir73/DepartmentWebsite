@@ -62,7 +62,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void SynchronizationRolesAndAccessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.Synchronization.SynchronizationRolesControl>();
+            var control = AuthenticationControlsAndForms.Controller.GetSynchronizationRolesControl;
             ApplyControl(control);
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void SynchronizationUsersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.Synchronization.SynchronizationUsersControl>();
+            var control = AuthenticationControlsAndForms.Controller.GetSynchronizationUsersControl;
             ApplyControl(control);
         }
         #endregion
@@ -97,7 +97,8 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ImportDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.DataBaseWork.ImportDataBaseControl>();
+            //var control = Container.Resolve<Views.Services.DataBaseWork.ImportDataBaseControl>();
+            var control = AuthenticationControlsAndForms.Controller.GetImportDataBaseControl;
             ApplyControl(control);
         }
         /// <summary>
@@ -107,7 +108,8 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ExportDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
+            //var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
+            var control = AuthenticationControlsAndForms.Controller.GetExportDataBaseControl;
             ApplyControl(control);
         }
         #endregion

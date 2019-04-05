@@ -834,42 +834,6 @@
     <Compile Include="Views\EducationalProcess\Student\StudentForm.Designer.cs">
       <DependentUpon>StudentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Administration\Role\Access\AccessControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Administration\Role\Access\AccessControl.Designer.cs">
-      <DependentUpon>AccessControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Administration\Role\Access\AccessForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Administration\Role\Access\AccessForm.Designer.cs">
-      <DependentUpon>AccessForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Administration\Role\RoleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Administration\Role\RoleControl.Designer.cs">
-      <DependentUpon>RoleControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Administration\Role\RoleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Administration\Role\RoleForm.Designer.cs">
-      <DependentUpon>RoleForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Administration\User\UserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Administration\User\UserForm.Designer.cs">
-      <DependentUpon>UserForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Administration\User\UsersControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Administration\User\UsersControl.Designer.cs">
-      <DependentUpon>UsersControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Services\MakeTicketsUS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1310,24 +1274,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\Student\StudentForm.resx">
       <DependentUpon>StudentForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\Role\Access\AccessControl.resx">
-      <DependentUpon>AccessControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\Role\Access\AccessForm.resx">
-      <DependentUpon>AccessForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\Role\RoleControl.resx">
-      <DependentUpon>RoleControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\Role\RoleForm.resx">
-      <DependentUpon>RoleForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\User\UserForm.resx">
-      <DependentUpon>UserForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Administration\User\UsersControl.resx">
-      <DependentUpon>UsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>

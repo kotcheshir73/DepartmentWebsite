@@ -11,5 +11,9 @@ namespace AuthenticationInterfaces.Interfaces
         ResultService CreateBackUp(string fileName);
 
         ResultService RestoreBackUp(string fileName);
+
+        ResultService SynchronizationRolesAndAccess();
+
+        ResultService SynchronizationUsers();
     }
 }

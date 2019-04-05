@@ -82,6 +82,30 @@
     <Compile Include="Role\FormRole.designer.cs">
       <DependentUpon>FormRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ExportDataBaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ExportDataBaseControl.designer.cs">
+      <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ImportDataBaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ImportDataBaseControl.designer.cs">
+      <DependentUpon>ImportDataBaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\SynchronizationRolesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\SynchronizationRolesControl.designer.cs">
+      <DependentUpon>SynchronizationRolesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\SynchronizationUsersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\SynchronizationUsersControl.designer.cs">
+      <DependentUpon>SynchronizationUsersControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="User\FormUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +139,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Role\FormRole.resx">
       <DependentUpon>FormRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ExportDataBaseControl.resx">
+      <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ImportDataBaseControl.resx">
+      <DependentUpon>ImportDataBaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\SynchronizationRolesControl.resx">
+      <DependentUpon>SynchronizationRolesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\SynchronizationUsersControl.resx">
+      <DependentUpon>SynchronizationUsersControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User\FormUser.resx">
       <DependentUpon>FormUser.cs</DependentUpon>

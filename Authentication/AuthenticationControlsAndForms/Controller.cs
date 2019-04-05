@@ -1,15 +1,12 @@
 ﻿using AuthenticationControlsAndForms.Access;
 using AuthenticationControlsAndForms.Role;
+using AuthenticationControlsAndForms.Services.DataBaseWork;
+using AuthenticationControlsAndForms.Services.Synchronization;
 using AuthenticationControlsAndForms.User;
 using AuthenticationImplementations.Implementations;
 using AuthenticationInterfaces.Interfaces;
 using Implementations.Services;
 using Interfaces.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 using Unity.Lifetime;
 
@@ -42,5 +39,13 @@ namespace AuthenticationControlsAndForms
         public static ControlRole GetControlRole { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlRole>(); } }
 
         public static ControlUser GetControlUser { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlUser>(); } }
+
+        public static ExportDataBaseControl GetExportDataBaseControl { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ExportDataBaseControl>(); } }
+
+        public static ImportDataBaseControl GetImportDataBaseControl { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ImportDataBaseControl>(); } }
+
+        public static SynchronizationRolesControl GetSynchronizationRolesControl { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<SynchronizationRolesControl>(); } }
+
+        public static SynchronizationUsersControl GetSynchronizationUsersControl { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<SynchronizationUsersControl>(); } }
     }
 }

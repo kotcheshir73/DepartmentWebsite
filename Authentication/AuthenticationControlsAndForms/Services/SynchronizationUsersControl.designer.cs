@@ -1,6 +1,6 @@
-﻿namespace DepartmentDesktop.Views.Services.Synchronization
+﻿namespace AuthenticationControlsAndForms.Services.Synchronization
 {
-    partial class SynchronizationRolesControl
+    partial class SynchronizationUsersControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -33,20 +33,20 @@
             // 
             // buttonRun
             // 
-            this.buttonRun.Location = new System.Drawing.Point(27, 21);
+            this.buttonRun.Location = new System.Drawing.Point(33, 34);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(280, 30);
-            this.buttonRun.TabIndex = 0;
-            this.buttonRun.Text = "Запустить синхронизацию ролей по доступам";
+            this.buttonRun.TabIndex = 1;
+            this.buttonRun.Text = "Запустить синхронизацию пользователей";
             this.buttonRun.UseVisualStyleBackColor = true;
             this.buttonRun.Click += new System.EventHandler(this.buttonRun_Click);
             // 
-            // SynchronizationRolesControl
+            // SynchronizationUsersControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonRun);
-            this.Name = "SynchronizationRolesControl";
+            this.Name = "SynchronizationUsersControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.ResumeLayout(false);
 
