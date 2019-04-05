@@ -3,7 +3,7 @@ using Models.Base;
 using Models.Enums;
 using System;
 
-namespace Interfaces
+namespace Implementations
 {
     public static class ModelFacotryFromBindingModel
     {

@@ -3,33 +3,19 @@ using Interfaces;
 using Interfaces.BindingModels;
 using Interfaces.Interfaces;
 using Interfaces.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Models.Enums;
 using System;
 using System.Linq;
 
-namespace DepartmentService.Services
+namespace Implementations.Services
 {
-    public class LecturerService : ILecturerService
+    public class DisciplineBlockService : IDisciplineBlockService
 	{
-        private readonly ILecturerPostSerivce _serviceLP;
+		private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
 
-		private readonly AccessOperation _serviceOperation = AccessOperation.Преподаватели;
+        private readonly string _entity = "Блоки дисциплин";
 
-        private readonly string _entity = "Преподаватели";
-
-        public LecturerService(ILecturerPostSerivce serviceLP)
-		{
-            _serviceLP = serviceLP;
-        }
-
-        public ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model)
-        {
-            return _serviceLP.GetLecturerPosts(model);
-        }
-
-
-		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+        public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
 		{
 			try
             {
@@ -38,9 +24,9 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.Lecturers.Where(l => !l.IsDeleted).AsQueryable();
+                    var query = context.DisciplineBlocks.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderBy(l => l.LecturerPost.Hours).ThenBy(l => l.Post).ThenBy(l => l.LastName);
+                    query = query.OrderBy(x => x.DisciplineBlockOrder);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -50,66 +36,63 @@ namespace DepartmentService.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(l => l.LecturerPost).Include(l => l.LecturerWorkloads);
-
-                    var result = new LecturerPageViewModel
+                    var result = new DisciplineBlockPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList()
+                        List = query.Select(ModelFactoryToViewModel.CreateDisciplineBlockViewModel).ToList()
                     };
 
-                    return ResultService<LecturerPageViewModel>.Success(result);
+                    return ResultService<DisciplineBlockPageViewModel>.Success(result);
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<DisciplineBlockPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<LecturerViewModel> GetLecturer(LecturerGetBindingModel model)
+		public ResultService<DisciplineBlockViewModel> GetDisciplineBlock(DisciplineBlockGetBindingModel model)
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Lecturers
-                                .Include(l => l.LecturerPost)
-                                .FirstOrDefault(l => l.Id == model.Id);
+                    DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+
+                    var entity = context.DisciplineBlocks
+                                    .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<DisciplineBlockViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<DisciplineBlockViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<LecturerViewModel>.Success(ModelFactoryToViewModel.CreateLecturerViewModel(entity));
+                    return ResultService<DisciplineBlockViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineBlockViewModel(entity));
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<LecturerViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<DisciplineBlockViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateLecturer(LecturerSetBindingModel model)
+		public ResultService CreateDisciplineBlock(DisciplineBlockSetBindingModel model)
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
+                    DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
-                    var exsistEntity = context.Lecturers.FirstOrDefault(x => x.LastName == entity.LastName && x.FirstName == entity.FirstName);
+                    var entity = ModelFacotryFromBindingModel.CreateDisciplineBlock(model);
+
+                    var exsistEntity = context.DisciplineBlocks.FirstOrDefault(x => x.Title == entity.Title);
                     if (exsistEntity == null)
                     {
-                        context.Lecturers.Add(entity);
+                        context.DisciplineBlocks.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -134,15 +117,15 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateLecturer(LecturerSetBindingModel model)
+		public ResultService UpdateDisciplineBlock(DisciplineBlockSetBindingModel model)
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Lecturers.FirstOrDefault(e => e.Id == model.Id);
+                    DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
+
+                    var entity = context.DisciplineBlocks.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -151,7 +134,8 @@ namespace DepartmentService.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateLecturer(model, entity);
+
+                    entity = ModelFacotryFromBindingModel.CreateDisciplineBlock(model, entity);
 
                     context.SaveChanges();
 
@@ -164,15 +148,15 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteLecturer(LecturerGetBindingModel model)
+		public ResultService DeleteDisciplineBlock(DisciplineBlockGetBindingModel model)
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Lecturers.FirstOrDefault(e => e.Id == model.Id);
+                    DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
+
+                    var entity = context.DisciplineBlocks.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -181,10 +165,12 @@ namespace DepartmentService.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
+
                     entity.IsDeleted = true;
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
+
                     return ResultService.Success();
                 }
 			}
@@ -193,5 +179,5 @@ namespace DepartmentService.Services
 				return ResultService.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
-    }
+	}
 }

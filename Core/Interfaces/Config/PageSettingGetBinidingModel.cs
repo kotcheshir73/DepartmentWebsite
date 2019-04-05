@@ -4,7 +4,7 @@ namespace Interfaces.BindingModels
 {
     public class PageSettingGetBinidingModel
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public int? PageNumber { get; set; }
 

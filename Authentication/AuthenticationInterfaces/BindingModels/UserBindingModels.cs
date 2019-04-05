@@ -1,22 +1,18 @@
-﻿using DepartmentService.BindingModels;
+﻿using Interfaces.BindingModels;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AuthenticationServiceInterfaces.BindingModels
+namespace AuthenticationInterfaces.BindingModels
 {
-	public class UserGetBindingModel : PageSettingBinidingModel
+    public class UserGetBindingModel : PageSettingGetBinidingModel
 	{
-		public Guid? Id { get; set; }
-
 		public bool? IsBanned { get; set; }
 
         public string RoleType { get; set; }
     }
 
-	public class UserSetBindingModel
+	public class UserSetBindingModel : PageSettingSetBinidingModel
 	{
-		public Guid Id { get; set; }
-
 		[Required(ErrorMessage = "required")]
 		public string Login { get; set; }
 		

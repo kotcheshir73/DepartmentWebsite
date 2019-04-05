@@ -1,4 +1,5 @@
 ﻿using DatabaseContext;
+using Implementations;
 using Interfaces;
 using Interfaces.BindingModels;
 using Interfaces.Interfaces;
@@ -37,18 +38,18 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.Students.Where(s => !s.IsDeleted).AsQueryable();
+                    var query = context.Students.Where(x => !x.IsDeleted).AsQueryable();
 
                     if (model.StudentGroupId.HasValue)
                     {
-                        query = query.Where(s => s.StudentGroupId == model.StudentGroupId.Value);
+                        query = query.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
                     }
                     if (model.StudentStatus.HasValue)
                     {
-                        query = query.Where(s => s.StudentState == model.StudentStatus.Value);
+                        query = query.Where(x => x.StudentState == model.StudentStatus.Value);
                     }
 
-                    query = query.OrderBy(s => s.StudentGroupId).ThenBy(s => s.LastName);
+                    query = query.OrderBy(x => x.StudentGroupId).ThenBy(x => x.LastName);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -58,7 +59,7 @@ namespace DepartmentService.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(s => s.StudentGroup);
+                    query = query.Include(x => x.StudentGroup);
 
                     var result = new StudentPageViewModel
                     {
@@ -84,9 +85,9 @@ namespace DepartmentService.Services
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = (string.IsNullOrEmpty(model.NumberOfBook)) ?
-                                        context.Students.FirstOrDefault(s => s.NumberOfBook == model.NumberOfBook)
+                                        context.Students.FirstOrDefault(x => x.NumberOfBook == model.NumberOfBook)
                                         :
-                                        context.Students.FirstOrDefault(s => s.Id == model.Id);
+                                        context.Students.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<StudentViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -151,7 +152,7 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Students.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook);
+                    var entity = context.Students.FirstOrDefault(x => x.NumberOfBook == model.NumberOfBook);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -181,7 +182,7 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Students.FirstOrDefault(e => e.NumberOfBook == model.NumberOfBook);
+                    var entity = context.Students.FirstOrDefault(x => x.NumberOfBook == model.NumberOfBook);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

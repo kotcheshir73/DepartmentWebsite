@@ -1,22 +1,24 @@
-﻿using DatabaseContext;
+﻿using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.ViewModels;
+using AuthenticationServiceImplementations;
+using AuthenticationServiceInterfaces.Interfaces;
+using DatabaseContext;
 using Interfaces;
-using Interfaces.BindingModels;
-using Interfaces.Interfaces;
-using Interfaces.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Models.Enums;
 using System;
 using System.Linq;
 
-namespace Implementations.Services
+namespace AuthenticationImplementations.Implementations
 {
-    public class ClassroomService : IClassroomService
-    {
-        private readonly AccessOperation _serviceOperation = AccessOperation.Аудитории;
+    public class AccessService : IAccessService
+	{
+		private readonly AccessOperation _serviceOperation = AccessOperation.Доступы;
 
-        private readonly string _entity = "Аудитории";
+        private readonly string _entity = "Доступы";
 
-        public ResultService<ClassroomPageViewModel> GetClassrooms(ClassroomGetBindingModel model)
-        {
+		public ResultService<AccessPageViewModel> GetAccesses(AccessGetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
@@ -24,14 +26,14 @@ namespace Implementations.Services
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.Classrooms.Where(c => !c.IsDeleted).AsQueryable();
+                    var query = context.DepartmentAccesses.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.NotUseInSchedule.HasValue)
+                    if (model.RoleId.HasValue)
                     {
-                        query = query.Where(c => c.NotUseInSchedule == model.NotUseInSchedule.Value);
+                        query = query.Where(x => x.RoleId == model.RoleId);
                     }
 
-                    query = query.OrderBy(c => c.Number);
+                    query = query.OrderBy(x => x.Operation).ThenBy(x => x.AccessType);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -41,69 +43,76 @@ namespace Implementations.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    var result = new ClassroomPageViewModel
+                    query = query.Include(x => x.Role);
+
+                    var result = new AccessPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateClassroomViewModel).ToList()
+                        List = query.Select(AuthenticationModelFactoryToViewModel.CreateAccessViewModel).ToList()
                     };
 
-                    return ResultService<ClassroomPageViewModel>.Success(result);
+                    return ResultService<AccessPageViewModel>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<ClassroomPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<AccessPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService<ClassroomViewModel> GetClassroom(ClassroomGetBindingModel model)
-        {
+		public ResultService<AccessViewModel> GetAccess(AccessGetBindingModel model)
+		{
             try
             {
+                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
-
-                    var entity = context.Classrooms
-                                    .FirstOrDefault(c => c.Id == model.Id);
+                    var entity = model.Id.HasValue ?
+                                context.DepartmentAccesses.FirstOrDefault(x => x.Id == model.Id.Value)
+                                :
+                            model.RoleId.HasValue && !string.IsNullOrEmpty(model.Operation) ?
+                                context.DepartmentAccesses.FirstOrDefault(x => x.RoleId == model.RoleId.Value && x.Operation.ToString() == model.Operation)
+                                :
+                                null;
                     if (entity == null)
                     {
-                        return ResultService<ClassroomViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<AccessViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    else if(entity.IsDeleted)
+                    else if (entity.IsDeleted)
                     {
-                        return ResultService<ClassroomViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<AccessViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<ClassroomViewModel>.Success(ModelFactoryToViewModel.CreateClassroomViewModel(entity));
+                    return ResultService<AccessViewModel>.Success(AuthenticationModelFactoryToViewModel.CreateAccessViewModel(entity));
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<ClassroomViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<AccessViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService CreateClassroom(ClassroomSetBindingModel model)
-        {
+		public ResultService CreateAccess(AccessSetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateClassroom(model);
+                    var entity = AuthenticationModelFacotryFromBindingModel.CreateAccess(model);
 
-                    var exsistEntity = context.Classrooms.FirstOrDefault(x => x.Number == entity.Number);
-                    if(exsistEntity == null)
+                    var exsistEntity = context.DepartmentAccesses.FirstOrDefault(x => x.Operation == entity.Operation && x.RoleId == entity.RoleId && x.AccessType == entity.AccessType);
+                    if (exsistEntity == null)
                     {
-                        context.Classrooms.Add(entity);
+                        context.DepartmentAccesses.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
                     else
                     {
-                        if(exsistEntity.IsDeleted)
+                        if (exsistEntity.IsDeleted)
                         {
                             exsistEntity.IsDeleted = false;
                             context.SaveChanges();
@@ -120,17 +129,17 @@ namespace Implementations.Services
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService UpdateClassroom(ClassroomSetBindingModel model)
-        {
+		public ResultService UpdateAccess(AccessSetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Classrooms.FirstOrDefault(e => e.Id == model.Id);
+                    var entity = context.DepartmentAccesses.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -139,8 +148,7 @@ namespace Implementations.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-
-                    entity = ModelFacotryFromBindingModel.CreateClassroom(model, entity);
+                    entity = AuthenticationModelFacotryFromBindingModel.CreateAccess(model, entity);
 
                     context.SaveChanges();
 
@@ -151,17 +159,17 @@ namespace Implementations.Services
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService DeleteClassroom(ClassroomGetBindingModel model)
-        {
+		public ResultService DeleteAccess(AccessGetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Classrooms.FirstOrDefault(e => e.Id == model.Id);
+                    var entity = context.DepartmentAccesses.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -170,19 +178,18 @@ namespace Implementations.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-
                     entity.IsDeleted = true;
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
-                }
 
-                return ResultService.Success();
+                    return ResultService.Success();
+                }
             }
             catch (Exception ex)
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
-    }
+		}
+	}
 }

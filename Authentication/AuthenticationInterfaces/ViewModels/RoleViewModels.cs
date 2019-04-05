@@ -1,14 +1,11 @@
-﻿using DepartmentService.ViewModels;
-using System;
+﻿using Interfaces.ViewModels;
 
-namespace AuthenticationServiceInterfaces.ViewModels
+namespace AuthenticationInterfaces.ViewModels
 {
-	public class RolePageViewModel : PageViewModel<RoleViewModel> { }
+    public class RolePageViewModel : PageSettingListViewModel<RoleViewModel> { }
 
-	public class RoleViewModel
+	public class RoleViewModel : PageSettingElementViewModel
 	{
-		public Guid Id { get; set; }
-
 		public string RoleName { get; set; }
 	}
 }

@@ -1,21 +1,23 @@
 ﻿using DatabaseContext;
+using Implementations;
 using Interfaces;
 using Interfaces.BindingModels;
 using Interfaces.Interfaces;
 using Interfaces.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Models.Enums;
 using System;
 using System.Linq;
 
 namespace DepartmentService.Services
 {
-    public class EducationDirectionService : IEducationDirectionService
+    public class StudentHistoryService : IStudentHistoryService
 	{
-		private readonly AccessOperation _serviceOperation = AccessOperation.Направления;
+        private readonly AccessOperation _serviceOperation = AccessOperation.Студенты;
 
-        private readonly string _entity = "Направления";
+        private readonly string _entity = "Студенты";
 
-        public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
+        public ResultService<StudentHistoryPageViewModel> GetStudentHistorys(StudentHistoryGetBindingModel model)
 		{
 			try
             {
@@ -24,9 +26,14 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.EducationDirections.Where(ed => !ed.IsDeleted).AsQueryable();
+                    var query = context.StudentHistorys.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderBy(ed => ed.Cipher);
+                    if (model.StudetnId.HasValue)
+                    {
+                        query = query.Where(x => x.StudentId == model.StudetnId);
+                    }
+
+                    query = query.OrderBy(x => x.DateCreate);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -36,22 +43,24 @@ namespace DepartmentService.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    var result = new EducationDirectionPageViewModel
+                    query = query.Include(x => x.Student);
+
+                    var result = new StudentHistoryPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateEducationDirectionViewModel).ToList()
+                        List = query.Select(ModelFactoryToViewModel.CreateStudentHistoryViewModel).ToList()
                     };
 
-                    return ResultService<EducationDirectionPageViewModel>.Success(result);
+                    return ResultService<StudentHistoryPageViewModel>.Success(result);
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<EducationDirectionPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<StudentHistoryPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<EducationDirectionViewModel> GetEducationDirection(EducationDirectionGetBindingModel model)
+		public ResultService<StudentHistoryViewModel> GetStudentHistory(StudentHistoryGetBindingModel model)
 		{
 			try
             {
@@ -59,26 +68,28 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.EducationDirections
-                                .FirstOrDefault(ed => ed.Id == model.Id);
+                    var entity = context.StudentHistorys
+                                .Include(x => x.Student)
+                                .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<EducationDirectionViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<StudentHistoryViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<EducationDirectionViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<StudentHistoryViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    return ResultService<EducationDirectionViewModel>.Success(ModelFactoryToViewModel.CreateEducationDirectionViewModel(entity));
+
+                    return ResultService<StudentHistoryViewModel>.Success(ModelFactoryToViewModel.CreateStudentHistoryViewModel(entity));
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<EducationDirectionViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<StudentHistoryViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateEducationDirection(EducationDirectionSetBindingModel model)
+		public ResultService CreateStudentHistory(StudentHistorySetBindingModel model)
 		{
 			try
             {
@@ -86,12 +97,12 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
+                    var entity = ModelFacotryFromBindingModel.CreateStudentHistory(model);
 
-                    var exsistEntity = context.EducationDirections.FirstOrDefault(x => x.Title == entity.Title);
+                    var exsistEntity = context.StudentHistorys.FirstOrDefault(x => x.TextMessage == entity.TextMessage);
                     if (exsistEntity == null)
                     {
-                        context.EducationDirections.Add(entity);
+                        context.StudentHistorys.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -116,7 +127,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateEducationDirection(EducationDirectionSetBindingModel model)
+		public ResultService UpdateStudentHistory(StudentHistorySetBindingModel model)
 		{
 			try
             {
@@ -124,7 +135,7 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.EducationDirections.FirstOrDefault(ed => ed.Id == model.Id);
+                    var entity = context.StudentHistorys.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -133,7 +144,7 @@ namespace DepartmentService.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateEducationDirection(model, entity);
+                    entity = ModelFacotryFromBindingModel.CreateStudentHistory(model, entity);
 
                     context.SaveChanges();
 
@@ -146,15 +157,15 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteEducationDirection(EducationDirectionGetBindingModel model)
+		public ResultService DeleteStudentHistory(StudentHistoryGetBindingModel model)
 		{
-			try
+            try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.EducationDirections.FirstOrDefault(ed => ed.Id == model.Id);
+                    var entity = context.StudentHistorys.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -170,11 +181,11 @@ namespace DepartmentService.Services
 
                     return ResultService.Success();
                 }
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
 		}
 	}
 }

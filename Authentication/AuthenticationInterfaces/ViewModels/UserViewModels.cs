@@ -1,15 +1,13 @@
-﻿using DepartmentService.ViewModels;
+﻿using Interfaces.ViewModels;
 using System;
 using System.Drawing;
 
-namespace AuthenticationServiceInterfaces.ViewModels
+namespace AuthenticationInterfaces.ViewModels
 {
-    public class UserPageViewModel : PageViewModel<UserViewModel> { }
+    public class UserPageViewModel : PageSettingListViewModel<UserViewModel> { }
 
-    public class UserViewModel
+    public class UserViewModel : PageSettingElementViewModel
     {
-        public Guid Id { get; set; }
-
         public Guid? StudentId { get; set; }
 
         public Guid? LecturerId { get; set; }

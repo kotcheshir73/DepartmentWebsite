@@ -1,4 +1,5 @@
 ﻿using DatabaseContext;
+using Implementations;
 using Interfaces;
 using Interfaces.BindingModels;
 using Interfaces.Interfaces;
@@ -10,55 +11,37 @@ using System.Linq;
 
 namespace DepartmentService.Services
 {
-    public class StudentGroupService : IStudentGroupService
+    public class LecturerService : ILecturerService
 	{
-		private readonly AccessOperation _serviceOperation = AccessOperation.Группы;
+        private readonly ILecturerPostSerivce _serviceLP;
 
-        private readonly string _entity = "Группы";
+		private readonly AccessOperation _serviceOperation = AccessOperation.Преподаватели;
 
-        private readonly IEducationDirectionService _serviceED;
+        private readonly string _entity = "Преподаватели";
 
-        private readonly ILecturerService _serviceL;
-
-        public StudentGroupService(IEducationDirectionService serviceED, ILecturerService serviceL)
+        public LecturerService(ILecturerPostSerivce serviceLP)
 		{
-			_serviceED = serviceED;
-            _serviceL = serviceL;
+            _serviceLP = serviceLP;
         }
 
-		public ResultService<EducationDirectionPageViewModel> GetEducationDirections(EducationDirectionGetBindingModel model)
-		{
-			return _serviceED.GetEducationDirections(model);
-        }
-
-        public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+        public ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model)
         {
-            return _serviceL.GetLecturers(model);
+            return _serviceLP.GetLecturerPosts(model);
         }
 
 
-        public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
+		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
 		{
-            try
+			try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.StudentGroups.Where(sg => !sg.IsDeleted).AsQueryable();
+                    var query = context.Lecturers.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.EducationDirectionId.HasValue)
-                    {
-                        query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);
-                    }
-                    if (!string.IsNullOrEmpty(model.Course))
-                    {
-                        AcademicCourse course = (AcademicCourse)Enum.Parse(typeof(AcademicCourse), model.Course);
-                        query = query.Where(x => x.Course == course);
-                    }
-
-                    query = query.OrderBy(sg => sg.Course).ThenBy(sg => sg.EducationDirectionId);
+                    query = query.OrderBy(x => x.LecturerPost.Hours).ThenBy(x => x.Post).ThenBy(x => x.LastName);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -68,24 +51,24 @@ namespace DepartmentService.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(sg => sg.EducationDirection).Include(sg => sg.Curator);
+                    query = query.Include(x => x.LecturerPost).Include(x => x.LecturerWorkloads);
 
-                    var result = new StudentGroupPageViewModel
+                    var result = new LecturerPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateStudentGroupViewModel).ToList()
+                        List = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList()
                     };
 
-                    return ResultService<StudentGroupPageViewModel>.Success(result);
+                    return ResultService<LecturerPageViewModel>.Success(result);
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<StudentGroupPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<StudentGroupViewModel> GetStudentGroup(StudentGroupGetBindingModel model)
+		public ResultService<LecturerViewModel> GetLecturer(LecturerGetBindingModel model)
 		{
 			try
             {
@@ -93,29 +76,28 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StudentGroups
-                                .Include(sg => sg.EducationDirection)
-                                .Include(sg => sg.Curator)
-                                .FirstOrDefault(sg => sg.Id == model.Id);
+                    var entity = context.Lecturers
+                                .Include(x => x.LecturerPost)
+                                .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<StudentGroupViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<StudentGroupViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<StudentGroupViewModel>.Success(ModelFactoryToViewModel.CreateStudentGroupViewModel(entity));
+                    return ResultService<LecturerViewModel>.Success(ModelFactoryToViewModel.CreateLecturerViewModel(entity));
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<StudentGroupViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<LecturerViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateStudentGroup(StudentGroupSetBindingModel model)
+		public ResultService CreateLecturer(LecturerSetBindingModel model)
 		{
 			try
             {
@@ -123,12 +105,12 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateStudentGroup(model);
+                    var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
 
-                    var exsistEntity = context.StudentGroups.FirstOrDefault(x => x.GroupName == entity.GroupName);
+                    var exsistEntity = context.Lecturers.FirstOrDefault(x => x.LastName == entity.LastName && x.FirstName == entity.FirstName);
                     if (exsistEntity == null)
                     {
-                        context.StudentGroups.Add(entity);
+                        context.Lecturers.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -153,7 +135,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateStudentGroup(StudentGroupSetBindingModel model)
+		public ResultService UpdateLecturer(LecturerSetBindingModel model)
 		{
 			try
             {
@@ -161,7 +143,7 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StudentGroups.FirstOrDefault(e => e.Id == model.Id);
+                    var entity = context.Lecturers.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -170,7 +152,7 @@ namespace DepartmentService.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateStudentGroup(model, entity);
+                    entity = ModelFacotryFromBindingModel.CreateLecturer(model, entity);
 
                     context.SaveChanges();
 
@@ -183,7 +165,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteStudentGroup(StudentGroupGetBindingModel model)
+		public ResultService DeleteLecturer(LecturerGetBindingModel model)
 		{
 			try
             {
@@ -191,7 +173,7 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StudentGroups.FirstOrDefault(e => e.Id == model.Id);
+                    var entity = context.Lecturers.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -204,7 +186,6 @@ namespace DepartmentService.Services
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
-
                     return ResultService.Success();
                 }
 			}

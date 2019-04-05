@@ -1,4 +1,4 @@
-﻿using DepartmentModel;
+﻿using Interfaces;
 
 namespace AuthenticationServiceInterfaces.Interfaces
 {

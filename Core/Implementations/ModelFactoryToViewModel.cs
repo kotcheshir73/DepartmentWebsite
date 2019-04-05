@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace Interfaces
+namespace Implementations
 {
     public static class ModelFactoryToViewModel
     {

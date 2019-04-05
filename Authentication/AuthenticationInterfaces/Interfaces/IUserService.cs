@@ -1,8 +1,8 @@
-﻿using AuthenticationServiceInterfaces.BindingModels;
-using AuthenticationServiceInterfaces.ViewModels;
-using DepartmentModel;
-using DepartmentService.BindingModels;
-using DepartmentService.ViewModels;
+﻿using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.ViewModels;
+using Interfaces;
+using Interfaces.BindingModels;
+using Interfaces.ViewModels;
 
 namespace AuthenticationServiceInterfaces.Interfaces
 {

@@ -1,19 +1,13 @@
-﻿using DepartmentService.BindingModels;
-using System;
+﻿using Interfaces.BindingModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace AuthenticationServiceInterfaces.BindingModels
+namespace AuthenticationInterfaces.BindingModels
 {
-    public class RoleGetBindingModel : PageSettingBinidingModel
-	{
-		public Guid? Id { get; set; }
-	}
+    public class RoleGetBindingModel : PageSettingGetBinidingModel { }
 
-	public class RoleSetBindingModel
-	{
-		public Guid Id { get; set; }
-
-		[Required(ErrorMessage = "required")]
-		public string RoleName { get; set; }
-	}
+    public class RoleSetBindingModel : PageSettingSetBinidingModel
+    {
+        [Required(ErrorMessage = "required")]
+        public string RoleName { get; set; }
+    }
 }

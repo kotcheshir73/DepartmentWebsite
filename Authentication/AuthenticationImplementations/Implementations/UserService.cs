@@ -1,4 +1,8 @@
-﻿using DatabaseContext;
+﻿using AuthenticationImplementations;
+using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.ViewModels;
+using AuthenticationServiceInterfaces.Interfaces;
+using DatabaseContext;
 using Interfaces;
 using Interfaces.BindingModels;
 using Interfaces.Interfaces;
@@ -7,16 +11,44 @@ using Models.Enums;
 using System;
 using System.Linq;
 
-namespace DepartmentService.Services
+namespace AuthenticationServiceImplementations.Implementations
 {
-    public class LecturerPostSerivce : ILecturerPostSerivce
-    {
-        private readonly AccessOperation _serviceOperation = AccessOperation.Должности_преподавателей;
+    public class UserService : IUserService
+	{
+		private readonly AccessOperation _serviceOperation = AccessOperation.Пользователи;
 
-        private readonly string _entity = "Должности преподавателей";
+        private readonly string _entity = "Пользователи";
 
-        public ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model)
-        {
+        private readonly IRoleService _serviceR;
+
+		private readonly IStudentService _serviceS;
+
+		private readonly ILecturerService _serviceL;
+
+		public UserService(IRoleService serviceR, IStudentService serviceS, ILecturerService serviceL)
+		{
+			_serviceR = serviceR;
+			_serviceS = serviceS;
+			_serviceL = serviceL;
+		}
+
+		public ResultService<RolePageViewModel> GetRoles(RoleGetBindingModel model)
+		{
+			return _serviceR.GetRoles(model);
+		}
+
+		public ResultService<StudentPageViewModel> GetStudents(StudentGetBindingModel model)
+		{
+			return _serviceS.GetStudents(model);
+		}
+
+		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+		{
+			return _serviceL.GetLecturers(model);
+		}
+
+		public ResultService<UserPageViewModel> GetUsers(UserGetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
@@ -24,9 +56,20 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.LecturerPosts.Where(ed => !ed.IsDeleted).AsQueryable();
+                    var query = context.DepartmentUsers.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderBy(ed => ed.PostTitle);
+                    // TODO
+                    //if (!string.IsNullOrEmpty(model.RoleType))
+                    //{
+                    //    var roleType = (RoleType)Enum.Parse(typeof(RoleType), model.RoleType);
+                    //    query = query.Where(x => x.RoleType == roleType);
+                    //}
+                    if (model.IsBanned.HasValue)
+                    {
+                        query = query.Where(x => x.IsLocked == model.IsBanned.Value);
+                    }
+
+                    query = query.OrderBy(x => x.UserName).ThenBy(x => x.DateLastVisit);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -36,62 +79,63 @@ namespace DepartmentService.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    var result = new LecturerPostPageViewModel
+                    var result = new UserPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateLecturerPostViewModel).ToList()
+                        List = query.Select(AuthenticationModelFactoryToViewModel.CreateUserViewModel).ToList()
                     };
 
-                    return ResultService<LecturerPostPageViewModel>.Success(result);
+                    return ResultService<UserPageViewModel>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<LecturerPostPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<UserPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService<LecturerPostViewModel> GetLecturerPost(LecturerPostGetBindingModel model)
-        {
+		public ResultService<UserViewModel> GetUser(UserGetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.LecturerPosts
-                                .FirstOrDefault(ed => ed.Id == model.Id);
+                    var entity = context.DepartmentUsers
+                                .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<LecturerPostViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<UserViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<LecturerPostViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<UserViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    return ResultService<LecturerPostViewModel>.Success(ModelFactoryToViewModel.CreateLecturerPostViewModel(entity));
+
+                    return ResultService<UserViewModel>.Success(AuthenticationModelFactoryToViewModel.CreateUserViewModel(entity));
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<LecturerPostViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<UserViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService CreateLecturerPost(LecturerPostSetBindingModel model)
-        {
+		public ResultService CreateUser(UserSetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateLecturerPost(model);
+                    var entity = AuthenticationModelFacotryFromBindingModel.CreateUser(model);
 
-                    var exsistEntity = context.LecturerPosts.FirstOrDefault(x => x.PostTitle == entity.PostTitle);
+                    var exsistEntity = context.DepartmentUsers.FirstOrDefault(x => x.UserName == entity.UserName);
                     if (exsistEntity == null)
                     {
-                        context.LecturerPosts.Add(entity);
+                        context.DepartmentUsers.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -114,17 +158,17 @@ namespace DepartmentService.Services
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService UpdateLecturerPost(LecturerPostSetBindingModel model)
-        {
+		public ResultService UpdateUser(UserSetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.LecturerPosts.FirstOrDefault(ed => ed.Id == model.Id);
+                    var entity = context.DepartmentUsers.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -133,7 +177,7 @@ namespace DepartmentService.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateLecturerPost(model, entity);
+                    entity = AuthenticationModelFacotryFromBindingModel.CreateUser(model, entity);
 
                     context.SaveChanges();
 
@@ -144,17 +188,17 @@ namespace DepartmentService.Services
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
+		}
 
-        public ResultService DeleteLecturerPost(LecturerPostGetBindingModel model)
-        {
+		public ResultService DeleteUser(UserGetBindingModel model)
+		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.LecturerPosts.FirstOrDefault(ed => ed.Id == model.Id);
+                    var entity = context.DepartmentUsers.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -175,6 +219,6 @@ namespace DepartmentService.Services
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
-    }
+		}
+	}
 }

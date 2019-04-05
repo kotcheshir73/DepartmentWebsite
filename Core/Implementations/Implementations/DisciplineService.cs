@@ -8,15 +8,27 @@ using Models.Enums;
 using System;
 using System.Linq;
 
-namespace DepartmentService.Services
+namespace Implementations.Services
 {
-    public class StudentHistoryService : IStudentHistoryService
+    public class DisciplineService : IDisciplineService
 	{
-        private readonly AccessOperation _serviceOperation = AccessOperation.Студенты;
+		private readonly IDisciplineBlockService _serviceDB;
 
-        private readonly string _entity = "Студенты";
+        private readonly AccessOperation _serviceOperation = AccessOperation.Дисциплины;
 
-        public ResultService<StudentHistoryPageViewModel> GetStudentHistorys(StudentHistoryGetBindingModel model)
+        private readonly string _entity = "Дисциплины";
+
+        public DisciplineService(IDisciplineBlockService serviceDB)
+		{
+			_serviceDB = serviceDB;
+        }
+        
+		public ResultService<DisciplineBlockPageViewModel> GetDisciplineBlocks(DisciplineBlockGetBindingModel model)
+		{
+			return _serviceDB.GetDisciplineBlocks(model);
+		}
+
+		public ResultService<DisciplinePageViewModel> GetDisciplines(DisciplineGetBindingModel model)
 		{
 			try
             {
@@ -25,14 +37,9 @@ namespace DepartmentService.Services
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.StudentHistorys.Where(sh => !sh.IsDeleted).AsQueryable();
+                    var query = context.Disciplines.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.StudetnId.HasValue)
-                    {
-                        query = query.Where(sh => sh.StudentId == model.StudetnId);
-                    }
-
-                    query = query.OrderBy(sh => sh.DateCreate);
+                    query = query.OrderBy(x => x.DisciplineBlock.DisciplineBlockOrder).ThenBy(x => x.DisciplineName);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -42,24 +49,24 @@ namespace DepartmentService.Services
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(sh => sh.Student);
+                    query = query.Include(x => x.DisciplineBlock);
 
-                    var result = new StudentHistoryPageViewModel
+                    var result = new DisciplinePageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateStudentHistoryViewModel).ToList()
+                        List = query.Select(ModelFactoryToViewModel.CreateDisciplineViewModel).ToList()
                     };
 
-                    return ResultService<StudentHistoryPageViewModel>.Success(result);
+                    return ResultService<DisciplinePageViewModel>.Success(result);
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<StudentHistoryPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<DisciplinePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService<StudentHistoryViewModel> GetStudentHistory(StudentHistoryGetBindingModel model)
+		public ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel model)
 		{
 			try
             {
@@ -67,28 +74,28 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StudentHistorys
-                                .Include(sh => sh.Student)
-                                .FirstOrDefault(sh => sh.Id == model.Id);
+                    var entity = context.Disciplines
+                                .Include(x => x.DisciplineBlock)
+                                .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<StudentHistoryViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<DisciplineViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<StudentHistoryViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<DisciplineViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<StudentHistoryViewModel>.Success(ModelFactoryToViewModel.CreateStudentHistoryViewModel(entity));
+                    return ResultService<DisciplineViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineViewModel(entity));
                 }
 			}
 			catch (Exception ex)
 			{
-				return ResultService<StudentHistoryViewModel>.Error(ex, ResultServiceStatusCode.Error);
+				return ResultService<DisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
 			}
 		}
 
-		public ResultService CreateStudentHistory(StudentHistorySetBindingModel model)
+		public ResultService CreateDiscipline(DisciplineSetBindingModel model)
 		{
 			try
             {
@@ -96,12 +103,12 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateStudentHistory(model);
+                    var entity = ModelFacotryFromBindingModel.CreateDiscipline(model);
 
-                    var exsistEntity = context.StudentHistorys.FirstOrDefault(x => x.TextMessage == entity.TextMessage);
+                    var exsistEntity = context.Disciplines.FirstOrDefault(x => x.DisciplineName == entity.DisciplineName);
                     if (exsistEntity == null)
                     {
-                        context.StudentHistorys.Add(entity);
+                        context.Disciplines.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -126,7 +133,7 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService UpdateStudentHistory(StudentHistorySetBindingModel model)
+		public ResultService UpdateDiscipline(DisciplineSetBindingModel model)
 		{
 			try
             {
@@ -134,7 +141,7 @@ namespace DepartmentService.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StudentHistorys.FirstOrDefault(e => e.Id == model.Id);
+                    var entity = context.Disciplines.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -143,12 +150,12 @@ namespace DepartmentService.Services
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateStudentHistory(model, entity);
+                    entity = ModelFacotryFromBindingModel.CreateDiscipline(model, entity);
 
                     context.SaveChanges();
-
-                    return ResultService.Success();
                 }
+
+				return ResultService.Success();
 			}
 			catch (Exception ex)
 			{
@@ -156,15 +163,15 @@ namespace DepartmentService.Services
 			}
 		}
 
-		public ResultService DeleteStudentHistory(StudentHistoryGetBindingModel model)
+		public ResultService DeleteDiscipline(DisciplineGetBindingModel model)
 		{
-            try
+			try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StudentHistorys.FirstOrDefault(e => e.Id == model.Id);
+                    var entity = context.Disciplines.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -177,14 +184,14 @@ namespace DepartmentService.Services
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
-
-                    return ResultService.Success();
                 }
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
+
+				return ResultService.Success();
+			}
+			catch (Exception ex)
+			{
+				return ResultService.Error(ex, ResultServiceStatusCode.Error);
+			}
 		}
-	}
+    }
 }
