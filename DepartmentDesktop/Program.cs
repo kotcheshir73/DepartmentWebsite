@@ -34,8 +34,6 @@ namespace DepartmentDesktop
             }
 
             DatabaseContext.DepartmentUserManager.CheckExsistData();
-            DatabaseContext.DepartmentUserManager.SynchronizationRolesAndAccess();
-            DatabaseContext.DepartmentUserManager.SynchronizationUsers();
             DatabaseContext.DepartmentUserManager.Login("admin", "qwerty");
 
 
