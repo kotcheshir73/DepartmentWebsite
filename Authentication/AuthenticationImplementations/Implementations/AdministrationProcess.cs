@@ -1,8 +1,7 @@
 ﻿using AuthenticationInterfaces.Interfaces;
-using DatabaseContext;
+using Enums;
 using Interfaces;
 using Models.Authentication;
-using Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +10,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
+using Tools;
 
 namespace AuthenticationImplementations.Implementations
 {

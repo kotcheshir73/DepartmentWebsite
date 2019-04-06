@@ -1375,9 +1375,13 @@
       <Project>{9388a4cb-d45c-495a-ac54-0d40116ac1a2}</Project>
       <Name>AuthenticationControlsAndForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\DatabaseContext\DatabaseContext.csproj">
-      <Project>{e1894e2c-6c75-4814-a258-b1cbe3749480}</Project>
+    <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj">
+      <Project>{93f49a76-4d66-42bb-89f4-31ccc2b2c9fa}</Project>
       <Name>DatabaseContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\Tools\Tools.csproj">
+      <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
+      <Name>Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\DepartmentContext\DepartmentContext.csproj">
       <Project>{3C73F60D-B076-4676-943A-340477DACCB4}</Project>

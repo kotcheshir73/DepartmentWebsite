@@ -1,9 +1,9 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
+using Enums;
 using Interfaces;
 using Interfaces.BindingModels;
-using Models.Enums;
 using System;
 using System.Data;
 using System.Drawing;

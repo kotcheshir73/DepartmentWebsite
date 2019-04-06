@@ -1,8 +1,8 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
+using Enums;
 using Interfaces;
-using Models.Enums;
 using System;
 using System.Windows.Forms;
 using Unity;

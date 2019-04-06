@@ -1,12 +1,12 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
 using AuthenticationInterfaces.ViewModels;
-using DatabaseContext;
+using Enums;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Models.Enums;
 using System;
 using System.Linq;
+using Tools;
 
 namespace AuthenticationImplementations.Implementations
 {

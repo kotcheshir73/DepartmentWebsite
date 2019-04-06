@@ -173,21 +173,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\ControlsAndForms\ControlsAndForms.csproj">
-      <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
-      <Name>ControlsAndForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Implementations\Implementations.csproj">
-      <Project>{8143F188-F7E5-49B3-BA3F-24C9BAEEAFA0}</Project>
+    <ProjectReference Include="..\..\Base\Implementations\Implementations.csproj">
+      <Project>{055577c8-640d-4eae-9e12-d0094e3df140}</Project>
       <Name>Implementations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Interfaces\Interfaces.csproj">
-      <Project>{CDE8A65C-BE5E-4CD7-B471-FD9A6B9FA36E}</Project>
+    <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj">
+      <Project>{e8f6f20a-5235-4c3a-919f-adf074783d31}</Project>
       <Name>Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
+      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Models\Models.csproj">
-      <Project>{44BE06DA-6E7E-4F9D-A372-D1A0CA7615CF}</Project>
+      <Project>{448538b9-dd05-44e4-bb1a-e367414bda97}</Project>
       <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
+      <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
+      <Name>ControlsAndForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\AuthenticationImplementations\AuthenticationImplementations.csproj">
       <Project>{cb43bdb1-2fd8-4180-90b8-e83e4cdbe55a}</Project>

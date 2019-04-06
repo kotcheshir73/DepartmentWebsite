@@ -1,0 +1,23 @@
+﻿namespace Enums
+{
+    public enum DisciplineLessonTaskStudentResult
+	{
+        Выдано,
+
+		ЕстьОшибки,
+
+		НеСвойВариант,
+
+		ЕстьЗамечания,
+
+		Показано,
+
+		Сдано,
+
+        Проверено,
+
+		СданОтчет,
+
+        НеСдано
+	}
+}
