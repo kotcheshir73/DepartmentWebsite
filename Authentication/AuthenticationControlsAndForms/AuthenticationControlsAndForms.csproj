@@ -189,6 +189,10 @@
       <Project>{448538b9-dd05-44e4-bb1a-e367414bda97}</Project>
       <Name>Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
+      <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
       <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
       <Name>ControlsAndForms</Name>

@@ -1,5 +1,5 @@
-﻿using Interfaces.BindingModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Tools.BindingModels;
 
 namespace AuthenticationInterfaces.BindingModels
 {

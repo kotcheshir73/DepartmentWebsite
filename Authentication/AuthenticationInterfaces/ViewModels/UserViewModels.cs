@@ -1,6 +1,6 @@
-﻿using Interfaces.ViewModels;
-using System;
+﻿using System;
 using System.Drawing;
+using Tools.ViewModels;
 
 namespace AuthenticationInterfaces.ViewModels
 {

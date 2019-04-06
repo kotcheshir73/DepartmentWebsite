@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tools.BindingModels;
 
 namespace Interfaces.BindingModels
 {

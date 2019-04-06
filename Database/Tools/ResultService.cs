@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Interfaces
+namespace Tools
 {
     public class ResultService
     {

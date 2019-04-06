@@ -1,4 +1,6 @@
-﻿namespace Interfaces.ViewModels
+﻿using Tools.ViewModels;
+
+namespace Interfaces.ViewModels
 {
     public class LecturerPostPageViewModel : PageSettingListViewModel<LecturerPostViewModel> { }
     

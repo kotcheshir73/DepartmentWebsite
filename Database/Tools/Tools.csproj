@@ -14,4 +14,9 @@
     <ProjectReference Include="..\DatabaseContext\DatabaseContext.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BindingModels\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

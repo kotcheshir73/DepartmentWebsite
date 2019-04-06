@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Interfaces.ViewModels
+namespace Tools.ViewModels
 {
     public class PageSettingElementViewModel
     {

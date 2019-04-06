@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj" />
   </ItemGroup>
 
 </Project>

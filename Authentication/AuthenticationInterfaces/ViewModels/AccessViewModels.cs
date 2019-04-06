@@ -1,5 +1,4 @@
-﻿using Interfaces.ViewModels;
-using System;
+﻿using Tools.ViewModels;
 
 namespace AuthenticationInterfaces.ViewModels
 {

@@ -1,6 +1,7 @@
 ﻿using Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Tools.BindingModels;
 
 namespace Interfaces.BindingModels
 {

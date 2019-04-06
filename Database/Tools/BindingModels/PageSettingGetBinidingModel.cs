@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Interfaces.BindingModels
+namespace Tools.BindingModels
 {
     public class PageSettingGetBinidingModel
     {

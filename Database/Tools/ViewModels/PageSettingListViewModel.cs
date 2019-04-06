@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Interfaces.ViewModels
+namespace Tools.ViewModels
 {
 	public class PageSettingListViewModel<T>
 	{

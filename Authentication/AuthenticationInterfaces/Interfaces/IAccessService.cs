@@ -1,6 +1,6 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.ViewModels;
-using Interfaces;
+using Tools;
 
 namespace AuthenticationInterfaces.Interfaces
 {

@@ -1,5 +1,6 @@
 ﻿using Interfaces.BindingModels;
 using Interfaces.ViewModels;
+using Tools;
 
 namespace Interfaces.Interfaces
 {
