@@ -29,7 +29,7 @@ namespace AuthenticationControlsAndForms
             currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
-            currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
             return currentContainer;
         }

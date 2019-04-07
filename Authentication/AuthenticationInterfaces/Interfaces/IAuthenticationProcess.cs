@@ -2,7 +2,7 @@
 
 namespace AuthenticationInterfaces.Interfaces
 {
-    public interface IAdministrationProcess
+    public interface IAuthenticationProcess
     {
         ResultService ImportDataToJson(string folderName);
 

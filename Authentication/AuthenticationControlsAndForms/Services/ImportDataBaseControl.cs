@@ -7,9 +7,9 @@ namespace AuthenticationControlsAndForms.Services.DataBaseWork
 {
     public partial class ImportDataBaseControl : UserControl
     {
-        private readonly IAdministrationProcess _process;
+        private readonly IAuthenticationProcess _process;
 
-        public ImportDataBaseControl(IAdministrationProcess process)
+        public ImportDataBaseControl(IAuthenticationProcess process)
         {
             InitializeComponent();
             _process = process;

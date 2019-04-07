@@ -11,9 +11,9 @@ namespace AuthenticationControlsAndForms.Services.Synchronization
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IAdministrationProcess _process;
+        private readonly IAuthenticationProcess _process;
 
-        public SynchronizationUsersControl(IAdministrationProcess process)
+        public SynchronizationUsersControl(IAuthenticationProcess process)
         {
             InitializeComponent();
             _process = process;

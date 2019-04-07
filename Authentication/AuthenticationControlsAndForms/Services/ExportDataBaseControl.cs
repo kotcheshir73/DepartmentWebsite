@@ -7,9 +7,9 @@ namespace AuthenticationControlsAndForms.Services.DataBaseWork
 {
     public partial class ExportDataBaseControl : UserControl
     {
-        private readonly IAdministrationProcess _process;
+        private readonly IAuthenticationProcess _process;
 
-        public ExportDataBaseControl(IAdministrationProcess process)
+        public ExportDataBaseControl(IAuthenticationProcess process)
         {
             InitializeComponent();
             _process = process;

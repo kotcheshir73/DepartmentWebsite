@@ -14,7 +14,7 @@ using Tools;
 
 namespace AuthenticationImplementations.Implementations
 {
-    public class AdministrationProcess : IAdministrationProcess
+    public class AuthenticationProcess : IAuthenticationProcess
     {
         public ResultService ImportDataToJson(string folderName)
         {
