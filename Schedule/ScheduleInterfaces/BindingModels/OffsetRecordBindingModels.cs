@@ -1,6 +1,6 @@
-﻿namespace ScheduleServiceInterfaces.BindingModels
+﻿namespace ScheduleInterfaces.BindingModels
 {
-    public class OffsetRecordRecordBindingModel : ScheduleRecordBindingModel
+    public class OffsetRecordRecordBindingModel : ScheduleSetBindingModel
     {
 		public int Week { get; set; }
 

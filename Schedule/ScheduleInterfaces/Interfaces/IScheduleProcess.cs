@@ -1,8 +1,10 @@
-﻿using DepartmentModel;
-using DepartmentService.BindingModels;
-using DepartmentService.ViewModels;
-using ScheduleServiceInterfaces.BindingModels;
-using ScheduleServiceInterfaces.ViewModels;
+﻿using AcademicYearInterfaces.BindingModels;
+using AcademicYearInterfaces.ViewModels;
+using Interfaces.BindingModels;
+using Interfaces.ViewModels;
+using ScheduleInterfaces.BindingModels;
+using ScheduleInterfaces.ViewModels;
+using Tools;
 
 namespace ScheduleServiceInterfaces.Interfaces
 {
@@ -49,18 +51,18 @@ namespace ScheduleServiceInterfaces.Interfaces
         ResultService<SeasonDatesViewModel> GetCurrentDates();
 
         /// <summary>
-        /// Получение списка временных интервалов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
-        
-        /// <summary>
         /// Измненение текущих настроек
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка временных интервалов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
 
         /// <summary>
         /// Получение записей расписания семестра, зачетов и экзаменов по дисциплине

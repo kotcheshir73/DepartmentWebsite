@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleServiceInterfaces.ViewModels
+namespace ScheduleInterfaces.ViewModels
 {
 	/// <summary>
 	/// Краткая запись для вывода в расписании

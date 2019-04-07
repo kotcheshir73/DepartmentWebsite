@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ScheduleServiceInterfaces.BindingModels
+namespace ScheduleInterfaces.BindingModels
 {
     /// <summary>
     /// Получение расписания для аудитории, преподавателя или группы
@@ -38,7 +38,7 @@ namespace ScheduleServiceInterfaces.BindingModels
     /// <summary>
     /// Запись расписания для сохранения
     /// </summary>
-    public class ScheduleRecordBindingModel
+    public class ScheduleSetBindingModel
     {
         public Guid Id;
 

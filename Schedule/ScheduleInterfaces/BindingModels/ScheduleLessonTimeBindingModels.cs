@@ -1,20 +1,16 @@
-﻿using DepartmentService.BindingModels;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Tools.BindingModels;
 
-namespace ScheduleServiceInterfaces.BindingModels
+namespace ScheduleInterfaces.BindingModels
 {
-	public class ScheduleLessonTimeGetBindingModel : PageSettingBinidingModel
+    public class ScheduleLessonTimeGetBindingModel : PageSettingGetBinidingModel
     {
-        public Guid Id { get; set; }
-
         public string Title { get; set; }
 	}
 
-	public class ScheduleLessonTimeSetBindingModel
-	{
-		public Guid Id { get; set; }
-
+	public class ScheduleLessonTimeSetBindingModel : PageSettingSetBinidingModel
+    {
         [Required(ErrorMessage = "required")]
 		public string Title { get; set; }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ScheduleServiceInterfaces.BindingModels
+namespace ScheduleInterfaces.BindingModels
 {
-	public class ExaminationRecordRecordBindingModel : ScheduleRecordBindingModel
+	public class ExaminationRecordRecordBindingModel : ScheduleSetBindingModel
     {
 		[Required(ErrorMessage = "required")]
 		public DateTime DateConsultation { get; set; }

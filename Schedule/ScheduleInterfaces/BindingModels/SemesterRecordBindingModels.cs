@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ScheduleServiceInterfaces.BindingModels
+namespace ScheduleInterfaces.BindingModels
 {
-	public class SemesterRecordRecordBindingModel : ScheduleRecordBindingModel
+	public class SemesterRecordRecordBindingModel : ScheduleSetBindingModel
     {
         public bool IsFirstHalfSemester { get; set; }
 

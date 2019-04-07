@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ScheduleServiceInterfaces.BindingModels
+namespace ScheduleInterfaces.BindingModels
 {
-	public class ConsultationRecordRecordBindingModel : ScheduleRecordBindingModel
+	public class ConsultationRecordRecordBindingModel : ScheduleSetBindingModel
     {
 		public int? Week { get; set; }
 

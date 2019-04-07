@@ -1,14 +1,12 @@
-﻿using DepartmentService.ViewModels;
-using System;
+﻿using System;
+using Tools.ViewModels;
 
-namespace ScheduleServiceInterfaces.ViewModels
+namespace ScheduleInterfaces.ViewModels
 {
-    public class ScheduleLessonTimePageViewModel : PageViewModel<ScheduleLessonTimeViewModel> { }
+    public class ScheduleLessonTimePageViewModel : PageSettingListViewModel<ScheduleLessonTimeViewModel> { }
 
-    public class ScheduleLessonTimeViewModel
-	{
-		public Guid Id { get; set; }
-
+    public class ScheduleLessonTimeViewModel : PageSettingElementViewModel
+    {
 		public string Text { get; set; }
 
 		public string Title { get; set; }

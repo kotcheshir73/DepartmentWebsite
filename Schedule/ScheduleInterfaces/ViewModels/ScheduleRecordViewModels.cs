@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleServiceInterfaces.ViewModels
+namespace ScheduleInterfaces.ViewModels
 {
     public class ScheduleRecordShortViewModel
     {

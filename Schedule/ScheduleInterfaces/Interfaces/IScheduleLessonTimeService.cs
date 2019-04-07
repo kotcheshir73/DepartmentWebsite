@@ -1,6 +1,6 @@
-﻿using DepartmentModel;
-using ScheduleServiceInterfaces.BindingModels;
-using ScheduleServiceInterfaces.ViewModels;
+﻿using ScheduleInterfaces.BindingModels;
+using ScheduleInterfaces.ViewModels;
+using Tools;
 
 namespace ScheduleServiceInterfaces.Interfaces
 {
