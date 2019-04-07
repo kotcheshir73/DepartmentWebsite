@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj" />
+  </ItemGroup>
+
+</Project>
