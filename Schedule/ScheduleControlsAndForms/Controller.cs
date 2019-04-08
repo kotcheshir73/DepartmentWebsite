@@ -1,5 +1,5 @@
 ﻿using AcademicYearInterfaces.Interfaces;
-using BaseImplementations.Services;
+using BaseImplementations.Implementations;
 using BaseInterfaces.Interfaces;
 using DepartmentService.Services;
 using ScheduleControlsAndForms.Consultation;

@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using Tools;
 
-namespace BaseImplementations
+namespace BaseImplementations.Implementations
 {
     public class Process : IProcess
     {

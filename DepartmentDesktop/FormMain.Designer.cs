@@ -256,7 +256,7 @@
             this.lecturerPostToolStripMenuItem.Name = "lecturerPostToolStripMenuItem";
             this.lecturerPostToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.lecturerPostToolStripMenuItem.Text = "Должности преподавателей";
-            this.lecturerPostToolStripMenuItem.Click += new System.EventHandler(this.lecturerPostToolStripMenuItem_Click);
+            this.lecturerPostToolStripMenuItem.Click += new System.EventHandler(this.LecturerPostToolStripMenuItem_Click);
             // 
             // lecturerToolStripMenuItem
             // 

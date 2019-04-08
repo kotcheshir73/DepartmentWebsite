@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Tools;
 
-namespace BaseImplementations.Services
+namespace BaseImplementations.Implementations
 {
     public class LecturerPostSerivce : ILecturerPostSerivce
     {

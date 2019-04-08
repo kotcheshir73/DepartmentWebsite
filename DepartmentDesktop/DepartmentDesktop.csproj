@@ -300,18 +300,6 @@
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.Designer.cs">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.Designer.cs">
-      <DependentUpon>LecturerPostControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\LecturerPost\LecturerPostForm.Designer.cs">
-      <DependentUpon>LecturerPostForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -323,54 +311,6 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormForm.Designer.cs">
       <DependentUpon>TimeNormForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Classroom\ClassroomControl.Designer.cs">
-      <DependentUpon>ClassroomControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Classroom\ClassroomForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Classroom\ClassroomForm.Designer.cs">
-      <DependentUpon>ClassroomForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockControl.Designer.cs">
-      <DependentUpon>DisciplineBlockControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockForm.Designer.cs">
-      <DependentUpon>DisciplineBlockForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Discipline\DisciplineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Discipline\DisciplineControl.Designer.cs">
-      <DependentUpon>DisciplineControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Discipline\DisciplineForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Discipline\DisciplineForm.Designer.cs">
-      <DependentUpon>DisciplineForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Lecturer\LecturerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Lecturer\LecturerControl.Designer.cs">
-      <DependentUpon>LecturerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Lecturer\LecturerForm.Designer.cs">
-      <DependentUpon>LecturerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.cs">
       <SubType>UserControl</SubType>
@@ -732,48 +672,6 @@
     <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.Designer.cs">
       <DependentUpon>ContingentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.Designer.cs">
-      <DependentUpon>StudentGroupDeductionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupEnrollmentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupEnrollmentForm.Designer.cs">
-      <DependentUpon>StudentGroupEnrollmentForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupStudentsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupStudentsControl.Designer.cs">
-      <DependentUpon>StudentGroupStudentsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupToAcademForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupToAcademForm.Designer.cs">
-      <DependentUpon>StudentGroupToAcademForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.Designer.cs">
-      <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Student\StudentControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Student\StudentControl.Designer.cs">
-      <DependentUpon>StudentControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Student\StudentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\Student\StudentForm.Designer.cs">
-      <DependentUpon>StudentForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Services\MakeTicketsUS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -788,30 +686,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\EducationalProcess\EducationDirection\EducationDirectionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\EducationDirection\EducationDirectionControl.Designer.cs">
-      <DependentUpon>EducationDirectionControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\EducationDirection\EducationDirectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\EducationDirection\EducationDirectionForm.Designer.cs">
-      <DependentUpon>EducationDirectionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupControl.Designer.cs">
-      <DependentUpon>StudentGroupControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.Designer.cs">
-      <DependentUpon>StudentGroupForm.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Controllers\StandartControl.resx">
       <DependentUpon>StandartControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -866,41 +740,11 @@
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.resx">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostControl.resx">
-      <DependentUpon>LecturerPostControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\LecturerPost\LecturerPostForm.resx">
-      <DependentUpon>LecturerPostForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormControl.resx">
       <DependentUpon>TimeNormControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormForm.resx">
       <DependentUpon>TimeNormForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomControl.resx">
-      <DependentUpon>ClassroomControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Classroom\ClassroomForm.resx">
-      <DependentUpon>ClassroomForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockControl.resx">
-      <DependentUpon>DisciplineBlockControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\DisciplineBlock\DisciplineBlockForm.resx">
-      <DependentUpon>DisciplineBlockForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Discipline\DisciplineControl.resx">
-      <DependentUpon>DisciplineControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Discipline\DisciplineForm.resx">
-      <DependentUpon>DisciplineForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerControl.resx">
-      <DependentUpon>LecturerControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Lecturer\LecturerForm.resx">
-      <DependentUpon>LecturerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.resx">
       <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
@@ -1092,27 +936,6 @@
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.resx">
       <DependentUpon>ContingentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupDeductionForm.resx">
-      <DependentUpon>StudentGroupDeductionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupEnrollmentForm.resx">
-      <DependentUpon>StudentGroupEnrollmentForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupStudentsControl.resx">
-      <DependentUpon>StudentGroupStudentsControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupToAcademForm.resx">
-      <DependentUpon>StudentGroupToAcademForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupTransferForm.resx">
-      <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Student\StudentControl.resx">
-      <DependentUpon>StudentControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\Student\StudentForm.resx">
-      <DependentUpon>StudentForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>
     </EmbeddedResource>
@@ -1129,18 +952,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\EducationalProcess\EducationDirection\EducationDirectionControl.resx">
-      <DependentUpon>EducationDirectionControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\EducationDirection\EducationDirectionForm.resx">
-      <DependentUpon>EducationDirectionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupControl.resx">
-      <DependentUpon>StudentGroupControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.resx">
-      <DependentUpon>StudentGroupForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
@@ -1195,6 +1006,10 @@
       <Project>{9388a4cb-d45c-495a-ac54-0d40116ac1a2}</Project>
       <Name>AuthenticationControlsAndForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Base\BaseControlsAndForms\BaseControlsAndForms.csproj">
+      <Project>{6fe79205-77ce-4402-9558-919d283dca19}</Project>
+      <Name>BaseControlsAndForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
       <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
       <Name>BaseImplementations</Name>
@@ -1202,6 +1017,10 @@
     <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
       <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
       <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Enums\Enums.csproj">
+      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
+      <Name>Enums</Name>
     </ProjectReference>
     <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj">
       <Project>{93f49a76-4d66-42bb-89f4-31ccc2b2c9fa}</Project>
