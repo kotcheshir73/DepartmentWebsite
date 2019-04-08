@@ -1,7 +1,7 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.ViewModels;
-using Interfaces.BindingModels;
-using Interfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.ViewModels;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.ViewModels;
 using Tools;

@@ -173,13 +173,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Implementations\Implementations.csproj">
-      <Project>{055577c8-640d-4eae-9e12-d0094e3df140}</Project>
-      <Name>Implementations</Name>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
+      <Name>BaseImplementations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj">
-      <Project>{e8f6f20a-5235-4c3a-919f-adf074783d31}</Project>
-      <Name>Interfaces</Name>
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
+      <Name>BaseInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
       <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>

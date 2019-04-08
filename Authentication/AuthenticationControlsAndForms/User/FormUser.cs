@@ -2,7 +2,7 @@
 using AuthenticationInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using Enums;
-using Interfaces.BindingModels;
+using BaseInterfaces.BindingModels;
 using System;
 using System.Data;
 using System.Drawing;

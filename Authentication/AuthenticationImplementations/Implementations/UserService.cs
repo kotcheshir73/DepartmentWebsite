@@ -1,10 +1,10 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
 using AuthenticationInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
 using Enums;
-using Interfaces.BindingModels;
-using Interfaces.Interfaces;
-using Interfaces.ViewModels;
 using System;
 using System.Linq;
 using Tools;

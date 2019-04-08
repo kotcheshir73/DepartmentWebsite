@@ -9,6 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj" />
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj" />
     <ProjectReference Include="..\..\Core\Enums\Enums.csproj" />
     <ProjectReference Include="..\..\Core\Models\Models.csproj" />
     <ProjectReference Include="..\..\Database\Tools\Tools.csproj" />

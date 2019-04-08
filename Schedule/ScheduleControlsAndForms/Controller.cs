@@ -1,7 +1,7 @@
 ﻿using AcademicYearInterfaces.Interfaces;
+using BaseImplementations.Services;
+using BaseInterfaces.Interfaces;
 using DepartmentService.Services;
-using Implementations.Services;
-using Interfaces.Interfaces;
 using ScheduleControlsAndForms.Consultation;
 using ScheduleControlsAndForms.Current;
 using ScheduleControlsAndForms.Examination;

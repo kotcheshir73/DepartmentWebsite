@@ -1,8 +1,8 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.ViewModels;
 using Tools;
-using Interfaces.BindingModels;
-using Interfaces.ViewModels;
 
 namespace AuthenticationInterfaces.Interfaces
 {

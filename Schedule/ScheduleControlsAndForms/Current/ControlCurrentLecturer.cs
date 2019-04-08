@@ -1,5 +1,5 @@
-﻿using ControlsAndForms.Messangers;
-using Interfaces.BindingModels;
+﻿using BaseInterfaces.BindingModels;
+using ControlsAndForms.Messangers;
 using ScheduleControlsAndForms.Examination;
 using ScheduleControlsAndForms.Offset;
 using ScheduleControlsAndForms.Semester;

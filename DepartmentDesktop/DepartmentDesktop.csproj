@@ -1195,6 +1195,14 @@
       <Project>{9388a4cb-d45c-495a-ac54-0d40116ac1a2}</Project>
       <Name>AuthenticationControlsAndForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj">
       <Project>{93f49a76-4d66-42bb-89f4-31ccc2b2c9fa}</Project>
       <Name>DatabaseContext</Name>

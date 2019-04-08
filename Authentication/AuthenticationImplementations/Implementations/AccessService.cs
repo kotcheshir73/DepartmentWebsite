@@ -2,7 +2,6 @@
 using AuthenticationInterfaces.Interfaces;
 using AuthenticationInterfaces.ViewModels;
 using Enums;
-using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

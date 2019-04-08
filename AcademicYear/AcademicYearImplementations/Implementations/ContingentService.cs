@@ -2,10 +2,10 @@
 using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
 using Enums;
-using Interfaces.BindingModels;
-using Interfaces.Interfaces;
-using Interfaces.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

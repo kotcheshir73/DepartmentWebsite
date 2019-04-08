@@ -1,6 +1,6 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.ViewModels;
-using Interfaces.BindingModels;
+using BaseInterfaces.BindingModels;
 using System.Collections.Generic;
 using Tools;
 

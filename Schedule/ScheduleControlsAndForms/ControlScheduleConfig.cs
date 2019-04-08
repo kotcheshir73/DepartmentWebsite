@@ -1,6 +1,6 @@
 ﻿using AcademicYearInterfaces.BindingModels;
+using BaseInterfaces.BindingModels;
 using ControlsAndForms.Messangers;
-using Interfaces.BindingModels;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;

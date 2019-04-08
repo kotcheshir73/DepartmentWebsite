@@ -5,8 +5,8 @@ using AuthenticationControlsAndForms.Services.Synchronization;
 using AuthenticationControlsAndForms.User;
 using AuthenticationImplementations.Implementations;
 using AuthenticationInterfaces.Interfaces;
-using Implementations.Services;
-using Interfaces.Interfaces;
+using BaseImplementations.Services;
+using BaseInterfaces.Interfaces;
 using Unity;
 using Unity.Lifetime;
 

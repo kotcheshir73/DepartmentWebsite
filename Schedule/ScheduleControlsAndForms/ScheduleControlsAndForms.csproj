@@ -270,13 +270,13 @@
       <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
       <Name>AcademicYearInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Base\Implementations\Implementations.csproj">
-      <Project>{055577C8-640D-4EAE-9E12-D0094E3DF140}</Project>
-      <Name>Implementations</Name>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
+      <Name>BaseImplementations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj">
-      <Project>{E8F6F20A-5235-4C3A-919F-ADF074783D31}</Project>
-      <Name>Interfaces</Name>
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
+      <Name>BaseInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
       <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>

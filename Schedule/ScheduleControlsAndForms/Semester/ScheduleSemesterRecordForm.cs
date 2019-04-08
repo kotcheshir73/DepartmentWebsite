@@ -1,6 +1,6 @@
-﻿using ControlsAndForms.Messangers;
+﻿using BaseInterfaces.BindingModels;
+using ControlsAndForms.Messangers;
 using Enums;
-using Interfaces.BindingModels;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;

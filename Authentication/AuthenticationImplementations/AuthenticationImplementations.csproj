@@ -9,8 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Implementations\Implementations.csproj" />
-    <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj" />
     <ProjectReference Include="..\..\Core\Enums\Enums.csproj" />
     <ProjectReference Include="..\AuthenticationInterfaces\AuthenticationInterfaces.csproj" />
   </ItemGroup>
