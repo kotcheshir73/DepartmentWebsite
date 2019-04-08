@@ -7,7 +7,7 @@ namespace ConsoleMigrationApp
     {
         static void Main(string[] args)
         {
-            using (var db = new DatabaseContext.DatabaseContext())
+            using (var db = new DatabaseContext.DepartmentDatabaseContext())
             {
                 db.Database.Migrate();
             }
