@@ -25,7 +25,7 @@ namespace AuthenticationImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     Type type = context.GetType();
-                    var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("System.Data.Entity.DbSet")).ToList();
+                    var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("Microsoft.EntityFrameworkCore.DbSet")).ToList();
                     MethodInfo method = GetType().GetTypeInfo().GetDeclaredMethod("SaveToFile");
                     foreach (var set in dbsets)
                     {
@@ -53,12 +53,12 @@ namespace AuthenticationImplementations.Implementations
 
                 Assembly assem = typeof(Models.Base.Classroom).Assembly;
                 Type type = context.GetType();
-                var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("System.Data.Entity.DbSet")).ToList();
+                var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("Microsoft.EntityFrameworkCore.DbSet")).ToList();
 
                 #region Формируем словарь с зависимостями между данными
                 Dictionary<string, int> levelDbSets = new Dictionary<string, int>();
                 StringBuilder sb = new StringBuilder();
-                while (levelDbSets.Count != dbsets.Count - 1)
+                while (levelDbSets.Count != dbsets.Count)
                 {
                     foreach (var set in dbsets)
                     {
@@ -110,8 +110,11 @@ namespace AuthenticationImplementations.Implementations
                     if (set != null)
                     {
                         var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                        MethodInfo generic = delMethod.MakeGenericMethod(elem.GetType());
-                        generic.Invoke(this, null);
+                        if (File.Exists(string.Format("{0}/{1}.json", folderName, elem.GetType().Name)))
+                        {
+                            MethodInfo generic = delMethod.MakeGenericMethod(elem.GetType());
+                            generic.Invoke(this, null);
+                        }
                     }
                 }
                 #endregion
