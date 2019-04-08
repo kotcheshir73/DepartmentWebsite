@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using Tools;
 
-namespace ScheduleServiceImplementations.Services
+namespace ScheduleImplementations.Services
 {
     public class ScheduleLessonTimeService : IScheduleLessonTimeService
 	{

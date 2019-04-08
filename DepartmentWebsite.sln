@@ -85,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicYearImplementations
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleImplementations", "Schedule\ScheduleImplementations\ScheduleImplementations.csproj", "{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleControlsAndForms", "Schedule\ScheduleControlsAndForms\ScheduleControlsAndForms.csproj", "{F101A003-580E-4616-A9D4-B4CFAE1F629E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -597,6 +599,22 @@ Global
 		{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F}.Release|x64.Build.0 = Release|Any CPU
 		{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F}.Release|x86.ActiveCfg = Release|Any CPU
 		{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F}.Release|x86.Build.0 = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|x64.Build.0 = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Debug|x86.Build.0 = Debug|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|ARM.Build.0 = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|x64.ActiveCfg = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|x64.Build.0 = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -627,6 +645,7 @@ Global
 		{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6} = {D3B6AB42-14A1-4FF3-B2BB-AB397EE657FB}
 		{42A82700-3B9B-4D07-AA62-095BFA1096A0} = {D3B6AB42-14A1-4FF3-B2BB-AB397EE657FB}
 		{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F} = {E63722DB-F1D7-4CFE-903B-D3D1320E118B}
+		{F101A003-580E-4616-A9D4-B4CFAE1F629E} = {E63722DB-F1D7-4CFE-903B-D3D1320E118B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD70DF74-4FDA-48C1-8C85-D1B0880CFFFE}

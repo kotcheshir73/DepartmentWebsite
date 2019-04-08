@@ -672,54 +672,6 @@
     <Compile Include="Views\LearningProgress\StudentsDistributionControl.Designer.cs">
       <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Consultation\ScheduleConsultationControl.Designer.cs">
-      <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\CurrentClassroomControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\CurrentClassroomControl.Designer.cs">
-      <DependentUpon>CurrentClassroomControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\CurrentLecturerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\CurrentLecturerControl.Designer.cs">
-      <DependentUpon>CurrentLecturerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\CurrentStudentGroupControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\CurrentStudentGroupControl.Designer.cs">
-      <DependentUpon>CurrentStudentGroupControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Examination\ScheduleExaminationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Examination\ScheduleExaminationControl.Designer.cs">
-      <DependentUpon>ScheduleExaminationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Offset\ScheduleOffsetControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Offset\ScheduleOffsetControl.Designer.cs">
-      <DependentUpon>ScheduleOffsetControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Semester\ScheduleSemesterControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Semester\ScheduleSemesterControl.Designer.cs">
-      <DependentUpon>ScheduleSemesterControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Semester\ScheduleSemesterRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Semester\ScheduleSemesterRecordForm.Designer.cs">
-      <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Services\DataBaseWork\ExportDataBaseControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -773,18 +725,6 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesForm.Designer.cs">
       <DependentUpon>SeasonDatesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonControl.Designer.cs">
-      <DependentUpon>StreamingLessonControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.Designer.cs">
-      <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.cs">
       <SubType>Form</SubType>
@@ -871,66 +811,6 @@
     </Compile>
     <Compile Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.Designer.cs">
       <DependentUpon>StudentGroupForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\ScheduleConfigControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\ScheduleConfigControl.Designer.cs">
-      <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Consultation\ScheduleConsultationTabControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Consultation\ScheduleConsultationTabControl.Designer.cs">
-      <DependentUpon>ScheduleConsultationTabControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Consultation\ScheduleConsultationRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Consultation\ScheduleConsultationRecordForm.Designer.cs">
-      <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Examination\ScheduleExaminationTabControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Examination\ScheduleExaminationTabControl.Designer.cs">
-      <DependentUpon>ScheduleExaminationTabControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Examination\ScheduleExaminationRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Examination\ScheduleExaminationRecordForm.Designer.cs">
-      <DependentUpon>ScheduleExaminationRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\ScheduleLessonTime\ScheduleLessonTimeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\ScheduleLessonTime\ScheduleLessonTimeControl.Designer.cs">
-      <DependentUpon>ScheduleLessonTimeControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\ScheduleLessonTime\ScheduleLessonTimeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\ScheduleLessonTime\ScheduleLessonTimeForm.Designer.cs">
-      <DependentUpon>ScheduleLessonTimeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Offset\ScheduleOffsetTabControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Offset\ScheduleOffsetTabControl.Designer.cs">
-      <DependentUpon>ScheduleOffsetTabControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Offset\ScheduleOffsetRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Offset\ScheduleOffsetRecordForm.Designer.cs">
-      <DependentUpon>ScheduleOffsetRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Schedule\Semester\ScheduleSemesterTabControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Schedule\Semester\ScheduleSemesterTabControl.Designer.cs">
-      <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controllers\StandartControl.resx">
       <DependentUpon>StandartControl.cs</DependentUpon>
@@ -1182,30 +1062,6 @@
     <EmbeddedResource Include="Views\LearningProgress\StudentsDistributionControl.resx">
       <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationControl.resx">
-      <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\CurrentClassroomControl.resx">
-      <DependentUpon>CurrentClassroomControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\CurrentLecturerControl.resx">
-      <DependentUpon>CurrentLecturerControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\CurrentStudentGroupControl.resx">
-      <DependentUpon>CurrentStudentGroupControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Examination\ScheduleExaminationControl.resx">
-      <DependentUpon>ScheduleExaminationControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Offset\ScheduleOffsetControl.resx">
-      <DependentUpon>ScheduleOffsetControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Semester\ScheduleSemesterControl.resx">
-      <DependentUpon>ScheduleSemesterControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Semester\ScheduleSemesterRecordForm.resx">
-      <DependentUpon>ScheduleSemesterRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\DataBaseWork\ExportDataBaseControl.resx">
       <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1232,12 +1088,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesForm.resx">
       <DependentUpon>SeasonDatesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StreamingLesson\StreamingLessonControl.resx">
-      <DependentUpon>StreamingLessonControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\StreamingLesson\StreamingLessonForm.resx">
-      <DependentUpon>StreamingLessonForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.resx">
       <DependentUpon>ContingentForm.cs</DependentUpon>
@@ -1290,36 +1140,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\StudentGroup\StudentGroupForm.resx">
       <DependentUpon>StudentGroupForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\ScheduleConfigControl.resx">
-      <DependentUpon>ScheduleConfigControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationTabControl.resx">
-      <DependentUpon>ScheduleConsultationTabControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Consultation\ScheduleConsultationRecordForm.resx">
-      <DependentUpon>ScheduleConsultationRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Examination\ScheduleExaminationTabControl.resx">
-      <DependentUpon>ScheduleExaminationTabControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Examination\ScheduleExaminationRecordForm.resx">
-      <DependentUpon>ScheduleExaminationRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\ScheduleLessonTime\ScheduleLessonTimeControl.resx">
-      <DependentUpon>ScheduleLessonTimeControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\ScheduleLessonTime\ScheduleLessonTimeForm.resx">
-      <DependentUpon>ScheduleLessonTimeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Offset\ScheduleOffsetTabControl.resx">
-      <DependentUpon>ScheduleOffsetTabControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Offset\ScheduleOffsetRecordForm.resx">
-      <DependentUpon>ScheduleOffsetRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Schedule\Semester\ScheduleSemesterTabControl.resx">
-      <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DepartmentService.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
@@ -1402,6 +1222,10 @@
     <ProjectReference Include="..\ScheduleServiceInterfaces\ScheduleServiceInterfaces.csproj">
       <Project>{8af59760-0f82-4e1a-a902-6315bc5743b9}</Project>
       <Name>ScheduleServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleControlsAndForms\ScheduleControlsAndForms.csproj">
+      <Project>{f101a003-580e-4616-a9d4-b4cfae1f629e}</Project>
+      <Name>ScheduleControlsAndForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\TicketModels\TicketModels.csproj">
       <Project>{a0ec04b3-171d-4fa9-9ea8-fa9e8ec2307e}</Project>

@@ -52,7 +52,6 @@
             this.disciplineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.studentGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.streamingLessonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentsStudentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentsGraduateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,8 +59,6 @@
             this.studentsDeductionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.classroomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.academicYearsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +83,8 @@
             this.scheduleLecturerConsultationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.streamingLessonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -231,12 +230,9 @@
             this.disciplineToolStripMenuItem,
             this.toolStripSeparator6,
             this.studentGroupToolStripMenuItem,
-            this.streamingLessonsToolStripMenuItem,
             this.studentsToolStripMenuItem,
             this.toolStripSeparator5,
             this.classroomToolStripMenuItem,
-            this.toolStripSeparator7,
-            this.scheduleLessonTimeToolStripMenuItem,
             this.toolStripSeparator2,
             this.academicYearsToolStripMenuItem});
             this.educationalProcessToolStripMenuItem.Name = "educationalProcessToolStripMenuItem";
@@ -300,13 +296,6 @@
             this.studentGroupToolStripMenuItem.Text = "Группы";
             this.studentGroupToolStripMenuItem.Click += new System.EventHandler(this.StudentGroupToolStripMenuItem_Click);
             // 
-            // streamingLessonsToolStripMenuItem
-            // 
-            this.streamingLessonsToolStripMenuItem.Name = "streamingLessonsToolStripMenuItem";
-            this.streamingLessonsToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.streamingLessonsToolStripMenuItem.Text = "Потоки";
-            this.streamingLessonsToolStripMenuItem.Click += new System.EventHandler(this.StreamingLessonsToolStripMenuItem_Click);
-            // 
             // studentsToolStripMenuItem
             // 
             this.studentsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -358,18 +347,6 @@
             this.classroomToolStripMenuItem.Text = "Аудитории";
             this.classroomToolStripMenuItem.Click += new System.EventHandler(this.ClassroomToolStripMenuItem_Click);
             // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(226, 6);
-            // 
-            // scheduleLessonTimeToolStripMenuItem
-            // 
-            this.scheduleLessonTimeToolStripMenuItem.Name = "scheduleLessonTimeToolStripMenuItem";
-            this.scheduleLessonTimeToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
-            this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.ScheduleLessonTimeToolStripMenuItem_Click);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -393,7 +370,9 @@
             this.scheduleStudentGroupToolStripMenuItem,
             this.scheduleLecturerToolStripMenuItem,
             this.toolStripSeparator1,
-            this.scheduleConfigToolStripMenuItem});
+            this.scheduleConfigToolStripMenuItem,
+            this.streamingLessonsToolStripMenuItem,
+            this.scheduleLessonTimeToolStripMenuItem});
             this.scheduleToolStripMenuItem.Name = "scheduleToolStripMenuItem";
             this.scheduleToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.scheduleToolStripMenuItem.Text = "Расписание";
@@ -553,6 +532,20 @@
             this.scheduleConfigToolStripMenuItem.Text = "Настройки";
             this.scheduleConfigToolStripMenuItem.Click += new System.EventHandler(this.ScheduleConfigToolStripMenuItem_Click);
             // 
+            // streamingLessonsToolStripMenuItem
+            // 
+            this.streamingLessonsToolStripMenuItem.Name = "streamingLessonsToolStripMenuItem";
+            this.streamingLessonsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.streamingLessonsToolStripMenuItem.Text = "Потоки";
+            this.streamingLessonsToolStripMenuItem.Click += new System.EventHandler(this.StreamingLessonsToolStripMenuItem_Click);
+            // 
+            // scheduleLessonTimeToolStripMenuItem
+            // 
+            this.scheduleLessonTimeToolStripMenuItem.Name = "scheduleLessonTimeToolStripMenuItem";
+            this.scheduleLessonTimeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
+            this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.ScheduleLessonTimeToolStripMenuItem_Click);
+            // 
             // laboratoryHeadToolStripMenuItem
             // 
             this.laboratoryHeadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -709,7 +702,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem rolesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DataBaseWorkToolStripMenuItem;

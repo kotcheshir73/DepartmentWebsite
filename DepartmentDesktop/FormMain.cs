@@ -206,17 +206,6 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
-        /// <summary>
-        /// Потоки
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void StreamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.StreamingLesson.StreamingLessonControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
 
         #region Студенты
         /// <summary>
@@ -276,17 +265,6 @@ namespace DepartmentDesktop
 			ApplyControl(control);
 			control.LoadData();
 		}
-		/// <summary>
-		/// Интервалы пар
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ScheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			var control = Container.Resolve<Views.EducationalProcess.ScheduleLessonTime.ScheduleLessonTimeControl>();
-			ApplyControl(control);
-			control.LoadData();
-		}
 
         #region Учебные планы
         /// <summary>
@@ -314,7 +292,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleCurrentClassroomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.CurrentClassroomControl>();
+            var control = ScheduleControlsAndForms.Controller.GetControlCurrentClassroom;
             ApplyControl(control);
             control.LoadData();
         }
@@ -325,7 +303,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleCurrentStudentGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.CurrentStudentGroupControl>();
+            var control = ScheduleControlsAndForms.Controller.GetControlCurrentStudentGroup;
             ApplyControl(control);
             control.LoadData();
         }
@@ -336,7 +314,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleCurrentLecturerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.CurrentLecturerControl>();
+            var control = ScheduleControlsAndForms.Controller.GetControlCurrentLecturer;
             ApplyControl(control);
             control.LoadData();
         }
@@ -350,7 +328,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleClassroomSemesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleSemesterTabControl;
             ApplyControl(control);
             control.LoadData(0);
         }
@@ -361,7 +339,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleClassroomOffsetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleOffsetTabControl;
             ApplyControl(control);
             control.LoadData(0);
         }
@@ -372,7 +350,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleClassroomExaminationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleExaminationTabControl;
             ApplyControl(control);
             control.LoadData(0);
         }
@@ -383,7 +361,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleClassroomConsultationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleConsultationTabControl;
             ApplyControl(control);
             control.LoadData(0);
         }
@@ -397,7 +375,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleStudentGroupSemesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleSemesterTabControl;
             ApplyControl(control);
             control.LoadData(1);
         }
@@ -408,7 +386,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleStudentGroupOffsetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleOffsetTabControl;
             ApplyControl(control);
             control.LoadData(1);
         }
@@ -419,7 +397,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleStudentGroupExaminationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleExaminationTabControl;
             ApplyControl(control);
             control.LoadData(1);
         }
@@ -430,7 +408,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleStudentGroupConsultationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleConsultationTabControl;
             ApplyControl(control);
             control.LoadData(1);
         }
@@ -444,7 +422,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void scheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Semester.ScheduleSemesterTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleSemesterTabControl;
             ApplyControl(control);
             control.LoadData(2);
         }
@@ -455,7 +433,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void scheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Offset.ScheduleOffsetTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleOffsetTabControl;
             ApplyControl(control);
             control.LoadData(2);
         }
@@ -466,7 +444,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void scheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Examination.ScheduleExaminationTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleExaminationTabControl;
             ApplyControl(control);
             control.LoadData(2);
         }
@@ -477,7 +455,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void scheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.Schedule.Consultation.ScheduleConsultationTabControl>();
+            var control = ScheduleControlsAndForms.Controller.GetScheduleConsultationTabControl;
             ApplyControl(control);
             control.LoadData(2);
         }
@@ -490,8 +468,32 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ScheduleConfigToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.Schedule.ScheduleConfigControl>();
-			ApplyControl(control);
+			var control = ScheduleControlsAndForms.Controller.GetControlScheduleConfig;
+            ApplyControl(control);
+			control.LoadData();
+		}
+
+        /// <summary>
+        /// Потоки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void StreamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = ScheduleControlsAndForms.Controller.GetControlStreamingLesson;
+            ApplyControl(control);
+			control.LoadData();
+		}
+
+		/// <summary>
+		/// Интервалы пар
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ScheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var control = ScheduleControlsAndForms.Controller.GetControlScheduleLessonTime;
+            ApplyControl(control);
 			control.LoadData();
 		}
         #endregion
