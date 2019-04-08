@@ -3,7 +3,7 @@ using ScheduleInterfaces.ViewModels;
 using System.Collections.Generic;
 using Tools;
 
-namespace ScheduleServiceInterfaces.Interfaces
+namespace ScheduleInterfaces.Interfaces
 {
     public interface IOffsetRecordService
 	{

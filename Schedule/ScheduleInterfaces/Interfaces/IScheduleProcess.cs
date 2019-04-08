@@ -6,7 +6,7 @@ using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.ViewModels;
 using Tools;
 
-namespace ScheduleServiceInterfaces.Interfaces
+namespace ScheduleInterfaces.Interfaces
 {
     public interface IScheduleProcess
     {
