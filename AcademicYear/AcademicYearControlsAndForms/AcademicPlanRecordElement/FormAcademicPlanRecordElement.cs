@@ -1,4 +1,5 @@
-﻿using AcademicYearInterfaces.BindingModels;
+﻿using AcademicYearControlsAndForms.AcademicPlanRecordMission;
+using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using System;
@@ -73,6 +74,14 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
 
         private void LoadData()
         {
+            if (tabPageRecords.Controls.Count == 0)
+            {
+                var control = Container.Resolve<ControlAcademicPlanRecordMission>();
+                control.Dock = DockStyle.Fill;
+                tabPageRecords.Controls.Add(control);
+            }
+            (tabPageRecords.Controls[0] as ControlAcademicPlanRecordMission).LoadData(_id.Value);
+
             var result = _service.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = _id });
             if (!result.Succeeded)
             {

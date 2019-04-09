@@ -11,6 +11,10 @@ namespace AcademicYearInterfaces.ViewModels
 
         public Guid LecturerId { get; set; }
 
+        public string AcademicPlanRecordElementTitle { get; set; }
+
+        public string LecturerName { get; set; }
+
         public decimal Hours { get; set; }
     }
 }

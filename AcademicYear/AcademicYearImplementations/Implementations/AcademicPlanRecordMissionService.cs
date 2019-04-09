@@ -1,6 +1,9 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +17,26 @@ namespace AcademicYearImplementations.Implementations
         private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_планы;
 
         private readonly string _entity = "Учебные планы";
+
+        private readonly IAcademicPlanRecordElementService _serviceAPRE;
+
+        private readonly ILecturerService _serviceL;
+
+        public AcademicPlanRecordMissionService(IAcademicPlanRecordElementService serviceAPRE, ILecturerService serviceL)
+        {
+            _serviceAPRE = serviceAPRE;
+            _serviceL = serviceL;
+        }
+
+        public ResultService<AcademicPlanRecordElementPageViewModel> GetAcademicPlanRecordElements(AcademicPlanRecordElementGetBindingModel model)
+        {
+            return _serviceAPRE.GetAcademicPlanRecordElements(model);
+        }
+
+        public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+        {
+            return _serviceL.GetLecturers(model);
+        }
 
         public ResultService<AcademicPlanRecordMissionPageViewModel> GetAcademicPlanRecordMissions(AcademicPlanRecordMissionGetBindingModel model)
         {
@@ -45,7 +68,7 @@ namespace AcademicYearImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.AcademicPlanRecordElement);
+                    query = query.Include(x => x.AcademicPlanRecordElement).Include(x => x.AcademicPlanRecordElement.TimeNorm).Include(x => x.Lecturer);
 
                     var result = new AcademicPlanRecordMissionPageViewModel
                     {
@@ -71,6 +94,9 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.AcademicPlanRecordMissions
+                                .Include(x => x.AcademicPlanRecordElement)
+                                .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                                .Include(x => x.Lecturer)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

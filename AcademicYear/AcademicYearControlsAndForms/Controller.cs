@@ -1,6 +1,7 @@
 ﻿using AcademicYearControlsAndForms.AcademicPlan;
 using AcademicYearControlsAndForms.AcademicPlanRecord;
 using AcademicYearControlsAndForms.AcademicPlanRecordElement;
+using AcademicYearControlsAndForms.AcademicPlanRecordMission;
 using AcademicYearControlsAndForms.AcademicYear;
 using AcademicYearControlsAndForms.Contingent;
 using AcademicYearControlsAndForms.SeasonDates;
@@ -60,6 +61,8 @@ namespace AcademicYearControlsAndForms
         public static ControlAcademicPlanRecord GetControlAcademicPlanRecord { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlAcademicPlanRecord>(); } }
 
         public static ControlAcademicPlanRecordElement GetControlAcademicPlanRecordElement { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlAcademicPlanRecordElement>(); } }
+
+        public static ControlAcademicPlanRecordMission GetControlAcademicPlanRecordMission { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlAcademicPlanRecordMission>(); } }
 
         public static ControlContingent GetControlContingent { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlContingent>(); } }
 

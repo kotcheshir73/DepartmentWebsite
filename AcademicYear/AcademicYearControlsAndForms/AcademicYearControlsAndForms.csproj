@@ -66,6 +66,18 @@
     <Compile Include="AcademicPlanRecordElement\FormAcademicPlanRecordElement.designer.cs">
       <DependentUpon>FormAcademicPlanRecordElement.cs</DependentUpon>
     </Compile>
+    <Compile Include="AcademicPlanRecordMission\ControlAcademicPlanRecordMission.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\ControlAcademicPlanRecordMission.Designer.cs">
+      <DependentUpon>ControlAcademicPlanRecordMission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\FormAcademicPlanRecordMission.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\FormAcademicPlanRecordMission.Designer.cs">
+      <DependentUpon>FormAcademicPlanRecordMission.cs</DependentUpon>
+    </Compile>
     <Compile Include="AcademicPlanRecord\ControlAcademicPlanRecord.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -207,6 +219,12 @@
     <EmbeddedResource Include="AcademicPlanRecordElement\FormAcademicPlanRecordElement.resx">
       <DependentUpon>FormAcademicPlanRecordElement.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecordMission\ControlAcademicPlanRecordMission.resx">
+      <DependentUpon>ControlAcademicPlanRecordMission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecordMission\FormAcademicPlanRecordMission.resx">
+      <DependentUpon>FormAcademicPlanRecordMission.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AcademicPlanRecord\ControlAcademicPlanRecord.resx">
       <DependentUpon>ControlAcademicPlanRecord.cs</DependentUpon>
     </EmbeddedResource>
@@ -339,5 +357,6 @@
   <ItemGroup>
     <None Include="Resources\Upd.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

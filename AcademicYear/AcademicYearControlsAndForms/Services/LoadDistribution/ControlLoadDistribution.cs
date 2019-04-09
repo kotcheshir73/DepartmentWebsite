@@ -369,9 +369,9 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
         {
             if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
             {
-                dataGridViewList.Columns[j].HeaderText = dataGridViewList.Columns[j].HeaderText.Split('-')[0] + "-"
-                    + dataGridViewList.Columns[j].HeaderText.Split('-')[1] + "- " 
-                    + (Convert.ToDouble(dataGridViewList.Columns[j].HeaderText.Split('-')[1]) - getSumHourOfLecturer(j));
+                //dataGridViewList.Columns[j].HeaderText = dataGridViewList.Columns[j].HeaderText.Split('-')[0] + "-"
+                //    + dataGridViewList.Columns[j].HeaderText.Split('-')[1] + "- " 
+                //    + (Convert.ToDouble(dataGridViewList.Columns[j].HeaderText.Split('-')[1]) - getSumHourOfLecturer(j));
             }
         }
 

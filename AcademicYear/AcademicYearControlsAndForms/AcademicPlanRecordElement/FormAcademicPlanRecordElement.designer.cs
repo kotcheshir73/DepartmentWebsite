@@ -39,12 +39,17 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxFactHours = new System.Windows.Forms.TextBox();
             this.labelFactHours = new System.Windows.Forms.Label();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPageConfig = new System.Windows.Forms.TabPage();
+            this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.tabControl.SuspendLayout();
+            this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelAcademicPlanRecord
             // 
             this.labelAcademicPlanRecord.AutoSize = true;
-            this.labelAcademicPlanRecord.Location = new System.Drawing.Point(12, 9);
+            this.labelAcademicPlanRecord.Location = new System.Drawing.Point(6, 14);
             this.labelAcademicPlanRecord.Name = "labelAcademicPlanRecord";
             this.labelAcademicPlanRecord.Size = new System.Drawing.Size(132, 13);
             this.labelAcademicPlanRecord.TabIndex = 0;
@@ -55,7 +60,7 @@
             this.comboBoxAcademicPlanRecord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAcademicPlanRecord.Enabled = false;
             this.comboBoxAcademicPlanRecord.FormattingEnabled = true;
-            this.comboBoxAcademicPlanRecord.Location = new System.Drawing.Point(150, 6);
+            this.comboBoxAcademicPlanRecord.Location = new System.Drawing.Point(144, 11);
             this.comboBoxAcademicPlanRecord.Name = "comboBoxAcademicPlanRecord";
             this.comboBoxAcademicPlanRecord.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicPlanRecord.TabIndex = 1;
@@ -64,7 +69,7 @@
             // 
             this.comboBoxTimeNorm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTimeNorm.FormattingEnabled = true;
-            this.comboBoxTimeNorm.Location = new System.Drawing.Point(150, 33);
+            this.comboBoxTimeNorm.Location = new System.Drawing.Point(144, 38);
             this.comboBoxTimeNorm.Name = "comboBoxTimeNorm";
             this.comboBoxTimeNorm.Size = new System.Drawing.Size(220, 21);
             this.comboBoxTimeNorm.TabIndex = 3;
@@ -72,7 +77,7 @@
             // labelTimeNorm
             // 
             this.labelTimeNorm.AutoSize = true;
-            this.labelTimeNorm.Location = new System.Drawing.Point(12, 36);
+            this.labelTimeNorm.Location = new System.Drawing.Point(6, 41);
             this.labelTimeNorm.Name = "labelTimeNorm";
             this.labelTimeNorm.Size = new System.Drawing.Size(95, 13);
             this.labelTimeNorm.TabIndex = 2;
@@ -81,7 +86,7 @@
             // labelPlanHours
             // 
             this.labelPlanHours.AutoSize = true;
-            this.labelPlanHours.Location = new System.Drawing.Point(12, 63);
+            this.labelPlanHours.Location = new System.Drawing.Point(6, 68);
             this.labelPlanHours.Name = "labelPlanHours";
             this.labelPlanHours.Size = new System.Drawing.Size(71, 13);
             this.labelPlanHours.TabIndex = 4;
@@ -89,14 +94,14 @@
             // 
             // textBoxPlanHours
             // 
-            this.textBoxPlanHours.Location = new System.Drawing.Point(89, 60);
+            this.textBoxPlanHours.Location = new System.Drawing.Point(83, 65);
             this.textBoxPlanHours.Name = "textBoxPlanHours";
             this.textBoxPlanHours.Size = new System.Drawing.Size(80, 20);
             this.textBoxPlanHours.TabIndex = 5;
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(123, 96);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(117, 101);
             this.buttonSaveAndClose.Name = "buttonSaveAndClose";
             this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
             this.buttonSaveAndClose.TabIndex = 9;
@@ -106,7 +111,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(270, 96);
+            this.buttonClose.Location = new System.Drawing.Point(264, 101);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 10;
@@ -116,7 +121,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(42, 96);
+            this.buttonSave.Location = new System.Drawing.Point(36, 101);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 8;
@@ -126,7 +131,7 @@
             // 
             // textBoxFactHours
             // 
-            this.textBoxFactHours.Location = new System.Drawing.Point(290, 60);
+            this.textBoxFactHours.Location = new System.Drawing.Point(284, 65);
             this.textBoxFactHours.Name = "textBoxFactHours";
             this.textBoxFactHours.Size = new System.Drawing.Size(80, 20);
             this.textBoxFactHours.TabIndex = 7;
@@ -134,34 +139,68 @@
             // labelFactHours
             // 
             this.labelFactHours.AutoSize = true;
-            this.labelFactHours.Location = new System.Drawing.Point(213, 63);
+            this.labelFactHours.Location = new System.Drawing.Point(207, 68);
             this.labelFactHours.Name = "labelFactHours";
             this.labelFactHours.Size = new System.Drawing.Size(73, 13);
             this.labelFactHours.TabIndex = 6;
             this.labelFactHours.Text = "Факт. часы*:";
             // 
-            // AcademicPlanRecordElementForm
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPageConfig);
+            this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(705, 409);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabPageConfig
+            // 
+            this.tabPageConfig.Controls.Add(this.labelAcademicPlanRecord);
+            this.tabPageConfig.Controls.Add(this.textBoxFactHours);
+            this.tabPageConfig.Controls.Add(this.comboBoxAcademicPlanRecord);
+            this.tabPageConfig.Controls.Add(this.labelFactHours);
+            this.tabPageConfig.Controls.Add(this.labelTimeNorm);
+            this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
+            this.tabPageConfig.Controls.Add(this.comboBoxTimeNorm);
+            this.tabPageConfig.Controls.Add(this.buttonClose);
+            this.tabPageConfig.Controls.Add(this.labelPlanHours);
+            this.tabPageConfig.Controls.Add(this.buttonSave);
+            this.tabPageConfig.Controls.Add(this.textBoxPlanHours);
+            this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
+            this.tabPageConfig.Name = "tabPageConfig";
+            this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageConfig.Size = new System.Drawing.Size(946, 495);
+            this.tabPageConfig.TabIndex = 0;
+            this.tabPageConfig.Text = "Нагрузка по виду нагрузок";
+            this.tabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // tabPageRecords
+            // 
+            this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRecords.Name = "tabPageRecords";
+            this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRecords.Size = new System.Drawing.Size(697, 383);
+            this.tabPageRecords.TabIndex = 1;
+            this.tabPageRecords.Text = "Распределение нагрузки";
+            this.tabPageRecords.UseVisualStyleBackColor = true;
+            // 
+            // FormAcademicPlanRecordElement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(385, 131);
-            this.Controls.Add(this.textBoxFactHours);
-            this.Controls.Add(this.labelFactHours);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.textBoxPlanHours);
-            this.Controls.Add(this.labelPlanHours);
-            this.Controls.Add(this.comboBoxTimeNorm);
-            this.Controls.Add(this.labelTimeNorm);
-            this.Controls.Add(this.comboBoxAcademicPlanRecord);
-            this.Controls.Add(this.labelAcademicPlanRecord);
-            this.Name = "AcademicPlanRecordElementForm";
+            this.ClientSize = new System.Drawing.Size(705, 409);
+            this.Controls.Add(this.tabControl);
+            this.Name = "FormAcademicPlanRecordElement";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Нагрузка по виду нагрузок";
             this.Load += new System.EventHandler(this.FormAcademicPlanRecordElement_Load);
+            this.tabControl.ResumeLayout(false);
+            this.tabPageConfig.ResumeLayout(false);
+            this.tabPageConfig.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -178,5 +217,8 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TextBox textBoxFactHours;
         private System.Windows.Forms.Label labelFactHours;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageConfig;
+        private System.Windows.Forms.TabPage tabPageRecords;
     }
 }

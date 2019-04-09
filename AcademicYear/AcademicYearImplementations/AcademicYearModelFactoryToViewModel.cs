@@ -77,6 +77,8 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
                 LecturerId = entity.LecturerId,
+                AcademicPlanRecordElementTitle = entity.AcademicPlanRecordElement.TimeNorm.TimeNormName,
+                LecturerName = entity.Lecturer.ToString(),
                 Hours = entity.Hours
             };
         }
