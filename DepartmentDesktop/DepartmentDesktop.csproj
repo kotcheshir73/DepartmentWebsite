@@ -204,113 +204,17 @@
     </Compile>
     <Compile Include="Models\ColumnConfig.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanControl.Designer.cs">
-      <DependentUpon>AcademicPlanControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanForm.Designer.cs">
-      <DependentUpon>AcademicPlanForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.Designer.cs">
-      <DependentUpon>AcademicPlanRecordControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.Designer.cs">
-      <DependentUpon>AcademicPlanRecordElementControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.Designer.cs">
-      <DependentUpon>AcademicPlanRecordElementForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.Designer.cs">
-      <DependentUpon>AcademicPlanRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicYearControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicYearControl.Designer.cs">
-      <DependentUpon>AcademicYearControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicYearForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\AcademicYearForm.Designer.cs">
-      <DependentUpon>AcademicYearForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.Designer.cs">
-      <DependentUpon>ContingentControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\DuplicateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\DuplicateForm.Designer.cs">
-      <DependentUpon>DuplicateForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.Designer.cs">
-      <DependentUpon>StreamLessonControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.Designer.cs">
-      <DependentUpon>StreamLessonForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.Designer.cs">
-      <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.Designer.cs">
       <DependentUpon>LecturerCabinetControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.Designer.cs">
-      <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.Designer.cs">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormControl.Designer.cs">
-      <DependentUpon>TimeNormControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormForm.Designer.cs">
-      <DependentUpon>TimeNormForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.cs">
       <SubType>UserControl</SubType>
@@ -612,66 +516,6 @@
     <Compile Include="Views\LearningProgress\StudentsDistributionControl.Designer.cs">
       <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\DataBaseWork\ExportDataBaseControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Services\DataBaseWork\ExportDataBaseControl.Designer.cs">
-      <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Services\DataBaseWork\ImportDataBaseControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Services\DataBaseWork\ImportDataBaseControl.Designer.cs">
-      <DependentUpon>ImportDataBaseControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionControl.Designer.cs">
-      <DependentUpon>LoadDistributionControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionEditForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionEditForm.Designer.cs">
-      <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionForm.Designer.cs">
-      <DependentUpon>LoadDistributionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionRecordControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionRecordControl.Designer.cs">
-      <DependentUpon>LoadDistributionRecordControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Services\LoadDistribution\LoadDistributionRecordForm.Designer.cs">
-      <DependentUpon>LoadDistributionRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesControl.Designer.cs">
-      <DependentUpon>SeasonDatesControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesForm.Designer.cs">
-      <DependentUpon>SeasonDatesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.Designer.cs">
-      <DependentUpon>ContingentForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Services\MakeTicketsUS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -692,59 +536,11 @@
     <EmbeddedResource Include="FormError.resx">
       <DependentUpon>FormError.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanControl.resx">
-      <DependentUpon>AcademicPlanControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanForm.resx">
-      <DependentUpon>AcademicPlanForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordControl.resx">
-      <DependentUpon>AcademicPlanRecordControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementControl.resx">
-      <DependentUpon>AcademicPlanRecordElementControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordElement\AcademicPlanRecordElementForm.resx">
-      <DependentUpon>AcademicPlanRecordElementForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicPlan\AcademicPlanRecord\AcademicPlanRecordForm.resx">
-      <DependentUpon>AcademicPlanRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicYearControl.resx">
-      <DependentUpon>AcademicYearControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\AcademicYearForm.resx">
-      <DependentUpon>AcademicYearForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentControl.resx">
-      <DependentUpon>ContingentControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\DuplicateForm.resx">
-      <DependentUpon>DuplicateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonControl.resx">
-      <DependentUpon>StreamLessonControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonForm.resx">
-      <DependentUpon>StreamLessonForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordControl.resx">
-      <DependentUpon>StreamLessonRecordControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.resx">
       <DependentUpon>LecturerCabinetControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\StreamLesson\StreamLessonRecord\StreamLessonRecordForm.resx">
-      <DependentUpon>StreamLessonRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.resx">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormControl.resx">
-      <DependentUpon>TimeNormControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\TimeNorm\TimeNormForm.resx">
-      <DependentUpon>TimeNormForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.resx">
       <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
@@ -906,36 +702,6 @@
     <EmbeddedResource Include="Views\LearningProgress\StudentsDistributionControl.resx">
       <DependentUpon>StudentsDistributionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\DataBaseWork\ExportDataBaseControl.resx">
-      <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\DataBaseWork\ImportDataBaseControl.resx">
-      <DependentUpon>ImportDataBaseControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionControl.resx">
-      <DependentUpon>LoadDistributionControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionEditForm.resx">
-      <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionForm.resx">
-      <DependentUpon>LoadDistributionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionRecordControl.resx">
-      <DependentUpon>LoadDistributionRecordControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\LoadDistribution\LoadDistributionRecordForm.resx">
-      <DependentUpon>LoadDistributionRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesControl.resx">
-      <DependentUpon>SeasonDatesControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\SeasonDates\SeasonDatesForm.resx">
-      <DependentUpon>SeasonDatesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EducationalProcess\AcademicYear\Contingent\ContingentForm.resx">
-      <DependentUpon>ContingentForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
       <DependentUpon>MakeTicketsUS.cs</DependentUpon>
     </EmbeddedResource>
@@ -990,6 +756,10 @@
     <None Include="Resources\Clear.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AcademicYear\AcademicYearControlsAndForms\AcademicYearControlsAndForms.csproj">
+      <Project>{b16ec094-764b-4148-9c5a-2d6d1f8358b6}</Project>
+      <Name>AcademicYearControlsAndForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
       <Project>{B8F97CE3-C035-4FC7-A316-877610E7ADF4}</Project>
       <Name>AuthenticationModels</Name>

@@ -50,7 +50,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
 		private void LoadDistributionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.EducationalProcess.LoadDistribution.LoadDistributionControl>();
+            var control = AcademicYearControlsAndForms.Controller.GetControlLoadDistribution;
 			ApplyControl(control);
 			control.LoadData();
 		}
@@ -97,7 +97,6 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ImportDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var control = Container.Resolve<Views.Services.DataBaseWork.ImportDataBaseControl>();
             var control = AuthenticationControlsAndForms.Controller.GetImportDataBaseControl;
             ApplyControl(control);
         }
@@ -108,7 +107,6 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ExportDataBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var control = Container.Resolve<Views.Services.DataBaseWork.ExportDataBaseControl>();
             var control = AuthenticationControlsAndForms.Controller.GetExportDataBaseControl;
             ApplyControl(control);
         }
@@ -274,8 +272,8 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
 		private void AcademicYearsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = Container.Resolve<Views.EducationalProcess.AcademicYear.AcademicYearControl>();
-			ApplyControl(control);
+			var control = AcademicYearControlsAndForms.Controller.GetControlAcademicYear;
+            ApplyControl(control);
 			control.LoadData();
 		}
         #endregion

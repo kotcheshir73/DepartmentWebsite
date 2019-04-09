@@ -1,5 +1,4 @@
-﻿using AcademicYearImplementations;
-using AcademicYearInterfaces.BindingModels;
+﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
 using Enums;
@@ -8,7 +7,7 @@ using System;
 using System.Linq;
 using Tools;
 
-namespace DepartmentService.Services
+namespace AcademicYearImplementations.Implementations
 {
     public class AcademicPlanRecordMissionService : IAcademicPlanRecordMissionService
     {
