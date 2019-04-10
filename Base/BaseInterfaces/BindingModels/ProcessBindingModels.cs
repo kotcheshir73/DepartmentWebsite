@@ -14,7 +14,7 @@ namespace BaseInterfaces.BindingModels
     }
 
     /// <summary>
-    /// Спсиок студентов на зачисление, + приказ
+    /// Список студентов на зачисление, + приказ
     /// </summary>
     public class StudentEnrollmentBindingModel
     {
@@ -26,7 +26,7 @@ namespace BaseInterfaces.BindingModels
     }
 
     /// <summary>
-    /// Спсиок студентов на перевод из одной группы в другую + причина перевода (включая восстановление после академа)
+    /// Список студентов на перевод из одной группы в другую + причина перевода (включая восстановление после академа)
     /// </summary>
     public class StudentTransferBindingModel
     {
@@ -44,7 +44,7 @@ namespace BaseInterfaces.BindingModels
     }
 
     /// <summary>
-    /// Спсиок студентов на отчисление + приказ
+    /// Список студентов на отчисление + приказ
     /// </summary>
     public class StudentDeductionBindingModel
     {
@@ -58,14 +58,26 @@ namespace BaseInterfaces.BindingModels
     }
 
     /// <summary>
-    /// Спсиок студентов на перевод в академ + приказ
+    /// Список студентов на перевод в академ + приказ
     /// </summary>
-    public class StudentToAcademBindingModel
+    public class StudentAcademBindingModel
     {
         public List<Guid> StudnetIds { get; set; }
 
-        public DateTime ToAcademDate { get; set; }
+        public DateTime AcademDate { get; set; }
 
-        public string ToAcademOrderNumber { get; set; }
+        public string AcademOrderNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Список студентов на восстановление
+    /// </summary>
+    public class StudentRecoveryBindingModel
+    {
+        public List<Guid> StudnetIds { get; set; }
+
+        public DateTime RecoveryDate { get; set; }
+
+        public string RecoveryOrderNumber { get; set; }
     }
 }

@@ -132,23 +132,35 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FormFromAcadem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormFromAcadem.Designer.cs">
+      <DependentUpon>FormFromAcadem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormRecovery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormRecovery.Designer.cs">
+      <DependentUpon>FormRecovery.cs</DependentUpon>
+    </Compile>
     <Compile Include="StudentGroup\ControlStudentGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="StudentGroup\ControlStudentGroup.designer.cs">
       <DependentUpon>ControlStudentGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\StudentGroupDeductionForm.cs">
+    <Compile Include="Services\FormDeduction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\StudentGroupDeductionForm.designer.cs">
-      <DependentUpon>StudentGroupDeductionForm.cs</DependentUpon>
+    <Compile Include="Services\FormDeduction.designer.cs">
+      <DependentUpon>FormDeduction.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\StudentGroupEnrollmentForm.cs">
+    <Compile Include="Services\FormEnrollment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\StudentGroupEnrollmentForm.designer.cs">
-      <DependentUpon>StudentGroupEnrollmentForm.cs</DependentUpon>
+    <Compile Include="Services\FormEnrollment.designer.cs">
+      <DependentUpon>FormEnrollment.cs</DependentUpon>
     </Compile>
     <Compile Include="StudentGroup\FormStudentGroup.cs">
       <SubType>Form</SubType>
@@ -156,17 +168,17 @@
     <Compile Include="StudentGroup\FormStudentGroup.designer.cs">
       <DependentUpon>FormStudentGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\StudentGroupToAcademForm.cs">
+    <Compile Include="Services\FormToAcadem.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\StudentGroupToAcademForm.designer.cs">
-      <DependentUpon>StudentGroupToAcademForm.cs</DependentUpon>
+    <Compile Include="Services\FormToAcadem.designer.cs">
+      <DependentUpon>FormToAcadem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\StudentGroupTransferForm.cs">
+    <Compile Include="Services\FormTransfer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\StudentGroupTransferForm.designer.cs">
-      <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>
+    <Compile Include="Services\FormTransfer.designer.cs">
+      <DependentUpon>FormTransfer.cs</DependentUpon>
     </Compile>
     <Compile Include="Student\ControlStudent.cs">
       <SubType>UserControl</SubType>
@@ -226,23 +238,29 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Services\FormFromAcadem.resx">
+      <DependentUpon>FormFromAcadem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormRecovery.resx">
+      <DependentUpon>FormRecovery.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StudentGroup\ControlStudentGroup.resx">
       <DependentUpon>ControlStudentGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\StudentGroupDeductionForm.resx">
-      <DependentUpon>StudentGroupDeductionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormDeduction.resx">
+      <DependentUpon>FormDeduction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\StudentGroupEnrollmentForm.resx">
-      <DependentUpon>StudentGroupEnrollmentForm.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormEnrollment.resx">
+      <DependentUpon>FormEnrollment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StudentGroup\FormStudentGroup.resx">
       <DependentUpon>FormStudentGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\StudentGroupToAcademForm.resx">
-      <DependentUpon>StudentGroupToAcademForm.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormToAcadem.resx">
+      <DependentUpon>FormToAcadem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\StudentGroupTransferForm.resx">
-      <DependentUpon>StudentGroupTransferForm.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormTransfer.resx">
+      <DependentUpon>FormTransfer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Student\ControlStudent.resx">
       <DependentUpon>ControlStudent.cs</DependentUpon>

@@ -1,6 +1,6 @@
-﻿namespace BaseControlsAndForms.StudentGroup
+﻿namespace BaseControlsAndForms.Services
 {
-	partial class StudentGroupEnrollmentForm
+	partial class FormEnrollment
 	{
 		/// <summary>
 		/// Required designer variable.

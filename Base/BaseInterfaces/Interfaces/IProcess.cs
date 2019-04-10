@@ -39,6 +39,27 @@ namespace BaseInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ToAcademStudents(StudentToAcademBindingModel model);
+        ResultService ToAcademStudents(StudentAcademBindingModel model);
+
+        /// <summary>
+        /// Приход студентов из академа
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService FromAcademStudents(StudentAcademBindingModel model);
+
+        /// <summary>
+        /// Восстановление студентов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService RecoveryStudents(StudentRecoveryBindingModel model);
+
+        /// <summary>
+        /// Перевод студентов на другую специальность
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService TransferSpecStudents(StudentTransferBindingModel model);
     }
 }

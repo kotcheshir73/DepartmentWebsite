@@ -1,4 +1,4 @@
-﻿using BaseControlsAndForms.StudentGroup;
+﻿using BaseControlsAndForms.Services;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
@@ -49,19 +49,21 @@ namespace BaseControlsAndForms.Student
                 { "TransferToolStripMenuItem", "Перевести"},
                 { "ToAcademToolStripMenuItem", "В академ"},
                 { "FromAcademToolStripMenuItem", "Из академа"},
-                { "ReestablishToolStripMenuItem", "Восстановить"}
+                { "RecoveryToolStripMenuItem", "Восстановить"},
+                { "TransferSpecToolStripMenuItem", "Перевод на другую специальность"}
             };
 
             standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
-            //TODO прописать метод для пункта Восстановить
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("EnrollmentToolStripMenuItem", EnrollmentToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("DeductionToolStripMenuItem", DeductionToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("TransferToolStripMenuItem", TransferToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("ToAcademToolStripMenuItem", ToAcademToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("FromAcademToolStripMenuItem", FromAcademToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("RecoveryToolStripMenuItem", RecoveryToolStripMenuItem_Click);
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
                 switch (e.KeyCode)
@@ -131,12 +133,12 @@ namespace BaseControlsAndForms.Student
 
         private void EnrollmentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<StudentGroupEnrollmentForm>(
+            var form = Container.Resolve<FormEnrollment>(
                     new ParameterOverrides
                     {
                         { "id", _sgId }
                     }
-                    .OnType<StudentGroupEnrollmentForm>());
+                    .OnType<FormEnrollment>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -152,12 +154,12 @@ namespace BaseControlsAndForms.Student
                 {
                     ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
                 }
-                var form = Container.Resolve<StudentGroupDeductionForm>(
+                var form = Container.Resolve<FormDeduction>(
                         new ParameterOverrides
                         {
                             { "ids", ids }
                         }
-                        .OnType<StudentGroupDeductionForm>());
+                        .OnType<FormDeduction>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -167,12 +169,12 @@ namespace BaseControlsAndForms.Student
 
         private void TransferToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<StudentGroupTransferForm>(
+            var form = Container.Resolve<FormTransfer>(
                     new ParameterOverrides
                     {
                         { "id", _sgId }
                     }
-                    .OnType<StudentGroupTransferForm>());
+                    .OnType<FormTransfer>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -188,16 +190,52 @@ namespace BaseControlsAndForms.Student
                 {
                     ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
                 }
-                var form = Container.Resolve<StudentGroupToAcademForm>(
+                var form = Container.Resolve<FormToAcadem>(
                         new ParameterOverrides
                         {
                             { "ids", ids }
                         }
-                        .OnType<StudentGroupToAcademForm>());
+                        .OnType<FormToAcadem>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
                 }
+            }
+        }
+
+        private void FromAcademToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count > 0)
+            {
+                List<Guid> ids = new List<Guid>();
+                for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+                {
+                    ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
+                }
+                var form = Container.Resolve<FormFromAcadem>(
+                        new ParameterOverrides
+                        {
+                            { "ids", ids }
+                        }
+                        .OnType<FormFromAcadem>());
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void RecoveryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormRecovery>(
+                new ParameterOverrides
+                {
+                    { "id", _sgId }
+                }
+                .OnType<FormRecovery>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
             }
         }
     }

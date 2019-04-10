@@ -1,6 +1,6 @@
-﻿namespace BaseControlsAndForms.StudentGroup
+﻿namespace BaseControlsAndForms.Services
 {
-	partial class StudentGroupTransferForm
+	partial class FormTransfer
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,6 +29,12 @@
 		private void InitializeComponent()
 		{
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
+            this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnNumberOfBook = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnPatronymic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateTimePickerTransferDate = new System.Windows.Forms.DateTimePicker();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -38,12 +44,6 @@
             this.textBoxTransferOrderNumber = new System.Windows.Forms.TextBox();
             this.labelTransferOrderNumber = new System.Windows.Forms.Label();
             this.checkBoxIsConditionally = new System.Windows.Forms.CheckBox();
-            this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnNumberOfBook = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnPatronymic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,8 +66,48 @@
             this.dataGridViewStudents.Location = new System.Drawing.Point(0, 60);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
             this.dataGridViewStudents.RowHeadersVisible = false;
-            this.dataGridViewStudents.Size = new System.Drawing.Size(734, 331);
+            this.dataGridViewStudents.Size = new System.Drawing.Size(734, 330);
             this.dataGridViewStudents.TabIndex = 6;
+            // 
+            // ColumnSelect
+            // 
+            this.ColumnSelect.HeaderText = "Выбрать";
+            this.ColumnSelect.Name = "ColumnSelect";
+            this.ColumnSelect.Width = 60;
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            // 
+            // ColumnNumberOfBook
+            // 
+            this.ColumnNumberOfBook.HeaderText = "Номер зачетки";
+            this.ColumnNumberOfBook.Name = "ColumnNumberOfBook";
+            this.ColumnNumberOfBook.ReadOnly = true;
+            this.ColumnNumberOfBook.Width = 110;
+            // 
+            // ColumnLastName
+            // 
+            this.ColumnLastName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnLastName.HeaderText = "Фамилия";
+            this.ColumnLastName.Name = "ColumnLastName";
+            this.ColumnLastName.ReadOnly = true;
+            // 
+            // ColumnFirstName
+            // 
+            this.ColumnFirstName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnFirstName.HeaderText = "Имя";
+            this.ColumnFirstName.Name = "ColumnFirstName";
+            this.ColumnFirstName.ReadOnly = true;
+            // 
+            // ColumnPatronymic
+            // 
+            this.ColumnPatronymic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnPatronymic.HeaderText = "Отчество";
+            this.ColumnPatronymic.Name = "ColumnPatronymic";
+            this.ColumnPatronymic.ReadOnly = true;
             // 
             // dateTimePickerTransferDate
             // 
@@ -151,51 +191,11 @@
             this.checkBoxIsConditionally.Text = "Перевод условно";
             this.checkBoxIsConditionally.UseVisualStyleBackColor = true;
             // 
-            // ColumnSelect
-            // 
-            this.ColumnSelect.HeaderText = "Выбрать";
-            this.ColumnSelect.Name = "ColumnSelect";
-            this.ColumnSelect.Width = 60;
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
-            // 
-            // ColumnNumberOfBook
-            // 
-            this.ColumnNumberOfBook.HeaderText = "Номер зачетки";
-            this.ColumnNumberOfBook.Name = "ColumnNumberOfBook";
-            this.ColumnNumberOfBook.ReadOnly = true;
-            this.ColumnNumberOfBook.Width = 110;
-            // 
-            // ColumnLastName
-            // 
-            this.ColumnLastName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnLastName.HeaderText = "Фамилия";
-            this.ColumnLastName.Name = "ColumnLastName";
-            this.ColumnLastName.ReadOnly = true;
-            // 
-            // ColumnFirstName
-            // 
-            this.ColumnFirstName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnFirstName.HeaderText = "Имя";
-            this.ColumnFirstName.Name = "ColumnFirstName";
-            this.ColumnFirstName.ReadOnly = true;
-            // 
-            // ColumnPatronymic
-            // 
-            this.ColumnPatronymic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnPatronymic.HeaderText = "Отчество";
-            this.ColumnPatronymic.Name = "ColumnPatronymic";
-            this.ColumnPatronymic.ReadOnly = true;
-            // 
-            // StudentGroupTransferForm
+            // FormTransfer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 432);
+            this.ClientSize = new System.Drawing.Size(734, 431);
             this.Controls.Add(this.checkBoxIsConditionally);
             this.Controls.Add(this.textBoxTransferOrderNumber);
             this.Controls.Add(this.labelTransferOrderNumber);
@@ -206,10 +206,10 @@
             this.Controls.Add(this.dateTimePickerTransferDate);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
-            this.Name = "StudentGroupTransferForm";
+            this.Name = "FormTransfer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Перевод студентов";
-            this.Load += new System.EventHandler(this.StudentGroupTransferForm_Load);
+            this.Load += new System.EventHandler(this.FormTransfer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

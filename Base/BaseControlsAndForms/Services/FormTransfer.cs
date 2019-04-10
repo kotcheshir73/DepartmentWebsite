@@ -9,14 +9,14 @@ using System.Linq;
 using System.Windows.Forms;
 using Unity;
 
-namespace BaseControlsAndForms.StudentGroup
+namespace BaseControlsAndForms.Services
 {
-    public partial class StudentGroupTransferForm : Form
+    public partial class FormTransfer : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IStudentGroupService _service;
+        private readonly IStudentGroupService _serviceSG;
 
 		private readonly IStudentService _serviceS;
 
@@ -24,18 +24,18 @@ namespace BaseControlsAndForms.StudentGroup
 
 		private Guid? _id = null;
 
-		public StudentGroupTransferForm(IStudentGroupService service, IStudentService serviceS, IProcess process, Guid? id = null)
+		public FormTransfer(IStudentGroupService serviceSG, IStudentService serviceS, IProcess process, Guid? id = null)
 		{
 			InitializeComponent();
-			_service = service;
+			_serviceSG = serviceSG;
 			_serviceS = serviceS;
 			_process = process;
 			_id = id;
 		}
 
-		private void StudentGroupTransferForm_Load(object sender, EventArgs e)
+		private void FormTransfer_Load(object sender, EventArgs e)
 		{
-			var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+			var resultSG = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { });
 			if (!resultSG.Succeeded)
 			{
                 ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);

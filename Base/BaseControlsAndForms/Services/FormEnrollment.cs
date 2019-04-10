@@ -6,23 +6,20 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
 
-namespace BaseControlsAndForms.StudentGroup
+namespace BaseControlsAndForms.Services
 {
-    public partial class StudentGroupEnrollmentForm : Form
+    public partial class FormEnrollment : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
-        private readonly IStudentGroupService _service;
 
 		private readonly IProcess _process;
 
 		private Guid? _id = null;
 
-		public StudentGroupEnrollmentForm(IStudentGroupService service, IProcess process, Guid? id = null)
+		public FormEnrollment(IProcess process, Guid? id = null)
 		{
 			InitializeComponent();
-			_service = service;
 			_process = process;
             if (id != Guid.Empty)
             {

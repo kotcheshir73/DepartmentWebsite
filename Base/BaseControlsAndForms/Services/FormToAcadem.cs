@@ -6,14 +6,12 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
 
-namespace BaseControlsAndForms.StudentGroup
+namespace BaseControlsAndForms.Services
 {
-    public partial class StudentGroupToAcademForm : Form
+    public partial class FormToAcadem : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
-        private readonly IStudentGroupService _service;
 
 		private readonly IStudentService _serviceS;
 
@@ -21,16 +19,15 @@ namespace BaseControlsAndForms.StudentGroup
 
         private List<Guid> _ids = null;
 
-        public StudentGroupToAcademForm(IStudentGroupService service, IStudentService serviceS, IProcess process, List<Guid> ids)
+        public FormToAcadem(IStudentService serviceS, IProcess process, List<Guid> ids)
 		{
 			InitializeComponent();
-			_service = service;
 			_serviceS = serviceS;
 			_process = process;
             _ids = ids;
         }
 
-		private void StudentGroupToAcademForm_Load(object sender, EventArgs e)
+		private void FormToAcadem_Load(object sender, EventArgs e)
         {
             for (int i = 0; i < _ids.Count; ++i)
             {
@@ -56,10 +53,10 @@ namespace BaseControlsAndForms.StudentGroup
 				MessageBox.Show("Введите номер приказа ухода в академ", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var result = _process.ToAcademStudents(new StudentToAcademBindingModel
+			var result = _process.ToAcademStudents(new StudentAcademBindingModel
 			{
-				ToAcademDate = dateTimePickerToAcademDate.Value,
-				ToAcademOrderNumber = textBoxToAcademOrderNumber.Text,
+				AcademDate = dateTimePickerToAcademDate.Value,
+				AcademOrderNumber = textBoxToAcademOrderNumber.Text,
                 StudnetIds = _ids
             });
 			if (result.Succeeded)

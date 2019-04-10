@@ -3,17 +3,21 @@ using BaseInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
-namespace BaseControlsAndForms.StudentGroup
+namespace BaseControlsAndForms.Services
 {
-    public partial class StudentGroupDeductionForm : Form
+    public partial class FormFromAcadem : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
-        private readonly IStudentGroupService _service;
 
         private readonly IStudentService _serviceS;
 
@@ -21,16 +25,15 @@ namespace BaseControlsAndForms.StudentGroup
 
         private List<Guid> _ids = null;
 
-        public StudentGroupDeductionForm(IStudentGroupService service, IStudentService serviceS, IProcess process, List<Guid> ids)
+        public FormFromAcadem(IStudentService serviceS, IProcess process, List<Guid> ids)
         {
             InitializeComponent();
-            _service = service;
             _serviceS = serviceS;
             _process = process;
             _ids = ids;
         }
 
-        private void StudentGroupDeductionForm_Load(object sender, EventArgs e)
+        private void FormFromAcadem_Load(object sender, EventArgs e)
         {
             for (int i = 0; i < _ids.Count; ++i)
             {
@@ -51,21 +54,15 @@ namespace BaseControlsAndForms.StudentGroup
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxDeductionReason.Text))
+            if (string.IsNullOrEmpty(textBoxToAcademOrderNumber.Text))
             {
-                MessageBox.Show("Введите основание отчисления", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Введите номер приказа ухода в академ", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (string.IsNullOrEmpty(textBoxDeductionOrderNumber.Text))
+            var result = _process.FromAcademStudents(new StudentAcademBindingModel
             {
-                MessageBox.Show("Введите номер приказа отчисления", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            var result = _process.DeductionStudents(new StudentDeductionBindingModel
-            {
-                DeductionDate = dateTimePickerDeductionDate.Value,
-                DeductionReason = textBoxDeductionReason.Text,
-                DeductionOrderNumber = textBoxDeductionOrderNumber.Text,
+                AcademDate = dateTimePickerToAcademDate.Value,
+                AcademOrderNumber = textBoxToAcademOrderNumber.Text,
                 StudnetIds = _ids
             });
             if (result.Succeeded)

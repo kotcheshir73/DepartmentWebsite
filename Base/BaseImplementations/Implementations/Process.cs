@@ -177,7 +177,7 @@ namespace BaseImplementations.Implementations
                         {
                             return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
                         }
-                        entity.StudentGroup = newGroup;
+                        entity.StudentGroupId = model.NewStudentGroupId;
 
                         context.SaveChanges();
 
@@ -254,7 +254,7 @@ namespace BaseImplementations.Implementations
             }
         }
 
-        public ResultService ToAcademStudents(StudentToAcademBindingModel model)
+        public ResultService ToAcademStudents(StudentAcademBindingModel model)
         {
             DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
 
@@ -287,10 +287,182 @@ namespace BaseImplementations.Implementations
                             StudentId = entity.Id,
                             DateCreate = DateTime.Now,
                             TextMessage = string.Format("Студент ушел в академ. Приказ №{0} от {1}",
-                                model.ToAcademOrderNumber, model.ToAcademDate.ToShortDateString())
+                                model.AcademOrderNumber, model.AcademDate.ToShortDateString())
                         };
 
                         context.StudentHistorys.Add(entityHistory);
+
+                        context.SaveChanges();
+                    }
+                    transaction.Commit();
+
+                    return ResultService.Success();
+                }
+                catch (Exception ex)
+                {
+                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                }
+            }
+        }
+
+        public ResultService FromAcademStudents(StudentAcademBindingModel model)
+        {
+            DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
+
+            using (var context = DepartmentUserManager.GetContext)
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (model.StudnetIds.Count <= 0)
+                    {
+                        return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
+                    }
+
+                    for (int i = 0; i < model.StudnetIds.Count; ++i)
+                    {
+                        Guid id = model.StudnetIds[i];
+
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
+                        if (entity == null)
+                        {
+                            return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        entity.StudentState = StudentState.Учится;
+                        entity.StudentGroup = null;
+
+                        context.SaveChanges();
+
+                        var entityHistory = new StudentHistory
+                        {
+                            StudentId = entity.Id,
+                            DateCreate = DateTime.Now,
+                            TextMessage = string.Format("Студент пришел из академа. Приказ №{0} от {1}",
+                                model.AcademOrderNumber, model.AcademDate.ToShortDateString())
+                        };
+
+                        context.StudentHistorys.Add(entityHistory);
+
+                        context.SaveChanges();
+                    }
+                    transaction.Commit();
+
+                    return ResultService.Success();
+                }
+                catch (Exception ex)
+                {
+                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                }
+            }
+        }
+
+        public ResultService RecoveryStudents(StudentRecoveryBindingModel model)
+        {
+            DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
+
+            using (var context = DepartmentUserManager.GetContext)
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (model.StudnetIds.Count <= 0)
+                    {
+                        return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
+                    }
+
+                    for (int i = 0; i < model.StudnetIds.Count; ++i)
+                    {
+                        Guid id = model.StudnetIds[i];
+
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
+                        if (entity == null)
+                        {
+                            return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        entity.StudentState = StudentState.Учится;
+                        entity.StudentGroup = null;
+
+                        context.SaveChanges();
+
+                        var entityHistory = new StudentHistory
+                        {
+                            StudentId = entity.Id,
+                            DateCreate = DateTime.Now,
+                            TextMessage = string.Format("Студент восстановлен. Приказ №{0} от {1}",
+                                model.RecoveryOrderNumber, model.RecoveryDate.ToShortDateString())
+                        };
+
+                        context.StudentHistorys.Add(entityHistory);
+
+                        context.SaveChanges();
+                    }
+                    transaction.Commit();
+
+                    return ResultService.Success();
+                }
+                catch (Exception ex)
+                {
+                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                }
+            }
+        }
+
+        public ResultService TransferSpecStudents(StudentTransferBindingModel model)
+        {
+            DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
+
+            using (var context = DepartmentUserManager.GetContext)
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (model.StudentList.Count <= 0)
+                    {
+                        return ResultService.Error("Error:", "Список студентов пуст", ResultServiceStatusCode.NotFound);
+                    }
+
+                    var newGroup = context.StudentGroups.FirstOrDefault(st => st.Id == model.NewStudentGroupId);
+                    if (newGroup == null)
+                    {
+                        return ResultService.Error("Error:", "Группа не найдена", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (newGroup.IsDeleted)
+                    {
+                        return ResultService.Error("Error:", "Группа удалена", ResultServiceStatusCode.WasDelete);
+                    }
+
+                    for (int i = 0; i < model.StudentList.Count; ++i)
+                    {
+                        Guid id = model.StudentList[i].Id;
+
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
+                        if (entity == null)
+                        {
+                            return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        entity.StudentGroupId = model.NewStudentGroupId;
+
+                        context.SaveChanges();
+
+                        var entityHistoryFirst = new StudentHistory
+                        {
+                            StudentId = entity.Id,
+                            DateCreate = DateTime.Now,
+                            TextMessage = string.Format("Студент отчислен на основании: заявление студента. Приказ №{0} от {1}",
+                                model.TransferOrderNumber, model.TransferDate.ToShortDateString())
+                        };
+
+                        context.StudentHistorys.Add(entityHistoryFirst);
+
+                        var entityHistorySecond = new StudentHistory
+                        {
+                            StudentId = entity.Id,
+                            DateCreate = DateTime.Now,
+                            TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", newGroup.GroupName,
+                                model.TransferOrderNumber, model.TransferDate.ToShortDateString())
+                        };
+
+                        context.StudentHistorys.Add(entityHistorySecond);
 
                         context.SaveChanges();
                     }
