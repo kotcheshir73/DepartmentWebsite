@@ -38,7 +38,9 @@ namespace BaseInterfaces.BindingModels
 
         public DateTime TransferDate { get; set; }
 
-        public string TransferReason { get; set; }
+        public string TransferOrderNumber { get; set; }
+
+        public bool IsConditionally { get; set; }
     }
 
     /// <summary>
@@ -46,9 +48,7 @@ namespace BaseInterfaces.BindingModels
     /// </summary>
     public class StudentDeductionBindingModel
     {
-        public List<StudentSetBindingModel> StudentList { get; set; }
-
-        public Guid StudentGroupId { get; set; }
+        public List<Guid> StudnetIds { get; set; }
 
         public DateTime DeductionDate { get; set; }
 
@@ -62,13 +62,9 @@ namespace BaseInterfaces.BindingModels
     /// </summary>
     public class StudentToAcademBindingModel
     {
-        public List<StudentSetBindingModel> StudentList { get; set; }
-
-        public Guid StudentGroupId { get; set; }
+        public List<Guid> StudnetIds { get; set; }
 
         public DateTime ToAcademDate { get; set; }
-
-        public string ToAcademReason { get; set; }
 
         public string ToAcademOrderNumber { get; set; }
     }

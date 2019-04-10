@@ -82,7 +82,7 @@ namespace BaseImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = (string.IsNullOrEmpty(model.NumberOfBook)) ?
+                    var entity = (!string.IsNullOrEmpty(model.NumberOfBook)) ?
                                         context.Students.FirstOrDefault(x => x.NumberOfBook == model.NumberOfBook)
                                         :
                                         context.Students.FirstOrDefault(x => x.Id == model.Id);

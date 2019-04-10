@@ -3,11 +3,6 @@
 	partial class FormDiscipline
 	{
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -28,9 +23,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.labelTitle = new System.Windows.Forms.Label();
             this.labelDisciplineBlock = new System.Windows.Forms.Label();
@@ -44,32 +36,14 @@
             // buttonSaveAndClose
             // 
             this.buttonSaveAndClose.Location = new System.Drawing.Point(159, 122);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 9;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // buttonClose
             // 
             this.buttonClose.Location = new System.Drawing.Point(306, 122);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 10;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonSave
             // 
             this.buttonSave.Location = new System.Drawing.Point(78, 122);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 8;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // textBoxTitle
             // 
@@ -166,10 +140,7 @@
 		}
 
 		#endregion
-
-		private System.Windows.Forms.Button buttonSaveAndClose;
-		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Button buttonSave;
+        
 		private System.Windows.Forms.TextBox textBoxTitle;
 		private System.Windows.Forms.Label labelTitle;
 		private System.Windows.Forms.Label labelDisciplineBlock;

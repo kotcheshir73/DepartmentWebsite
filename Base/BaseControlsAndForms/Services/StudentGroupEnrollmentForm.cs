@@ -30,11 +30,13 @@ namespace BaseControlsAndForms.StudentGroup
             }
         }
 
-		private void buttonLoadFromFile_Click(object sender, EventArgs e)
+		private void ButtonLoadFromFile_Click(object sender, EventArgs e)
 		{
-			OpenFileDialog dialog = new OpenFileDialog();
-			dialog.Filter = "doc|*.doc|docx|*.docx";
-			if (dialog.ShowDialog() == DialogResult.OK)
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "doc|*.doc|docx|*.docx"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
 			{
 				var result = _process.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _id.Value, FileName = dialog.FileName });
 				if (result.Succeeded)
@@ -58,7 +60,7 @@ namespace BaseControlsAndForms.StudentGroup
 			}
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
+		private void ButtonSave_Click(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(textBoxOrderNumber.Text))
 			{
@@ -79,7 +81,7 @@ namespace BaseControlsAndForms.StudentGroup
 					LastName = dataGridViewStudents.Rows[i].Cells[1].Value.ToString(),
 					FirstName = dataGridViewStudents.Rows[i].Cells[2].Value.ToString(),
 					Patronymic = dataGridViewStudents.Rows[i].Cells[3].Value.ToString(),
-					Description = dataGridViewStudents.Rows[i].Cells[5].Value.ToString(),
+					Description = dataGridViewStudents.Rows[i].Cells[5].Value?.ToString() ?? string.Empty,
 					StudentGroupId = _id.Value,
                     Email = "неизвестно"
 				};
@@ -102,7 +104,7 @@ namespace BaseControlsAndForms.StudentGroup
 			}
 		}
 
-		private void buttonClose_Click(object sender, EventArgs e)
+		private void ButtonClose_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();

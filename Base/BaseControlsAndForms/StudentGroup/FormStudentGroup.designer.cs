@@ -3,11 +3,6 @@
     partial class FormStudentGroup
     {
         /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -34,19 +29,28 @@
             this.textBoxGroupName = new System.Windows.Forms.TextBox();
             this.labelKurs = new System.Windows.Forms.Label();
             this.textBoxKurs = new System.Windows.Forms.TextBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.labelSteward = new System.Windows.Forms.Label();
             this.comboBoxCurator = new System.Windows.Forms.ComboBox();
             this.labelCurator = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageMainData = new System.Windows.Forms.TabPage();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
-            this.tabPageStudents = new System.Windows.Forms.TabPage();
             this.textBoxSteward = new System.Windows.Forms.TextBox();
+            this.tabPageStudents = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageMainData.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(136, 130);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(283, 130);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(55, 130);
             // 
             // labelEducationDirection
             // 
@@ -100,26 +104,6 @@
             this.textBoxKurs.Size = new System.Drawing.Size(62, 20);
             this.textBoxKurs.TabIndex = 5;
             this.textBoxKurs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(319, 127);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 12;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(91, 127);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 10;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // labelSteward
             // 
@@ -181,16 +165,26 @@
             this.tabPageMainData.TabIndex = 0;
             this.tabPageMainData.Text = "Основные данные";
             this.tabPageMainData.UseVisualStyleBackColor = true;
+            this.tabPageMainData.Controls.SetChildIndex(this.textBoxKurs, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.labelKurs, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.labelSteward, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.textBoxGroupName, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.labelGroupName, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.labelCurator, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.comboBoxEducationDirection, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.comboBoxCurator, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.buttonSave, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.buttonClose, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.labelEducationDirection, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.tabPageMainData.Controls.SetChildIndex(this.textBoxSteward, 0);
             // 
-            // buttonSaveAndClose
+            // textBoxSteward
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(172, 127);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 11;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+            this.textBoxSteward.Location = new System.Drawing.Point(94, 63);
+            this.textBoxSteward.Name = "textBoxSteward";
+            this.textBoxSteward.Size = new System.Drawing.Size(300, 20);
+            this.textBoxSteward.TabIndex = 7;
             // 
             // tabPageStudents
             // 
@@ -202,21 +196,13 @@
             this.tabPageStudents.Text = "Студенты";
             this.tabPageStudents.UseVisualStyleBackColor = true;
             // 
-            // textBoxSteward
-            // 
-            this.textBoxSteward.Location = new System.Drawing.Point(94, 63);
-            this.textBoxSteward.Name = "textBoxSteward";
-            this.textBoxSteward.Size = new System.Drawing.Size(300, 20);
-            this.textBoxSteward.TabIndex = 7;
-            // 
-            // StudentGroupForm
+            // FormStudentGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 472);
             this.Controls.Add(this.tabControl);
-            this.Name = "StudentGroupForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormStudentGroup";
             this.Text = "Группа";
             this.Load += new System.EventHandler(this.FormStudentGroup_Load);
             this.tabControl.ResumeLayout(false);
@@ -234,15 +220,12 @@
         private System.Windows.Forms.TextBox textBoxGroupName;
         private System.Windows.Forms.Label labelKurs;
         private System.Windows.Forms.TextBox textBoxKurs;
-        private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Label labelSteward;
         private System.Windows.Forms.ComboBox comboBoxCurator;
         private System.Windows.Forms.Label labelCurator;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageMainData;
         private System.Windows.Forms.TabPage tabPageStudents;
-		private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.TextBox textBoxSteward;
     }
 }

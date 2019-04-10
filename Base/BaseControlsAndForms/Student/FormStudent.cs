@@ -1,5 +1,6 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Data;
@@ -11,23 +12,17 @@ using Unity;
 
 namespace BaseControlsAndForms.Student
 {
-    public partial class FormStudent : Form
+    public partial class FormStudent : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IStudentService _service;
 
-        private Guid? _id = null;
-
-		public FormStudent(IStudentService service, Guid? id = null)
+		public FormStudent(IStudentService service, Guid? id = null) : base(id)
         {
 			InitializeComponent();
             _service = service;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormStudent_Load(object sender, EventArgs e)
@@ -45,13 +40,10 @@ namespace BaseControlsAndForms.Student
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
 
-            if (_id.HasValue)
-            {
-				LoadData();
-			}
-		}
+            StandartForm_Load(sender, e);
+        }
 
-		private void LoadData()
+        protected override void LoadData()
 		{
 			var result = _service.GetStudent(new StudentGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -73,6 +65,7 @@ namespace BaseControlsAndForms.Student
 				pictureBoxPhoto.Image = entity.Photo;
 			}
 			comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+            checkBoxIsSteward.Checked = entity.IsSteward;
 		}
 
 		private bool CheckFill()
@@ -100,7 +93,7 @@ namespace BaseControlsAndForms.Student
 			return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -111,13 +104,15 @@ namespace BaseControlsAndForms.Student
 					result = _service.UpdateStudent(new StudentSetBindingModel
 					{
                         Id = _id.Value,
-						NumberOfBook = textBoxNumberOfBook.Text,
+                        StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
+                        NumberOfBook = textBoxNumberOfBook.Text,
 						LastName = textBoxLastName.Text,
 						FirstName = textBoxFirstName.Text,
 						Patronymic = textBoxPatronymic.Text,
 						Email = textBoxEmail.Text,
 						Description = textBoxDescription.Text,
-						Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
+						Photo = pictureBoxPhoto.Image != null? (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[])) : null,
+                        IsSteward = checkBoxIsSteward.Checked
 					});
 					if (result.Succeeded)
                     {
@@ -145,7 +140,7 @@ namespace BaseControlsAndForms.Student
 			}
 		}
 
-		private void buttonUpload_Click(object sender, EventArgs e)
+		private void ButtonUpload_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -160,30 +155,6 @@ namespace BaseControlsAndForms.Student
                     MessageBox.Show(ex.Message, "Ошибка при загрузке файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-		}
-
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
 		}
 	}
 }

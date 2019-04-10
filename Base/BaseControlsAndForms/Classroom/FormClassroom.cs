@@ -1,5 +1,6 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using Enums;
 using System;
@@ -9,23 +10,17 @@ using Unity;
 
 namespace BaseControlsAndForms.Classroom
 {
-    public partial class FormClassroom : Form
+    public partial class FormClassroom : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IClassroomService _service;
 
-        private Guid? _id = null;
-
-        public FormClassroom(IClassroomService service, Guid? id = null)
+        public FormClassroom(IClassroomService service, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormClassroom_Load(object sender, EventArgs e)
@@ -36,13 +31,10 @@ namespace BaseControlsAndForms.Classroom
             }
             comboBoxTypeClassroom.SelectedIndex = 0;
 
-            if (_id.HasValue)
-            {
-				LoadData();
-			}
+            StandartForm_Load(sender, e);
 		}
 
-		private void LoadData()
+		protected override void LoadData()
 		{
 			var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -72,15 +64,14 @@ namespace BaseControlsAndForms.Classroom
             {
                 return false;
             }
-            int capacity = 0;
-            if (!int.TryParse(textBoxCapacity.Text, out capacity))
+            if (!int.TryParse(textBoxCapacity.Text, out int capacity))
             {
                 return false;
             }
             return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -128,30 +119,6 @@ namespace BaseControlsAndForms.Classroom
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-		}
-
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
 		}
 	}
 }

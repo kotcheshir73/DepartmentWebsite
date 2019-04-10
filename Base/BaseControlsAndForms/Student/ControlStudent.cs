@@ -1,4 +1,5 @@
-﻿using BaseInterfaces.BindingModels;
+﻿using BaseControlsAndForms.StudentGroup;
+using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using ControlsAndForms.Models;
@@ -34,40 +35,22 @@ namespace BaseControlsAndForms.Student
                 new ColumnConfig { Name = "LastName", Title = "Фамилия", Width = 100, Visible = true },
                 new ColumnConfig { Name = "FirstName", Title = "Имя", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Patronymic", Title = "Отчество", Width = 150, Visible = true },
+                new ColumnConfig { Name = "State", Title = "Статус", Width = 150, Visible = true },
                 new ColumnConfig { Name = "StudentGroup", Title = "Группа", Width = 150, Visible = true },
                 new ColumnConfig { Name = "Description", Title = "Описание", Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd", "toolStripButtonDel" };
 
-            Dictionary<string, string> buttonsToMoveButton = null;
-
-            if (_sgId.HasValue)
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
             {
-                buttonsToMoveButton = new Dictionary<string, string>
-                {
-                    { "EnrollmentToolStripMenuItem", "Зачислить"},
-                    { "DeductionToolStripMenuItem", "Отчислить"},
-                    { "TransferToolStripMenuItem", "Перевести"},
-                    { "ToAcademToolStripMenuItem", "В акадкем"},
-                    { "FromAcademToolStripMenuItem", "Из акадкем"}
-                };
-            }
-            else if (_state.HasValue)
-            {
-                if (_state == StudentState.Учится || _state == StudentState.Завершил)
-                {
-                    hideToolStripButtons.Add("toolStripDropDownButtonMoves");
-                }
-                else
-                {
-                    buttonsToMoveButton = new Dictionary<string, string>
-                    {
-                        { "ReestablishToolStripMenuItem", "Восстановить"}
-                    };
-                }
-            }
-
+                { "EnrollmentToolStripMenuItem", "Зачислить"},
+                { "DeductionToolStripMenuItem", "Отчислить"},
+                { "TransferToolStripMenuItem", "Перевести"},
+                { "ToAcademToolStripMenuItem", "В академ"},
+                { "FromAcademToolStripMenuItem", "Из академа"},
+                { "ReestablishToolStripMenuItem", "Восстановить"}
+            };
 
             standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
@@ -75,6 +58,10 @@ namespace BaseControlsAndForms.Student
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             //TODO прописать метод для пункта Восстановить
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("EnrollmentToolStripMenuItem", EnrollmentToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("DeductionToolStripMenuItem", DeductionToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("TransferToolStripMenuItem", TransferToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("ToAcademToolStripMenuItem", ToAcademToolStripMenuItem_Click);
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
                 switch (e.KeyCode)
@@ -116,6 +103,7 @@ namespace BaseControlsAndForms.Student
                     res.LastName,
                     res.FirstName,
                     res.Patronymic,
+                    res.State,
                     res.StudentGroup,
                     res.Description
                 );
@@ -134,6 +122,78 @@ namespace BaseControlsAndForms.Student
                         { "id", id }
                     }
                     .OnType<FormStudent>());
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void EnrollmentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<StudentGroupEnrollmentForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", _sgId }
+                    }
+                    .OnType<StudentGroupEnrollmentForm>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
+            }
+        }
+
+        private void DeductionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count > 0)
+            {
+                List<Guid> ids = new List<Guid>();
+                for(int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+                {
+                    ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
+                }
+                var form = Container.Resolve<StudentGroupDeductionForm>(
+                        new ParameterOverrides
+                        {
+                            { "ids", ids }
+                        }
+                        .OnType<StudentGroupDeductionForm>());
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void TransferToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<StudentGroupTransferForm>(
+                    new ParameterOverrides
+                    {
+                        { "id", _sgId }
+                    }
+                    .OnType<StudentGroupTransferForm>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
+            }
+        }
+
+        private void ToAcademToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count > 0)
+            {
+                List<Guid> ids = new List<Guid>();
+                for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+                {
+                    ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
+                }
+                var form = Container.Resolve<StudentGroupToAcademForm>(
+                        new ParameterOverrides
+                        {
+                            { "ids", ids }
+                        }
+                        .OnType<StudentGroupToAcademForm>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

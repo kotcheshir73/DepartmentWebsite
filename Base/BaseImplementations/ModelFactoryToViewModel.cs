@@ -1,4 +1,5 @@
 ﻿using BaseInterfaces.ViewModels;
+using Enums;
 using Models.Base;
 using System.Drawing;
 using System.IO;
@@ -61,7 +62,7 @@ namespace BaseImplementations
                 Id = entity.Id,
                 DisciplineBlockId = entity.DisciplineBlockId,
                 DisciplineName = entity.DisciplineName,
-                DisciplineShortName = entity.DisciplineShortName,
+                DisciplineShortName = string.IsNullOrEmpty(entity.DisciplineShortName) ? entity.ToString() : entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock.Title,
                 DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
             };
@@ -100,7 +101,7 @@ namespace BaseImplementations
                 EducationDirectionCipher = entity.EducationDirection.Cipher,
                 GroupName = entity.GroupName,
                 Course = (int)entity.Course,
-                CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted).Count() : 0,
+                CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted && s.StudentState == StudentState.Учится).Count() : 0,
                 StewardName = (entity.Students != null) ? entity.Students.FirstOrDefault(s => !s.IsDeleted && s.IsSteward)?.ToString() ?? string.Empty : string.Empty,
                 Curator = entity.CuratorId.HasValue ? entity.Curator.ToString() : "",
                 CuratorId = entity.CuratorId
@@ -116,6 +117,7 @@ namespace BaseImplementations
                 LastName = entity.LastName,
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,
+                State = entity.StudentState.ToString(),
                 Email = entity.Email,
                 Description = entity.Description,
                 Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,

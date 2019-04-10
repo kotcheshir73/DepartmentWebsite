@@ -1,6 +1,7 @@
 ﻿using BaseControlsAndForms.Student;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Data;
@@ -11,23 +12,17 @@ using Unity;
 
 namespace BaseControlsAndForms.StudentGroup
 {
-    public partial class FormStudentGroup : Form
+    public partial class FormStudentGroup : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IStudentGroupService _service;
 
-		private Guid? _id = null;
-
-        public FormStudentGroup(IStudentGroupService service, Guid? id = null)
+        public FormStudentGroup(IStudentGroupService service, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormStudentGroup_Load(object sender, EventArgs e)
@@ -58,28 +53,18 @@ namespace BaseControlsAndForms.StudentGroup
                 .Select(l => new { Value = l.Id, Display = l.FullName }).ToList();
             comboBoxCurator.SelectedItem = null;
 
-            var control = Container.Resolve<ControlStudent>();
+            StandartForm_Load(sender, e);
+        }
 
-            control.Left = 0;
-            control.Top = 0;
-            control.Height = Height - 60;
-            control.Width = Width - 15;
-            control.Anchor = (((AnchorStyles.Top
-                    | AnchorStyles.Bottom)
-                    | AnchorStyles.Left)
-                    | AnchorStyles.Right);
-
-            tabPageStudents.Controls.Add(control);
-
-            if (_id.HasValue)
-			{
-				LoadData();
-			}
-		}
-
-		private void LoadData()
-		{
-			(tabPageStudents.Controls[0] as ControlStudent).LoadData(null, _id.Value);
+        protected override void LoadData()
+        {
+            if (tabPageStudents.Controls.Count == 0)
+            {
+                var control = Container.Resolve<ControlStudent>();
+                control.Dock = DockStyle.Fill;
+                tabPageStudents.Controls.Add(control);
+            }
+            (tabPageStudents.Controls[0] as ControlStudent).LoadData(null, _id.Value);
 			var result = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
 			{
@@ -112,19 +97,18 @@ namespace BaseControlsAndForms.StudentGroup
             {
                 return false;
             }
-            int course = 0;
-            if (!int.TryParse(textBoxKurs.Text, out course))
+            if (!int.TryParse(textBoxKurs.Text, out int course))
             {
                 return false;
             }
-			if(course < 0 || course > 6)
+            if (course < 0 || course > 6)
 			{
 				return false;
 			}
             return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -177,30 +161,6 @@ namespace BaseControlsAndForms.StudentGroup
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-		}
-
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
 		}
 	}
 }

@@ -286,11 +286,5 @@
       <Name>BaseInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Ref.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Upd.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

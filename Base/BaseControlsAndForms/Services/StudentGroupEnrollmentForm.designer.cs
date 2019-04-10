@@ -137,7 +137,7 @@
 			this.buttonLoadFromFile.TabIndex = 5;
 			this.buttonLoadFromFile.Text = "Загрузить из файла";
 			this.buttonLoadFromFile.UseVisualStyleBackColor = true;
-			this.buttonLoadFromFile.Click += new System.EventHandler(this.buttonLoadFromFile_Click);
+			this.buttonLoadFromFile.Click += new System.EventHandler(this.ButtonLoadFromFile_Click);
 			// 
 			// buttonClose
 			// 
@@ -147,7 +147,7 @@
 			this.buttonClose.TabIndex = 7;
 			this.buttonClose.Text = "Закрыть";
 			this.buttonClose.UseVisualStyleBackColor = true;
-			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+			this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
 			// 
 			// buttonSave
 			// 
@@ -157,7 +157,7 @@
 			this.buttonSave.TabIndex = 6;
 			this.buttonSave.Text = "Сохранить";
 			this.buttonSave.UseVisualStyleBackColor = true;
-			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+			this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
 			// 
 			// StudentGroupEnrollmentForm
 			// 

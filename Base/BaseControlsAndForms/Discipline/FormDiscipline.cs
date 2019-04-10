@@ -1,5 +1,6 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using ControlsAndForms.Models;
 using System;
@@ -12,7 +13,7 @@ using Unity;
 
 namespace BaseControlsAndForms.Discipline
 {
-    public partial class FormDiscipline : Form
+    public partial class FormDiscipline : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -21,17 +22,11 @@ namespace BaseControlsAndForms.Discipline
 
         private readonly IProcess _processE;
 
-        private Guid? _id = null;
-
-        public FormDiscipline(IDisciplineService service, IProcess processE, Guid? id = null)
+        public FormDiscipline(IDisciplineService service, IProcess processE, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _processE = processE;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormDiscipline_Load(object sender, EventArgs e)
@@ -49,16 +44,10 @@ namespace BaseControlsAndForms.Discipline
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
             comboBoxDisciplineBlock.SelectedItem = null;
 
-            if (_id.HasValue)
-            {
-                LoadData();
-
-                LoadSettingsAcademicPlaRecords();
-                LoadSettingsSchedule();
-            }
+            StandartForm_Load(sender, e);
         }
 
-        private void LoadData()
+        protected override void LoadData()
         {
             var result = _service.GetDiscipline(new DisciplineGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
@@ -67,12 +56,6 @@ namespace BaseControlsAndForms.Discipline
                 Close();
             }
             var entity = result.Result;
-
-            if (string.IsNullOrEmpty(entity.DisciplineShortName))
-            {
-                // TODO
-                //entity.DisciplineShortName = ScheduleHelper.CalcShortDisciplineName(entity.DisciplineName);
-            }
 
             textBoxTitle.Text = entity.DisciplineName;
             textBoxDisciplineShortName.Text = entity.DisciplineShortName;
@@ -97,7 +80,7 @@ namespace BaseControlsAndForms.Discipline
             return true;
         }
 
-        private bool Save()
+        protected override bool Save()
         {
             if (CheckFill())
             {
@@ -145,30 +128,6 @@ namespace BaseControlsAndForms.Discipline
                 MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
-            }
-        }
-
-        private void buttonSaveAndClose_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
         }
 
         /// <summary>

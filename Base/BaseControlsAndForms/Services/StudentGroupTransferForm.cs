@@ -1,6 +1,7 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
+using Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -47,7 +48,7 @@ namespace BaseControlsAndForms.StudentGroup
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
 			comboBoxNewStudentGroup.SelectedItem = null;
 
-			var result = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id });
+			var result = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id, StudentStatus = StudentState.Учится });
 			if (!result.Succeeded)
 			{
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -56,15 +57,19 @@ namespace BaseControlsAndForms.StudentGroup
 			var list = result.Result.List;
 			for (int i = 0; i < list.Count; ++i)
 			{
-				dataGridViewStudents.Rows.Add();
-				dataGridViewStudents.Rows[i].Cells[1].Value = list[i].NumberOfBook;
-				dataGridViewStudents.Rows[i].Cells[2].Value = list[i].LastName;
-				dataGridViewStudents.Rows[i].Cells[3].Value = list[i].FirstName;
-				dataGridViewStudents.Rows[i].Cells[4].Value = list[i].Patronymic;
+				dataGridViewStudents.Rows.Add(new object[] 
+                {
+                    false,
+                    list[i].Id,
+                    list[i].NumberOfBook,
+                    list[i].LastName,
+                    list[i].FirstName,
+                    list[i].Patronymic
+                });
 			}
 		}
 
-		private void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
+		private void CheckBoxSelectAll_CheckedChanged(object sender, EventArgs e)
 		{
 			for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
 			{
@@ -72,9 +77,9 @@ namespace BaseControlsAndForms.StudentGroup
 			}
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
+		private void ButtonSave_Click(object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty(textBoxTransferReason.Text))
+			if (string.IsNullOrEmpty(textBoxTransferOrderNumber.Text))
 			{
 				MessageBox.Show("Введите основание перевода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
@@ -92,7 +97,7 @@ namespace BaseControlsAndForms.StudentGroup
 				{
 					var model = new StudentSetBindingModel
 					{
-						NumberOfBook = dataGridViewStudents.Rows[i].Cells[1].Value.ToString(),
+						Id = new Guid(dataGridViewStudents.Rows[i].Cells[1].Value.ToString()),
 						StudentGroupId = newId
 					};
 					list.Add(model);
@@ -106,10 +111,11 @@ namespace BaseControlsAndForms.StudentGroup
 			var result = _process.TransferStudents(new StudentTransferBindingModel
 			{
 				TransferDate = dateTimePickerTransferDate.Value,
-				TransferReason = textBoxTransferReason.Text,
+				TransferOrderNumber = textBoxTransferOrderNumber.Text,
 				NewStudentGroupId = newId,
 				OldStudentGroupId = _id.Value,
-				StudentList = list
+				StudentList = list,
+                IsConditionally = checkBoxIsConditionally.Checked
 			});
 			if (result.Succeeded)
 			{
@@ -122,7 +128,7 @@ namespace BaseControlsAndForms.StudentGroup
 			}
 		}
 
-		private void buttonClose_Click(object sender, EventArgs e)
+		private void ButtonClose_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();

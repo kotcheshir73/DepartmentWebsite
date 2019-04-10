@@ -57,7 +57,7 @@ namespace BaseImplementations.Implementations
                         query = query.Where(x => x.Course == course);
                     }
 
-                    query = query.OrderBy(x => x.Course).ThenBy(x => x.EducationDirectionId);
+                    query = query.OrderBy(x => x.Course).ThenBy(x => x.EducationDirectionId).ThenBy(x => x.GroupName);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -67,7 +67,7 @@ namespace BaseImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.EducationDirection).Include(x => x.Curator);
+                    query = query.Include(x => x.EducationDirection).Include(x => x.Curator).Include(x => x.Students);
 
                     var result = new StudentGroupPageViewModel
                     {
@@ -95,6 +95,7 @@ namespace BaseImplementations.Implementations
                     var entity = context.StudentGroups
                                 .Include(x => x.EducationDirection)
                                 .Include(x => x.Curator)
+                                .Include(x => x.Students)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

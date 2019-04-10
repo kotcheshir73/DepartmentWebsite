@@ -3,11 +3,6 @@
 	partial class FormDisciplineBlock
 	{
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -32,11 +27,8 @@
             this.checkBoxDisciplineBlockUseForGrouping = new System.Windows.Forms.CheckBox();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.textBoxDisciplineBlockOrder = new System.Windows.Forms.TextBox();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.labelDisciplineBlockOrder = new System.Windows.Forms.Label();
-            this.buttonClose = new System.Windows.Forms.Button();
             this.textBoxDisciplineBlockBlueAsteriskName = new System.Windows.Forms.TextBox();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.labelDisciplineBlockBlueAsteriskName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -79,12 +71,6 @@
             // buttonSave
             // 
             this.buttonSave.Location = new System.Drawing.Point(83, 91);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 7;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // labelDisciplineBlockOrder
             // 
@@ -98,12 +84,6 @@
             // buttonClose
             // 
             this.buttonClose.Location = new System.Drawing.Point(311, 91);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 9;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // textBoxDisciplineBlockBlueAsteriskName
             // 
@@ -116,12 +96,6 @@
             // buttonSaveAndClose
             // 
             this.buttonSaveAndClose.Location = new System.Drawing.Point(164, 91);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 8;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // labelDisciplineBlockBlueAsteriskName
             // 
@@ -162,11 +136,8 @@
         private System.Windows.Forms.CheckBox checkBoxDisciplineBlockUseForGrouping;
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.TextBox textBoxDisciplineBlockOrder;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Label labelDisciplineBlockOrder;
-        private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.TextBox textBoxDisciplineBlockBlueAsteriskName;
-        private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.Label labelDisciplineBlockBlueAsteriskName;
     }
 }

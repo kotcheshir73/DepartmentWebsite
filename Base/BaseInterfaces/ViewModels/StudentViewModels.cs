@@ -19,6 +19,8 @@ namespace BaseInterfaces.ViewModels
 
         public string Patronymic { get; set; }
 
+        public string State { get; set; }
+
 		public string Email { get; set; }
 
 		public Image Photo { get; set; }

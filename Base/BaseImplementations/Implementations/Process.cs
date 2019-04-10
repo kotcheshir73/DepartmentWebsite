@@ -81,41 +81,65 @@ namespace BaseImplementations.Implementations
             DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
 
             using (var context = DepartmentUserManager.GetContext)
-            using (var transaction = context.Database.BeginTransaction())
             {
-                try
+                var studentGroup = context.StudentGroups.FirstOrDefault(x => x.Id == model.StudentList.First().StudentGroupId);
+
+                if (studentGroup == null)
                 {
-                    if (model.StudentList.Count <= 0)
-                    {
-                        return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
-                    }
-                    for (int i = 0; i < model.StudentList.Count; ++i)
-                    {
-                        var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
-
-                        context.Students.Add(entity);
-
-                        context.SaveChanges();
-
-                        var entityHistory = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", entity.StudentGroupId,
-                            model.OrderNumber, model.OrderDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistory);
-
-                        context.SaveChanges();
-                    }
-                    transaction.Commit();
-
-                    return ResultService.Success();
+                    return ResultService.Error("Error:", "Группа не найдена", ResultServiceStatusCode.NotFound);
                 }
-                catch (Exception ex)
+                else if (studentGroup.IsDeleted)
                 {
-                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                    return ResultService.Error("Error:", "Группа была удалена", ResultServiceStatusCode.WasDelete);
+                }
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (model.StudentList.Count <= 0)
+                        {
+                            return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
+                        }
+                        for (int i = 0; i < model.StudentList.Count; ++i)
+                        {
+                            var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
+                            var exsistEntity = context.Students.FirstOrDefault(x => x.NumberOfBook == entity.NumberOfBook && entity.NumberOfBook != "н/а");
+                            if (exsistEntity == null)
+                            {
+                                context.Students.Add(entity);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i], exsistEntity);
+                                entity.StudentState = StudentState.Учится;
+                                if (exsistEntity.IsDeleted)
+                                {
+                                    exsistEntity.IsDeleted = false;
+                                    context.SaveChanges();
+                                }
+                            }
+
+                            var entityHistory = new StudentHistory
+                            {
+                                StudentId = entity.Id,
+                                DateCreate = DateTime.Now,
+                                TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", studentGroup.GroupName,
+                                model.OrderNumber, model.OrderDate.ToShortDateString())
+                            };
+
+                            context.StudentHistorys.Add(entityHistory);
+
+                            context.SaveChanges();
+                        }
+                        transaction.Commit();
+
+                        return ResultService.Success();
+                    }
+                    catch (Exception ex)
+                    {
+                        return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                    }
                 }
             }
         }
@@ -139,16 +163,16 @@ namespace BaseImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Группа не найдена", ResultServiceStatusCode.NotFound);
                     }
-                    else if(newGroup.IsDeleted)
+                    else if (newGroup.IsDeleted)
                     {
                         return ResultService.Error("Error:", "Группа удалена", ResultServiceStatusCode.WasDelete);
                     }
 
                     for (int i = 0; i < model.StudentList.Count; ++i)
                     {
-                        string numberofBook = model.StudentList[i].NumberOfBook;
+                        Guid id = model.StudentList[i].Id;
 
-                        var entity = context.Students.FirstOrDefault(e => e.NumberOfBook == numberofBook && !e.IsDeleted);
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
                         if (entity == null)
                         {
                             return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
@@ -161,8 +185,8 @@ namespace BaseImplementations.Implementations
                         {
                             StudentId = entity.Id,
                             DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент переведен в группу {0} на основании: {1} {2}", entity.StudentGroup.GroupName,
-                                model.TransferReason, model.TransferDate.ToShortDateString())
+                            TextMessage = string.Format("Студент переведен{3} в группу {0} на основании: {1} {2}", entity.StudentGroup.GroupName,
+                                model.TransferOrderNumber, model.TransferDate.ToShortDateString(), model.IsConditionally? " условно" : string.Empty)
                         };
                         context.StudentHistorys.Add(entityHistory);
 
@@ -188,22 +212,22 @@ namespace BaseImplementations.Implementations
             {
                 try
                 {
-                    if (model.StudentList.Count <= 0)
+                    if (model.StudnetIds.Count <= 0)
                     {
                         return ResultService.Error("Error:", "Список студентов пуст", ResultServiceStatusCode.NotFound);
                     }
 
-                    for (int i = 0; i < model.StudentList.Count; ++i)
+                    for (int i = 0; i < model.StudnetIds.Count; ++i)
                     {
-                        string numberofBook = model.StudentList[i].NumberOfBook;
+                        Guid id = model.StudnetIds[i];
 
-                        var entity = context.Students.FirstOrDefault(e => e.NumberOfBook == numberofBook && !e.IsDeleted);
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
                         if (entity == null)
                         {
                             return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
                         }
-                        entity.StudentState = StudentState.Завершил;
-                        entity.StudentGroup = null;
+                        entity.StudentState = StudentState.Отчислен;
+                        entity.StudentGroupId = null;
 
                         context.SaveChanges();
 
@@ -239,16 +263,16 @@ namespace BaseImplementations.Implementations
             {
                 try
                 {
-                    if (model.StudentList.Count <= 0)
+                    if (model.StudnetIds.Count <= 0)
                     {
                         return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
                     }
 
-                    for (int i = 0; i < model.StudentList.Count; ++i)
+                    for (int i = 0; i < model.StudnetIds.Count; ++i)
                     {
-                        string numberofBook = model.StudentList[i].NumberOfBook;
+                        Guid id = model.StudnetIds[i];
 
-                        var entity = context.Students.FirstOrDefault(e => e.NumberOfBook == numberofBook && !e.IsDeleted);
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
                         if (entity == null)
                         {
                             return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
@@ -262,8 +286,8 @@ namespace BaseImplementations.Implementations
                         {
                             StudentId = entity.Id,
                             DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент ушел в академ на основании: {0}. Приказ №{1} от {2}",
-                                model.ToAcademReason, model.ToAcademOrderNumber, model.ToAcademDate.ToShortDateString())
+                            TextMessage = string.Format("Студент ушел в академ. Приказ №{0} от {1}",
+                                model.ToAcademOrderNumber, model.ToAcademDate.ToShortDateString())
                         };
 
                         context.StudentHistorys.Add(entityHistory);
