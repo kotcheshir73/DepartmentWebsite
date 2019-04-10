@@ -64,6 +64,7 @@ namespace BaseControlsAndForms.Student
             standartControl.ToolStripButtonMoveEventClickAddEvent("ToAcademToolStripMenuItem", ToAcademToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("FromAcademToolStripMenuItem", FromAcademToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("RecoveryToolStripMenuItem", RecoveryToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("TransferSpecToolStripMenuItem", TransferSpecToolStripMenuItem_Click);
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
                 switch (e.KeyCode)
@@ -233,6 +234,20 @@ namespace BaseControlsAndForms.Student
                     { "id", _sgId }
                 }
                 .OnType<FormRecovery>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
+            }
+        }
+
+        private void TransferSpecToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormTransferSpec>(
+                new ParameterOverrides
+                {
+                    { "id", _sgId }
+                }
+                .OnType<FormTransferSpec>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
