@@ -127,6 +127,12 @@
       <DependentUpon>FormContingent.cs</DependentUpon>
     </Compile>
     <Compile Include="Controller.cs" />
+    <Compile Include="LecturerWorkload\ControlLecturerWorkload.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LecturerWorkload\ControlLecturerWorkload.Designer.cs">
+      <DependentUpon>ControlLecturerWorkload.cs</DependentUpon>
+    </Compile>
     <Compile Include="LecturerWorkload\FormLecturerWorkload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Contingent\FormContingent.resx">
       <DependentUpon>FormContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LecturerWorkload\ControlLecturerWorkload.resx">
+      <DependentUpon>ControlLecturerWorkload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LecturerWorkload\FormLecturerWorkload.resx">
       <DependentUpon>FormLecturerWorkload.cs</DependentUpon>

@@ -5,6 +5,7 @@ using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Tools;
@@ -67,6 +68,8 @@ namespace AcademicYearImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
+                    query = query.Include(x => x.AcademicYear).Include(x => x.Lecturer);
+
                     var result = new LecturerWorkloadPageViewModel
                     {
                         MaxCount = countPages,
@@ -91,6 +94,8 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.LecturerWorkload
+                                .Include(x => x.AcademicYear)
+                                .Include(x => x.Lecturer)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

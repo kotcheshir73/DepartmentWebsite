@@ -1969,5 +1969,34 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+        public ResultService CreateLecturerWorkload(AcademicYearGetBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
+
+                    var lecturers = context.Lecturers.Where(x => !x.IsDeleted).ToList();
+                    foreach(var lecturer in lecturers)
+                    {
+                        context.LecturerWorkload.Add(AcademicYearModelFacotryFromBindingModel.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
+                        {
+                            LecturerId = lecturer.Id,
+                            AcademicYearId = model.Id.Value,
+                            Workload = 0
+                        }));
+                        context.SaveChanges();
+                    }
+
+                    return ResultService.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
     }
 }

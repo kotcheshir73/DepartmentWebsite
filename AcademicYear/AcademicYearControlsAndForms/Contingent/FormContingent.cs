@@ -108,10 +108,9 @@ namespace AcademicYearControlsAndForms.Contingent
 			{
 				return false;
 			}
-			int count = 0;
-			if (!int.TryParse(textBoxCourse.Text, out count))
-			{
-				return false;
+            if (!int.TryParse(textBoxCourse.Text, out int count))
+            {
+                return false;
             }
             if (!int.TryParse(textBoxCountGroups.Text, out count))
             {

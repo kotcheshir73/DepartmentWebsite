@@ -94,5 +94,12 @@ namespace AcademicYearInterfaces.Interfaces
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService CreateAllFindDisciplineTimeDistribution(AcademicYearGetBindingModel model);
+
+        /// <summary>
+		/// Создание нагрузки преподавателей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService CreateLecturerWorkload(AcademicYearGetBindingModel model);
     }
 }

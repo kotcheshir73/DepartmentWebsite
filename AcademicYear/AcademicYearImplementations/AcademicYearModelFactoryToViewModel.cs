@@ -116,6 +116,8 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 LecturerId = entity.LecturerId,
+                AcademicYear = entity.AcademicYear.Title,
+                Lecturer = entity.Lecturer.ToString(),
                 Workload = entity.Workload
             };
         }

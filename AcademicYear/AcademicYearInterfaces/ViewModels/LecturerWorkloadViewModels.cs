@@ -11,6 +11,10 @@ namespace AcademicYearInterfaces.ViewModels
 
         public Guid LecturerId { get; set; }
 
+        public string AcademicYear { get; set; }
+
+        public string Lecturer { get; set; }
+
         public double Workload { get; set; }
     }
 }

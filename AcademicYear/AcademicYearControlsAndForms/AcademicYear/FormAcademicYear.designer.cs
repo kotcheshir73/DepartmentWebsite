@@ -32,6 +32,7 @@
             this.tabPageContingents = new System.Windows.Forms.TabPage();
             this.tabPageSeasonDates = new System.Windows.Forms.TabPage();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.tabPageLecturerWorkload = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -75,6 +76,7 @@
             this.tabControl.Controls.Add(this.tabPageTimeNorms);
             this.tabControl.Controls.Add(this.tabPageContingents);
             this.tabControl.Controls.Add(this.tabPageSeasonDates);
+            this.tabControl.Controls.Add(this.tabPageLecturerWorkload);
             this.tabControl.Location = new System.Drawing.Point(0, 42);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -141,6 +143,16 @@
             this.panelTop.Size = new System.Drawing.Size(1089, 42);
             this.panelTop.TabIndex = 0;
             // 
+            // tabPageLecturerWorkload
+            // 
+            this.tabPageLecturerWorkload.Location = new System.Drawing.Point(4, 22);
+            this.tabPageLecturerWorkload.Name = "tabPageLecturerWorkload";
+            this.tabPageLecturerWorkload.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLecturerWorkload.Size = new System.Drawing.Size(1081, 553);
+            this.tabPageLecturerWorkload.TabIndex = 5;
+            this.tabPageLecturerWorkload.Text = "Преподаватели";
+            this.tabPageLecturerWorkload.UseVisualStyleBackColor = true;
+            // 
             // FormAcademicYear
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -174,5 +186,6 @@
         private System.Windows.Forms.TabPage tabPageSeasonDates;
         private System.Windows.Forms.TabPage tabPageContingents;
         private System.Windows.Forms.TabPage tabPageStreamLessons;
+        private System.Windows.Forms.TabPage tabPageLecturerWorkload;
     }
 }
