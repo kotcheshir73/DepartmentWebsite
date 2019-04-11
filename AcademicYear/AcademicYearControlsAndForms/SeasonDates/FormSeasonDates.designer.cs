@@ -3,11 +3,6 @@
     partial class FormSeasonDates
     {
         /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -46,9 +41,6 @@
             this.labelDateBeginFirstHalfSemester = new System.Windows.Forms.Label();
             this.checkBoxDateBeginPractic = new System.Windows.Forms.CheckBox();
             this.checkBoxDateEndPractic = new System.Windows.Forms.CheckBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.dateTimePickerDateEndSecondHalfSemester = new System.Windows.Forms.DateTimePicker();
             this.labelDateEndSecondHalfSemester = new System.Windows.Forms.Label();
             this.dateTimePickerDateBeginSecondHalfSemester = new System.Windows.Forms.DateTimePicker();
@@ -56,6 +48,18 @@
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelAcademicYear = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(110, 413);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(257, 413);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(29, 413);
             // 
             // labelTitle
             // 
@@ -201,7 +205,7 @@
             this.checkBoxDateBeginPractic.TabIndex = 20;
             this.checkBoxDateBeginPractic.Text = "Дата начала практики";
             this.checkBoxDateBeginPractic.UseVisualStyleBackColor = true;
-            this.checkBoxDateBeginPractic.CheckedChanged += new System.EventHandler(this.checkBoxDateBeginPractic_CheckedChanged);
+            this.checkBoxDateBeginPractic.CheckedChanged += new System.EventHandler(this.CheckBoxDateBeginPractic_CheckedChanged);
             // 
             // checkBoxDateEndPractic
             // 
@@ -212,37 +216,7 @@
             this.checkBoxDateEndPractic.TabIndex = 22;
             this.checkBoxDateEndPractic.Text = "Дата окончания практики";
             this.checkBoxDateEndPractic.UseVisualStyleBackColor = true;
-            this.checkBoxDateEndPractic.CheckedChanged += new System.EventHandler(this.checkBoxDateEndPractic_CheckedChanged);
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(255, 418);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 26;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(27, 418);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 24;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(108, 418);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 25;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+            this.checkBoxDateEndPractic.CheckedChanged += new System.EventHandler(this.CheckBoxDateEndPractic_CheckedChanged);
             // 
             // dateTimePickerDateEndSecondHalfSemester
             // 
@@ -297,7 +271,7 @@
             this.labelAcademicYear.TabIndex = 0;
             this.labelAcademicYear.Text = "Учебный год*:";
             // 
-            // SeasonDatesForm
+            // FormSeasonDates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -308,9 +282,6 @@
             this.Controls.Add(this.labelDateEndSecondHalfSemester);
             this.Controls.Add(this.dateTimePickerDateBeginSecondHalfSemester);
             this.Controls.Add(this.labelDateBeginSecondHalfSemester);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.checkBoxDateEndPractic);
             this.Controls.Add(this.checkBoxDateBeginPractic);
             this.Controls.Add(this.dateTimePickerDateEndPractic);
@@ -329,10 +300,36 @@
             this.Controls.Add(this.labelDateBeginFirstHalfSemester);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.labelTitle);
-            this.Name = "SeasonDatesForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormSeasonDates";
             this.Text = "Даты семестра";
             this.Load += new System.EventHandler(this.FormSeasonDates_Load);
+            this.Controls.SetChildIndex(this.labelTitle, 0);
+            this.Controls.SetChildIndex(this.textBoxTitle, 0);
+            this.Controls.SetChildIndex(this.labelDateBeginFirstHalfSemester, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateBeginFirstHalfSemester, 0);
+            this.Controls.SetChildIndex(this.labelDateEndFirstHalfSemester, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateEndFirstHalfSemester, 0);
+            this.Controls.SetChildIndex(this.labelDateBeginOffset, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateBeginOffset, 0);
+            this.Controls.SetChildIndex(this.labelDateEndOffset, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateEndOffset, 0);
+            this.Controls.SetChildIndex(this.labelDateBeginExamination, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateBeginExamination, 0);
+            this.Controls.SetChildIndex(this.labelDateEndExamination, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateEndExamination, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateBeginPractic, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateEndPractic, 0);
+            this.Controls.SetChildIndex(this.checkBoxDateBeginPractic, 0);
+            this.Controls.SetChildIndex(this.checkBoxDateEndPractic, 0);
+            this.Controls.SetChildIndex(this.labelDateBeginSecondHalfSemester, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateBeginSecondHalfSemester, 0);
+            this.Controls.SetChildIndex(this.labelDateEndSecondHalfSemester, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerDateEndSecondHalfSemester, 0);
+            this.Controls.SetChildIndex(this.labelAcademicYear, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicYear, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -358,9 +355,6 @@
         private System.Windows.Forms.Label labelDateBeginFirstHalfSemester;
         private System.Windows.Forms.CheckBox checkBoxDateBeginPractic;
         private System.Windows.Forms.CheckBox checkBoxDateEndPractic;
-        private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonSave;
-		private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.DateTimePicker dateTimePickerDateEndSecondHalfSemester;
         private System.Windows.Forms.Label labelDateEndSecondHalfSemester;
         private System.Windows.Forms.DateTimePicker dateTimePickerDateBeginSecondHalfSemester;

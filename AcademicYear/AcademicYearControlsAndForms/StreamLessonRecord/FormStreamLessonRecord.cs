@@ -1,5 +1,6 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Data;
@@ -10,29 +11,23 @@ using Unity;
 
 namespace AcademicYearControlsAndForms.StreamLessonRecord
 {
-    public partial class FormStreamLessonRecord : Form
+    public partial class FormStreamLessonRecord : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IStreamLessonRecordService _service;
 
-        private Guid? _id = null;
-
         private Guid _sId;
 
         private Guid _ayId;
 
-        public FormStreamLessonRecord(IStreamLessonRecordService service, Guid sId, Guid ayId, Guid? id = null)
+        public FormStreamLessonRecord(IStreamLessonRecordService service, Guid sId, Guid ayId, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _sId = sId;
             _ayId = ayId;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormStreamLessonRecord_Load(object sender, EventArgs e)
@@ -69,13 +64,10 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
                 .Select(x => new { Value = x.Id, Display = string.Format("{0}. {1} курсы", x.EducationDirection, x.AcademicCoursesStrings) }).ToList();
             comboBoxAcademicPlan.SelectedItem = null;
 
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
+            StandartForm_Load();
         }
 
-        private void LoadData()
+        protected override void LoadData()
         {
             var result = _service.GetStreamLessonRecord(new StreamLessonRecordGetBindingModel { Id = _id });
             if (!result.Succeeded)
@@ -103,7 +95,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
             return true;
         }
 
-        private bool Save()
+        protected override bool Save()
         {
             if (CheckFill())
             {
@@ -151,31 +143,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
-            }
-        }
-
-        private void buttonSaveAndClose_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-
-        private void comboBoxAcademicPlan_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxAcademicPlan_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxAcademicPlan.SelectedValue != null)
             {
@@ -195,7 +163,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
             }
         }
 
-        private void comboBoxAcademicPlanRecord_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxAcademicPlanRecord_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxAcademicPlanRecord.SelectedValue != null)
             {

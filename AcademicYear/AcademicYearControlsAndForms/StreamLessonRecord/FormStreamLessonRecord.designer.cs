@@ -3,11 +3,6 @@
     partial class FormStreamLessonRecord
     {
         /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -28,9 +23,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.comboBoxAcademicPlanRecord = new System.Windows.Forms.ComboBox();
             this.labelAcademicPlanRecord = new System.Windows.Forms.Label();
             this.comboBoxAcademicPlan = new System.Windows.Forms.ComboBox();
@@ -44,33 +36,15 @@
             // 
             // buttonSaveAndClose
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(155, 149);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 10;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(141, 146);
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(302, 149);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 11;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+            this.buttonClose.Location = new System.Drawing.Point(288, 146);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(74, 149);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 9;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Location = new System.Drawing.Point(60, 146);
             // 
             // comboBoxAcademicPlanRecord
             // 
@@ -80,7 +54,7 @@
             this.comboBoxAcademicPlanRecord.Name = "comboBoxAcademicPlanRecord";
             this.comboBoxAcademicPlanRecord.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicPlanRecord.TabIndex = 5;
-            this.comboBoxAcademicPlanRecord.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcademicPlanRecord_SelectedIndexChanged);
+            this.comboBoxAcademicPlanRecord.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAcademicPlanRecord_SelectedIndexChanged);
             // 
             // labelAcademicPlanRecord
             // 
@@ -99,7 +73,7 @@
             this.comboBoxAcademicPlan.Name = "comboBoxAcademicPlan";
             this.comboBoxAcademicPlan.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicPlan.TabIndex = 3;
-            this.comboBoxAcademicPlan.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcademicPlan_SelectedIndexChanged);
+            this.comboBoxAcademicPlan.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAcademicPlan_SelectedIndexChanged);
             // 
             // labelAcademicPlan
             // 
@@ -158,7 +132,7 @@
             this.checkBoxIsMain.Text = "Считать по этой записи часы:";
             this.checkBoxIsMain.UseVisualStyleBackColor = true;
             // 
-            // StreamLessonRecordForm
+            // FormStreamLessonRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -170,25 +144,29 @@
             this.Controls.Add(this.labelStreamLesson);
             this.Controls.Add(this.comboBoxAcademicPlan);
             this.Controls.Add(this.labelAcademicPlan);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxAcademicPlanRecord);
             this.Controls.Add(this.labelAcademicPlanRecord);
-            this.Name = "StreamLessonRecordForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormStreamLessonRecord";
             this.Text = "Запись потока";
             this.Load += new System.EventHandler(this.FormStreamLessonRecord_Load);
+            this.Controls.SetChildIndex(this.labelAcademicPlanRecord, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicPlanRecord, 0);
+            this.Controls.SetChildIndex(this.labelAcademicPlan, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicPlan, 0);
+            this.Controls.SetChildIndex(this.labelStreamLesson, 0);
+            this.Controls.SetChildIndex(this.comboBoxStreamLesson, 0);
+            this.Controls.SetChildIndex(this.labelAcademicPlanRecordElement, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicPlanRecordElement, 0);
+            this.Controls.SetChildIndex(this.checkBoxIsMain, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button buttonSaveAndClose;
-        private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.ComboBox comboBoxAcademicPlanRecord;
         private System.Windows.Forms.Label labelAcademicPlanRecord;
         private System.Windows.Forms.ComboBox comboBoxAcademicPlan;

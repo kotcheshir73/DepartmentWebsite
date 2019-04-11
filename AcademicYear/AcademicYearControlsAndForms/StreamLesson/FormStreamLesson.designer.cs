@@ -3,11 +3,6 @@
     partial class FormStreamLesson
     {
         /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -32,9 +27,6 @@
             this.tabPageConfig = new System.Windows.Forms.TabPage();
             this.textBoxStreamLessonHours = new System.Windows.Forms.TextBox();
             this.labelStreamLessonHours = new System.Windows.Forms.Label();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxStreamLessonName = new System.Windows.Forms.TextBox();
             this.labelStreamLessonName = new System.Windows.Forms.Label();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
@@ -44,24 +36,35 @@
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(298, 449);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(445, 449);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(217, 449);
+            // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(734, 481);
+            this.tabControl.Size = new System.Drawing.Size(734, 447);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
             // 
             this.tabPageConfig.Controls.Add(this.textBoxStreamLessonHours);
             this.tabPageConfig.Controls.Add(this.labelStreamLessonHours);
-            this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
-            this.tabPageConfig.Controls.Add(this.buttonClose);
-            this.tabPageConfig.Controls.Add(this.buttonSave);
             this.tabPageConfig.Controls.Add(this.textBoxStreamLessonName);
             this.tabPageConfig.Controls.Add(this.labelStreamLessonName);
             this.tabPageConfig.Controls.Add(this.comboBoxAcademicYear);
@@ -69,7 +72,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(726, 455);
+            this.tabPageConfig.Size = new System.Drawing.Size(726, 421);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Информация по потоку";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -89,36 +92,6 @@
             this.labelStreamLessonHours.Size = new System.Drawing.Size(42, 13);
             this.labelStreamLessonHours.TabIndex = 4;
             this.labelStreamLessonHours.Text = "Часы*:";
-            // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(106, 98);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 7;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(253, 98);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 8;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(25, 98);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 6;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // textBoxStreamLessonName
             // 
@@ -160,21 +133,24 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(726, 455);
+            this.tabPageRecords.Size = new System.Drawing.Size(726, 421);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Записи";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // StreamLessonForm
+            // FormStreamLesson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 481);
             this.Controls.Add(this.tabControl);
-            this.Name = "StreamLessonForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormStreamLesson";
             this.Text = "Поток";
             this.Load += new System.EventHandler(this.FormStreamLesson_Load);
+            this.Controls.SetChildIndex(this.tabControl, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
@@ -191,9 +167,6 @@
         private System.Windows.Forms.Label labelAcademicYear;
         private System.Windows.Forms.TextBox textBoxStreamLessonName;
         private System.Windows.Forms.Label labelStreamLessonName;
-        private System.Windows.Forms.Button buttonSaveAndClose;
-        private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TextBox textBoxStreamLessonHours;
         private System.Windows.Forms.Label labelStreamLessonHours;
     }

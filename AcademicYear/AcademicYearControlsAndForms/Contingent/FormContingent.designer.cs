@@ -3,11 +3,6 @@
 	partial class FormContingent
 	{
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -36,9 +31,6 @@
             this.labelCountSubgroups = new System.Windows.Forms.Label();
             this.labelCountStudents = new System.Windows.Forms.Label();
             this.textBoxCountStudents = new System.Windows.Forms.TextBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.labelCourse = new System.Windows.Forms.Label();
             this.textBoxCourse = new System.Windows.Forms.TextBox();
             this.labelCountGroups = new System.Windows.Forms.Label();
@@ -46,6 +38,18 @@
             this.textBoxContingentName = new System.Windows.Forms.TextBox();
             this.labelContingentName = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(96, 172);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(243, 172);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(15, 172);
             // 
             // comboBoxAcademicYear
             // 
@@ -120,36 +124,6 @@
             this.textBoxCountStudents.TabIndex = 11;
             this.textBoxCountStudents.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(247, 171);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 16;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(19, 171);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 14;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 171);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 15;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
-            // 
             // labelCourse
             // 
             this.labelCourse.AutoSize = true;
@@ -203,7 +177,7 @@
             this.labelContingentName.TabIndex = 4;
             this.labelContingentName.Text = "Наименование*:";
             // 
-            // ContingentForm
+            // FormContingent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -214,9 +188,6 @@
             this.Controls.Add(this.textBoxCountGroups);
             this.Controls.Add(this.textBoxCourse);
             this.Controls.Add(this.labelCourse);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxCountSubgroups);
             this.Controls.Add(this.labelCountSubgroups);
             this.Controls.Add(this.labelCountStudents);
@@ -225,10 +196,26 @@
             this.Controls.Add(this.labelEducationDirection);
             this.Controls.Add(this.comboBoxAcademicYear);
             this.Controls.Add(this.labelAcademicYear);
-            this.Name = "ContingentForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormContingent";
             this.Text = "Контингент";
             this.Load += new System.EventHandler(this.FormContingent_Load);
+            this.Controls.SetChildIndex(this.labelAcademicYear, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicYear, 0);
+            this.Controls.SetChildIndex(this.labelEducationDirection, 0);
+            this.Controls.SetChildIndex(this.comboBoxEducationDirection, 0);
+            this.Controls.SetChildIndex(this.textBoxCountStudents, 0);
+            this.Controls.SetChildIndex(this.labelCountStudents, 0);
+            this.Controls.SetChildIndex(this.labelCountSubgroups, 0);
+            this.Controls.SetChildIndex(this.textBoxCountSubgroups, 0);
+            this.Controls.SetChildIndex(this.labelCourse, 0);
+            this.Controls.SetChildIndex(this.textBoxCourse, 0);
+            this.Controls.SetChildIndex(this.textBoxCountGroups, 0);
+            this.Controls.SetChildIndex(this.labelCountGroups, 0);
+            this.Controls.SetChildIndex(this.labelContingentName, 0);
+            this.Controls.SetChildIndex(this.textBoxContingentName, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -244,9 +231,6 @@
 		private System.Windows.Forms.Label labelCountSubgroups;
 		private System.Windows.Forms.Label labelCountStudents;
 		private System.Windows.Forms.TextBox textBoxCountStudents;
-		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Button buttonSave;
-		private System.Windows.Forms.Button buttonSaveAndClose;
 		private System.Windows.Forms.Label labelCourse;
 		private System.Windows.Forms.TextBox textBoxCourse;
         private System.Windows.Forms.Label labelCountGroups;

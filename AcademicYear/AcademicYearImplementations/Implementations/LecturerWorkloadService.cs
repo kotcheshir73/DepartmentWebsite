@@ -1,6 +1,9 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
 using Enums;
 using System;
 using System.Linq;
@@ -10,9 +13,29 @@ namespace AcademicYearImplementations.Implementations
 {
     public class LecturerWorkloadService : ILecturerWorkloadService
     {
+        private readonly IAcademicYearService _serviceAY;
+
+        private readonly ILecturerService _serviceL;
+
         private readonly AccessOperation _serviceOperation = AccessOperation.Преподавательская_ставка;
 
         private readonly string _entity = "Преподавательская ставка";
+
+        public LecturerWorkloadService(IAcademicYearService serviceAY, ILecturerService serviceL)
+        {
+            _serviceAY = serviceAY;
+            _serviceL = serviceL;
+        }
+
+        public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
+        {
+            return _serviceAY.GetAcademicYears(model);
+        }
+
+        public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+        {
+            return _serviceL.GetLecturers(model);
+        }
 
         public ResultService<LecturerWorkloadPageViewModel> GetLecturerWorkloads(LecturerWorkloadGetBindingModel model)
         {

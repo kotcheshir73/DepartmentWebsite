@@ -3,11 +3,6 @@
 	partial class FormAcademicPlanRecord
 	{
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -34,11 +29,8 @@
             this.comboBoxSemester = new System.Windows.Forms.ComboBox();
             this.labelZet = new System.Windows.Forms.Label();
             this.textBoxZet = new System.Windows.Forms.TextBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.labelDiscipline = new System.Windows.Forms.Label();
             this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
             this.labelContingent = new System.Windows.Forms.Label();
@@ -47,6 +39,18 @@
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(270, 336);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(417, 336);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(189, 336);
             // 
             // labelAcademicPlan
             // 
@@ -102,26 +106,6 @@
             this.textBoxZet.Size = new System.Drawing.Size(100, 20);
             this.textBoxZet.TabIndex = 9;
             // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(253, 151);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 12;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(25, 151);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 10;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
             // labelDiscipline
             // 
             this.labelDiscipline.AutoSize = true;
@@ -140,25 +124,17 @@
             this.comboBoxDiscipline.Size = new System.Drawing.Size(220, 21);
             this.comboBoxDiscipline.TabIndex = 3;
             // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(106, 151);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 11;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
-            // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(691, 367);
+            this.tabControl.Size = new System.Drawing.Size(691, 330);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -166,20 +142,17 @@
             this.tabPageConfig.Controls.Add(this.labelContingent);
             this.tabPageConfig.Controls.Add(this.comboBoxContingent);
             this.tabPageConfig.Controls.Add(this.labelAcademicPlan);
-            this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
             this.tabPageConfig.Controls.Add(this.comboBoxAcademicPlan);
             this.tabPageConfig.Controls.Add(this.comboBoxDiscipline);
             this.tabPageConfig.Controls.Add(this.labelSemester);
             this.tabPageConfig.Controls.Add(this.labelDiscipline);
             this.tabPageConfig.Controls.Add(this.comboBoxSemester);
-            this.tabPageConfig.Controls.Add(this.buttonClose);
             this.tabPageConfig.Controls.Add(this.labelZet);
-            this.tabPageConfig.Controls.Add(this.buttonSave);
             this.tabPageConfig.Controls.Add(this.textBoxZet);
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(683, 341);
+            this.tabPageConfig.Size = new System.Drawing.Size(683, 304);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Запись учебного плана";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -207,21 +180,24 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(683, 341);
+            this.tabPageRecords.Size = new System.Drawing.Size(683, 304);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Распределение часов";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // AcademicPlanRecordForm
+            // FormAcademicPlanRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(691, 367);
             this.Controls.Add(this.tabControl);
-            this.Name = "AcademicPlanRecordForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormAcademicPlanRecord";
             this.Text = "Запись учебного плана";
             this.Load += new System.EventHandler(this.FormAcademicPlanRecord_Load);
+            this.Controls.SetChildIndex(this.tabControl, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
@@ -237,11 +213,8 @@
 		private System.Windows.Forms.ComboBox comboBoxSemester;
 		private System.Windows.Forms.Label labelZet;
 		private System.Windows.Forms.TextBox textBoxZet;
-		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Label labelDiscipline;
 		private System.Windows.Forms.ComboBox comboBoxDiscipline;
-		private System.Windows.Forms.Button buttonSaveAndClose;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageConfig;
         private System.Windows.Forms.TabPage tabPageRecords;

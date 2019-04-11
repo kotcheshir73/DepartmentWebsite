@@ -3,11 +3,6 @@
 	partial class FormAcademicPlan
 	{
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -36,11 +31,8 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.comboBoxEducationDirection = new System.Windows.Forms.ComboBox();
             this.labelEducationDirection = new System.Windows.Forms.Label();
@@ -48,6 +40,18 @@
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(322, 470);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(469, 470);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(241, 470);
             // 
             // labelAcademicYear
             // 
@@ -125,46 +129,25 @@
             this.checkBox4.Text = "4";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(247, 117);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 15;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(19, 117);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 13;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(834, 501);
+            this.tabControl.Size = new System.Drawing.Size(834, 464);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
             // 
-            this.tabPageConfig.Controls.Add(this.buttonSaveAndClose);
             this.tabPageConfig.Controls.Add(this.comboBoxAcademicYear);
             this.tabPageConfig.Controls.Add(this.comboBoxEducationDirection);
             this.tabPageConfig.Controls.Add(this.labelEducationDirection);
             this.tabPageConfig.Controls.Add(this.labelAcademicYear);
-            this.tabPageConfig.Controls.Add(this.buttonClose);
-            this.tabPageConfig.Controls.Add(this.buttonSave);
             this.tabPageConfig.Controls.Add(this.labelAcademicLevel);
             this.tabPageConfig.Controls.Add(this.comboBoxAcademicLevel);
             this.tabPageConfig.Controls.Add(this.labelAcademicCourse);
@@ -175,20 +158,10 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(826, 475);
+            this.tabPageConfig.Size = new System.Drawing.Size(826, 438);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Учебный план";
             this.tabPageConfig.UseVisualStyleBackColor = true;
-            // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(100, 117);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 14;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // comboBoxAcademicYear
             // 
@@ -223,21 +196,24 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(826, 475);
+            this.tabPageRecords.Size = new System.Drawing.Size(826, 438);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Записи";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // AcademicPlanForm
+            // FormAcademicPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 501);
             this.Controls.Add(this.tabControl);
-            this.Name = "AcademicPlanForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormAcademicPlan";
             this.Text = "Учебный план";
             this.Load += new System.EventHandler(this.FormAcademicPlan_Load);
+            this.Controls.SetChildIndex(this.tabControl, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
@@ -255,14 +231,11 @@
 		private System.Windows.Forms.CheckBox checkBox2;
 		private System.Windows.Forms.CheckBox checkBox3;
 		private System.Windows.Forms.CheckBox checkBox4;
-		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.TabPage tabPageConfig;
 		private System.Windows.Forms.TabPage tabPageRecords;
 		private System.Windows.Forms.ComboBox comboBoxEducationDirection;
 		private System.Windows.Forms.Label labelEducationDirection;
 		private System.Windows.Forms.ComboBox comboBoxAcademicYear;
-		private System.Windows.Forms.Button buttonSaveAndClose;
 	}
 }

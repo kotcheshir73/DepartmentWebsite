@@ -1,6 +1,7 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using BaseInterfaces.BindingModels;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using Enums;
 using System;
@@ -11,23 +12,17 @@ using Tools;
 
 namespace AcademicYearControlsAndForms.TimeNorm
 {
-    public partial class FormTimeNorm : Form
+    public partial class FormTimeNorm : StandartForm
 	{
 		private readonly ITimeNormService _service;
 
         private Guid _ayId;
 
-		private Guid? _id = null;
-
-        public FormTimeNorm(ITimeNormService service, Guid ayId, Guid? id = null)
+        public FormTimeNorm(ITimeNormService service, Guid ayId, Guid? id = null) : base(id)
 		{
 			InitializeComponent();
 			_service = service;
             _ayId = ayId;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
 		private void FormTimeNorm_Load(object sender, EventArgs e)
@@ -75,13 +70,10 @@ namespace AcademicYearControlsAndForms.TimeNorm
             }
             comboBoxTimeNormKoef.SelectedIndex = -1;
 
-            if (_id.HasValue)
-			{
-				LoadData();
-			}
+            StandartForm_Load();
 		}
 
-		private void LoadData()
+        protected override void LoadData()
 		{
 			var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -133,8 +125,7 @@ namespace AcademicYearControlsAndForms.TimeNorm
             {
                 return false;
             }
-            int order = 0;
-            if (!int.TryParse(textBoxTimeNormOrder.Text, out order))
+            if (!int.TryParse(textBoxTimeNormOrder.Text, out int order))
             {
                 return false;
             }
@@ -146,8 +137,7 @@ namespace AcademicYearControlsAndForms.TimeNorm
             {
                 return false;
             }
-            decimal count = 0;
-            if (!string.IsNullOrEmpty(textBoxHours.Text) && !decimal.TryParse(textBoxHours.Text, out count))
+            if (!string.IsNullOrEmpty(textBoxHours.Text) && !decimal.TryParse(textBoxHours.Text, out decimal count))
             {
                 return false;
             }
@@ -158,7 +148,7 @@ namespace AcademicYearControlsAndForms.TimeNorm
             return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
             if (CheckFill())
 			{
@@ -230,30 +220,6 @@ namespace AcademicYearControlsAndForms.TimeNorm
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-		}
-
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
 		}
 	}
 }

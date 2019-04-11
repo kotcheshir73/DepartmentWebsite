@@ -1,6 +1,7 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using BaseInterfaces.BindingModels;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Data;
@@ -11,26 +12,20 @@ using Unity;
 
 namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
 {
-    public partial class FormAcademicPlanRecordMission : Form
+    public partial class FormAcademicPlanRecordMission : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IAcademicPlanRecordMissionService _service;
 
-        private Guid? _id = null;
-
         private Guid _apreId;
 
-        public FormAcademicPlanRecordMission(IAcademicPlanRecordMissionService service, Guid apreId, Guid? id = null)
+        public FormAcademicPlanRecordMission(IAcademicPlanRecordMissionService service, Guid apreId, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _apreId = apreId;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormAcademicPlanRecordMission_Load(object sender, EventArgs e)
@@ -66,13 +61,10 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
                 .Select(l => new { Value = l.Id, Display = string.Format("{0} {1}", l.LastName, l.FirstName) }).ToList();
             comboBoxLecturer.SelectedItem = null;
 
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
+            StandartForm_Load();
         }
 
-        private void LoadData()
+        protected override void LoadData()
         {
             var result = _service.GetAcademicPlanRecordMission(new AcademicPlanRecordMissionGetBindingModel { Id = _id });
             if (!result.Succeeded)
@@ -108,7 +100,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
             return true;
         }
 
-        private bool Save()
+        protected override bool Save()
         {
             if (CheckFill())
             {
@@ -154,30 +146,6 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
                 MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
-            }
-        }
-
-        private void buttonSaveAndClose_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
         }
     }
 }

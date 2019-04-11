@@ -1,6 +1,7 @@
 ﻿using AcademicYearControlsAndForms.StreamLessonRecord;
 using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Data;
@@ -11,26 +12,20 @@ using Unity;
 
 namespace AcademicYearControlsAndForms.StreamLesson
 {
-    public partial class FormStreamLesson : Form
+    public partial class FormStreamLesson : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IStreamLessonService _service;
 
-        private Guid? _id = null;
-
         private Guid? _ayId = null;
 
-        public FormStreamLesson(IStreamLessonService service, Guid? ayId = null, Guid? id = null)
+        public FormStreamLesson(IStreamLessonService service, Guid? ayId = null, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _ayId = ayId;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormStreamLesson_Load(object sender, EventArgs e)
@@ -48,13 +43,10 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
             comboBoxAcademicYear.SelectedValue = _ayId;
 
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
+            StandartForm_Load();
         }
 
-        private void LoadData()
+        protected override void LoadData()
         {
             if (tabPageRecords.Controls.Count == 0)
             {
@@ -99,7 +91,7 @@ namespace AcademicYearControlsAndForms.StreamLesson
             return true;
         }
 
-        private bool Save()
+        protected override bool Save()
         {
             if (CheckFill())
             {
@@ -145,30 +137,6 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
-            }
-        }
-
-        private void buttonSaveAndClose_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
         }
     }
 }

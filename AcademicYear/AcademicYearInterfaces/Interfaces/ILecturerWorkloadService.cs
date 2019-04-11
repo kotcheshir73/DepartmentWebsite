@@ -1,11 +1,27 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.ViewModels;
 using Tools;
 
 namespace AcademicYearInterfaces.Interfaces
 {
     public interface ILecturerWorkloadService
     {
+        /// <summary>
+        /// Получение списка учебных годов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model);
+
         /// <summary>
 		/// Получение списка элементов записи ставок
 		/// </summary>

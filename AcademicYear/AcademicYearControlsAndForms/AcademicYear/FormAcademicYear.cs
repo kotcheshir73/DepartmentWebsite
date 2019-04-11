@@ -5,6 +5,7 @@ using AcademicYearControlsAndForms.StreamLesson;
 using AcademicYearControlsAndForms.TimeNorm;
 using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Windows.Forms;
@@ -13,34 +14,25 @@ using Unity;
 
 namespace AcademicYearControlsAndForms.AcademicYear
 {
-    public partial class FormAcademicYear : Form
+    public partial class FormAcademicYear : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IAcademicYearService _service;
 
-        private Guid? _id = null;
-
-		public FormAcademicYear(IAcademicYearService service, Guid? id = null)
+		public FormAcademicYear(IAcademicYearService service, Guid? id = null) : base(id)
 		{
 			InitializeComponent();
 			_service = service;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
 		private void FormAcademicYear_Load(object sender, EventArgs e)
         {
-            if (_id.HasValue)
-            {
-                LoadData();
-			}
+            StandartForm_Load();
 		}
 
-		private void LoadData()
+        protected override void LoadData()
         {
             if (tabPageAcademicPlans.Controls.Count == 0)
             {
@@ -102,7 +94,7 @@ namespace AcademicYearControlsAndForms.AcademicYear
 			return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -144,30 +136,6 @@ namespace AcademicYearControlsAndForms.AcademicYear
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-		}
-
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
 		}
 	}
 }

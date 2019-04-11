@@ -3,11 +3,6 @@
 	partial class FormTimeNorm
 	{
 		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-
-		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -30,9 +25,6 @@
 		{
             this.labelTimeNormName = new System.Windows.Forms.Label();
             this.textBoxTimeNormName = new System.Windows.Forms.TextBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonSaveAndClose = new System.Windows.Forms.Button();
             this.labelSelectKindOfLoadType = new System.Windows.Forms.Label();
             this.comboBoxSelectKindOfLoadType = new System.Windows.Forms.ComboBox();
             this.labelHours = new System.Windows.Forms.Label();
@@ -76,6 +68,18 @@
             this.groupBoxKindOfLoad.SuspendLayout();
             this.SuspendLayout();
             // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(567, 324);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(714, 324);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(486, 324);
+            // 
             // labelTimeNormName
             // 
             this.labelTimeNormName.AutoSize = true;
@@ -91,36 +95,6 @@
             this.textBoxTimeNormName.Name = "textBoxTimeNormName";
             this.textBoxTimeNormName.Size = new System.Drawing.Size(220, 20);
             this.textBoxTimeNormName.TabIndex = 5;
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(684, 324);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 17;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(456, 324);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 15;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(538, 324);
-            this.buttonSaveAndClose.Name = "buttonSaveAndClose";
-            this.buttonSaveAndClose.Size = new System.Drawing.Size(141, 23);
-            this.buttonSaveAndClose.TabIndex = 16;
-            this.buttonSaveAndClose.Text = "Сохранить и закрыть";
-            this.buttonSaveAndClose.UseVisualStyleBackColor = true;
-            this.buttonSaveAndClose.Click += new System.EventHandler(this.buttonSaveAndClose_Click);
             // 
             // labelSelectKindOfLoadType
             // 
@@ -472,7 +446,7 @@
             this.checkBoxUseInLearningProgress.Text = "Выводить при настройки дисциплины";
             this.checkBoxUseInLearningProgress.UseVisualStyleBackColor = true;
             // 
-            // TimeNormForm
+            // FormTimeNorm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -492,15 +466,31 @@
             this.Controls.Add(this.groupBoxMult1);
             this.Controls.Add(this.comboBoxAcademicYear);
             this.Controls.Add(this.labelAcademicYear);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxTimeNormName);
             this.Controls.Add(this.labelTimeNormName);
-            this.Name = "TimeNormForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormTimeNorm";
             this.Text = "Норма времени";
             this.Load += new System.EventHandler(this.FormTimeNorm_Load);
+            this.Controls.SetChildIndex(this.labelTimeNormName, 0);
+            this.Controls.SetChildIndex(this.textBoxTimeNormName, 0);
+            this.Controls.SetChildIndex(this.labelAcademicYear, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicYear, 0);
+            this.Controls.SetChildIndex(this.groupBoxMult1, 0);
+            this.Controls.SetChildIndex(this.groupBoxMult2, 0);
+            this.Controls.SetChildIndex(this.groupBoxMult3, 0);
+            this.Controls.SetChildIndex(this.labelTimeNormShortName, 0);
+            this.Controls.SetChildIndex(this.textBoxTimeNormShortName, 0);
+            this.Controls.SetChildIndex(this.labelTimeNormOrder, 0);
+            this.Controls.SetChildIndex(this.textBoxTimeNormOrder, 0);
+            this.Controls.SetChildIndex(this.groupBoxKindOfLoad, 0);
+            this.Controls.SetChildIndex(this.labelDisciplineBlock, 0);
+            this.Controls.SetChildIndex(this.comboBoxDisciplineBlock, 0);
+            this.Controls.SetChildIndex(this.labelAcademicLevel, 0);
+            this.Controls.SetChildIndex(this.comboBoxAcademicLevel, 0);
+            this.Controls.SetChildIndex(this.checkBoxUseInLearningProgress, 0);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
             this.groupBoxMult1.ResumeLayout(false);
             this.groupBoxMult1.PerformLayout();
             this.groupBoxMult2.ResumeLayout(false);
@@ -517,9 +507,6 @@
 		#endregion
 		private System.Windows.Forms.Label labelTimeNormName;
 		private System.Windows.Forms.TextBox textBoxTimeNormName;
-		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Button buttonSave;
-		private System.Windows.Forms.Button buttonSaveAndClose;
 		private System.Windows.Forms.Label labelSelectKindOfLoadType;
 		private System.Windows.Forms.ComboBox comboBoxSelectKindOfLoadType;
 		private System.Windows.Forms.Label labelHours;

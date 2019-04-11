@@ -1,5 +1,6 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Linq;
@@ -9,26 +10,20 @@ using Unity;
 
 namespace AcademicYearControlsAndForms.SeasonDates
 {
-    public partial class FormSeasonDates : Form
+    public partial class FormSeasonDates : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly ISeasonDatesService _service;
 
-        private Guid? _id = null;
-
         private Guid _ayId;
 
-        public FormSeasonDates(ISeasonDatesService service, Guid ayId, Guid? id = null)
+        public FormSeasonDates(ISeasonDatesService service, Guid ayId, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _ayId = ayId;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
         private void FormSeasonDates_Load(object sender, EventArgs e)
@@ -46,13 +41,10 @@ namespace AcademicYearControlsAndForms.SeasonDates
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
             comboBoxAcademicYear.SelectedItem = _ayId;
 
-            if (_id.HasValue)
-            {
-				LoadData();
-			}
+            StandartForm_Load();
 		}
 
-		private void LoadData()
+        protected override void LoadData()
         {
             var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -106,7 +98,7 @@ namespace AcademicYearControlsAndForms.SeasonDates
             return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -182,36 +174,12 @@ namespace AcademicYearControlsAndForms.SeasonDates
 			}
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
-
-        private void checkBoxDateBeginPractic_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxDateBeginPractic_CheckedChanged(object sender, EventArgs e)
         {
             dateTimePickerDateBeginPractic.Enabled = checkBoxDateBeginPractic.Checked;
         }
 
-        private void checkBoxDateEndPractic_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxDateEndPractic_CheckedChanged(object sender, EventArgs e)
         {
             dateTimePickerDateEndPractic.Enabled = checkBoxDateEndPractic.Checked;
         }
