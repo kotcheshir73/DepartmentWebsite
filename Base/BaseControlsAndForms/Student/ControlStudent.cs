@@ -54,7 +54,7 @@ namespace BaseControlsAndForms.Student
                 { "FinishEducationToolStripMenuItem", "Завершение обучения"}
             };
 
-            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
+            standartControl.Configurate(columns, hideToolStripButtons, countElementsOnPage: 40, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
