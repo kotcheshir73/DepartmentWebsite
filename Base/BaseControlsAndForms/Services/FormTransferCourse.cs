@@ -11,7 +11,7 @@ using Unity;
 
 namespace BaseControlsAndForms.Services
 {
-    public partial class FormTransfer : Form
+    public partial class FormTransferCourse : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -24,7 +24,7 @@ namespace BaseControlsAndForms.Services
 
 		private Guid? _id = null;
 
-		public FormTransfer(IStudentGroupService serviceSG, IStudentService serviceS, IProcess process, Guid? id = null)
+		public FormTransferCourse(IStudentGroupService serviceSG, IStudentService serviceS, IProcess process, Guid? id = null)
 		{
 			InitializeComponent();
 			_serviceSG = serviceSG;
@@ -33,7 +33,7 @@ namespace BaseControlsAndForms.Services
 			_id = id;
 		}
 
-		private void FormTransfer_Load(object sender, EventArgs e)
+		private void FormTransferCourse_Load(object sender, EventArgs e)
 		{
 			var resultSG = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { });
 			if (!resultSG.Succeeded)
@@ -59,6 +59,7 @@ namespace BaseControlsAndForms.Services
 			{
 				dataGridViewStudents.Rows.Add(new object[] 
                 {
+                    false,
                     false,
                     list[i].Id,
                     list[i].NumberOfBook,
@@ -90,17 +91,12 @@ namespace BaseControlsAndForms.Services
 				return;
 			}
             Guid newId = new Guid(comboBoxNewStudentGroup.SelectedValue.ToString());
-			var list = new List<StudentSetBindingModel>();
+			var list = new List<Tuple<Guid, bool>>();
 			for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
 			{
 				if (Convert.ToBoolean(dataGridViewStudents.Rows[i].Cells[0].Value))
 				{
-					var model = new StudentSetBindingModel
-					{
-						Id = new Guid(dataGridViewStudents.Rows[i].Cells[1].Value.ToString()),
-						StudentGroupId = newId
-					};
-					list.Add(model);
+					list.Add(new Tuple<Guid, bool> (new Guid(dataGridViewStudents.Rows[i].Cells[2].Value.ToString()), Convert.ToBoolean(dataGridViewStudents.Rows[i].Cells[1].Value)));
 				}
 			}
 			if (list.Count == 0)
@@ -108,14 +104,13 @@ namespace BaseControlsAndForms.Services
 				MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			var result = _process.TransferStudents(new StudentTransferBindingModel
+			var result = _process.TransferCourse(new StudentTransferBindingModel
 			{
-				TransferDate = dateTimePickerTransferDate.Value,
+				TransferOrderDate = dateTimePickerTransferDate.Value,
 				TransferOrderNumber = textBoxTransferOrderNumber.Text,
 				NewStudentGroupId = newId,
 				OldStudentGroupId = _id.Value,
-				StudentList = list,
-                IsConditionally = checkBoxIsConditionally.Checked
+				StudentList = list
 			});
 			if (result.Succeeded)
 			{

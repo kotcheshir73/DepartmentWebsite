@@ -83,7 +83,7 @@ namespace BaseControlsAndForms.Services
             var result = _process.RecoveryStudents(new StudentRecoveryBindingModel
             {
                 StudnetIds = list,
-                RecoveryDate = dateTimePickerRecoveryDate.Value,
+                RecoveryOrderDate = dateTimePickerRecoveryDate.Value,
                 RecoveryOrderNumber = textBoxRecoveryOrderNumber.Text
             });
             if (result.Succeeded)

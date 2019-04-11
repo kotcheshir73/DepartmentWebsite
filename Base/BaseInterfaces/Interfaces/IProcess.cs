@@ -14,11 +14,11 @@ namespace BaseInterfaces.Interfaces
         ResultService EnrollmentStudents(StudentEnrollmentBindingModel model);
 
         /// <summary>
-        /// Перевод студентов
+        /// Перевод студентов на следующий курс
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService TransferStudents(StudentTransferBindingModel model);
+        ResultService TransferCourse(StudentTransferBindingModel model);
 
         /// <summary>
         /// Отчисление студентов
@@ -53,6 +53,13 @@ namespace BaseInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService TransferSpecStudents(StudentTransferBindingModel model);
+        ResultService TransferGroup(StudentTransferBindingModel model);
+
+        /// <summary>
+        /// Перевод студентов на другую специальность
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService FinishEducation(FinishEducationBindingModel model);
     }
 }

@@ -61,7 +61,7 @@ namespace BaseControlsAndForms.Services
             }
             var result = _process.FromAcademStudents(new StudentAcademBindingModel
             {
-                AcademDate = dateTimePickerToAcademDate.Value,
+                AcademOrderDate = dateTimePickerToAcademDate.Value,
                 AcademOrderNumber = textBoxToAcademOrderNumber.Text,
                 StudnetIds = _ids
             });

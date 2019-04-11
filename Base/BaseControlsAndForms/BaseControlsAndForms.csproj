@@ -132,6 +132,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FormFinishEducation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormFinishEducation.Designer.cs">
+      <DependentUpon>FormFinishEducation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\FormFromAcadem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,11 +150,11 @@
     <Compile Include="Services\FormRecovery.Designer.cs">
       <DependentUpon>FormRecovery.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\FormTransferSpec.cs">
+    <Compile Include="Services\FormTransferGroup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\FormTransferSpec.Designer.cs">
-      <DependentUpon>FormTransferSpec.cs</DependentUpon>
+    <Compile Include="Services\FormTransferGroup.Designer.cs">
+      <DependentUpon>FormTransferGroup.cs</DependentUpon>
     </Compile>
     <Compile Include="StudentGroup\ControlStudentGroup.cs">
       <SubType>UserControl</SubType>
@@ -180,11 +186,11 @@
     <Compile Include="Services\FormToAcadem.designer.cs">
       <DependentUpon>FormToAcadem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\FormTransfer.cs">
+    <Compile Include="Services\FormTransferCourse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\FormTransfer.designer.cs">
-      <DependentUpon>FormTransfer.cs</DependentUpon>
+    <Compile Include="Services\FormTransferCourse.designer.cs">
+      <DependentUpon>FormTransferCourse.cs</DependentUpon>
     </Compile>
     <Compile Include="StudentOrderBlockStudent\ControlStudentOrderBlockStudent.cs">
       <SubType>UserControl</SubType>
@@ -280,14 +286,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Services\FormFinishEducation.resx">
+      <DependentUpon>FormFinishEducation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Services\FormFromAcadem.resx">
       <DependentUpon>FormFromAcadem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormRecovery.resx">
       <DependentUpon>FormRecovery.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\FormTransferSpec.resx">
-      <DependentUpon>FormTransferSpec.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormTransferGroup.resx">
+      <DependentUpon>FormTransferGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StudentGroup\ControlStudentGroup.resx">
       <DependentUpon>ControlStudentGroup.cs</DependentUpon>
@@ -304,8 +313,8 @@
     <EmbeddedResource Include="Services\FormToAcadem.resx">
       <DependentUpon>FormToAcadem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\FormTransfer.resx">
-      <DependentUpon>FormTransfer.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormTransferCourse.resx">
+      <DependentUpon>FormTransferCourse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StudentOrderBlockStudent\ControlStudentOrderBlockStudent.resx">
       <DependentUpon>ControlStudentOrderBlockStudent.cs</DependentUpon>

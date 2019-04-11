@@ -139,7 +139,7 @@
             this.buttonClose.Location = new System.Drawing.Point(646, 453);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 25);
-            this.buttonClose.TabIndex = 0;
+            this.buttonClose.TabIndex = 10;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);

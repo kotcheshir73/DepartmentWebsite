@@ -4,19 +4,15 @@ using ControlsAndForms.Messangers;
 using Enums;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using Unity;
 
 namespace BaseControlsAndForms.Services
 {
-    public partial class FormTransferSpec : Form
+    public partial class FormFinishEducation : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
-        private readonly IStudentGroupService _serviceSG;
 
         private readonly IStudentService _serviceS;
 
@@ -24,30 +20,16 @@ namespace BaseControlsAndForms.Services
 
         private Guid? _id = null;
 
-        public FormTransferSpec(IStudentGroupService serviceSG, IStudentService serviceS, IProcess process, Guid? id = null)
+        public FormFinishEducation(IStudentService serviceS, IProcess process, Guid? id = null)
         {
             InitializeComponent();
-            _serviceSG = serviceSG;
             _serviceS = serviceS;
             _process = process;
             _id = id;
         }
 
-        private void FormTransferSpec_Load(object sender, EventArgs e)
+        private void FormFinishEducation_Load(object sender, EventArgs e)
         {
-            var resultSG = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { });
-            if (!resultSG.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-                return;
-            }
-
-            comboBoxNewStudentGroup.ValueMember = "Value";
-            comboBoxNewStudentGroup.DisplayMember = "Display";
-            comboBoxNewStudentGroup.DataSource = resultSG.Result.List
-                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
-            comboBoxNewStudentGroup.SelectedItem = null;
-
             var result = _serviceS.GetStudents(new StudentGetBindingModel { StudentGroupId = _id, StudentStatus = StudentState.Учится });
             if (!result.Succeeded)
             {
@@ -79,28 +61,17 @@ namespace BaseControlsAndForms.Services
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxTransferOrderNumber.Text))
+            if (string.IsNullOrEmpty(textBoxFinishEducationOrderNumber.Text))
             {
-                MessageBox.Show("Введите основание перевода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Введите основание отчисления", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (comboBoxNewStudentGroup.SelectedValue == null)
-            {
-                MessageBox.Show("Выберите группу перевода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            Guid newId = new Guid(comboBoxNewStudentGroup.SelectedValue.ToString());
-            var list = new List<StudentSetBindingModel>();
+            var list = new List<Guid>();
             for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
             {
                 if (Convert.ToBoolean(dataGridViewStudents.Rows[i].Cells[0].Value))
                 {
-                    var model = new StudentSetBindingModel
-                    {
-                        Id = new Guid(dataGridViewStudents.Rows[i].Cells[1].Value.ToString()),
-                        StudentGroupId = newId
-                    };
-                    list.Add(model);
+                    list.Add(new Guid(dataGridViewStudents.Rows[i].Cells[1].Value.ToString()));
                 }
             }
             if (list.Count == 0)
@@ -108,13 +79,11 @@ namespace BaseControlsAndForms.Services
                 MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var result = _process.TransferSpecStudents(new StudentTransferBindingModel
+            var result = _process.FinishEducation(new FinishEducationBindingModel
             {
-                TransferDate = dateTimePickerTransferDate.Value,
-                TransferOrderNumber = textBoxTransferOrderNumber.Text,
-                NewStudentGroupId = newId,
-                OldStudentGroupId = _id.Value,
-                StudentList = list
+                FinishEducationOrderDate = dateTimePickerFinishEducationOrderDate.Value,
+                FinishEducationOrderNumber = textBoxFinishEducationOrderNumber.Text,
+                StudnetIds = list
             });
             if (result.Succeeded)
             {

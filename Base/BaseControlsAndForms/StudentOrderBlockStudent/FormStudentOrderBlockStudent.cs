@@ -40,7 +40,7 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
             comboBoxStudentOrderBlock.DisplayMember = "Display";
             comboBoxStudentOrderBlock.DataSource = resultSOB.Result.List
                 .Select(d => new { Value = d.Id, Display = d.StudentOrderType }).ToList();
-            comboBoxStudentOrderBlock.SelectedItem = null;
+            comboBoxStudentOrderBlock.SelectedValue = _sobId;
 
 
             var resultS = _service.GetStudents(new StudentGetBindingModel { });
@@ -89,7 +89,7 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
             }
             var entity = result.Result;
             
-            comboBoxStudentOrderBlock.SelectedValue = entity.StudentOrderBlock;
+            comboBoxStudentOrderBlock.SelectedValue = entity.StudentOrderBlockId;
             comboBoxStudent.SelectedValue = entity.StudentId;
             if(entity.StudentGroupFromId.HasValue)
             {

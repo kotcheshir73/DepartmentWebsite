@@ -38,6 +38,7 @@
             this.dateTimePickerToAcademDate = new System.Windows.Forms.DateTimePicker();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.labelFrom = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +61,7 @@
             this.dataGridViewStudents.ReadOnly = true;
             this.dataGridViewStudents.RowHeadersVisible = false;
             this.dataGridViewStudents.Size = new System.Drawing.Size(734, 178);
-            this.dataGridViewStudents.TabIndex = 3;
+            this.dataGridViewStudents.TabIndex = 4;
             // 
             // ColumnNumberOfBook
             // 
@@ -108,10 +109,10 @@
             // 
             // dateTimePickerToAcademDate
             // 
-            this.dateTimePickerToAcademDate.Location = new System.Drawing.Point(183, 6);
+            this.dateTimePickerToAcademDate.Location = new System.Drawing.Point(207, 6);
             this.dateTimePickerToAcademDate.Name = "dateTimePickerToAcademDate";
             this.dateTimePickerToAcademDate.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePickerToAcademDate.TabIndex = 2;
+            this.dateTimePickerToAcademDate.TabIndex = 3;
             // 
             // buttonClose
             // 
@@ -119,7 +120,7 @@
             this.buttonClose.Location = new System.Drawing.Point(646, 219);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 25);
-            this.buttonClose.TabIndex = 5;
+            this.buttonClose.TabIndex = 6;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
@@ -130,23 +131,33 @@
             this.buttonSave.Location = new System.Drawing.Point(565, 219);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 25);
-            this.buttonSave.TabIndex = 4;
+            this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
-            // StudentGroupFromAcademForm
+            // labelFrom
+            // 
+            this.labelFrom.AutoSize = true;
+            this.labelFrom.Location = new System.Drawing.Point(183, 9);
+            this.labelFrom.Name = "labelFrom";
+            this.labelFrom.Size = new System.Drawing.Size(18, 13);
+            this.labelFrom.TabIndex = 2;
+            this.labelFrom.Text = "от";
+            // 
+            // FormFromAcadem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 251);
+            this.Controls.Add(this.labelFrom);
             this.Controls.Add(this.dataGridViewStudents);
             this.Controls.Add(this.textBoxToAcademOrderNumber);
             this.Controls.Add(this.labelToAcademOrderNumber);
             this.Controls.Add(this.dateTimePickerToAcademDate);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
-            this.Name = "StudentGroupFromAcademForm";
+            this.Name = "FormFromAcadem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Перевод из академа студентов";
             this.Load += new System.EventHandler(this.FormFromAcadem_Load);
@@ -168,5 +179,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerToAcademDate;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Label labelFrom;
     }
 }

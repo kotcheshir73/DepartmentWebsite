@@ -38,13 +38,11 @@ namespace BaseInterfaces.BindingModels
 
         public Guid? OldStudentGroupId { get; set; }
 
-        public List<StudentSetBindingModel> StudentList { get; set; }
+        public List<Tuple<Guid, bool>> StudentList { get; set; }
 
-        public DateTime TransferDate { get; set; }
+        public DateTime TransferOrderDate { get; set; }
 
         public string TransferOrderNumber { get; set; }
-
-        public bool IsConditionally { get; set; }
     }
 
     /// <summary>
@@ -52,13 +50,13 @@ namespace BaseInterfaces.BindingModels
     /// </summary>
     public class StudentDeductionBindingModel
     {
-        public List<Guid> StudnetIds { get; set; }
+        public List<Tuple<Guid, string>> Studnets { get; set; }
+        
+        public string DeductionOrderNumber { get; set; }
 
-        public DateTime DeductionDate { get; set; }
+        public DateTime DeductionOrderDate { get; set; }
 
         public string DeductionReason { get; set; }
-
-        public string DeductionOrderNumber { get; set; }
     }
 
     /// <summary>
@@ -68,7 +66,7 @@ namespace BaseInterfaces.BindingModels
     {
         public List<Guid> StudnetIds { get; set; }
 
-        public DateTime AcademDate { get; set; }
+        public DateTime AcademOrderDate { get; set; }
 
         public string AcademOrderNumber { get; set; }
     }
@@ -80,8 +78,20 @@ namespace BaseInterfaces.BindingModels
     {
         public List<Guid> StudnetIds { get; set; }
 
-        public DateTime RecoveryDate { get; set; }
+        public DateTime RecoveryOrderDate { get; set; }
 
         public string RecoveryOrderNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Список студентов, закончивших обучение
+    /// </summary>
+    public class FinishEducationBindingModel
+    {
+        public List<Guid> StudnetIds { get; set; }
+
+        public DateTime FinishEducationOrderDate { get; set; }
+
+        public string FinishEducationOrderNumber { get; set; }
     }
 }

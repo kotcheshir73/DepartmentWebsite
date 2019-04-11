@@ -44,13 +44,14 @@ namespace BaseControlsAndForms.Student
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
             {
-                { "EnrollmentToolStripMenuItem", "Зачислить"},
-                { "DeductionToolStripMenuItem", "Отчислить"},
-                { "TransferToolStripMenuItem", "Перевести"},
-                { "ToAcademToolStripMenuItem", "В академ"},
-                { "FromAcademToolStripMenuItem", "Из академа"},
-                { "RecoveryToolStripMenuItem", "Восстановить"},
-                { "TransferSpecToolStripMenuItem", "Перевод на другую специальность"}
+                { "EnrollmentToolStripMenuItem", "Зачисление"},
+                { "DeductionToolStripMenuItem", "Отчисление"},
+                { "TransferCourseToolStripMenuItem", "Перевод на следующий курс"},
+                { "TransferGroupToolStripMenuItem", "Перевод на другую специальность"},
+                { "ToAcademToolStripMenuItem", "Уход в академический отпуск"},
+                { "FromAcademToolStripMenuItem", "Выход из академического отпуска"},
+                { "RecoveryToolStripMenuItem", "Восстановление"},
+                { "FinishEducationToolStripMenuItem", "Завершение обучения"}
             };
 
             standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
@@ -60,11 +61,12 @@ namespace BaseControlsAndForms.Student
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("EnrollmentToolStripMenuItem", EnrollmentToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("DeductionToolStripMenuItem", DeductionToolStripMenuItem_Click);
-            standartControl.ToolStripButtonMoveEventClickAddEvent("TransferToolStripMenuItem", TransferToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("TransferCourseToolStripMenuItem", TransferCourseToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("ToAcademToolStripMenuItem", ToAcademToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("FromAcademToolStripMenuItem", FromAcademToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("RecoveryToolStripMenuItem", RecoveryToolStripMenuItem_Click);
-            standartControl.ToolStripButtonMoveEventClickAddEvent("TransferSpecToolStripMenuItem", TransferSpecToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("TransferGroupToolStripMenuItem", TransferGroupToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("FinishEducationToolStripMenuItem", FinishEducationToolStripMenuItem_Click);
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
                 switch (e.KeyCode)
@@ -168,14 +170,14 @@ namespace BaseControlsAndForms.Student
             }
         }
 
-        private void TransferToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TransferCourseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTransfer>(
+            var form = Container.Resolve<FormTransferCourse>(
                     new ParameterOverrides
                     {
                         { "id", _sgId }
                     }
-                    .OnType<FormTransfer>());
+                    .OnType<FormTransferCourse>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -240,14 +242,34 @@ namespace BaseControlsAndForms.Student
             }
         }
 
-        private void TransferSpecToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TransferGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTransferSpec>(
-                new ParameterOverrides
-                {
-                    { "id", _sgId }
-                }
-                .OnType<FormTransferSpec>());
+            List<Guid> ids = new List<Guid>();
+            for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+            {
+                ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
+            }
+            var form = Container.Resolve<FormTransferGroup>(
+                    new ParameterOverrides
+                    {
+                        { "ids", ids },
+                        { "id", _sgId }
+                    }
+                    .OnType<FormTransferGroup>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
+            }
+        }
+
+        private void FinishEducationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormFinishEducation>(
+                    new ParameterOverrides
+                    {
+                        { "id", _sgId }
+                    }
+                    .OnType<FormFinishEducation>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
