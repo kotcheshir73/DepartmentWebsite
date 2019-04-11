@@ -40,7 +40,7 @@ namespace BaseControlsAndForms.Student
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()

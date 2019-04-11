@@ -24,7 +24,7 @@ namespace BaseControlsAndForms.EducationDirection
 
         private void FormEducationDirection_Load(object sender, EventArgs e)
         {
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
 		}
 
         protected override void LoadData()

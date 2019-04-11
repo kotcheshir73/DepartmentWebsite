@@ -76,7 +76,7 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
                 .Select(d => new { Value = d.Id, Display = d.GroupName }).ToList();
             comboBoxStudentGroupTo.SelectedItem = null;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()

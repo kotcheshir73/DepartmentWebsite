@@ -63,7 +63,7 @@ namespace BaseControlsAndForms.StudentOrderBlock
                 .Select(d => new { Value = d.Id, Display = d.Cipher }).ToList();
             comboBoxEducationDirection.SelectedItem = null;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()

@@ -58,7 +58,7 @@ namespace BaseControlsAndForms.Lecturer
                 .Select(lp => new { Value = lp.Id, Display = lp.PostTitle }).ToList();
             comboBoxLecturerPost.SelectedItem = null;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()

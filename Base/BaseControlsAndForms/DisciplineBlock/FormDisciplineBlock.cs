@@ -24,7 +24,7 @@ namespace BaseControlsAndForms.DisciplineBlock
 
 		private void FormDisciplineBlock_Load(object sender, EventArgs e)
 		{
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
 		}
 
         protected override void LoadData()

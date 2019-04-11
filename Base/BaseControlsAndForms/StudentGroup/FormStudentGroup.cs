@@ -53,7 +53,7 @@ namespace BaseControlsAndForms.StudentGroup
                 .Select(l => new { Value = l.Id, Display = l.FullName }).ToList();
             comboBoxCurator.SelectedItem = null;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()

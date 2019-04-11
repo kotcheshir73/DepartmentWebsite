@@ -21,7 +21,7 @@ namespace ControlsAndForms.Forms
             }
         }
 
-        protected void StandartForm_Load(object sender, EventArgs e)
+        protected void StandartForm_Load()
         {
             if (_id.HasValue)
             {

@@ -44,7 +44,7 @@ namespace BaseControlsAndForms.Discipline
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
             comboBoxDisciplineBlock.SelectedItem = null;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()

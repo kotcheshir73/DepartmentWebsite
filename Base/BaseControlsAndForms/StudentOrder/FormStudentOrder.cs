@@ -33,7 +33,7 @@ namespace BaseControlsAndForms.StudentOrder
             }
             comboBoxStudentOrderType.SelectedIndex = 0;
 
-            StandartForm_Load(sender, e);
+            StandartForm_Load();
         }
 
         protected override void LoadData()
