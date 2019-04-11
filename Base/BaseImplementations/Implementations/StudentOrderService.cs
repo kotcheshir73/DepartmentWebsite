@@ -2,6 +2,7 @@
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Tools;
@@ -40,6 +41,8 @@ namespace BaseImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
+                    query = query.Include(x => x.StudentOrderBlocks).Include("StudentOrderBlocks.StudentOrderBlockStudents");
+
                     var result = new StudentOrderPageViewModel
                     {
                         MaxCount = countPages,
@@ -64,6 +67,8 @@ namespace BaseImplementations.Implementations
                     DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                     var entity = context.StudentOrders
+                                    .Include(x => x.StudentOrderBlocks)
+                                    .Include("StudentOrderBlocks.StudentOrderBlockStudents")
                                     .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

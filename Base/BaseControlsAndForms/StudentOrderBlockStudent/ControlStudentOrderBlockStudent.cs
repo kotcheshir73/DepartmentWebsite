@@ -17,7 +17,9 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
 
         private readonly IStudentOrderBlockStudentService _service;
 
-        private Guid _sobId;
+        private Guid? _soId;
+
+        private Guid? _sobId;
 
         public ControlStudentOrderBlockStudent(IStudentOrderBlockStudentService service)
         {
@@ -27,8 +29,8 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "StudentOrderBlock", Title = "Блок приказа", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Student", Title = "Студент", Width = 100, Visible = true },
+                new ColumnConfig { Name = "StudentOrderBlock", Title = "Блок приказа", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Student", Title = "Студент", Width = 150, Visible = true },
                 new ColumnConfig { Name = "StudentGromFrom", Title = "Из группы", Width = 100, Visible = true },
                 new ColumnConfig { Name = "StudentGroupTo", Title = "В группу", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Info", Title = "Информация", Width = 200, Visible = true }
@@ -43,7 +45,8 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
-            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
+            standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
+            {
                 switch (e.KeyCode)
                 {
                     case Keys.Insert:
@@ -59,15 +62,22 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
             });
         }
 
-        public void LoadData(Guid sobId)
+        public void LoadData(Guid? sobId, Guid? soId)
         {
+            _soId = soId;
             _sobId = sobId;
             standartControl.LoadPage();
         }
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetStudentOrderBlockStudents(new StudentOrderBlockStudentGetBindingModel { PageNumber = pageNumber, PageSize = pageSize, StudentOrderBlockId = _sobId });
+            var result = _service.GetStudentOrderBlockStudents(new StudentOrderBlockStudentGetBindingModel
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                StudentOrderId = _soId,
+                StudentOrderBlockId = _sobId
+            });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

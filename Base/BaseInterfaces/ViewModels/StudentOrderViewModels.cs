@@ -12,5 +12,7 @@ namespace BaseInterfaces.ViewModels
         public DateTime OrderDate { get; set; }
 
         public string StudentOrderType { get; set; }
+
+        public int CountStudents { get; set; }
     }
 }

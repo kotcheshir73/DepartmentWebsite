@@ -1,4 +1,5 @@
 ﻿using BaseControlsAndForms.StudentOrderBlock;
+using BaseControlsAndForms.StudentOrderBlockStudent;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Forms;
@@ -44,6 +45,14 @@ namespace BaseControlsAndForms.StudentOrder
                 tabPageRecords.Controls.Add(control);
             }
             (tabPageRecords.Controls[0] as ControlStudentOrderBlock).LoadData(_id.Value);
+
+            if (tabPageStudents.Controls.Count == 0)
+            {
+                var control = Container.Resolve<ControlStudentOrderBlockStudent>();
+                control.Dock = DockStyle.Fill;
+                tabPageStudents.Controls.Add(control);
+            }
+            (tabPageStudents.Controls[0] as ControlStudentOrderBlockStudent).LoadData(null, _id.Value);
 
             var result = _service.GetStudentOrder(new StudentOrderGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)

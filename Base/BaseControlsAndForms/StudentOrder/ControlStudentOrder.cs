@@ -25,9 +25,10 @@ namespace BaseControlsAndForms.StudentOrder
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "OrderNumber", Title = "Номер приказа", Width = 300, Visible = true },
-                new ColumnConfig { Name = "OrderDate", Title = "Дата приказа", Width = 300, Visible = true },
-                new ColumnConfig { Name = "StudentOrderType", Title = "Тип приказа", Width = 200, Visible = true }
+                new ColumnConfig { Name = "OrderNumber", Title = "Номер приказа", Width = 150, Visible = true },
+                new ColumnConfig { Name = "OrderDate", Title = "Дата приказа", Width = 150, Visible = true },
+                new ColumnConfig { Name = "StudentOrderType", Title = "Тип приказа", Width = 200, Visible = true },
+                new ColumnConfig { Name = "CountStudents", Title = "Количество студентов", Width = 200, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripButtonAddEvent", "toolStripDropDownButtonMoves" };
@@ -75,7 +76,8 @@ namespace BaseControlsAndForms.StudentOrder
                     res.Id,
                     res.OrderNumber,
                     res.OrderDate.ToLongDateString(),
-                    res.StudentOrderType
+                    res.StudentOrderType,
+                    res.CountStudents
                 );
             }
             return result.Result.MaxCount;

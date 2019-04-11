@@ -134,7 +134,8 @@ namespace BaseImplementations
                 Id = entity.Id,
                 OrderNumber = entity.OrderNumber,
                 OrderDate = entity.DateCreate,
-                StudentOrderType = entity.StudentOrderType.ToString()
+                StudentOrderType = entity.StudentOrderType.ToString(),
+                CountStudents = entity.StudentOrderBlocks?.Sum(x => x.StudentOrderBlockStudents?.Count ?? 0) ?? 0
             };
         }
 

@@ -74,7 +74,7 @@ namespace BaseControlsAndForms.StudentOrderBlock
                 control.Dock = DockStyle.Fill;
                 tabPageRecords.Controls.Add(control);
             }
-            (tabPageRecords.Controls[0] as ControlStudentOrderBlockStudent).LoadData(_id.Value);
+            (tabPageRecords.Controls[0] as ControlStudentOrderBlockStudent).LoadData(_id.Value, null);
 
             var result = _service.GetStudentOrderBlock(new StudentOrderBlockGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
