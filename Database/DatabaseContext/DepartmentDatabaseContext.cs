@@ -43,7 +43,9 @@ namespace DatabaseContext
         public virtual DbSet<LecturerPost> LecturerPosts { get; set; }
         public virtual DbSet<Student> Students { set; get; }
         public virtual DbSet<StudentGroup> StudentGroups { set; get; }
-        public virtual DbSet<StudentHistory> StudentHistorys { set; get; }
+        public virtual DbSet<StudentOrder> StudentOrders { set; get; }
+        public virtual DbSet<StudentOrderBlock> StudentOrderBlocks { set; get; }
+        public virtual DbSet<StudentOrderBlockStudent> StudentOrderBlockStudents { set; get; }
         #endregion
 
         #region AcademicYears

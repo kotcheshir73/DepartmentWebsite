@@ -5,7 +5,7 @@ using Tools.ViewModels;
 
 namespace BaseInterfaces.ViewModels
 {
-	public class StudentPageViewModel : PageSettingListViewModel<StudentViewModel> { }
+    public class StudentPageViewModel : PageSettingListViewModel<StudentViewModel> { }
 
     public class StudentViewModel : PageSettingElementViewModel
     {

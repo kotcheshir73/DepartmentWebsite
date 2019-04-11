@@ -7,13 +7,6 @@ namespace BaseInterfaces.Interfaces
     public interface IProcess
     {
         /// <summary>
-        /// Загрузка списка студентов из файла
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<StudentPageViewModel> LoadStudentsFromFile(StudentLoadDocBindingModel model);
-
-        /// <summary>
         /// Зачисление студентов
         /// </summary>
         /// <param name="model"></param>

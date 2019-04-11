@@ -12,72 +12,12 @@ namespace BaseImplementations.Implementations
 {
     public class Process : IProcess
     {
-        public ResultService<StudentPageViewModel> LoadStudentsFromFile(StudentLoadDocBindingModel model)
-        {
-            //var word = new Application();
-            if (File.Exists(model.FileName))
-            {
-                //Document document = word.Documents.Open(model.FileName, Type.Missing, true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                //    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                //var table = document.Tables[1];
-
-                //try
-                //{
-                //    var list = new List<StudentViewModel>();
-                //    for (int i = 2; i <= table.Rows.Count; ++i)
-                //    {
-                //        var studentModel = new StudentViewModel
-                //        {
-                //            NumberOfBook = table.Cell(i, 2).Range.Text.Replace("\r\a", ""),
-                //            StudentGroupId = model.Id,
-                //            LastName = table.Cell(i, 3).Range.Text.Replace("\r\a", ""),
-                //            FirstName = table.Cell(i, 4).Range.Text.Replace("\r\a", ""),
-                //            Patronymic = table.Cell(i, 5).Range.Text.Replace("\r\a", ""),
-                //            Email = "отсутсвует",
-                //            Description = string.Format("{0}  {1}", table.Cell(i, 6).Range.Text.Replace("\r\a", ""),
-                //            table.Cell(i, 7).Range.Text.Replace("\r\a", ""))
-                //        };
-
-                //        if (string.IsNullOrEmpty(studentModel.NumberOfBook))
-                //        {
-                //            break;
-                //        }
-                //        if (!string.IsNullOrEmpty(studentModel.LastName) && studentModel.LastName.Length > 1)
-                //        {
-                //            studentModel.LastName = studentModel.LastName[0] + studentModel.LastName.Substring(1).ToLower();
-                //        }
-                //        if (!string.IsNullOrEmpty(studentModel.FirstName) && studentModel.FirstName.Length > 1)
-                //        {
-                //            studentModel.FirstName = studentModel.FirstName[0] + studentModel.FirstName.Substring(1).ToLower();
-                //        }
-                //        if (!string.IsNullOrEmpty(studentModel.Patronymic) && studentModel.Patronymic.Length > 1)
-                //        {
-                //            studentModel.Patronymic = studentModel.Patronymic[0] + studentModel.Patronymic.Substring(1).ToLower();
-                //        }
-
-                //        list.Add(studentModel);
-                //    }
-                //    document.Close();
-
-                //    var result = new StudentPageViewModel
-                //    {
-                //        MaxCount = list.Count,
-                //        List = list
-                //    };
-
-                //    return ResultService<StudentPageViewModel>.Success(result);
-                //}
-                //catch (Exception ex)
-                //{
-                //    document.Close();
-                //    return ResultService<StudentPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
-                //}
-            }
-            return ResultService<StudentPageViewModel>.Error("Error:", "File not found", ResultServiceStatusCode.FileNotFound);
-        }
-
         public ResultService EnrollmentStudents(StudentEnrollmentBindingModel model)
         {
+            if (model.StudentList.Count <= 0)
+            {
+                return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
+            }
             DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
 
             using (var context = DepartmentUserManager.GetContext)
@@ -96,12 +36,87 @@ namespace BaseImplementations.Implementations
                 {
                     try
                     {
-                        if (model.StudentList.Count <= 0)
-                        {
-                            return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
-                        }
                         for (int i = 0; i < model.StudentList.Count; ++i)
                         {
+                            #region приказы
+                            // ищем приказ о зачислении
+                            var enrollmentOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.EnrollmentOrderNumber && x.DateCreate == model.EnrollmentOrderDate.Date &&
+                                    x.StudentOrderType == StudentOrderType.Зачисление);
+                            if(enrollmentOrder == null)
+                            {
+                                // если нет, то создаем
+                                enrollmentOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
+                                {
+                                    OrderNumber = model.EnrollmentOrderNumber,
+                                    OrderDate = model.EnrollmentOrderDate.Date,
+                                    StudentOrderType = StudentOrderType.Зачисление.ToString()
+                                });
+                                context.StudentOrders.Add(enrollmentOrder);
+                                context.SaveChanges();
+                            }
+                            else if(enrollmentOrder.IsDeleted)
+                            {
+                                enrollmentOrder.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+                            // ищем блок приказа для направления
+                            var enrollmentOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == enrollmentOrder.Id && x.EducationDirectionId == studentGroup.EducationDirectionId);
+                            if (enrollmentOrderBlock == null)
+                            {
+                                enrollmentOrderBlock = ModelFacotryFromBindingModel.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
+                                {
+                                    StudentOrderId = enrollmentOrder.Id,
+                                    StudentOrderType = StudentOrderType.Зачисление.ToString(),
+                                    EducationDirectionId = studentGroup.EducationDirectionId
+                                });
+                                context.StudentOrderBlocks.Add(enrollmentOrderBlock);
+                                context.SaveChanges();
+                            }
+                            else if(enrollmentOrderBlock.IsDeleted)
+                            {
+                                enrollmentOrderBlock.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+                            // ищем приказ о распределении
+                            var distributionOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.DistributionOrderNumber && x.DateCreate == model.DistributionOrderDate.Date &&
+                                    x.StudentOrderType == StudentOrderType.Распределение);
+                            if (distributionOrder == null)
+                            {
+                                // если нет, то создаем
+                                distributionOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
+                                {
+                                    OrderNumber = model.DistributionOrderNumber,
+                                    OrderDate = model.DistributionOrderDate.Date,
+                                    StudentOrderType = StudentOrderType.Распределение.ToString()
+                                });
+                                context.StudentOrders.Add(distributionOrder);
+                                context.SaveChanges();
+                            }
+                            else if (distributionOrder.IsDeleted)
+                            {
+                                distributionOrder.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+                            // ищем блок приказа для группы
+                            var distributionOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == distributionOrder.Id && x.EducationDirectionId == studentGroup.EducationDirectionId);
+                            if (distributionOrderBlock == null)
+                            {
+                                distributionOrderBlock = ModelFacotryFromBindingModel.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
+                                {
+                                    StudentOrderId = distributionOrder.Id,
+                                    StudentOrderType = StudentOrderType.Распределение.ToString(),
+                                    EducationDirectionId = studentGroup.EducationDirectionId
+                                });
+                                context.StudentOrderBlocks.Add(distributionOrderBlock);
+                                context.SaveChanges();
+                            }
+                            else if (distributionOrderBlock.IsDeleted)
+                            {
+                                distributionOrderBlock.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+                            #endregion
+
                             var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
                             var exsistEntity = context.Students.FirstOrDefault(x => x.NumberOfBook == entity.NumberOfBook && entity.NumberOfBook != "н/а");
                             if (exsistEntity == null)
@@ -120,15 +135,41 @@ namespace BaseImplementations.Implementations
                                 }
                             }
 
-                            var entityHistory = new StudentHistory
+                            var enrolleSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == enrollmentOrderBlock.Id && x.StudentId == entity.Id);
+                            if(enrolleSOS == null)
                             {
-                                StudentId = entity.Id,
-                                DateCreate = DateTime.Now,
-                                TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", studentGroup.GroupName,
-                                model.OrderNumber, model.OrderDate.ToShortDateString())
-                            };
+                                enrolleSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
+                                {
+                                    StudentOrderBlockId = enrollmentOrderBlock.Id,
+                                    StudentId = entity.Id
+                                });
+                                context.StudentOrderBlockStudents.Add(enrolleSOS);
+                                context.SaveChanges();
+                            }
+                            else if(enrolleSOS.IsDeleted)
+                            {
+                                enrolleSOS.IsDeleted = false;
+                                context.SaveChanges();
+                            }
 
-                            context.StudentHistorys.Add(entityHistory);
+                            var distributionSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == distributionOrderBlock.Id && x.StudentId == entity.Id &&
+                                x.StudentGroupToId == studentGroup.Id);
+                            if (distributionSOS == null)
+                            {
+                                distributionSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
+                                {
+                                    StudentOrderBlockId = distributionOrderBlock.Id,
+                                    StudentId = entity.Id,
+                                    StudentGroupToId = studentGroup.Id
+                                });
+                                context.StudentOrderBlockStudents.Add(distributionSOS);
+                                context.SaveChanges();
+                            }
+                            else if (distributionSOS.IsDeleted)
+                            {
+                                distributionSOS.IsDeleted = false;
+                                context.SaveChanges();
+                            }
 
                             context.SaveChanges();
                         }
@@ -181,15 +222,6 @@ namespace BaseImplementations.Implementations
 
                         context.SaveChanges();
 
-                        var entityHistory = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент переведен{3} в группу {0} на основании: {1} {2}", entity.StudentGroup.GroupName,
-                                model.TransferOrderNumber, model.TransferDate.ToShortDateString(), model.IsConditionally? " условно" : string.Empty)
-                        };
-                        context.StudentHistorys.Add(entityHistory);
-
                         context.SaveChanges();
                     }
                     transaction.Commit();
@@ -230,16 +262,6 @@ namespace BaseImplementations.Implementations
                         entity.StudentGroupId = null;
 
                         context.SaveChanges();
-
-                        var entityHistory = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент отчислен на основании: {0}. Приказ №{1} от {2}",
-                                model.DeductionReason, model.DeductionOrderNumber, model.DeductionDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistory);
 
                         context.SaveChanges();
                     }
@@ -282,16 +304,6 @@ namespace BaseImplementations.Implementations
 
                         context.SaveChanges();
 
-                        var entityHistory = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент ушел в академ. Приказ №{0} от {1}",
-                                model.AcademOrderNumber, model.AcademDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistory);
-
                         context.SaveChanges();
                     }
                     transaction.Commit();
@@ -333,16 +345,6 @@ namespace BaseImplementations.Implementations
 
                         context.SaveChanges();
 
-                        var entityHistory = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент пришел из академа. Приказ №{0} от {1}",
-                                model.AcademOrderNumber, model.AcademDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistory);
-
                         context.SaveChanges();
                     }
                     transaction.Commit();
@@ -383,16 +385,6 @@ namespace BaseImplementations.Implementations
                         entity.StudentGroup = null;
 
                         context.SaveChanges();
-
-                        var entityHistory = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент восстановлен. Приказ №{0} от {1}",
-                                model.RecoveryOrderNumber, model.RecoveryDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistory);
 
                         context.SaveChanges();
                     }
@@ -443,26 +435,6 @@ namespace BaseImplementations.Implementations
                         entity.StudentGroupId = model.NewStudentGroupId;
 
                         context.SaveChanges();
-
-                        var entityHistoryFirst = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент отчислен на основании: заявление студента. Приказ №{0} от {1}",
-                                model.TransferOrderNumber, model.TransferDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistoryFirst);
-
-                        var entityHistorySecond = new StudentHistory
-                        {
-                            StudentId = entity.Id,
-                            DateCreate = DateTime.Now,
-                            TextMessage = string.Format("Студент зачислен в группу {0} по приказу №{1} от {2}", newGroup.GroupName,
-                                model.TransferOrderNumber, model.TransferDate.ToShortDateString())
-                        };
-
-                        context.StudentHistorys.Add(entityHistorySecond);
 
                         context.SaveChanges();
                     }

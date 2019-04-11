@@ -9,6 +9,18 @@ namespace BaseImplementations
 {
     public static class ModelFactoryToViewModel
     {
+        public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
+        {
+            return new ClassroomViewModel
+            {
+                Id = entity.Id,
+                Number = entity.Number,
+                ClassroomType = entity.ClassroomType.ToString(),
+                Capacity = entity.Capacity,
+                NotUseInSchedule = entity.NotUseInSchedule
+            };
+        }
+
         public static EducationDirectionViewModel CreateEducationDirectionViewModel(EducationDirection entity)
         {
             return new EducationDirectionViewModel
@@ -40,18 +52,6 @@ namespace BaseImplementations
                 Id = entity.Id,
                 PostTitle = entity.PostTitle,
                 Hours = entity.Hours
-            };
-        }
-
-        public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
-        {
-            return new ClassroomViewModel
-            {
-                Id = entity.Id,
-                Number = entity.Number,
-                ClassroomType = entity.ClassroomType.ToString(),
-                Capacity = entity.Capacity,
-                NotUseInSchedule = entity.NotUseInSchedule
             };
         }
 
@@ -127,14 +127,44 @@ namespace BaseImplementations
             };
         }
 
-        public static StudentHistoryViewModel CreateStudentHistoryViewModel(StudentHistory entity)
+        public static StudentOrderViewModel CreateStudentOrderViewModel(StudentOrder entity)
         {
-            return new StudentHistoryViewModel
+            return new StudentOrderViewModel
             {
                 Id = entity.Id,
+                OrderNumber = entity.OrderNumber,
+                OrderDate = entity.DateCreate,
+                StudentOrderType = entity.StudentOrderType.ToString()
+            };
+        }
+
+        public static StudentOrderBlockViewModel CreateStudentOrderBlockViewModel(StudentOrderBlock entity)
+        {
+            return new StudentOrderBlockViewModel
+            {
+                Id = entity.Id,
+                StudentOrderId = entity.StudentOrderId,
+                EducationDirectionId = entity.EducationDirectionId,
+                StudentOrder = string.Format("№{0} от {1}", entity.StudentOrder.OrderNumber, entity.StudentOrder.DateCreate.ToShortDateString()),
+                EducationDirection = entity.EducationDirection?.Cipher ?? string.Empty,
+                StudentOrderType = entity.StudentOrderType.ToString()
+            };
+        }
+
+        public static StudentOrderBlockStudentViewModel CreateStudentOrderBlockStudentViewModel(StudentOrderBlockStudent entity)
+        {
+            return new StudentOrderBlockStudentViewModel
+            {
+                Id = entity.Id,
+                StudentOrderBlockId = entity.StudentOrderBlockId,
+                StudentOrderBlock = entity.StudentOrderBlock.StudentOrderType.ToString(),
                 StudentId = entity.StudentId,
-                DateCreate = entity.DateCreate.ToLongDateString(),
-                TextMessage = entity.TextMessage
+                Student = entity.Student.ToString(),
+                StudentGroupFromId = entity.StudentGroupFromId,
+                StudentGroupToId = entity.StudentGroupToId,
+                StudentGromFrom = entity.StudentGroupFrom?.GroupName,
+                StudentGroupTo = entity.StudentGroupTo?.GroupName,
+                Info = entity.Info
             };
         }
     }

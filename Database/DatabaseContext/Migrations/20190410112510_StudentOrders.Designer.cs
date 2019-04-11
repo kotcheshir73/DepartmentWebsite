@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190410112510_StudentOrders")]
+    partial class StudentOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -829,8 +831,6 @@ namespace DatabaseContext.Migrations
 
                     b.Property<DateTime?>("DateDelete");
 
-                    b.Property<Guid?>("EducationDirectionId");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<Guid>("StudentOrderId");
@@ -838,8 +838,6 @@ namespace DatabaseContext.Migrations
                     b.Property<int>("StudentOrderType");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EducationDirectionId");
 
                     b.HasIndex("StudentOrderId");
 
@@ -858,7 +856,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<Guid?>("StudentGroupFromId");
+                    b.Property<Guid?>("StudentGromFromId");
 
                     b.Property<Guid?>("StudentGroupToId");
 
@@ -2365,10 +2363,6 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Models.Base.StudentOrderBlock", b =>
                 {
-                    b.HasOne("Models.Base.EducationDirection", "EducationDirection")
-                        .WithMany("StudentOrderBlocks")
-                        .HasForeignKey("EducationDirectionId");
-
                     b.HasOne("Models.Base.StudentOrder", "StudentOrder")
                         .WithMany("StudentOrderBlocks")
                         .HasForeignKey("StudentOrderId")

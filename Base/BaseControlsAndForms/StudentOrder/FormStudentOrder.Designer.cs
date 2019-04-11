@@ -1,0 +1,172 @@
+﻿namespace BaseControlsAndForms.StudentOrder
+{
+    partial class FormStudentOrder
+    {
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPageConfig = new System.Windows.Forms.TabPage();
+            this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.labelStudentOrderType = new System.Windows.Forms.Label();
+            this.comboBoxStudentOrderType = new System.Windows.Forms.ComboBox();
+            this.labelOrderNumber = new System.Windows.Forms.Label();
+            this.textBoxOrderNumber = new System.Windows.Forms.TextBox();
+            this.labelOrderDate = new System.Windows.Forms.Label();
+            this.dateTimePickerOrderDate = new System.Windows.Forms.DateTimePicker();
+            this.tabControl.SuspendLayout();
+            this.tabPageConfig.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // buttonSaveAndClose
+            // 
+            this.buttonSaveAndClose.Location = new System.Drawing.Point(179, 317);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(326, 317);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(98, 317);
+            // 
+            // tabControl
+            // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Controls.Add(this.tabPageConfig);
+            this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(494, 311);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabPageConfig
+            // 
+            this.tabPageConfig.Controls.Add(this.dateTimePickerOrderDate);
+            this.tabPageConfig.Controls.Add(this.labelOrderDate);
+            this.tabPageConfig.Controls.Add(this.textBoxOrderNumber);
+            this.tabPageConfig.Controls.Add(this.labelOrderNumber);
+            this.tabPageConfig.Controls.Add(this.labelStudentOrderType);
+            this.tabPageConfig.Controls.Add(this.comboBoxStudentOrderType);
+            this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
+            this.tabPageConfig.Name = "tabPageConfig";
+            this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageConfig.Size = new System.Drawing.Size(486, 285);
+            this.tabPageConfig.TabIndex = 0;
+            this.tabPageConfig.Text = "Приказ";
+            this.tabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // tabPageRecords
+            // 
+            this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRecords.Name = "tabPageRecords";
+            this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRecords.Size = new System.Drawing.Size(486, 285);
+            this.tabPageRecords.TabIndex = 1;
+            this.tabPageRecords.Text = "Блоки приказа";
+            this.tabPageRecords.UseVisualStyleBackColor = true;
+            // 
+            // labelStudentOrderType
+            // 
+            this.labelStudentOrderType.AutoSize = true;
+            this.labelStudentOrderType.Location = new System.Drawing.Point(17, 66);
+            this.labelStudentOrderType.Name = "labelStudentOrderType";
+            this.labelStudentOrderType.Size = new System.Drawing.Size(78, 13);
+            this.labelStudentOrderType.TabIndex = 4;
+            this.labelStudentOrderType.Text = "Тип приказа*:";
+            // 
+            // comboBoxStudentOrderType
+            // 
+            this.comboBoxStudentOrderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStudentOrderType.FormattingEnabled = true;
+            this.comboBoxStudentOrderType.Location = new System.Drawing.Point(116, 63);
+            this.comboBoxStudentOrderType.Name = "comboBoxStudentOrderType";
+            this.comboBoxStudentOrderType.Size = new System.Drawing.Size(300, 21);
+            this.comboBoxStudentOrderType.TabIndex = 5;
+            // 
+            // labelOrderNumber
+            // 
+            this.labelOrderNumber.AutoSize = true;
+            this.labelOrderNumber.Location = new System.Drawing.Point(17, 14);
+            this.labelOrderNumber.Name = "labelOrderNumber";
+            this.labelOrderNumber.Size = new System.Drawing.Size(93, 13);
+            this.labelOrderNumber.TabIndex = 0;
+            this.labelOrderNumber.Text = "Номер приказа*:";
+            // 
+            // textBoxOrderNumber
+            // 
+            this.textBoxOrderNumber.Location = new System.Drawing.Point(116, 11);
+            this.textBoxOrderNumber.Name = "textBoxOrderNumber";
+            this.textBoxOrderNumber.Size = new System.Drawing.Size(229, 20);
+            this.textBoxOrderNumber.TabIndex = 1;
+            // 
+            // labelOrderDate
+            // 
+            this.labelOrderDate.AutoSize = true;
+            this.labelOrderDate.Location = new System.Drawing.Point(17, 40);
+            this.labelOrderDate.Name = "labelOrderDate";
+            this.labelOrderDate.Size = new System.Drawing.Size(85, 13);
+            this.labelOrderDate.TabIndex = 2;
+            this.labelOrderDate.Text = "Дата приказа*:";
+            // 
+            // dateTimePickerOrderDate
+            // 
+            this.dateTimePickerOrderDate.Location = new System.Drawing.Point(116, 37);
+            this.dateTimePickerOrderDate.Name = "dateTimePickerOrderDate";
+            this.dateTimePickerOrderDate.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePickerOrderDate.TabIndex = 3;
+            // 
+            // FormStudentOrder
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(494, 352);
+            this.Controls.Add(this.tabControl);
+            this.Name = "FormStudentOrder";
+            this.Text = "Приказ";
+            this.Load += new System.EventHandler(this.FormStudentOrder_Load);
+            this.Controls.SetChildIndex(this.buttonSave, 0);
+            this.Controls.SetChildIndex(this.buttonClose, 0);
+            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.Controls.SetChildIndex(this.tabControl, 0);
+            this.tabControl.ResumeLayout(false);
+            this.tabPageConfig.ResumeLayout(false);
+            this.tabPageConfig.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageConfig;
+        private System.Windows.Forms.TabPage tabPageRecords;
+        private System.Windows.Forms.Label labelStudentOrderType;
+        private System.Windows.Forms.ComboBox comboBoxStudentOrderType;
+        private System.Windows.Forms.Label labelOrderNumber;
+        private System.Windows.Forms.TextBox textBoxOrderNumber;
+        private System.Windows.Forms.DateTimePicker dateTimePickerOrderDate;
+        private System.Windows.Forms.Label labelOrderDate;
+    }
+}

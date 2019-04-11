@@ -3,6 +3,7 @@ using BaseInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Unity;
 
@@ -13,98 +14,97 @@ namespace BaseControlsAndForms.Services
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-		private readonly IProcess _process;
+        private readonly IProcess _process;
 
-		private Guid? _id = null;
+        private Guid? _id = null;
 
-		public FormEnrollment(IProcess process, Guid? id = null)
-		{
-			InitializeComponent();
-			_process = process;
+        public FormEnrollment(IProcess process, Guid? id = null)
+        {
+            InitializeComponent();
+            _process = process;
             if (id != Guid.Empty)
             {
                 _id = id;
             }
         }
 
-		private void ButtonLoadFromFile_Click(object sender, EventArgs e)
-		{
-            OpenFileDialog dialog = new OpenFileDialog
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxEnrollmentOrderNumber.Text))
             {
-                Filter = "doc|*.doc|docx|*.docx"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-			{
-				var result = _process.LoadStudentsFromFile(new StudentLoadDocBindingModel { Id = _id.Value, FileName = dialog.FileName });
-				if (result.Succeeded)
-				{
-					var list = result.Result.List;
-					for (int i = 0; i < list.Count; ++i)
-					{
-						dataGridViewStudents.Rows.Add();
-						int index = dataGridViewStudents.Rows.Count - 2;
-						dataGridViewStudents.Rows[index].Cells[0].Value = list[i].NumberOfBook;
-						dataGridViewStudents.Rows[index].Cells[1].Value = list[i].LastName;
-						dataGridViewStudents.Rows[index].Cells[2].Value = list[i].FirstName;
-						dataGridViewStudents.Rows[index].Cells[3].Value = list[i].Patronymic;
-						dataGridViewStudents.Rows[index].Cells[5].Value = list[i].Description;
-					}
-				}
-				else
-				{
-                    ErrorMessanger.PrintErrorMessage("При загрузки возникла ошибка: ", result.Errors);
-				}
-			}
-		}
-
-		private void ButtonSave_Click(object sender, EventArgs e)
-		{
-			if (string.IsNullOrEmpty(textBoxOrderNumber.Text))
-			{
-				MessageBox.Show("Введите номер приказа", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			if (dataGridViewStudents.Rows.Count == 1)
-			{
-				MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			var list = new List<StudentSetBindingModel>();
-			for (int i = 0; i < dataGridViewStudents.Rows.Count - 1; ++i)
-			{
-				var model = new StudentSetBindingModel
-				{
-					NumberOfBook = dataGridViewStudents.Rows[i].Cells[0].Value.ToString(),
-					LastName = dataGridViewStudents.Rows[i].Cells[1].Value.ToString(),
-					FirstName = dataGridViewStudents.Rows[i].Cells[2].Value.ToString(),
-					Patronymic = dataGridViewStudents.Rows[i].Cells[3].Value.ToString(),
-					Description = dataGridViewStudents.Rows[i].Cells[5].Value?.ToString() ?? string.Empty,
-					StudentGroupId = _id.Value,
+                MessageBox.Show("Введите номер приказа на зачисление", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(textBoxDistributionOrderNumber.Text))
+            {
+                MessageBox.Show("Введите номер приказа на распределние", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dataGridViewStudents.Rows.Count == 1)
+            {
+                MessageBox.Show("Укажите хотя бы одного студента", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var list = new List<StudentSetBindingModel>();
+            for (int i = 0; i < dataGridViewStudents.Rows.Count - 1; ++i)
+            {
+                var model = new StudentSetBindingModel
+                {
+                    NumberOfBook = dataGridViewStudents.Rows[i].Cells[0].Value.ToString(),
+                    LastName = dataGridViewStudents.Rows[i].Cells[1].Value.ToString(),
+                    FirstName = dataGridViewStudents.Rows[i].Cells[2].Value.ToString(),
+                    Patronymic = dataGridViewStudents.Rows[i].Cells[3].Value.ToString(),
+                    Description = dataGridViewStudents.Rows[i].Cells[5].Value?.ToString() ?? string.Empty,
+                    StudentGroupId = _id.Value,
                     Email = "неизвестно"
-				};
-				list.Add(model);
-			}
-			var result = _process.EnrollmentStudents(new StudentEnrollmentBindingModel
-			{
-				OrderNumber = textBoxOrderNumber.Text,
-				OrderDate = dateTimePickerEnrollmentDate.Value,
-				StudentList = list
-			});
-			if(result.Succeeded)
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-			else
-			{
+                };
+                list.Add(model);
+            }
+            var result = _process.EnrollmentStudents(new StudentEnrollmentBindingModel
+            {
+                EnrollmentOrderNumber = textBoxEnrollmentOrderNumber.Text,
+                EnrollmentOrderDate = dateTimePickerEnrollmentDate.Value,
+                DistributionOrderNumber = textBoxDistributionOrderNumber.Text,
+                DistributionOrderDate = dateTimePickerDistributionOrderDate.Value,
+                StudentList = list
+            });
+            if (result.Succeeded)
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            else
+            {
                 ErrorMessanger.PrintErrorMessage("Ошибка при сохранении спсика: ", result.Errors);
-			}
-		}
+            }
+        }
 
-		private void ButtonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
-	}
+        private void ButtonClose_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
+        private void DataGridViewStudents_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                var buffer = Clipboard.GetText();
+                if (Regex.IsMatch(buffer, @"[\w]+ \w.( )?\w."))
+                {
+                    var strs = buffer.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string lastName = strs[0];
+                    string firstname = strs[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    string patron = strs.Length == 2 ? strs[1].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1] :
+                        strs[2].Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    dataGridViewStudents.Rows.Add(new object[] { "н/а", lastName, firstname, patron, "очная" });
+                }
+                else if (Regex.IsMatch(buffer, @"[\w\/]+\t[\w]+\t[\w]+\t[\w]+"))
+                {
+                    var strs = buffer.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    dataGridViewStudents.Rows.Add(new object[] { strs[0], strs[1], strs[2], strs[3], "очная" });
+                }
+            }
+        }
+    }
 }

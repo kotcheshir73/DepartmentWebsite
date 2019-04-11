@@ -62,7 +62,7 @@ namespace Models.Base
         //-------------------------------------------------------------------------
 
         [ForeignKey("StudentId")]
-        public virtual List<StudentHistory> StudentHistory { get; set; }
+        public virtual List<StudentOrderBlockStudent> StudentOrderBlockStudents { get; set; }
 
         [ForeignKey("StudentId")]
         public virtual List<StatementRecord> StatementRecords { get; set; }

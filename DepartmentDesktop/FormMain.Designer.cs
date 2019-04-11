@@ -97,6 +97,7 @@
             this.успеваемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.examinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.examinationTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.studentOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -230,6 +231,7 @@
             this.disciplineToolStripMenuItem,
             this.toolStripSeparator6,
             this.studentGroupToolStripMenuItem,
+            this.studentOrderToolStripMenuItem,
             this.studentsToolStripMenuItem,
             this.toolStripSeparator5,
             this.classroomToolStripMenuItem,
@@ -639,6 +641,13 @@
             this.examinationTemplateToolStripMenuItem.Text = "Формирование экзаменов";
             this.examinationTemplateToolStripMenuItem.Click += new System.EventHandler(this.examinationTemplateToolStripMenuItem_Click);
             // 
+            // studentOrderToolStripMenuItem
+            // 
+            this.studentOrderToolStripMenuItem.Name = "studentOrderToolStripMenuItem";
+            this.studentOrderToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.studentOrderToolStripMenuItem.Text = "Приказы по студентам";
+            this.studentOrderToolStripMenuItem.Click += new System.EventHandler(this.StudentOrderToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -728,6 +737,7 @@
         private System.Windows.Forms.ToolStripMenuItem studentsDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem examinationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem examinationTemplateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem studentOrderToolStripMenuItem;
     }
 }
 

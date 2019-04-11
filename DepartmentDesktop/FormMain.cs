@@ -205,6 +205,13 @@ namespace DepartmentDesktop
 			control.LoadData();
 		}
 
+        private void StudentOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = BaseControlsAndForms.Controller.GetControlStudentOrder;
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         #region Студенты
         /// <summary>
         /// Учащиеся

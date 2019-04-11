@@ -129,38 +129,5 @@ namespace BaseControlsAndForms.Discipline
                 return false;
             }
         }
-
-        /// <summary>
-        /// Настройка контрола для вывода учебного плана по дисциплине
-        /// </summary>
-        private void LoadSettingsAcademicPlaRecords()
-        {
-            List<ColumnConfig> columns = new List<ColumnConfig>
-            {
-                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "EducationDirectionCipher", Title = "Направление", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Semester", Title = "Семестры", Width = 100, Visible = true },
-                new ColumnConfig { Name = "KindOfLoad", Title = "Вид нагрузки", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
-            };
-
-            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd", "toolStripButtonUpd", "toolStripButtonDel", "toolStripDropDownButtonMoves" };
-        }
-
-        private void LoadSettingsSchedule()
-        {
-            List<ColumnConfig> columns = new List<ColumnConfig>
-            {
-                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "Type", Title = "Type", Width = 100, Visible = false },
-                new ColumnConfig { Name = "Date", Title = "Дата", Width = 200, Visible = true },
-                new ColumnConfig { Name = "LessonType", Title = "Тип занятия", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Classroom", Title = "Аудитория", Width = 100, Visible = true },
-                new ColumnConfig { Name = "Lecturer", Title = "Преподаватель", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Group", Title = "Группа", Width = 100, Visible = true }
-            };
-
-            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd", "toolStripButtonUpd", "toolStripButtonDel", "toolStripDropDownButtonMoves" };
-        }
     }
 }

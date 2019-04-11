@@ -6,6 +6,9 @@ using BaseControlsAndForms.Lecturer;
 using BaseControlsAndForms.LecturerPost;
 using BaseControlsAndForms.Student;
 using BaseControlsAndForms.StudentGroup;
+using BaseControlsAndForms.StudentOrder;
+using BaseControlsAndForms.StudentOrderBlock;
+using BaseControlsAndForms.StudentOrderBlockStudent;
 using BaseImplementations.Implementations;
 using BaseInterfaces.Interfaces;
 using Unity;
@@ -28,6 +31,9 @@ namespace BaseControlsAndForms
             currentContainer.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStudentOrderService, StudentOrderService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStudentOrderBlockService, StudentOrderBlockService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStudentOrderBlockStudentService, StudentOrderBlockStudentService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IProcess, Process>(new HierarchicalLifetimeManager());
 
@@ -49,5 +55,11 @@ namespace BaseControlsAndForms
         public static ControlStudent GetControlStudent { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlStudent>(); } }
 
         public static ControlStudentGroup GetControlStudentGroup { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlStudentGroup>(); } }
+
+        public static ControlStudentOrder GetControlStudentOrder { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlStudentOrder>(); } }
+
+        public static ControlStudentOrderBlock GetControlStudentOrderBlock { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlStudentOrderBlock>(); } }
+
+        public static ControlStudentOrderBlockStudent GetControlStudentOrderBlockStudent { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlStudentOrderBlockStudent>(); } }
     }
 }

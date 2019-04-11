@@ -7,6 +7,20 @@ namespace BaseImplementations
 {
     public static class ModelFacotryFromBindingModel
     {
+        public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Classroom();
+            }
+            entity.Number = model.Number;
+            entity.Capacity = model.Capacity;
+            entity.ClassroomType = (ClassroomTypes)Enum.Parse(typeof(ClassroomTypes), model.ClassroomType);
+            entity.NotUseInSchedule = model.NotUseInSchedule;
+
+            return entity;
+        }
+
         public static EducationDirection CreateEducationDirection(EducationDirectionSetBindingModel model, EducationDirection entity = null)
         {
             if (entity == null)
@@ -43,20 +57,6 @@ namespace BaseImplementations
             }
             entity.PostTitle = model.PostTitle;
             entity.Hours = model.Hours;
-
-            return entity;
-        }
-
-        public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new Classroom();
-            }
-            entity.Number = model.Number;
-            entity.Capacity = model.Capacity;
-            entity.ClassroomType = (ClassroomTypes)Enum.Parse(typeof(ClassroomTypes), model.ClassroomType);
-            entity.NotUseInSchedule = model.NotUseInSchedule;
 
             return entity;
         }
@@ -133,16 +133,43 @@ namespace BaseImplementations
             return entity;
         }
 
-        public static StudentHistory CreateStudentHistory(StudentHistorySetBindingModel model, StudentHistory entity = null)
+        public static StudentOrder CreateStudentOrder(StudentOrderSetBindingModel model, StudentOrder entity = null)
         {
             if (entity == null)
             {
-                entity = new StudentHistory
-                {
-                    StudentId = model.StudetnId
-                };
+                entity = new StudentOrder();
             }
-            entity.TextMessage = model.TextMessage;
+            entity.OrderNumber = model.OrderNumber;
+            entity.DateCreate = model.OrderDate;
+            entity.StudentOrderType = (StudentOrderType)Enum.Parse(typeof(StudentOrderType), model.StudentOrderType);
+
+            return entity;
+        }
+
+        public static StudentOrderBlock CreateStudentOrderBlock(StudentOrderBlockSetBindingModel model, StudentOrderBlock entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StudentOrderBlock();
+            }
+            entity.StudentOrderId = model.StudentOrderId;
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.StudentOrderType = (StudentOrderType)Enum.Parse(typeof(StudentOrderType), model.StudentOrderType);
+
+            return entity;
+        }
+
+        public static StudentOrderBlockStudent CreateStudentOrderBlockStudent(StudentOrderBlockStudentSetBindingModel model, StudentOrderBlockStudent entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StudentOrderBlockStudent();
+            }
+            entity.StudentOrderBlockId = model.StudentOrderBlockId;
+            entity.StudentId = model.StudentId;
+            entity.StudentGroupFromId = model.StudentGroupFromId;
+            entity.StudentGroupToId = model.StudentGroupToId;
+            entity.Info = model.Info;
 
             return entity;
         }

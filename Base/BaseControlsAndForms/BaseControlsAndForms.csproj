@@ -186,6 +186,42 @@
     <Compile Include="Services\FormTransfer.designer.cs">
       <DependentUpon>FormTransfer.cs</DependentUpon>
     </Compile>
+    <Compile Include="StudentOrderBlockStudent\ControlStudentOrderBlockStudent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StudentOrderBlockStudent\ControlStudentOrderBlockStudent.Designer.cs">
+      <DependentUpon>ControlStudentOrderBlockStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentOrderBlockStudent\FormStudentOrderBlockStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentOrderBlockStudent\FormStudentOrderBlockStudent.Designer.cs">
+      <DependentUpon>FormStudentOrderBlockStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentOrderBlock\ControlStudentOrderBlock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StudentOrderBlock\ControlStudentOrderBlock.Designer.cs">
+      <DependentUpon>ControlStudentOrderBlock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentOrderBlock\FormStudentOrderBlock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentOrderBlock\FormStudentOrderBlock.Designer.cs">
+      <DependentUpon>FormStudentOrderBlock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentOrder\ControlStudentOrder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StudentOrder\ControlStudentOrder.Designer.cs">
+      <DependentUpon>ControlStudentOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentOrder\FormStudentOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentOrder\FormStudentOrder.Designer.cs">
+      <DependentUpon>FormStudentOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Student\ControlStudent.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -270,6 +306,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormTransfer.resx">
       <DependentUpon>FormTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentOrderBlockStudent\ControlStudentOrderBlockStudent.resx">
+      <DependentUpon>ControlStudentOrderBlockStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentOrderBlockStudent\FormStudentOrderBlockStudent.resx">
+      <DependentUpon>FormStudentOrderBlockStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentOrderBlock\ControlStudentOrderBlock.resx">
+      <DependentUpon>ControlStudentOrderBlock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentOrderBlock\FormStudentOrderBlock.resx">
+      <DependentUpon>FormStudentOrderBlock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentOrder\ControlStudentOrder.resx">
+      <DependentUpon>ControlStudentOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentOrder\FormStudentOrder.resx">
+      <DependentUpon>FormStudentOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Student\ControlStudent.resx">
       <DependentUpon>ControlStudent.cs</DependentUpon>

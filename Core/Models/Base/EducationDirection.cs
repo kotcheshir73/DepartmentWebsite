@@ -40,7 +40,10 @@ namespace Models.Base
         [ForeignKey("EducationDirectionId")]
         public virtual List<StudentGroup> StudentGroups { get; set; }
 
-		[ForeignKey("EducationDirectionId")]
+        [ForeignKey("EducationDirectionId")]
+        public virtual List<StudentOrderBlock> StudentOrderBlocks { get; set; }
+
+        [ForeignKey("EducationDirectionId")]
 		public virtual List<Contingent> Contingents { get; set; }
 
 		[ForeignKey("EducationDirectionId")]

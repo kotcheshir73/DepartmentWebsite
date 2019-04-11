@@ -18,9 +18,13 @@ namespace BaseInterfaces.BindingModels
     /// </summary>
     public class StudentEnrollmentBindingModel
     {
-        public string OrderNumber { get; set; }
+        public string EnrollmentOrderNumber { get; set; }
 
-        public DateTime OrderDate { get; set; }
+        public DateTime EnrollmentOrderDate { get; set; }
+
+        public string DistributionOrderNumber { get; set; }
+
+        public DateTime DistributionOrderDate { get; set; }
 
         public List<StudentSetBindingModel> StudentList { get; set; }
     }
