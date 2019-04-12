@@ -84,7 +84,8 @@ namespace BaseControlsAndForms.Services
             {
                 StudnetIds = list,
                 RecoveryOrderDate = dateTimePickerRecoveryDate.Value,
-                RecoveryOrderNumber = textBoxRecoveryOrderNumber.Text
+                RecoveryOrderNumber = textBoxRecoveryOrderNumber.Text,
+                StudentGroupId = _id.Value
             });
             if (result.Succeeded)
             {

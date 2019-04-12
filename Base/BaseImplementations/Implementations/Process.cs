@@ -74,42 +74,121 @@ namespace BaseImplementations.Implementations
                                 enrollmentOrderBlock.IsDeleted = false;
                                 context.SaveChanges();
                             }
-                            // ищем приказ о распределении
-                            var distributionOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.DistributionOrderNumber && x.DateCreate == model.DistributionOrderDate.Date &&
-                                    x.StudentOrderType == StudentOrderType.Распределение);
-                            if (distributionOrder == null)
+                            #endregion
+
+                            var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
+                            var exsistEntity = context.Students.FirstOrDefault(x => x.NumberOfBook == entity.NumberOfBook && entity.NumberOfBook != "н/а");
+                            if (exsistEntity == null)
+                            {
+                                context.Students.Add(entity);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i], exsistEntity);
+                                entity.StudentState = StudentState.Учится;
+                                if (exsistEntity.IsDeleted)
+                                {
+                                    exsistEntity.IsDeleted = false;
+                                    context.SaveChanges();
+                                }
+                            }
+
+                            var enrolleSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == enrollmentOrderBlock.Id && x.StudentId == entity.Id &&
+                                x.StudentGroupToId == studentGroup.Id);
+                            if(enrolleSOS == null)
+                            {
+                                enrolleSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
+                                {
+                                    StudentOrderBlockId = enrollmentOrderBlock.Id,
+                                    StudentId = entity.Id,
+                                    StudentGroupToId = studentGroup.Id
+                                });
+                                context.StudentOrderBlockStudents.Add(enrolleSOS);
+                                context.SaveChanges();
+                            }
+                            else if(enrolleSOS.IsDeleted)
+                            {
+                                enrolleSOS.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+
+                            context.SaveChanges();
+                        }
+                        transaction.Commit();
+
+                        return ResultService.Success();
+                    }
+                    catch (Exception ex)
+                    {
+                        return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                    }
+                }
+            }
+        }
+
+        public ResultService EnrollmentTransferStudents(StudentEnrollmentTransferBindingModel model)
+        {
+            if (model.StudentList.Count <= 0)
+            {
+                return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
+            }
+            DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
+
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                var studentGroup = context.StudentGroups.FirstOrDefault(x => x.Id == model.StudentList.First().StudentGroupId);
+
+                if (studentGroup == null)
+                {
+                    return ResultService.Error("Error:", "Группа не найдена", ResultServiceStatusCode.NotFound);
+                }
+                else if (studentGroup.IsDeleted)
+                {
+                    return ResultService.Error("Error:", "Группа была удалена", ResultServiceStatusCode.WasDelete);
+                }
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        for (int i = 0; i < model.StudentList.Count; ++i)
+                        {
+                            #region приказы
+                            // ищем приказ о зачислении
+                            var enrollmentOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.EnrollmentTransferOrderNumber && 
+                                    x.DateCreate == model.EnrollmentTransferOrderDate.Date && x.StudentOrderType == StudentOrderType.Движение);
+                            if (enrollmentOrder == null)
                             {
                                 // если нет, то создаем
-                                distributionOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
+                                enrollmentOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
                                 {
-                                    OrderNumber = model.DistributionOrderNumber,
-                                    OrderDate = model.DistributionOrderDate.Date,
-                                    StudentOrderType = StudentOrderType.Распределение.ToString()
+                                    OrderNumber = model.EnrollmentTransferOrderNumber,
+                                    OrderDate = model.EnrollmentTransferOrderDate.Date,
+                                    StudentOrderType = StudentOrderType.Движение.ToString()
                                 });
-                                context.StudentOrders.Add(distributionOrder);
+                                context.StudentOrders.Add(enrollmentOrder);
                                 context.SaveChanges();
                             }
-                            else if (distributionOrder.IsDeleted)
+                            else if (enrollmentOrder.IsDeleted)
                             {
-                                distributionOrder.IsDeleted = false;
+                                enrollmentOrder.IsDeleted = false;
                                 context.SaveChanges();
                             }
-                            // ищем блок приказа для группы
-                            var distributionOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == distributionOrder.Id && x.EducationDirectionId == studentGroup.EducationDirectionId);
-                            if (distributionOrderBlock == null)
+                            // ищем блок приказа для направления
+                            var enrollmentOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == enrollmentOrder.Id && x.StudentOrderType == StudentOrderType.ЗачислитьПоПереводу);
+                            if (enrollmentOrderBlock == null)
                             {
-                                distributionOrderBlock = ModelFacotryFromBindingModel.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
+                                enrollmentOrderBlock = ModelFacotryFromBindingModel.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
                                 {
-                                    StudentOrderId = distributionOrder.Id,
-                                    StudentOrderType = StudentOrderType.Распределение.ToString(),
-                                    EducationDirectionId = studentGroup.EducationDirectionId
+                                    StudentOrderId = enrollmentOrder.Id,
+                                    StudentOrderType = StudentOrderType.ЗачислитьПоПереводу.ToString()
                                 });
-                                context.StudentOrderBlocks.Add(distributionOrderBlock);
+                                context.StudentOrderBlocks.Add(enrollmentOrderBlock);
                                 context.SaveChanges();
                             }
-                            else if (distributionOrderBlock.IsDeleted)
+                            else if (enrollmentOrderBlock.IsDeleted)
                             {
-                                distributionOrderBlock.IsDeleted = false;
+                                enrollmentOrderBlock.IsDeleted = false;
                                 context.SaveChanges();
                             }
                             #endregion
@@ -133,38 +212,20 @@ namespace BaseImplementations.Implementations
                             }
 
                             var enrolleSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == enrollmentOrderBlock.Id && x.StudentId == entity.Id);
-                            if(enrolleSOS == null)
+                            if (enrolleSOS == null)
                             {
                                 enrolleSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
                                 {
                                     StudentOrderBlockId = enrollmentOrderBlock.Id,
-                                    StudentId = entity.Id
+                                    StudentId = entity.Id,
+                                    StudentGroupToId = studentGroup.Id
                                 });
                                 context.StudentOrderBlockStudents.Add(enrolleSOS);
                                 context.SaveChanges();
                             }
-                            else if(enrolleSOS.IsDeleted)
+                            else if (enrolleSOS.IsDeleted)
                             {
                                 enrolleSOS.IsDeleted = false;
-                                context.SaveChanges();
-                            }
-
-                            var distributionSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == distributionOrderBlock.Id && x.StudentId == entity.Id &&
-                                x.StudentGroupToId == studentGroup.Id);
-                            if (distributionSOS == null)
-                            {
-                                distributionSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
-                                {
-                                    StudentOrderBlockId = distributionOrderBlock.Id,
-                                    StudentId = entity.Id,
-                                    StudentGroupToId = studentGroup.Id
-                                });
-                                context.StudentOrderBlockStudents.Add(distributionSOS);
-                                context.SaveChanges();
-                            }
-                            else if (distributionSOS.IsDeleted)
-                            {
-                                distributionSOS.IsDeleted = false;
                                 context.SaveChanges();
                             }
 
@@ -703,9 +764,62 @@ namespace BaseImplementations.Implementations
                             return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
                         }
                         entity.StudentState = StudentState.Учится;
-                        entity.StudentGroup = null;
+                        entity.StudentGroupId = model.StudentGroupId;
 
-                        context.SaveChanges();
+                        // ищем приказ о движении контингента
+                        var recoveryOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.RecoveryOrderNumber && x.DateCreate == model.RecoveryOrderDate.Date &&
+                                x.StudentOrderType == StudentOrderType.Движение);
+                        if (recoveryOrder == null)
+                        {
+                            // если нет, то создаем
+                            recoveryOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
+                            {
+                                OrderNumber = model.RecoveryOrderNumber,
+                                OrderDate = model.RecoveryOrderDate.Date,
+                                StudentOrderType = StudentOrderType.Движение.ToString()
+                            });
+                            context.StudentOrders.Add(recoveryOrder);
+                            context.SaveChanges();
+                        }
+                        else if (recoveryOrder.IsDeleted)
+                        {
+                            recoveryOrder.IsDeleted = false;
+                            context.SaveChanges();
+                        }
+                        // ищем блок приказа для направления
+                        var recoveryOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == recoveryOrder.Id && x.StudentOrderType == StudentOrderType.Восстановить);
+                        if (recoveryOrderBlock == null)
+                        {
+                            recoveryOrderBlock = ModelFacotryFromBindingModel.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
+                            {
+                                StudentOrderId = recoveryOrder.Id,
+                                StudentOrderType = StudentOrderType.Восстановить.ToString()
+                            });
+                            context.StudentOrderBlocks.Add(recoveryOrderBlock);
+                            context.SaveChanges();
+                        }
+                        else if (recoveryOrderBlock.IsDeleted)
+                        {
+                            recoveryOrderBlock.IsDeleted = false;
+                            context.SaveChanges();
+                        }
+                        var academSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == recoveryOrderBlock.Id && x.StudentId == entity.Id);
+                        if (academSOS == null)
+                        {
+                            academSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
+                            {
+                                StudentOrderBlockId = recoveryOrderBlock.Id,
+                                StudentId = entity.Id,
+                                StudentGroupToId = entity.StudentGroupId
+                            });
+                            context.StudentOrderBlockStudents.Add(academSOS);
+                            context.SaveChanges();
+                        }
+                        else if (academSOS.IsDeleted)
+                        {
+                            academSOS.IsDeleted = false;
+                            context.SaveChanges();
+                        }
 
                         context.SaveChanges();
                     }

@@ -79,7 +79,7 @@ namespace BaseControlsAndForms.StudentGroup
 					res.EducationDirectionCipher,
 					res.GroupName,
 					Math.Log(res.Course, 2.0) + 1,
-					res.CountStudents,
+					string.Format("{0}({1})", res.CountStudents, res.CountAcademStudents),
 					res.StewardName,
 					res.Curator
 				);

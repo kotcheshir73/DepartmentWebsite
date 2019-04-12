@@ -102,6 +102,7 @@ namespace BaseImplementations
                 GroupName = entity.GroupName,
                 Course = (int)entity.Course,
                 CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted && s.StudentState == StudentState.Учится).Count() : 0,
+                CountAcademStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted && s.StudentState == StudentState.Академ).Count() : 0,
                 StewardName = (entity.Students != null) ? entity.Students.FirstOrDefault(s => !s.IsDeleted && s.IsSteward)?.ToString() ?? string.Empty : string.Empty,
                 Curator = entity.CuratorId.HasValue ? entity.Curator.ToString() : "",
                 CuratorId = entity.CuratorId

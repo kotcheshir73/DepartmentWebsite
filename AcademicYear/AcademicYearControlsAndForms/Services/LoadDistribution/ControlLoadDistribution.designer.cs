@@ -63,7 +63,7 @@
             this.dataGridViewList.ReadOnly = true;
             this.dataGridViewList.RowHeadersVisible = false;
             this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewList.Size = new System.Drawing.Size(899, 440);
+            this.dataGridViewList.Size = new System.Drawing.Size(1400, 440);
             this.dataGridViewList.TabIndex = 2;
             this.dataGridViewList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewList_CellDoubleClick);
             this.dataGridViewList.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewList_CellPainting);
@@ -81,7 +81,7 @@
             this.toolStripButtonRef});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(899, 25);
+            this.toolStripMenu.Size = new System.Drawing.Size(1400, 25);
             this.toolStripMenu.TabIndex = 0;
             this.toolStripMenu.Text = "Действия";
             // 
@@ -147,7 +147,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 25);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(899, 35);
+            this.panelTop.Size = new System.Drawing.Size(1400, 35);
             this.panelTop.TabIndex = 1;
             // 
             // buttonCreateGrafics
@@ -176,7 +176,7 @@
             this.buttonCreatStatement.Name = "buttonCreatStatement";
             this.buttonCreatStatement.Size = new System.Drawing.Size(140, 23);
             this.buttonCreatStatement.TabIndex = 4;
-            this.buttonCreatStatement.Text = "СОздать ведомости";
+            this.buttonCreatStatement.Text = "Создать ведомости";
             this.buttonCreatStatement.UseVisualStyleBackColor = true;
             this.buttonCreatStatement.Click += new System.EventHandler(this.buttonCreatStatement_Click);
             // 
@@ -209,15 +209,15 @@
             this.labelSelectAcademicYear.TabIndex = 0;
             this.labelSelectAcademicYear.Text = "Выбрать учебный год:";
             // 
-            // LoadDistributionControl
+            // ControlLoadDistribution
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridViewList);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.toolStripMenu);
-            this.Name = "LoadDistributionControl";
-            this.Size = new System.Drawing.Size(899, 500);
+            this.Name = "ControlLoadDistribution";
+            this.Size = new System.Drawing.Size(1400, 500);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).EndInit();
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();

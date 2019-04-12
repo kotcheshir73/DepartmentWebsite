@@ -9,7 +9,7 @@ using Unity;
 
 namespace BaseControlsAndForms.Services
 {
-    public partial class FormEnrollment : Form
+    public partial class FormEnrollmentTransfer : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -18,7 +18,7 @@ namespace BaseControlsAndForms.Services
 
         private Guid? _id = null;
 
-        public FormEnrollment(IProcess process, Guid? id = null)
+        public FormEnrollmentTransfer(IProcess process, Guid? id = null)
         {
             InitializeComponent();
             _process = process;
@@ -30,7 +30,7 @@ namespace BaseControlsAndForms.Services
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxEnrollmentOrderNumber.Text))
+            if (string.IsNullOrEmpty(textBoxEnrollmentTransferOrderNumber.Text))
             {
                 MessageBox.Show("Введите номер приказа на зачисление", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -55,10 +55,10 @@ namespace BaseControlsAndForms.Services
                 };
                 list.Add(model);
             }
-            var result = _process.EnrollmentStudents(new StudentEnrollmentBindingModel
+            var result = _process.EnrollmentTransferStudents(new StudentEnrollmentTransferBindingModel
             {
-                EnrollmentOrderNumber = textBoxEnrollmentOrderNumber.Text,
-                EnrollmentOrderDate = dateTimePickerEnrollmentDate.Value,
+                EnrollmentTransferOrderNumber = textBoxEnrollmentTransferOrderNumber.Text,
+                EnrollmentTransferOrderDate = dateTimePickerEnrollmentTransferDate.Value,
                 StudentList = list
             });
             if (result.Succeeded)

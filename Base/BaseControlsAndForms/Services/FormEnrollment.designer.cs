@@ -41,10 +41,6 @@
             this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.dateTimePickerDistributionOrderDate = new System.Windows.Forms.DateTimePicker();
-            this.labelDistributionFrom = new System.Windows.Forms.Label();
-            this.textBoxDistributionOrderNumber = new System.Windows.Forms.TextBox();
-            this.labelDistributionOrderNumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,10 +90,10 @@
             this.ColumnPatronymic,
             this.ColumnFormOfTraninig,
             this.ColumnDescription});
-            this.dataGridViewStudents.Location = new System.Drawing.Point(0, 66);
+            this.dataGridViewStudents.Location = new System.Drawing.Point(0, 32);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
-            this.dataGridViewStudents.Size = new System.Drawing.Size(734, 378);
-            this.dataGridViewStudents.TabIndex = 8;
+            this.dataGridViewStudents.Size = new System.Drawing.Size(734, 412);
+            this.dataGridViewStudents.TabIndex = 4;
             this.dataGridViewStudents.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridViewStudents_KeyDown);
             // 
             // ColumnNumberOfBook
@@ -139,7 +135,7 @@
             this.buttonClose.Location = new System.Drawing.Point(646, 453);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 25);
-            this.buttonClose.TabIndex = 10;
+            this.buttonClose.TabIndex = 6;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
@@ -150,52 +146,16 @@
             this.buttonSave.Location = new System.Drawing.Point(565, 453);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 25);
-            this.buttonSave.TabIndex = 9;
+            this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
-            // 
-            // dateTimePickerDistributionOrderDate
-            // 
-            this.dateTimePickerDistributionOrderDate.Location = new System.Drawing.Point(342, 32);
-            this.dateTimePickerDistributionOrderDate.Name = "dateTimePickerDistributionOrderDate";
-            this.dateTimePickerDistributionOrderDate.Size = new System.Drawing.Size(141, 20);
-            this.dateTimePickerDistributionOrderDate.TabIndex = 7;
-            // 
-            // labelDistributionFrom
-            // 
-            this.labelDistributionFrom.AutoSize = true;
-            this.labelDistributionFrom.Location = new System.Drawing.Point(318, 35);
-            this.labelDistributionFrom.Name = "labelDistributionFrom";
-            this.labelDistributionFrom.Size = new System.Drawing.Size(18, 13);
-            this.labelDistributionFrom.TabIndex = 6;
-            this.labelDistributionFrom.Text = "от";
-            // 
-            // textBoxDistributionOrderNumber
-            // 
-            this.textBoxDistributionOrderNumber.Location = new System.Drawing.Point(212, 32);
-            this.textBoxDistributionOrderNumber.Name = "textBoxDistributionOrderNumber";
-            this.textBoxDistributionOrderNumber.Size = new System.Drawing.Size(100, 20);
-            this.textBoxDistributionOrderNumber.TabIndex = 5;
-            // 
-            // labelDistributionOrderNumber
-            // 
-            this.labelDistributionOrderNumber.AutoSize = true;
-            this.labelDistributionOrderNumber.Location = new System.Drawing.Point(12, 35);
-            this.labelDistributionOrderNumber.Name = "labelDistributionOrderNumber";
-            this.labelDistributionOrderNumber.Size = new System.Drawing.Size(194, 13);
-            this.labelDistributionOrderNumber.TabIndex = 4;
-            this.labelDistributionOrderNumber.Text = "Приказ о распределении в группу №";
             // 
             // FormEnrollment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 486);
-            this.Controls.Add(this.dateTimePickerDistributionOrderDate);
-            this.Controls.Add(this.labelDistributionFrom);
-            this.Controls.Add(this.textBoxDistributionOrderNumber);
-            this.Controls.Add(this.labelDistributionOrderNumber);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.dataGridViewStudents);
@@ -227,9 +187,5 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDescription;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.DateTimePicker dateTimePickerDistributionOrderDate;
-        private System.Windows.Forms.Label labelDistributionFrom;
-        private System.Windows.Forms.TextBox textBoxDistributionOrderNumber;
-        private System.Windows.Forms.Label labelDistributionOrderNumber;
     }
 }

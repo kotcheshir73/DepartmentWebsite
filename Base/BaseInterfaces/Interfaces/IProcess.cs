@@ -14,6 +14,13 @@ namespace BaseInterfaces.Interfaces
         ResultService EnrollmentStudents(StudentEnrollmentBindingModel model);
 
         /// <summary>
+        /// Зачисление переводом
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService EnrollmentTransferStudents(StudentEnrollmentTransferBindingModel model);
+
+        /// <summary>
         /// Перевод студентов на следующий курс
         /// </summary>
         /// <param name="model"></param>

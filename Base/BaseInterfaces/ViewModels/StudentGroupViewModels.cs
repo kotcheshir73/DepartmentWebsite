@@ -19,6 +19,8 @@ namespace BaseInterfaces.ViewModels
 
         public int CountStudents { get; set; }
 
+        public int CountAcademStudents { get; set; }
+
         public string StewardName { get; set; }
 
         public string Curator { get; set; }

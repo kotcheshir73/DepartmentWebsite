@@ -45,6 +45,7 @@ namespace BaseControlsAndForms.Student
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
             {
                 { "EnrollmentToolStripMenuItem", "Зачисление"},
+                { "EnrollmentTransferToolStripMenuItem", "Зачисление переводом"},
                 { "DeductionToolStripMenuItem", "Отчисление"},
                 { "TransferCourseToolStripMenuItem", "Перевод на следующий курс"},
                 { "TransferGroupToolStripMenuItem", "Перевод на другую специальность"},
@@ -60,6 +61,7 @@ namespace BaseControlsAndForms.Student
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonMoveEventClickAddEvent("EnrollmentToolStripMenuItem", EnrollmentToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("EnrollmentTransferToolStripMenuItem", EnrollmentTransferToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("DeductionToolStripMenuItem", DeductionToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("TransferCourseToolStripMenuItem", TransferCourseToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("ToAcademToolStripMenuItem", ToAcademToolStripMenuItem_Click);
@@ -142,6 +144,20 @@ namespace BaseControlsAndForms.Student
                         { "id", _sgId }
                     }
                     .OnType<FormEnrollment>());
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                standartControl.LoadPage();
+            }
+        }
+
+        private void EnrollmentTransferToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormEnrollmentTransfer>(
+                    new ParameterOverrides
+                    {
+                        { "id", _sgId }
+                    }
+                    .OnType<FormEnrollmentTransfer>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();

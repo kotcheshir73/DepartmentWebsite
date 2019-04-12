@@ -22,9 +22,17 @@ namespace BaseInterfaces.BindingModels
 
         public DateTime EnrollmentOrderDate { get; set; }
 
-        public string DistributionOrderNumber { get; set; }
+        public List<StudentSetBindingModel> StudentList { get; set; }
+    }
 
-        public DateTime DistributionOrderDate { get; set; }
+    /// <summary>
+    /// Список студентов на зачисление, + приказ
+    /// </summary>
+    public class StudentEnrollmentTransferBindingModel
+    {
+        public string EnrollmentTransferOrderNumber { get; set; }
+
+        public DateTime EnrollmentTransferOrderDate { get; set; }
 
         public List<StudentSetBindingModel> StudentList { get; set; }
     }
@@ -81,6 +89,8 @@ namespace BaseInterfaces.BindingModels
         public DateTime RecoveryOrderDate { get; set; }
 
         public string RecoveryOrderNumber { get; set; }
+
+        public Guid StudentGroupId { get; set; }
     }
 
     /// <summary>
