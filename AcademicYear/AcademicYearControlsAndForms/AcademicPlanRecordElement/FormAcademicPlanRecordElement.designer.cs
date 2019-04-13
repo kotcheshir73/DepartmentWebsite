@@ -34,6 +34,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.tabPageDisciplineTimeDistribution = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
@@ -126,6 +127,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Controls.Add(this.tabPageDisciplineTimeDistribution);
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -160,6 +162,16 @@
             this.tabPageRecords.Text = "Распределение нагрузки";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
+            // tabPageDisciplineTimeDistribution
+            // 
+            this.tabPageDisciplineTimeDistribution.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDisciplineTimeDistribution.Name = "tabPageDisciplineTimeDistribution";
+            this.tabPageDisciplineTimeDistribution.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDisciplineTimeDistribution.Size = new System.Drawing.Size(697, 340);
+            this.tabPageDisciplineTimeDistribution.TabIndex = 2;
+            this.tabPageDisciplineTimeDistribution.Text = "Расчасовки";
+            this.tabPageDisciplineTimeDistribution.UseVisualStyleBackColor = true;
+            // 
             // FormAcademicPlanRecordElement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,5 +205,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageConfig;
         private System.Windows.Forms.TabPage tabPageRecords;
+        private System.Windows.Forms.TabPage tabPageDisciplineTimeDistribution;
     }
 }

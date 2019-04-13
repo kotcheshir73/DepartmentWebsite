@@ -144,9 +144,11 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 DisciplineTimeDistributionId = entity.DisciplineTimeDistributionId,
                 TimeNormId = entity.TimeNormId,
+                DisciplineTimeDistribution = string.Format("{0} {1} {2}", entity.DisciplineTimeDistribution.StudentGroup.GroupName, entity.DisciplineTimeDistribution.AcademicPlanRecord.Semester,
+                    entity.DisciplineTimeDistribution.AcademicPlanRecord.Discipline.DisciplineShortName),
+                TimeNorm = entity.TimeNorm.TimeNormName,
                 WeekNumber = entity.WeekNumber,
                 Hours = entity.Hours,
-                TimeNormName = entity.TimeNorm.TimeNormName,
                 TimeNormHours = entity.TimeNorm.Hours.ToString()
             };
         }
@@ -158,6 +160,9 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 DisciplineTimeDistributionId = entity.DisciplineTimeDistributionId,
                 TimeNormId = entity.TimeNormId,
+                DisciplineTimeDistribution = string.Format("{0} {1} {2}", entity.DisciplineTimeDistribution.StudentGroup.GroupName, entity.DisciplineTimeDistribution.AcademicPlanRecord.Semester,
+                    entity.DisciplineTimeDistribution.AcademicPlanRecord.Discipline.DisciplineShortName),
+                TimeNorm = entity.TimeNorm.TimeNormName,
                 ClassroomDescription = entity.ClassroomDescription
             };
         }

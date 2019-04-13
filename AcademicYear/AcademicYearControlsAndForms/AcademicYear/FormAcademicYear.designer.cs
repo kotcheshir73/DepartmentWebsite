@@ -31,8 +31,9 @@
             this.tabPageTimeNorms = new System.Windows.Forms.TabPage();
             this.tabPageContingents = new System.Windows.Forms.TabPage();
             this.tabPageSeasonDates = new System.Windows.Forms.TabPage();
-            this.panelTop = new System.Windows.Forms.Panel();
             this.tabPageLecturerWorkload = new System.Windows.Forms.TabPage();
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.tabPageDisciplineTimeDistribution = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -77,6 +78,7 @@
             this.tabControl.Controls.Add(this.tabPageContingents);
             this.tabControl.Controls.Add(this.tabPageSeasonDates);
             this.tabControl.Controls.Add(this.tabPageLecturerWorkload);
+            this.tabControl.Controls.Add(this.tabPageDisciplineTimeDistribution);
             this.tabControl.Location = new System.Drawing.Point(0, 42);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -133,6 +135,16 @@
             this.tabPageSeasonDates.Text = "Даты семестров";
             this.tabPageSeasonDates.UseVisualStyleBackColor = true;
             // 
+            // tabPageLecturerWorkload
+            // 
+            this.tabPageLecturerWorkload.Location = new System.Drawing.Point(4, 22);
+            this.tabPageLecturerWorkload.Name = "tabPageLecturerWorkload";
+            this.tabPageLecturerWorkload.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLecturerWorkload.Size = new System.Drawing.Size(1081, 553);
+            this.tabPageLecturerWorkload.TabIndex = 5;
+            this.tabPageLecturerWorkload.Text = "Преподаватели";
+            this.tabPageLecturerWorkload.UseVisualStyleBackColor = true;
+            // 
             // panelTop
             // 
             this.panelTop.Controls.Add(this.labelTitle);
@@ -143,15 +155,15 @@
             this.panelTop.Size = new System.Drawing.Size(1089, 42);
             this.panelTop.TabIndex = 0;
             // 
-            // tabPageLecturerWorkload
+            // tabPageDisciplineTimeDistribution
             // 
-            this.tabPageLecturerWorkload.Location = new System.Drawing.Point(4, 22);
-            this.tabPageLecturerWorkload.Name = "tabPageLecturerWorkload";
-            this.tabPageLecturerWorkload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLecturerWorkload.Size = new System.Drawing.Size(1081, 553);
-            this.tabPageLecturerWorkload.TabIndex = 5;
-            this.tabPageLecturerWorkload.Text = "Преподаватели";
-            this.tabPageLecturerWorkload.UseVisualStyleBackColor = true;
+            this.tabPageDisciplineTimeDistribution.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDisciplineTimeDistribution.Name = "tabPageDisciplineTimeDistribution";
+            this.tabPageDisciplineTimeDistribution.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDisciplineTimeDistribution.Size = new System.Drawing.Size(1081, 553);
+            this.tabPageDisciplineTimeDistribution.TabIndex = 6;
+            this.tabPageDisciplineTimeDistribution.Text = "Расчасовки";
+            this.tabPageDisciplineTimeDistribution.UseVisualStyleBackColor = true;
             // 
             // FormAcademicYear
             // 
@@ -187,5 +199,6 @@
         private System.Windows.Forms.TabPage tabPageContingents;
         private System.Windows.Forms.TabPage tabPageStreamLessons;
         private System.Windows.Forms.TabPage tabPageLecturerWorkload;
+        private System.Windows.Forms.TabPage tabPageDisciplineTimeDistribution;
     }
 }

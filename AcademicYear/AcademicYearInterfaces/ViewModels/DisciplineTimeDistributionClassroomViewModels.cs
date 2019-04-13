@@ -11,6 +11,10 @@ namespace AcademicYearInterfaces.ViewModels
 
         public Guid TimeNormId { get; set; }
 
+        public string DisciplineTimeDistribution { get; set; }
+
+        public string TimeNorm { get; set; }
+
         public string ClassroomDescription { get; set; }
     }
 }

@@ -1,11 +1,27 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.ViewModels;
 using Tools;
 
 namespace AcademicYearInterfaces.Interfaces
 {
     public interface IDisciplineTimeDistributionService
     {
+        /// <summary>
+        /// Получение списка записей учебного плана
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка групп
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
+
         /// <summary>
 		/// Получение списка элементов записи учебного плана
 		/// </summary>

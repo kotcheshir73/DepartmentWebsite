@@ -38,7 +38,10 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
 
         private bool notLoading;
 
-		public ControlLoadDistribution(IAcademicYearService serviceAY, ITimeNormService serviceTN, IAcademicYearProcess process, ILecturerService serviceL,/* IStatementService serviceS, 
+        List<ColumnConfig> _columns;
+
+
+        public ControlLoadDistribution(IAcademicYearService serviceAY, ITimeNormService serviceTN, IAcademicYearProcess process, ILecturerService serviceL,/* IStatementService serviceS, 
             IIndividualPlanRecordService serviceIPR,*/ IDisciplineTimeDistributionService serviceDTD, ILecturerWorkloadService serviceLW, ILecturerPostSerivce serviceLP)
 		{
 			InitializeComponent();
@@ -67,7 +70,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                 });
             }
             */
-            setDoubleBuffered(dataGridViewList, true);
+            SetDoubleBuffered(dataGridViewList, true);
 		}
 
 		public void LoadData()
@@ -101,7 +104,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
         private void LoadGrid()
         {
             Guid id = new Guid(comboBoxAcademicYear.SelectedValue.ToString());
-            List<ColumnConfig> columns = new List<ColumnConfig>
+            _columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "APR_Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "Semester", Title = "Сем", Width = 50, Visible = true,  },
@@ -117,11 +120,11 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicYearId = id });
             foreach (var tn in timeNorms.Result.List)
             {
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Id_{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
-                columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+                _columns.Add(new ColumnConfig { Name = string.Format("APRE_Id_{0}", tn.Id), Title = "Id", Width = 100, Visible = false });
+                _columns.Add(new ColumnConfig { Name = string.Format("APRE_Plan_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
+                _columns.Add(new ColumnConfig { Name = string.Format("APRE_Fact_{0}", tn.Id), Title = tn.TimeNormShortName, Width = 40, Visible = true });
             }
-            columns.Add(new ColumnConfig { Name = "Itog_APR", Title = "Итого (дисц.)", Width = 40, Visible = true });
+            _columns.Add(new ColumnConfig { Name = "Itog_APR", Title = "Итого (дисц.)", Width = 40, Visible = true });
             var lecturers = _serviceL.GetLecturers(new LecturerGetBindingModel () );
             foreach (var lect in lecturers.Result.List)
             {
@@ -135,14 +138,14 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                 {
                     Id = lect.LecturerPostId
                 });
-                columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName + "\n" 
+                _columns.Add(new ColumnConfig { Name = string.Format("Lecturer_{0}", lect.Id), Title = lect.FullName + "\n" 
                     + (workloadThisLector.Result.List.Count == 0 ? "" : workloadThisLector.Result.List[0].Workload.ToString() + " - " 
                     + hourThisLector.Result.Hours * workloadThisLector.Result.List[0].Workload + " - "), Width = 50, Visible = true });
             }
-            columns.Add(new ColumnConfig { Name = "Itog_Lecturer", Title = "Итого (лект.)", Width = 40, Visible = true });
-            columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
+            _columns.Add(new ColumnConfig { Name = "Itog_Lecturer", Title = "Итого (лект.)", Width = 40, Visible = true });
+            _columns.Add(new ColumnConfig { Name = "Itog", Title = "Итого", Width = 40, Visible = true });
             dataGridViewList.Columns.Clear();
-            foreach (var column in columns)
+            foreach (var column in _columns)
             {
                 dataGridViewList.Columns.Add(new DataGridViewTextBoxColumn
                 {
@@ -155,7 +158,6 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                 });
             }
             dataGridViewList.Columns[3].Frozen = true;
-
         }
 
         private void LoadRecords()
@@ -286,7 +288,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             }
         }
 
-        private void setDoubleBuffered(Control c, bool value)
+        private void SetDoubleBuffered(Control c, bool value)
         {
             PropertyInfo pi = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic);
             if (pi != null)

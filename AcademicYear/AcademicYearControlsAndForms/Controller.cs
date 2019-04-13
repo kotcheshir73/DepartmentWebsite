@@ -4,6 +4,9 @@ using AcademicYearControlsAndForms.AcademicPlanRecordElement;
 using AcademicYearControlsAndForms.AcademicPlanRecordMission;
 using AcademicYearControlsAndForms.AcademicYear;
 using AcademicYearControlsAndForms.Contingent;
+using AcademicYearControlsAndForms.DisciplineTimeDistribution;
+using AcademicYearControlsAndForms.DisciplineTimeDistributionClassroom;
+using AcademicYearControlsAndForms.DisciplineTimeDistributionRecord;
 using AcademicYearControlsAndForms.SeasonDates;
 using AcademicYearControlsAndForms.Services.LoadDistribution;
 using AcademicYearControlsAndForms.StreamLesson;
@@ -65,6 +68,12 @@ namespace AcademicYearControlsAndForms
         public static ControlAcademicPlanRecordMission GetControlAcademicPlanRecordMission { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlAcademicPlanRecordMission>(); } }
 
         public static ControlContingent GetControlContingent { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlContingent>(); } }
+
+        public static ControlDisciplineTimeDistribution GetControlDisciplineTimeDistribution { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlDisciplineTimeDistribution>(); } }
+
+        public static ControlDisciplineTimeDistributionClassroom GetControlDisciplineTimeDistributionClassroom { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlDisciplineTimeDistributionClassroom>(); } }
+
+        public static ControlDisciplineTimeDistributionRecord GetControlDisciplineTimeDistributionRecord { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlDisciplineTimeDistributionRecord>(); } }
 
         public static ControlSeasonDates GetControlSeasonDates { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlSeasonDates>(); } }
 

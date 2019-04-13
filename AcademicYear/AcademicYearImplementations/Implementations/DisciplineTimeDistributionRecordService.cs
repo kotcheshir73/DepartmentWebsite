@@ -11,9 +11,29 @@ namespace AcademicYearImplementations.Implementations
 {
     public class DisciplineTimeDistributionRecordService : IDisciplineTimeDistributionRecordService
     {
+        private readonly IDisciplineTimeDistributionService _serviceDTD;
+
+        private readonly ITimeNormService _serviceTN;
+
         private readonly AccessOperation _serviceOperation = AccessOperation.Расчасовки;
 
         private readonly string _entity = "Расчасовки";
+
+        public DisciplineTimeDistributionRecordService(IDisciplineTimeDistributionService serviceDTD, ITimeNormService serviceTN)
+        {
+            _serviceDTD = serviceDTD;
+            _serviceTN = serviceTN;
+        }
+
+        public ResultService<DisciplineTimeDistributionPageViewModel> GetDisciplineTimeDistributions(DisciplineTimeDistributionGetBindingModel model)
+        {
+            return _serviceDTD.GetDisciplineTimeDistributions(model);
+        }
+
+        public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
+        {
+            return _serviceTN.GetTimeNorms(model);
+        }
 
         public ResultService<DisciplineTimeDistributionRecordPageViewModel> GetDisciplineTimeDistributionRecords(DisciplineTimeDistributionRecordGetBindingModel model)
         {
@@ -34,7 +54,8 @@ namespace AcademicYearImplementations.Implementations
                     {
                         query = query.Where(x => x.TimeNormId == model.TimeNormId);
                     }
-                    query = query.Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline).Include(x => x.TimeNorm);
+
+                   // query = query.OrderBy(x => x.TimeNorm.TimeNormName).ThenBy(x => x.WeekNumber);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -44,10 +65,15 @@ namespace AcademicYearImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
+                    query = query
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
+                                .Include(x => x.TimeNorm);
+
                     var result = new DisciplineTimeDistributionRecordPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(AcademicYearModelFactoryToViewModel.CreateDisciplineTimeDistributionRecordViewModel).OrderBy(x => x.TimeNormName).ThenBy(x => x.WeekNumber).ToList()
+                        List = query.Select(AcademicYearModelFactoryToViewModel.CreateDisciplineTimeDistributionRecordViewModel).ToList()
                     };
 
                     return ResultService<DisciplineTimeDistributionRecordPageViewModel>.Success(result);
@@ -68,6 +94,9 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.DisciplineTimeDistributionRecords
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
+                                .Include(x => x.TimeNorm)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

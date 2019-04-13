@@ -11,6 +11,20 @@ namespace AcademicYearInterfaces.Interfaces
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
+		ResultService<DisciplineTimeDistributionPageViewModel> GetDisciplineTimeDistributions(DisciplineTimeDistributionGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка норм времени
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model);
+
+        /// <summary>
+		/// Получение списка элементов записи учебного плана
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		ResultService<DisciplineTimeDistributionClassroomPageViewModel> GetDisciplineTimeDistributionClassrooms(DisciplineTimeDistributionClassroomGetBindingModel model);
 
         /// <summary>

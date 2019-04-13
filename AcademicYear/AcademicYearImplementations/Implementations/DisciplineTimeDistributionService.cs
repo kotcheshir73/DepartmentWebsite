@@ -1,6 +1,9 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,15 +14,28 @@ namespace AcademicYearImplementations.Implementations
 {
     public class DisciplineTimeDistributionService : IDisciplineTimeDistributionService
     {
-        private readonly IDisciplineTimeDistributionRecordService _serviceSR;
+        private readonly IAcademicPlanRecordService _serviceAPR;
+
+        private readonly IStudentGroupService _serviceSG;
 
         private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_планы;
 
         private readonly string _entity = "Расчасовки";
 
-        public DisciplineTimeDistributionService(IDisciplineTimeDistributionRecordService serviceSR)
+        public DisciplineTimeDistributionService(IAcademicPlanRecordService serviceAPR, IStudentGroupService serviceSG)
         {
-            _serviceSR = serviceSR;
+            _serviceAPR = serviceAPR;
+            _serviceSG = serviceSG;
+        }
+
+        public ResultService<AcademicPlanRecordPageViewModel> GetAcademicPlanRecords(AcademicPlanRecordGetBindingModel model)
+        {
+            return _serviceAPR.GetAcademicPlanRecords(model);
+        }
+
+        public ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model)
+        {
+            return _serviceSG.GetStudentGroups(model);
         }
 
         public ResultService<DisciplineTimeDistributionPageViewModel> GetDisciplineTimeDistributions(DisciplineTimeDistributionGetBindingModel model)
@@ -45,8 +61,8 @@ namespace AcademicYearImplementations.Implementations
                     query = query.Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan).Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions);
 
                     var grahp = query.SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions).Distinct();
-                    
-                    grahp = grahp.Include(x => x.AcademicPlanRecord.Discipline).Include(x => x.StudentGroup);
+
+                    grahp = grahp.OrderBy(x => x.StudentGroup.GroupName);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -55,6 +71,8 @@ namespace AcademicYearImplementations.Implementations
                                     .Skip(model.PageSize.Value * model.PageNumber.Value)
                                     .Take(model.PageSize.Value);
                     }
+                    
+                    grahp = grahp.Include(x => x.AcademicPlanRecord.Discipline).Include(x => x.StudentGroup);
 
                     var result = new DisciplineTimeDistributionPageViewModel
                     {

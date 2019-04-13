@@ -1,7 +1,8 @@
-﻿using AcademicYearControlsAndForms.AcademicPlanRecordMission;
-using AcademicYearControlsAndForms.DisciplineTimeDistribution;
+﻿using AcademicYearControlsAndForms.DisciplineTimeDistributionClassroom;
+using AcademicYearControlsAndForms.DisciplineTimeDistributionRecord;
 using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
+using BaseInterfaces.BindingModels;
 using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
@@ -11,25 +12,25 @@ using System.Windows.Forms;
 using Tools;
 using Unity;
 
-namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
+namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
 {
-    public partial class FormAcademicPlanRecordElement : StandartForm
+    public partial class FormDisciplineTimeDistribution : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IAcademicPlanRecordElementService _service;
+        private readonly IDisciplineTimeDistributionService _service;
 
         private Guid _aprId;
 
-        public FormAcademicPlanRecordElement(IAcademicPlanRecordElementService service, Guid aprId, Guid? id = null) : base(id)
+        public FormDisciplineTimeDistribution(IDisciplineTimeDistributionService service, Guid aprId, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _aprId = aprId;
         }
 
-        private void FormAcademicPlanRecordElement_Load(object sender, EventArgs e)
+        private void FormDisciplineTimeDistribution_Load(object sender, EventArgs e)
         {
             if (_aprId == null)
             {
@@ -43,10 +44,10 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
                 return;
             }
 
-            var resultTN = _service.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = _aprId });
-            if (!resultTN.Succeeded)
+            var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+            if (!resultSG.Succeeded)
             {
-                ErrorMessanger.PrintErrorMessage("При загрузке норм времени возникла ошибка: ", resultTN.Errors);
+                ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
                 return;
             }
 
@@ -56,11 +57,11 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
                 .Select(ap => new { Value = ap.Id, Display = ap.Disciplne }).ToList();
             comboBoxAcademicPlanRecord.SelectedValue = _aprId;
 
-            comboBoxTimeNorm.ValueMember = "Value";
-            comboBoxTimeNorm.DisplayMember = "Display";
-            comboBoxTimeNorm.DataSource = resultTN.Result.List
-                .Select(d => new { Value = d.Id, Display = d.KindOfLoadName }).ToList();
-            comboBoxTimeNorm.SelectedItem = null;
+            comboBoxStudentGroup.ValueMember = "Value";
+            comboBoxStudentGroup.DisplayMember = "Display";
+            comboBoxStudentGroup.DataSource = resultSG.Result.List
+                .Select(d => new { Value = d.Id, Display = d.GroupName }).ToList();
+            comboBoxStudentGroup.SelectedItem = null;
 
             StandartForm_Load();
         }
@@ -69,21 +70,21 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
         {
             if (tabPageRecords.Controls.Count == 0)
             {
-                var control = Container.Resolve<ControlAcademicPlanRecordMission>();
+                var control = Container.Resolve<ControlDisciplineTimeDistributionRecord>();
                 control.Dock = DockStyle.Fill;
                 tabPageRecords.Controls.Add(control);
             }
-            (tabPageRecords.Controls[0] as ControlAcademicPlanRecordMission).LoadData(_id.Value);
+            (tabPageRecords.Controls[0] as ControlDisciplineTimeDistributionRecord).LoadData(_id.Value);
 
-            if (tabPageDisciplineTimeDistribution.Controls.Count == 0)
+            if (tabPageClassrooms.Controls.Count == 0)
             {
-                var control = Container.Resolve<ControlDisciplineTimeDistribution>();
+                var control = Container.Resolve<ControlDisciplineTimeDistributionClassroom>();
                 control.Dock = DockStyle.Fill;
-                tabPageDisciplineTimeDistribution.Controls.Add(control);
+                tabPageRecords.Controls.Add(control);
             }
-            (tabPageDisciplineTimeDistribution.Controls[0] as ControlDisciplineTimeDistribution).LoadData(_id.Value, null);
+            (tabPageClassrooms.Controls[0] as ControlDisciplineTimeDistributionClassroom).LoadData(_id.Value);
 
-            var result = _service.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = _id });
+            var result = _service.GetDisciplineTimeDistribution(new DisciplineTimeDistributionGetBindingModel { Id = _id });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -92,9 +93,9 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
             var entity = result.Result;
 
             comboBoxAcademicPlanRecord.SelectedValue = entity.AcademicPlanRecordId;
-            comboBoxTimeNorm.SelectedValue = entity.TimeNormId;
-            textBoxPlanHours.Text = entity.PlanHours.ToString();
-            textBoxFactHours.Text = entity.FactHours.ToString();
+            comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+            textBoxComment.Text = entity.Comment;
+            textBoxCommentWishesOfTeacher.Text = entity.CommentWishesOfTeacher;
         }
 
         private bool CheckFill()
@@ -103,23 +104,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
             {
                 return false;
             }
-            if (comboBoxTimeNorm.SelectedValue == null)
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(textBoxPlanHours.Text))
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(textBoxFactHours.Text))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBoxPlanHours.Text, out int hours))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBoxFactHours.Text, out hours))
+            if (comboBoxStudentGroup.SelectedValue == null)
             {
                 return false;
             }
@@ -133,23 +118,23 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
+                    result = _service.CreateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel
                     {
                         AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                        PlanHours = Convert.ToInt32(textBoxPlanHours.Text),
-                        FactHours = Convert.ToInt32(textBoxFactHours.Text)
+                        StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
+                        Comment = textBoxComment.Text,
+                        CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text
                     });
                 }
                 else
                 {
-                    result = _service.UpdateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
+                    result = _service.UpdateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel
                     {
                         Id = _id.Value,
                         AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                        PlanHours = Convert.ToInt32(textBoxPlanHours.Text),
-                        FactHours = Convert.ToInt32(textBoxFactHours.Text)
+                        StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
+                        Comment = textBoxComment.Text,
+                        CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text
                     });
                 }
                 if (result.Succeeded)

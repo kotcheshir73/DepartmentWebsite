@@ -44,6 +44,7 @@
             this.buttonCalcFactHours = new System.Windows.Forms.Button();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.labelSelectAcademicYear = new System.Windows.Forms.Label();
+            this.buttonConfig = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.panelTop.SuspendLayout();
@@ -138,6 +139,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.buttonConfig);
             this.panelTop.Controls.Add(this.buttonCreateGrafics);
             this.panelTop.Controls.Add(this.buttonCreateNIRRecords);
             this.panelTop.Controls.Add(this.buttonCreatStatement);
@@ -184,7 +186,7 @@
             // 
             this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 6);
             this.buttonCalcFactHours.Name = "buttonCalcFactHours";
-            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 21);
+            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 23);
             this.buttonCalcFactHours.TabIndex = 3;
             this.buttonCalcFactHours.Text = "Расчитать время";
             this.buttonCalcFactHours.UseVisualStyleBackColor = true;
@@ -208,6 +210,15 @@
             this.labelSelectAcademicYear.Size = new System.Drawing.Size(119, 13);
             this.labelSelectAcademicYear.TabIndex = 0;
             this.labelSelectAcademicYear.Text = "Выбрать учебный год:";
+            // 
+            // buttonConfig
+            // 
+            this.buttonConfig.Location = new System.Drawing.Point(892, 5);
+            this.buttonConfig.Name = "buttonConfig";
+            this.buttonConfig.Size = new System.Drawing.Size(90, 23);
+            this.buttonConfig.TabIndex = 7;
+            this.buttonConfig.Text = "Настройки";
+            this.buttonConfig.UseVisualStyleBackColor = true;
             // 
             // ControlLoadDistribution
             // 
@@ -246,5 +257,6 @@
         private System.Windows.Forms.Button buttonCreatStatement;
         private System.Windows.Forms.Button buttonCreateNIRRecords;
         private System.Windows.Forms.Button buttonCreateGrafics;
+        private System.Windows.Forms.Button buttonConfig;
     }
 }

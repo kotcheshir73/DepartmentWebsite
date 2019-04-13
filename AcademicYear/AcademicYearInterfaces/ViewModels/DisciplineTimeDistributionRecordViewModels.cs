@@ -11,11 +11,13 @@ namespace AcademicYearInterfaces.ViewModels
 
         public Guid TimeNormId { get; set; }
 
+        public string DisciplineTimeDistribution { get; set; }
+
+        public string TimeNorm { get; set; }
+
         public int WeekNumber { get; set; }
 
         public double Hours { get; set; }
-
-        public string TimeNormName { get; set; }
 
         public string TimeNormHours { get; set; }
     }

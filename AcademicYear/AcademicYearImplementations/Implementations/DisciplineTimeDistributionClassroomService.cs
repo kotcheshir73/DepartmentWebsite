@@ -11,9 +11,29 @@ namespace AcademicYearImplementations.Implementations
 {
     public class DisciplineTimeDistributionClassroomService : IDisciplineTimeDistributionClassroomService
     {
+        private readonly IDisciplineTimeDistributionService _serviceDTD;
+
+        private readonly ITimeNormService _serviceTN;
+
         private readonly AccessOperation _serviceOperation = AccessOperation.Расчасовки;
 
         private readonly string _entity = "Расчасовки";
+
+        public DisciplineTimeDistributionClassroomService(IDisciplineTimeDistributionService serviceDTD, ITimeNormService serviceTN)
+        {
+            _serviceDTD = serviceDTD;
+            _serviceTN = serviceTN;
+        }
+
+        public ResultService<DisciplineTimeDistributionPageViewModel> GetDisciplineTimeDistributions(DisciplineTimeDistributionGetBindingModel model)
+        {
+            return _serviceDTD.GetDisciplineTimeDistributions(model);
+        }
+
+        public ResultService<TimeNormPageViewModel> GetTimeNorms(TimeNormGetBindingModel model)
+        {
+            return _serviceTN.GetTimeNorms(model);
+        }
 
         public ResultService<DisciplineTimeDistributionClassroomPageViewModel> GetDisciplineTimeDistributionClassrooms(DisciplineTimeDistributionClassroomGetBindingModel model)
         {
@@ -34,7 +54,7 @@ namespace AcademicYearImplementations.Implementations
                     {
                         query = query.Where(x => x.TimeNormId == model.TimeNormId);
                     }
-                    query = query.Include(x => x.DisciplineTimeDistribution).Include(x => x.TimeNorm);
+
                     query = query.OrderBy(x => x.DisciplineTimeDistributionId).ThenBy(x => x.TimeNormId);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
@@ -44,6 +64,11 @@ namespace AcademicYearImplementations.Implementations
                                     .Skip(model.PageSize.Value * model.PageNumber.Value)
                                     .Take(model.PageSize.Value);
                     }
+
+                    query = query
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
+                                .Include(x => x.DisciplineTimeDistribution.StudentGroup);
 
                     var result = new DisciplineTimeDistributionClassroomPageViewModel
                     {
@@ -69,6 +94,9 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.DisciplineTimeDistributionClassrooms
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
+                                .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
+                                .Include(x => x.DisciplineTimeDistribution.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

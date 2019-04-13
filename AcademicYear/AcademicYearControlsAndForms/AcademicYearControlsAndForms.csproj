@@ -127,6 +127,42 @@
       <DependentUpon>FormContingent.cs</DependentUpon>
     </Compile>
     <Compile Include="Controller.cs" />
+    <Compile Include="DisciplineTimeDistributionClassroom\ControlDisciplineTimeDistributionClassroom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionClassroom\ControlDisciplineTimeDistributionClassroom.Designer.cs">
+      <DependentUpon>ControlDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionClassroom\FormDisciplineTimeDistributionClassroom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionClassroom\FormDisciplineTimeDistributionClassroom.Designer.cs">
+      <DependentUpon>FormDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\ControlDisciplineTimeDistributionRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\ControlDisciplineTimeDistributionRecord.Designer.cs">
+      <DependentUpon>ControlDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\FormDisciplineTimeDistributionRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\FormDisciplineTimeDistributionRecord.Designer.cs">
+      <DependentUpon>FormDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\ControlDisciplineTimeDistribution.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\ControlDisciplineTimeDistribution.Designer.cs">
+      <DependentUpon>ControlDisciplineTimeDistribution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.Designer.cs">
+      <DependentUpon>FormDisciplineTimeDistribution.cs</DependentUpon>
+    </Compile>
     <Compile Include="LecturerWorkload\ControlLecturerWorkload.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -260,6 +296,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Contingent\FormContingent.resx">
       <DependentUpon>FormContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionClassroom\ControlDisciplineTimeDistributionClassroom.resx">
+      <DependentUpon>ControlDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionClassroom\FormDisciplineTimeDistributionClassroom.resx">
+      <DependentUpon>FormDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionRecord\ControlDisciplineTimeDistributionRecord.resx">
+      <DependentUpon>ControlDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionRecord\FormDisciplineTimeDistributionRecord.resx">
+      <DependentUpon>FormDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistribution\ControlDisciplineTimeDistribution.resx">
+      <DependentUpon>ControlDisciplineTimeDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.resx">
+      <DependentUpon>FormDisciplineTimeDistribution.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LecturerWorkload\ControlLecturerWorkload.resx">
       <DependentUpon>ControlLecturerWorkload.cs</DependentUpon>
