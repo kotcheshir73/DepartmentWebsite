@@ -57,6 +57,10 @@ namespace AcademicYearImplementations.Implementations
                     {
                         query = query.Where(x => x.LecturerId == model.LecturerId);
                     }
+                    if (model.AcademicYearId.HasValue)
+                    {
+                        query = query.Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId);
+                    }
 
                     query = query.OrderBy(x => x.AcademicPlanRecordElementId).ThenBy(x => x.LecturerId);
 

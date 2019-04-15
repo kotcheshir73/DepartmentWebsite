@@ -77,6 +77,7 @@
             this.Name = "StandartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StandartForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StandartForm_FormClosed);
             this.ResumeLayout(false);
 
         }

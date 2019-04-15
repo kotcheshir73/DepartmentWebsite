@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="Messangers\ErrorMessanger.cs" />
     <Compile Include="Models\ColumnConfig.cs" />
+    <Compile Include="Models\RowConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

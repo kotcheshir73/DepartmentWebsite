@@ -7,6 +7,8 @@ namespace ControlsAndForms.Forms
     {
         protected Guid? _id = null;
 
+        private event Action _onCLoseEvent;
+
         public StandartForm()
         {
             InitializeComponent();
@@ -33,6 +35,11 @@ namespace ControlsAndForms.Forms
 
         protected virtual bool Save() { return true; }
 
+        public void AddCloseEvent(Action method)
+        {
+            _onCLoseEvent += method;
+        }
+
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (Save())
@@ -55,6 +62,11 @@ namespace ControlsAndForms.Forms
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void StandartForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _onCLoseEvent?.Invoke();
         }
     }
 }

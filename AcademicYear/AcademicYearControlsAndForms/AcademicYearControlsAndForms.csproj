@@ -207,24 +207,6 @@
     <Compile Include="Services\LoadDistribution\LoadDistributionEditForm.designer.cs">
       <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionForm.designer.cs">
-      <DependentUpon>LoadDistributionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionRecordControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionRecordControl.designer.cs">
-      <DependentUpon>LoadDistributionRecordControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionRecordForm.designer.cs">
-      <DependentUpon>LoadDistributionRecordForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="StreamLessonRecord\ControlStreamLessonRecord.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -346,15 +328,6 @@
     <EmbeddedResource Include="Services\LoadDistribution\LoadDistributionEditForm.resx">
       <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\LoadDistribution\LoadDistributionForm.resx">
-      <DependentUpon>LoadDistributionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\LoadDistribution\LoadDistributionRecordControl.resx">
-      <DependentUpon>LoadDistributionRecordControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\LoadDistribution\LoadDistributionRecordForm.resx">
-      <DependentUpon>LoadDistributionRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="StreamLessonRecord\ControlStreamLessonRecord.resx">
       <DependentUpon>ControlStreamLessonRecord.cs</DependentUpon>
     </EmbeddedResource>
@@ -429,6 +402,11 @@
   <ItemGroup>
     <None Include="Resources\Upd.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Down.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

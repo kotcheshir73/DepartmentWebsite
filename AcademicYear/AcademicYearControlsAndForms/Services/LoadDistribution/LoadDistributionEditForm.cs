@@ -1,6 +1,7 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using BaseInterfaces.BindingModels;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using Tools;
 
 namespace AcademicYearControlsAndForms.Services.LoadDistribution
 {
-    public partial class LoadDistributionEditForm : Form
+    public partial class LoadDistributionEditForm : StandartForm
     {
         private readonly IAcademicYearProcess _process;
 
@@ -26,7 +27,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
         private HashSet<int> listNumEditRows;
 
         public LoadDistributionEditForm(IAcademicYearProcess process, IAcademicPlanRecordElementService serviceAPRE, IAcademicPlanRecordMissionService serviceAPRM,
-                                           string academicYearId, string academicPlanRecordId, string lecturerId, string disciplineName, string lecturerName)
+                                           string academicYearId, string academicPlanRecordId, string lecturerId, string disciplineName, string lecturerName) : base()
         {
             _process = process;
             _serviceAPRE = serviceAPRE;
@@ -40,19 +41,31 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
 
             if(lecturerId == "")
             {
-                this.Text = disciplineName;
+                Text = disciplineName;
                 LoadColomnsAPRE();
                 LoadDataAPRE();
             }
             else
             {
                 _lecturerId = new Guid(lecturerId);
-                this.Text = lecturerName + " - " + disciplineName;
+                Text = lecturerName + " - " + disciplineName;
                 LoadColomnsAPRM();
                 LoadDataAPRM();
             }
-            
-            this.buttonAutoComplete.Visible = this._lecturerId != null;
+
+            buttonAutoComplete.Visible = _lecturerId != null;
+        }
+
+        protected override void LoadData()
+        {
+            if (_lecturerId == null)
+            {
+                LoadDataAPRE();
+            }
+            else
+            {
+                LoadDataAPRM();
+            }
         }
 
         private void LoadColomnsAPRE()
@@ -186,9 +199,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                 Name = "Column_APRM_Hours",
                 Visible = true,
                 Width = 50,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
-                //ValueType = typeof(double)
-                
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             });
         }
 
@@ -213,7 +224,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             }
         }
 
-        private void dataGridView_KeyPress(object sender, KeyPressEventArgs e)
+        private void DataGridView_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!Char.IsDigit(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != 44) // цифры, клавиша BackSpace и запятая
             {
@@ -225,10 +236,10 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             }
         }
 
-        private void dataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void DataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             TextBox tb = (TextBox)e.Control;
-            tb.KeyPress += new KeyPressEventHandler(dataGridView_KeyPress);
+            tb.KeyPress += new KeyPressEventHandler(DataGridView_KeyPress);
         }
         
         private bool CheckFillAPRE(int i)
@@ -236,6 +247,97 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             if (dataGridView[0, i].Value == null && dataGridView[3, i].Value == null && dataGridView[4, i].Value == null)
             {
                 return false;
+            }
+            return true;
+        }
+        
+        private bool CheckFillAPRM(int i)
+        {
+            if (dataGridView[1, i].Value == null && dataGridView[6, i].Value == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        protected override bool Save()
+        {
+            if (_lecturerId == null)
+            {
+                return SaveAllAPRE();
+                if (SaveAllAPRE())
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                LoadDataAPRE();
+            }
+            else
+            {
+                return SaveAllAPRM();
+                if (SaveAllAPRM())
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                LoadDataAPRM();
+            }
+        }
+
+        private bool SaveAPRM(int i)
+        {
+            if (CheckFillAPRM(i))
+            {
+                ResultService result;
+                if (dataGridView[1, i].Value == null)
+                {
+                    result = _serviceAPRM.CreateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
+                    {
+                        AcademicPlanRecordElementId = new Guid(dataGridView[0, i].Value.ToString()),
+                        LecturerId = (Guid)_lecturerId,
+                        Hours = Convert.ToDecimal(dataGridView[6, i].Value)
+                    });
+                }
+                else
+                {
+                    result = _serviceAPRM.UpdateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
+                    {
+                        Id = new Guid(dataGridView[1, i].Value.ToString()),
+                        AcademicPlanRecordElementId = new Guid(dataGridView[0, i].Value.ToString()),
+                        LecturerId = (Guid)_lecturerId,
+                        Hours = Convert.ToDecimal(dataGridView[6, i].Value)
+                    });
+                }
+                if (result.Succeeded)
+                {
+                    if (result.Result != null)
+                    {
+                        if (result.Result is Guid)
+                        {
+                            dataGridView[1, i].Value = ((Guid)result.Result).ToString();
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool SaveAllAPRM()
+        {
+            foreach (var tmp in listNumEditRows)
+            {
+                if (!SaveAPRM(tmp))
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -300,110 +402,8 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             }
             return true;
         }
-        
-        private bool CheckFillAPRM(int i)
-        {
-            if (dataGridView[1, i].Value == null && dataGridView[6, i].Value == null)
-            {
-                return false;
-            }
-            return true;
-        }
 
-        private bool SaveAPRM(int i)
-        {
-            if (CheckFillAPRM(i))
-            {
-                ResultService result;
-                if (dataGridView[1, i].Value == null)
-                {
-                    result = _serviceAPRM.CreateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
-                    {
-                        AcademicPlanRecordElementId = new Guid(dataGridView[0, i].Value.ToString()),
-                        LecturerId = (Guid)_lecturerId,
-                        Hours = Convert.ToDecimal(dataGridView[6, i].Value)
-                    });
-                }
-                else
-                {
-                    result = _serviceAPRM.UpdateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
-                    {
-                        Id = new Guid(dataGridView[1, i].Value.ToString()),
-                        AcademicPlanRecordElementId = new Guid(dataGridView[0, i].Value.ToString()),
-                        LecturerId = (Guid)_lecturerId,
-                        Hours = Convert.ToDecimal(dataGridView[6, i].Value)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            dataGridView[1, i].Value = ((Guid)result.Result).ToString();
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        private bool SaveAllAPRM()
-        {
-            foreach (var tmp in listNumEditRows)
-            {
-                if (!SaveAPRM(tmp))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (_lecturerId == null)
-            {
-                if (SaveAllAPRE())
-                {
-                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                LoadDataAPRE();
-            }
-            else
-            {
-                if (SaveAllAPRM())
-                {
-                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                }
-                LoadDataAPRM();
-            }
-        }
-
-        private void buttonSaveAndClose_Click(object sender, EventArgs e)
-        {
-            if ( _lecturerId == null ? SaveAllAPRE() : SaveAllAPRM())
-            {
-                Close();
-            }
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void buttonAutoComplete_Click(object sender, EventArgs e)
+        private void ButtonAutoComplete_Click(object sender, EventArgs e)
         {
             for(int i = 0; i < dataGridView.Rows.Count; i++)
             {
