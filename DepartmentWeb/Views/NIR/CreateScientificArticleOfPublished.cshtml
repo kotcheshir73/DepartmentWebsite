@@ -4,14 +4,14 @@
     ViewBag.Title = "Перечень опубликованных в учебном году научных и научно-методических работ - Создание";
 }
 
-<h2>CreateScientificArticleOfPublished</h2>
+
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Перечень опубликованных в учебном году научных и научно-методических работ - Создание</h4>
+        <h4><br/>Перечень опубликованных в учебном году научных и научно-методических работ - Создание</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         
@@ -57,12 +57,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Создать" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-default" />&nbsp;&nbsp;&nbsp;
+                <div class="btn btn-default">
+
+                    @Html.ActionLink("Назад", "ScientificArticleOfPublished", null, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
+
+                </div>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Назад", "ScientificArticleOfPublished")
-</div>

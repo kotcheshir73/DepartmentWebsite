@@ -8,9 +8,6 @@
     Научно-исследовательская работа
 </h2>
 
-    <input type="button" value="Участие в хоздоговорной НИР" onclick="location.href='@Url.Action("ContractualWork", "NIR")'" />
-    <input type="button" value="Перечень напечатанных материалов" onclick="location.href='@Url.Action("ScientificArticleOfPrint", "NIR")'" />
-    <input type="button" value="Перечень опубликованных материалов" onclick="location.href='@Url.Action("ScientificArticleOfPublished", "NIR")'" />
 
 
 <table class="table">
@@ -57,22 +54,27 @@
                     @Html.DisplayFor(m => m[i].TimeNormDescription)
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].PlanAutumn)
+                    @Html.EditorFor(m => m[i].PlanAutumn, new { htmlAttributes = new { @type = "number", size = "3", name = "num", min = "0", max = "500" } })
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].FactAutumn)
+                    @Html.EditorFor(m => m[i].FactAutumn, new { htmlAttributes = new { @type = "number", size = "3", name = "num", min = "0", max = "500" } })
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].PlanSpring)
+                    @Html.EditorFor(m => m[i].PlanSpring, new { htmlAttributes = new { @type = "number", size = "3", name = "num", min = "0", max = "500" } })
                 </td>
                 <td>
-                    @Html.EditorFor(m => m[i].FactSpring)
+                    @Html.EditorFor(m => m[i].FactSpring, new { htmlAttributes = new { @type = "number", size = "3", name = "num", min = "0", max = "500" } })
                 </td>
             </tr>
         }
-        @:</table> <br>
-        <input type="submit" />
-    }
+        @:    </table> <br>
+    <input type="submit" />
 
-        @*<h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Name"), "")</h4>*@
+    <input type="button" value="Участие в хоздоговорной НИР" onclick="location.href='@Url.Action("ContractualWork", "NIR")'" />
+    <input type="button" value="Перечень напечатанных материалов" onclick="location.href='@Url.Action("ScientificArticleOfPrint", "NIR")'" />
+    <input type="button" value="Перечень опубликованных материалов" onclick="location.href='@Url.Action("ScientificArticleOfPublished", "NIR")'" />
+
+}
+
+    @* <h4>Учебный год &nbsp;&nbsp; @Html.DropDownListFor(m => m.List, new SelectList(Model.List, "Id", "Name"), "")</h4>*@
 
