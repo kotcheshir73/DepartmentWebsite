@@ -200,20 +200,23 @@ namespace ScheduleControlsAndForms.Semester
                 {
                     ErrorMessanger.PrintErrorMessage("Невозможно получить список консультаций в семестре: ", resultConsults.Errors);
                 }
-                var consults = resultConsults.Result;
-                foreach (var record in consults)
+                else
                 {
-                    if (record.Week == 0)
+                    var consults = resultConsults.Result;
+                    foreach (var record in consults)
                     {
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
-                    }
-                    if (record.Week == 1)
-                    {
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                        if (record.Week == 0)
+                        {
+                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
+                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
+                            dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                        }
+                        if (record.Week == 1)
+                        {
+                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
+                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
+                            dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
+                        }
                     }
                 }
                 for (int i = 0; i < dataGridViewFirstWeek.Rows.Count; i++)
