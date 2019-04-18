@@ -44,6 +44,20 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                 .Select(d => new { Value = d.Id, Display = d.InventoryNumber }).ToList();
             comboBoxMaterialTechnicalValue.SelectedItem = null;
 
+
+            var resultS = _service.GetSoftwares(new SoftwareGetBindingModel { });
+            if (!resultS.Succeeded)
+            {
+                Program.PrintErrorMessage("При загрузке мат.тех.ценностей возникла ошибка: ", resultS.Errors);
+                return;
+            }
+
+            comboBoxSoftware.ValueMember = "Value";
+            comboBoxSoftware.DisplayMember = "Display";
+            comboBoxSoftware.DataSource = resultS.Result.List
+                .Select(x => new { Value = x.Id, Display = string.Format("{0} {1}", x.SoftwareName, x.SoftwareKey) }).ToList();
+            comboBoxSoftware.SelectedItem = null;
+
             if (_id.HasValue)
             {
                 LoadData();
@@ -61,11 +75,9 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             var entity = result.Result;
 
             comboBoxMaterialTechnicalValue.SelectedValue = entity.MaterialTechnicalValueId;
+            comboBoxSoftware.SelectedValue = entity.SoftwareId;
             dateTimePickerDateSetup.Value = entity.DateSetup;
-            textBoxSoftwareName.Text = entity.SoftwareName;
-            textBoxSoftwareDescription.Text = entity.SoftwareDescription;
-            textBoxSoftwareKey.Text = entity.SoftwareKey;
-            textBoxSoftwareK.Text = entity.SoftwareK;
+            textBoxSetupDescription.Text = entity.SetupDescription;
             textBoxClaimNumber.Text = entity.ClaimNumber;
         }
 
@@ -75,7 +87,7 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxSoftwareName.Text))
+            if (string.IsNullOrEmpty(comboBoxSoftware.Text))
             {
                 return false;
             }
@@ -92,11 +104,9 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                     result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
                     {
                         MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
+                        SoftwareId = new Guid(comboBoxSoftware.SelectedValue.ToString()),
                         DateSetup = dateTimePickerDateSetup.Value,
-                        SoftwareName = textBoxSoftwareName.Text,
-                        SoftwareDescription = textBoxSoftwareDescription.Text,
-                        SoftwareKey = textBoxSoftwareKey.Text,
-                        SoftwareK = textBoxSoftwareK.Text,
+                        SetupDescription = textBoxSetupDescription.Text,
                         ClaimNumber = textBoxClaimNumber.Text
                     });
                 }
@@ -106,11 +116,9 @@ namespace DepartmentDesktop.Views.LaboratoryHead.SoftwareRecord
                     {
                         Id = _id.Value,
                         MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
+                        SoftwareId = new Guid(comboBoxSoftware.SelectedValue.ToString()),
                         DateSetup = dateTimePickerDateSetup.Value,
-                        SoftwareName = textBoxSoftwareName.Text,
-                        SoftwareDescription = textBoxSoftwareDescription.Text,
-                        SoftwareKey = textBoxSoftwareKey.Text,
-                        SoftwareK = textBoxSoftwareK.Text,
+                        SetupDescription = textBoxSetupDescription.Text,
                         ClaimNumber = textBoxClaimNumber.Text
                     });
                 }

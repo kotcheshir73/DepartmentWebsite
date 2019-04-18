@@ -1,8 +1,8 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using DepartmentService.BindingModels;
+using DepartmentService.Context;
 using DepartmentService.Helpers;
-using DepartmentService.ViewModels.StandartViewModels.EducationDirection;
 using System;
 using System.Drawing;
 using System.IO;
@@ -47,6 +47,17 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static LecturerWorkloadViewModel CreateLecturerWorkloadViewModel(LecturerWorkload entity)
+        {
+            return new LecturerWorkloadViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                LecturerId = entity.LecturerId,
+                Workload = entity.Workload
+            };
+        }
+
 
         public static ClassroomViewModel CreateClassroomViewModel(Classroom entity)
         {
@@ -70,34 +81,6 @@ namespace DepartmentService.ViewModels
                 DisciplineShortName = entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock.Title,
                 DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
-            };
-        }
-
-        public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
-        {
-            return new DisciplineLessonViewModel
-            {
-                Id = entity.Id,
-                DisciplineId = entity.DisciplineId,
-                LessonType = entity.LessonType,
-                Title = entity.Title,
-                Description = entity.Description,
-                Order = entity.Order,
-                DisciplineLessonFile = entity.DisciplineLessonFile
-            };
-        }
-
-        public static DisciplineLessonTaskViewModel CreateDisciplineLessonTaskViewModel(DisciplineLessonTask entity)
-        {
-            return new DisciplineLessonTaskViewModel
-            {
-                Id = entity.Id,
-                DisciplineLessonId = entity.DisciplineLessonId,
-                VariantNumber = entity.VariantNumber,
-                Order = entity.Order,
-                MaxBall = entity.MaxBall,
-                Description = entity.Description,
-                Image = entity.Image
             };
         }
 
@@ -163,7 +146,8 @@ namespace DepartmentService.ViewModels
                 KindOfLoadType = entity.KindOfLoadType.ToString(),
                 Hours = entity.Hours,
                 NumKoef = entity.NumKoef,
-                TimeNormKoef = entity.TimeNormKoef.ToString()
+                TimeNormKoef = entity.TimeNormKoef.ToString(),
+                UseInLearningProgress = entity.UseInLearningProgress
             };
         }
 
@@ -729,36 +713,36 @@ namespace DepartmentService.ViewModels
         #endregion
 
         #region Administration
-        public static RoleViewModel CreateRoleViewModel(Role entity)
+        public static RoleViewModel CreateRoleViewModel(DepartmentRole entity)
         {
             return new RoleViewModel
             {
                 Id = entity.Id,
-                RoleName = entity.RoleName
+                RoleName = entity.Name
             };
         }
 
-        public static AccessViewModel CreateAccessViewModel(Access entity)
+        public static AccessViewModel CreateAccessViewModel(DepartmentAccess entity)
         {
             return new AccessViewModel
             {
                 Id = entity.Id,
-                RoleName = entity.Role.RoleName,
+                RoleName = entity.Role.Name,
                 Operation = entity.Operation.ToString(),
                 AccessType = entity.AccessType.ToString()
             };
         }
 
-        public static UserViewModel CreateUserViewModel(User entity)
+        public static UserViewModel CreateUserViewModel(DepartmentUser entity)
         {
             return new UserViewModel
             {
                 Id = entity.Id,
-                Login = entity.Login,
+                Login = entity.UserName,
                 StudentId = entity.StudentId,
                 LecturerId = entity.LecturerId,
                 Avatar = entity.Avatar != null && entity.Avatar.Length > 0 ? Image.FromStream(new MemoryStream(entity.Avatar)) : null,
-                IsBanned = entity.IsBanned,
+                IsBanned = entity.LockoutEnabled,
                 DateBanned = entity.DateBanned,
                 DateLastVisit = entity.DateLastVisit
             };
@@ -810,6 +794,18 @@ namespace DepartmentService.ViewModels
             };
         }
 
+        public static SoftwareViewModel CreateSoftwareViewModel(Software entity)
+        {
+            return new SoftwareViewModel
+            {
+                Id = entity.Id,
+                SoftwareName = entity.SoftwareName,
+                SoftwareDescription = entity.SoftwareDescription,
+                SoftwareKey = entity.SoftwareKey,
+                SoftwareK = entity.SoftwareK
+            };
+        }
+
         public static SoftwareRecordViewModel CreateSoftwareRecordViewModel(SoftwareRecord entity)
         {
             return new SoftwareRecordViewModel
@@ -817,15 +813,134 @@ namespace DepartmentService.ViewModels
                 Id = entity.Id,
                 DateSetup = entity.DateCreate,
                 MaterialTechnicalValueId = entity.MaterialTechnicalValueId,
+                SoftwareId = entity.SoftwareId,
                 InventoryNumber = entity.MaterialTechnicalValue.InventoryNumber,
-                SoftwareName = entity.SoftwareName,
-                SoftwareDescription = entity.SoftwareDescription,
-                SoftwareKey = entity.SoftwareKey,
-                SoftwareK = entity.SoftwareK,
+                SoftwareName = entity.Software.SoftwareName,
+                SoftwareKey = entity.Software.SoftwareKey,
+                SetupDescription = entity.SetupDescription,
                 ClaimNumber = entity.ClaimNumber
             };
         }
         #endregion
 
+        #region LearningProgress
+        public static DisciplineLessonViewModel CreateDisciplineLessonViewModel(DisciplineLesson entity)
+        {
+            return new DisciplineLessonViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                DisciplineId = entity.DisciplineId,
+                EducationDirectionId = entity.EducationDirectionId,
+                TimeNormId = entity.TimeNormId,
+                AcademicYear = entity.AcademicYear.Title,
+                Discipline = entity.Discipline.DisciplineName,
+                EducationDirection = entity.EducationDirection.ShortName,
+                TimeNorm = entity.TimeNorm.TimeNormName,
+                Semester = entity.Semester,
+                Title = entity.Title,
+                Description = entity.Description,
+                Order = entity.Order,
+                DisciplineLessonFile = entity.DisciplineLessonFile,
+                CountOfPairs = entity.CountOfPairs,
+                CountTasks = entity.DisciplineLessonTasks.Count,
+                Date = entity.Date
+            };
+        }
+
+        public static DisciplineLessonTaskViewModel CreateDisciplineLessonTaskViewModel(DisciplineLessonTask entity)
+        {
+            return new DisciplineLessonTaskViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonId = entity.DisciplineLessonId,
+                DisciplineLessonTitle = entity.DisciplineLesson.Title,
+                Task = entity.Task,
+                Description = entity.Description,
+                MaxBall = entity.MaxBall,
+                Order = entity.Order,
+                Image = entity.Image,
+                IsNecessarily = entity.IsNecessarily
+            };
+        }
+
+        public static DisciplineLessonTaskVariantViewModel CreateDisciplineLessonTaskVariantViewModel(DisciplineLessonTaskVariant entity)
+        {
+            return new DisciplineLessonTaskVariantViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                DisciplineLessonTaskTask = entity.DisciplineLessonTask.Task,
+                VariantNumber = entity.VariantNumber,
+                VariantTask = entity.VariantTask,
+                Order = entity.Order
+            };
+        }
+
+        public static DisciplineStudentRecordViewModel CreateDisciplineStudentRecordViewModel(DisciplineStudentRecord entity)
+        {
+            return new DisciplineStudentRecordViewModel
+            {
+                Id = entity.Id,
+                DisciplineId = entity.DisciplineId,
+                StudentGroupId = entity.Student.StudentGroupId,
+                StudentId = entity.StudentId,
+                Discipline = entity.Discipline.DisciplineName,
+                StudentGroup = entity.Student.StudentGroup.GroupName,
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Semester = entity.Semester,
+                Variant = entity.Variant,
+                SubGroup = entity.SubGroup
+            };
+        }
+
+        public static DisciplineLessonConductedViewModel CreateDisciplineLessonConductedViewModel(DisciplineLessonConducted entity)
+        {
+            return new DisciplineLessonConductedViewModel
+            {
+                Id = entity.Id,
+                Semester = entity.DisciplineLesson.Semester.ToString(),
+                DisciplineLessonId = entity.DisciplineLessonId,
+                StudentGroupId = entity.StudentGroupId,
+                DisciplineLesson = entity.DisciplineLesson.Title,
+                StudentGroup = entity.StudentGroup.GroupName,
+                Date = entity.DateCreate,
+                Subgroup = entity.Subgroup
+            };
+        }
+
+        public static DisciplineLessonConductedStudentViewModel CreateDisciplineLessonConductedStudentViewModel(DisciplineLessonConductedStudent entity)
+        {
+            return new DisciplineLessonConductedStudentViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonConductedId = entity.DisciplineLessonConductedId,
+                StudentId = entity.StudentId,
+                DisciplineLesson = string.Format("{0} от {1}", entity.DisciplineLessonConducted.DisciplineLesson.Title, entity.DisciplineLessonConducted.DateCreate.ToShortDateString()),
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Comment = entity.Comment,
+                Status = entity.Status,
+                Ball = entity.Ball
+            };
+        }
+
+        public static DisciplineLessonTaskStudentAcceptViewModel CreateDisciplineLessonTaskStudentAcceptViewModel(DisciplineLessonTaskStudentAccept entity)
+        {
+            return new DisciplineLessonTaskStudentAcceptViewModel
+            {
+                Id = entity.Id,
+                DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
+                StudentId = entity.StudentId,
+                DisciplineLessonTask = entity.DisciplineLessonTask.Task,
+                Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
+                Result = entity.Result,
+                Task = entity.Task,
+                DateAccept = entity.DateAccept,
+                Score = entity.Score,
+                Comment = entity.Comment,
+                Log = entity.Log
+            };
+        }
+        #endregion
     }
 }

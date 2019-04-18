@@ -81,7 +81,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.StudentGroup
 					Patronymic = dataGridViewStudents.Rows[i].Cells[3].Value.ToString(),
 					Description = dataGridViewStudents.Rows[i].Cells[5].Value.ToString(),
 					StudentGroupId = _id.Value,
-                    Email = "no"
+                    Email = "неизвестно"
 				};
 				list.Add(model);
 			}

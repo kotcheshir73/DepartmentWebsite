@@ -19,7 +19,11 @@ namespace DepartmentModel.Models
 
         [Required]
         [DataMember]
-        public int? VariantNumber { get; set; }
+        public string Task { get; set; }
+
+        [Required]
+        [DataMember]
+        public bool IsNecessarily { get; set; }
 
         [Required]
         [DataMember]
@@ -32,7 +36,7 @@ namespace DepartmentModel.Models
         public string Description { get; set; }
 
         [DataMember]
-        public byte[] Image { get; set; }
+        public byte?[] Image { get; set; }
 
         //-------------------------------------------------------------------------
 
@@ -41,6 +45,9 @@ namespace DepartmentModel.Models
         //-------------------------------------------------------------------------
 
 		[ForeignKey("DisciplineLessonTaskId")]
-		public virtual List<DisciplineLessonTaskStudentRecord> DisciplineLessonTaskStudentRecords { get; set; }
-	}
+		public virtual List<DisciplineLessonTaskStudentAccept> DisciplineLessonTaskStudentRecords { get; set; }
+
+        [ForeignKey("DisciplineLessonTaskId")]
+        public virtual List<DisciplineLessonTaskVariant> DisciplineLessonTaskVariant { get; set; }
+    }
 }

@@ -1,11 +1,11 @@
 ﻿using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using DepartmentService.BindingModels.StandartBindingModels.EducationDirection;
+using DepartmentService.Context;
 using System;
 
 namespace DepartmentService.BindingModels
 {
-	public static class ModelFacotryFromBindingModel
+    public static class ModelFacotryFromBindingModel
 	{
         #region EducationDirection
         public static EducationDirection CreateEducationDirection(EducationDirectionSetBindingModel model, EducationDirection entity = null)
@@ -47,7 +47,20 @@ namespace DepartmentService.BindingModels
 
             return entity;
         }
-        
+
+        public static LecturerWorkload CreateLecturerWorkload(LecturerWorkloadSetBindingModel model, LecturerWorkload entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new LecturerWorkload();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.LecturerId = model.LecturerId;
+            entity.Workload = model.Workload;
+
+            return entity;
+        }
+
 
         public static Classroom CreateClassroom(ClassroomSetBindingModel model, Classroom entity = null)
 		{
@@ -76,38 +89,6 @@ namespace DepartmentService.BindingModels
 
             return entity;
 		}
-
-        public static DisciplineLesson CreateDisciplineLesson(DisciplineLessonRecordBindingModel model, DisciplineLesson entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new DisciplineLesson();
-            }
-            entity.DisciplineId = model.DisciplineId;
-            entity.LessonType = model.LessonType;
-            entity.Title = model.Title;
-            entity.Description = model.Description;
-            entity.Order = model.Order;
-            entity.DisciplineLessonFile = model.DisciplineLessonFile;
-
-            return entity;
-        }
-
-        public static DisciplineLessonTask CreateDisciplineLessonTask(DisciplineLessonTaskRecordBindingModel model, DisciplineLessonTask entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new DisciplineLessonTask();
-            }
-            entity.DisciplineLessonId = model.DisciplineLessonId;
-            entity.VariantNumber = model.VariantNumber;
-            entity.Order = model.Order;
-            entity.MaxBall = model.MaxBall;
-            entity.Description = model.Description;
-            entity.Image = model.Image;
-
-            return entity;
-        }
 
         public static Lecturer CreateLecturer(LecturerSetBindingModel model, Lecturer entity = null)
 		{
@@ -171,6 +152,7 @@ namespace DepartmentService.BindingModels
             entity.Hours = model.Hours;
             entity.NumKoef = model.NumKoef;
             entity.TimeNormKoef = string.IsNullOrEmpty(model.TimeNormKoef) ? TimeNormKoef.Пусто : (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
+            entity.UseInLearningProgress = model.UseInLearningProgress;
 
             return entity;
 		}
@@ -331,6 +313,7 @@ namespace DepartmentService.BindingModels
 			{
 				entity = new Student();
 			}
+            entity.StudentGroupId = model.StudentGroupId;
             entity.NumberOfBook = model.NumberOfBook;
 			entity.LastName = model.LastName;
 			entity.FirstName = model.FirstName;
@@ -632,22 +615,22 @@ namespace DepartmentService.BindingModels
 		#endregion
 
 		#region Administration
-		public static Role CreateRole(RoleSetBindingModel model, Role entity = null)
+		public static DepartmentRole CreateRole(RoleSetBindingModel model, DepartmentRole entity = null)
 		{
 			if (entity == null)
 			{
-				entity = new Role();
+				entity = new DepartmentRole();
 			}
-			entity.RoleName = model.RoleName;
+			entity.Name = model.RoleName;
 
 			return entity;
 		}
 
-		public static Access CreateAccess(AccessSetBindingModel model, Access entity = null)
+		public static DepartmentAccess CreateAccess(AccessSetBindingModel model, DepartmentAccess entity = null)
 		{
 			if (entity == null)
 			{
-				entity = new Access();
+				entity = new DepartmentAccess();
 			}
 			entity.RoleId = model.RoleId;
 			entity.Operation = (AccessOperation)Enum.Parse(typeof(AccessOperation), model.Operation);
@@ -656,22 +639,22 @@ namespace DepartmentService.BindingModels
 			return entity;
 		}
 
-		public static User CreateUser(UserSetBindingModel model, User entity = null)
+		public static DepartmentUser CreateUser(UserSetBindingModel model, DepartmentUser entity = null)
 		{
 			if (entity == null)
 			{
-				entity = new User
-				{
-					Password = AccessCheckService.GetPasswordHash(model.Password)
+				entity = new DepartmentUser
+                {
+					PasswordHash = AccessCheckService.GetPasswordHash(model.Password)
 				};
 			}
-			entity.Login = model.Login;
+			entity.UserName = model.Login;
 			entity.Avatar = model.Avatar;
 			entity.LecturerId = model.LecturerId;
 			entity.StudentId = model.StudentId;
-            if (entity.IsBanned != model.IsBanned)
+            if (entity.LockoutEnabled != model.IsBanned)
 			{
-				entity.IsBanned = model.IsBanned;
+				entity.LockoutEnabled = model.IsBanned;
 				if (model.IsBanned)
 				{
 					entity.DateBanned = DateTime.Now;
@@ -727,6 +710,20 @@ namespace DepartmentService.BindingModels
             return entity;
         }
 
+        public static Software CreateSoftware(SoftwareSetBindingModel model, Software entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Software();
+            }
+            entity.SoftwareName = model.SoftwareName;
+            entity.SoftwareDescription = model.SoftwareDescription;
+            entity.SoftwareKey = model.SoftwareKey;
+            entity.SoftwareK = model.SoftwareK;
+
+            return entity;
+        }
+
         public static SoftwareRecord CreateSoftwareRecord(SoftwareRecordSetBindingModel model, SoftwareRecord entity = null)
         {
             if (entity == null)
@@ -735,11 +732,125 @@ namespace DepartmentService.BindingModels
             }
             entity.DateCreate = model.DateSetup;
             entity.MaterialTechnicalValueId = model.MaterialTechnicalValueId;
-            entity.SoftwareName = model.SoftwareName;
-            entity.SoftwareDescription = model.SoftwareDescription;
-            entity.SoftwareKey = model.SoftwareKey;
-            entity.SoftwareK = model.SoftwareK;
+            entity.SoftwareId = model.SoftwareId;
+            entity.SetupDescription = model.SetupDescription;
             entity.ClaimNumber = model.ClaimNumber;
+
+            return entity;
+        }
+        #endregion
+
+        #region LearningProgress
+        public static DisciplineLesson CreateDisciplineLesson(DisciplineLessonRecordBindingModel model, DisciplineLesson entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLesson();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.DisciplineId = model.DisciplineId;
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.TimeNormId = model.TimeNormId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.Title = model.Title;
+            entity.Description = model.Description;
+            entity.Order = model.Order;
+            entity.DisciplineLessonFile = model.DisciplineLessonFile;
+            entity.Date = model.Date;
+            entity.CountOfPairs = model.CountOfPairs;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTask CreateDisciplineLessonTask(DisciplineLessonTaskRecordBindingModel model, DisciplineLessonTask entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTask();
+            }
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.Order = model.Order;
+            entity.Description = model.Description;
+            entity.Image = model.Image;
+            entity.IsNecessarily = model.IsNecessarily;
+            entity.MaxBall = model.MaxBall;
+            entity.Task = model.Task;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTaskVariant CreateDisciplineLessonTaskVariant(DisciplineLessonTaskVariantRecordBindingModel model, DisciplineLessonTaskVariant entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTaskVariant();
+            }
+            entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
+            entity.VariantNumber = model.VariantNumber;
+            entity.VariantTask = model.VariantTask;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static DisciplineStudentRecord CreateDisciplineStudentRecord(DisciplineStudentRecordSetBindingModel model, DisciplineStudentRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineStudentRecord();
+            }
+            entity.DisciplineId = model.DisciplineId;
+            entity.StudentId = model.StudentId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+            entity.Variant = model.Variant;
+            entity.SubGroup = model.SubGroup;
+
+            return entity;
+        }
+
+        public static DisciplineLessonConducted CreateDisciplineLessonConducted(DisciplineLessonConductedSetBindingModel model, DisciplineLessonConducted entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonConducted();
+            }
+            entity.DisciplineLessonId = model.DisciplineLessonId;
+            entity.StudentGroupId = model.StudentGroupId;
+            entity.DateCreate = model.Date;
+            entity.Subgroup = model.Subgroup;
+
+            return entity;
+        }
+
+        public static DisciplineLessonConductedStudent CreateDisciplineLessonConductedStudent(DisciplineLessonConductedStudentSetBindingModel model, DisciplineLessonConductedStudent entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonConductedStudent();
+            }
+            entity.DisciplineLessonConductedId = model.DisciplineLessonConductedId;
+            entity.StudentId = model.StudentId;
+            entity.Status = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), model.Status);
+            entity.Comment = model.Comment;
+            entity.Ball = model.Ball;
+
+            return entity;
+        }
+
+        public static DisciplineLessonTaskStudentAccept CreateDisciplineLessonTaskStudentAccept(DisciplineLessonTaskStudentAcceptSetBindingModel model, DisciplineLessonTaskStudentAccept entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new DisciplineLessonTaskStudentAccept();
+            }
+            entity.DisciplineLessonTaskId = model.DisciplineLessonTaskId;
+            entity.StudentId = model.StudentId;
+            entity.Result = (DisciplineLessonTaskStudentResult)Enum.Parse(typeof(DisciplineLessonTaskStudentResult), model.Result);
+            entity.Task = model.Task;
+            entity.DateAccept = model.DateAccept;
+            entity.Score = model.Score;
+            entity.Comment = model.Comment;
+            entity.Log = model.Log;
 
             return entity;
         }

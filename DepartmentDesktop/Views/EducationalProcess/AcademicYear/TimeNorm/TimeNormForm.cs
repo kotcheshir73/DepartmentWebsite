@@ -109,6 +109,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
             comboBoxSelectKindOfLoadType.SelectedIndex = comboBoxSelectKindOfLoadType.Items.IndexOf(entity.KindOfLoadType);
             textBoxNumKoef.Text = entity.NumKoef.ToString();
             comboBoxTimeNormKoef.SelectedIndex = comboBoxTimeNormKoef.Items.IndexOf(entity.TimeNormKoef);
+
+            checkBoxUseInLearningProgress.Checked = entity.UseInLearningProgress;
         }
 
 		private bool CheckFill()
@@ -177,7 +179,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
                         KindOfLoadType = comboBoxSelectKindOfLoadType.Text,
                         Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?) null,
                         NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
-                        TimeNormKoef = comboBoxTimeNormKoef.Text
+                        TimeNormKoef = comboBoxTimeNormKoef.Text,
+                        UseInLearningProgress = checkBoxUseInLearningProgress.Checked
                     });
 				}
 				else
@@ -199,7 +202,8 @@ namespace DepartmentDesktop.Views.EducationalProcess.TimeNorm
                         KindOfLoadType = comboBoxSelectKindOfLoadType.Text,
                         Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?)null,
                         NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
-                        TimeNormKoef = comboBoxTimeNormKoef.Text
+                        TimeNormKoef = comboBoxTimeNormKoef.Text,
+                        UseInLearningProgress = checkBoxUseInLearningProgress.Checked
                     });
 				}
 				if (result.Succeeded)

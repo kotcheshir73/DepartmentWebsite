@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DepartmentModel.Enums
+﻿namespace DepartmentModel.Enums
 {
-	public enum DisciplineLessonTaskStudentResult
+    public enum DisciplineLessonTaskStudentResult
 	{
+        Выдано,
+
 		ЕстьОшибки,
 
 		НеСвойВариант,
@@ -18,6 +14,10 @@ namespace DepartmentModel.Enums
 
 		Сдано,
 
-		СданОтчет
+        Проверено,
+
+		СданОтчет,
+
+        НеСдано
 	}
 }

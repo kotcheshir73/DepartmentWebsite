@@ -1,8 +1,6 @@
 using DepartmentService.Context;
 using DepartmentService.IServices;
-using DepartmentService.IServices.StandartInterfaces.EducationDirection;
 using DepartmentService.Services;
-using DepartmentService.Services.StandartServices.EducationDirection;
 using System;
 using System.Data.Entity;
 using Unity;

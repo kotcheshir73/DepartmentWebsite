@@ -1,7 +1,4 @@
-﻿using DepartmentDesktop.Views.EducationalProcess.DisciplineLesson;
-using DepartmentDesktop.Views.EducationalProcess.LecturerCabinet;
-using DepartmentDesktop.Views.EducationalProcess.Progress;
-using DepartmentModel.Enums;
+﻿using DepartmentModel.Enums;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -76,8 +73,9 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void progressToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<ProgressForm>();
-            form.ShowDialog();
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
         }
 
         /// <summary>
@@ -512,6 +510,13 @@ namespace DepartmentDesktop
             control.LoadData();
         }
 
+        private void softwaresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LaboratoryHead.Software.SoftwareControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
         private void softwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LaboratoryHead.SoftwareRecord.SoftwareRecordControl>();
@@ -520,5 +525,34 @@ namespace DepartmentDesktop
         }
         #endregion
 
+        #region Преподаватель
+        private void configuringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void studentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void посещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.ConductedLessonsControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+
+        private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<Views.LearningProgress.AcceptTasksControl>();
+            ApplyControl(control);
+            control.LoadData();
+        }
+        #endregion
     }
 }

@@ -112,6 +112,12 @@ namespace DepartmentModel.Models
         [DataMember]
         public TimeNormKoef TimeNormKoef { get; set; }
 
+        /// <summary>
+        /// Учитывается в учебной нагрузке для формирования материала
+        /// </summary>
+        [DataMember]
+        public bool UseInLearningProgress { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual AcademicYear AcademicYear { get; set; }
@@ -125,6 +131,9 @@ namespace DepartmentModel.Models
 
         [ForeignKey("TimeNormId")]
         public virtual List<GraficRecord> GraficRecords { get; set; }
+        
+        [ForeignKey("TimeNormId")]
+        public virtual List<DisciplineLesson> DisciplineLessons { get; set; }
 
         [ForeignKey("TimeNormId")]
         public virtual List<GraficClassroom> GraficClassroomss { get; set; }
