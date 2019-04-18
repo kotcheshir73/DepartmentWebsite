@@ -92,10 +92,17 @@ namespace AcademicYearInterfaces.BindingModels
         public List<TimeNorm> TimeNorms { get; set; }
     }
 
-    public class AcademicPlanRecrodsForDiciplineBindingModel : PageSettingGetBinidingModel
+    public class AcademicPlanRecordsForDiciplineBindingModel : PageSettingGetBinidingModel
     {
         public Guid AcademicYearId { get; set; }
 
         public Guid DisciplineId { get; set; }
+    }
+
+    public class ImportLecturerWorkloadBindingModel
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public string Path { get; set; }
     }
 }

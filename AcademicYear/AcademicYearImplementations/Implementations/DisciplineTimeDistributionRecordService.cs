@@ -66,6 +66,7 @@ namespace AcademicYearImplementations.Implementations
                     }
 
                     query = query
+                                .Include(x => x.DisciplineTimeDistribution.StudentGroup)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
                                 .Include(x => x.TimeNorm);
@@ -94,6 +95,7 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.DisciplineTimeDistributionRecords
+                                .Include(x => x.DisciplineTimeDistribution.StudentGroup)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
                                 .Include(x => x.TimeNorm)

@@ -66,9 +66,10 @@ namespace AcademicYearImplementations.Implementations
                     }
 
                     query = query
+                                .Include(x => x.DisciplineTimeDistribution.StudentGroup)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
-                                .Include(x => x.DisciplineTimeDistribution.StudentGroup);
+                                .Include(x => x.TimeNorm);
 
                     var result = new DisciplineTimeDistributionClassroomPageViewModel
                     {
@@ -94,9 +95,10 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.DisciplineTimeDistributionClassrooms
+                                .Include(x => x.DisciplineTimeDistribution.StudentGroup)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord)
                                 .Include(x => x.DisciplineTimeDistribution.AcademicPlanRecord.Discipline)
-                                .Include(x => x.DisciplineTimeDistribution.StudentGroup)
+                                .Include(x => x.TimeNorm)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

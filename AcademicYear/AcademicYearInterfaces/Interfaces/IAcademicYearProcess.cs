@@ -58,7 +58,7 @@ namespace AcademicYearInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<AcademicPlanRecordForDiciplinePageViewModel> GetAcademicPlanRecordsForDiscipline(AcademicPlanRecrodsForDiciplineBindingModel model);
+        ResultService<AcademicPlanRecordForDiciplinePageViewModel> GetAcademicPlanRecordsForDiscipline(AcademicPlanRecordsForDiciplineBindingModel model);
 
         /// <summary>
         /// Дублирование записей из одного учебного года в другой
@@ -82,14 +82,14 @@ namespace AcademicYearInterfaces.Interfaces
         ResultService CreateStreamsForAcademicYear(EducationalProcessCreateStreams model);
 
         /// <summary>
-		/// Создание всех возможных ведомостей
+		/// Создание всех возможных расчасовок
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService CreateAllFindDisciplineTimeDistributionRecord(AcademicYearGetBindingModel model);
 
         /// <summary>
-		/// Создание всех возможных ведомостей
+		/// Создание всех возможных расчасовок
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
@@ -101,5 +101,12 @@ namespace AcademicYearInterfaces.Interfaces
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService CreateLecturerWorkload(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Выгрузка нагрузки преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ImportLecturerWorkload(ImportLecturerWorkloadBindingModel model);
     }
 }

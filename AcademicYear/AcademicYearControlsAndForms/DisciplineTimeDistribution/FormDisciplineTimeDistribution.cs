@@ -21,9 +21,9 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
 
         private readonly IDisciplineTimeDistributionService _service;
 
-        private Guid _aprId;
+        private Guid? _aprId;
 
-        public FormDisciplineTimeDistribution(IDisciplineTimeDistributionService service, Guid aprId, Guid? id = null) : base(id)
+        public FormDisciplineTimeDistribution(IDisciplineTimeDistributionService service, Guid? aprId, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
@@ -32,11 +32,6 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
 
         private void FormDisciplineTimeDistribution_Load(object sender, EventArgs e)
         {
-            if (_aprId == null)
-            {
-                MessageBox.Show("Неуказана запись учебного плана", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             var resultAPR = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { Id = _aprId });
             if (!resultAPR.Succeeded)
             {
@@ -55,7 +50,6 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
             comboBoxAcademicPlanRecord.DisplayMember = "Display";
             comboBoxAcademicPlanRecord.DataSource = resultAPR.Result.List
                 .Select(ap => new { Value = ap.Id, Display = ap.Disciplne }).ToList();
-            comboBoxAcademicPlanRecord.SelectedValue = _aprId;
 
             comboBoxStudentGroup.ValueMember = "Value";
             comboBoxStudentGroup.DisplayMember = "Display";
@@ -80,7 +74,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
             {
                 var control = Container.Resolve<ControlDisciplineTimeDistributionClassroom>();
                 control.Dock = DockStyle.Fill;
-                tabPageRecords.Controls.Add(control);
+                tabPageClassrooms.Controls.Add(control);
             }
             (tabPageClassrooms.Controls[0] as ControlDisciplineTimeDistributionClassroom).LoadData(_id.Value);
 

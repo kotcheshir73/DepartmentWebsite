@@ -5,12 +5,15 @@ using BaseImplementations;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using Enums;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
 using Models.AcademicYearData;
 using Models.Base;
 using Models.HelperModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -1616,7 +1619,7 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        public ResultService<AcademicPlanRecordForDiciplinePageViewModel> GetAcademicPlanRecordsForDiscipline(AcademicPlanRecrodsForDiciplineBindingModel model)
+        public ResultService<AcademicPlanRecordForDiciplinePageViewModel> GetAcademicPlanRecordsForDiscipline(AcademicPlanRecordsForDiciplineBindingModel model)
         {
             using (var context = DepartmentUserManager.GetContext)
             {
@@ -1703,10 +1706,10 @@ namespace AcademicYearImplementations.Implementations
             {
                 var tns = context.TimeNorms.Where(x => x.AcademicYearId == model.FromAcademicPlanId && !x.IsDeleted).ToList();
 
-            List<PropertyInfo> propInfos = typeof(TimeNorm)
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => !x.GetMethod.IsVirtual && x.PropertyType.Name != "List`1" && x.Name != "Id" && x.Name != "DateCreate" &&
-                                    x.Name != "DateDelete" && x.Name != "IsDeleted").ToList();
+                List<PropertyInfo> propInfos = typeof(TimeNorm)
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(x => !x.GetMethod.IsVirtual && x.PropertyType.Name != "List`1" && x.Name != "Id" && x.Name != "DateCreate" &&
+                                        x.Name != "DateDelete" && x.Name != "IsDeleted").ToList();
                 foreach (var tn in tns)
                 {
                     TimeNorm newTN = new TimeNorm();
@@ -1926,9 +1929,11 @@ namespace AcademicYearImplementations.Implementations
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
+                using (var transaction = context.Database.BeginTransaction())
                 {
                     DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
-                    var DisciplineTimeDistribution = context.DisciplineTimeDistributions.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id);
+                    // получаем расчасовки на этот учебный год
+                    var disciplineTimeDistribution = context.DisciplineTimeDistributions.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id);
                     /*var timeNorm = _context.TimeNorms.FirstOrDefault(record => !record.IsDeleted && record.AcademicYearId == model.Id
                         && record.KindOfLoadName == "Лекционное занятие");*/ //Получение трех норм времени для поиска ведомостей
                     var disciplineBlock = context.DisciplineBlocks.FirstOrDefault(record => record.Title.Contains("Дисциплины"));
@@ -1938,12 +1943,11 @@ namespace AcademicYearImplementations.Implementations
                     //string nameTN = tn.KindOfLoadName == "Зачет с оценкой" ? "Диференцированный_зачет" : tn.KindOfLoadName;
                     foreach (var APRRecord in APR)
                     {
-
                         var studentGroup = context.StudentGroups.Where(record => !record.IsDeleted && record.EducationDirectionId == APRRecord.Contingent.EducationDirectionId
                             && record.Course == APRRecord.Contingent.Course);
                         foreach (var SGRecord in studentGroup)
                         {
-                            if (DisciplineTimeDistribution.FirstOrDefault(record => !record.IsDeleted
+                            if (disciplineTimeDistribution.FirstOrDefault(record => !record.IsDeleted
                                  && record.AcademicPlanRecordId == APRRecord.Id
                                  && record.StudentGroupId == SGRecord.Id) == null)
                             {
@@ -1979,7 +1983,7 @@ namespace AcademicYearImplementations.Implementations
                     DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
 
                     var lecturers = context.Lecturers.Where(x => !x.IsDeleted).ToList();
-                    foreach(var lecturer in lecturers)
+                    foreach (var lecturer in lecturers)
                     {
                         context.LecturerWorkload.Add(AcademicYearModelFacotryFromBindingModel.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
                         {
@@ -1988,6 +1992,262 @@ namespace AcademicYearImplementations.Implementations
                             Workload = 0
                         }));
                         context.SaveChanges();
+                    }
+
+                    return ResultService.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService ImportLecturerWorkload(ImportLecturerWorkloadBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
+
+                    // получаем список видов нагрузки
+                    var timeNorms = context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.AcademicYearId).OrderBy(x => x.TimeNormOrder).ToList();
+
+                    //из ресрусов получаем шрифт для кирилицы
+                    if (!File.Exists("TIMCYR.TTF"))
+                    {
+                        File.WriteAllBytes("TIMCYR.TTF", Properties.Resources.TIMCYR);
+                    }
+                    BaseFont baseFont = BaseFont.CreateFont("TIMCYR.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+                    var lecturers = context.Lecturers.Where(x => !x.IsDeleted);
+                    foreach (var lecturer in lecturers)
+                    {
+                        using (var stream = new FileStream(string.Format("{0}/{1}.pdf", model.Path, lecturer.ToString()), FileMode.Create, FileAccess.Write))
+                        {
+                            //создаем документ, задаем границы, связываем документ и поток
+                            Document doc = new Document();
+                            doc.SetMargins(0.1f, 0.1f, 5.0f, 0.1f);
+                            doc.SetPageSize(PageSize.A4.Rotate());
+
+                            PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+
+                            doc.Open();
+
+                            float[] widths = new float[9 + timeNorms.Count + 3];
+                            widths[0] = 90;
+                            widths[1] = 40;
+                            widths[2] = 100;
+                            widths[3] = 300;
+                            widths[4] = 50;
+                            widths[5] = 50;
+                            widths[6] = 50;
+                            widths[7] = 50;
+                            widths[8] = 50;
+                            for (int i = 0; i < timeNorms.Count; ++i)
+                            {
+                                widths[9 + i] = 50;
+                            }
+                            widths[9 + timeNorms.Count] = 100;
+                            widths[9 + timeNorms.Count + 1] = 80;
+                            widths[9 + timeNorms.Count + 2] = 170;
+                            //вставляем таблицу, задаем количество столбцов, и ширину колонок
+                            PdfPTable table = new PdfPTable(9 + timeNorms.Count + 3)
+                            {
+                            };
+                            table.SetTotalWidth(widths);
+                            //вставляем шапку
+                            PdfPCell cell = new PdfPCell();
+                            var fontForCell = new Font(baseFont, 8);
+
+                            #region Head
+                            table.AddCell(new PdfPCell(new Phrase("Семестр (осень / весна)", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false,
+                                FixedHeight = 60
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Дисциплина по выбору", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Код направления (специальности) по ФГОС 3 +", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Полное наименование дисциплин", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Курс", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Студентов", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Потоков", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Групп", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("Подгрупп", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            foreach (var timeNorm in timeNorms)
+                            {
+                                table.AddCell(new PdfPCell(new Phrase(timeNorm.TimeNormName, fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_CENTER,
+                                    Rotation = 90,
+                                    NoWrap = false
+                                });
+                            }
+                            table.AddCell(new PdfPCell(new Phrase("Итого", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase(lecturer.ToString(), fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = 1,
+                                Rotation = 90,
+                                NoWrap = false
+                            });
+                            table.AddCell(new PdfPCell(new Phrase("", fontForCell))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                NoWrap = false
+                            });
+                            #endregion
+                            var aprms = context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lecturer.Id && !x.IsDeleted &&
+                                            x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId)
+                                            .Include(x => x.AcademicPlanRecordElement)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Contingent)
+                                            .OrderByDescending(x => (int)x.AcademicPlanRecordElement.AcademicPlanRecord.Semester % 2)
+                                            .ThenBy(x => (int)x.AcademicPlanRecordElement.AcademicPlanRecord.Semester)
+                                            .GroupBy(x => new { x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId, x.AcademicPlanRecordElement.AcademicPlanRecord.Semester });
+                            foreach(var aprm in aprms)
+                            {
+                                var mission = aprm.FirstOrDefault();
+                                if(mission == null)
+                                {
+                                    continue;
+                                }
+                                #region Head
+                                table.AddCell(new PdfPCell(new Phrase((int)mission.AcademicPlanRecordElement.AcademicPlanRecord.Semester % 2 == 0 ? "весна" : "осень", fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineParentId.HasValue ? "да" : "", fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher, fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName, fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT,
+                                    NoWrap = false
+                                });
+                                table.AddCell(new PdfPCell(new Phrase((Math.Log((double)mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.Course, 2) + 1).ToString("n0"), fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT,
+                                    NoWrap = false
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountStudetns.ToString("n0"), fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT,
+                                    NoWrap = false
+                                });
+                                table.AddCell(new PdfPCell(new Phrase("1", fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT,
+                                    NoWrap = false
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountGroups.ToString("n0"), fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT,
+                                    NoWrap = false
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountSubgroups.ToString("n0"), fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_LEFT,
+                                    NoWrap = false
+                                });
+                                foreach (var timeNorm in timeNorms)
+                                {
+                                    var rec = aprm.Where(x => x.AcademicPlanRecordElement.TimeNormId == timeNorm.Id);
+                                    if (rec != null && rec.Count() > 0)
+                                    {
+                                        table.AddCell(new PdfPCell(new Phrase(rec.Sum(x => x.Hours).ToString("n1"), fontForCell))
+                                        {
+                                            HorizontalAlignment = Element.ALIGN_CENTER,
+                                            NoWrap = false
+                                        });
+                                    }
+                                    else
+                                    {
+                                        table.AddCell(new PdfPCell(new Phrase("", fontForCell))
+                                        {
+                                            HorizontalAlignment = Element.ALIGN_CENTER,
+                                            NoWrap = false
+                                        });
+                                    }
+                                }
+
+                                table.AddCell(new PdfPCell(new Phrase((context.AcademicPlanRecordElements.Where(x => x.AcademicPlanRecordId == mission.AcademicPlanRecordElement.AcademicPlanRecordId &&
+                                                                         !x.IsDeleted && x.AcademicPlanRecord.Semester == aprm.Key.Semester).Sum(x => x.FactHours)).ToString("n2"), fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_CENTER,
+                                });
+                                table.AddCell(new PdfPCell(new Phrase(aprm.Sum(x => x.Hours).ToString("n2"), fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_CENTER,
+                                    NoWrap = false
+                                });
+                                table.AddCell(new PdfPCell(new Phrase("", fontForCell))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_CENTER,
+                                    NoWrap = false
+                                });
+                                #endregion
+                            }
+
+
+                            //вставляем таблицу
+                            doc.Add(table);
+
+                            doc.Close();
+                        }
                     }
 
                     return ResultService.Success();

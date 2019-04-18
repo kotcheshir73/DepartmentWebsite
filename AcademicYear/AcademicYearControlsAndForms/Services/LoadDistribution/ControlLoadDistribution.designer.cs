@@ -35,7 +35,7 @@
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.buttonCreateGrafics = new System.Windows.Forms.Button();
+            this.buttonCreateDisciplineTimeDistributions = new System.Windows.Forms.Button();
             this.buttonCreateNIRRecords = new System.Windows.Forms.Button();
             this.buttonCreatStatement = new System.Windows.Forms.Button();
             this.buttonCalcFactHours = new System.Windows.Forms.Button();
@@ -51,6 +51,7 @@
             this.ColumnNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.buttonGetLecturerWorkload = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.toolStripMenu.SuspendLayout();
             this.panelTop.SuspendLayout();
@@ -121,7 +122,8 @@
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.buttonCreateGrafics);
+            this.panelTop.Controls.Add(this.buttonGetLecturerWorkload);
+            this.panelTop.Controls.Add(this.buttonCreateDisciplineTimeDistributions);
             this.panelTop.Controls.Add(this.buttonCreateNIRRecords);
             this.panelTop.Controls.Add(this.buttonCreatStatement);
             this.panelTop.Controls.Add(this.buttonCalcFactHours);
@@ -133,43 +135,45 @@
             this.panelTop.Size = new System.Drawing.Size(1400, 35);
             this.panelTop.TabIndex = 1;
             // 
-            // buttonCreateGrafics
+            // buttonCreateDisciplineTimeDistributions
             // 
-            this.buttonCreateGrafics.Location = new System.Drawing.Point(722, 5);
-            this.buttonCreateGrafics.Name = "buttonCreateGrafics";
-            this.buttonCreateGrafics.Size = new System.Drawing.Size(164, 23);
-            this.buttonCreateGrafics.TabIndex = 6;
-            this.buttonCreateGrafics.Text = "Создать расчасовки";
-            this.buttonCreateGrafics.UseVisualStyleBackColor = true;
-            this.buttonCreateGrafics.Click += new System.EventHandler(this.button2_Click);
+            this.buttonCreateDisciplineTimeDistributions.Location = new System.Drawing.Point(736, 4);
+            this.buttonCreateDisciplineTimeDistributions.Name = "buttonCreateDisciplineTimeDistributions";
+            this.buttonCreateDisciplineTimeDistributions.Size = new System.Drawing.Size(164, 23);
+            this.buttonCreateDisciplineTimeDistributions.TabIndex = 4;
+            this.buttonCreateDisciplineTimeDistributions.Text = "Создать расчасовки";
+            this.buttonCreateDisciplineTimeDistributions.UseVisualStyleBackColor = true;
+            this.buttonCreateDisciplineTimeDistributions.Click += new System.EventHandler(this.ButtonCreateDisciplineTimeDistributions_Click);
             // 
             // buttonCreateNIRRecords
             // 
-            this.buttonCreateNIRRecords.Location = new System.Drawing.Point(582, 5);
+            this.buttonCreateNIRRecords.Location = new System.Drawing.Point(1052, 4);
             this.buttonCreateNIRRecords.Name = "buttonCreateNIRRecords";
             this.buttonCreateNIRRecords.Size = new System.Drawing.Size(138, 23);
             this.buttonCreateNIRRecords.TabIndex = 5;
             this.buttonCreateNIRRecords.Text = "Создать записи НИР";
             this.buttonCreateNIRRecords.UseVisualStyleBackColor = true;
-            this.buttonCreateNIRRecords.Click += new System.EventHandler(this.button1_Click);
+            this.buttonCreateNIRRecords.Visible = false;
+            this.buttonCreateNIRRecords.Click += new System.EventHandler(this.ButtonCreateNIRRecords_Click);
             // 
             // buttonCreatStatement
             // 
-            this.buttonCreatStatement.Location = new System.Drawing.Point(436, 6);
+            this.buttonCreatStatement.Location = new System.Drawing.Point(906, 4);
             this.buttonCreatStatement.Name = "buttonCreatStatement";
             this.buttonCreatStatement.Size = new System.Drawing.Size(140, 23);
             this.buttonCreatStatement.TabIndex = 4;
             this.buttonCreatStatement.Text = "Создать ведомости";
             this.buttonCreatStatement.UseVisualStyleBackColor = true;
-            this.buttonCreatStatement.Click += new System.EventHandler(this.buttonCreatStatement_Click);
+            this.buttonCreatStatement.Visible = false;
+            this.buttonCreatStatement.Click += new System.EventHandler(this.ButtonCreateStatement_Click);
             // 
             // buttonCalcFactHours
             // 
-            this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 6);
+            this.buttonCalcFactHours.Location = new System.Drawing.Point(328, 4);
             this.buttonCalcFactHours.Name = "buttonCalcFactHours";
-            this.buttonCalcFactHours.Size = new System.Drawing.Size(102, 23);
-            this.buttonCalcFactHours.TabIndex = 3;
-            this.buttonCalcFactHours.Text = "Расчитать время";
+            this.buttonCalcFactHours.Size = new System.Drawing.Size(170, 23);
+            this.buttonCalcFactHours.TabIndex = 2;
+            this.buttonCalcFactHours.Text = "Расчитать нагрузку на год";
             this.buttonCalcFactHours.UseVisualStyleBackColor = true;
             this.buttonCalcFactHours.Click += new System.EventHandler(this.ButtonCalcFactHours_Click);
             // 
@@ -180,7 +184,7 @@
             this.comboBoxAcademicYear.Location = new System.Drawing.Point(134, 6);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
             this.comboBoxAcademicYear.Size = new System.Drawing.Size(188, 21);
-            this.comboBoxAcademicYear.TabIndex = 2;
+            this.comboBoxAcademicYear.TabIndex = 1;
             this.comboBoxAcademicYear.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAcademicYear_SelectedIndexChanged);
             // 
             // labelSelectAcademicYear
@@ -300,6 +304,16 @@
             this.ColumnSelect.HeaderText = "Видимый";
             this.ColumnSelect.Name = "ColumnSelect";
             // 
+            // buttonGetLecturerWorkload
+            // 
+            this.buttonGetLecturerWorkload.Location = new System.Drawing.Point(504, 4);
+            this.buttonGetLecturerWorkload.Name = "buttonGetLecturerWorkload";
+            this.buttonGetLecturerWorkload.Size = new System.Drawing.Size(164, 23);
+            this.buttonGetLecturerWorkload.TabIndex = 3;
+            this.buttonGetLecturerWorkload.Text = "Получить нагрузку";
+            this.buttonGetLecturerWorkload.UseVisualStyleBackColor = true;
+            this.buttonGetLecturerWorkload.Click += new System.EventHandler(this.ButtonGetLecturerWorkload_Click);
+            // 
             // ControlLoadDistribution
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -336,7 +350,7 @@
         private System.Windows.Forms.Button buttonCalcFactHours;
         private System.Windows.Forms.Button buttonCreatStatement;
         private System.Windows.Forms.Button buttonCreateNIRRecords;
-        private System.Windows.Forms.Button buttonCreateGrafics;
+        private System.Windows.Forms.Button buttonCreateDisciplineTimeDistributions;
         private System.Windows.Forms.Panel panelConfig;
         private System.Windows.Forms.CheckBox checkBoxTimeNorm;
         private System.Windows.Forms.DataGridView dataGridViewColumns;
@@ -348,5 +362,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnSelect;
         private System.Windows.Forms.CheckBox checkBoxSelectAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Button buttonGetLecturerWorkload;
     }
 }

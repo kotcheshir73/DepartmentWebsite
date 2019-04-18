@@ -7,7 +7,7 @@ namespace ControlsAndForms.Forms
     {
         protected Guid? _id = null;
 
-        private event Action _onCLoseEvent;
+        private event Action _onCloseEvent;
 
         public StandartForm()
         {
@@ -37,7 +37,7 @@ namespace ControlsAndForms.Forms
 
         public void AddCloseEvent(Action method)
         {
-            _onCLoseEvent += method;
+            _onCloseEvent += method;
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
@@ -66,7 +66,7 @@ namespace ControlsAndForms.Forms
 
         private void StandartForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _onCLoseEvent?.Invoke();
+            _onCloseEvent?.Invoke();
         }
     }
 }

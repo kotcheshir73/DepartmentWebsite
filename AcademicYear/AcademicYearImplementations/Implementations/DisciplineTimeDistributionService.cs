@@ -98,6 +98,9 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.DisciplineTimeDistributions
+                                .Include(x => x.AcademicPlanRecord)
+                                .Include(x => x.AcademicPlanRecord.Discipline)
+                                .Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

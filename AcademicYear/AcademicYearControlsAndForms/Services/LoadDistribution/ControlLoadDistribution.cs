@@ -498,37 +498,48 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             }
         }
 
-        private void buttonCreatStatement_Click(object sender, EventArgs e)
+        private void ButtonCreateStatement_Click(object sender, EventArgs e)
         {
             // _serviceS.CreateAllFindStatement(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ButtonCreateNIRRecords_Click(object sender, EventArgs e)
         {
             //_serviceIPR.CreateAllFindIndividualPlanRecords(new AcademicYearSetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void ButtonCreateDisciplineTimeDistributions_Click(object sender, EventArgs e)
         {
-            //_serviceDTD.CreateAllFindGrafic(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
-
-            //for(int j = 0; j < dataGridViewList.Columns.Count; j++)
-            //{
-            //    if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
-            //    {
-            //        editHoursForLecturer(j);
-            //    }
-            //}
+            var result = _process.CreateAllFindDisciplineTimeDistribution(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
+            if(!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("При создании расчасовок возникла ошибка: ", result.Errors);
+            }
+            else
+            {
+                MessageBox.Show("Готово", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
-        private double getSumHourOfLecturer(int j)
+        private void ButtonGetLecturerWorkload_Click(object sender, EventArgs e)
         {
-            double sum = 0;
-            for (int i = 0; i < dataGridViewList.Rows.Count; i++)
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
-                sum += dataGridViewList[j, i].Value == null ? 0 : Convert.ToDouble(dataGridViewList[j, i].Value);
+                var result = _process.ImportLecturerWorkload(new ImportLecturerWorkloadBindingModel
+                {
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    Path = fbd.SelectedPath
+                });
+                if (!result.Succeeded)
+                {
+                    ErrorMessanger.PrintErrorMessage("При выгрузке возникла ошибка: ", result.Errors);
+                }
+                else
+                {
+                    MessageBox.Show("Готово", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            return sum;
         }
     }
 }
