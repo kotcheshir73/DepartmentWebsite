@@ -4,9 +4,12 @@ using AcademicYearInterfaces.ViewModels;
 using BaseImplementations;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Enums;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+//using iTextSharp.text;
+//using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
 using Models.AcademicYearData;
 using Models.Base;
@@ -17,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Tools;
 
@@ -2014,134 +2018,74 @@ namespace AcademicYearImplementations.Implementations
                     // получаем список видов нагрузки
                     var timeNorms = context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.AcademicYearId).OrderBy(x => x.TimeNormOrder).ToList();
 
-                    //из ресрусов получаем шрифт для кирилицы
-                    if (!File.Exists("TIMCYR.TTF"))
-                    {
-                        File.WriteAllBytes("TIMCYR.TTF", Properties.Resources.TIMCYR);
-                    }
-                    BaseFont baseFont = BaseFont.CreateFont("TIMCYR.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
                     var lecturers = context.Lecturers.Where(x => !x.IsDeleted);
+
                     foreach (var lecturer in lecturers)
                     {
-                        using (var stream = new FileStream(string.Format("{0}/{1}.pdf", model.Path, lecturer.ToString()), FileMode.Create, FileAccess.Write))
+                        using (SpreadsheetDocument document = SpreadsheetDocument.Create(string.Format("{0}/{1}.xlsx", model.Path, lecturer.ToString()), SpreadsheetDocumentType.Workbook))
                         {
-                            //создаем документ, задаем границы, связываем документ и поток
-                            Document doc = new Document();
-                            doc.SetMargins(0.1f, 0.1f, 5.0f, 0.1f);
-                            doc.SetPageSize(PageSize.A4.Rotate());
+                            // Add a WorkbookPart to the document.
+                            WorkbookPart workbookPart = document.AddWorkbookPart();
+                            workbookPart.Workbook = new Workbook();
+                            // Add a WorksheetPart to the WorkbookPart.
+                            WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                            worksheetPart.Worksheet = new Worksheet();
 
-                            PdfWriter writer = PdfWriter.GetInstance(doc, stream);
+                            SheetProperties sp = new SheetProperties(new PageSetupProperties());
+                            worksheetPart.Worksheet.SheetProperties = sp;
 
-                            doc.Open();
+                            worksheetPart.Worksheet.SheetProperties.PageSetupProperties.FitToPage = BooleanValue.FromBoolean(true);
 
-                            float[] widths = new float[9 + timeNorms.Count + 3];
-                            widths[0] = 90;
-                            widths[1] = 40;
-                            widths[2] = 100;
-                            widths[3] = 300;
-                            widths[4] = 50;
-                            widths[5] = 50;
-                            widths[6] = 50;
-                            widths[7] = 50;
-                            widths[8] = 50;
-                            for (int i = 0; i < timeNorms.Count; ++i)
-                            {
-                                widths[9 + i] = 50;
-                            }
-                            widths[9 + timeNorms.Count] = 100;
-                            widths[9 + timeNorms.Count + 1] = 80;
-                            widths[9 + timeNorms.Count + 2] = 170;
-                            //вставляем таблицу, задаем количество столбцов, и ширину колонок
-                            PdfPTable table = new PdfPTable(9 + timeNorms.Count + 3)
-                            {
-                            };
-                            table.SetTotalWidth(widths);
-                            //вставляем шапку
-                            PdfPCell cell = new PdfPCell();
-                            var fontForCell = new Font(baseFont, 8);
 
+                            WorkbookStylesPart wbsp = workbookPart.AddNewPart<WorkbookStylesPart>();
+                            // Добавляем в документ набор стилей
+                            wbsp.Stylesheet = GenerateStyleSheet();
+                            wbsp.Stylesheet.Save();
+
+                            // Задаем колонки и их ширину
+                            Columns lstColumns = new Columns();
+                            lstColumns.Append(new Column() { Min = 1, Max = 1, Width = 7.5, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = 2, Max = 2, Width = 4.5, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = 3, Max = 3, Width = 9.5, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = 4, Max = 4, Width = 40, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = 5, Max = 9, Width = 4.5, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = 10, Max = (uint)(10 + timeNorms.Count), Width = 5.5, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = (uint)(10 + timeNorms.Count), Max = (uint)(10 + timeNorms.Count), Width = 10, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = (uint)(11 + timeNorms.Count), Max = (uint)(11 + timeNorms.Count), Width = 10, CustomWidth = true });
+                            lstColumns.Append(new Column() { Min = (uint)(12 + timeNorms.Count), Max = (uint)(12 + timeNorms.Count), Width = 30, CustomWidth = true });
+
+                            worksheetPart.Worksheet.Append(lstColumns);
+                            worksheetPart.Worksheet.AppendChild(new SheetData());
+
+                            // Add Sheets to the Workbook.
+                            Sheets sheets = workbookPart.Workbook.AppendChild(new Sheets());
+
+                            Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = lecturer.ToString() };
+                            sheets.Append(sheet);
+
+                            SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
                             #region Head
-                            table.AddCell(new PdfPCell(new Phrase("Семестр (осень / весна)", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false,
-                                FixedHeight = 60
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Дисциплина по выбору", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Код направления (специальности) по ФГОС 3 +", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Полное наименование дисциплин", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Курс", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Студентов", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Потоков", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Групп", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("Подгрупп", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
+                            uint rowIndex = 1;
+                            Row row = new Row() { RowIndex = rowIndex++, Height = 100, CustomHeight = true };
+                            sheetData.Append(row);
+                            int counter = 1;
+                            InsertCell(row, counter++, "Семестр (осень / весна)", CellValues.String, 2);
+                            InsertCell(row, counter++, "Дисциплина по выбору", CellValues.String, 2);
+                            InsertCell(row, counter++, "Код направления (специальности) по ФГОС 3 +", CellValues.String, 2);
+                            InsertCell(row, counter++, "Полное наименование дисциплин", CellValues.String, 1);
+                            InsertCell(row, counter++, "Курс", CellValues.String, 2);
+                            InsertCell(row, counter++, "Студентов", CellValues.String, 2);
+                            InsertCell(row, counter++, "Потоков", CellValues.String, 2);
+                            InsertCell(row, counter++, "Групп", CellValues.String, 2);
+                            InsertCell(row, counter++, "Подгрупп", CellValues.String, 2);
                             foreach (var timeNorm in timeNorms)
                             {
-                                table.AddCell(new PdfPCell(new Phrase(timeNorm.TimeNormName, fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_CENTER,
-                                    Rotation = 90,
-                                    NoWrap = false
-                                });
+                                InsertCell(row, counter++, timeNorm.TimeNormName, CellValues.String, 2);
                             }
-                            table.AddCell(new PdfPCell(new Phrase("Итого", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase(lecturer.ToString(), fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                VerticalAlignment = 1,
-                                Rotation = 90,
-                                NoWrap = false
-                            });
-                            table.AddCell(new PdfPCell(new Phrase("", fontForCell))
-                            {
-                                HorizontalAlignment = Element.ALIGN_CENTER,
-                                NoWrap = false
-                            });
+                            InsertCell(row, counter++, "Итого", CellValues.String, 2);
+                            InsertCell(row, counter++, lecturer.ToString(), CellValues.String, 2);
                             #endregion
+
                             var aprms = context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lecturer.Id && !x.IsDeleted &&
                                             x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId)
                                             .Include(x => x.AcademicPlanRecordElement)
@@ -2150,103 +2094,130 @@ namespace AcademicYearImplementations.Implementations
                                             .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection)
                                             .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                                             .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Contingent)
+                                            .ToList()
                                             .OrderByDescending(x => (int)x.AcademicPlanRecordElement.AcademicPlanRecord.Semester % 2)
                                             .ThenBy(x => (int)x.AcademicPlanRecordElement.AcademicPlanRecord.Semester)
                                             .GroupBy(x => new { x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId, x.AcademicPlanRecordElement.AcademicPlanRecord.Semester });
-                            foreach(var aprm in aprms)
+                            double? workload = (context.LecturerWorkload.FirstOrDefault(x => x.LecturerId == lecturer.Id && x.AcademicYearId == model.AcademicYearId &&
+                                                            !x.IsDeleted))?.Workload;
+                            int? post = context.LecturerPosts.FirstOrDefault(x => x.Id == lecturer.LecturerPostId)?.Hours;
+                            double? hours = workload * post;
+                            double? diff = hours - (double)aprms.Sum(x => x.Sum(y => y.Hours));
+
+                            #region 
+                            row = new Row() { RowIndex = rowIndex++ };
+                            sheetData.Append(row);
+                            for (int i = 0; i < counter - 2; ++i)
                             {
+                                InsertCell(row, i + 1, "", CellValues.String, 1);
+                            }
+                            InsertCell(row, counter - 2, workload?.ToString() ?? "", CellValues.String, 1);
+                            InsertCell(row, counter - 1, "Ставка по договору", CellValues.String, 3);
+                            #endregion
+
+                            #region 
+                            row = new Row() { RowIndex = rowIndex++ };
+                            sheetData.Append(row);
+                            for (int i = 0; i < counter - 2; ++i)
+                            {
+                                InsertCell(row, i + 1, "", CellValues.String, 1);
+                            }
+                            InsertCell(row, counter - 2, hours?.ToString() ?? "", CellValues.String, 1);
+                            InsertCell(row, counter - 1, "Кол-во часов по ставке", CellValues.String, 3);
+                            #endregion
+
+                            #region 
+                            row = new Row() { RowIndex = rowIndex++ };
+                            sheetData.Append(row);
+                            for (int i = 0; i < counter - 2; ++i)
+                            {
+                                InsertCell(row, i + 1, "", CellValues.String, 1);
+                            }
+                            InsertCell(row, counter - 2, diff?.ToString() ?? "", CellValues.String, (uint)(diff > 0 ? 4 : diff < 0 ? 5 : 1));
+                            InsertCell(row, counter - 1, "недогруз/перегруз", CellValues.String, 3);
+                            #endregion
+
+                            #region 
+                            row = new Row() { RowIndex = rowIndex++ };
+                            sheetData.Append(row);
+                            for (int i = 0; i < counter - 3; ++i)
+                            {
+                                InsertCell(row, i + 1, "", CellValues.String, 1);
+                            }
+                            InsertCell(row, counter - 3, (context.AcademicPlanRecordMissions.Where(x => x.LecturerId == lecturer.Id && !x.IsDeleted &&
+                                            x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId)
+                                            .Include(x => x.AcademicPlanRecordElement)
+                                            .Select(x => x.AcademicPlanRecordElement)
+                                            .Distinct()
+                                            .Sum(x => x.FactHours)).ToString(), CellValues.String, 1);
+                            InsertCell(row, counter - 2, aprms.Sum(x => x.Sum(y => y.Hours)).ToString(), CellValues.String, 1);
+                            InsertCell(row, counter - 1, "Фактические часы", CellValues.String, 3);
+                            #endregion
+
+                            MergeCells mergeCells = new MergeCells();
+                            string[] symbols = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+                            for(int i = 0; i < counter - 2; ++i)
+                            {
+                                MergeCell mergeCell;
+                                if (i < symbols.Length)
+                                {
+                                    mergeCell = new MergeCell() { Reference = new StringValue(symbols[i] + "1" + ":" + symbols[i] + "4") };
+                                }
+                                else
+                                {
+                                    mergeCell = new MergeCell() { Reference = new StringValue(symbols[i / symbols.Length - 1] + symbols[i % symbols.Length] + "1" + ":" + 
+                                        symbols[i / symbols.Length - 1] + symbols[i % symbols.Length] + "4") };
+                                }
+                                mergeCells.Append(mergeCell);
+                            }
+                            worksheetPart.Worksheet.AppendChild(mergeCells);
+
+                            foreach (var aprm in aprms)
+                            {
+                                row = new Row() { RowIndex = rowIndex++ };
+                                counter = 1;
+                                sheetData.Append(row);
                                 var mission = aprm.FirstOrDefault();
-                                if(mission == null)
+                                if (mission == null)
                                 {
                                     continue;
                                 }
-                                #region Head
-                                table.AddCell(new PdfPCell(new Phrase((int)mission.AcademicPlanRecordElement.AcademicPlanRecord.Semester % 2 == 0 ? "весна" : "осень", fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineParentId.HasValue ? "да" : "", fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher, fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName, fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT,
-                                    NoWrap = false
-                                });
-                                table.AddCell(new PdfPCell(new Phrase((Math.Log((double)mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.Course, 2) + 1).ToString("n0"), fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT,
-                                    NoWrap = false
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountStudetns.ToString("n0"), fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT,
-                                    NoWrap = false
-                                });
-                                table.AddCell(new PdfPCell(new Phrase("1", fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT,
-                                    NoWrap = false
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountGroups.ToString("n0"), fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT,
-                                    NoWrap = false
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountSubgroups.ToString("n0"), fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_LEFT,
-                                    NoWrap = false
-                                });
+                                #region строка
+                                InsertCell(row, counter++, (int)mission.AcademicPlanRecordElement.AcademicPlanRecord.Semester % 2 == 0 ? "весна" : "осень", CellValues.String, 1);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineParentId.HasValue ? "да" : "", CellValues.String, 1);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher, CellValues.String, 1);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName, CellValues.String, 1);
+                                InsertCell(row, counter++, (Math.Log((double)mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.Course, 2) + 1).ToString(), CellValues.String, 1);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountStudetns.ToString(), CellValues.String, 1);
+                                InsertCell(row, counter++, "1", CellValues.String, 1);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountGroups.ToString(), CellValues.String, 1);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.CountSubgroups.ToString(), CellValues.String, 1);
                                 foreach (var timeNorm in timeNorms)
                                 {
                                     var rec = aprm.Where(x => x.AcademicPlanRecordElement.TimeNormId == timeNorm.Id);
                                     if (rec != null && rec.Count() > 0)
                                     {
-                                        table.AddCell(new PdfPCell(new Phrase(rec.Sum(x => x.Hours).ToString("n1"), fontForCell))
-                                        {
-                                            HorizontalAlignment = Element.ALIGN_CENTER,
-                                            NoWrap = false
-                                        });
+                                        InsertCell(row, counter++, rec.Sum(x => x.Hours).ToString(), CellValues.String, 1);
                                     }
                                     else
                                     {
-                                        table.AddCell(new PdfPCell(new Phrase("", fontForCell))
-                                        {
-                                            HorizontalAlignment = Element.ALIGN_CENTER,
-                                            NoWrap = false
-                                        });
+                                        InsertCell(row, counter++, "", CellValues.String, 1);
                                     }
                                 }
-
-                                table.AddCell(new PdfPCell(new Phrase((context.AcademicPlanRecordElements.Where(x => x.AcademicPlanRecordId == mission.AcademicPlanRecordElement.AcademicPlanRecordId &&
-                                                                         !x.IsDeleted && x.AcademicPlanRecord.Semester == aprm.Key.Semester).Sum(x => x.FactHours)).ToString("n2"), fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_CENTER,
-                                });
-                                table.AddCell(new PdfPCell(new Phrase(aprm.Sum(x => x.Hours).ToString("n2"), fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_CENTER,
-                                    NoWrap = false
-                                });
-                                table.AddCell(new PdfPCell(new Phrase("", fontForCell))
-                                {
-                                    HorizontalAlignment = Element.ALIGN_CENTER,
-                                    NoWrap = false
-                                });
+                                InsertCell(row, counter++, (context.AcademicPlanRecordElements.Where(x => x.AcademicPlanRecordId == mission.AcademicPlanRecordElement.AcademicPlanRecordId &&
+                                                                         !x.IsDeleted && x.AcademicPlanRecord.Semester == aprm.Key.Semester).Sum(x => x.FactHours)).ToString(), CellValues.String, 1);
+                                InsertCell(row, counter++, aprm.Sum(x => x.Hours).ToString(), CellValues.String, 1);
                                 #endregion
                             }
 
+                            PageSetup pageSetup = new PageSetup
+                            {
+                                Orientation = OrientationValues.Landscape
+                            };
+                            worksheetPart.Worksheet.AppendChild(pageSetup);
 
-                            //вставляем таблицу
-                            doc.Add(table);
-
-                            doc.Close();
+                            workbookPart.Workbook.Save();
+                            document.Close();
                         }
                     }
 
@@ -2258,5 +2229,122 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+        //Добавление Ячейки в строку (На вход подаем: строку, номер колонки, тип значения, стиль)
+        private void InsertCell(Row row, int cell_num, string val, CellValues type, uint styleIndex)
+        {
+            Cell refCell = null;
+            Cell newCell = new Cell() { CellReference = cell_num.ToString() + ":" + row.RowIndex.ToString(), StyleIndex = styleIndex };
+            row.InsertBefore(newCell, refCell);
+            // Устанавливает тип значения.
+            newCell.CellValue = new CellValue(val);
+            newCell.DataType = new EnumValue<CellValues>(type);
+
+        }
+
+        //Важный метод, при вставки текстовых значений надо использовать.
+        //Метод убирает из строки запрещенные спец символы.
+        //Если не использовать, то при наличии в строке таких символов, вылетит ошибка.
+        private string ReplaceHexadecimalSymbols(string txt)
+        {
+            string r = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
+            return Regex.Replace(txt, r, "", RegexOptions.Compiled);
+        }
+
+        //Метод генерирует стили для ячеек (за основу взят код, найденный где-то в интернете)
+        private Stylesheet GenerateStyleSheet()
+        {
+            return new Stylesheet(
+                new Fonts(
+                    new Font(                                                               // Стиль под номером 0 - Шрифт по умолчанию.
+                        new FontSize() { Val = 10 },
+                        new Color() { Rgb = new HexBinaryValue() { Value = "000000" } },
+                        new FontName() { Val = "Times New Roman" }),
+                    new Font(                                                               // Стиль под номером 1 - Жирный шрифт Times New Roman.
+                        new Bold(),
+                        new FontSize() { Val = 10 },
+                        new Color() { Rgb = new HexBinaryValue() { Value = "000000" } },
+                        new FontName() { Val = "Times New Roman" }),
+                    new Font(                                                               // Стиль под номером 0 - Шрифт по умолчанию.
+                        new FontSize() { Val = 10 },
+                        new Color() { Rgb = new HexBinaryValue() { Value = "db1313" } },
+                        new FontName() { Val = "Times New Roman" }),
+                    new Font(                                                               // Стиль под номером 0 - Шрифт по умолчанию.
+                        new FontSize() { Val = 10 },
+                        new Color() { Rgb = new HexBinaryValue() { Value = "19e857" } },
+                        new FontName() { Val = "Times New Roman" })
+                ),
+                new Fills(
+                    new Fill(                                                           // Стиль под номером 0 - Заполнение ячейки по умолчанию.
+                        new PatternFill() { PatternType = PatternValues.None })
+                )
+                ,
+                new Borders(
+                    new Border(                                                         // Стиль под номером 0 - Грани.
+                        new LeftBorder(),
+                        new RightBorder(),
+                        new TopBorder(),
+                        new BottomBorder(),
+                        new DiagonalBorder()),
+                    new Border(                                                         // Стиль под номером 1 - Грани
+                        new LeftBorder(
+                            new Color() { Auto = true }
+                        )
+                        { Style = BorderStyleValues.Medium },
+                        new RightBorder(
+                            new Color() { Indexed = 64U }
+                        )
+                        { Style = BorderStyleValues.Medium },
+                        new TopBorder(
+                            new Color() { Auto = true }
+                        )
+                        { Style = BorderStyleValues.Medium },
+                        new BottomBorder(
+                            new Color() { Indexed = 64U }
+                        )
+                        { Style = BorderStyleValues.Medium },
+                        new DiagonalBorder()),
+                    new Border(                                                         // Стиль под номером 2 - Грани.
+                        new LeftBorder(
+                            new Color() { Auto = true }
+                        )
+                        { Style = BorderStyleValues.Thin },
+                        new RightBorder(
+                            new Color() { Auto = true }
+                        )
+                        { Style = BorderStyleValues.Thin },
+                        new TopBorder(
+                            new Color() { Auto = true }
+                        )
+                        { Style = BorderStyleValues.Thin },
+                        new BottomBorder(
+                            new Color() { Auto = true }
+                        )
+                        { Style = BorderStyleValues.Thin },
+                        new DiagonalBorder())
+                ),
+                new CellFormats(
+                    new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
+                    { FontId = 0, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },
+
+                    new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
+                    { FontId = 0, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },                          // Стиль под номером 0 - The default cell style.  (по умолчанию)
+
+                    new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true, TextRotation = 90U })
+                    { FontId = 0, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },       // Стиль под номером 1 - текст вертикально
+
+                    new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
+                    { FontId = 0, FillId = 0, BorderId = 0, ApplyAlignment = true, ApplyFont = true },      // 
+
+                    new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
+                    { FontId = 2, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },      // 
+
+                    new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
+                    { FontId = 3, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true }       // 
+
+                )
+            ); // Выход
+        }
+
     }
 }
