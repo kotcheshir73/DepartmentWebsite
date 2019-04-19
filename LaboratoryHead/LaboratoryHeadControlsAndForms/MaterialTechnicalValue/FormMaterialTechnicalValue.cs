@@ -3,7 +3,7 @@ using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord;
 using LaboratoryHeadInterfaces.BindingModels;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using System;
 using System.Data;
 using System.Linq;

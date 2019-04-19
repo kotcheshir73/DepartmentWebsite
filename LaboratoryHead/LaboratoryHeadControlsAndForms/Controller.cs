@@ -6,7 +6,7 @@ using LaboratoryHeadControlsAndForms.MaterialTechnicalValueGroup;
 using LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord;
 using LaboratoryHeadControlsAndForms.Software;
 using LaboratoryHeadControlsAndForms.SoftwareRecord;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using Unity;
 using Unity.Lifetime;
 

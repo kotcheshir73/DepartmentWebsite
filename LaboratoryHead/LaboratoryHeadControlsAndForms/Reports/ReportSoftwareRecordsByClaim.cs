@@ -1,5 +1,5 @@
 ﻿using LaboratoryHeadInterfaces.BindingModels;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Windows.Forms;

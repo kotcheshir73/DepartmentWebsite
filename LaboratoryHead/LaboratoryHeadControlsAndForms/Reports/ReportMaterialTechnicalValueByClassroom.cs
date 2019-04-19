@@ -1,7 +1,7 @@
 ﻿using BaseInterfaces.BindingModels;
 using ControlsAndForms.Messangers;
 using LaboratoryHeadInterfaces.BindingModels;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Data;

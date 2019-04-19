@@ -4,7 +4,7 @@ using BaseInterfaces.ViewModels;
 using Enums;
 using LaboratoryHeadImplementations;
 using LaboratoryHeadInterfaces.BindingModels;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using LaboratoryHeadInterfaces.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;

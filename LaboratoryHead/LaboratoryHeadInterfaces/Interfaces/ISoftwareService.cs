@@ -2,7 +2,7 @@
 using LaboratoryHeadInterfaces.ViewModels;
 using Tools;
 
-namespace LaboratoryHeadInterfaces.IServices
+namespace LaboratoryHeadInterfaces.Interfaces
 {
     public interface ISoftwareService
     {

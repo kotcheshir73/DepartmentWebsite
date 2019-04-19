@@ -3,7 +3,7 @@ using ControlsAndForms.Models;
 using LaboratoryHeadControlsAndForms.Reports;
 using LaboratoryHeadControlsAndForms.Services;
 using LaboratoryHeadInterfaces.BindingModels;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;

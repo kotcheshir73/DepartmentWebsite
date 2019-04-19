@@ -1,7 +1,7 @@
 ﻿using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using LaboratoryHeadInterfaces.BindingModels;
-using LaboratoryHeadInterfaces.IServices;
+using LaboratoryHeadInterfaces.Interfaces;
 using System;
 using System.Data;
 using System.Linq;
