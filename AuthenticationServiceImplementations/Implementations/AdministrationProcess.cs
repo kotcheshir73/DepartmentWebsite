@@ -5,7 +5,6 @@ using DepartmentContext.Stores;
 using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentModel.Models;
-using ScheduleModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -95,7 +94,6 @@ namespace AuthenticationServiceImplementations.Implementations
             try
             {
                 Assembly assem = typeof(BaseEntity).Assembly;
-                Assembly schedule = typeof(ScheduleRecord).Assembly;
                 Assembly auth = typeof(DepartmentAccess).Assembly;
                 Type type = _context.GetType();
                 var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("System.Data.Entity.DbSet")).ToList();
@@ -103,10 +101,6 @@ namespace AuthenticationServiceImplementations.Implementations
                 foreach (var set in dbsets)
                 {
                     var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                    if (elem == null)
-                    {
-                        elem = schedule.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                    }
                     if (elem == null)
                     {
                         elem = auth.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
@@ -130,7 +124,6 @@ namespace AuthenticationServiceImplementations.Implementations
             _context.Configuration.ValidateOnSaveEnabled = false;
 
             Assembly assem = typeof(BaseEntity).Assembly;
-            Assembly schedule = typeof(ScheduleRecord).Assembly;
             Assembly auth = typeof(DepartmentAccess).Assembly;
             Type type = _context.GetType();
             var dbsets = type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("System.Data.Entity.DbSet")).ToList();
@@ -145,11 +138,7 @@ namespace AuthenticationServiceImplementations.Implementations
                     try
                     {
                         var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                        if(elem == null)
-                        {
-                            elem = schedule.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                        }
-                        else if (elem == null)
+                        if (elem == null)
                         {
                             elem = auth.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                         }
@@ -200,10 +189,6 @@ namespace AuthenticationServiceImplementations.Implementations
                     var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                     if (elem == null)
                     {
-                        elem = schedule.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                    }
-                    else if (elem == null)
-                    {
                         elem = auth.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                     }
                     MethodInfo generic = delMethod.MakeGenericMethod(elem.GetType());
@@ -219,12 +204,7 @@ namespace AuthenticationServiceImplementations.Implementations
                 var set = dbsets.FirstOrDefault(x => x.PropertyType.GenericTypeArguments[0].FullName.EndsWith(delElem.Key));
                 if (set != null)
                 {
-                    var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                    if (elem == null)
-                    {
-                        elem = schedule.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
-                    }
-                    else if (elem == null)
+                    var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);if (elem == null)
                     {
                         elem = auth.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
                     }

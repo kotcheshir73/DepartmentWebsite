@@ -3,7 +3,6 @@ using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using ScheduleModels.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -69,12 +68,6 @@ namespace DepartmentContext
         public virtual DbSet<StudentGroup> StudentGroups { set; get; }
         public virtual DbSet<StudentHistory> StudentHistorys { set; get; }
         public virtual DbSet<TimeNorm> TimeNorms { get; set; }
-
-        public virtual DbSet<ConsultationRecord> ConsultationRecords { set; get; }
-        public virtual DbSet<ExaminationRecord> ExaminationRecords { set; get; }
-        public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
-        public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
-        public virtual DbSet<ScheduleLessonTime> ScheduleLessonTimes { set; get; }
 
         public virtual DbSet<MaterialTechnicalValue> MaterialTechnicalValues { set; get; }
         public virtual DbSet<MaterialTechnicalValueGroup> MaterialTechnicalValueGroups { set; get; }

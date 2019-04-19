@@ -812,14 +812,6 @@
       <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
       <Name>DepartmentService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ScheduleServiceImplementations\ScheduleServiceImplementations.csproj">
-      <Project>{f56cb889-1fdb-4439-8d88-b4fda764fc59}</Project>
-      <Name>ScheduleServiceImplementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScheduleServiceInterfaces\ScheduleServiceInterfaces.csproj">
-      <Project>{8af59760-0f82-4e1a-a902-6315bc5743b9}</Project>
-      <Name>ScheduleServiceInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Schedule\ScheduleControlsAndForms\ScheduleControlsAndForms.csproj">
       <Project>{f101a003-580e-4616-a9d4-b4cfae1f629e}</Project>
       <Name>ScheduleControlsAndForms</Name>

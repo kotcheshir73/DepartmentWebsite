@@ -85,10 +85,6 @@
       <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
       <Name>DepartmentService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ScheduleModels\ScheduleModels.csproj">
-      <Project>{D2C98509-F679-42F4-926A-37D069799598}</Project>
-      <Name>ScheduleModels</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
