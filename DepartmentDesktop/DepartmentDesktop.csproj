@@ -216,114 +216,6 @@
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.Designer.cs">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupForm.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueGroupForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueApplyTMCRecrodsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueApplyTMCRecrodsForm.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueApplyTMCRecrodsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValuePassport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValuePassport.Designer.cs">
-      <DependentUpon>MaterialTechnicalValuePassport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordControl.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueRecordControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordForm.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.Designer.cs">
-      <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\InstallSowtwareForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\InstallSowtwareForm.Designer.cs">
-      <DependentUpon>InstallSowtwareForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.Designer.cs">
-      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.Designer.cs">
-      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.Designer.cs">
-      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.Designer.cs">
-      <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.Designer.cs">
-      <DependentUpon>SoftwareRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\UnInstallSowtwareForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\SoftwareRecord\UnInstallSowtwareForm.Designer.cs">
-      <DependentUpon>UnInstallSowtwareForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\Software\SoftwareControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\Software\SoftwareControl.Designer.cs">
-      <DependentUpon>SoftwareControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\Software\SoftwareForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LaboratoryHead\Software\SoftwareForm.Designer.cs">
-      <DependentUpon>SoftwareForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\LearningProgress\AcceptTasksControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -542,65 +434,6 @@
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.resx">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupControl.resx">
-      <DependentUpon>MaterialTechnicalValueGroupControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValueGroup\MaterialTechnicalValueGroupForm.resx">
-      <DependentUpon>MaterialTechnicalValueGroupForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueApplyTMCRecrodsForm.resx">
-      <DependentUpon>MaterialTechnicalValueApplyTMCRecrodsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValuePassport.resx">
-      <DependentUpon>MaterialTechnicalValuePassport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordControl.resx">
-      <DependentUpon>MaterialTechnicalValueRecordControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueRecord\MaterialTechnicalValueRecordForm.resx">
-      <DependentUpon>MaterialTechnicalValueRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueControl.resx">
-      <DependentUpon>MaterialTechnicalValueControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueForm.resx">
-      <DependentUpon>MaterialTechnicalValueForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\MaterialTechnicalValueReport.resx">
-      <DependentUpon>MaterialTechnicalValueReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValueByClassroom.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\MaterialTechnicalValue\ReportMaterialTechnicalValuePassport.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\InstallSowtwareForm.resx">
-      <DependentUpon>InstallSowtwareForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClaim.resx">
-      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByClassroom.resx">
-      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.rdlc" />
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\ReportSoftwareRecordsByInventoryNumber.resx">
-      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordControl.resx">
-      <DependentUpon>SoftwareRecordControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\SoftwareRecordForm.resx">
-      <DependentUpon>SoftwareRecordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\SoftwareRecord\UnInstallSowtwareForm.resx">
-      <DependentUpon>UnInstallSowtwareForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\Software\SoftwareControl.resx">
-      <DependentUpon>SoftwareControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LaboratoryHead\Software\SoftwareForm.resx">
-      <DependentUpon>SoftwareForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\LearningProgress\AcceptTasksControl.resx">
       <DependentUpon>AcceptTasksControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -811,6 +644,10 @@
     <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
       <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
       <Name>DepartmentService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadControlsAndForms\LaboratoryHeadControlsAndForms.csproj">
+      <Project>{9f668772-5883-446e-9660-847254016e0e}</Project>
+      <Name>LaboratoryHeadControlsAndForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Schedule\ScheduleControlsAndForms\ScheduleControlsAndForms.csproj">
       <Project>{f101a003-580e-4616-a9d4-b4cfae1f629e}</Project>

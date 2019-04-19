@@ -1,5 +1,4 @@
-﻿using DepartmentModel.Enums;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Unity;
 
@@ -70,7 +69,7 @@ namespace DepartmentDesktop
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void progressToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ProgressToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
             ApplyControl(control);
@@ -425,7 +424,7 @@ namespace DepartmentDesktop
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void scheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ScheduleLecturerSemesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = ScheduleControlsAndForms.Controller.GetScheduleSemesterTabControl;
             ApplyControl(control);
@@ -436,7 +435,7 @@ namespace DepartmentDesktop
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void scheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ScheduleLecturerOffsetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = ScheduleControlsAndForms.Controller.GetScheduleOffsetTabControl;
             ApplyControl(control);
@@ -447,7 +446,7 @@ namespace DepartmentDesktop
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void scheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ScheduleLecturerExaminationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = ScheduleControlsAndForms.Controller.GetScheduleExaminationTabControl;
             ApplyControl(control);
@@ -458,7 +457,7 @@ namespace DepartmentDesktop
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void scheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ScheduleLecturerConsultationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = ScheduleControlsAndForms.Controller.GetScheduleConsultationTabControl;
             ApplyControl(control);
@@ -504,58 +503,58 @@ namespace DepartmentDesktop
         #endregion
 
         #region Зав. лабораторией
-        private void materialTechnicalValueToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MaterialTechnicalValueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LaboratoryHead.MaterialTechnicalValue.MaterialTechnicalValueControl>();
+            var control = LaboratoryHeadControlsAndForms.Controller.GetControlMaterialTechnicalValue;
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void materialTechnicalValueGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MaterialTechnicalValueGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LaboratoryHead.MaterialTechnicalValueGroup.MaterialTechnicalValueGroupControl>();
+            var control = LaboratoryHeadControlsAndForms.Controller.GetControlMaterialTechnicalValueGroup;
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void softwaresToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SoftwaresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LaboratoryHead.Software.SoftwareControl>();
+            var control = LaboratoryHeadControlsAndForms.Controller.GetControlSoftware;
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void softwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SoftwareRecordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LaboratoryHead.SoftwareRecord.SoftwareRecordControl>();
+            var control = LaboratoryHeadControlsAndForms.Controller.GetControlSoftwareRecord;
             ApplyControl(control);
             control.LoadData();
         }
         #endregion
 
         #region Преподаватель
-        private void configuringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ConfiguringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void studentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+        private void StudentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void посещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РосещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LearningProgress.ConductedLessonsControl>();
             ApplyControl(control);
             control.LoadData();
         }
 
-        private void успеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void УспеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<Views.LearningProgress.AcceptTasksControl>();
             ApplyControl(control);
@@ -564,7 +563,7 @@ namespace DepartmentDesktop
         #endregion
 
         #region
-        private void examinationTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExaminationTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = TicketViews.PublicViews.GetExaminationTemplateControl();
             ApplyControl(control);
