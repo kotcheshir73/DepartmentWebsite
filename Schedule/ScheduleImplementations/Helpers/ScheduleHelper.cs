@@ -45,7 +45,7 @@ namespace ScheduleImplementations.Helpers
                 {
                     // по дате консультации определяем неделю, день и пару
                     int day = ((int)(model.DateConsultation - dateBeginSemester).TotalDays % 14);
-                    int week = day < 8 ? 0 : 1;
+                    int week = day < 7 ? 0 : 1;
                     day = day % 7;
                     int lesson = 7;
 
@@ -75,7 +75,7 @@ namespace ScheduleImplementations.Helpers
                     }
 
                     // проверяем, что пара свободна
-                    var entry = context.SemesterRecords.FirstOrDefault(sr => sr.Week == week && sr.Day == day && sr.Lesson == lesson &&
+                    var entry = context.SemesterRecords.FirstOrDefault(sr => sr.Week == week && sr.Day == day && sr.Lesson == lesson && sr.SeasonDatesId == seasonDate.Id &&
                                                                                sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл);
                     if (entry != null)
                     {
