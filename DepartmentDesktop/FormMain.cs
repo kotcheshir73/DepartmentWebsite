@@ -71,7 +71,7 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
         private void ProgressToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            var control = LearningProgressControlsAndForms.Controller.GetControlConfiguringDisciplines;
             ApplyControl(control);
             control.LoadData();
         }
@@ -535,28 +535,28 @@ namespace DepartmentDesktop
         #region Преподаватель
         private void ConfiguringDisciplinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.ConfiguringDisciplinesControl>();
+            var control = LearningProgressControlsAndForms.Controller.GetControlConfiguringDisciplines;
             ApplyControl(control);
             control.LoadData();
         }
 
         private void StudentsDistributionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.StudentsDistributionControl>();
+            var control = LearningProgressControlsAndForms.Controller.GetControlStudentsDistribution;
             ApplyControl(control);
             control.LoadData();
         }
 
         private void РосещаемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.ConductedLessonsControl>();
+            var control = LearningProgressControlsAndForms.Controller.GetControlConductedLessons;
             ApplyControl(control);
             control.LoadData();
         }
 
         private void УспеваемостьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = Container.Resolve<Views.LearningProgress.AcceptTasksControl>();
+            var control = LearningProgressControlsAndForms.Controller.GetControlAcceptTasks;
             ApplyControl(control);
             control.LoadData();
         }

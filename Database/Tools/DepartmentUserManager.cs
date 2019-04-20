@@ -17,6 +17,11 @@ namespace Tools
 
         private static List<DepartmentRole> _roles;
 
+        public static Guid? UserId
+        {
+            get { return _user?.Id; }
+        }
+
         public static DepartmentDatabaseContext GetContext
         {
             get

@@ -1,8 +1,6 @@
 ﻿using DepartmentDesktop.Models;
-using DepartmentDesktop.Views.LearningProgress.DisciplineLesson;
 using DepartmentService.BindingModels;
 using DepartmentService.IServices;
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
@@ -65,12 +63,12 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerCabinet
 
         public void AddDisciplineLessons()
         {
-            Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-            var form = Container.Resolve<DisciplineLessonForm>();
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                standartControl.LoadPage();
-            }
+            //Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+            //var form = Container.Resolve<DisciplineLessonForm>();
+            //if (form.ShowDialog() == DialogResult.OK)
+            //{
+            //    standartControl.LoadPage();
+            //}
         }
     }
 }

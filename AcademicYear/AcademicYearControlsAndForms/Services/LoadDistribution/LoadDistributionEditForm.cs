@@ -265,21 +265,10 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             if (_lecturerId == null)
             {
                 return SaveAllAPRE();
-                if (SaveAllAPRE())
-                {
-                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                LoadDataAPRE();
             }
             else
             {
                 return SaveAllAPRM();
-                if (SaveAllAPRM())
-                {
-                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                }
-                LoadDataAPRM();
             }
         }
 
