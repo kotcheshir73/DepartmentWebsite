@@ -113,11 +113,11 @@ namespace ScheduleImplementations
             {
                 entity = new ConsultationRecord()
                 {
-                    DateConsultation = model.DateConsultation,
                     NotParseRecord = model.NotParseRecord,
                     SeasonDatesId = seasonDate.Id
                 };
             }
+            entity.DateConsultation = model.DateConsultation;
             CreateScheduleRecord(model, entity);
 
             return entity;

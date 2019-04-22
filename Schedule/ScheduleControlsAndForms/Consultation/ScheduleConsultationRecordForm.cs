@@ -143,8 +143,6 @@ namespace ScheduleControlsAndForms.Consultation
                 {
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
                 }
-
-                dateTimePickerDateConsultation.Enabled = false;
             }
         }
 
