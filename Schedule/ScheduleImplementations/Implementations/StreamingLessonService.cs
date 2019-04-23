@@ -1,5 +1,4 @@
 ﻿using Enums;
-using ScheduleImplementations;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -7,7 +6,7 @@ using System;
 using System.Linq;
 using Tools;
 
-namespace DepartmentService.Services
+namespace ScheduleImplementations.Services
 {
     public class StreamingLessonService : IStreamingLessonService
 	{

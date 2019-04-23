@@ -1,24 +1,19 @@
-﻿using DepartmentService;
-using DepartmentService.IServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AcademicYearInterfaces.Interfaces;
 using System.Web.Mvc;
 
 namespace DepartmentWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private IEducationalProcessService _serviceEP;
+        private IAcademicYearProcess _process;
 
         private IAcademicYearService _serviceAY;
 
-        public HomeController(IEducationalProcessService serviceEP, IAcademicYearService serviceAY)
+        public HomeController(IAcademicYearProcess process, IAcademicYearService serviceAY)
         {
-            AccessCheckService.Login("admin", "qwerty");
+            Tools.DepartmentUserManager.Login("admin", "qwerty");
 
-            _serviceEP = serviceEP;
+            _process = process;
 
             _serviceAY = serviceAY;
             
