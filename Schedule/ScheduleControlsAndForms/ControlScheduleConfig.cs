@@ -549,7 +549,10 @@ namespace ScheduleControlsAndForms
                 return;
             }
 
-            SaveFileDialog dialog = new SaveFileDialog();
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Excel|*.xlsx"
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _process.ExportSemesterRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });

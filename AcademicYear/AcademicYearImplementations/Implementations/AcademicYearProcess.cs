@@ -2031,16 +2031,14 @@ namespace AcademicYearImplementations.Implementations
                             WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
                             worksheetPart.Worksheet = new Worksheet();
 
-                            SheetProperties sp = new SheetProperties(new PageSetupProperties());
-                            worksheetPart.Worksheet.SheetProperties = sp;
-
+                            SheetProperties sheetProperties = new SheetProperties(new PageSetupProperties());
+                            worksheetPart.Worksheet.SheetProperties = sheetProperties;
                             worksheetPart.Worksheet.SheetProperties.PageSetupProperties.FitToPage = BooleanValue.FromBoolean(true);
 
-
-                            WorkbookStylesPart wbsp = workbookPart.AddNewPart<WorkbookStylesPart>();
+                            WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
                             // Добавляем в документ набор стилей
-                            wbsp.Stylesheet = GenerateStyleSheet();
-                            wbsp.Stylesheet.Save();
+                            workbookStylesPart.Stylesheet = GenerateStyleSheet();
+                            workbookStylesPart.Stylesheet.Save();
 
                             // Задаем колонки и их ширину
                             Columns lstColumns = new Columns();
@@ -2229,8 +2227,15 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-
-        //Добавление Ячейки в строку (На вход подаем: строку, номер колонки, тип значения, стиль)
+        
+        /// <summary>
+        /// Добавление Ячейки в строку (На вход подаем: строку, номер колонки, тип значения, стиль)
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="cell_num"></param>
+        /// <param name="val"></param>
+        /// <param name="type"></param>
+        /// <param name="styleIndex"></param>
         private void InsertCell(Row row, int cell_num, string val, CellValues type, uint styleIndex)
         {
             Cell refCell = null;
@@ -2241,17 +2246,11 @@ namespace AcademicYearImplementations.Implementations
             newCell.DataType = new EnumValue<CellValues>(type);
 
         }
-
-        //Важный метод, при вставки текстовых значений надо использовать.
-        //Метод убирает из строки запрещенные спец символы.
-        //Если не использовать, то при наличии в строке таких символов, вылетит ошибка.
-        private string ReplaceHexadecimalSymbols(string txt)
-        {
-            string r = "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]";
-            return Regex.Replace(txt, r, "", RegexOptions.Compiled);
-        }
-
-        //Метод генерирует стили для ячеек (за основу взят код, найденный где-то в интернете)
+        
+        /// <summary>
+        /// Метод генерирует стили для ячеек
+        /// </summary>
+        /// <returns></returns>
         private Stylesheet GenerateStyleSheet()
         {
             return new Stylesheet(
@@ -2280,31 +2279,13 @@ namespace AcademicYearImplementations.Implementations
                 )
                 ,
                 new Borders(
-                    new Border(                                                         // Стиль под номером 0 - Грани.
+                    new Border(                                                         // Стиль под номером 0 - Без границ.
                         new LeftBorder(),
                         new RightBorder(),
                         new TopBorder(),
                         new BottomBorder(),
                         new DiagonalBorder()),
-                    new Border(                                                         // Стиль под номером 1 - Грани
-                        new LeftBorder(
-                            new Color() { Auto = true }
-                        )
-                        { Style = BorderStyleValues.Medium },
-                        new RightBorder(
-                            new Color() { Indexed = 64U }
-                        )
-                        { Style = BorderStyleValues.Medium },
-                        new TopBorder(
-                            new Color() { Auto = true }
-                        )
-                        { Style = BorderStyleValues.Medium },
-                        new BottomBorder(
-                            new Color() { Indexed = 64U }
-                        )
-                        { Style = BorderStyleValues.Medium },
-                        new DiagonalBorder()),
-                    new Border(                                                         // Стиль под номером 2 - Грани.
+                    new Border(                                                         // Стиль под номером 1 - Границы.
                         new LeftBorder(
                             new Color() { Auto = true }
                         )
@@ -2325,22 +2306,22 @@ namespace AcademicYearImplementations.Implementations
                 ),
                 new CellFormats(
                     new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
-                    { FontId = 0, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },
+                    { FontId = 0, FillId = 0, BorderId = 1, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },
 
                     new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
-                    { FontId = 0, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },                          // Стиль под номером 0 - The default cell style.  (по умолчанию)
+                    { FontId = 0, FillId = 0, BorderId = 1, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },                          // Стиль под номером 0 - The default cell style.  (по умолчанию)
 
                     new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true, TextRotation = 90U })
-                    { FontId = 0, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },       // Стиль под номером 1 - текст вертикально
+                    { FontId = 0, FillId = 0, BorderId = 1, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },       // Стиль под номером 1 - текст вертикально
 
                     new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
                     { FontId = 0, FillId = 0, BorderId = 0, ApplyAlignment = true, ApplyFont = true },      // 
 
                     new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
-                    { FontId = 2, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },      // 
+                    { FontId = 2, FillId = 0, BorderId = 1, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true },      // 
 
                     new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center, WrapText = true })
-                    { FontId = 3, FillId = 0, BorderId = 2, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true }       // 
+                    { FontId = 3, FillId = 0, BorderId = 1, ApplyAlignment = true, ApplyFont = true, ApplyBorder = true }       // 
 
                 )
             ); // Выход
