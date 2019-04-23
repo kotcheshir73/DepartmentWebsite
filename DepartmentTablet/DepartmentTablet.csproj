@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DepartmentTablet</RootNamespace>
     <AssemblyName>DepartmentTablet</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,12 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -81,62 +88,92 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizationService.cs" />
-    <Compile Include="Conducted\ControlConducted.cs" />
+    <Compile Include="Conducted\ControlConducted.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Conducted\ControlConducted.Designer.cs">
       <DependentUpon>ControlConducted.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conducted\ControlConductedElements.cs" />
+    <Compile Include="Conducted\ControlConductedElements.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Conducted\ControlConductedElements.Designer.cs">
       <DependentUpon>ControlConductedElements.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conducted\ControlConductedStudentMark.cs" />
+    <Compile Include="Conducted\ControlConductedStudentMark.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Conducted\ControlConductedStudentMark.Designer.cs">
       <DependentUpon>ControlConductedStudentMark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conducted\ControlConductedStudents.cs" />
+    <Compile Include="Conducted\ControlConductedStudents.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Conducted\ControlConductedStudents.Designer.cs">
       <DependentUpon>ControlConductedStudents.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conducted\ControlLectureDisciplineDetails.cs" />
+    <Compile Include="Conducted\ControlLectureDisciplineDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Conducted\ControlLectureDisciplineDetails.Designer.cs">
       <DependentUpon>ControlLectureDisciplineDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ControlAcademicYear.cs" />
+    <Compile Include="CustomControls\ControlAcademicYear.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomControls\ControlAcademicYear.Designer.cs">
       <DependentUpon>ControlAcademicYear.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ControlLectureDisciplines.cs" />
+    <Compile Include="CustomControls\ControlLectureDisciplines.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomControls\ControlLectureDisciplines.Designer.cs">
       <DependentUpon>ControlLectureDisciplines.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ControlEducationDirection.cs" />
+    <Compile Include="CustomControls\ControlEducationDirection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomControls\ControlEducationDirection.Designer.cs">
       <DependentUpon>ControlEducationDirection.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ControlLectureDisciplineSemesters.cs" />
+    <Compile Include="CustomControls\ControlLectureDisciplineSemesters.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomControls\ControlLectureDisciplineSemesters.Designer.cs">
       <DependentUpon>ControlLectureDisciplineSemesters.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ControlStudentGroup.cs" />
+    <Compile Include="CustomControls\ControlStudentGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomControls\ControlStudentGroup.Designer.cs">
       <DependentUpon>ControlStudentGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ControlStudent.cs" />
+    <Compile Include="CustomControls\ControlStudent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomControls\ControlStudent.Designer.cs">
       <DependentUpon>ControlStudent.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\CustomControl.cs" />
-    <Compile Include="FormError.cs" />
+    <Compile Include="CustomControls\CustomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormError.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormError.Designer.cs">
       <DependentUpon>FormError.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs" />
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Student\ControlStudentConfig.cs" />
+    <Compile Include="Student\ControlStudentConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Student\ControlStudentConfig.Designer.cs">
       <DependentUpon>ControlStudentConfig.cs</DependentUpon>
     </Compile>
@@ -166,6 +203,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -182,6 +220,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
+      <Project>{b8f97ce3-c035-4fc7-a316-877610e7adf4}</Project>
+      <Name>AuthenticationModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuthenticationServiceImplementations\AuthenticationServiceImplementations.csproj">
+      <Project>{2C74A2F4-AD9B-4EAF-992E-4D82B7C59591}</Project>
+      <Name>AuthenticationServiceImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuthenticationServiceInterfaces\AuthenticationServiceInterfaces.csproj">
+      <Project>{265CB11F-BAAB-4E5F-A639-F907F3DD8C15}</Project>
+      <Name>AuthenticationServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DepartmentContext\DepartmentContext.csproj">
+      <Project>{3C73F60D-B076-4676-943A-340477DACCB4}</Project>
+      <Name>DepartmentContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>

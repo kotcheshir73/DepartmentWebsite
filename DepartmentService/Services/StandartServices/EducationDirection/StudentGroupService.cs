@@ -1,7 +1,7 @@
-﻿using DepartmentModel;
+﻿using DepartmentContext;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentService.BindingModels;
-using DepartmentService.Context;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;
 using System;
@@ -55,6 +55,11 @@ namespace DepartmentService.Services
                 if (model.EducationDirectionId.HasValue)
                 {
                     query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);
+                }
+                if (!string.IsNullOrEmpty(model.Course))
+                {
+                    AcademicCourse course = (AcademicCourse)Enum.Parse(typeof(AcademicCourse), model.Course);
+                    query = query.Where(x => x.Course == course);
                 }
 
                 query = query.OrderBy(sg => sg.Course).ThenBy(sg => sg.EducationDirectionId);

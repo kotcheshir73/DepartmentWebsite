@@ -1,0 +1,3 @@
+﻿namespace BaseInterfaces.ViewModels
+{
+}

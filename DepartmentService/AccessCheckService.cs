@@ -1,5 +1,7 @@
-﻿using DepartmentModel.Enums;
-using DepartmentService.Context;
+﻿using AuthenticationModels.Models;
+using DepartmentContext;
+using DepartmentContext.Stores;
+using DepartmentModel.Enums;
 using DepartmentService.ViewModels;
 using System;
 using System.Linq;
@@ -17,7 +19,7 @@ namespace DepartmentService
 
 		private static Encoding ascii = Encoding.ASCII;
 
-		private static UserViewModel _user;
+		private static DepartmentUser _user;
 
 		/// <summary>
 		/// Авторизация пользователя к операции
@@ -45,7 +47,7 @@ namespace DepartmentService
 		/// <param name="login"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public static UserViewModel Login(string login, string password)
+		public static DepartmentUser Login(string login, string password)
 		{
 			var passHash = GetPasswordHash(password);
 			var user = _context.Users.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
@@ -59,8 +61,9 @@ namespace DepartmentService
 			}
 			user.DateLastVisit = DateTime.Now;
 			_context.SaveChanges();
-			_user = ModelFactoryToViewModel.CreateUserViewModel(user);
-			return _user;
+			_user = user;
+
+            return user;
 		}
 
 		/// <summary>

@@ -1,4 +1,6 @@
-﻿using DepartmentService.Context;
+﻿using AuthenticationServiceImplementations.Implementations;
+using AuthenticationServiceInterfaces.Interfaces;
+using DepartmentContext;
 using DepartmentService.IServices;
 using DepartmentService.Services;
 using System;
@@ -20,16 +22,12 @@ namespace DepartmentDesktop
         {
             var container = BuildUnityContainer();
 
-            IAdministrationProcess administrationProcess = container.Resolve<IAdministrationProcess>();
-            var result = administrationProcess.CheckExsistData();
-            if (!result.Succeeded)
-            {
-                PrintErrorMessage("Не удалось восстановить данные. {0}", result.Errors);
-            }
+            Tools.DepartmentUserManager.CheckExsistData();
+            Tools.DepartmentUserManager.Login("admin", "qwerty");
 
-			Application.EnableVisualStyles();
+
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-			AuthorizationService.Login("admin", "qwerty");
 
             Application.Run(container.Resolve<FormMain>());
         }
@@ -51,13 +49,6 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<IStudentMoveService, StudentMoveService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
-
-            currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
-			currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
             
 			currentContainer.RegisterType<IContingentService, ContingentService>(new HierarchicalLifetimeManager());
 			currentContainer.RegisterType<ITimeNormService, TimeNormService>(new HierarchicalLifetimeManager());
@@ -72,10 +63,6 @@ namespace DepartmentDesktop
             currentContainer.RegisterType<IStatementService, StatementService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStatementRecordService, StatementRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStatementRecordExtendedService, StatementRecordExtendedService>(new HierarchicalLifetimeManager());
-
-            currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-			currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
-			currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMaterialTechnicalValueGroupService, MaterialTechnicalValueGroupService>(new HierarchicalLifetimeManager());

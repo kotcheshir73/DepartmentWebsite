@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj" />
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj" />
+    <ProjectReference Include="..\..\Core\Enums\Enums.csproj" />
+  </ItemGroup>
+
+</Project>

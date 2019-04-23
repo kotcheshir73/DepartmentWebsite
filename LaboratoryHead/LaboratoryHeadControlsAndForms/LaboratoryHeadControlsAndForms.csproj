@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9F668772-5883-446E-9660-847254016E0E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LaboratoryHeadControlsAndForms</RootNamespace>
+    <AssemblyName>LaboratoryHeadControlsAndForms</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportViewer.Common.v12.12.0.0.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportViewer.WinForms.v12.12.0.0.1\lib\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.10.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller.cs" />
+    <Compile Include="MaterialTechnicalValueGroup\ControlMaterialTechnicalValueGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueGroup\ControlMaterialTechnicalValueGroup.designer.cs">
+      <DependentUpon>ControlMaterialTechnicalValueGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueGroup\FormMaterialTechnicalValueGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueGroup\FormMaterialTechnicalValueGroup.designer.cs">
+      <DependentUpon>FormMaterialTechnicalValueGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueRecord\ControlMaterialTechnicalValueRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueRecord\ControlMaterialTechnicalValueRecord.designer.cs">
+      <DependentUpon>ControlMaterialTechnicalValueRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueRecord\FormMaterialTechnicalValueRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaterialTechnicalValueRecord\FormMaterialTechnicalValueRecord.designer.cs">
+      <DependentUpon>FormMaterialTechnicalValueRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialTechnicalValue\ControlMaterialTechnicalValue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MaterialTechnicalValue\ControlMaterialTechnicalValue.designer.cs">
+      <DependentUpon>ControlMaterialTechnicalValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialTechnicalValue\FormMaterialTechnicalValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaterialTechnicalValue\FormMaterialTechnicalValue.designer.cs">
+      <DependentUpon>FormMaterialTechnicalValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\ReportMaterialTechnicalValuePassport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportMaterialTechnicalValuePassport.designer.cs">
+      <DependentUpon>ReportMaterialTechnicalValuePassport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportMaterialTechnicalValueByClassroom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportMaterialTechnicalValueByClassroom.designer.cs">
+      <DependentUpon>ReportMaterialTechnicalValueByClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportSoftwareRecordsByClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportSoftwareRecordsByClaim.designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportSoftwareRecordsByClassroom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportSoftwareRecordsByClassroom.designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportSoftwareRecordsByInventoryNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportSoftwareRecordsByInventoryNumber.designer.cs">
+      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormInstallSowtware.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormInstallSowtware.designer.cs">
+      <DependentUpon>FormInstallSowtware.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormMaterialTechnicalValueApplyTMCRecrods.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormMaterialTechnicalValueApplyTMCRecrods.designer.cs">
+      <DependentUpon>FormMaterialTechnicalValueApplyTMCRecrods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormUnInstallSowtware.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormUnInstallSowtware.designer.cs">
+      <DependentUpon>FormUnInstallSowtware.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SoftwareRecord\ControlSoftwareRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SoftwareRecord\ControlSoftwareRecord.designer.cs">
+      <DependentUpon>ControlSoftwareRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SoftwareRecord\FormSoftwareRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoftwareRecord\FormSoftwareRecord.designer.cs">
+      <DependentUpon>FormSoftwareRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Software\ControlSoftware.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Software\ControlSoftware.designer.cs">
+      <DependentUpon>ControlSoftware.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Software\FormSoftware.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Software\FormSoftware.designer.cs">
+      <DependentUpon>FormSoftware.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MaterialTechnicalValueGroup\ControlMaterialTechnicalValueGroup.resx">
+      <DependentUpon>ControlMaterialTechnicalValueGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialTechnicalValueGroup\FormMaterialTechnicalValueGroup.resx">
+      <DependentUpon>FormMaterialTechnicalValueGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialTechnicalValueRecord\ControlMaterialTechnicalValueRecord.resx">
+      <DependentUpon>ControlMaterialTechnicalValueRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialTechnicalValueRecord\FormMaterialTechnicalValueRecord.resx">
+      <DependentUpon>FormMaterialTechnicalValueRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialTechnicalValue\ControlMaterialTechnicalValue.resx">
+      <DependentUpon>ControlMaterialTechnicalValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialTechnicalValue\FormMaterialTechnicalValue.resx">
+      <DependentUpon>FormMaterialTechnicalValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Reports\ReportMaterialTechnicalValuePassport.resx">
+      <DependentUpon>ReportMaterialTechnicalValuePassport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportMaterialTechnicalValueByClassroom.resx">
+      <DependentUpon>ReportMaterialTechnicalValueByClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportMaterialTechnicalValueByClassroom.rdlc" />
+    <EmbeddedResource Include="Reports\ReportMaterialTechnicalValuePassport.rdlc" />
+    <EmbeddedResource Include="Reports\ReportSoftwareRecordsByClaim.rdlc" />
+    <EmbeddedResource Include="Reports\ReportSoftwareRecordsByClaim.resx">
+      <DependentUpon>ReportSoftwareRecordsByClaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportSoftwareRecordsByClassroom.rdlc" />
+    <EmbeddedResource Include="Reports\ReportSoftwareRecordsByClassroom.resx">
+      <DependentUpon>ReportSoftwareRecordsByClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportSoftwareRecordsByInventoryNumber.rdlc" />
+    <EmbeddedResource Include="Reports\ReportSoftwareRecordsByInventoryNumber.resx">
+      <DependentUpon>ReportSoftwareRecordsByInventoryNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormInstallSowtware.resx">
+      <DependentUpon>FormInstallSowtware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormMaterialTechnicalValueApplyTMCRecrods.resx">
+      <DependentUpon>FormMaterialTechnicalValueApplyTMCRecrods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormUnInstallSowtware.resx">
+      <DependentUpon>FormUnInstallSowtware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoftwareRecord\ControlSoftwareRecord.resx">
+      <DependentUpon>ControlSoftwareRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoftwareRecord\FormSoftwareRecord.resx">
+      <DependentUpon>FormSoftwareRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Software\ControlSoftware.resx">
+      <DependentUpon>ControlSoftware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Software\FormSoftware.resx">
+      <DependentUpon>FormSoftware.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\LaboratoryHeadInterfaces.ViewModels.LaboratoryProcessMaterialTechincalValuesViewModels.datasource" />
+    <None Include="Properties\DataSources\LaboratoryHeadInterfaces.ViewModels.LaboratoryProcessSoftwareRecordsViewModels.datasource" />
+    <None Include="Properties\DataSources\LaboratoryHeadInterfaces.ViewModels.MaterialTechnicalValueRecordViewModel.datasource" />
+    <None Include="Properties\DataSources\LaboratoryHeadInterfaces.ViewModels.MaterialTechnicalValueViewModel.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{F3E484D4-3940-4266-8794-5CEDDAC96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
+      <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
+      <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
+      <Name>ControlsAndForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LaboratoryHeadImplementations\LaboratoryHeadImplementations.csproj">
+      <Project>{DEBDA63B-83DC-43A6-B887-4120A992FC5E}</Project>
+      <Name>LaboratoryHeadImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LaboratoryHeadInterfaces\LaboratoryHeadInterfaces.csproj">
+      <Project>{F5E2C5AC-DCF0-478C-9254-5BFEA7BA840D}</Project>
+      <Name>LaboratoryHeadInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
