@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentDesktop", "DepartmentDesktop\DepartmentDesktop.csproj", "{E7AFE5A3-0A16-45FA-B89F-1C4103218AAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentWeb", "DepartmentWeb\DepartmentWeb.csproj", "{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentService", "DepartmentService\DepartmentService.csproj", "{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentDesktop", "DepartmentDesktop\DepartmentDesktop.csproj", "{E7AFE5A3-0A16-45FA-B89F-1C4103218AAE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentModel", "DepartmentModel\DepartmentModel.csproj", "{CDF98BDC-D831-44D1-8348-146219F42D2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentTablet", "DepartmentTablet\DepartmentTablet.csproj", "{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentService", "DepartmentService\DepartmentService.csproj", "{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentUniversalTablet", "DepartmentUniversalTablet\DepartmentUniversalTablet.csproj", "{1DB13F83-C317-42A8-8FC9-13D6346AA96C}"
 EndProject
@@ -111,6 +113,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7AFE5A3-0A16-45FA-B89F-1C4103218AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7AFE5A3-0A16-45FA-B89F-1C4103218AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7AFE5A3-0A16-45FA-B89F-1C4103218AAE}.Debug|ARM.ActiveCfg = Debug|Any CPU

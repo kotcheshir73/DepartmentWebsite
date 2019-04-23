@@ -45,8 +45,11 @@
                     @Html.DisplayFor(modelItem => item.ReadyMark)
                 </td>
                 <td>
-                    @Html.ActionLink("Изменить |", "UpdateContractualWork", new { id = item.Id })
-                    @Html.ActionLink(" Удалить", "DeleteContractualWork", new { id = item.Id })
+                    
+                        @Html.ActionLink("Изменить", "UpdateContractualWork", new { id = item.Id })
+                    &nbsp;
+                        @Html.ActionLink("Удалить", "DeleteContractualWork", new { id = item.Id })
+                    
                 </td>
             </tr>
         }
