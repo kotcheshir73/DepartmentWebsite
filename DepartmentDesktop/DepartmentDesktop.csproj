@@ -340,10 +340,6 @@
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DepartmentContext\DepartmentContext.csproj">
-      <Project>{3C73F60D-B076-4676-943A-340477DACCB4}</Project>
-      <Name>DepartmentContext</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>
