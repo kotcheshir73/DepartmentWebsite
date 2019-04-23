@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5A5ED72-C3F9-4912-810E-DA4A6FFC88DE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LearningProgressControlsAndForms</RootNamespace>
+    <AssemblyName>LearningProgressControlsAndForms</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportViewer.Common.v12.12.0.0.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ReportViewer.WinForms.v12.12.0.0.1\lib\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.10.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller.cs" />
+    <Compile Include="DisciplineLessonConductedStudent\ControlDisciplineLessonConductedStudent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonConductedStudent\ControlDisciplineLessonConductedStudent.designer.cs">
+      <DependentUpon>ControlDisciplineLessonConductedStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonConductedStudent\FormDisciplineLessonConductedStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonConductedStudent\FormDisciplineLessonConductedStudent.designer.cs">
+      <DependentUpon>FormDisciplineLessonConductedStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonConducted\ControlDisciplineLessonConducted.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonConducted\ControlDisciplineLessonConducted.designer.cs">
+      <DependentUpon>ControlDisciplineLessonConducted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonConducted\FormDisciplineLessonConducted.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonConducted\FormDisciplineLessonConducted.designer.cs">
+      <DependentUpon>FormDisciplineLessonConducted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskStudentAccept\ControlDisciplineLessonTaskStudentAccept.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskStudentAccept\ControlDisciplineLessonTaskStudentAccept.designer.cs">
+      <DependentUpon>ControlDisciplineLessonTaskStudentAccept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskStudentAccept\FormDisciplineLessonTaskStudentAccept.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskStudentAccept\FormDisciplineLessonTaskStudentAccept.designer.cs">
+      <DependentUpon>FormDisciplineLessonTaskStudentAccept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskVariant\ControlDisciplineLessonTaskVariant.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskVariant\ControlDisciplineLessonTaskVariant.designer.cs">
+      <DependentUpon>ControlDisciplineLessonTaskVariant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskVariant\FormDisciplineLessonTaskVariant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonTaskVariant\FormDisciplineLessonTaskVariant.designer.cs">
+      <DependentUpon>FormDisciplineLessonTaskVariant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonTask\ControlDisciplineLessonTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonTask\ControlDisciplineLessonTask.designer.cs">
+      <DependentUpon>ControlDisciplineLessonTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLessonTask\FormDisciplineLessonTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineLessonTask\FormDisciplineLessonTask.designer.cs">
+      <DependentUpon>FormDisciplineLessonTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLesson\ControlDisciplineLesson.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineLesson\ControlDisciplineLesson.designer.cs">
+      <DependentUpon>ControlDisciplineLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineLesson\FormDisciplineLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineLesson\FormDisciplineLesson.designer.cs">
+      <DependentUpon>FormDisciplineLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineStudentRecord\ControlDisciplineStudentRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineStudentRecord\ControlDisciplineStudentRecord.designer.cs">
+      <DependentUpon>ControlDisciplineStudentRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineStudentRecord\FormDisciplineStudentRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineStudentRecord\FormDisciplineStudentRecord.designer.cs">
+      <DependentUpon>FormDisciplineStudentRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\ReportDisciplineStudentRecordByGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineStudentRecordByGroup.designer.cs">
+      <DependentUpon>ReportDisciplineStudentRecordByGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineStudentRecordBySubgroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineStudentRecordBySubgroup.designer.cs">
+      <DependentUpon>ReportDisciplineStudentRecordBySubgroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportLessonConducted.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportLessonConducted.designer.cs">
+      <DependentUpon>ReportLessonConducted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineLessonTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineLessonTasks.designer.cs">
+      <DependentUpon>ReportDisciplineLessonTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineLessonVariants.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportDisciplineLessonVariants.designer.cs">
+      <DependentUpon>ReportDisciplineLessonVariants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlConfiguringDisciplines.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlConfiguringDisciplines.designer.cs">
+      <DependentUpon>ControlConfiguringDisciplines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlConductedLessons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlConductedLessons.designer.cs">
+      <DependentUpon>ControlConductedLessons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlAcceptTasks.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlAcceptTasks.designer.cs">
+      <DependentUpon>ControlAcceptTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormFillGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormFillGroup.designer.cs">
+      <DependentUpon>FormFillGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormAssignTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormAssignTasks.designer.cs">
+      <DependentUpon>FormAssignTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormCreateAssignTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormCreateAssignTasks.designer.cs">
+      <DependentUpon>FormCreateAssignTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormFillStudents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormFillStudents.designer.cs">
+      <DependentUpon>FormFillStudents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormDuplicateDisciplineLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormDuplicateDisciplineLesson.designer.cs">
+      <DependentUpon>FormDuplicateDisciplineLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormDisciplineLessons.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormDisciplineLessons.designer.cs">
+      <DependentUpon>FormDisciplineLessons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormDisciplineLessonTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormDisciplineLessonTasks.designer.cs">
+      <DependentUpon>FormDisciplineLessonTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormDuplicateDisciplineLessonTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormDuplicateDisciplineLessonTask.designer.cs">
+      <DependentUpon>FormDuplicateDisciplineLessonTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormDisciplineLessonTaskVariants.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormDisciplineLessonTaskVariants.designer.cs">
+      <DependentUpon>FormDisciplineLessonTaskVariants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlStudentsDistribution.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlStudentsDistribution.designer.cs">
+      <DependentUpon>ControlStudentsDistribution.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DisciplineLessonConductedStudent\ControlDisciplineLessonConductedStudent.resx">
+      <DependentUpon>ControlDisciplineLessonConductedStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonConductedStudent\FormDisciplineLessonConductedStudent.resx">
+      <DependentUpon>FormDisciplineLessonConductedStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonConducted\ControlDisciplineLessonConducted.resx">
+      <DependentUpon>ControlDisciplineLessonConducted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonConducted\FormDisciplineLessonConducted.resx">
+      <DependentUpon>FormDisciplineLessonConducted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonTaskStudentAccept\ControlDisciplineLessonTaskStudentAccept.resx">
+      <DependentUpon>ControlDisciplineLessonTaskStudentAccept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonTaskStudentAccept\FormDisciplineLessonTaskStudentAccept.resx">
+      <DependentUpon>FormDisciplineLessonTaskStudentAccept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonTaskVariant\ControlDisciplineLessonTaskVariant.resx">
+      <DependentUpon>ControlDisciplineLessonTaskVariant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonTaskVariant\FormDisciplineLessonTaskVariant.resx">
+      <DependentUpon>FormDisciplineLessonTaskVariant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonTask\ControlDisciplineLessonTask.resx">
+      <DependentUpon>ControlDisciplineLessonTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLessonTask\FormDisciplineLessonTask.resx">
+      <DependentUpon>FormDisciplineLessonTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLesson\ControlDisciplineLesson.resx">
+      <DependentUpon>ControlDisciplineLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineLesson\FormDisciplineLesson.resx">
+      <DependentUpon>FormDisciplineLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineStudentRecord\ControlDisciplineStudentRecord.resx">
+      <DependentUpon>ControlDisciplineStudentRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineStudentRecord\FormDisciplineStudentRecord.resx">
+      <DependentUpon>FormDisciplineStudentRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Reports\ReportDisciplineStudentRecordByGroup.resx">
+      <DependentUpon>ReportDisciplineStudentRecordByGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportDisciplineStudentRecordBySubgroup.resx">
+      <DependentUpon>ReportDisciplineStudentRecordBySubgroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportDisciplineStudentRecordByGroup.rdlc" />
+    <EmbeddedResource Include="Reports\ReportDisciplineStudentRecordBySubgroup.rdlc" />
+    <EmbeddedResource Include="Reports\ReportLessonConducted.resx">
+      <DependentUpon>ReportLessonConducted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportDisciplineLessonTasks.resx">
+      <DependentUpon>ReportDisciplineLessonTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportDisciplineLessonVariants.resx">
+      <DependentUpon>ReportDisciplineLessonVariants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReportDisciplineLessonTasks.rdlc" />
+    <EmbeddedResource Include="Reports\ReportDisciplineLessonVariants.rdlc" />
+    <EmbeddedResource Include="Reports\ReportLessonConducted.rdlc" />
+    <EmbeddedResource Include="Services\ControlConfiguringDisciplines.resx">
+      <DependentUpon>ControlConfiguringDisciplines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlConductedLessons.resx">
+      <DependentUpon>ControlConductedLessons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlAcceptTasks.resx">
+      <DependentUpon>ControlAcceptTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormFillGroup.resx">
+      <DependentUpon>FormFillGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormAssignTasks.resx">
+      <DependentUpon>FormAssignTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormCreateAssignTasks.resx">
+      <DependentUpon>FormCreateAssignTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormFillStudents.resx">
+      <DependentUpon>FormFillStudents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormDuplicateDisciplineLesson.resx">
+      <DependentUpon>FormDuplicateDisciplineLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormDisciplineLessons.resx">
+      <DependentUpon>FormDisciplineLessons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormDisciplineLessonTasks.resx">
+      <DependentUpon>FormDisciplineLessonTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormDuplicateDisciplineLessonTask.resx">
+      <DependentUpon>FormDuplicateDisciplineLessonTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormDisciplineLessonTaskVariants.resx">
+      <DependentUpon>FormDisciplineLessonTaskVariants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlStudentsDistribution.resx">
+      <DependentUpon>ControlStudentsDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\LearningProgressInterfaces.ViewModels.DisciplineLessonTaskVariantViewModel.datasource" />
+    <None Include="Properties\DataSources\LearningProgressInterfaces.ViewModels.DisciplineStudentRecordViewModel.datasource" />
+    <None Include="Properties\DataSources\LearningProgressInterfaces.ViewModels.LessonConductedViewModel.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AcademicYear\AcademicYearImplementations\AcademicYearImplementations.csproj">
+      <Project>{42A82700-3B9B-4D07-AA62-095BFA1096A0}</Project>
+      <Name>AcademicYearImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj">
+      <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
+      <Name>AcademicYearInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{F3E484D4-3940-4266-8794-5CEDDAC96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
+      <Project>{11529938-F115-45FB-A7C1-34C2D661432A}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
+      <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
+      <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
+      <Name>ControlsAndForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LearningProgressImplementations\LearningProgressImplementations.csproj">
+      <Project>{7d39cda2-4b78-40f0-b33f-5e56e840ef53}</Project>
+      <Name>LearningProgressImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LearningProgressInterfaces\LearningProgressInterfaces.csproj">
+      <Project>{64072079-cadd-414a-baa5-49e604733d47}</Project>
+      <Name>LearningProgressInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

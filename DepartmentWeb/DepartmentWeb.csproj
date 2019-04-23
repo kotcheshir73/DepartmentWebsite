@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DepartmentWeb</RootNamespace>
     <AssemblyName>DepartmentWeb</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,13 +71,13 @@
       <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -95,9 +96,7 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -115,6 +114,7 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -278,13 +278,61 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
-      <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
-      <Name>DepartmentModel</Name>
+    <ProjectReference Include="..\AcademicYear\AcademicYearImplementations\AcademicYearImplementations.csproj">
+      <Project>{42A82700-3B9B-4D07-AA62-095BFA1096A0}</Project>
+      <Name>AcademicYearImplementations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
-      <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
-      <Name>DepartmentService</Name>
+    <ProjectReference Include="..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj">
+      <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
+      <Name>AcademicYearInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Authentication\AuthenticationImplementations\AuthenticationImplementations.csproj">
+      <Project>{CB43BDB1-2FD8-4180-90B8-E83E4CDBE55A}</Project>
+      <Name>AuthenticationImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj">
+      <Project>{5A871E8A-69FF-4338-A42F-30305B18FAE9}</Project>
+      <Name>AuthenticationInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{F3E484D4-3940-4266-8794-5CEDDAC96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Enums\Enums.csproj">
+      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Models\Models.csproj">
+      <Project>{448538b9-dd05-44e4-bb1a-e367414bda97}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj">
+      <Project>{93f49a76-4d66-42bb-89f4-31ccc2b2c9fa}</Project>
+      <Name>DatabaseContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\Tools\Tools.csproj">
+      <Project>{F240EBFC-C309-4D05-BC87-5E7143B351D3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScheduleServiceImplementations\ScheduleServiceImplementations.csproj">
+      <Project>{f56cb889-1fdb-4439-8d88-b4fda764fc59}</Project>
+      <Name>ScheduleServiceImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScheduleServiceInterfaces\ScheduleServiceInterfaces.csproj">
+      <Project>{8af59760-0f82-4e1a-a902-6315bc5743b9}</Project>
+      <Name>ScheduleServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj">
+      <Project>{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F}</Project>
+      <Name>ScheduleImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj">
+      <Project>{58DE8AB4-B69F-499C-BCF6-B5720B88ECC4}</Project>
+      <Name>ScheduleInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -96,11 +96,4 @@ namespace DepartmentService.BindingModels
 
         public Guid DisciplineId { get; set; }
     }
-
-    public class ScheduleRecordsForDiciplineBindingModel : PageSettingBinidingModel
-    {
-        public Guid SeasonDateId { get; set; }
-
-        public Guid DisciplineId { get; set; }
-    }
 }

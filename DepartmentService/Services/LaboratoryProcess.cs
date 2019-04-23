@@ -1,8 +1,8 @@
-﻿using DepartmentModel;
+﻿using DepartmentContext;
+using DepartmentModel;
 using DepartmentModel.Enums;
 using DepartmentModel.Models;
 using DepartmentService.BindingModels;
-using DepartmentService.Context;
 using DepartmentService.Helpers;
 using DepartmentService.IServices;
 using DepartmentService.ViewModels;

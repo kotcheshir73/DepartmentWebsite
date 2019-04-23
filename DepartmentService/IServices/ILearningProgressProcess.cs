@@ -50,5 +50,7 @@ namespace DepartmentService.IServices
         ResultService SetDisciplineLessonTaskStudentAccept(List<DisciplineLessonTaskStudentAcceptUpdateBindingModel> model);
 
         ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>> GetDisciplineLessonTaskStudentAcceptForFill(DisciplineLessonTaskStudentAcceptForFillBindingModel model);
+
+        ResultService<List<DisciplineLessonConductedViewModel>> GetFullDisciplineLessonConducteds(FullDisciplineLessonConductedBindingModel model);
     }
 }
