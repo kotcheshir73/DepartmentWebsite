@@ -1,16 +1,9 @@
 ﻿using AuthenticationModels.Models;
-using AuthenticationServiceInterfaces.ViewModels;
-using DepartmentService;
-using DepartmentService.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DepartmentDesktop
 {
-	public static class AuthorizationService
+    public static class AuthorizationService
 	{
 		private static DepartmentUser _user;
 
@@ -20,7 +13,7 @@ namespace DepartmentDesktop
 
 		public static bool Login(string userName, string password)
 		{
-            _user = AccessCheckService.Login(userName, password);
+            //_user = AccessCheckService.Login(userName, password);
 			return _user != null;
 		}
 

@@ -216,12 +216,6 @@
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.Designer.cs">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\MakeTicketsUS.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Services\MakeTicketsUS.Designer.cs">
-      <DependentUpon>MakeTicketsUS.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,9 +235,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.resx">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
-      <DependentUpon>MakeTicketsUS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -343,10 +334,6 @@
     <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
-      <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
-      <Name>DepartmentService</Name>
     </ProjectReference>
     <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadControlsAndForms\LaboratoryHeadControlsAndForms.csproj">
       <Project>{9f668772-5883-446e-9660-847254016e0e}</Project>

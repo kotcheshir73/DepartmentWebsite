@@ -39,8 +39,8 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
 		private void MakeTicketsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = new Controllers.MakeTicketsUS();
-			ApplyControl(control);
+			//var control = new Controllers.MakeTicketsUS();
+			//ApplyControl(control);
 		}
         /// <summary>
         /// Расчет штатов
