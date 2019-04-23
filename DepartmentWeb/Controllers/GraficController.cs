@@ -1,31 +1,29 @@
-﻿using System;
+﻿using AcademicYearInterfaces.BindingModels;
+using AcademicYearInterfaces.Interfaces;
+using AcademicYearInterfaces.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using DepartmentService;
-using DepartmentService.IServices;
 
 namespace DepartmentWeb.Controllers
 {
     public class GraficController : Controller
     {
         private IAcademicYearService _serviceAY;
-        private IGraficService _serviceG;
-        private IGraficRecordService _serviceGR;
+        private IDisciplineTimeDistributionService _serviceDTD;
+        private IDisciplineTimeDistributionRecordService _serviceDTDR;
 
-        public GraficController( IAcademicYearService serviceAY, IGraficService serviceG, IGraficRecordService serviceGR)
+        public GraficController( IAcademicYearService serviceAY, IDisciplineTimeDistributionService serviceDTD, IDisciplineTimeDistributionRecordService serviceDTDR)
         {           
             _serviceAY = serviceAY;
-            _serviceG = serviceG;
-            _serviceGR = serviceGR;
+            _serviceDTD = serviceDTD;
+            _serviceDTDR = serviceDTDR;
 
         }
         // GET: Grafic
         public ActionResult Index()
         {            
-            var tmp = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());            
+            var tmp = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel());            
             return View(tmp.Result);
         }
 
@@ -36,7 +34,7 @@ namespace DepartmentWeb.Controllers
             {
                 return PartialView();
             }
-            var tmp = _serviceG.GetGrafics(new DepartmentService.BindingModels.GraficGetBindingModel()
+            var tmp = _serviceDTD.GetDisciplineTimeDistributions(new DisciplineTimeDistributionGetBindingModel()
             {  
                 LecturerId = new Guid("837FF099-55C2-41B9-8B0A-8A341AA51469"),
                 AcademicYearId = new Guid(yearId)
@@ -68,43 +66,43 @@ namespace DepartmentWeb.Controllers
         //}
 
         
-        public ActionResult ConvertPartial(DepartmentService.ViewModels.GraficViewModel graficViewModel)
+        public ActionResult ConvertPartial(DisciplineTimeDistributionViewModel graficViewModel)
         {
-            var tmp = _serviceGR.GetGraficRecords(new DepartmentService.BindingModels.GraficRecordGetBindingModel()
+            var tmp = _serviceDTDR.GetDisciplineTimeDistributionRecords(new DisciplineTimeDistributionRecordGetBindingModel()
             {
-                GraficId = graficViewModel.Id
+                DisciplineTimeDistributionId = graficViewModel.Id
             });
 
             return PartialView("~/Views/Grafic/Partial.cshtml", tmp.Result.List);
         }
 
         [HttpPost]
-        public ActionResult GraficRecord(List<DepartmentService.ViewModels.GraficRecordViewModel> graficRecordViews)
+        public ActionResult GraficRecord(List<DisciplineTimeDistributionRecordViewModel> graficRecordViews)
         {
             //код сохранения
             foreach (var tmp in graficRecordViews)
             {
-                var element = _serviceGR.GetGraficRecord(new DepartmentService.BindingModels.GraficRecordGetBindingModel()
+                var element = _serviceDTDR.GetDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordGetBindingModel()
                 {
                     Id = tmp.Id
                 });
-                _serviceGR.UpdateGraficRecord(new DepartmentService.BindingModels.GraficRecordSetBindingModel()
+                _serviceDTDR.UpdateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel()
                 {
                     Id = element.Result.Id,
-                    GraficId = element.Result.GraficId,
+                    DisciplineTimeDistributionId = element.Result.DisciplineTimeDistributionId,
                     TimeNormId = element.Result.TimeNormId,
                     WeekNumber = element.Result.WeekNumber,
                     Hours = tmp.Hours
                 });
             }
 
-            var academicYearViewModel = _serviceAY.GetAcademicYears(new DepartmentService.BindingModels.AcademicYearGetBindingModel());
+            var academicYearViewModel = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel());
             return View("~/Views/Grafic/Index.cshtml", academicYearViewModel.Result);
         }
 
         public ActionResult GraficRecord(string id)
         {
-            var tmp = _serviceG.GetGrafic(new DepartmentService.BindingModels.GraficGetBindingModel()
+            var tmp = _serviceDTD.GetDisciplineTimeDistribution(new DisciplineTimeDistributionGetBindingModel()
             {
                 Id = new Guid(id)
             });
