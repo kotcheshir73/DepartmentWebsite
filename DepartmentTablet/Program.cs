@@ -1,5 +1,4 @@
-﻿using AuthenticationServiceImplementations.Implementations;
-using AuthenticationServiceInterfaces.Interfaces;
+﻿//using AuthenticationServiceInterfaces.Interfaces;
 using DepartmentContext;
 using DepartmentService.IServices;
 using DepartmentService.Services;
@@ -24,12 +23,12 @@ namespace DepartmentTablet
         {
             var container = BuildUnityContainer();
 
-            IAdministrationProcess administrationProcess = container.Resolve<IAdministrationProcess>();
-            var result = administrationProcess.CheckExsistData();
-            if (!result.Succeeded)
-            {
-                PrintErrorMessage("Не удалось восстановить данные. {0}", result.Errors);
-            }
+            //IAdministrationProcess administrationProcess = container.Resolve<IAdministrationProcess>();
+            //var result = administrationProcess.CheckExsistData();
+            //if (!result.Succeeded)
+            //{
+            //    PrintErrorMessage("Не удалось восстановить данные. {0}", result.Errors);
+            //}
 
             if (File.Exists("Config.conf"))
             {
@@ -90,9 +89,9 @@ namespace DepartmentTablet
             currentContainer.RegisterType<IStreamLessonService, StreamLessonService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
 
-            currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMaterialTechnicalValueGroupService, MaterialTechnicalValueGroupService>(new HierarchicalLifetimeManager());
@@ -110,7 +109,7 @@ namespace DepartmentTablet
             currentContainer.RegisterType<IDisciplineLessonTaskStudentAcceptService, DisciplineLessonTaskStudentAcceptService>(new HierarchicalLifetimeManager());
 
 
-            currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
+            //currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILearningProgressProcess, LearningProgressProcess>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILaboratoryProcess, LaboratoryProcess>(new HierarchicalLifetimeManager());
 
