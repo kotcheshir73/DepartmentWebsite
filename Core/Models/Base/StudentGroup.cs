@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Models.Base
 {
@@ -56,5 +57,17 @@ namespace Models.Base
 
         [ForeignKey("StudentGroupId")]
         public virtual List<DisciplineLessonConducted> DisciplineLessonConducteds { get; set; }
+
+        //-------------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            if (!string.IsNullOrEmpty(GroupName))
+            {
+                result.Append(GroupName);
+            }
+            return result.ToString();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Models.Base
 {
@@ -41,5 +42,16 @@ namespace Models.Base
         public StudentGroup StudentGroupTo { get; set; }
 
         //-------------------------------------------------------------------------
+
+        //-------------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append(StudentOrderBlock?.ToString());
+            result.Append(" ");
+            result.Append(Student?.ToString());
+            return result.ToString();
+        }
     }
 }
