@@ -189,7 +189,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizationService.cs" />
     <Compile Include="Controllers\StandartControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -291,10 +290,6 @@
       <Project>{b16ec094-764b-4148-9c5a-2d6d1f8358b6}</Project>
       <Name>AcademicYearControlsAndForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
-      <Project>{B8F97CE3-C035-4FC7-A316-877610E7ADF4}</Project>
-      <Name>AuthenticationModels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Authentication\AuthenticationControlsAndForms\AuthenticationControlsAndForms.csproj">
       <Project>{9388a4cb-d45c-495a-ac54-0d40116ac1a2}</Project>
       <Name>AuthenticationControlsAndForms</Name>
@@ -303,29 +298,13 @@
       <Project>{6fe79205-77ce-4402-9558-919d283dca19}</Project>
       <Name>BaseControlsAndForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
-      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
-      <Name>BaseImplementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
-      <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
-      <Name>BaseInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Enums\Enums.csproj">
       <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
       <Name>Enums</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj">
-      <Project>{93f49a76-4d66-42bb-89f4-31ccc2b2c9fa}</Project>
-      <Name>DatabaseContext</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
-      <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
-      <Name>DepartmentModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadControlsAndForms\LaboratoryHeadControlsAndForms.csproj">
       <Project>{9f668772-5883-446e-9660-847254016e0e}</Project>
