@@ -1,10 +1,10 @@
 ﻿using Models.Examination;
 using Models.LearningProgress;
-using Models.LecturerData;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Models.AcademicYearData
 {
@@ -46,5 +46,17 @@ namespace Models.AcademicYearData
 
         [ForeignKey("AcademicPlanRecordId")]
         public virtual List<ExaminationList> ExaminationLists { get; set; }
+
+        //-------------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            if (!string.IsNullOrEmpty(Title))
+            {
+                result.Append(Title);
+            }
+            return result.ToString();
+        }
     }
 }

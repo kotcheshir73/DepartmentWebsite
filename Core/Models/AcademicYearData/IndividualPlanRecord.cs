@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Models.LecturerData
+namespace Models.AcademicYearData
 {
     /// <summary>
     /// Класс, описывающий записи индивидуального плана
@@ -32,7 +32,7 @@ namespace Models.LecturerData
 
         public virtual IndividualPlan IndividualPlan { get; set; }
 
-        public virtual IndividualPlanKindOfWork IndividualPlanKindOfWorks { get; set; }
+        public virtual IndividualPlanKindOfWork IndividualPlanKindOfWork { get; set; }
 
         //-------------------------------------------------------------------------
     }

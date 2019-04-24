@@ -2227,7 +2227,65 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-        
+
+        public ResultService CreateAllFindIndividualPlans(AcademicYearGetBindingModel model)
+        {
+            try
+            {
+                DepartmentUserManager.CheckAccess(AccessOperation.Индивидуальный_план, AccessType.Delete, "Индивидуальный план");
+
+
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var kindOfWorks = context.IndividualPlanKindOfWorks.Where(record => !record.IsDeleted).ToList();
+                    var lecturers = context.Lecturers.Where(record => !record.IsDeleted).ToList();
+                    using (var transaction = context.Database.BeginTransaction())
+                    {
+                        foreach (var lec in lecturers)
+                        {
+                            var individualPlan = context.IndividualPlans.FirstOrDefault(record => !record.IsDeleted && record.LecturerId == lec.Id && record.AcademicYearId == model.Id);
+                            if (individualPlan == null)
+                            {
+                                individualPlan = AcademicYearModelFacotryFromBindingModel.CreateIndividualPlan(new IndividualPlanSetBindingModel
+                                {
+                                    AcademicYearId = model.Id.Value,
+                                    LecturerId = lec.Id,
+                                });
+                                context.IndividualPlans.Add(individualPlan);
+                                context.SaveChanges();
+                            }
+                            var lecturersTimes = context.IndividualPlanRecords.Where(record => !record.IsDeleted && record.IndividualPlanId == individualPlan.Id);
+                            foreach (var kindOfW in kindOfWorks)
+                            {
+                                if (lecturersTimes.FirstOrDefault(record => record.IndividualPlanKindOfWorkId == kindOfW.Id) == null)
+                                {
+                                    var entity = AcademicYearModelFacotryFromBindingModel.CreateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel
+                                    {
+                                        IndividualPlanId = individualPlan.Id,
+                                        IndividualPlanKindOfWorkId = kindOfW.Id,
+                                        PlanAutumn = 0.0,
+                                        PlanSpring = 0.0,
+                                        FactAutumn = 0.0,
+                                        FactSpring = 0.0
+
+                                    });
+                                    context.IndividualPlanRecords.Add(entity);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+
+                        transaction.Commit();
+                        return ResultService.Success();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         /// <summary>
         /// Добавление Ячейки в строку (На вход подаем: строку, номер колонки, тип значения, стиль)
         /// </summary>
@@ -2326,6 +2384,5 @@ namespace AcademicYearImplementations.Implementations
                 )
             ); // Выход
         }
-
     }
 }

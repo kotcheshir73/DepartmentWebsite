@@ -181,6 +181,78 @@
     <Compile Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.Designer.cs">
       <DependentUpon>FormDisciplineTimeDistribution.cs</DependentUpon>
     </Compile>
+    <Compile Include="IndividualPlanKindOfWork\ControlIndividualPlanKindOfWork.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\ControlIndividualPlanKindOfWork.Designer.cs">
+      <DependentUpon>ControlIndividualPlanKindOfWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\FormIndividualPlanKindOfWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\FormIndividualPlanKindOfWork.Designer.cs">
+      <DependentUpon>FormIndividualPlanKindOfWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\ControlIndividualPlanNIRContractualWork.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\ControlIndividualPlanNIRContractualWork.Designer.cs">
+      <DependentUpon>ControlIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\FormIndividualPlanNIRContractualWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\FormIndividualPlanNIRContractualWork.Designer.cs">
+      <DependentUpon>FormIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\ControlIndividualPlanNIRScientificArticle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\ControlIndividualPlanNIRScientificArticle.Designer.cs">
+      <DependentUpon>ControlIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\FormIndividualPlanNIRScientificArticle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\FormIndividualPlanNIRScientificArticle.Designer.cs">
+      <DependentUpon>FormIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\ControlIndividualPlanRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\ControlIndividualPlanRecord.Designer.cs">
+      <DependentUpon>ControlIndividualPlanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\FormIndividualPlanRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\FormIndividualPlanRecord.Designer.cs">
+      <DependentUpon>FormIndividualPlanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\ControlIndividualPlanTitle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\ControlIndividualPlanTitle.Designer.cs">
+      <DependentUpon>ControlIndividualPlanTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\FormIndividualPlanTitle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\FormIndividualPlanTitle.Designer.cs">
+      <DependentUpon>FormIndividualPlanTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlan\ControlIndividualPlan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlan\ControlIndividualPlan.Designer.cs">
+      <DependentUpon>ControlIndividualPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlan\FormIndividualPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlan\FormIndividualPlan.Designer.cs">
+      <DependentUpon>FormIndividualPlan.cs</DependentUpon>
+    </Compile>
     <Compile Include="LecturerWorkload\ControlLecturerWorkload.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -315,6 +387,42 @@
     <EmbeddedResource Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.resx">
       <DependentUpon>FormDisciplineTimeDistribution.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanKindOfWork\ControlIndividualPlanKindOfWork.resx">
+      <DependentUpon>ControlIndividualPlanKindOfWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanKindOfWork\FormIndividualPlanKindOfWork.resx">
+      <DependentUpon>FormIndividualPlanKindOfWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRContractualWork\ControlIndividualPlanNIRContractualWork.resx">
+      <DependentUpon>ControlIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRContractualWork\FormIndividualPlanNIRContractualWork.resx">
+      <DependentUpon>FormIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRScientificArticle\ControlIndividualPlanNIRScientificArticle.resx">
+      <DependentUpon>ControlIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRScientificArticle\FormIndividualPlanNIRScientificArticle.resx">
+      <DependentUpon>FormIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanRecord\ControlIndividualPlanRecord.resx">
+      <DependentUpon>ControlIndividualPlanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanRecord\FormIndividualPlanRecord.resx">
+      <DependentUpon>FormIndividualPlanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanTitle\ControlIndividualPlanTitle.resx">
+      <DependentUpon>ControlIndividualPlanTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanTitle\FormIndividualPlanTitle.resx">
+      <DependentUpon>FormIndividualPlanTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlan\ControlIndividualPlan.resx">
+      <DependentUpon>ControlIndividualPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlan\FormIndividualPlan.resx">
+      <DependentUpon>FormIndividualPlan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LecturerWorkload\ControlLecturerWorkload.resx">
       <DependentUpon>ControlLecturerWorkload.cs</DependentUpon>
     </EmbeddedResource>
@@ -426,5 +534,6 @@
   <ItemGroup>
     <None Include="Resources\Up.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

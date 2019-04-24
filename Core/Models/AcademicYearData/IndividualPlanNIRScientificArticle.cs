@@ -1,8 +1,7 @@
-﻿using Models.Base;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
-namespace Models.LecturerData
+namespace Models.AcademicYearData
 {
     /// <summary>
     /// Класс, описывающий НИР(научные статьи) преподавателей
@@ -11,29 +10,32 @@ namespace Models.LecturerData
     public class IndividualPlanNIRScientificArticle : BaseEntity
     {
         [DataMember]
-        public Guid LecturerId { get; set; }
-        
+        public Guid IndividualPlanId { get; set; }
+
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public int Order { get; set; }
 
         [DataMember]
         public string TypeOfPublication { get; set; }
 
         [DataMember]
-        public string Volume { get; set; }
+        public double Volume { get; set; }
 
         [DataMember]
         public string Publishing { get; set; }
 
         [DataMember]
-        public string Year { get; set; }
+        public int Year { get; set; }
 
         [DataMember]
         public string Status { get; set; }
 
         //-------------------------------------------------------------------------
 
-        public virtual Lecturer Lecturer { get; set; }
+        public virtual IndividualPlan IndividualPlan { get; set; }
 
         //-------------------------------------------------------------------------
     }

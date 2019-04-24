@@ -1,6 +1,7 @@
 ﻿using AcademicYearControlsAndForms.AcademicPlan;
 using AcademicYearControlsAndForms.Contingent;
 using AcademicYearControlsAndForms.DisciplineTimeDistribution;
+using AcademicYearControlsAndForms.IndividualPlan;
 using AcademicYearControlsAndForms.LecturerWorkload;
 using AcademicYearControlsAndForms.SeasonDates;
 using AcademicYearControlsAndForms.StreamLesson;
@@ -91,6 +92,14 @@ namespace AcademicYearControlsAndForms.AcademicYear
                 tabPageDisciplineTimeDistribution.Controls.Add(controlLW);
             }
             (tabPageDisciplineTimeDistribution.Controls[0] as ControlDisciplineTimeDistribution).LoadData(null, _id.Value);
+
+            if (tabPageIndividualPlan.Controls.Count == 0)
+            {
+                var controlLW = Container.Resolve<ControlIndividualPlan>();
+                controlLW.Dock = DockStyle.Fill;
+                tabPageIndividualPlan.Controls.Add(controlLW);
+            }
+            (tabPageIndividualPlan.Controls[0] as ControlIndividualPlan).LoadData(_id.Value);
 
             var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)

@@ -1,18 +1,17 @@
-﻿using Models.Base;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
-namespace Models.LecturerData
+namespace Models.AcademicYearData
 {
     /// <summary>
-    /// Класс, описывающий НИР(научные статьи) преподавателей
+    /// Класс, описывающий Участие в хоздоговорной НИР преподавателей
     /// </summary>
     [DataContract]
     public class IndividualPlanNIRContractualWork : BaseEntity
     {
         [DataMember]
-        public Guid LecturerId { get; set; }
-        
+        public Guid IndividualPlanId { get; set; }
+
         [DataMember]
         public string JobContent { get; set; }
 
@@ -23,11 +22,11 @@ namespace Models.LecturerData
         public string PlannedTerm { get; set; }
 
         [DataMember]
-        public string ReadyMark { get; set; }
+        public bool ReadyMark { get; set; }
 
         //-------------------------------------------------------------------------
 
-        public virtual Lecturer Lecturer { get; set; }
+        public virtual IndividualPlan IndividualPlan { get; set; }
 
         //-------------------------------------------------------------------------
     }

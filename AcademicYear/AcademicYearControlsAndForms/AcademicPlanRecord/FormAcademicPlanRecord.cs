@@ -129,8 +129,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
             {
                 return false;
             }
-            int zet = 0;
-            if (!int.TryParse(textBoxZet.Text, out zet))
+            if (!int.TryParse(textBoxZet.Text, out int zet))
             {
                 return false;
             }

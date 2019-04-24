@@ -108,5 +108,12 @@ namespace AcademicYearInterfaces.Interfaces
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService ImportLecturerWorkload(ImportLecturerWorkloadBindingModel model);
+
+        /// <summary>
+		/// Создание всех возможных записей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService CreateAllFindIndividualPlans(AcademicYearGetBindingModel model);
     }
 }

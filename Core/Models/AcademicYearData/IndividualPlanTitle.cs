@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
-namespace Models.LecturerData
+namespace Models.AcademicYearData
 {
     /// <summary>
     /// Класс, описывающий заголовки индивидуального плана

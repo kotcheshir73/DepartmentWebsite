@@ -213,5 +213,87 @@ namespace AcademicYearImplementations
 
             return entity;
 		}
+
+        public static IndividualPlanTitle CreateIndividualPlanTitle(IndividualPlanTitleSetBindingModel model, IndividualPlanTitle entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanTitle();
+            }
+
+            entity.Title = model.Title;
+            entity.Order = model.Order;
+            return entity;
+        }
+
+        public static IndividualPlanKindOfWork CreateIndividualPlanKindOfWork(IndividualPlanKindOfWorkSetBindingModel model, IndividualPlanKindOfWork entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanKindOfWork();
+            }
+            entity.IndividualPlanTitleId = model.IndividualPlanTitleId;
+            entity.Name = model.Name;
+            entity.TimeNormDescription = model.TimeNormDescription;
+            entity.Order = model.Order;
+            return entity;
+        }
+
+        public static IndividualPlan CreateIndividualPlan(IndividualPlanSetBindingModel model, IndividualPlan entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlan();
+            }
+            entity.LecturerId = model.LecturerId;
+            entity.AcademicYearId = model.AcademicYearId;
+            return entity;
+        }
+
+        public static IndividualPlanRecord CreateIndividualPlanRecord(IndividualPlanRecordSetBindingModel model, IndividualPlanRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanRecord();
+            }
+            entity.IndividualPlanKindOfWorkId = model.IndividualPlanKindOfWorkId;
+            entity.IndividualPlanId = model.IndividualPlanId;
+            entity.PlanAutumn = model.PlanAutumn;
+            entity.FactAutumn = model.FactAutumn;
+            entity.PlanSpring = model.PlanSpring;
+            entity.FactSpring = model.FactSpring;
+            return entity;
+        }
+
+        public static IndividualPlanNIRScientificArticle CreateIndividualPlanNIRScientificArticle(IndividualPlanNIRScientificArticleSetBindingModel model, IndividualPlanNIRScientificArticle entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanNIRScientificArticle();
+            }
+            entity.IndividualPlanId = model.IndividualPlanId;
+            entity.Name = model.Name;
+            entity.Order = model.Order;
+            entity.Publishing = model.Publishing;
+            entity.Status = model.Status;
+            entity.TypeOfPublication = model.TypeOfPublication;
+            entity.Volume = model.Volume;
+            entity.Year = model.Year;
+            return entity;
+        }
+
+        public static IndividualPlanNIRContractualWork CreateIndividualPlanNIRContractualWork(IndividualPlanNIRContractualWorkSetBindingModel model, IndividualPlanNIRContractualWork entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new IndividualPlanNIRContractualWork();
+            }
+            entity.IndividualPlanId = model.IndividualPlanId;
+            entity.JobContent = model.JobContent;
+            entity.PlannedTerm = model.PlannedTerm;
+            entity.Post = model.Post;
+            entity.ReadyMark = model.ReadyMark;
+            return entity;
+        }
     }
 }

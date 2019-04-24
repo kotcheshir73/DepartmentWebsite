@@ -121,7 +121,7 @@ namespace AcademicYearImplementations
                 Workload = entity.Workload
             };
         }
-        
+
         public static DisciplineTimeDistributionViewModel CreateDisciplineTimeDistributionViewModel(DisciplineTimeDistribution entity)
         {
             return new DisciplineTimeDistributionViewModel
@@ -239,7 +239,7 @@ namespace AcademicYearImplementations
                 UseInLearningProgress = entity.UseInLearningProgress
             };
         }
-        
+
         public static AcademicPlanRecordForDiciplineViewModel CreateAcademicPlanRecordForDiciplineViewModel(AcademicPlanRecord entity)
         {
             return new AcademicPlanRecordForDiciplineViewModel
@@ -250,6 +250,90 @@ namespace AcademicYearImplementations
                 DisciplineId = entity.DisciplineId,
                 Disciplne = entity.Discipline.DisciplineName,
                 Semester = entity.Semester.ToString()
+            };
+        }
+
+        public static IndividualPlanTitleViewModel CreateIndividualPlanTitleViewModel(IndividualPlanTitle entity)
+        {
+            return new IndividualPlanTitleViewModel
+            {
+                Id = entity.Id,
+                Title = entity.Title,
+                Order = entity.Order
+            };
+        }
+
+        public static IndividualPlanKindOfWorkViewModel CreateIndividualPlanKindOfWorkViewModel(IndividualPlanKindOfWork entity)
+        {
+            return new IndividualPlanKindOfWorkViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanTitleId = entity.IndividualPlanTitleId,
+                IndividualPlanTitle = entity.IndividualPlanTitle.Title,
+                Name = entity.Name,
+                TimeNormDescription = entity.TimeNormDescription,
+                Order = entity.Order
+            };
+        }
+
+        public static IndividualPlanViewModel CreateIndividualPlanViewModel(IndividualPlan entity)
+        {
+            return new IndividualPlanViewModel
+            {
+                Id = entity.Id,
+                LecturerId = entity.LecturerId,
+                AcademicYearId = entity.AcademicYearId,
+                AcademicYearsTitle = entity.AcademicYear.ToString(),
+                LecturerName = entity.Lecturer.ToString()
+            };
+        }
+
+        public static IndividualPlanRecordViewModel CreateIndividualPlanRecordViewModel(IndividualPlanRecord entity)
+        {
+            return new IndividualPlanRecordViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanKindOfWorkId = entity.IndividualPlanKindOfWorkId,
+                IndividualPlanId = entity.IndividualPlanId,
+                IndividualPlanKindOfWorkName = entity.IndividualPlanKindOfWork.Name,
+                IndividualPlanName = entity.IndividualPlan.ToString(),
+                Name = entity.IndividualPlanKindOfWork.Name,
+                TimeNormDescription = entity.IndividualPlanKindOfWork.TimeNormDescription,
+                PlanAutumn = entity.PlanAutumn,
+                FactAutumn = entity.FactAutumn,
+                PlanSpring = entity.PlanSpring,
+                FactSpring = entity.FactSpring
+            };
+        }
+
+        public static IndividualPlanNIRScientificArticleViewModel CreateIndividualPlanNIRScientificArticleViewModel(IndividualPlanNIRScientificArticle entity)
+        {
+            return new IndividualPlanNIRScientificArticleViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanId = entity.IndividualPlanId,
+                IndividualPlanName = entity.IndividualPlan.ToString(),
+                Name = entity.Name,
+                Order = entity.Order,
+                Publishing = entity.Publishing,
+                Status = entity.Status,
+                TypeOfPublication = entity.TypeOfPublication,
+                Volume = entity.Volume,
+                Year = entity.Year
+            };
+        }
+
+        public static IndividualPlanNIRContractualWorkViewModel CreateIndividualPlanNIRContractualWorkViewModel(IndividualPlanNIRContractualWork entity)
+        {
+            return new IndividualPlanNIRContractualWorkViewModel
+            {
+                Id = entity.Id,
+                IndividualPlanId = entity.IndividualPlanId,
+                IndividualPlanName = entity.IndividualPlan.ToString(),
+                JobContent = entity.JobContent,
+                PlannedTerm = entity.PlannedTerm,
+                Post = entity.Post,
+                ReadyMark = entity.ReadyMark
             };
         }
     }
