@@ -197,7 +197,7 @@ namespace ScheduleServiceImplementations.Helpers
         {
             try
             {
-                var currentDates = ScheduleHelper.GetCurrentDates();
+                var currentDates = DepartmentUserManager.GetCurrentDates();
 
                 for (int i = 0; i < model.Classrooms.Count; ++i)
                 {

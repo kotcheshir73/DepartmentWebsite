@@ -23,7 +23,7 @@ namespace ScheduleServiceImplementations.Helpers
         {
             try
             {
-                _seasonDate = ScheduleHelper.GetCurrentDates();
+                _seasonDate = DepartmentUserManager.GetCurrentDates();
                 _findOffsetRecords = new List<OffsetRecordRecordBindingModel>();
 
                 ///var excel = new Application();
@@ -506,7 +506,7 @@ namespace ScheduleServiceImplementations.Helpers
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    _seasonDate = ScheduleHelper.GetCurrentDates();
+                    _seasonDate = DepartmentUserManager.GetCurrentDates();
                     _findExamRecords = new List<ExaminationRecordRecordBindingModel>();
                     var dateBeginExamination = Convert.ToDateTime(_seasonDate.DateBeginExamination);
                     var lessons = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен") || slt.Title.Contains("консультация")).ToList();

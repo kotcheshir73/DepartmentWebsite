@@ -14,25 +14,6 @@ namespace ScheduleImplementations.Helpers
     // TODO разбить на несколько классов по логике
     public class ScheduleHelper
     {
-        public static SeasonDates GetCurrentDates()
-        {
-            using (var context = DepartmentUserManager.GetContext)
-            {
-                var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
-                if (currentSetting == null)
-                {
-                    throw new Exception("CurrentSetting not found");
-                }
-
-                var currentDates = context.SeasonDates.Where(sd => sd.Title == currentSetting.Value).FirstOrDefault();
-                if (currentDates == null)
-                {
-                    throw new Exception("CurrentDates not found");
-                }
-                return currentDates;
-            }
-        }
-
         public static bool CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDates seasonDate)
         {
             DateTime[] lessons;

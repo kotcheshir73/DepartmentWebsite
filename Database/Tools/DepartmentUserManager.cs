@@ -1,5 +1,6 @@
 ﻿using DatabaseContext;
 using Enums;
+using Models.AcademicYearData;
 using Models.Authentication;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,25 @@ namespace Tools
             get
             {
                 return new DepartmentDatabaseContext();
+            }
+        }
+
+        public static SeasonDates GetCurrentDates()
+        {
+            using (var context = GetContext)
+            {
+                var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
+                if (currentSetting == null)
+                {
+                    throw new Exception("CurrentSetting not found");
+                }
+
+                var currentDates = context.SeasonDates.Where(sd => sd.Title == currentSetting.Value).FirstOrDefault();
+                if (currentDates == null)
+                {
+                    throw new Exception("CurrentDates not found");
+                }
+                return currentDates;
             }
         }
 

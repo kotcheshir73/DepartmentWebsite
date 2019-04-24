@@ -389,8 +389,9 @@ namespace ScheduleImplementations.Services
                 return ResultService.Error("Error:", "ScheduleSemester not found", ResultServiceStatusCode.NotFound);
             }
             var list = resultSemester.Result;
+            model.Times = times;
 
-            return ExportScheduleToExcel.ExportSemesterRecordExcel(times, list, model);
+            return ExportScheduleToExcel.ExportSemesterRecordExcel(list, model);
         }
 
         public ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model)
@@ -409,7 +410,15 @@ namespace ScheduleImplementations.Services
             }
             var list = resultOffset.Result;
 
-            return ExportScheduleToExcel.ExportOffsetRecordExcel(times, list, model);
+            var resultDates = GetCurrentDates();
+            if (!resultDates.Succeeded)
+            {
+                return ResultService.Error("Error:", "CurrentDates not found", ResultServiceStatusCode.NotFound);
+            }
+            model.Times = times;
+            model.Dates = resultDates.Result;
+
+            return ExportScheduleToExcel.ExportOffsetRecordExcel(list, model);
         }
 
         public ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model)
@@ -434,7 +443,15 @@ namespace ScheduleImplementations.Services
             }
             var list = resultExamination.Result;
 
-            return ExportScheduleToExcel.ExportExaminationRecordExcel(times, list, model);
+            var resultDates = GetCurrentDates();
+            if (!resultDates.Succeeded)
+            {
+                return ResultService.Error("Error:", "CurrentDates not found", ResultServiceStatusCode.NotFound);
+            }
+            model.Times = times;
+            model.Dates = resultDates.Result;
+
+            return ExportScheduleToExcel.ExportExaminationRecordExcel(list, model);
         }
 
         public ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model)

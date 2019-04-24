@@ -24,7 +24,7 @@ namespace ScheduleServiceImplementations.Helpers
         {
             using (var context = DepartmentUserManager.GetContext)
             {
-                _seasonDate = ScheduleHelper.GetCurrentDates();
+                _seasonDate = DepartmentUserManager.GetCurrentDates();
                 WebClient web = new WebClient
                 {
                     Encoding = Encoding.Default

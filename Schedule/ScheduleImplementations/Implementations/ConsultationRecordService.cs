@@ -23,7 +23,7 @@ namespace ScheduleImplementations.Services
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
+                var currentDates = model.SeasonDateId ?? DepartmentUserManager.GetCurrentDates().Id;
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
@@ -135,7 +135,7 @@ namespace ScheduleImplementations.Services
                         };
                         var seasonDate = model.SeasonDateId.HasValue ?
                                                 context.SeasonDates.FirstOrDefault(x => x.Id == model.SeasonDateId.Value) :
-                                                ScheduleHelper.GetCurrentDates();
+                                                DepartmentUserManager.GetCurrentDates();
                         ScheduleHelper.CheckCreateConsultation(record, seasonDate);
 
                         result.Add(ScheduleModelFactoryToViewModel.CreateConsultationRecordShortViewModel(records[i], record));
@@ -181,7 +181,7 @@ namespace ScheduleImplementations.Services
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
-                var seasonDate = ScheduleHelper.GetCurrentDates();
+                var seasonDate = DepartmentUserManager.GetCurrentDates();
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
@@ -260,7 +260,7 @@ namespace ScheduleImplementations.Services
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
-                var currentDates = model.SeasonDateId ?? ScheduleHelper.GetCurrentDates().Id;
+                var currentDates = model.SeasonDateId ?? DepartmentUserManager.GetCurrentDates().Id;
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
