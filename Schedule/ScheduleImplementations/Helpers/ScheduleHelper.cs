@@ -56,9 +56,21 @@ namespace ScheduleImplementations.Helpers
                     }
 
                     // проверяем, что пара свободна
-                    var entry = context.SemesterRecords.FirstOrDefault(sr => sr.Week == week && sr.Day == day && sr.Lesson == lesson && sr.SeasonDatesId == seasonDate.Id &&
-                                                                               sr.ClassroomId == model.ClassroomId && sr.LessonType != LessonTypes.удл);
-                    if (entry != null)
+                    var entries = context.SemesterRecords.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.SeasonDatesId == seasonDate.Id && x.LessonType != LessonTypes.удл);
+                    if(model.ClassroomId.HasValue)
+                    {
+                        entries = entries.Where(x => x.ClassroomId == model.ClassroomId);
+                    }
+                    if (model.LecturerId.HasValue)
+                    {
+                        entries = entries.Where(x => x.LecturerId == model.LecturerId);
+                    }
+                    if (model.StudentGroupId.HasValue)
+                    {
+                        entries = entries.Where(x => x.StudentGroupId == model.StudentGroupId);
+                    }
+
+                    if (entries != null && entries.Count() > 0)
                     {
                         throw new Exception("Exsist SemesterRecord");
                     }

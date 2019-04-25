@@ -130,7 +130,7 @@ namespace ScheduleImplementations.Services
                         {
                             ClassroomId = model.ClassroomId,
                             LecturerId = model.LecturerId,
-                            // TODO посомтреть по группе
+                            StudentGroupId = model.StudentGroupId,
                             DateConsultation = records[i].DateConsultation
                         };
                         var seasonDate = model.SeasonDateId.HasValue ?

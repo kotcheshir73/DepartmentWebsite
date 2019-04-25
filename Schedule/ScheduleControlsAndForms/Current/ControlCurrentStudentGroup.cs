@@ -79,7 +79,7 @@ namespace ScheduleControlsAndForms.Current
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupName = studentGroups[i].GroupName });
+                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupId = studentGroups[i].Id });
                         tabControlStudentGroup.TabPages[i].Controls.Add(control);
                     }
                 }
@@ -102,7 +102,7 @@ namespace ScheduleControlsAndForms.Current
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupName = studentGroups[i].GroupName });
+                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupId = studentGroups[i].Id });
                         tabControlStudentGroup.TabPages[i].Controls.Add(control);
                     }
                 }
@@ -125,7 +125,7 @@ namespace ScheduleControlsAndForms.Current
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupName = studentGroups[i].GroupName });
+                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupId = studentGroups[i].Id });
                         tabControlStudentGroup.TabPages[i].Controls.Add(control);
                     }
                 }
