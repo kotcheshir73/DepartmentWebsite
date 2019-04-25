@@ -1,4 +1,7 @@
 ﻿using AcademicYearInterfaces.Interfaces;
+using BaseInterfaces.Interfaces;
+using DepartmentWeb.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace DepartmentWeb.Controllers
@@ -11,12 +14,12 @@ namespace DepartmentWeb.Controllers
 
         public HomeController(IAcademicYearProcess process, IAcademicYearService serviceAY)
         {
-            Tools.DepartmentUserManager.Login("admin", "qwerty");
+            //Tools.DepartmentUserManager.Login("admin", "qwerty");
 
             _process = process;
 
-            _serviceAY = serviceAY;
-            
+            _serviceAY = serviceAY;            
+
             /*
             var tmp = serviceAPRE.GetAcademicPlanRecordElement(new DepartmentService.BindingModels.AcademicPlanRecordElementGetBindingModel()
             {
@@ -25,8 +28,7 @@ namespace DepartmentWeb.Controllers
         }
 
         public ActionResult Index()
-        {
-            
+        {            
             return View();
         }
 
@@ -50,5 +52,7 @@ namespace DepartmentWeb.Controllers
 
             return View();
         }
+
+        
     }
 }

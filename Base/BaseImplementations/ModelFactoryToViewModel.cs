@@ -80,7 +80,7 @@ namespace BaseImplementations
                 Abbreviation = entity.Abbreviation,
                 DateBirth = entity.DateBirth,
                 Post = entity.Post.ToString(),
-                LecturerPost = entity.LecturerPost.PostTitle,
+                LecturerPost = entity.LecturerPost?.PostTitle,
                 Rank = entity.Rank.ToString(),
                 Rank2 = entity.Rank2.ToString(),
                 HomeNumber = entity.HomeNumber,
