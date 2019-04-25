@@ -21,6 +21,8 @@ namespace ScheduleControlsAndForms.Semester
 
         private readonly IConsultationRecordService _serviceCR;
 
+        private readonly IStreamingLessonService _serviceSL;
+
         private ScheduleGetBindingModel _model;
 
         private DateTime _selectDate;
@@ -29,12 +31,13 @@ namespace ScheduleControlsAndForms.Semester
 
         private Color _consultationColor = Color.Green;
 
-        public ScheduleSemesterControl(IScheduleProcess process, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR)
+        public ScheduleSemesterControl(IScheduleProcess process, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR, IStreamingLessonService serviceSL)
         {
             InitializeComponent();
             _process = process;
             _serviceSR = serviceSR;
             _serviceCR = serviceCR;
+            _serviceSL = serviceSL;
             _selectDate = DateTime.Now;
 
             var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
@@ -138,7 +141,14 @@ namespace ScheduleControlsAndForms.Semester
                                     }
                                     if (elems.First().LessonType == LessonTypes.удл.ToString())
                                     {
-                                        grids[week].Rows[day].Cells[lesson + 1].Style.BackColor = Color.Gray;
+                                        if (!string.IsNullOrEmpty(elems.First().NotParseRecord))
+                                        {
+                                            grids[week].Rows[day].Cells[lesson + 1].Style.BackColor = Color.Gray;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
                                     }
                                     if (grids[week].Rows[day].Cells[lesson + 1].Value == null)
                                     {
@@ -172,6 +182,14 @@ namespace ScheduleControlsAndForms.Semester
                                     else
                                     {
                                         string groups = string.Join(",", elems.Select(x => x.LessonGroup));
+                                        var stream = _serviceSL.GetStreamingLesson(new StreamingLessonGetBindingModel
+                                        {
+                                            IncomingGroups = groups
+                                        });
+                                        if(stream.Succeeded)
+                                        {
+                                            groups = stream.Result.StreamName;
+                                        }
                                         string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonClassroom,
                                             Environment.NewLine, elems.First().LessonLecturer, groups);
                                         if (grids[week].Rows[day].Cells[lesson + 1].Value == null)

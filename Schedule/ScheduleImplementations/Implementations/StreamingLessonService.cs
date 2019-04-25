@@ -58,8 +58,8 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.StreamingLessons
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = string.IsNullOrEmpty(model.IncomingGroups) ? context.StreamingLessons.FirstOrDefault(x => x.Id == model.Id) :
+                                                                                context.StreamingLessons.FirstOrDefault(x => x.IncomingGroups == model.IncomingGroups);
                     if (entity == null)
                     {
                         return ResultService<StreamingLessonViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

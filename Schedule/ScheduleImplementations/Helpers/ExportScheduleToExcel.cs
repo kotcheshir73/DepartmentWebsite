@@ -1,5 +1,4 @@
-﻿using AcademicYearInterfaces.ViewModels;
-using DocumentFormat.OpenXml;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Enums;
@@ -76,35 +75,12 @@ namespace ScheduleServiceImplementations.Helpers
                             {
                                 for (int lesson = 0; lesson < 8; lesson++)
                                 {
-                                    var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл.ToString()).OrderBy(x => x.LessonGroup);
-                                    if (elems != null && elems.Count() > 0)
+                                    var elem = list.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson);
+                                    if (elem != null)
                                     {
-                                        // одна пара
-                                        if (elems.Count() == 1)
-                                        {
-                                            string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonClassroom,
-                                                Environment.NewLine, elems.First().LessonLecturer, elems.First().LessonGroup);
-                                            InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
-                                        }
-                                        else
-                                        {
-                                            // подгруппы
-                                            if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
-                                            {
-                                                string text = string.Format("{0} {1} {2} {3}{2}  {4}", elems.First().LessonType,
-                                                    string.Join("/", elems.Select(x => string.Format("{0} {1}", x.LessonDiscipline, x.LessonClassroom))),
-                                                    Environment.NewLine, string.Join("/", elems.Select(x => x.LessonLecturer)), elems.First().LessonGroup);
-                                                InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
-                                            }
-                                            // поток
-                                            else
-                                            {
-                                                string groups = string.Join(",", elems.Select(x => x.LessonGroup));
-                                                string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonClassroom,
-                                                    Environment.NewLine, elems.First().LessonLecturer, groups);
-                                                InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
-                                            }
-                                        }
+                                        string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", elem.LessonType, elem.LessonDiscipline, elem.LessonClassroom,
+                                            Environment.NewLine, elem.LessonLecturer, elem.LessonGroup);
+                                        InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
                                     }
                                     else
                                     {

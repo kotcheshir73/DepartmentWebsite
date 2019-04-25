@@ -2,7 +2,10 @@
 
 namespace ScheduleInterfaces.BindingModels
 {
-    public class StreamingLessonGetBindingModel : PageSettingGetBinidingModel { }
+    public class StreamingLessonGetBindingModel : PageSettingGetBinidingModel
+    {
+        public string IncomingGroups { get; set; }
+    }
 
     public class StreamingLessonSetBindingModel : PageSettingSetBinidingModel
     {

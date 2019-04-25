@@ -32,6 +32,10 @@ namespace ScheduleInterfaces.BindingModels
         public List<string> Classrooms { get; set; }
 
         public Guid SeasonDatesId { get; set; }
+
+        public List<ScheduleLessonTimeViewModel> Times { get; set; }
+
+        public SeasonDatesViewModel Dates { get; set; }
     }
 
     /// <summary>
