@@ -7,7 +7,7 @@ using Tools;
 
 namespace ExaminationInterfaces.Interfaces
 {
-    interface IExaminationProcess
+    public interface IExaminationProcess
     {
         /// <summary>
 		/// Создание всех возможных ведомостей

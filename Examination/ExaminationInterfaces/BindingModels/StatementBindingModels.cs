@@ -12,8 +12,6 @@ namespace ExaminationInterfaces.BindingModels
         public Guid? StudentGroupId { get; set; }
 
         public Guid? AcademicYearId { get; set; }
-
-        public Guid? AcademicPlanRecordId { get; set; }
     }
 
     public class StatementSetBindingModel : PageSettingSetBinidingModel
@@ -30,7 +28,7 @@ namespace ExaminationInterfaces.BindingModels
 
         public string Semester { get; set; }
 
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
 
         public bool IsMain { get; set; }
     }
