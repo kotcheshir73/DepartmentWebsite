@@ -32,25 +32,32 @@
             this.labelQuestionImage = new System.Windows.Forms.Label();
             this.pictureBoxQuestionImage = new System.Windows.Forms.PictureBox();
             this.buttonLoadImage = new System.Windows.Forms.Button();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownQuestionNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxQuestionImage)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(143, 256);
+            this.panelMain.Controls.Add(this.buttonLoadImage);
+            this.panelMain.Controls.Add(this.labelExaminationTemplateTicket);
+            this.panelMain.Controls.Add(this.pictureBoxQuestionImage);
+            this.panelMain.Controls.Add(this.labelQuestionNumber);
+            this.panelMain.Controls.Add(this.labelQuestionImage);
+            this.panelMain.Controls.Add(this.numericUpDownQuestionNumber);
+            this.panelMain.Controls.Add(this.textBoxQuestionText);
+            this.panelMain.Controls.Add(this.examinationTemplateBlockElement);
+            this.panelMain.Controls.Add(this.labelQuestionText);
+            this.panelMain.Size = new System.Drawing.Size(444, 255);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(290, 256);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(62, 256);
+            this.panelTop.Size = new System.Drawing.Size(444, 36);
             // 
             // numericUpDownQuestionNumber
             // 
-            this.numericUpDownQuestionNumber.Location = new System.Drawing.Point(131, 33);
+            this.numericUpDownQuestionNumber.Location = new System.Drawing.Point(131, 39);
             this.numericUpDownQuestionNumber.Name = "numericUpDownQuestionNumber";
             this.numericUpDownQuestionNumber.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownQuestionNumber.TabIndex = 3;
@@ -58,7 +65,7 @@
             // labelExaminationTemplateTicket
             // 
             this.labelExaminationTemplateTicket.AutoSize = true;
-            this.labelExaminationTemplateTicket.Location = new System.Drawing.Point(12, 9);
+            this.labelExaminationTemplateTicket.Location = new System.Drawing.Point(12, 15);
             this.labelExaminationTemplateTicket.Name = "labelExaminationTemplateTicket";
             this.labelExaminationTemplateTicket.Size = new System.Drawing.Size(39, 13);
             this.labelExaminationTemplateTicket.TabIndex = 0;
@@ -67,7 +74,7 @@
             // labelQuestionNumber
             // 
             this.labelQuestionNumber.AutoSize = true;
-            this.labelQuestionNumber.Location = new System.Drawing.Point(12, 35);
+            this.labelQuestionNumber.Location = new System.Drawing.Point(12, 41);
             this.labelQuestionNumber.Name = "labelQuestionNumber";
             this.labelQuestionNumber.Size = new System.Drawing.Size(93, 13);
             this.labelQuestionNumber.TabIndex = 2;
@@ -77,7 +84,7 @@
             // 
             this.examinationTemplateBlockElement.ExaminationTemplateId = null;
             this.examinationTemplateBlockElement.Id = null;
-            this.examinationTemplateBlockElement.Location = new System.Drawing.Point(131, 7);
+            this.examinationTemplateBlockElement.Location = new System.Drawing.Point(131, 13);
             this.examinationTemplateBlockElement.Name = "examinationTemplateBlockElement";
             this.examinationTemplateBlockElement.Service = null;
             this.examinationTemplateBlockElement.Size = new System.Drawing.Size(300, 20);
@@ -86,7 +93,7 @@
             // labelQuestionText
             // 
             this.labelQuestionText.AutoSize = true;
-            this.labelQuestionText.Location = new System.Drawing.Point(12, 62);
+            this.labelQuestionText.Location = new System.Drawing.Point(12, 68);
             this.labelQuestionText.Name = "labelQuestionText";
             this.labelQuestionText.Size = new System.Drawing.Size(85, 13);
             this.labelQuestionText.TabIndex = 4;
@@ -94,7 +101,7 @@
             // 
             // textBoxQuestionText
             // 
-            this.textBoxQuestionText.Location = new System.Drawing.Point(131, 59);
+            this.textBoxQuestionText.Location = new System.Drawing.Point(131, 65);
             this.textBoxQuestionText.Multiline = true;
             this.textBoxQuestionText.Name = "textBoxQuestionText";
             this.textBoxQuestionText.Size = new System.Drawing.Size(300, 40);
@@ -103,7 +110,7 @@
             // labelQuestionImage
             // 
             this.labelQuestionImage.AutoSize = true;
-            this.labelQuestionImage.Location = new System.Drawing.Point(12, 108);
+            this.labelQuestionImage.Location = new System.Drawing.Point(12, 114);
             this.labelQuestionImage.Name = "labelQuestionImage";
             this.labelQuestionImage.Size = new System.Drawing.Size(80, 13);
             this.labelQuestionImage.TabIndex = 6;
@@ -111,7 +118,7 @@
             // 
             // pictureBoxQuestionImage
             // 
-            this.pictureBoxQuestionImage.Location = new System.Drawing.Point(131, 105);
+            this.pictureBoxQuestionImage.Location = new System.Drawing.Point(131, 111);
             this.pictureBoxQuestionImage.Name = "pictureBoxQuestionImage";
             this.pictureBoxQuestionImage.Size = new System.Drawing.Size(300, 131);
             this.pictureBoxQuestionImage.TabIndex = 7;
@@ -119,7 +126,7 @@
             // 
             // buttonLoadImage
             // 
-            this.buttonLoadImage.Location = new System.Drawing.Point(22, 157);
+            this.buttonLoadImage.Location = new System.Drawing.Point(22, 163);
             this.buttonLoadImage.Name = "buttonLoadImage";
             this.buttonLoadImage.Size = new System.Drawing.Size(75, 23);
             this.buttonLoadImage.TabIndex = 8;
@@ -127,39 +134,20 @@
             this.buttonLoadImage.UseVisualStyleBackColor = true;
             this.buttonLoadImage.Click += new System.EventHandler(this.ButtonLoadImage_Click);
             // 
-            // ExaminationTemplateBlockQuestionForm
+            // FormExaminationTemplateBlockQuestion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 291);
-            this.Controls.Add(this.buttonLoadImage);
-            this.Controls.Add(this.pictureBoxQuestionImage);
-            this.Controls.Add(this.labelQuestionImage);
-            this.Controls.Add(this.textBoxQuestionText);
-            this.Controls.Add(this.labelQuestionText);
-            this.Controls.Add(this.examinationTemplateBlockElement);
-            this.Controls.Add(this.numericUpDownQuestionNumber);
-            this.Controls.Add(this.labelExaminationTemplateTicket);
-            this.Controls.Add(this.labelQuestionNumber);
-            this.Name = "ExaminationTemplateBlockQuestionForm";
+            this.Name = "FormExaminationTemplateBlockQuestion";
             this.Text = "Вопрос блока";
             this.Load += new System.EventHandler(this.FormExaminationTemplateBlockQuestion_Load);
-            this.Controls.SetChildIndex(this.labelQuestionNumber, 0);
-            this.Controls.SetChildIndex(this.labelExaminationTemplateTicket, 0);
-            this.Controls.SetChildIndex(this.numericUpDownQuestionNumber, 0);
-            this.Controls.SetChildIndex(this.examinationTemplateBlockElement, 0);
-            this.Controls.SetChildIndex(this.labelQuestionText, 0);
-            this.Controls.SetChildIndex(this.textBoxQuestionText, 0);
-            this.Controls.SetChildIndex(this.labelQuestionImage, 0);
-            this.Controls.SetChildIndex(this.pictureBoxQuestionImage, 0);
-            this.Controls.SetChildIndex(this.buttonLoadImage, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownQuestionNumber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxQuestionImage)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

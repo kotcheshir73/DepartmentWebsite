@@ -36,21 +36,20 @@
             this.labelContingent = new System.Windows.Forms.Label();
             this.comboBoxContingent = new System.Windows.Forms.ComboBox();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(270, 336);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(691, 331);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(417, 336);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(189, 336);
+            this.panelTop.Size = new System.Drawing.Size(691, 36);
             // 
             // labelAcademicPlan
             // 
@@ -126,15 +125,13 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(691, 330);
+            this.tabControl.Size = new System.Drawing.Size(691, 331);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -152,7 +149,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(683, 304);
+            this.tabPageConfig.Size = new System.Drawing.Size(683, 305);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Запись учебного плана";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -190,14 +187,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(691, 367);
-            this.Controls.Add(this.tabControl);
             this.Name = "FormAcademicPlanRecord";
             this.Text = "Запись учебного плана";
             this.Load += new System.EventHandler(this.FormAcademicPlanRecord_Load);
-            this.Controls.SetChildIndex(this.tabControl, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();

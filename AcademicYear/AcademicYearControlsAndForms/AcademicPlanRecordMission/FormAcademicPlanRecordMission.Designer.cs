@@ -29,19 +29,23 @@
             this.labelAcademicPlanRecordElement = new System.Windows.Forms.Label();
             this.textBoxHours = new System.Windows.Forms.TextBox();
             this.labelHours = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(107, 90);
+            this.panelMain.Controls.Add(this.textBoxHours);
+            this.panelMain.Controls.Add(this.labelAcademicPlanRecordElement);
+            this.panelMain.Controls.Add(this.labelHours);
+            this.panelMain.Controls.Add(this.comboBoxAcademicPlanRecordElement);
+            this.panelMain.Controls.Add(this.comboBoxLecturer);
+            this.panelMain.Controls.Add(this.labelLecturer);
+            this.panelMain.Size = new System.Drawing.Size(354, 85);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(254, 90);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(26, 90);
+            this.panelTop.Size = new System.Drawing.Size(354, 36);
             // 
             // comboBoxLecturer
             // 
@@ -101,26 +105,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 121);
-            this.Controls.Add(this.textBoxHours);
-            this.Controls.Add(this.labelHours);
-            this.Controls.Add(this.comboBoxLecturer);
-            this.Controls.Add(this.labelLecturer);
-            this.Controls.Add(this.comboBoxAcademicPlanRecordElement);
-            this.Controls.Add(this.labelAcademicPlanRecordElement);
             this.Name = "FormAcademicPlanRecordMission";
             this.Text = "Распределение нагрузки";
             this.Load += new System.EventHandler(this.FormAcademicPlanRecordMission_Load);
-            this.Controls.SetChildIndex(this.labelAcademicPlanRecordElement, 0);
-            this.Controls.SetChildIndex(this.comboBoxAcademicPlanRecordElement, 0);
-            this.Controls.SetChildIndex(this.labelLecturer, 0);
-            this.Controls.SetChildIndex(this.comboBoxLecturer, 0);
-            this.Controls.SetChildIndex(this.labelHours, 0);
-            this.Controls.SetChildIndex(this.textBoxHours, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

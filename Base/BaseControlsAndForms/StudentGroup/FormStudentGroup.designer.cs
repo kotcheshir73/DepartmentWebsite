@@ -36,21 +36,20 @@
             this.tabPageMainData = new System.Windows.Forms.TabPage();
             this.textBoxSteward = new System.Windows.Forms.TextBox();
             this.tabPageStudents = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageMainData.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(136, 130);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(884, 436);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(283, 130);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(55, 130);
+            this.panelTop.Size = new System.Drawing.Size(884, 36);
             // 
             // labelEducationDirection
             // 
@@ -140,16 +139,13 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(884, 472);
+            this.tabControl.Size = new System.Drawing.Size(884, 436);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageMainData
             // 
             this.tabPageMainData.Controls.Add(this.textBoxSteward);
-            this.tabPageMainData.Controls.Add(this.buttonSaveAndClose);
             this.tabPageMainData.Controls.Add(this.labelEducationDirection);
-            this.tabPageMainData.Controls.Add(this.buttonClose);
-            this.tabPageMainData.Controls.Add(this.buttonSave);
             this.tabPageMainData.Controls.Add(this.comboBoxCurator);
             this.tabPageMainData.Controls.Add(this.comboBoxEducationDirection);
             this.tabPageMainData.Controls.Add(this.labelCurator);
@@ -161,23 +157,10 @@
             this.tabPageMainData.Location = new System.Drawing.Point(4, 22);
             this.tabPageMainData.Name = "tabPageMainData";
             this.tabPageMainData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMainData.Size = new System.Drawing.Size(876, 446);
+            this.tabPageMainData.Size = new System.Drawing.Size(876, 410);
             this.tabPageMainData.TabIndex = 0;
             this.tabPageMainData.Text = "Основные данные";
             this.tabPageMainData.UseVisualStyleBackColor = true;
-            this.tabPageMainData.Controls.SetChildIndex(this.textBoxKurs, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.labelKurs, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.labelSteward, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.textBoxGroupName, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.labelGroupName, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.labelCurator, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.comboBoxEducationDirection, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.comboBoxCurator, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.buttonSave, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.buttonClose, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.labelEducationDirection, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.tabPageMainData.Controls.SetChildIndex(this.textBoxSteward, 0);
             // 
             // textBoxSteward
             // 
@@ -191,7 +174,7 @@
             this.tabPageStudents.Location = new System.Drawing.Point(4, 22);
             this.tabPageStudents.Name = "tabPageStudents";
             this.tabPageStudents.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStudents.Size = new System.Drawing.Size(876, 446);
+            this.tabPageStudents.Size = new System.Drawing.Size(876, 410);
             this.tabPageStudents.TabIndex = 1;
             this.tabPageStudents.Text = "Студенты";
             this.tabPageStudents.UseVisualStyleBackColor = true;
@@ -201,10 +184,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 472);
-            this.Controls.Add(this.tabControl);
             this.Name = "FormStudentGroup";
             this.Text = "Группа";
             this.Load += new System.EventHandler(this.FormStudentGroup_Load);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageMainData.ResumeLayout(false);
             this.tabPageMainData.PerformLayout();

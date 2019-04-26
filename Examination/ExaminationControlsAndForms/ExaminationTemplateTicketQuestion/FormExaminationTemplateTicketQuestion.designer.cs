@@ -29,25 +29,29 @@
             this.examinationTemplateTicketElement = new ExaminationControlsAndForms.ExaminationTemplateTicket.ControlExaminationTemplateTicketSearch();
             this.examinationTemplateBlockQuestionElement = new ExaminationControlsAndForms.ExaminationTemplateBlockQuestion.ControlExaminationTemplateBlockQuestionSearch();
             this.numericUpDownOrder = new System.Windows.Forms.NumericUpDown();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOrder)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(152, 96);
+            this.panelMain.Controls.Add(this.numericUpDownOrder);
+            this.panelMain.Controls.Add(this.labelExaminationTemplateTicket);
+            this.panelMain.Controls.Add(this.examinationTemplateBlockQuestionElement);
+            this.panelMain.Controls.Add(this.labelOrder);
+            this.panelMain.Controls.Add(this.examinationTemplateTicketElement);
+            this.panelMain.Controls.Add(this.labelExaminationTemplateBlockQuestion);
+            this.panelMain.Size = new System.Drawing.Size(444, 95);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(299, 96);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(71, 96);
+            this.panelTop.Size = new System.Drawing.Size(444, 36);
             // 
             // labelExaminationTemplateTicket
             // 
             this.labelExaminationTemplateTicket.AutoSize = true;
-            this.labelExaminationTemplateTicket.Location = new System.Drawing.Point(12, 9);
+            this.labelExaminationTemplateTicket.Location = new System.Drawing.Point(12, 12);
             this.labelExaminationTemplateTicket.Name = "labelExaminationTemplateTicket";
             this.labelExaminationTemplateTicket.Size = new System.Drawing.Size(44, 13);
             this.labelExaminationTemplateTicket.TabIndex = 0;
@@ -56,7 +60,7 @@
             // labelExaminationTemplateBlockQuestion
             // 
             this.labelExaminationTemplateBlockQuestion.AutoSize = true;
-            this.labelExaminationTemplateBlockQuestion.Location = new System.Drawing.Point(12, 36);
+            this.labelExaminationTemplateBlockQuestion.Location = new System.Drawing.Point(12, 39);
             this.labelExaminationTemplateBlockQuestion.Name = "labelExaminationTemplateBlockQuestion";
             this.labelExaminationTemplateBlockQuestion.Size = new System.Drawing.Size(51, 13);
             this.labelExaminationTemplateBlockQuestion.TabIndex = 2;
@@ -65,7 +69,7 @@
             // labelOrder
             // 
             this.labelOrder.AutoSize = true;
-            this.labelOrder.Location = new System.Drawing.Point(12, 62);
+            this.labelOrder.Location = new System.Drawing.Point(12, 65);
             this.labelOrder.Name = "labelOrder";
             this.labelOrder.Size = new System.Drawing.Size(113, 13);
             this.labelOrder.TabIndex = 4;
@@ -76,7 +80,7 @@
             this.examinationTemplateTicketElement.Enabled = false;
             this.examinationTemplateTicketElement.ExaminationTemplateId = null;
             this.examinationTemplateTicketElement.Id = null;
-            this.examinationTemplateTicketElement.Location = new System.Drawing.Point(131, 7);
+            this.examinationTemplateTicketElement.Location = new System.Drawing.Point(131, 10);
             this.examinationTemplateTicketElement.Name = "examinationTemplateTicketElement";
             this.examinationTemplateTicketElement.Size = new System.Drawing.Size(300, 20);
             this.examinationTemplateTicketElement.TabIndex = 1;
@@ -86,48 +90,36 @@
             this.examinationTemplateBlockQuestionElement.ExaminationTemplateBlockId = null;
             this.examinationTemplateBlockQuestionElement.ExaminationTemplateId = null;
             this.examinationTemplateBlockQuestionElement.Id = null;
-            this.examinationTemplateBlockQuestionElement.Location = new System.Drawing.Point(131, 33);
+            this.examinationTemplateBlockQuestionElement.Location = new System.Drawing.Point(131, 36);
             this.examinationTemplateBlockQuestionElement.Name = "examinationTemplateBlockQuestionElement";
             this.examinationTemplateBlockQuestionElement.Size = new System.Drawing.Size(300, 20);
             this.examinationTemplateBlockQuestionElement.TabIndex = 3;
             // 
             // numericUpDownOrder
             // 
-            this.numericUpDownOrder.Location = new System.Drawing.Point(131, 60);
+            this.numericUpDownOrder.Location = new System.Drawing.Point(131, 63);
             this.numericUpDownOrder.Name = "numericUpDownOrder";
             this.numericUpDownOrder.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownOrder.TabIndex = 5;
             // 
-            // ExaminationTemplateTicketQuestionForm
+            // FormExaminationTemplateTicketQuestion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 131);
-            this.Controls.Add(this.numericUpDownOrder);
-            this.Controls.Add(this.examinationTemplateBlockQuestionElement);
-            this.Controls.Add(this.examinationTemplateTicketElement);
-            this.Controls.Add(this.labelExaminationTemplateTicket);
-            this.Controls.Add(this.labelExaminationTemplateBlockQuestion);
-            this.Controls.Add(this.labelOrder);
-            this.Name = "ExaminationTemplateTicketQuestionForm";
+            this.Name = "FormExaminationTemplateTicketQuestion";
             this.Text = "Вопрос билета";
             this.Load += new System.EventHandler(this.FormExaminationTemplateTicketQuestion_Load);
-            this.Controls.SetChildIndex(this.labelOrder, 0);
-            this.Controls.SetChildIndex(this.labelExaminationTemplateBlockQuestion, 0);
-            this.Controls.SetChildIndex(this.labelExaminationTemplateTicket, 0);
-            this.Controls.SetChildIndex(this.examinationTemplateTicketElement, 0);
-            this.Controls.SetChildIndex(this.examinationTemplateBlockQuestionElement, 0);
-            this.Controls.SetChildIndex(this.numericUpDownOrder, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOrder)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
+
         private System.Windows.Forms.Label labelExaminationTemplateTicket;
         private System.Windows.Forms.Label labelExaminationTemplateBlockQuestion;
         private System.Windows.Forms.Label labelOrder;

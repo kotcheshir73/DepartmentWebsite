@@ -46,21 +46,20 @@
             this.labelTimeNorm = new System.Windows.Forms.Label();
             this.buttonGetFile = new System.Windows.Forms.Button();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(414, 414);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(934, 405);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(561, 414);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(333, 414);
+            this.panelTop.Size = new System.Drawing.Size(934, 36);
             // 
             // textBoxPostTitle
             // 
@@ -126,15 +125,13 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(934, 412);
+            this.tabControl.Size = new System.Drawing.Size(934, 405);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -162,7 +159,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(926, 386);
+            this.tabPageConfig.Size = new System.Drawing.Size(926, 379);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Занятие";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -293,19 +290,16 @@
             this.tabPageRecords.Text = "Задания";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // DisciplineLessonForm
+            // FormDisciplineLesson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(934, 441);
-            this.Controls.Add(this.tabControl);
-            this.Name = "DisciplineLessonForm";
+            this.Name = "FormDisciplineLesson";
             this.Text = "Занятие";
             this.Load += new System.EventHandler(this.FormDisciplineLesson_Load);
-            this.Controls.SetChildIndex(this.tabControl, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
@@ -314,6 +308,7 @@
         }
 
         #endregion
+
         private System.Windows.Forms.TextBox textBoxPostTitle;
         private System.Windows.Forms.Label labelPostTitle;
         private System.Windows.Forms.Button buttonAddFile;

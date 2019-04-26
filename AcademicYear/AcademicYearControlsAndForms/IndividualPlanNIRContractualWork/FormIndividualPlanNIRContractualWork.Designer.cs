@@ -33,24 +33,32 @@
             this.labelPlannedTerm = new System.Windows.Forms.Label();
             this.labelReadyMark = new System.Windows.Forms.Label();
             this.checkBoxReadyMark = new System.Windows.Forms.CheckBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(152, 166);
+            this.panelMain.Controls.Add(this.checkBoxReadyMark);
+            this.panelMain.Controls.Add(this.labelIndividualPlan);
+            this.panelMain.Controls.Add(this.labelReadyMark);
+            this.panelMain.Controls.Add(this.comboBoxIndividualPlan);
+            this.panelMain.Controls.Add(this.textBoxPlannedTerm);
+            this.panelMain.Controls.Add(this.labelJobContent);
+            this.panelMain.Controls.Add(this.labelPlannedTerm);
+            this.panelMain.Controls.Add(this.textBoxJobContent);
+            this.panelMain.Controls.Add(this.textBoxPost);
+            this.panelMain.Controls.Add(this.labelPost);
+            this.panelMain.Size = new System.Drawing.Size(454, 165);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(299, 166);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(71, 166);
+            this.panelTop.Size = new System.Drawing.Size(454, 36);
             // 
             // labelIndividualPlan
             // 
             this.labelIndividualPlan.AutoSize = true;
-            this.labelIndividualPlan.Location = new System.Drawing.Point(12, 9);
+            this.labelIndividualPlan.Location = new System.Drawing.Point(12, 15);
             this.labelIndividualPlan.Name = "labelIndividualPlan";
             this.labelIndividualPlan.Size = new System.Drawing.Size(128, 13);
             this.labelIndividualPlan.TabIndex = 0;
@@ -61,7 +69,7 @@
             this.comboBoxIndividualPlan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIndividualPlan.Enabled = false;
             this.comboBoxIndividualPlan.FormattingEnabled = true;
-            this.comboBoxIndividualPlan.Location = new System.Drawing.Point(224, 6);
+            this.comboBoxIndividualPlan.Location = new System.Drawing.Point(224, 12);
             this.comboBoxIndividualPlan.Name = "comboBoxIndividualPlan";
             this.comboBoxIndividualPlan.Size = new System.Drawing.Size(220, 21);
             this.comboBoxIndividualPlan.TabIndex = 1;
@@ -69,7 +77,7 @@
             // labelJobContent
             // 
             this.labelJobContent.AutoSize = true;
-            this.labelJobContent.Location = new System.Drawing.Point(12, 36);
+            this.labelJobContent.Location = new System.Drawing.Point(12, 42);
             this.labelJobContent.Name = "labelJobContent";
             this.labelJobContent.Size = new System.Drawing.Size(190, 13);
             this.labelJobContent.TabIndex = 2;
@@ -77,7 +85,7 @@
             // 
             // textBoxJobContent
             // 
-            this.textBoxJobContent.Location = new System.Drawing.Point(224, 33);
+            this.textBoxJobContent.Location = new System.Drawing.Point(224, 39);
             this.textBoxJobContent.Multiline = true;
             this.textBoxJobContent.Name = "textBoxJobContent";
             this.textBoxJobContent.Size = new System.Drawing.Size(220, 40);
@@ -85,7 +93,7 @@
             // 
             // textBoxPost
             // 
-            this.textBoxPost.Location = new System.Drawing.Point(224, 79);
+            this.textBoxPost.Location = new System.Drawing.Point(224, 85);
             this.textBoxPost.Name = "textBoxPost";
             this.textBoxPost.Size = new System.Drawing.Size(220, 20);
             this.textBoxPost.TabIndex = 5;
@@ -93,7 +101,7 @@
             // labelPost
             // 
             this.labelPost.AutoSize = true;
-            this.labelPost.Location = new System.Drawing.Point(12, 82);
+            this.labelPost.Location = new System.Drawing.Point(12, 88);
             this.labelPost.Name = "labelPost";
             this.labelPost.Size = new System.Drawing.Size(183, 13);
             this.labelPost.TabIndex = 4;
@@ -101,7 +109,7 @@
             // 
             // textBoxPlannedTerm
             // 
-            this.textBoxPlannedTerm.Location = new System.Drawing.Point(224, 105);
+            this.textBoxPlannedTerm.Location = new System.Drawing.Point(224, 111);
             this.textBoxPlannedTerm.Name = "textBoxPlannedTerm";
             this.textBoxPlannedTerm.Size = new System.Drawing.Size(220, 20);
             this.textBoxPlannedTerm.TabIndex = 7;
@@ -109,7 +117,7 @@
             // labelPlannedTerm
             // 
             this.labelPlannedTerm.AutoSize = true;
-            this.labelPlannedTerm.Location = new System.Drawing.Point(12, 108);
+            this.labelPlannedTerm.Location = new System.Drawing.Point(12, 114);
             this.labelPlannedTerm.Name = "labelPlannedTerm";
             this.labelPlannedTerm.Size = new System.Drawing.Size(177, 13);
             this.labelPlannedTerm.TabIndex = 6;
@@ -118,7 +126,7 @@
             // labelReadyMark
             // 
             this.labelReadyMark.AutoSize = true;
-            this.labelReadyMark.Location = new System.Drawing.Point(12, 134);
+            this.labelReadyMark.Location = new System.Drawing.Point(12, 140);
             this.labelReadyMark.Name = "labelReadyMark";
             this.labelReadyMark.Size = new System.Drawing.Size(206, 13);
             this.labelReadyMark.TabIndex = 8;
@@ -127,7 +135,7 @@
             // checkBoxReadyMark
             // 
             this.checkBoxReadyMark.AutoSize = true;
-            this.checkBoxReadyMark.Location = new System.Drawing.Point(224, 134);
+            this.checkBoxReadyMark.Location = new System.Drawing.Point(224, 140);
             this.checkBoxReadyMark.Name = "checkBoxReadyMark";
             this.checkBoxReadyMark.Size = new System.Drawing.Size(15, 14);
             this.checkBoxReadyMark.TabIndex = 9;
@@ -138,34 +146,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(454, 201);
-            this.Controls.Add(this.checkBoxReadyMark);
-            this.Controls.Add(this.labelReadyMark);
-            this.Controls.Add(this.textBoxPlannedTerm);
-            this.Controls.Add(this.labelPlannedTerm);
-            this.Controls.Add(this.textBoxPost);
-            this.Controls.Add(this.labelPost);
-            this.Controls.Add(this.textBoxJobContent);
-            this.Controls.Add(this.labelJobContent);
-            this.Controls.Add(this.comboBoxIndividualPlan);
-            this.Controls.Add(this.labelIndividualPlan);
             this.Name = "FormIndividualPlanNIRContractualWork";
             this.Text = "Участие в хоздоговорной НИР";
             this.Load += new System.EventHandler(this.FormIndividualPlanNIRContractualWork_Load);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.labelIndividualPlan, 0);
-            this.Controls.SetChildIndex(this.comboBoxIndividualPlan, 0);
-            this.Controls.SetChildIndex(this.labelJobContent, 0);
-            this.Controls.SetChildIndex(this.textBoxJobContent, 0);
-            this.Controls.SetChildIndex(this.labelPost, 0);
-            this.Controls.SetChildIndex(this.textBoxPost, 0);
-            this.Controls.SetChildIndex(this.labelPlannedTerm, 0);
-            this.Controls.SetChildIndex(this.textBoxPlannedTerm, 0);
-            this.Controls.SetChildIndex(this.labelReadyMark, 0);
-            this.Controls.SetChildIndex(this.checkBoxReadyMark, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

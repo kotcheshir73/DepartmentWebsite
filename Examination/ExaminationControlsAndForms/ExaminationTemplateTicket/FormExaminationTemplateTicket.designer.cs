@@ -30,34 +30,31 @@
             this.labelTicketNumber = new System.Windows.Forms.Label();
             this.labelExaminationTemplate = new System.Windows.Forms.Label();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTicketNumber)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(324, 473);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(834, 465);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(471, 473);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(243, 473);
+            this.panelTop.Size = new System.Drawing.Size(834, 36);
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(834, 471);
+            this.tabControl.Size = new System.Drawing.Size(834, 465);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -69,7 +66,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(826, 445);
+            this.tabPageConfig.Size = new System.Drawing.Size(826, 439);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Билет";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -118,19 +115,16 @@
             this.tabPageRecords.Text = "Вопросы";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // ExaminationTemplateTicketForm
+            // FormExaminationTemplateTicket
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 501);
-            this.Controls.Add(this.tabControl);
-            this.Name = "ExaminationTemplateTicketForm";
+            this.Name = "FormExaminationTemplateTicket";
             this.Text = "Билет экзамена";
             this.Load += new System.EventHandler(this.FormExaminationTemplateTicket_Load);
-            this.Controls.SetChildIndex(this.tabControl, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();

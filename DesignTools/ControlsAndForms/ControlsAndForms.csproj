@@ -48,12 +48,6 @@
     <Compile Include="Controls\StandartControl.designer.cs">
       <DependentUpon>StandartControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\StandartElementControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StandartElementControl.designer.cs">
-      <DependentUpon>StandartElementControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\StandartSearchControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -91,9 +85,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\StandartControl.resx">
       <DependentUpon>StandartControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StandartElementControl.resx">
-      <DependentUpon>StandartElementControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StandartSearchControl.resx">
       <DependentUpon>StandartSearchControl.cs</DependentUpon>

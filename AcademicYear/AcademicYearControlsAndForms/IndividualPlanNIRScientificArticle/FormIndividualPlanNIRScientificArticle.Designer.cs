@@ -39,26 +39,40 @@
             this.labelYear = new System.Windows.Forms.Label();
             this.textBoxStatus = new System.Windows.Forms.TextBox();
             this.labelStatus = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(125, 216);
+            this.panelMain.Controls.Add(this.textBoxStatus);
+            this.panelMain.Controls.Add(this.labelIndividualPlan);
+            this.panelMain.Controls.Add(this.labelStatus);
+            this.panelMain.Controls.Add(this.comboBoxIndividualPlan);
+            this.panelMain.Controls.Add(this.textBoxYear);
+            this.panelMain.Controls.Add(this.labelOrder);
+            this.panelMain.Controls.Add(this.labelYear);
+            this.panelMain.Controls.Add(this.textBoxOrder);
+            this.panelMain.Controls.Add(this.textBoxPublishing);
+            this.panelMain.Controls.Add(this.labelName);
+            this.panelMain.Controls.Add(this.labelPublishing);
+            this.panelMain.Controls.Add(this.textBoxName);
+            this.panelMain.Controls.Add(this.textBoxVolume);
+            this.panelMain.Controls.Add(this.labelTypeOfPublication);
+            this.panelMain.Controls.Add(this.labelVolume);
+            this.panelMain.Controls.Add(this.textBoxTypeOfPublication);
+            this.panelMain.Size = new System.Drawing.Size(384, 225);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(272, 216);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(44, 216);
+            this.panelTop.Size = new System.Drawing.Size(384, 36);
             // 
             // comboBoxIndividualPlan
             // 
             this.comboBoxIndividualPlan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIndividualPlan.Enabled = false;
             this.comboBoxIndividualPlan.FormattingEnabled = true;
-            this.comboBoxIndividualPlan.Location = new System.Drawing.Point(146, 6);
+            this.comboBoxIndividualPlan.Location = new System.Drawing.Point(146, 9);
             this.comboBoxIndividualPlan.Name = "comboBoxIndividualPlan";
             this.comboBoxIndividualPlan.Size = new System.Drawing.Size(220, 21);
             this.comboBoxIndividualPlan.TabIndex = 1;
@@ -66,7 +80,7 @@
             // labelIndividualPlan
             // 
             this.labelIndividualPlan.AutoSize = true;
-            this.labelIndividualPlan.Location = new System.Drawing.Point(12, 9);
+            this.labelIndividualPlan.Location = new System.Drawing.Point(12, 12);
             this.labelIndividualPlan.Name = "labelIndividualPlan";
             this.labelIndividualPlan.Size = new System.Drawing.Size(128, 13);
             this.labelIndividualPlan.TabIndex = 0;
@@ -74,7 +88,7 @@
             // 
             // textBoxOrder
             // 
-            this.textBoxOrder.Location = new System.Drawing.Point(146, 33);
+            this.textBoxOrder.Location = new System.Drawing.Point(146, 36);
             this.textBoxOrder.Name = "textBoxOrder";
             this.textBoxOrder.Size = new System.Drawing.Size(220, 20);
             this.textBoxOrder.TabIndex = 3;
@@ -82,7 +96,7 @@
             // labelOrder
             // 
             this.labelOrder.AutoSize = true;
-            this.labelOrder.Location = new System.Drawing.Point(12, 36);
+            this.labelOrder.Location = new System.Drawing.Point(12, 39);
             this.labelOrder.Name = "labelOrder";
             this.labelOrder.Size = new System.Drawing.Size(113, 13);
             this.labelOrder.TabIndex = 2;
@@ -90,7 +104,7 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(146, 59);
+            this.textBoxName.Location = new System.Drawing.Point(146, 62);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(220, 20);
             this.textBoxName.TabIndex = 5;
@@ -98,7 +112,7 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(12, 62);
+            this.labelName.Location = new System.Drawing.Point(12, 65);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(64, 13);
             this.labelName.TabIndex = 4;
@@ -106,7 +120,7 @@
             // 
             // textBoxTypeOfPublication
             // 
-            this.textBoxTypeOfPublication.Location = new System.Drawing.Point(146, 85);
+            this.textBoxTypeOfPublication.Location = new System.Drawing.Point(146, 88);
             this.textBoxTypeOfPublication.Name = "textBoxTypeOfPublication";
             this.textBoxTypeOfPublication.Size = new System.Drawing.Size(220, 20);
             this.textBoxTypeOfPublication.TabIndex = 7;
@@ -114,7 +128,7 @@
             // labelTypeOfPublication
             // 
             this.labelTypeOfPublication.AutoSize = true;
-            this.labelTypeOfPublication.Location = new System.Drawing.Point(12, 88);
+            this.labelTypeOfPublication.Location = new System.Drawing.Point(12, 91);
             this.labelTypeOfPublication.Name = "labelTypeOfPublication";
             this.labelTypeOfPublication.Size = new System.Drawing.Size(95, 13);
             this.labelTypeOfPublication.TabIndex = 6;
@@ -122,7 +136,7 @@
             // 
             // textBoxVolume
             // 
-            this.textBoxVolume.Location = new System.Drawing.Point(146, 111);
+            this.textBoxVolume.Location = new System.Drawing.Point(146, 114);
             this.textBoxVolume.Name = "textBoxVolume";
             this.textBoxVolume.Size = new System.Drawing.Size(220, 20);
             this.textBoxVolume.TabIndex = 9;
@@ -130,7 +144,7 @@
             // labelVolume
             // 
             this.labelVolume.AutoSize = true;
-            this.labelVolume.Location = new System.Drawing.Point(12, 114);
+            this.labelVolume.Location = new System.Drawing.Point(12, 117);
             this.labelVolume.Name = "labelVolume";
             this.labelVolume.Size = new System.Drawing.Size(76, 13);
             this.labelVolume.TabIndex = 8;
@@ -138,7 +152,7 @@
             // 
             // textBoxPublishing
             // 
-            this.textBoxPublishing.Location = new System.Drawing.Point(146, 137);
+            this.textBoxPublishing.Location = new System.Drawing.Point(146, 140);
             this.textBoxPublishing.Name = "textBoxPublishing";
             this.textBoxPublishing.Size = new System.Drawing.Size(220, 20);
             this.textBoxPublishing.TabIndex = 11;
@@ -146,7 +160,7 @@
             // labelPublishing
             // 
             this.labelPublishing.AutoSize = true;
-            this.labelPublishing.Location = new System.Drawing.Point(12, 140);
+            this.labelPublishing.Location = new System.Drawing.Point(12, 143);
             this.labelPublishing.Name = "labelPublishing";
             this.labelPublishing.Size = new System.Drawing.Size(86, 13);
             this.labelPublishing.TabIndex = 10;
@@ -154,7 +168,7 @@
             // 
             // textBoxYear
             // 
-            this.textBoxYear.Location = new System.Drawing.Point(146, 163);
+            this.textBoxYear.Location = new System.Drawing.Point(146, 166);
             this.textBoxYear.Name = "textBoxYear";
             this.textBoxYear.Size = new System.Drawing.Size(220, 20);
             this.textBoxYear.TabIndex = 13;
@@ -162,7 +176,7 @@
             // labelYear
             // 
             this.labelYear.AutoSize = true;
-            this.labelYear.Location = new System.Drawing.Point(12, 166);
+            this.labelYear.Location = new System.Drawing.Point(12, 169);
             this.labelYear.Name = "labelYear";
             this.labelYear.Size = new System.Drawing.Size(32, 13);
             this.labelYear.TabIndex = 12;
@@ -170,7 +184,7 @@
             // 
             // textBoxStatus
             // 
-            this.textBoxStatus.Location = new System.Drawing.Point(146, 189);
+            this.textBoxStatus.Location = new System.Drawing.Point(146, 192);
             this.textBoxStatus.Name = "textBoxStatus";
             this.textBoxStatus.Size = new System.Drawing.Size(220, 20);
             this.textBoxStatus.TabIndex = 15;
@@ -178,7 +192,7 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(12, 192);
+            this.labelStatus.Location = new System.Drawing.Point(12, 195);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(44, 13);
             this.labelStatus.TabIndex = 14;
@@ -188,47 +202,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 251);
-            this.Controls.Add(this.textBoxStatus);
-            this.Controls.Add(this.labelStatus);
-            this.Controls.Add(this.textBoxYear);
-            this.Controls.Add(this.labelYear);
-            this.Controls.Add(this.textBoxPublishing);
-            this.Controls.Add(this.labelPublishing);
-            this.Controls.Add(this.textBoxVolume);
-            this.Controls.Add(this.labelVolume);
-            this.Controls.Add(this.textBoxTypeOfPublication);
-            this.Controls.Add(this.labelTypeOfPublication);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.labelName);
-            this.Controls.Add(this.textBoxOrder);
-            this.Controls.Add(this.labelOrder);
-            this.Controls.Add(this.comboBoxIndividualPlan);
-            this.Controls.Add(this.labelIndividualPlan);
+            this.ClientSize = new System.Drawing.Size(384, 261);
             this.Name = "FormIndividualPlanNIRScientificArticle";
             this.Text = "Статьи и издания";
             this.Load += new System.EventHandler(this.FormIndividualPlanNIRScientificArticle_Load);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.labelIndividualPlan, 0);
-            this.Controls.SetChildIndex(this.comboBoxIndividualPlan, 0);
-            this.Controls.SetChildIndex(this.labelOrder, 0);
-            this.Controls.SetChildIndex(this.textBoxOrder, 0);
-            this.Controls.SetChildIndex(this.labelName, 0);
-            this.Controls.SetChildIndex(this.textBoxName, 0);
-            this.Controls.SetChildIndex(this.labelTypeOfPublication, 0);
-            this.Controls.SetChildIndex(this.textBoxTypeOfPublication, 0);
-            this.Controls.SetChildIndex(this.labelVolume, 0);
-            this.Controls.SetChildIndex(this.textBoxVolume, 0);
-            this.Controls.SetChildIndex(this.labelPublishing, 0);
-            this.Controls.SetChildIndex(this.textBoxPublishing, 0);
-            this.Controls.SetChildIndex(this.labelYear, 0);
-            this.Controls.SetChildIndex(this.textBoxYear, 0);
-            this.Controls.SetChildIndex(this.labelStatus, 0);
-            this.Controls.SetChildIndex(this.textBoxStatus, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

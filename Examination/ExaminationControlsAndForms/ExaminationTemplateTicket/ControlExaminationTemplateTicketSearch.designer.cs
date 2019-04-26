@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.standartElementControl = new ControlsAndForms.Controls.StandartElementControl();
+            this.standartElementControl = new ControlsAndForms.Controls.StandartSearchControl();
             this.SuspendLayout();
             // 
             // standartElementControl
@@ -53,6 +53,6 @@
 
         #endregion
 
-        private ControlsAndForms.Controls.StandartElementControl standartElementControl;
+        private ControlsAndForms.Controls.StandartSearchControl standartElementControl;
     }
 }

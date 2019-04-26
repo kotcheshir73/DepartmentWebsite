@@ -1,5 +1,6 @@
 ﻿using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using Enums;
 using System;
@@ -9,7 +10,7 @@ using Unity;
 
 namespace AuthenticationControlsAndForms.Access
 {
-    public partial class FormAccess : Form
+    public partial class FormAccess : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -18,17 +19,11 @@ namespace AuthenticationControlsAndForms.Access
 
 		private Guid _roleId;
 
-		private Guid? _id = null;
-
-		public FormAccess(IAccessService service, Guid roleId, Guid? id = null)
+		public FormAccess(IAccessService service, Guid roleId, Guid? id = null) : base(id)
 		{
 			InitializeComponent();
 			_service = service;
 			_roleId = roleId;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
 		private void FormAccess_Load(object sender, EventArgs e)
@@ -45,13 +40,10 @@ namespace AuthenticationControlsAndForms.Access
 			}
 			comboBoxAccessType.SelectedItem = null;
 
-            if (_id.HasValue)
-			{
-				LoadData();
-			}
+            StandartForm_Load();
 		}
 
-		private void LoadData()
+		protected override void LoadData()
 		{
 			var result = _service.GetAccess(new AccessGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -78,7 +70,7 @@ namespace AuthenticationControlsAndForms.Access
 			return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -124,30 +116,6 @@ namespace AuthenticationControlsAndForms.Access
 				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-		}
-
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
 		}
 	}
 }

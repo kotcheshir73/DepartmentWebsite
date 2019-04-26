@@ -32,21 +32,20 @@
             this.labelStudentOrder = new System.Windows.Forms.Label();
             this.comboBoxStudentOrder = new System.Windows.Forms.ComboBox();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(352, 433);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(854, 425);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(499, 433);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(271, 433);
+            this.panelTop.Size = new System.Drawing.Size(854, 36);
             // 
             // labelEducationDirection
             // 
@@ -68,15 +67,13 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(854, 431);
+            this.tabControl.Size = new System.Drawing.Size(854, 425);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -90,7 +87,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(846, 405);
+            this.tabPageConfig.Size = new System.Drawing.Size(846, 399);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Основные данные";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -135,7 +132,7 @@
             // 
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
-            this.tabPageRecords.Size = new System.Drawing.Size(599, 341);
+            this.tabPageRecords.Size = new System.Drawing.Size(311, 148);
             this.tabPageRecords.TabIndex = 0;
             this.tabPageRecords.Text = "Студенты";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -145,14 +142,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 461);
-            this.Controls.Add(this.tabControl);
             this.Name = "FormStudentOrderBlock";
             this.Text = "Блок приказа";
             this.Load += new System.EventHandler(this.FormStudentOrderBlock_Load);
-            this.Controls.SetChildIndex(this.tabControl, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
@@ -161,6 +155,7 @@
         }
 
         #endregion
+
         private System.Windows.Forms.Label labelEducationDirection;
         private System.Windows.Forms.ComboBox comboBoxEducationDirection;
         private System.Windows.Forms.TabControl tabControl;

@@ -31,26 +31,32 @@
             this.labelOrder = new System.Windows.Forms.Label();
             this.textBoxTimeNormDescription = new System.Windows.Forms.TextBox();
             this.labelTimeNormDescription = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(125, 116);
+            this.panelMain.Controls.Add(this.textBoxTimeNormDescription);
+            this.panelMain.Controls.Add(this.labelIndividualPlanTitle);
+            this.panelMain.Controls.Add(this.labelTimeNormDescription);
+            this.panelMain.Controls.Add(this.comboBoxIndividualPlanTitle);
+            this.panelMain.Controls.Add(this.textBoxName);
+            this.panelMain.Controls.Add(this.labelOrder);
+            this.panelMain.Controls.Add(this.labelName);
+            this.panelMain.Controls.Add(this.textBoxOrder);
+            this.panelMain.Size = new System.Drawing.Size(384, 115);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(272, 116);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(44, 116);
+            this.panelTop.Size = new System.Drawing.Size(384, 36);
             // 
             // comboBoxIndividualPlanTitle
             // 
             this.comboBoxIndividualPlanTitle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIndividualPlanTitle.Enabled = false;
             this.comboBoxIndividualPlanTitle.FormattingEnabled = true;
-            this.comboBoxIndividualPlanTitle.Location = new System.Drawing.Point(146, 6);
+            this.comboBoxIndividualPlanTitle.Location = new System.Drawing.Point(146, 10);
             this.comboBoxIndividualPlanTitle.Name = "comboBoxIndividualPlanTitle";
             this.comboBoxIndividualPlanTitle.Size = new System.Drawing.Size(220, 21);
             this.comboBoxIndividualPlanTitle.TabIndex = 1;
@@ -58,7 +64,7 @@
             // labelIndividualPlanTitle
             // 
             this.labelIndividualPlanTitle.AutoSize = true;
-            this.labelIndividualPlanTitle.Location = new System.Drawing.Point(12, 9);
+            this.labelIndividualPlanTitle.Location = new System.Drawing.Point(12, 13);
             this.labelIndividualPlanTitle.Name = "labelIndividualPlanTitle";
             this.labelIndividualPlanTitle.Size = new System.Drawing.Size(68, 13);
             this.labelIndividualPlanTitle.TabIndex = 0;
@@ -66,7 +72,7 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(146, 59);
+            this.textBoxName.Location = new System.Drawing.Point(146, 63);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(220, 20);
             this.textBoxName.TabIndex = 5;
@@ -74,7 +80,7 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(12, 62);
+            this.labelName.Location = new System.Drawing.Point(12, 66);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(64, 13);
             this.labelName.TabIndex = 4;
@@ -82,7 +88,7 @@
             // 
             // textBoxOrder
             // 
-            this.textBoxOrder.Location = new System.Drawing.Point(146, 33);
+            this.textBoxOrder.Location = new System.Drawing.Point(146, 37);
             this.textBoxOrder.Name = "textBoxOrder";
             this.textBoxOrder.Size = new System.Drawing.Size(220, 20);
             this.textBoxOrder.TabIndex = 3;
@@ -90,7 +96,7 @@
             // labelOrder
             // 
             this.labelOrder.AutoSize = true;
-            this.labelOrder.Location = new System.Drawing.Point(12, 36);
+            this.labelOrder.Location = new System.Drawing.Point(12, 40);
             this.labelOrder.Name = "labelOrder";
             this.labelOrder.Size = new System.Drawing.Size(113, 13);
             this.labelOrder.TabIndex = 2;
@@ -98,7 +104,7 @@
             // 
             // textBoxTimeNormDescription
             // 
-            this.textBoxTimeNormDescription.Location = new System.Drawing.Point(146, 85);
+            this.textBoxTimeNormDescription.Location = new System.Drawing.Point(146, 89);
             this.textBoxTimeNormDescription.Name = "textBoxTimeNormDescription";
             this.textBoxTimeNormDescription.Size = new System.Drawing.Size(220, 20);
             this.textBoxTimeNormDescription.TabIndex = 7;
@@ -106,7 +112,7 @@
             // labelTimeNormDescription
             // 
             this.labelTimeNormDescription.AutoSize = true;
-            this.labelTimeNormDescription.Location = new System.Drawing.Point(12, 88);
+            this.labelTimeNormDescription.Location = new System.Drawing.Point(12, 92);
             this.labelTimeNormDescription.Name = "labelTimeNormDescription";
             this.labelTimeNormDescription.Size = new System.Drawing.Size(64, 13);
             this.labelTimeNormDescription.TabIndex = 6;
@@ -117,30 +123,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 151);
-            this.Controls.Add(this.textBoxTimeNormDescription);
-            this.Controls.Add(this.labelTimeNormDescription);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.labelName);
-            this.Controls.Add(this.textBoxOrder);
-            this.Controls.Add(this.labelOrder);
-            this.Controls.Add(this.comboBoxIndividualPlanTitle);
-            this.Controls.Add(this.labelIndividualPlanTitle);
             this.Name = "FormIndividualPlanKindOfWork";
             this.Text = "Вид работы";
             this.Load += new System.EventHandler(this.FormIndividualPlanKindOfWork_Load);
-            this.Controls.SetChildIndex(this.labelIndividualPlanTitle, 0);
-            this.Controls.SetChildIndex(this.comboBoxIndividualPlanTitle, 0);
-            this.Controls.SetChildIndex(this.labelOrder, 0);
-            this.Controls.SetChildIndex(this.textBoxOrder, 0);
-            this.Controls.SetChildIndex(this.labelName, 0);
-            this.Controls.SetChildIndex(this.textBoxName, 0);
-            this.Controls.SetChildIndex(this.labelTimeNormDescription, 0);
-            this.Controls.SetChildIndex(this.textBoxTimeNormDescription, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

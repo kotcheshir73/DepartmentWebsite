@@ -31,23 +31,29 @@
             this.labelOrder = new System.Windows.Forms.Label();
             this.comboBoxDisciplineLessonTask = new System.Windows.Forms.ComboBox();
             this.labelDisciplineLessonTask = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(108, 235);
+            this.panelMain.Controls.Add(this.comboBoxDisciplineLessonTask);
+            this.panelMain.Controls.Add(this.labelDisciplineLessonTask);
+            this.panelMain.Controls.Add(this.labelVariantNumber);
+            this.panelMain.Controls.Add(this.textBoxOrder);
+            this.panelMain.Controls.Add(this.labelVariantTask);
+            this.panelMain.Controls.Add(this.labelOrder);
+            this.panelMain.Controls.Add(this.textBoxVariantNumber);
+            this.panelMain.Controls.Add(this.textBoxVariantTask);
+            this.panelMain.Size = new System.Drawing.Size(374, 234);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(255, 235);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(27, 235);
+            this.panelTop.Size = new System.Drawing.Size(374, 36);
             // 
             // textBoxVariantTask
             // 
-            this.textBoxVariantTask.Location = new System.Drawing.Point(140, 59);
+            this.textBoxVariantTask.Location = new System.Drawing.Point(140, 60);
             this.textBoxVariantTask.Multiline = true;
             this.textBoxVariantTask.Name = "textBoxVariantTask";
             this.textBoxVariantTask.Size = new System.Drawing.Size(210, 140);
@@ -55,7 +61,7 @@
             // 
             // textBoxVariantNumber
             // 
-            this.textBoxVariantNumber.Location = new System.Drawing.Point(140, 33);
+            this.textBoxVariantNumber.Location = new System.Drawing.Point(140, 34);
             this.textBoxVariantNumber.Name = "textBoxVariantNumber";
             this.textBoxVariantNumber.Size = new System.Drawing.Size(210, 20);
             this.textBoxVariantNumber.TabIndex = 3;
@@ -63,7 +69,7 @@
             // labelVariantTask
             // 
             this.labelVariantTask.AutoSize = true;
-            this.labelVariantTask.Location = new System.Drawing.Point(12, 62);
+            this.labelVariantTask.Location = new System.Drawing.Point(12, 63);
             this.labelVariantTask.Name = "labelVariantTask";
             this.labelVariantTask.Size = new System.Drawing.Size(105, 13);
             this.labelVariantTask.TabIndex = 4;
@@ -72,7 +78,7 @@
             // labelVariantNumber
             // 
             this.labelVariantNumber.AutoSize = true;
-            this.labelVariantNumber.Location = new System.Drawing.Point(12, 36);
+            this.labelVariantNumber.Location = new System.Drawing.Point(12, 37);
             this.labelVariantNumber.Name = "labelVariantNumber";
             this.labelVariantNumber.Size = new System.Drawing.Size(98, 13);
             this.labelVariantNumber.TabIndex = 2;
@@ -80,7 +86,7 @@
             // 
             // textBoxOrder
             // 
-            this.textBoxOrder.Location = new System.Drawing.Point(140, 205);
+            this.textBoxOrder.Location = new System.Drawing.Point(140, 206);
             this.textBoxOrder.Name = "textBoxOrder";
             this.textBoxOrder.Size = new System.Drawing.Size(210, 20);
             this.textBoxOrder.TabIndex = 7;
@@ -88,7 +94,7 @@
             // labelOrder
             // 
             this.labelOrder.AutoSize = true;
-            this.labelOrder.Location = new System.Drawing.Point(21, 208);
+            this.labelOrder.Location = new System.Drawing.Point(21, 209);
             this.labelOrder.Name = "labelOrder";
             this.labelOrder.Size = new System.Drawing.Size(113, 13);
             this.labelOrder.TabIndex = 6;
@@ -99,7 +105,7 @@
             this.comboBoxDisciplineLessonTask.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplineLessonTask.Enabled = false;
             this.comboBoxDisciplineLessonTask.FormattingEnabled = true;
-            this.comboBoxDisciplineLessonTask.Location = new System.Drawing.Point(140, 6);
+            this.comboBoxDisciplineLessonTask.Location = new System.Drawing.Point(140, 7);
             this.comboBoxDisciplineLessonTask.Name = "comboBoxDisciplineLessonTask";
             this.comboBoxDisciplineLessonTask.Size = new System.Drawing.Size(210, 21);
             this.comboBoxDisciplineLessonTask.TabIndex = 1;
@@ -107,41 +113,24 @@
             // labelDisciplineLessonTask
             // 
             this.labelDisciplineLessonTask.AutoSize = true;
-            this.labelDisciplineLessonTask.Location = new System.Drawing.Point(12, 9);
+            this.labelDisciplineLessonTask.Location = new System.Drawing.Point(12, 10);
             this.labelDisciplineLessonTask.Name = "labelDisciplineLessonTask";
             this.labelDisciplineLessonTask.Size = new System.Drawing.Size(57, 13);
             this.labelDisciplineLessonTask.TabIndex = 0;
             this.labelDisciplineLessonTask.Text = "Задание*:";
             // 
-            // DisciplineLessonTaskVariantForm
+            // FormDisciplineLessonTaskVariant
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(374, 270);
-            this.Controls.Add(this.comboBoxDisciplineLessonTask);
-            this.Controls.Add(this.labelDisciplineLessonTask);
-            this.Controls.Add(this.textBoxOrder);
-            this.Controls.Add(this.labelOrder);
-            this.Controls.Add(this.textBoxVariantTask);
-            this.Controls.Add(this.textBoxVariantNumber);
-            this.Controls.Add(this.labelVariantTask);
-            this.Controls.Add(this.labelVariantNumber);
-            this.Name = "DisciplineLessonTaskVariantForm";
+            this.Name = "FormDisciplineLessonTaskVariant";
             this.Text = "Задание по варианту";
             this.Load += new System.EventHandler(this.FormDisciplineLessonTaskVariant_Load);
-            this.Controls.SetChildIndex(this.labelVariantNumber, 0);
-            this.Controls.SetChildIndex(this.labelVariantTask, 0);
-            this.Controls.SetChildIndex(this.textBoxVariantNumber, 0);
-            this.Controls.SetChildIndex(this.textBoxVariantTask, 0);
-            this.Controls.SetChildIndex(this.labelOrder, 0);
-            this.Controls.SetChildIndex(this.textBoxOrder, 0);
-            this.Controls.SetChildIndex(this.labelDisciplineLessonTask, 0);
-            this.Controls.SetChildIndex(this.comboBoxDisciplineLessonTask, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

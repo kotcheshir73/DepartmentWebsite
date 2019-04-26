@@ -10,26 +10,21 @@ using System.Linq;
 using System.Windows.Forms;
 using Tools;
 using Unity;
+using ControlsAndForms.Forms;
 
 namespace AuthenticationControlsAndForms.User
 {
-    public partial class FormUser : Form
+    public partial class FormUser : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IUserService _service;
 
-		private Guid? _id = null;
-
-		public FormUser(IUserService service, Guid? id = null)
+		public FormUser(IUserService service, Guid? id = null) : base(id)
 		{
 			InitializeComponent();
 			_service = service;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
 		private void FormUser_Load(object sender, EventArgs e)
@@ -60,17 +55,14 @@ namespace AuthenticationControlsAndForms.User
 				.Select(d => new { Value = d.Id, Display = d.FullName }).ToList();
 			comboBoxLecturer.SelectedItem = null;
 
-			if (_id.HasValue)
-			{
-				LoadData();
-			}
-			else
-			{
-				textBoxPassword.Enabled = true;
-			}
+			if (!_id.HasValue)
+            {
+                textBoxPassword.Enabled = true;
+            }
+            StandartForm_Load();
 		}
 
-		private void LoadData()
+		protected override void LoadData()
 		{
 			var result = _service.GetUser(new UserGetBindingModel { Id = _id.Value });
 			if (!result.Succeeded)
@@ -105,7 +97,7 @@ namespace AuthenticationControlsAndForms.User
 			return true;
 		}
 
-		private bool Save()
+        protected override bool Save()
 		{
 			if (CheckFill())
 			{
@@ -169,31 +161,7 @@ namespace AuthenticationControlsAndForms.User
 			}
 		}
 
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				LoadData();
-			}
-		}
-
-		private void buttonSaveAndClose_Click(object sender, EventArgs e)
-		{
-			if (Save())
-			{
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void buttonClose_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
-
-		private void buttonUpload_Click(object sender, EventArgs e)
+		private void ButtonUpload_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
 			if (dialog.ShowDialog() == DialogResult.OK)

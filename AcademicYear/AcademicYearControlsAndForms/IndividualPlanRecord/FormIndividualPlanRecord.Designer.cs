@@ -35,26 +35,36 @@
             this.labelFactSpring = new System.Windows.Forms.Label();
             this.textBoxPlanSpring = new System.Windows.Forms.TextBox();
             this.labelPlanSpring = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(135, 176);
+            this.panelMain.Controls.Add(this.textBoxFactSpring);
+            this.panelMain.Controls.Add(this.labelIndividualPlan);
+            this.panelMain.Controls.Add(this.labelFactSpring);
+            this.panelMain.Controls.Add(this.comboBoxIndividualPlan);
+            this.panelMain.Controls.Add(this.textBoxPlanSpring);
+            this.panelMain.Controls.Add(this.labelIndividualPlanKindOfWork);
+            this.panelMain.Controls.Add(this.labelPlanSpring);
+            this.panelMain.Controls.Add(this.comboBoxIndividualPlanKindOfWork);
+            this.panelMain.Controls.Add(this.textBoxFactAutumn);
+            this.panelMain.Controls.Add(this.labelPlanAutumn);
+            this.panelMain.Controls.Add(this.labelFactAutumn);
+            this.panelMain.Controls.Add(this.textBoxPlanAutumn);
+            this.panelMain.Size = new System.Drawing.Size(404, 175);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(282, 176);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(54, 176);
+            this.panelTop.Size = new System.Drawing.Size(404, 36);
             // 
             // comboBoxIndividualPlan
             // 
             this.comboBoxIndividualPlan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIndividualPlan.Enabled = false;
             this.comboBoxIndividualPlan.FormattingEnabled = true;
-            this.comboBoxIndividualPlan.Location = new System.Drawing.Point(171, 6);
+            this.comboBoxIndividualPlan.Location = new System.Drawing.Point(171, 10);
             this.comboBoxIndividualPlan.Name = "comboBoxIndividualPlan";
             this.comboBoxIndividualPlan.Size = new System.Drawing.Size(220, 21);
             this.comboBoxIndividualPlan.TabIndex = 1;
@@ -62,7 +72,7 @@
             // labelIndividualPlan
             // 
             this.labelIndividualPlan.AutoSize = true;
-            this.labelIndividualPlan.Location = new System.Drawing.Point(12, 9);
+            this.labelIndividualPlan.Location = new System.Drawing.Point(12, 13);
             this.labelIndividualPlan.Name = "labelIndividualPlan";
             this.labelIndividualPlan.Size = new System.Drawing.Size(128, 13);
             this.labelIndividualPlan.TabIndex = 0;
@@ -73,7 +83,7 @@
             this.comboBoxIndividualPlanKindOfWork.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIndividualPlanKindOfWork.Enabled = false;
             this.comboBoxIndividualPlanKindOfWork.FormattingEnabled = true;
-            this.comboBoxIndividualPlanKindOfWork.Location = new System.Drawing.Point(171, 33);
+            this.comboBoxIndividualPlanKindOfWork.Location = new System.Drawing.Point(171, 37);
             this.comboBoxIndividualPlanKindOfWork.Name = "comboBoxIndividualPlanKindOfWork";
             this.comboBoxIndividualPlanKindOfWork.Size = new System.Drawing.Size(220, 21);
             this.comboBoxIndividualPlanKindOfWork.TabIndex = 3;
@@ -81,7 +91,7 @@
             // labelIndividualPlanKindOfWork
             // 
             this.labelIndividualPlanKindOfWork.AutoSize = true;
-            this.labelIndividualPlanKindOfWork.Location = new System.Drawing.Point(12, 36);
+            this.labelIndividualPlanKindOfWork.Location = new System.Drawing.Point(12, 40);
             this.labelIndividualPlanKindOfWork.Name = "labelIndividualPlanKindOfWork";
             this.labelIndividualPlanKindOfWork.Size = new System.Drawing.Size(73, 13);
             this.labelIndividualPlanKindOfWork.TabIndex = 2;
@@ -89,7 +99,7 @@
             // 
             // textBoxPlanAutumn
             // 
-            this.textBoxPlanAutumn.Location = new System.Drawing.Point(171, 60);
+            this.textBoxPlanAutumn.Location = new System.Drawing.Point(171, 64);
             this.textBoxPlanAutumn.Name = "textBoxPlanAutumn";
             this.textBoxPlanAutumn.Size = new System.Drawing.Size(220, 20);
             this.textBoxPlanAutumn.TabIndex = 7;
@@ -97,7 +107,7 @@
             // labelPlanAutumn
             // 
             this.labelPlanAutumn.AutoSize = true;
-            this.labelPlanAutumn.Location = new System.Drawing.Point(12, 63);
+            this.labelPlanAutumn.Location = new System.Drawing.Point(12, 67);
             this.labelPlanAutumn.Name = "labelPlanAutumn";
             this.labelPlanAutumn.Size = new System.Drawing.Size(147, 13);
             this.labelPlanAutumn.TabIndex = 6;
@@ -105,7 +115,7 @@
             // 
             // textBoxFactAutumn
             // 
-            this.textBoxFactAutumn.Location = new System.Drawing.Point(171, 86);
+            this.textBoxFactAutumn.Location = new System.Drawing.Point(171, 90);
             this.textBoxFactAutumn.Name = "textBoxFactAutumn";
             this.textBoxFactAutumn.Size = new System.Drawing.Size(220, 20);
             this.textBoxFactAutumn.TabIndex = 9;
@@ -113,7 +123,7 @@
             // labelFactAutumn
             // 
             this.labelFactAutumn.AutoSize = true;
-            this.labelFactAutumn.Location = new System.Drawing.Point(12, 89);
+            this.labelFactAutumn.Location = new System.Drawing.Point(12, 93);
             this.labelFactAutumn.Name = "labelFactAutumn";
             this.labelFactAutumn.Size = new System.Drawing.Size(148, 13);
             this.labelFactAutumn.TabIndex = 8;
@@ -121,7 +131,7 @@
             // 
             // textBoxFactSpring
             // 
-            this.textBoxFactSpring.Location = new System.Drawing.Point(171, 138);
+            this.textBoxFactSpring.Location = new System.Drawing.Point(171, 142);
             this.textBoxFactSpring.Name = "textBoxFactSpring";
             this.textBoxFactSpring.Size = new System.Drawing.Size(220, 20);
             this.textBoxFactSpring.TabIndex = 13;
@@ -129,7 +139,7 @@
             // labelFactSpring
             // 
             this.labelFactSpring.AutoSize = true;
-            this.labelFactSpring.Location = new System.Drawing.Point(12, 141);
+            this.labelFactSpring.Location = new System.Drawing.Point(12, 145);
             this.labelFactSpring.Name = "labelFactSpring";
             this.labelFactSpring.Size = new System.Drawing.Size(153, 13);
             this.labelFactSpring.TabIndex = 12;
@@ -137,7 +147,7 @@
             // 
             // textBoxPlanSpring
             // 
-            this.textBoxPlanSpring.Location = new System.Drawing.Point(171, 112);
+            this.textBoxPlanSpring.Location = new System.Drawing.Point(171, 116);
             this.textBoxPlanSpring.Name = "textBoxPlanSpring";
             this.textBoxPlanSpring.Size = new System.Drawing.Size(220, 20);
             this.textBoxPlanSpring.TabIndex = 11;
@@ -145,7 +155,7 @@
             // labelPlanSpring
             // 
             this.labelPlanSpring.AutoSize = true;
-            this.labelPlanSpring.Location = new System.Drawing.Point(12, 115);
+            this.labelPlanSpring.Location = new System.Drawing.Point(12, 119);
             this.labelPlanSpring.Name = "labelPlanSpring";
             this.labelPlanSpring.Size = new System.Drawing.Size(152, 13);
             this.labelPlanSpring.TabIndex = 10;
@@ -156,38 +166,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 211);
-            this.Controls.Add(this.textBoxFactSpring);
-            this.Controls.Add(this.labelFactSpring);
-            this.Controls.Add(this.textBoxPlanSpring);
-            this.Controls.Add(this.labelPlanSpring);
-            this.Controls.Add(this.textBoxFactAutumn);
-            this.Controls.Add(this.labelFactAutumn);
-            this.Controls.Add(this.textBoxPlanAutumn);
-            this.Controls.Add(this.labelPlanAutumn);
-            this.Controls.Add(this.comboBoxIndividualPlanKindOfWork);
-            this.Controls.Add(this.labelIndividualPlanKindOfWork);
-            this.Controls.Add(this.comboBoxIndividualPlan);
-            this.Controls.Add(this.labelIndividualPlan);
             this.Name = "FormIndividualPlanRecord";
             this.Text = "Запись индивидуального плана";
             this.Load += new System.EventHandler(this.FormIndividualPlanRecord_Load);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.labelIndividualPlan, 0);
-            this.Controls.SetChildIndex(this.comboBoxIndividualPlan, 0);
-            this.Controls.SetChildIndex(this.labelIndividualPlanKindOfWork, 0);
-            this.Controls.SetChildIndex(this.comboBoxIndividualPlanKindOfWork, 0);
-            this.Controls.SetChildIndex(this.labelPlanAutumn, 0);
-            this.Controls.SetChildIndex(this.textBoxPlanAutumn, 0);
-            this.Controls.SetChildIndex(this.labelFactAutumn, 0);
-            this.Controls.SetChildIndex(this.textBoxFactAutumn, 0);
-            this.Controls.SetChildIndex(this.labelPlanSpring, 0);
-            this.Controls.SetChildIndex(this.textBoxPlanSpring, 0);
-            this.Controls.SetChildIndex(this.labelFactSpring, 0);
-            this.Controls.SetChildIndex(this.textBoxFactSpring, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
