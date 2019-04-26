@@ -306,6 +306,10 @@
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Examination\ExaminationControlsAndForms\ExaminationControlsAndForms.csproj">
+      <Project>{db99b176-3158-4270-b530-670d7e3fcfd0}</Project>
+      <Name>ExaminationControlsAndForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadControlsAndForms\LaboratoryHeadControlsAndForms.csproj">
       <Project>{9f668772-5883-446e-9660-847254016e0e}</Project>
       <Name>LaboratoryHeadControlsAndForms</Name>
@@ -321,10 +325,6 @@
     <ProjectReference Include="..\TicketModels\TicketModels.csproj">
       <Project>{a0ec04b3-171d-4fa9-9ea8-fa9e8ec2307e}</Project>
       <Name>TicketModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TicketViews\TicketViews.csproj">
-      <Project>{b27baf0f-f054-49d6-89fd-c4cbfd9e3655}</Project>
-      <Name>TicketViews</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

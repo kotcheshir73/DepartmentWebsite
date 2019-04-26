@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DB99B176-3158-4270-B530-670D7E3FCFD0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ExaminationControlsAndForms</RootNamespace>
+    <AssemblyName>ExaminationControlsAndForms</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.10.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller.cs" />
+    <Compile Include="ExaminationTemplateBlockQuestion\ControlExaminationTemplateBlockQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\ControlExaminationTemplateBlockQuestion.designer.cs">
+      <DependentUpon>ControlExaminationTemplateBlockQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\ControlExaminationTemplateBlockQuestionSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\ControlExaminationTemplateBlockQuestionSearch.designer.cs">
+      <DependentUpon>ControlExaminationTemplateBlockQuestionSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\FormExaminationTemplateBlockQuestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\FormExaminationTemplateBlockQuestion.designer.cs">
+      <DependentUpon>FormExaminationTemplateBlockQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\FormExaminationTemplateBlockQuestionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlockQuestion\FormExaminationTemplateBlockQuestionSearch.designer.cs">
+      <DependentUpon>FormExaminationTemplateBlockQuestionSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\ControlExaminationTemplateBlockSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\ControlExaminationTemplateBlockSearch.designer.cs">
+      <DependentUpon>ControlExaminationTemplateBlockSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\ControlExaminationTemplateBlock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\ControlExaminationTemplateBlock.designer.cs">
+      <DependentUpon>ControlExaminationTemplateBlock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\FormExaminationTemplateBlock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\FormExaminationTemplateBlock.designer.cs">
+      <DependentUpon>FormExaminationTemplateBlock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\FormExaminationTemplateBlockSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateBlock\FormExaminationTemplateBlockSearch.designer.cs">
+      <DependentUpon>FormExaminationTemplateBlockSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicketQuestion\ControlExaminationTemplateTicketQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicketQuestion\ControlExaminationTemplateTicketQuestion.designer.cs">
+      <DependentUpon>ControlExaminationTemplateTicketQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicketQuestion\FormExaminationTemplateTicketQuestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicketQuestion\FormExaminationTemplateTicketQuestion.designer.cs">
+      <DependentUpon>FormExaminationTemplateTicketQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\ControlExaminationTemplateTicket.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\ControlExaminationTemplateTicket.designer.cs">
+      <DependentUpon>ControlExaminationTemplateTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\ControlExaminationTemplateTicketSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\ControlExaminationTemplateTicketSearch.designer.cs">
+      <DependentUpon>ControlExaminationTemplateTicketSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\FormExaminationTemplateTicket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\FormExaminationTemplateTicket.designer.cs">
+      <DependentUpon>FormExaminationTemplateTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\FormExaminationTemplateTicketSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplateTicket\FormExaminationTemplateTicketSearch.designer.cs">
+      <DependentUpon>FormExaminationTemplateTicketSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplate\ControlExaminationTemplateSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplate\ControlExaminationTemplateSearch.designer.cs">
+      <DependentUpon>ControlExaminationTemplateSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplate\ControlExaminationTemplate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplate\ControlExaminationTemplate.designer.cs">
+      <DependentUpon>ControlExaminationTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplate\FormExaminationTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplate\FormExaminationTemplate.designer.cs">
+      <DependentUpon>FormExaminationTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationTemplate\FormExaminationTemplateSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExaminationTemplate\FormExaminationTemplateSearch.designer.cs">
+      <DependentUpon>FormExaminationTemplateSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FormExaminationTemplateUploadTickets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormExaminationTemplateUploadTickets.designer.cs">
+      <DependentUpon>FormExaminationTemplateUploadTickets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormExaminationTemplateTicketCreateTickets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormExaminationTemplateTicketCreateTickets.designer.cs">
+      <DependentUpon>FormExaminationTemplateTicketCreateTickets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplate\ControlTicketTemplateSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplate\ControlTicketTemplateSearch.designer.cs">
+      <DependentUpon>ControlTicketTemplateSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplate\FormTicketTemplateSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplate\FormTicketTemplateSearch.designer.cs">
+      <DependentUpon>FormTicketTemplateSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplate\ControlTicketTemplate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplate\ControlTicketTemplate.designer.cs">
+      <DependentUpon>ControlTicketTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplate\FormTicketTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplate\FormTicketTemplate.designer.cs">
+      <DependentUpon>FormTicketTemplate.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ExaminationTemplateBlockQuestion\ControlExaminationTemplateBlockQuestion.resx">
+      <DependentUpon>ControlExaminationTemplateBlockQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlockQuestion\ControlExaminationTemplateBlockQuestionSearch.resx">
+      <DependentUpon>ControlExaminationTemplateBlockQuestionSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlockQuestion\FormExaminationTemplateBlockQuestion.resx">
+      <DependentUpon>FormExaminationTemplateBlockQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlockQuestion\FormExaminationTemplateBlockQuestionSearch.resx">
+      <DependentUpon>FormExaminationTemplateBlockQuestionSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlock\ControlExaminationTemplateBlockSearch.resx">
+      <DependentUpon>ControlExaminationTemplateBlockSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlock\ControlExaminationTemplateBlock.resx">
+      <DependentUpon>ControlExaminationTemplateBlock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlock\FormExaminationTemplateBlock.resx">
+      <DependentUpon>FormExaminationTemplateBlock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateBlock\FormExaminationTemplateBlockSearch.resx">
+      <DependentUpon>FormExaminationTemplateBlockSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateTicketQuestion\ControlExaminationTemplateTicketQuestion.resx">
+      <DependentUpon>ControlExaminationTemplateTicketQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateTicketQuestion\FormExaminationTemplateTicketQuestion.resx">
+      <DependentUpon>FormExaminationTemplateTicketQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateTicket\ControlExaminationTemplateTicket.resx">
+      <DependentUpon>ControlExaminationTemplateTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateTicket\ControlExaminationTemplateTicketSearch.resx">
+      <DependentUpon>ControlExaminationTemplateTicketSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateTicket\FormExaminationTemplateTicket.resx">
+      <DependentUpon>FormExaminationTemplateTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplateTicket\FormExaminationTemplateTicketSearch.resx">
+      <DependentUpon>FormExaminationTemplateTicketSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplate\ControlExaminationTemplateSearch.resx">
+      <DependentUpon>ControlExaminationTemplateSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplate\ControlExaminationTemplate.resx">
+      <DependentUpon>ControlExaminationTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplate\FormExaminationTemplate.resx">
+      <DependentUpon>FormExaminationTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExaminationTemplate\FormExaminationTemplateSearch.resx">
+      <DependentUpon>FormExaminationTemplateSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Services\FormExaminationTemplateUploadTickets.resx">
+      <DependentUpon>FormExaminationTemplateUploadTickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormExaminationTemplateTicketCreateTickets.resx">
+      <DependentUpon>FormExaminationTemplateTicketCreateTickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplate\ControlTicketTemplateSearch.resx">
+      <DependentUpon>ControlTicketTemplateSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplate\FormTicketTemplateSearch.resx">
+      <DependentUpon>FormTicketTemplateSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplate\ControlTicketTemplate.resx">
+      <DependentUpon>ControlTicketTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplate\FormTicketTemplate.resx">
+      <DependentUpon>FormTicketTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AcademicYear\AcademicYearImplementations\AcademicYearImplementations.csproj">
+      <Project>{42A82700-3B9B-4D07-AA62-095BFA1096A0}</Project>
+      <Name>AcademicYearImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj">
+      <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
+      <Name>AcademicYearInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{F3E484D4-3940-4266-8794-5CEDDAC96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
+      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
+      <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
+      <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
+      <Name>ControlsAndForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExaminationImplementations\ExaminationImplementations.csproj">
+      <Project>{9a940850-a7ef-42b3-b2f1-5dc73bace869}</Project>
+      <Name>ExaminationImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExaminationInterfaces\ExaminationInterfaces.csproj">
+      <Project>{0db32f00-a6d8-44ee-b5b5-a9ecfc495469}</Project>
+      <Name>ExaminationInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

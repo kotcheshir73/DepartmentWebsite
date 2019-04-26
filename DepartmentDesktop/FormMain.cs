@@ -565,7 +565,7 @@ namespace DepartmentDesktop
         #region
         private void ExaminationTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = TicketViews.PublicViews.GetExaminationTemplateControl();
+            var control = ExaminationControlsAndForms.Controller.GetControlExaminationTemplate;
             ApplyControl(control);
             control.LoadData();
         }
