@@ -125,7 +125,6 @@
             this.Controls.Add(this.labelSoftwareName);
             this.Name = "SoftwareForm";
             this.Text = "ПО";
-            this.Load += new System.EventHandler(this.FormSoftware_Load);
             this.Controls.SetChildIndex(this.labelSoftwareName, 0);
             this.Controls.SetChildIndex(this.textBoxSoftwareName, 0);
             this.Controls.SetChildIndex(this.labelSoftwareKey, 0);

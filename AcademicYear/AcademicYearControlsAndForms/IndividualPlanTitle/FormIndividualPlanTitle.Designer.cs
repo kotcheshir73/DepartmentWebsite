@@ -119,7 +119,6 @@
             this.ClientSize = new System.Drawing.Size(834, 481);
             this.Name = "FormIndividualPlanTitle";
             this.Text = "Заголовок";
-            this.Load += new System.EventHandler(this.FormIndividualPlanTitle_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

@@ -122,7 +122,6 @@
             this.ClientSize = new System.Drawing.Size(834, 501);
             this.Name = "FormExaminationTemplateTicket";
             this.Text = "Билет экзамена";
-            this.Load += new System.EventHandler(this.FormExaminationTemplateTicket_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

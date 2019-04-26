@@ -84,7 +84,6 @@
             this.Controls.Add(this.labelGroupName);
             this.Name = "MaterialTechnicalValueGroupForm";
             this.Text = "Группа для записей МТЦ";
-            this.Load += new System.EventHandler(this.FormMaterialTechnicalValueGroup_Load);
             this.Controls.SetChildIndex(this.labelGroupName, 0);
             this.Controls.SetChildIndex(this.textBoxGroupName, 0);
             this.Controls.SetChildIndex(this.labelOrder, 0);

@@ -468,7 +468,6 @@
             this.ClientSize = new System.Drawing.Size(834, 401);
             this.Name = "FormTimeNorm";
             this.Text = "Норма времени";
-            this.Load += new System.EventHandler(this.FormTimeNorm_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

@@ -77,7 +77,6 @@
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Enabled = false;
             this.textBoxPassword.Location = new System.Drawing.Point(107, 50);
             this.textBoxPassword.MaxLength = 20;
             this.textBoxPassword.Name = "textBoxPassword";
@@ -165,7 +164,6 @@
             this.ClientSize = new System.Drawing.Size(535, 290);
             this.Name = "FormUser";
             this.Text = "Пользователь";
-            this.Load += new System.EventHandler(this.FormUser_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

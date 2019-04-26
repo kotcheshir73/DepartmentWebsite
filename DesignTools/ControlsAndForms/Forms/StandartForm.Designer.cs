@@ -96,6 +96,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StandartForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StandartForm_FormClosed);
+            this.Load += new System.EventHandler(this.StandartForm_Load);
             this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 

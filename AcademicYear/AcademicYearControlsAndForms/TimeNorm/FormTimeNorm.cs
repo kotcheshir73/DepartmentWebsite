@@ -13,32 +13,32 @@ using Tools;
 namespace AcademicYearControlsAndForms.TimeNorm
 {
     public partial class FormTimeNorm : StandartForm
-	{
-		private readonly ITimeNormService _service;
+    {
+        private readonly ITimeNormService _service;
 
         private Guid _ayId;
 
         public FormTimeNorm(ITimeNormService service, Guid ayId, Guid? id = null) : base(id)
-		{
-			InitializeComponent();
-			_service = service;
+        {
+            InitializeComponent();
+            _service = service;
             _ayId = ayId;
         }
 
-		private void FormTimeNorm_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { Id = _ayId });
             if (!resultAY.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
-                return;
+                return false;
             }
 
             var resultDB = _service.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
             if (!resultDB.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке блоков дисциплин возникла ошибка: ", resultDB.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicYear.ValueMember = "Value";
@@ -59,10 +59,10 @@ namespace AcademicYearControlsAndForms.TimeNorm
             }
 
             foreach (var elem in Enum.GetValues(typeof(KindOfLoadType)))
-			{
-				comboBoxSelectKindOfLoadType.Items.Add(elem.ToString());
-			}
-			comboBoxSelectKindOfLoadType.SelectedIndex = -1;
+            {
+                comboBoxSelectKindOfLoadType.Items.Add(elem.ToString());
+            }
+            comboBoxSelectKindOfLoadType.SelectedIndex = -1;
 
             foreach (var elem in Enum.GetValues(typeof(TimeNormKoef)))
             {
@@ -70,22 +70,22 @@ namespace AcademicYearControlsAndForms.TimeNorm
             }
             comboBoxTimeNormKoef.SelectedIndex = -1;
 
-            StandartForm_Load();
-		}
+            return true;
+        }
 
         protected override void LoadData()
-		{
-			var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id.Value });
-			if (!result.Succeeded)
-			{
+        {
+            var result = _service.GetTimeNorm(new TimeNormGetBindingModel { Id = _id.Value });
+            if (!result.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				Close();
-			}
-			var entity = result.Result;
+                Close();
+            }
+            var entity = result.Result;
 
             comboBoxDisciplineBlock.SelectedValue = entity.DisciplineBlockId;
 
-			textBoxTimeNormName.Text = entity.TimeNormName;
+            textBoxTimeNormName.Text = entity.TimeNormName;
             textBoxTimeNormShortName.Text = entity.TimeNormShortName;
             textBoxTimeNormOrder.Text = entity.TimeNormOrder.ToString();
             if (entity.TimeNormAcademicLevel != null)
@@ -107,15 +107,15 @@ namespace AcademicYearControlsAndForms.TimeNorm
             checkBoxUseInLearningProgress.Checked = entity.UseInLearningProgress;
         }
 
-		private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxDisciplineBlock.SelectedValue == null)
             {
                 return false;
             }
             if (string.IsNullOrEmpty(textBoxTimeNormName.Text))
-			{
-				return false;
+            {
+                return false;
             }
             if (string.IsNullOrEmpty(textBoxTimeNormShortName.Text))
             {
@@ -146,80 +146,72 @@ namespace AcademicYearControlsAndForms.TimeNorm
                 return false;
             }
             return true;
-		}
+        }
 
         protected override bool Save()
-		{
-            if (CheckFill())
-			{
-				ResultService result;
-				if (!_id.HasValue)
-				{
-                    result = _service.CreateTimeNorm(new TimeNormSetBindingModel
+        {
+            ResultService result;
+            if (!_id.HasValue)
+            {
+                result = _service.CreateTimeNorm(new TimeNormSetBindingModel
+                {
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
+                    TimeNormName = textBoxTimeNormName.Text,
+                    TimeNormShortName = textBoxTimeNormShortName.Text,
+                    TimeNormOrder = Convert.ToInt32(textBoxTimeNormOrder.Text),
+                    TimeNormAcademicLevel = string.IsNullOrEmpty(comboBoxAcademicLevel.Text) ? null : comboBoxAcademicLevel.Text,
+                    KindOfLoadName = textBoxKindOfLoadName.Text,
+                    KindOfLoadAttributeName = textBoxKindOfLoadAttributeName.Text,
+                    KindOfLoadBlueAsteriskName = textBoxKindOfLoadBlueAsteriskName.Text,
+                    KindOfLoadBlueAsteriskAttributeName = textBoxKindOfLoadBlueAsteriskAttributeName.Text,
+                    KindOfLoadBlueAsteriskPracticName = textBoxKindOfLoadBlueAsteriskPracticName.Text,
+                    KindOfLoadType = comboBoxSelectKindOfLoadType.Text,
+                    Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?)null,
+                    NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
+                    TimeNormKoef = comboBoxTimeNormKoef.Text,
+                    UseInLearningProgress = checkBoxUseInLearningProgress.Checked
+                });
+            }
+            else
+            {
+                result = _service.UpdateTimeNorm(new TimeNormSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
+                    TimeNormName = textBoxTimeNormName.Text,
+                    TimeNormShortName = textBoxTimeNormShortName.Text,
+                    TimeNormOrder = Convert.ToInt32(textBoxTimeNormOrder.Text),
+                    TimeNormAcademicLevel = string.IsNullOrEmpty(comboBoxAcademicLevel.Text) ? null : comboBoxAcademicLevel.Text,
+                    KindOfLoadName = textBoxKindOfLoadName.Text,
+                    KindOfLoadAttributeName = textBoxKindOfLoadAttributeName.Text,
+                    KindOfLoadBlueAsteriskName = textBoxKindOfLoadBlueAsteriskName.Text,
+                    KindOfLoadBlueAsteriskAttributeName = textBoxKindOfLoadBlueAsteriskAttributeName.Text,
+                    KindOfLoadBlueAsteriskPracticName = textBoxKindOfLoadBlueAsteriskPracticName.Text,
+                    KindOfLoadType = comboBoxSelectKindOfLoadType.Text,
+                    Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?)null,
+                    NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
+                    TimeNormKoef = comboBoxTimeNormKoef.Text,
+                    UseInLearningProgress = checkBoxUseInLearningProgress.Checked
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
                     {
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
-                        TimeNormName = textBoxTimeNormName.Text,
-                        TimeNormShortName = textBoxTimeNormShortName.Text,
-                        TimeNormOrder = Convert.ToInt32(textBoxTimeNormOrder.Text),
-                        TimeNormAcademicLevel = string.IsNullOrEmpty(comboBoxAcademicLevel.Text) ? null : comboBoxAcademicLevel.Text,
-                        KindOfLoadName = textBoxKindOfLoadName.Text,
-                        KindOfLoadAttributeName = textBoxKindOfLoadAttributeName.Text,
-                        KindOfLoadBlueAsteriskName = textBoxKindOfLoadBlueAsteriskName.Text,
-                        KindOfLoadBlueAsteriskAttributeName = textBoxKindOfLoadBlueAsteriskAttributeName.Text,
-                        KindOfLoadBlueAsteriskPracticName = textBoxKindOfLoadBlueAsteriskPracticName.Text,
-                        KindOfLoadType = comboBoxSelectKindOfLoadType.Text,
-                        Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?) null,
-                        NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
-                        TimeNormKoef = comboBoxTimeNormKoef.Text,
-                        UseInLearningProgress = checkBoxUseInLearningProgress.Checked
-                    });
-				}
-				else
-				{
-					result = _service.UpdateTimeNorm(new TimeNormSetBindingModel
-					{
-						Id = _id.Value,
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
-                        TimeNormName = textBoxTimeNormName.Text,
-                        TimeNormShortName = textBoxTimeNormShortName.Text,
-                        TimeNormOrder = Convert.ToInt32(textBoxTimeNormOrder.Text),
-                        TimeNormAcademicLevel = string.IsNullOrEmpty(comboBoxAcademicLevel.Text) ? null : comboBoxAcademicLevel.Text,
-                        KindOfLoadName = textBoxKindOfLoadName.Text,
-                        KindOfLoadAttributeName = textBoxKindOfLoadAttributeName.Text,
-                        KindOfLoadBlueAsteriskName = textBoxKindOfLoadBlueAsteriskName.Text,
-                        KindOfLoadBlueAsteriskAttributeName = textBoxKindOfLoadBlueAsteriskAttributeName.Text,
-                        KindOfLoadBlueAsteriskPracticName = textBoxKindOfLoadBlueAsteriskPracticName.Text,
-                        KindOfLoadType = comboBoxSelectKindOfLoadType.Text,
-                        Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?)null,
-                        NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
-                        TimeNormKoef = comboBoxTimeNormKoef.Text,
-                        UseInLearningProgress = checkBoxUseInLearningProgress.Checked
-                    });
-				}
-				if (result.Succeeded)
-				{
-					if (result.Result != null)
-					{
-						if (result.Result is Guid)
-						{
-							_id = (Guid)result.Result;
-						}
-					}
-					return true;
-				}
-				else
-				{
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-					return false;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return false;
-			}
-		}
-	}
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                return false;
+            }
+        }
+    }
 }

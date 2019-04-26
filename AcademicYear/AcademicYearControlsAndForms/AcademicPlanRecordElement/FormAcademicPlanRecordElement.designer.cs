@@ -176,7 +176,6 @@
             this.ClientSize = new System.Drawing.Size(705, 409);
             this.Name = "FormAcademicPlanRecordElement";
             this.Text = "Нагрузка по виду нагрузок";
-            this.Load += new System.EventHandler(this.FormAcademicPlanRecordElement_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

@@ -152,7 +152,6 @@
             this.ClientSize = new System.Drawing.Size(364, 221);
             this.Name = "FormDisciplineLessonConductedStudent";
             this.Text = "Отметка о посещении студента";
-            this.Load += new System.EventHandler(this.FormDisciplineLessonConductedStudent_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

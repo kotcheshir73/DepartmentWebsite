@@ -30,20 +30,20 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
             _aprId = aprId;
         }
 
-        private void FormDisciplineTimeDistribution_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultAPR = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { Id = _aprId });
             if (!resultAPR.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке записей учебных планов возникла ошибка: ", resultAPR.Errors);
-                return;
+                return false;
             }
 
             var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
             if (!resultSG.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicPlanRecord.ValueMember = "Value";
@@ -57,7 +57,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
                 .Select(d => new { Value = d.Id, Display = d.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -92,7 +92,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
             textBoxCommentWishesOfTeacher.Text = entity.CommentWishesOfTeacher;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxAcademicPlanRecord.SelectedValue == null)
             {
@@ -107,50 +107,42 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel
                 {
-                    result = _service.CreateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel
-                    {
-                        AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-                        StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
-                        Comment = textBoxComment.Text,
-                        CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
-                        StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
-                        Comment = textBoxComment.Text,
-                        CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
+                    StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
+                    Comment = textBoxComment.Text,
+                    CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
+                    StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
+                    Comment = textBoxComment.Text,
+                    CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

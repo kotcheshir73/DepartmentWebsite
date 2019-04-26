@@ -19,56 +19,56 @@ namespace BaseControlsAndForms.Student
 
         private readonly IStudentService _service;
 
-		public FormStudent(IStudentService service, Guid? id = null) : base(id)
+        public FormStudent(IStudentService service, Guid? id = null) : base(id)
         {
-			InitializeComponent();
+            InitializeComponent();
             _service = service;
         }
 
-        private void FormStudent_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
-			var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { } );
-			if (!resultSG.Succeeded)
-			{
+            var resultSG = _service.GetStudentGroups(new StudentGroupGetBindingModel { });
+            if (!resultSG.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-				return;
-			}
+                return false;
+            }
 
-			comboBoxStudentGroup.ValueMember = "Value";
+            comboBoxStudentGroup.ValueMember = "Value";
             comboBoxStudentGroup.DisplayMember = "Display";
             comboBoxStudentGroup.DataSource = resultSG.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
-		{
-			var result = _service.GetStudent(new StudentGetBindingModel { Id = _id.Value });
-			if (!result.Succeeded)
-			{
+        {
+            var result = _service.GetStudent(new StudentGetBindingModel { Id = _id.Value });
+            if (!result.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				Close();
-			}
-			var entity = result.Result;
+                Close();
+            }
+            var entity = result.Result;
 
-			textBoxNumberOfBook.Text = entity.NumberOfBook;
-			textBoxNumberOfBook.Enabled = false;
-			textBoxLastName.Text = entity.LastName;
-			textBoxFirstName.Text = entity.FirstName;
-			textBoxPatronymic.Text = entity.Patronymic;
-			textBoxEmail.Text = entity.Email;
-			textBoxDescription.Text = entity.Description;
-			if (entity.Photo != null)
-			{
-				pictureBoxPhoto.Image = entity.Photo;
-			}
-			comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+            textBoxNumberOfBook.Text = entity.NumberOfBook;
+            textBoxNumberOfBook.Enabled = false;
+            textBoxLastName.Text = entity.LastName;
+            textBoxFirstName.Text = entity.FirstName;
+            textBoxPatronymic.Text = entity.Patronymic;
+            textBoxEmail.Text = entity.Email;
+            textBoxDescription.Text = entity.Description;
+            if (entity.Photo != null)
+            {
+                pictureBoxPhoto.Image = entity.Photo;
+            }
+            comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
             checkBoxIsSteward.Checked = entity.IsSteward;
-		}
+        }
 
-		private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxStudentGroup.SelectedValue == null)
             {
@@ -85,62 +85,54 @@ namespace BaseControlsAndForms.Student
             if (string.IsNullOrEmpty(textBoxFirstName.Text))
             {
                 return false;
-			}
-			if (string.IsNullOrEmpty(textBoxEmail.Text))
-			{
-				return false;
-			}
-			return true;
-		}
+            }
+            if (string.IsNullOrEmpty(textBoxEmail.Text))
+            {
+                return false;
+            }
+            return true;
+        }
 
         protected override bool Save()
-		{
-			if (CheckFill())
-			{
-				ImageConverter converter = new ImageConverter();
-				ResultService result;
-				if (_id.HasValue)
-				{
-					result = _service.UpdateStudent(new StudentSetBindingModel
-					{
-                        Id = _id.Value,
-                        StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
-                        NumberOfBook = textBoxNumberOfBook.Text,
-						LastName = textBoxLastName.Text,
-						FirstName = textBoxFirstName.Text,
-						Patronymic = textBoxPatronymic.Text,
-						Email = textBoxEmail.Text,
-						Description = textBoxDescription.Text,
-						Photo = pictureBoxPhoto.Image != null? (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[])) : null,
-                        IsSteward = checkBoxIsSteward.Checked
-					});
-					if (result.Succeeded)
+        {
+            ImageConverter converter = new ImageConverter();
+            ResultService result;
+            if (_id.HasValue)
+            {
+                result = _service.UpdateStudent(new StudentSetBindingModel
+                {
+                    Id = _id.Value,
+                    StudentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString()),
+                    NumberOfBook = textBoxNumberOfBook.Text,
+                    LastName = textBoxLastName.Text,
+                    FirstName = textBoxFirstName.Text,
+                    Patronymic = textBoxPatronymic.Text,
+                    Email = textBoxEmail.Text,
+                    Description = textBoxDescription.Text,
+                    Photo = pictureBoxPhoto.Image != null ? (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[])) : null,
+                    IsSteward = checkBoxIsSteward.Checked
+                });
+                if (result.Succeeded)
+                {
+                    if (result.Result != null)
                     {
-                        if (result.Result != null)
+                        if (result.Result is Guid)
                         {
-                            if (result.Result is Guid)
-                            {
-                                _id = (Guid)result.Result;
-                            }
+                            _id = (Guid)result.Result;
                         }
-                        return true;
                     }
-					else
-					{
-                        ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-						return false;
-					}
-				}
-				return false;
-			}
-			else
-			{
-				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return false;
-			}
-		}
+                    return true;
+                }
+                else
+                {
+                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                    return false;
+                }
+            }
+            return false;
+        }
 
-		private void ButtonUpload_Click(object sender, EventArgs e)
+        private void ButtonUpload_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -155,6 +147,6 @@ namespace BaseControlsAndForms.Student
                     MessageBox.Show(ex.Message, "Ошибка при загрузке файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-		}
-	}
+        }
+    }
 }

@@ -365,7 +365,6 @@
             this.ClientSize = new System.Drawing.Size(499, 501);
             this.Name = "LecturerForm";
             this.Text = "Преподаватель";
-            this.Load += new System.EventHandler(this.LecturerForm_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

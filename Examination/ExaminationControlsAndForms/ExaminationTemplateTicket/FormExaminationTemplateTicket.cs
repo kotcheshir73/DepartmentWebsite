@@ -25,11 +25,6 @@ namespace ExaminationControlsAndForms.ExaminationTemplateTicket
             examinationTemplateElement.Id = examinationTemplateId;
         }
 
-        private void FormExaminationTemplateTicket_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             if (tabPageRecords.Controls.Count == 0)
@@ -51,53 +46,40 @@ namespace ExaminationControlsAndForms.ExaminationTemplateTicket
             numericUpDownTicketNumber.Value = entity.TicketNumber;
         }
 
-        private bool CheckFill()
-        {
-            return true;
-        }
-
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
                 {
-                    result = _service.CreateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
-                    {
-                        ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                        TicketNumber = (int)numericUpDownTicketNumber.Value
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
-                    {
-                        Id = _id.Value,
-                        ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                        TicketNumber = (int)numericUpDownTicketNumber.Value
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
+                    TicketNumber = (int)numericUpDownTicketNumber.Value
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateExaminationTemplateTicket(new ExaminationTemplateTicketSetBindingModel
+                {
+                    Id = _id.Value,
+                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
+                    TicketNumber = (int)numericUpDownTicketNumber.Value
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

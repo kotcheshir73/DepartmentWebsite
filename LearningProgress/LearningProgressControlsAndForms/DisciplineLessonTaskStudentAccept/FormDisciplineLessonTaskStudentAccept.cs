@@ -32,7 +32,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
             _sgId = sgId;
         }
 
-        private void FormDisciplineLessonTaskStudentAccept_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             foreach (var elem in Enum.GetValues(typeof(DisciplineLessonTaskStudentResult)))
             {
@@ -43,7 +43,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
             if (!resultDL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке занятий возникла ошибка: ", resultDL.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineLesson.ValueMember = "Value";
@@ -56,7 +56,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
             if (!resultDLT.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке заданий возникла ошибка: ", resultDLT.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineLessonTask.ValueMember = "Value";
@@ -69,7 +69,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
             if (!resultS.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке студентов возникла ошибка: ", resultS.Errors);
-                return;
+                return false;
             }
 
             comboBoxStudent.ValueMember = "Value";
@@ -78,7 +78,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
                 .Select(d => new { Value = d.Id, Display = string.Format("{0} {1}", d.LastName, d.FirstName) }).ToList();
             comboBoxStudent.SelectedValue = _dlId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -101,7 +101,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
             richTextBoxLog.Text = entity.Log;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxDisciplineLessonTask.SelectedValue == null)
             {
@@ -135,56 +135,48 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineLessonTaskStudentAccept(new DisciplineLessonTaskStudentAcceptSetBindingModel
                 {
-                    result = _service.CreateDisciplineLessonTaskStudentAccept(new DisciplineLessonTaskStudentAcceptSetBindingModel
-                    {
-                        DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
-                        StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
-                        Result = comboBoxResult.Text,
-                        Task = textBoxTask.Text,
-                        DateAccept = dateTimePickerDateAccept.Value,
-                        Score = Convert.ToDecimal(textBoxScore.Text),
-                        Comment = textBoxComment.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineLessonTaskStudentAccept(new DisciplineLessonTaskStudentAcceptSetBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
-                        StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
-                        Result = comboBoxResult.Text,
-                        Task = textBoxTask.Text,
-                        DateAccept = dateTimePickerDateAccept.Value,
-                        Score = Convert.ToDecimal(textBoxScore.Text),
-                        Comment = textBoxComment.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
+                    StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
+                    Result = comboBoxResult.Text,
+                    Task = textBoxTask.Text,
+                    DateAccept = dateTimePickerDateAccept.Value,
+                    Score = Convert.ToDecimal(textBoxScore.Text),
+                    Comment = textBoxComment.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineLessonTaskStudentAccept(new DisciplineLessonTaskStudentAcceptSetBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
+                    StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
+                    Result = comboBoxResult.Text,
+                    Task = textBoxTask.Text,
+                    DateAccept = dateTimePickerDateAccept.Value,
+                    Score = Convert.ToDecimal(textBoxScore.Text),
+                    Comment = textBoxComment.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

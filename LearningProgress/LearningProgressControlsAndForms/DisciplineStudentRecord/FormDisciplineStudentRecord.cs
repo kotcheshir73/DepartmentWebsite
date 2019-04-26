@@ -35,7 +35,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
             _semester = semester;
         }
 
-        private void FormDisciplineStudentRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             foreach (var elem in Enum.GetValues(typeof(Semesters)))
             {
@@ -47,7 +47,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
             if (!resultD.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
-                return;
+                return false;
             }
 
             comboBoxDiscipline.ValueMember = "Value";
@@ -60,7 +60,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
             if (!resultSG.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-                return;
+                return false;
             }
 
             comboBoxStudentGroup.ValueMember = "Value";
@@ -73,7 +73,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
             if (!resultS.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке студентов возникла ошибка: ", resultS.Errors);
-                return;
+                return false;
             }
 
             comboBoxStudent.ValueMember = "Value";
@@ -82,10 +82,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
                 .Select(d => new { Value = d.Id, Display = string.Format("{0} {1}", d.LastName, d.FirstName) }).ToList();
             comboBoxStudent.SelectedItem = null;
 
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
+            return true;
         }
 
         protected override void LoadData()
@@ -97,7 +94,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
                 Close();
             }
             var entity = result.Result;
-            
+
             comboBoxDiscipline.SelectedValue = entity.DisciplineId;
             comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
             comboBoxStudent.SelectedValue = entity.StudentId;
@@ -106,7 +103,7 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
             textBoxSubgroup.Text = entity.SubGroup.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxStudent.SelectedValue == null)
             {
@@ -136,52 +133,44 @@ namespace LearningProgressControlsAndForms.DisciplineStudentRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
                 {
-                    result = _service.CreateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
-                    {
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
-                        Semester = comboBoxSemester.Text,
-                        Variant = textBoxVariant.Text,
-                        SubGroup = Convert.ToInt32(textBoxSubgroup.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
-                        Semester = comboBoxSemester.Text,
-                        Variant = textBoxVariant.Text,
-                        SubGroup = Convert.ToInt32(textBoxSubgroup.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
+                    Semester = comboBoxSemester.Text,
+                    Variant = textBoxVariant.Text,
+                    SubGroup = Convert.ToInt32(textBoxSubgroup.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    StudentId = new Guid(comboBoxStudent.SelectedValue.ToString()),
+                    Semester = comboBoxSemester.Text,
+                    Variant = textBoxVariant.Text,
+                    SubGroup = Convert.ToInt32(textBoxSubgroup.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

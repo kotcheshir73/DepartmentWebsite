@@ -37,20 +37,20 @@ namespace AcademicYearControlsAndForms.LecturerWorkload
             }
         }
 
-        private void FormLecturerWorkload_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { Id = _ayId });
             if (!resultAY.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
-                return;
+                return false;
             }
 
             var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
             if (!resultL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicYear.ValueMember = "Value";
@@ -65,7 +65,7 @@ namespace AcademicYearControlsAndForms.LecturerWorkload
                 .Select(ed => new { Value = ed.Id, Display = ed.FullName }).ToList();
             comboBoxLecturer.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -83,7 +83,7 @@ namespace AcademicYearControlsAndForms.LecturerWorkload
             textBoxWorkload.Text = entity.Workload.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxAcademicYear.SelectedValue == null)
             {
@@ -106,48 +106,40 @@ namespace AcademicYearControlsAndForms.LecturerWorkload
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
                 {
-                    result = _service.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
-                    {
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
-                        Workload = Convert.ToDouble(textBoxWorkload.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateLecturerWorkload(new LecturerWorkloadSetBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
-                        Workload = Convert.ToDouble(textBoxWorkload.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
+                    Workload = Convert.ToDouble(textBoxWorkload.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateLecturerWorkload(new LecturerWorkloadSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
+                    Workload = Convert.ToDouble(textBoxWorkload.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

@@ -24,13 +24,13 @@ namespace LaboratoryHeadControlsAndForms.SoftwareRecord
             _service = service;
         }
 
-        private void FormSoftwareRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultMTV = _service.GetMaterialTechnicalValues(new MaterialTechnicalValueGetBindingModel { });
             if (!resultMTV.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке мат.тех.ценностей возникла ошибка: ", resultMTV.Errors);
-                return;
+                return false;
             }
 
             comboBoxMaterialTechnicalValue.ValueMember = "Value";
@@ -44,7 +44,7 @@ namespace LaboratoryHeadControlsAndForms.SoftwareRecord
             if (!resultS.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке мат.тех.ценностей возникла ошибка: ", resultS.Errors);
-                return;
+                return false;
             }
 
             comboBoxSoftware.ValueMember = "Value";
@@ -53,7 +53,7 @@ namespace LaboratoryHeadControlsAndForms.SoftwareRecord
                 .Select(x => new { Value = x.Id, Display = string.Format("{0} {1}", x.SoftwareName, x.SoftwareKey) }).ToList();
             comboBoxSoftware.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -73,7 +73,7 @@ namespace LaboratoryHeadControlsAndForms.SoftwareRecord
             textBoxClaimNumber.Text = entity.ClaimNumber;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxMaterialTechnicalValue.Text))
             {
@@ -88,52 +88,44 @@ namespace LaboratoryHeadControlsAndForms.SoftwareRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
                 {
-                    result = _service.CreateSoftwareRecord(new SoftwareRecordSetBindingModel
-                    {
-                        MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
-                        SoftwareId = new Guid(comboBoxSoftware.SelectedValue.ToString()),
-                        DateSetup = dateTimePickerDateSetup.Value,
-                        SetupDescription = textBoxSetupDescription.Text,
-                        ClaimNumber = textBoxClaimNumber.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateSoftwareRecord(new SoftwareRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
-                        SoftwareId = new Guid(comboBoxSoftware.SelectedValue.ToString()),
-                        DateSetup = dateTimePickerDateSetup.Value,
-                        SetupDescription = textBoxSetupDescription.Text,
-                        ClaimNumber = textBoxClaimNumber.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
+                    SoftwareId = new Guid(comboBoxSoftware.SelectedValue.ToString()),
+                    DateSetup = dateTimePickerDateSetup.Value,
+                    SetupDescription = textBoxSetupDescription.Text,
+                    ClaimNumber = textBoxClaimNumber.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateSoftwareRecord(new SoftwareRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
+                    SoftwareId = new Guid(comboBoxSoftware.SelectedValue.ToString()),
+                    DateSetup = dateTimePickerDateSetup.Value,
+                    SetupDescription = textBoxSetupDescription.Text,
+                    ClaimNumber = textBoxClaimNumber.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

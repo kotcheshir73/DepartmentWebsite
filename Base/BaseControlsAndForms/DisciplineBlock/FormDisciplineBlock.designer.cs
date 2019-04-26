@@ -118,7 +118,6 @@
             this.ClientSize = new System.Drawing.Size(453, 128);
             this.Name = "FormDisciplineBlock";
             this.Text = "Блок дисциплин";
-            this.Load += new System.EventHandler(this.FormDisciplineBlock_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

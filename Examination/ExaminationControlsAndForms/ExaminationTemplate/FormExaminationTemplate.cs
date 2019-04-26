@@ -30,20 +30,20 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
             _service = service;
         }
 
-        private void FormExaminationTemplate_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultD = _service.GetDisciplines(new DisciplineGetBindingModel { });
             if (!resultD.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
-                return;
+                return false;
             }
 
             var resultED = _service.GetEducationDirections(new EducationDirectionGetBindingModel { });
             if (!resultED.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке направлений возникла ошибка: ", resultED.Errors);
-                return;
+                return false;
             }
 
             foreach (var elem in Enum.GetValues(typeof(Semesters)))
@@ -63,8 +63,7 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
                 .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
             comboBoxEducationDirection.SelectedItem = null;
 
-
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -110,7 +109,7 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
             textBoxExaminationTemplateName.Text = entity.ExaminationTemplateName;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             labelDiscipline.ForeColor = SystemColors.ControlText;
             if (comboBoxDiscipline.SelectedValue == null)
@@ -123,57 +122,49 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateExaminationTemplate(new ExaminationTemplateSetBindingModel
                 {
-                    result = _service.CreateExaminationTemplate(new ExaminationTemplateSetBindingModel
-                    {
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
-                        Semester = string.IsNullOrEmpty(comboBoxSemester.Text) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), comboBoxSemester.Text),
-                        ExaminationTemplateName = textBoxExaminationTemplateName.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateExaminationTemplate(new ExaminationTemplateSetBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
-                        Semester = string.IsNullOrEmpty(comboBoxSemester.Text) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), comboBoxSemester.Text),
-                        ExaminationTemplateName = textBoxExaminationTemplateName.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
+                    Semester = string.IsNullOrEmpty(comboBoxSemester.Text) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), comboBoxSemester.Text),
+                    ExaminationTemplateName = textBoxExaminationTemplateName.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateExaminationTemplate(new ExaminationTemplateSetBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
+                    Semester = string.IsNullOrEmpty(comboBoxSemester.Text) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), comboBoxSemester.Text),
+                    ExaminationTemplateName = textBoxExaminationTemplateName.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }
 
         private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBoxExaminationTemplateName.Text = string.Format("{0}{1}{2}", comboBoxDiscipline.Text, 
+            textBoxExaminationTemplateName.Text = string.Format("{0}{1}{2}", comboBoxDiscipline.Text,
                 string.IsNullOrEmpty(comboBoxEducationDirection.Text) ? "" : string.Format(" {0}", comboBoxEducationDirection.Text),
                 string.IsNullOrEmpty(comboBoxSemester.Text) ? "" : string.Format(" {0}", comboBoxSemester.Text));
         }

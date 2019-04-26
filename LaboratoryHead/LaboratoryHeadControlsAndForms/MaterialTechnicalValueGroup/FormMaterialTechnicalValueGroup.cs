@@ -22,11 +22,6 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueGroup
             _service = service;
         }
 
-        private void FormMaterialTechnicalValueGroup_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             var result = _service.GetMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupGetBindingModel { Id = _id.Value });
@@ -41,7 +36,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueGroup
             textBoxOrder.Text = entity.Order.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxGroupName.Text))
             {
@@ -63,46 +58,38 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueGroup
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel
                 {
-                    result = _service.CreateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel
-                    {
-                        GroupName = textBoxGroupName.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel
-                    {
-                        Id = _id.Value,
-                        GroupName = textBoxGroupName.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    GroupName = textBoxGroupName.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateMaterialTechnicalValueGroup(new MaterialTechnicalValueGroupSetBindingModel
+                {
+                    Id = _id.Value,
+                    GroupName = textBoxGroupName.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

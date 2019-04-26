@@ -127,7 +127,6 @@
             this.ClientSize = new System.Drawing.Size(404, 191);
             this.Name = "FormEducationDirection";
             this.Text = "Направление обучения";
-            this.Load += new System.EventHandler(this.FormEducationDirection_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

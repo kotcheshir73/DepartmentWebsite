@@ -31,24 +31,24 @@ namespace AcademicYearControlsAndForms.IndividualPlan
             _ayId = ayId;
         }
 
-        private void FormIndividualPlan_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_ayId == null)
             {
                 MessageBox.Show("Не указан учебный год", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { Id = _ayId });
             if (!resultAY.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
-                return;
+                return false;
             }
             var resultL = _service.GetLecturers(new LecturerGetBindingModel { });
             if (!resultL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicYear.ValueMember = "Value";
@@ -63,7 +63,7 @@ namespace AcademicYearControlsAndForms.IndividualPlan
                 .Select(x => new { Value = x.Id, Display = x.FullName }).ToList();
             comboBoxLecturer.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -106,7 +106,7 @@ namespace AcademicYearControlsAndForms.IndividualPlan
             comboBoxLecturer.SelectedValue = entity.LecturerId;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxAcademicYear.SelectedValue == null)
             {
@@ -121,46 +121,38 @@ namespace AcademicYearControlsAndForms.IndividualPlan
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateIndividualPlan(new IndividualPlanSetBindingModel
                 {
-                    result = _service.CreateIndividualPlan(new IndividualPlanSetBindingModel
-                    {
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString())
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateIndividualPlan(new IndividualPlanSetBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString())
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString())
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateIndividualPlan(new IndividualPlanSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString())
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

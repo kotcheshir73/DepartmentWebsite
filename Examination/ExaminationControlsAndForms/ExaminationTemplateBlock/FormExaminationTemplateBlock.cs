@@ -26,11 +26,6 @@ namespace ExaminationControlsAndForms.ExaminationTemplateBlock
             examinationTemplateElement.Id = examinationTemplateId;
         }
 
-        private void FormExaminationTemplateBlock_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             if (tabPageRecords.Controls.Count == 0)
@@ -56,9 +51,9 @@ namespace ExaminationControlsAndForms.ExaminationTemplateBlock
             textBoxCombineBlocks.Text = entity.CombineBlocks;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
-            labelBlockName.ForeColor = 
+            labelBlockName.ForeColor =
             labelQuestionTagInTemplate.ForeColor =
                 SystemColors.ControlText;
             if (string.IsNullOrEmpty(textBoxBlockName.Text))
@@ -76,54 +71,46 @@ namespace ExaminationControlsAndForms.ExaminationTemplateBlock
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
                 {
-                    result = _service.CreateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
-                    {
-                        ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                        BlockName = textBoxBlockName.Text,
-                        QuestionTagInTemplate = textBoxQuestionTagInTemplate.Text,
-                        CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value,
-                        IsCombine = checkBoxIsCombine.Checked,
-                        CombineBlocks = textBoxCombineBlocks.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
-                    {
-                        Id = _id.Value,
-                        ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                        BlockName = textBoxBlockName.Text,
-                        QuestionTagInTemplate = textBoxQuestionTagInTemplate.Text,
-                        CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value,
-                        IsCombine = checkBoxIsCombine.Checked,
-                        CombineBlocks = textBoxCombineBlocks.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
+                    BlockName = textBoxBlockName.Text,
+                    QuestionTagInTemplate = textBoxQuestionTagInTemplate.Text,
+                    CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value,
+                    IsCombine = checkBoxIsCombine.Checked,
+                    CombineBlocks = textBoxCombineBlocks.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
+                {
+                    Id = _id.Value,
+                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
+                    BlockName = textBoxBlockName.Text,
+                    QuestionTagInTemplate = textBoxQuestionTagInTemplate.Text,
+                    CountQuestionInTicket = (int)numericUpDownCountQuestionInTicket.Value,
+                    IsCombine = checkBoxIsCombine.Checked,
+                    CombineBlocks = textBoxCombineBlocks.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

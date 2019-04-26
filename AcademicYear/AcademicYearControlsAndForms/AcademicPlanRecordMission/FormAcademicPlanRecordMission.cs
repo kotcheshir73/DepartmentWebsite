@@ -28,25 +28,25 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
             _apreId = apreId;
         }
 
-        private void FormAcademicPlanRecordMission_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_apreId == null)
             {
                 MessageBox.Show("Неуказана запись нагрузки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultAPR = _service.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { Id = _apreId });
             if (!resultAPR.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке записей нагрузки возникла ошибка: ", resultAPR.Errors);
-                return;
+                return false;
             }
 
             var resultL = _service.GetLecturers(new LecturerGetBindingModel());
             if (!resultL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultL.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicPlanRecordElement.ValueMember = "Value";
@@ -61,7 +61,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
                 .Select(l => new { Value = l.Id, Display = string.Format("{0} {1}", l.LastName, l.FirstName) }).ToList();
             comboBoxLecturer.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -79,7 +79,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
             textBoxHours.Text = entity.Hours.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxAcademicPlanRecordElement.SelectedValue == null)
             {
@@ -102,48 +102,40 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
                 {
-                    result = _service.CreateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
-                    {
-                        AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
-                        LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
-                        Hours = Convert.ToDecimal(textBoxHours.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
-                        LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
-                        Hours = Convert.ToDecimal(textBoxHours.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
+                    LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
+                    Hours = Convert.ToDecimal(textBoxHours.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
+                    LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString()),
+                    Hours = Convert.ToDecimal(textBoxHours.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

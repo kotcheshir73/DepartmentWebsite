@@ -27,11 +27,6 @@ namespace ExaminationControlsAndForms.ExaminationTemplateBlockQuestion
             examinationTemplateBlockElement.Id = examinationTemplateBlockId;
         }
 
-        private void FormExaminationTemplateBlockQuestion_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             var result = _service.GetExaminationTemplateBlockQuestion(new ExaminationTemplateBlockQuestionGetBindingModel { Id = _id.Value });
@@ -47,58 +42,45 @@ namespace ExaminationControlsAndForms.ExaminationTemplateBlockQuestion
             pictureBoxQuestionImage.Image = entity.QuestionImage;
         }
 
-        private bool CheckFill()
-        {
-            return true;
-        }
-
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            ImageConverter converter = new ImageConverter();
+            if (!_id.HasValue)
             {
-                ResultService result;
-                ImageConverter converter = new ImageConverter();
-                if (!_id.HasValue)
+                result = _service.CreateExaminationTemplateBlockQuestion(new ExaminationTemplateBlockQuestionSetBindingModel
                 {
-                    result = _service.CreateExaminationTemplateBlockQuestion(new ExaminationTemplateBlockQuestionSetBindingModel
-                    {
-                        ExaminationTemplateBlockId = examinationTemplateBlockElement.Id.Value,
-                        QuestionNumber = (int)numericUpDownQuestionNumber.Value,
-                        QuestionText = textBoxQuestionText.Text,
-                        QuestionImage = (byte[])converter.ConvertTo(pictureBoxQuestionImage.Image, typeof(byte[]))
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateExaminationTemplateBlockQuestion(new ExaminationTemplateBlockQuestionSetBindingModel
-                    {
-                        Id = _id.Value,
-                        ExaminationTemplateBlockId = examinationTemplateBlockElement.Id.Value,
-                        QuestionNumber = (int)numericUpDownQuestionNumber.Value,
-                        QuestionText = textBoxQuestionText.Text,
-                        QuestionImage = (byte[])converter.ConvertTo(pictureBoxQuestionImage.Image, typeof(byte[]))
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    ExaminationTemplateBlockId = examinationTemplateBlockElement.Id.Value,
+                    QuestionNumber = (int)numericUpDownQuestionNumber.Value,
+                    QuestionText = textBoxQuestionText.Text,
+                    QuestionImage = (byte[])converter.ConvertTo(pictureBoxQuestionImage.Image, typeof(byte[]))
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateExaminationTemplateBlockQuestion(new ExaminationTemplateBlockQuestionSetBindingModel
+                {
+                    Id = _id.Value,
+                    ExaminationTemplateBlockId = examinationTemplateBlockElement.Id.Value,
+                    QuestionNumber = (int)numericUpDownQuestionNumber.Value,
+                    QuestionText = textBoxQuestionText.Text,
+                    QuestionImage = (byte[])converter.ConvertTo(pictureBoxQuestionImage.Image, typeof(byte[]))
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

@@ -27,24 +27,24 @@ namespace AcademicYearControlsAndForms.IndividualPlanRecord
             _ipId = ipId;
         }
 
-        private void FormIndividualPlanRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_ipId == null)
             {
                 MessageBox.Show("Не указан индивидуальный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultIP = _service.GetIndividualPlans(new IndividualPlanGetBindingModel { Id = _ipId });
             if (!resultIP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке индивидуальных планов возникла ошибка: ", resultIP.Errors);
-                return;
+                return false;
             }
             var resultIPKOF = _service.GetIndividualPlanKindOfWorks(new IndividualPlanKindOfWorkGetBindingModel { Id = _ipId });
             if (!resultIPKOF.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке видов работ возникла ошибка: ", resultIPKOF.Errors);
-                return;
+                return false;
             }
 
             comboBoxIndividualPlan.ValueMember = "Value";
@@ -56,10 +56,10 @@ namespace AcademicYearControlsAndForms.IndividualPlanRecord
             comboBoxIndividualPlanKindOfWork.ValueMember = "Value";
             comboBoxIndividualPlanKindOfWork.DisplayMember = "Display";
             comboBoxIndividualPlanKindOfWork.DataSource = resultIPKOF.Result.List
-                .Select(x => new { Value = x.Id, Display = x.Name}).ToList();
+                .Select(x => new { Value = x.Id, Display = x.Name }).ToList();
             comboBoxIndividualPlanKindOfWork.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -80,7 +80,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanRecord
             textBoxFactSpring.Text = entity.FactSpring.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxIndividualPlan.SelectedValue == null)
             {
@@ -123,54 +123,46 @@ namespace AcademicYearControlsAndForms.IndividualPlanRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel
                 {
-                    result = _service.CreateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel
-                    {
-                        IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
-                        IndividualPlanKindOfWorkId = new Guid(comboBoxIndividualPlanKindOfWork.SelectedValue.ToString()),
-                        PlanAutumn = Convert.ToDouble(textBoxPlanAutumn.Text),
-                        FactAutumn = Convert.ToDouble(textBoxFactAutumn.Text),
-                        PlanSpring = Convert.ToDouble(textBoxPlanSpring.Text),
-                        FactSpring = Convert.ToDouble(textBoxFactSpring.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
-                        IndividualPlanKindOfWorkId = new Guid(comboBoxIndividualPlanKindOfWork.SelectedValue.ToString()),
-                        PlanAutumn = Convert.ToDouble(textBoxPlanAutumn.Text),
-                        FactAutumn = Convert.ToDouble(textBoxFactAutumn.Text),
-                        PlanSpring = Convert.ToDouble(textBoxPlanSpring.Text),
-                        FactSpring = Convert.ToDouble(textBoxFactSpring.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
+                    IndividualPlanKindOfWorkId = new Guid(comboBoxIndividualPlanKindOfWork.SelectedValue.ToString()),
+                    PlanAutumn = Convert.ToDouble(textBoxPlanAutumn.Text),
+                    FactAutumn = Convert.ToDouble(textBoxFactAutumn.Text),
+                    PlanSpring = Convert.ToDouble(textBoxPlanSpring.Text),
+                    FactSpring = Convert.ToDouble(textBoxFactSpring.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
+                    IndividualPlanKindOfWorkId = new Guid(comboBoxIndividualPlanKindOfWork.SelectedValue.ToString()),
+                    PlanAutumn = Convert.ToDouble(textBoxPlanAutumn.Text),
+                    FactAutumn = Convert.ToDouble(textBoxFactAutumn.Text),
+                    PlanSpring = Convert.ToDouble(textBoxPlanSpring.Text),
+                    FactSpring = Convert.ToDouble(textBoxFactSpring.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

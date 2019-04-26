@@ -148,7 +148,6 @@
             this.ClientSize = new System.Drawing.Size(750, 456);
             this.Name = "FormIndividualPlan";
             this.Text = "Индивидуальный план";
-            this.Load += new System.EventHandler(this.FormIndividualPlan_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

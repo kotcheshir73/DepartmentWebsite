@@ -32,18 +32,18 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRScientificArticle
             _ipId = ipId;
         }
 
-        private void FormIndividualPlanNIRScientificArticle_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_ipId == null)
             {
                 MessageBox.Show("Не указан индивидуальный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return true;
             }
             var resultIP = _service.GetIndividualPlans(new IndividualPlanGetBindingModel { Id = _ipId });
             if (!resultIP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке индивидуальных планов возникла ошибка: ", resultIP.Errors);
-                return;
+                return true;
             }
 
             comboBoxIndividualPlan.ValueMember = "Value";
@@ -52,7 +52,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRScientificArticle
                 .Select(x => new { Value = x.Id, Display = x.AcademicYearsTitle + " - " + x.LecturerName }).ToList();
             comboBoxIndividualPlan.SelectedValue = _ipId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -75,7 +75,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRScientificArticle
             textBoxStatus.Text = entity.Status;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxIndividualPlan.SelectedValue == null)
             {
@@ -122,58 +122,50 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRScientificArticle
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateIndividualPlanNIRScientificArticle(new IndividualPlanNIRScientificArticleSetBindingModel
                 {
-                    result = _service.CreateIndividualPlanNIRScientificArticle(new IndividualPlanNIRScientificArticleSetBindingModel
-                    {
-                        IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        Name = textBoxName.Text,
-                        TypeOfPublication = textBoxTypeOfPublication.Text,
-                        Volume = Convert.ToDouble(textBoxVolume.Text),
-                        Publishing = textBoxPublishing.Text,
-                        Year = Convert.ToInt32(textBoxYear.Text),
-                        Status = textBoxStatus.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateIndividualPlanNIRScientificArticle(new IndividualPlanNIRScientificArticleSetBindingModel
-                    {
-                        Id = _id.Value,
-                        IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        Name = textBoxName.Text,
-                        TypeOfPublication = textBoxTypeOfPublication.Text,
-                        Volume = Convert.ToDouble(textBoxVolume.Text),
-                        Publishing = textBoxPublishing.Text,
-                        Year = Convert.ToInt32(textBoxYear.Text),
-                        Status = textBoxStatus.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    Name = textBoxName.Text,
+                    TypeOfPublication = textBoxTypeOfPublication.Text,
+                    Volume = Convert.ToDouble(textBoxVolume.Text),
+                    Publishing = textBoxPublishing.Text,
+                    Year = Convert.ToInt32(textBoxYear.Text),
+                    Status = textBoxStatus.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateIndividualPlanNIRScientificArticle(new IndividualPlanNIRScientificArticleSetBindingModel
+                {
+                    Id = _id.Value,
+                    IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    Name = textBoxName.Text,
+                    TypeOfPublication = textBoxTypeOfPublication.Text,
+                    Volume = Convert.ToDouble(textBoxVolume.Text),
+                    Publishing = textBoxPublishing.Text,
+                    Year = Convert.ToInt32(textBoxYear.Text),
+                    Status = textBoxStatus.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

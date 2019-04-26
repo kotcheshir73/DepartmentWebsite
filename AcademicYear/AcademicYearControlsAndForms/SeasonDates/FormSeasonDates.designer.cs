@@ -300,7 +300,6 @@
             this.ClientSize = new System.Drawing.Size(374, 448);
             this.Name = "FormSeasonDates";
             this.Text = "Даты семестра";
-            this.Load += new System.EventHandler(this.FormSeasonDates_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

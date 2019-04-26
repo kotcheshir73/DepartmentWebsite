@@ -173,7 +173,6 @@
             this.ClientSize = new System.Drawing.Size(364, 221);
             this.Name = "FormDisciplineStudentRecord";
             this.Text = "Связь студента с дисциплиной";
-            this.Load += new System.EventHandler(this.FormDisciplineStudentRecord_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

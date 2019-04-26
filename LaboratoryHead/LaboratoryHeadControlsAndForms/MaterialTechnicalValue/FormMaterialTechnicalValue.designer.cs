@@ -269,7 +269,6 @@
             this.Controls.Add(this.tabControl);
             this.Name = "MaterialTechnicalValueForm";
             this.Text = "Материально-техническая ценность";
-            this.Load += new System.EventHandler(this.FormMaterialTechnicalValue_Load);
             this.Controls.SetChildIndex(this.tabControl, 0);
             this.Controls.SetChildIndex(this.buttonSave, 0);
             this.Controls.SetChildIndex(this.buttonClose, 0);

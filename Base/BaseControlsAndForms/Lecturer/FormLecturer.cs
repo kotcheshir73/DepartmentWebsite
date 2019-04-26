@@ -25,13 +25,13 @@ namespace BaseControlsAndForms.Lecturer
             _service = service;
         }
 
-        private void LecturerForm_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultLP = _service.GetLecturerPosts(new LecturerPostGetBindingModel { });
             if (!resultLP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке должностей преподавателей возникла ошибка: ", resultLP.Errors);
-                return;
+                return false;
             }
 
             foreach (var elem in Enum.GetValues(typeof(Post)))
@@ -58,7 +58,7 @@ namespace BaseControlsAndForms.Lecturer
                 .Select(lp => new { Value = lp.Id, Display = lp.PostTitle }).ToList();
             comboBoxLecturerPost.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -91,7 +91,7 @@ namespace BaseControlsAndForms.Lecturer
             }
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxLecturerPost.SelectedValue == null)
             {
@@ -138,73 +138,65 @@ namespace BaseControlsAndForms.Lecturer
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ImageConverter converter = new ImageConverter();
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ImageConverter converter = new ImageConverter();
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateLecturer(new LecturerSetBindingModel
                 {
-                    result = _service.CreateLecturer(new LecturerSetBindingModel
-                    {
-                        LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
-                        LastName = textBoxLastName.Text,
-                        FirstName = textBoxFirstName.Text,
-                        Patronymic = textBoxPatronymic.Text,
-                        Abbreviation = textBoxAbbreviation.Text,
-                        DateBirth = dateTimePickerDateBirth.Value,
-                        Address = textBoxAddress.Text,
-                        Email = textBoxEmail.Text,
-                        MobileNumber = textBoxMobileNumber.Text,
-                        HomeNumber = textBoxHomeNumber.Text,
-                        Post = comboBoxPost.Text,
-                        Rank = comboBoxRank.Text,
-                        Rank2 = comboBoxRank2.Text,
-                        Description = textBoxDescription.Text,
-                        Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateLecturer(new LecturerSetBindingModel
-                    {
-                        Id = _id.Value,
-                        LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
-                        LastName = textBoxLastName.Text,
-                        FirstName = textBoxFirstName.Text,
-                        Patronymic = textBoxPatronymic.Text,
-                        Abbreviation = textBoxAbbreviation.Text,
-                        DateBirth = dateTimePickerDateBirth.Value,
-                        Address = textBoxAddress.Text,
-                        Email = textBoxEmail.Text,
-                        MobileNumber = textBoxMobileNumber.Text,
-                        HomeNumber = textBoxHomeNumber.Text,
-                        Post = comboBoxPost.Text,
-                        Rank = comboBoxRank.Text,
-                        Rank2 = comboBoxRank2.Text,
-                        Description = textBoxDescription.Text,
-                        Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
+                    LastName = textBoxLastName.Text,
+                    FirstName = textBoxFirstName.Text,
+                    Patronymic = textBoxPatronymic.Text,
+                    Abbreviation = textBoxAbbreviation.Text,
+                    DateBirth = dateTimePickerDateBirth.Value,
+                    Address = textBoxAddress.Text,
+                    Email = textBoxEmail.Text,
+                    MobileNumber = textBoxMobileNumber.Text,
+                    HomeNumber = textBoxHomeNumber.Text,
+                    Post = comboBoxPost.Text,
+                    Rank = comboBoxRank.Text,
+                    Rank2 = comboBoxRank2.Text,
+                    Description = textBoxDescription.Text,
+                    Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateLecturer(new LecturerSetBindingModel
+                {
+                    Id = _id.Value,
+                    LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
+                    LastName = textBoxLastName.Text,
+                    FirstName = textBoxFirstName.Text,
+                    Patronymic = textBoxPatronymic.Text,
+                    Abbreviation = textBoxAbbreviation.Text,
+                    DateBirth = dateTimePickerDateBirth.Value,
+                    Address = textBoxAddress.Text,
+                    Email = textBoxEmail.Text,
+                    MobileNumber = textBoxMobileNumber.Text,
+                    HomeNumber = textBoxHomeNumber.Text,
+                    Post = comboBoxPost.Text,
+                    Rank = comboBoxRank.Text,
+                    Rank2 = comboBoxRank2.Text,
+                    Description = textBoxDescription.Text,
+                    Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

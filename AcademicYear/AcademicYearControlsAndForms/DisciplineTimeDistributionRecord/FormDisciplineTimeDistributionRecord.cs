@@ -27,25 +27,25 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistributionRecord
             _dtdId = dtdId;
         }
 
-        private void FormDisciplineTimeDistributionRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_dtdId == null)
             {
                 MessageBox.Show("Неуказана расчасовка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultDTD = _service.GetDisciplineTimeDistributions(new DisciplineTimeDistributionGetBindingModel { Id = _dtdId });
             if (!resultDTD.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке расчасовок возникла ошибка: ", resultDTD.Errors);
-                return;
+                return false;
             }
 
             var resultTN = _service.GetTimeNorms(new TimeNormGetBindingModel());
             if (!resultTN.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке норм времени возникла ошибка: ", resultTN.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineTimeDistribution.ValueMember = "Value";
@@ -60,7 +60,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistributionRecord
                 .Select(d => new { Value = d.Id, Display = d.KindOfLoadName }).ToList();
             comboBoxTimeNorm.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -79,7 +79,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistributionRecord
             textBoxHours.Text = entity.Hours.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxDisciplineTimeDistribution.SelectedValue == null)
             {
@@ -110,50 +110,42 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistributionRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel
                 {
-                    result = _service.CreateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel
-                    {
-                        DisciplineTimeDistributionId = new Guid(comboBoxDisciplineTimeDistribution.SelectedValue.ToString()),
-                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                        WeekNumber = Convert.ToInt32(textBoxWeekNumber.Text),
-                        Hours = Convert.ToDouble(textBoxHours.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineTimeDistributionId = new Guid(comboBoxDisciplineTimeDistribution.SelectedValue.ToString()),
-                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                        WeekNumber = Convert.ToInt32(textBoxWeekNumber.Text),
-                        Hours = Convert.ToDouble(textBoxHours.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineTimeDistributionId = new Guid(comboBoxDisciplineTimeDistribution.SelectedValue.ToString()),
+                    TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
+                    WeekNumber = Convert.ToInt32(textBoxWeekNumber.Text),
+                    Hours = Convert.ToDouble(textBoxHours.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineTimeDistributionId = new Guid(comboBoxDisciplineTimeDistribution.SelectedValue.ToString()),
+                    TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
+                    WeekNumber = Convert.ToInt32(textBoxWeekNumber.Text),
+                    Hours = Convert.ToDouble(textBoxHours.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

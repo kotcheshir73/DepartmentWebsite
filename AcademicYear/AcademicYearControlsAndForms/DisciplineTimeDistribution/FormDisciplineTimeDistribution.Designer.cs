@@ -176,7 +176,6 @@
             this.ClientSize = new System.Drawing.Size(884, 531);
             this.Name = "FormDisciplineTimeDistribution";
             this.Text = "Расчасовка";
-            this.Load += new System.EventHandler(this.FormDisciplineTimeDistribution_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

@@ -168,7 +168,6 @@
             this.ClientSize = new System.Drawing.Size(404, 211);
             this.Name = "FormIndividualPlanRecord";
             this.Text = "Запись индивидуального плана";
-            this.Load += new System.EventHandler(this.FormIndividualPlanRecord_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

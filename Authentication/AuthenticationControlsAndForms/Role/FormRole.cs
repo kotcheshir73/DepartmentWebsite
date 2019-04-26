@@ -23,11 +23,6 @@ namespace AuthenticationControlsAndForms.Role
             _service = service;
         }
 
-        private void FormRole_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             if (tabPageAccesses.Controls.Count == 0)
@@ -48,7 +43,7 @@ namespace AuthenticationControlsAndForms.Role
             textBoxRoleName.Text = entity.RoleName;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxRoleName.Text))
             {
@@ -59,44 +54,36 @@ namespace AuthenticationControlsAndForms.Role
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateRole(new RoleSetBindingModel
                 {
-                    result = _service.CreateRole(new RoleSetBindingModel
-                    {
-                        RoleName = textBoxRoleName.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateRole(new RoleSetBindingModel
-                    {
-                        Id = _id.Value,
-                        RoleName = textBoxRoleName.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    RoleName = textBoxRoleName.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateRole(new RoleSetBindingModel
+                {
+                    Id = _id.Value,
+                    RoleName = textBoxRoleName.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

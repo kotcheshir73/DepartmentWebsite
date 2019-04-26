@@ -176,7 +176,6 @@
             this.ClientSize = new System.Drawing.Size(1089, 621);
             this.Name = "FormAcademicYear";
             this.Text = "Учебный год";
-            this.Load += new System.EventHandler(this.FormAcademicYear_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();

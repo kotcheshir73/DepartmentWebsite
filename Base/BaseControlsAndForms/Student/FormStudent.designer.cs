@@ -226,7 +226,6 @@
             this.ClientSize = new System.Drawing.Size(484, 321);
             this.Name = "FormStudent";
             this.Text = "Студент";
-            this.Load += new System.EventHandler(this.FormStudent_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

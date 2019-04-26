@@ -186,7 +186,6 @@
             this.ClientSize = new System.Drawing.Size(884, 472);
             this.Name = "FormStudentGroup";
             this.Text = "Группа";
-            this.Load += new System.EventHandler(this.FormStudentGroup_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

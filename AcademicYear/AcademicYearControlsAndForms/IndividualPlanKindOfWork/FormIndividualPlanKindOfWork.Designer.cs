@@ -125,7 +125,6 @@
             this.ClientSize = new System.Drawing.Size(384, 151);
             this.Name = "FormIndividualPlanKindOfWork";
             this.Text = "Вид работы";
-            this.Load += new System.EventHandler(this.FormIndividualPlanKindOfWork_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

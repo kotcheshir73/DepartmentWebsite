@@ -205,7 +205,6 @@
             this.ClientSize = new System.Drawing.Size(834, 501);
             this.Name = "FormAcademicPlan";
             this.Text = "Учебный план";
-            this.Load += new System.EventHandler(this.FormAcademicPlan_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

@@ -297,7 +297,6 @@
             this.ClientSize = new System.Drawing.Size(934, 441);
             this.Name = "FormDisciplineLesson";
             this.Text = "Занятие";
-            this.Load += new System.EventHandler(this.FormDisciplineLesson_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

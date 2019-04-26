@@ -230,7 +230,6 @@
             this.ClientSize = new System.Drawing.Size(884, 471);
             this.Name = "FormDisciplineLessonTask";
             this.Text = "Задание";
-            this.Load += new System.EventHandler(this.FormDisciplineLessonTask_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

@@ -27,18 +27,18 @@ namespace AcademicYearControlsAndForms.IndividualPlanKindOfWork
             _iptId = iptId;
         }
 
-        private void FormIndividualPlanKindOfWork_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_iptId == null)
             {
                 MessageBox.Show("Не указан заголовок", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultIPT = _service.GetIndividualPlanTitles(new IndividualPlanTitleGetBindingModel { Id = _iptId });
             if (!resultIPT.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке заголовков возникла ошибка: ", resultIPT.Errors);
-                return;
+                return false;
             }
 
             comboBoxIndividualPlanTitle.ValueMember = "Value";
@@ -47,7 +47,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanKindOfWork
                 .Select(x => new { Value = x.Id, Display = x.Title }).ToList();
             comboBoxIndividualPlanTitle.SelectedValue = _iptId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -66,7 +66,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanKindOfWork
             textBoxTimeNormDescription.Text = entity.TimeNormDescription;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxIndividualPlanTitle.SelectedValue == null)
             {
@@ -93,50 +93,42 @@ namespace AcademicYearControlsAndForms.IndividualPlanKindOfWork
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateIndividualPlanKindOfWork(new IndividualPlanKindOfWorkSetBindingModel
                 {
-                    result = _service.CreateIndividualPlanKindOfWork(new IndividualPlanKindOfWorkSetBindingModel
-                    {
-                        IndividualPlanTitleId = new Guid(comboBoxIndividualPlanTitle.SelectedValue.ToString()),
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        Name = textBoxName.Text,
-                        TimeNormDescription = textBoxTimeNormDescription.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateIndividualPlanKindOfWork(new IndividualPlanKindOfWorkSetBindingModel
-                    {
-                        Id = _id.Value,
-                        IndividualPlanTitleId = new Guid(comboBoxIndividualPlanTitle.SelectedValue.ToString()),
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        Name = textBoxName.Text,
-                        TimeNormDescription = textBoxTimeNormDescription.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    IndividualPlanTitleId = new Guid(comboBoxIndividualPlanTitle.SelectedValue.ToString()),
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    Name = textBoxName.Text,
+                    TimeNormDescription = textBoxTimeNormDescription.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateIndividualPlanKindOfWork(new IndividualPlanKindOfWorkSetBindingModel
+                {
+                    Id = _id.Value,
+                    IndividualPlanTitleId = new Guid(comboBoxIndividualPlanTitle.SelectedValue.ToString()),
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    Name = textBoxName.Text,
+                    TimeNormDescription = textBoxTimeNormDescription.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

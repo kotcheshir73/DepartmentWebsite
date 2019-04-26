@@ -23,11 +23,6 @@ namespace AcademicYearControlsAndForms.IndividualPlanTitle
             _service = service;
         }
 
-        private void FormIndividualPlanTitle_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             if (tabPageRecords.Controls.Count == 0)
@@ -50,7 +45,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanTitle
             textBoxTitle.Text = entity.Title;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text))
             {
@@ -69,46 +64,38 @@ namespace AcademicYearControlsAndForms.IndividualPlanTitle
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateIndividualPlanTitle(new IndividualPlanTitleSetBindingModel
                 {
-                    result = _service.CreateIndividualPlanTitle(new IndividualPlanTitleSetBindingModel
-                    {
-                        Title = textBoxTitle.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateIndividualPlanTitle(new IndividualPlanTitleSetBindingModel
-                    {
-                        Id = _id.Value,
-                        Title = textBoxTitle.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    Title = textBoxTitle.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateIndividualPlanTitle(new IndividualPlanTitleSetBindingModel
+                {
+                    Id = _id.Value,
+                    Title = textBoxTitle.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

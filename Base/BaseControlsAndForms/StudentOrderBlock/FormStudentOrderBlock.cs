@@ -29,13 +29,13 @@ namespace BaseControlsAndForms.StudentOrderBlock
             _soId = soId;
         }
 
-        private void FormStudentOrderBlock_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultSO = _service.GetStudentOrders(new StudentOrderGetBindingModel { Id = _soId });
             if (!resultSO.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке приказов возникла ошибка: ", resultSO.Errors);
-                return;
+                return false;
             }
 
             comboBoxStudentOrder.ValueMember = "Value";
@@ -54,7 +54,7 @@ namespace BaseControlsAndForms.StudentOrderBlock
             if (!resultED.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке направлений возникла ошибка: ", resultED.Errors);
-                return;
+                return false;
             }
 
             comboBoxEducationDirection.ValueMember = "Value";
@@ -63,7 +63,7 @@ namespace BaseControlsAndForms.StudentOrderBlock
                 .Select(d => new { Value = d.Id, Display = d.Cipher }).ToList();
             comboBoxEducationDirection.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -92,7 +92,7 @@ namespace BaseControlsAndForms.StudentOrderBlock
             }
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxStudentOrder.SelectedValue == null)
             {
@@ -107,48 +107,40 @@ namespace BaseControlsAndForms.StudentOrderBlock
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
                 {
-                    result = _service.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
-                    {
-                        StudentOrderId = new Guid(comboBoxStudentOrder.SelectedValue.ToString()),
-                        StudentOrderType = comboBoxStudentOrderType.Text,
-                        EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateStudentOrderBlock(new StudentOrderBlockSetBindingModel
-                    {
-                        Id = _id.Value,
-                        StudentOrderId = new Guid(comboBoxStudentOrder.SelectedValue.ToString()),
-                        StudentOrderType = comboBoxStudentOrderType.Text,
-                        EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    StudentOrderId = new Guid(comboBoxStudentOrder.SelectedValue.ToString()),
+                    StudentOrderType = comboBoxStudentOrderType.Text,
+                    EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateStudentOrderBlock(new StudentOrderBlockSetBindingModel
+                {
+                    Id = _id.Value,
+                    StudentOrderId = new Guid(comboBoxStudentOrder.SelectedValue.ToString()),
+                    StudentOrderType = comboBoxStudentOrderType.Text,
+                    EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

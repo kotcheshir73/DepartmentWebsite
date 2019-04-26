@@ -107,7 +107,6 @@
             this.ClientSize = new System.Drawing.Size(344, 131);
             this.Name = "FormDisciplineTimeDistributionClassroom";
             this.Text = "Аудитории расчасовки";
-            this.Load += new System.EventHandler(this.FormDisciplineTimeDistributionClassroom_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

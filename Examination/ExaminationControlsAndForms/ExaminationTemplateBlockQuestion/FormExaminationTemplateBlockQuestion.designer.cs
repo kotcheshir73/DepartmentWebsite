@@ -141,7 +141,6 @@
             this.ClientSize = new System.Drawing.Size(444, 291);
             this.Name = "FormExaminationTemplateBlockQuestion";
             this.Text = "Вопрос блока";
-            this.Load += new System.EventHandler(this.FormExaminationTemplateBlockQuestion_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

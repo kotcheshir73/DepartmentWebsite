@@ -86,7 +86,6 @@
             this.ClientSize = new System.Drawing.Size(330, 131);
             this.Name = "FormAccess";
             this.Text = "Доступ";
-            this.Load += new System.EventHandler(this.FormAccess_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

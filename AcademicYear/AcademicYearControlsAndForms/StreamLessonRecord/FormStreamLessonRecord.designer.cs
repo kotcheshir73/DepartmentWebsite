@@ -146,7 +146,6 @@
             this.ClientSize = new System.Drawing.Size(444, 181);
             this.Name = "FormStreamLessonRecord";
             this.Text = "Запись потока";
-            this.Load += new System.EventHandler(this.FormStreamLessonRecord_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

@@ -82,7 +82,6 @@
             this.ClientSize = new System.Drawing.Size(414, 101);
             this.Name = "FormLecturerPost";
             this.Text = "Преподавательская должность";
-            this.Load += new System.EventHandler(this.FormLecturerPost_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

@@ -142,7 +142,6 @@
             this.ClientSize = new System.Drawing.Size(734, 481);
             this.Name = "FormStreamLesson";
             this.Text = "Поток";
-            this.Load += new System.EventHandler(this.FormStreamLesson_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

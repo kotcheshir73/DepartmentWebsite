@@ -119,7 +119,6 @@
             this.ClientSize = new System.Drawing.Size(434, 131);
             this.Name = "FormClassroom";
             this.Text = "Аудитория";
-            this.Load += new System.EventHandler(this.FormClassroom_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

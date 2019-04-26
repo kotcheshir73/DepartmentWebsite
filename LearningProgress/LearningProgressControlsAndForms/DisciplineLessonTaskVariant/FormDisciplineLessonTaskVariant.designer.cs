@@ -126,7 +126,6 @@
             this.ClientSize = new System.Drawing.Size(374, 270);
             this.Name = "FormDisciplineLessonTaskVariant";
             this.Text = "Задание по варианту";
-            this.Load += new System.EventHandler(this.FormDisciplineLessonTaskVariant_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

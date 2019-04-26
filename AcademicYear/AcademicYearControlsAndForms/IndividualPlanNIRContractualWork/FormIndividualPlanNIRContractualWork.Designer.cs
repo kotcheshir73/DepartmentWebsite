@@ -148,7 +148,6 @@
             this.ClientSize = new System.Drawing.Size(454, 201);
             this.Name = "FormIndividualPlanNIRContractualWork";
             this.Text = "Участие в хоздоговорной НИР";
-            this.Load += new System.EventHandler(this.FormIndividualPlanNIRContractualWork_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

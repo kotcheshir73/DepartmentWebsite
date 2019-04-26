@@ -144,7 +144,6 @@
             this.ClientSize = new System.Drawing.Size(854, 461);
             this.Name = "FormStudentOrderBlock";
             this.Text = "Блок приказа";
-            this.Load += new System.EventHandler(this.FormStudentOrderBlock_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

@@ -26,13 +26,13 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskVariant
             _dltId = dltId;
         }
 
-        private void FormDisciplineLessonTaskVariant_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultDLT = _service.GetDisciplineLessonTasks(new DisciplineLessonTaskGetBindingModel { Id = _dltId });
             if (!resultDLT.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке заданий возникла ошибка: ", resultDLT.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineLessonTask.ValueMember = "Value";
@@ -41,7 +41,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskVariant
                 .Select(d => new { Value = d.Id, Display = d.Task }).ToList();
             comboBoxDisciplineLessonTask.SelectedValue = _dltId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -59,7 +59,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskVariant
             textBoxOrder.Text = entity.Order.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxDisciplineLessonTask.Text))
             {
@@ -91,47 +91,38 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskVariant
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
                 {
-                    result = _service.CreateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
-                    {
-                        DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
-                        VariantNumber = textBoxVariantNumber.Text,
-                        VariantTask = textBoxVariantTask.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                    if (!result.Succeeded)
-                    {
-                        ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                        return false;
-                    }
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
-                        VariantNumber = textBoxVariantNumber.Text,
-                        VariantTask = textBoxVariantTask.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                    if (!result.Succeeded)
-                    {
-                        ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                        return false;
-                    }
-                }
+                    DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
+                    VariantNumber = textBoxVariantNumber.Text,
+                    VariantTask = textBoxVariantTask.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineLessonTaskVariant(new DisciplineLessonTaskVariantRecordBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineLessonTaskId = new Guid(comboBoxDisciplineLessonTask.SelectedValue.ToString()),
+                    VariantNumber = textBoxVariantNumber.Text,
+                    VariantTask = textBoxVariantTask.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
+            }
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
-            return true;
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                return false;
+            }
         }
     }
 }

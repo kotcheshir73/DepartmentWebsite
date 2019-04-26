@@ -205,7 +205,6 @@
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Name = "FormIndividualPlanNIRScientificArticle";
             this.Text = "Статьи и издания";
-            this.Load += new System.EventHandler(this.FormIndividualPlanNIRScientificArticle_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

@@ -4,7 +4,6 @@ using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using Enums;
 using System;
-using System.Windows.Forms;
 using Tools;
 using Unity;
 
@@ -23,7 +22,7 @@ namespace BaseControlsAndForms.Classroom
             _service = service;
         }
 
-        private void FormClassroom_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             foreach (var elem in Enum.GetValues(typeof(ClassroomTypes)))
             {
@@ -31,26 +30,26 @@ namespace BaseControlsAndForms.Classroom
             }
             comboBoxTypeClassroom.SelectedIndex = 0;
 
-            StandartForm_Load();
-		}
+            return true;
+        }
 
-		protected override void LoadData()
-		{
-			var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id.Value });
-			if (!result.Succeeded)
-			{
+        protected override void LoadData()
+        {
+            var result = _service.GetClassroom(new ClassroomGetBindingModel { Id = _id.Value });
+            if (!result.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				Close();
-			}
-			var entity = result.Result;
+                Close();
+            }
+            var entity = result.Result;
 
-			comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
-			textBoxClassroom.Text = entity.Number;
-			textBoxCapacity.Text = entity.Capacity.ToString();
+            comboBoxTypeClassroom.SelectedIndex = comboBoxTypeClassroom.Items.IndexOf(entity.ClassroomType);
+            textBoxClassroom.Text = entity.Number;
+            textBoxCapacity.Text = entity.Capacity.ToString();
             checkBoxNotUseInSchedule.Checked = entity.NotUseInSchedule;
-		}
+        }
 
-		private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxTypeClassroom.Text))
             {
@@ -69,56 +68,48 @@ namespace BaseControlsAndForms.Classroom
                 return false;
             }
             return true;
-		}
+        }
 
         protected override bool Save()
-		{
-			if (CheckFill())
-			{
-				ResultService result;
-				if (!_id.HasValue)
-				{
-					result = _service.CreateClassroom(new ClassroomSetBindingModel
-					{
-						Number = textBoxClassroom.Text,
-						ClassroomType = comboBoxTypeClassroom.Text,
-						Capacity = Convert.ToInt32(textBoxCapacity.Text),
-                        NotUseInSchedule = checkBoxNotUseInSchedule.Checked
-					});
-				}
-				else
-				{
-					result = _service.UpdateClassroom(new ClassroomSetBindingModel
-					{
-                        Id = _id.Value,
-						Number = textBoxClassroom.Text,
-						ClassroomType = comboBoxTypeClassroom.Text,
-						Capacity = Convert.ToInt32(textBoxCapacity.Text),
-                        NotUseInSchedule = checkBoxNotUseInSchedule.Checked
-                    });
-				}
-				if (result.Succeeded)
-				{
-					if (result.Result != null)
-					{
-						if (result.Result is Guid)
-						{
-							_id = (Guid)result.Result;
-						}
-					}
-					return true;
-				}
-				else
-				{
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-					return false;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return false;
-			}
-		}
-	}
+        {
+            ResultService result;
+            if (!_id.HasValue)
+            {
+                result = _service.CreateClassroom(new ClassroomSetBindingModel
+                {
+                    Number = textBoxClassroom.Text,
+                    ClassroomType = comboBoxTypeClassroom.Text,
+                    Capacity = Convert.ToInt32(textBoxCapacity.Text),
+                    NotUseInSchedule = checkBoxNotUseInSchedule.Checked
+                });
+            }
+            else
+            {
+                result = _service.UpdateClassroom(new ClassroomSetBindingModel
+                {
+                    Id = _id.Value,
+                    Number = textBoxClassroom.Text,
+                    ClassroomType = comboBoxTypeClassroom.Text,
+                    Capacity = Convert.ToInt32(textBoxCapacity.Text),
+                    NotUseInSchedule = checkBoxNotUseInSchedule.Checked
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                return false;
+            }
+        }
+    }
 }

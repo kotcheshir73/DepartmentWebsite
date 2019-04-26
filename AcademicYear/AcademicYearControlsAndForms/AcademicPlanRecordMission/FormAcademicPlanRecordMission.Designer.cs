@@ -107,7 +107,6 @@
             this.ClientSize = new System.Drawing.Size(354, 121);
             this.Name = "FormAcademicPlanRecordMission";
             this.Text = "Распределение нагрузки";
-            this.Load += new System.EventHandler(this.FormAcademicPlanRecordMission_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

@@ -107,7 +107,6 @@
             this.ClientSize = new System.Drawing.Size(384, 131);
             this.Name = "FormLecturerWorkload";
             this.Text = "Нагрузка преподавателю";
-            this.Load += new System.EventHandler(this.FormLecturerWorkload_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

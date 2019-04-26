@@ -27,18 +27,18 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRContractualWork
             _ipId = ipId;
         }
 
-        private void FormIndividualPlanNIRContractualWork_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_ipId == null)
             {
                 MessageBox.Show("Не указан индивидуальный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultIP = _service.GetIndividualPlans(new IndividualPlanGetBindingModel { Id = _ipId });
             if (!resultIP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке индивидуальных планов возникла ошибка: ", resultIP.Errors);
-                return;
+                return false;
             }
 
             comboBoxIndividualPlan.ValueMember = "Value";
@@ -47,7 +47,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRContractualWork
                 .Select(x => new { Value = x.Id, Display = x.AcademicYearsTitle + " - " + x.LecturerName }).ToList();
             comboBoxIndividualPlan.SelectedValue = _ipId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -67,7 +67,7 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRContractualWork
             checkBoxReadyMark.Checked = entity.ReadyMark;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxIndividualPlan.SelectedValue == null)
             {
@@ -90,52 +90,44 @@ namespace AcademicYearControlsAndForms.IndividualPlanNIRContractualWork
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateIndividualPlanNIRContractualWork(new IndividualPlanNIRContractualWorkSetBindingModel
                 {
-                    result = _service.CreateIndividualPlanNIRContractualWork(new IndividualPlanNIRContractualWorkSetBindingModel
-                    {
-                        IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
-                        JobContent = textBoxJobContent.Text,
-                        Post = textBoxPost.Text,
-                        PlannedTerm = textBoxPlannedTerm.Text,
-                        ReadyMark = checkBoxReadyMark.Checked
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateIndividualPlanNIRContractualWork(new IndividualPlanNIRContractualWorkSetBindingModel
-                    {
-                        Id = _id.Value,
-                        IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
-                        JobContent = textBoxJobContent.Text,
-                        Post = textBoxPost.Text,
-                        PlannedTerm = textBoxPlannedTerm.Text,
-                        ReadyMark = checkBoxReadyMark.Checked
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
+                    JobContent = textBoxJobContent.Text,
+                    Post = textBoxPost.Text,
+                    PlannedTerm = textBoxPlannedTerm.Text,
+                    ReadyMark = checkBoxReadyMark.Checked
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateIndividualPlanNIRContractualWork(new IndividualPlanNIRContractualWorkSetBindingModel
+                {
+                    Id = _id.Value,
+                    IndividualPlanId = new Guid(comboBoxIndividualPlan.SelectedValue.ToString()),
+                    JobContent = textBoxJobContent.Text,
+                    Post = textBoxPost.Text,
+                    PlannedTerm = textBoxPlannedTerm.Text,
+                    ReadyMark = checkBoxReadyMark.Checked
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

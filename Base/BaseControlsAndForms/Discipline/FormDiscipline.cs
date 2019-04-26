@@ -2,12 +2,9 @@
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
-using ControlsAndForms.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Windows.Forms;
 using Tools;
 using Unity;
 
@@ -29,13 +26,13 @@ namespace BaseControlsAndForms.Discipline
             _processE = processE;
         }
 
-        private void FormDiscipline_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultDB = _service.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
             if (!resultDB.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке блоков дисциплин возникла ошибка: ", resultDB.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineBlock.ValueMember = "Value";
@@ -44,7 +41,7 @@ namespace BaseControlsAndForms.Discipline
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
             comboBoxDisciplineBlock.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -63,7 +60,7 @@ namespace BaseControlsAndForms.Discipline
             textBoxDisciplineBlueAsteriskName.Text = entity.DisciplineBlueAsteriskName;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text))
             {
@@ -82,50 +79,42 @@ namespace BaseControlsAndForms.Discipline
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDiscipline(new DisciplineSetBindingModel
                 {
-                    result = _service.CreateDiscipline(new DisciplineSetBindingModel
-                    {
-                        DisciplineName = textBoxTitle.Text,
-                        DisciplineShortName = textBoxDisciplineShortName.Text,
-                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
-                        DisciplineBlueAsteriskName = textBoxDisciplineBlueAsteriskName.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDiscipline(new DisciplineSetBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineName = textBoxTitle.Text,
-                        DisciplineShortName = textBoxDisciplineShortName.Text,
-                        DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
-                        DisciplineBlueAsteriskName = textBoxDisciplineBlueAsteriskName.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineName = textBoxTitle.Text,
+                    DisciplineShortName = textBoxDisciplineShortName.Text,
+                    DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
+                    DisciplineBlueAsteriskName = textBoxDisciplineBlueAsteriskName.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDiscipline(new DisciplineSetBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineName = textBoxTitle.Text,
+                    DisciplineShortName = textBoxDisciplineShortName.Text,
+                    DisciplineBlockId = new Guid(comboBoxDisciplineBlock.SelectedValue.ToString()),
+                    DisciplineBlueAsteriskName = textBoxDisciplineBlueAsteriskName.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

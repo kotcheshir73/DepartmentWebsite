@@ -196,7 +196,6 @@
             this.ClientSize = new System.Drawing.Size(344, 211);
             this.Name = "FormContingent";
             this.Text = "Контингент";
-            this.Load += new System.EventHandler(this.FormContingent_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

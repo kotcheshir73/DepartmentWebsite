@@ -28,13 +28,13 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
             _dlId = dlId;
         }
 
-        private void FormDisciplineLessonTask_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultDL = _service.GetDisciplineLessons(new DisciplineLessonGetBindingModel { Id = _dlId });
             if (!resultDL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке занятий возникла ошибка: ", resultDL.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineLesson.ValueMember = "Value";
@@ -43,7 +43,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
             comboBoxDisciplineLesson.SelectedValue = _dlId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -80,7 +80,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
             }
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxDisciplineLesson.Text))
             {
@@ -100,8 +100,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
             }
             if (!string.IsNullOrEmpty(textBoxOrder.Text))
             {
-                int order = 0;
-                if (!int.TryParse(textBoxOrder.Text, out order))
+                if (!int.TryParse(textBoxOrder.Text, out int order))
                 {
                     return false;
                 }
@@ -114,8 +113,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
                 }
                 if (!string.IsNullOrEmpty(textBoxMaxBall.Text))
                 {
-                    decimal maxBall = 0;
-                    if (!decimal.TryParse(textBoxMaxBall.Text, out maxBall))
+                    if (!decimal.TryParse(textBoxMaxBall.Text, out decimal maxBall))
                     {
                         return false;
                     }
@@ -126,54 +124,46 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineLessonTask(new DisciplineLessonTaskRecordBindingModel
                 {
-                    result = _service.CreateDisciplineLessonTask(new DisciplineLessonTaskRecordBindingModel
-                    {
-                        DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
-                        Task = textBoxTask.Text,
-                        Description = textBoxDiscription.Text,
-                        IsNecessarily = checkBoxIsNecessarily.Checked,
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineLessonTask(new DisciplineLessonTaskRecordBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
-                        Task = textBoxTask.Text,
-                        Description = textBoxDiscription.Text,
-                        IsNecessarily = checkBoxIsNecessarily.Checked,
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
+                    Task = textBoxTask.Text,
+                    Description = textBoxDiscription.Text,
+                    IsNecessarily = checkBoxIsNecessarily.Checked,
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineLessonTask(new DisciplineLessonTaskRecordBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
+                    Task = textBoxTask.Text,
+                    Description = textBoxDiscription.Text,
+                    IsNecessarily = checkBoxIsNecessarily.Checked,
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

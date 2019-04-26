@@ -177,7 +177,6 @@
             this.ClientSize = new System.Drawing.Size(1184, 661);
             this.Name = "FormTicketTemplate";
             this.Text = "Шаблон билета";
-            this.Load += new System.EventHandler(this.FormTicketTemplate_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

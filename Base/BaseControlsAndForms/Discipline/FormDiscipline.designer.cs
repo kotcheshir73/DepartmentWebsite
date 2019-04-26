@@ -127,7 +127,6 @@
             this.ClientSize = new System.Drawing.Size(459, 161);
             this.Name = "FormDiscipline";
             this.Text = "Дисциплина";
-            this.Load += new System.EventHandler(this.FormDiscipline_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelTop.ResumeLayout(false);

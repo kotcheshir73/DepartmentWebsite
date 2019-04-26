@@ -153,7 +153,6 @@
             this.ClientSize = new System.Drawing.Size(784, 361);
             this.Name = "FormStudentOrder";
             this.Text = "Приказ";
-            this.Load += new System.EventHandler(this.FormStudentOrder_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

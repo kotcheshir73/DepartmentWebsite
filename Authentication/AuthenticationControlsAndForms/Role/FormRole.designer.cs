@@ -100,7 +100,6 @@
             this.ClientSize = new System.Drawing.Size(772, 551);
             this.Name = "FormRole";
             this.Text = "Роль";
-            this.Load += new System.EventHandler(this.FormRole_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

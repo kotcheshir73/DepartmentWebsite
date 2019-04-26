@@ -25,7 +25,7 @@ namespace BaseControlsAndForms.StudentOrder
             _service = service;
         }
 
-        private void FormStudentOrder_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             foreach (var elem in Enum.GetValues(typeof(StudentOrderType)))
             {
@@ -33,7 +33,7 @@ namespace BaseControlsAndForms.StudentOrder
             }
             comboBoxStudentOrderType.SelectedIndex = 0;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -67,7 +67,7 @@ namespace BaseControlsAndForms.StudentOrder
             comboBoxStudentOrderType.SelectedIndex = comboBoxStudentOrderType.Items.IndexOf(entity.StudentOrderType);
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxOrderNumber.Text))
             {
@@ -82,48 +82,40 @@ namespace BaseControlsAndForms.StudentOrder
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateStudentOrder(new StudentOrderSetBindingModel
                 {
-                    result = _service.CreateStudentOrder(new StudentOrderSetBindingModel
-                    {
-                        OrderNumber = textBoxOrderNumber.Text,
-                        OrderDate = dateTimePickerOrderDate.Value,
-                        StudentOrderType = comboBoxStudentOrderType.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateStudentOrder(new StudentOrderSetBindingModel
-                    {
-                        Id = _id.Value,
-                        OrderNumber = textBoxOrderNumber.Text,
-                        OrderDate = dateTimePickerOrderDate.Value,
-                        StudentOrderType = comboBoxStudentOrderType.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    OrderNumber = textBoxOrderNumber.Text,
+                    OrderDate = dateTimePickerOrderDate.Value,
+                    StudentOrderType = comboBoxStudentOrderType.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateStudentOrder(new StudentOrderSetBindingModel
+                {
+                    Id = _id.Value,
+                    OrderNumber = textBoxOrderNumber.Text,
+                    OrderDate = dateTimePickerOrderDate.Value,
+                    StudentOrderType = comboBoxStudentOrderType.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

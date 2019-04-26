@@ -193,7 +193,6 @@
             this.ClientSize = new System.Drawing.Size(834, 501);
             this.Name = "FormExaminationTemplate";
             this.Text = "Экзамен";
-            this.Load += new System.EventHandler(this.FormExaminationTemplate_Load);
             this.panelMain.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

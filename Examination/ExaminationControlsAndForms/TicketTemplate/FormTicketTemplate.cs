@@ -37,11 +37,6 @@ namespace ExaminationControlsAndForms.TicketTemplate
             }
         }
 
-        private void FormTicketTemplate_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             var result = _service.GetTicketTemplate(new TicketTemplateGetBindingModel { Id = _id.Value });
@@ -86,15 +81,15 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 StringBuilder tableRes = new StringBuilder();
                 List<double> percentWidth = new List<double>();
                 var totalWidth = table.Columns?.ChildElementaryUnits?.Sum(x => Convert.ToInt32(x.ElementaryAttributes?.FirstOrDefault(a => a.Name == "w:w")?.Value ?? "0")) ?? 0;
-                if(totalWidth == 0)
+                if (totalWidth == 0)
                 {
                     return string.Empty;
                 }
-                foreach(var elem in table.Columns.ChildElementaryUnits)
+                foreach (var elem in table.Columns.ChildElementaryUnits)
                 {
                     percentWidth.Add(Convert.ToDouble(elem.ElementaryAttributes?.FirstOrDefault(a => a.Name == "w:w")?.Value ?? "0") / totalWidth);
                 }
-                for(int i = 0; i < table.TableRows.Count; ++i)
+                for (int i = 0; i < table.TableRows.Count; ++i)
                 {
                     int countCells = 0;
                     StringBuilder rowCompile = new StringBuilder();
@@ -102,7 +97,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                     {
                         var colMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:gridSpan");
                         string colSpan = "";
-                        if(colMerge != null)
+                        if (colMerge != null)
                         {
                             // объединение по строкам
                             colSpan = $" colspan=\"{colMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value}\"";
@@ -168,7 +163,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                         string width = colMerge == null ? $" width=\"{percentWidth[countCells]}%\"" : "";
 
                         StringBuilder cellCompile = new StringBuilder();
-                        foreach(var paragraph in cell.Paragraphs)
+                        foreach (var paragraph in cell.Paragraphs)
                         {
                             cellCompile.Append(ProcessParagraph(paragraph, ref size));
                         }
@@ -222,7 +217,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 {
                     string text = data.Text;
                     var brElem = data.ElementaryUnits?.FirstOrDefault(x => x.Name == "w:br");
-                    if(brElem != null)
+                    if (brElem != null)
                     {
                         text = $"{text}<br />";
                     }
@@ -259,7 +254,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
             return string.Empty;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             labelLinkToFile.ForeColor =
             labelTemplateName.ForeColor =
@@ -282,47 +277,39 @@ namespace ExaminationControlsAndForms.TicketTemplate
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _process.SaveTemplate(new TicketProcessLoadTemplateBindingModel
                 {
-                    result = _process.SaveTemplate(new TicketProcessLoadTemplateBindingModel
-                    {
-                        ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                        TemplateName = textBoxTemplateName.Text,
-                        FileName = textBoxLinkToFile.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateTicketTemplate(new TicketTemplateSetBindingModel
-                    {
-                        Id = _id.Value,
-                        ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                        TemplateName = textBoxTemplateName.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
+                    TemplateName = textBoxTemplateName.Text,
+                    FileName = textBoxLinkToFile.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateTicketTemplate(new TicketTemplateSetBindingModel
+                {
+                    Id = _id.Value,
+                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
+                    TemplateName = textBoxTemplateName.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }
