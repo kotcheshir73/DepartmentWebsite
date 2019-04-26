@@ -34,7 +34,8 @@ namespace ControlsAndForms.Forms
             }
             else
             {
-                Close();
+                panelMain.Enabled = false;
+                panelTop.Enabled = false;
             }
         }
 
