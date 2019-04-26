@@ -220,9 +220,41 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AcademicYear\AcademicYearImplementations\AcademicYearImplementations.csproj">
+      <Project>{42A82700-3B9B-4D07-AA62-095BFA1096A0}</Project>
+      <Name>AcademicYearImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj">
+      <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
+      <Name>AcademicYearInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
       <Project>{b8f97ce3-c035-4fc7-a316-877610e7adf4}</Project>
       <Name>AuthenticationModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Authentication\AuthenticationImplementations\AuthenticationImplementations.csproj">
+      <Project>{CB43BDB1-2FD8-4180-90B8-E83E4CDBE55A}</Project>
+      <Name>AuthenticationImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj">
+      <Project>{5A871E8A-69FF-4338-A42F-30305B18FAE9}</Project>
+      <Name>AuthenticationInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{F3E484D4-3940-4266-8794-5CEDDAC96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Enums\Enums.csproj">
+      <Project>{11529938-F115-45FB-A7C1-34C2D661432A}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\Tools\Tools.csproj">
+      <Project>{F240EBFC-C309-4D05-BC87-5E7143B351D3}</Project>
+      <Name>Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\DepartmentContext\DepartmentContext.csproj">
       <Project>{3C73F60D-B076-4676-943A-340477DACCB4}</Project>
@@ -232,9 +264,29 @@
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
-      <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
-      <Name>DepartmentService</Name>
+    <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadImplementations\LaboratoryHeadImplementations.csproj">
+      <Project>{DEBDA63B-83DC-43A6-B887-4120A992FC5E}</Project>
+      <Name>LaboratoryHeadImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadInterfaces\LaboratoryHeadInterfaces.csproj">
+      <Project>{F5E2C5AC-DCF0-478C-9254-5BFEA7BA840D}</Project>
+      <Name>LaboratoryHeadInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LearningProgress\LearningProgressImplementations\LearningProgressImplementations.csproj">
+      <Project>{7D39CDA2-4B78-40F0-B33F-5E56E840EF53}</Project>
+      <Name>LearningProgressImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj">
+      <Project>{64072079-CADD-414A-BAA5-49E604733D47}</Project>
+      <Name>LearningProgressInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj">
+      <Project>{36250D0E-E6C6-4FA1-B41C-4B757DB7FA9F}</Project>
+      <Name>ScheduleImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj">
+      <Project>{58DE8AB4-B69F-499C-BCF6-B5720B88ECC4}</Project>
+      <Name>ScheduleInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -1,6 +1,5 @@
-﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
-using System;
+﻿using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;

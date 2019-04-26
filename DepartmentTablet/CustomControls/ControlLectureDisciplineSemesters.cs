@@ -1,5 +1,5 @@
-﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+﻿using LearningProgressInterfaces.BindingModels;
+using LearningProgressInterfaces.Interfaces;
 using System;
 using System.Collections;
 using System.Drawing;

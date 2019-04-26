@@ -1,6 +1,6 @@
-﻿using DepartmentModel.Enums;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
+﻿using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using DepartmentModel.Enums;
 using System;
 using System.Collections;
 using System.Drawing;

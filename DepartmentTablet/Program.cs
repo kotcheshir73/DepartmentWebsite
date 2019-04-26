@@ -1,7 +1,16 @@
-﻿//using AuthenticationServiceInterfaces.Interfaces;
+﻿using AcademicYearImplementations.Implementations;
+using AcademicYearInterfaces.Interfaces;
+using AuthenticationImplementations.Implementations;
+using AuthenticationInterfaces.Interfaces;
+using BaseImplementations.Implementations;
+using BaseInterfaces.Interfaces;
 using DepartmentContext;
-using DepartmentService.IServices;
 using DepartmentService.Services;
+using LaboratoryHeadInterfaces.Interfaces;
+using LearningProgressImplementations.Implementations;
+using LearningProgressInterfaces.Interfaces;
+using ScheduleImplementations.Services;
+using ScheduleInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -60,27 +69,27 @@ namespace DepartmentTablet
         {
             var currentContainer = new UnityContainer();
             currentContainer.RegisterType<DbContext, DepartmentDbContext>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IEducationalProcessService, EducationalProcessService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISeasonDatesService, SeasonDatesService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IStudentMoveService, StudentMoveService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStudentOrderService, StudentOrderService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStudentOrderBlockService, StudentOrderBlockService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStudentOrderBlockStudentService, StudentOrderBlockStudentService>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
-            //currentContainer.RegisterType<IScheduleService, ScheduleService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
-
             currentContainer.RegisterType<IContingentService, ContingentService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISeasonDatesService, SeasonDatesService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ITimeNormService, TimeNormService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IAcademicYearService, AcademicYearService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IAcademicPlanService, AcademicPlanService>(new HierarchicalLifetimeManager());
@@ -89,9 +98,9 @@ namespace DepartmentTablet
             currentContainer.RegisterType<IStreamLessonService, StreamLessonService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
 
-            //currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
-            //currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IMaterialTechnicalValueService, MaterialTechnicalValueService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMaterialTechnicalValueGroupService, MaterialTechnicalValueGroupService>(new HierarchicalLifetimeManager());
@@ -99,19 +108,20 @@ namespace DepartmentTablet
             currentContainer.RegisterType<ISoftwareService, SoftwareService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISoftwareRecordService, SoftwareRecordService>(new HierarchicalLifetimeManager());
 
-
             currentContainer.RegisterType<IDisciplineLessonService, DisciplineLessonService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonTaskService, DisciplineLessonTaskService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonTaskVariantService, DisciplineLessonTaskVariantService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineStudentRecordService, DisciplineStudentRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonConductedStudentService, DisciplineLessonConductedStudentService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineLessonConductedService, DisciplineLessonConductedService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IDisciplineLessonTaskStudentAcceptService, DisciplineLessonTaskStudentAcceptService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IDisciplineLessonTaskStudentAcceptService, DisciplineLessonTaskStudentAcceptService>(new HierarchicalLifetimeManager());            
 
-
-            //currentContainer.RegisterType<IAdministrationProcess, AdministrationProcess>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ILearningProgressProcess, LearningProgressProcess>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IProcess, Process>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IAcademicYearProcess, AcademicYearProcess>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILaboratoryProcess, LaboratoryProcess>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILearningProgressProcess, LearningProgressProcess>(new HierarchicalLifetimeManager());
 
             currentContainer
         .RegisterType<FormMain>()

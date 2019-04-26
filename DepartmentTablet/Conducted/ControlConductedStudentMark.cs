@@ -1,7 +1,7 @@
 ﻿using DepartmentModel.Enums;
-using DepartmentService.BindingModels;
-using DepartmentService.IServices;
 using DepartmentTablet.CustomControls;
+using LearningProgressInterfaces.BindingModels;
+using LearningProgressInterfaces.Interfaces;
 using System;
 using System.Collections;
 using Unity;

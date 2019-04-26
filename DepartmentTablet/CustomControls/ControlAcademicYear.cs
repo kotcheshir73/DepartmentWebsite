@@ -1,6 +1,5 @@
-﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
-using System;
+﻿using AcademicYearInterfaces.BindingModels;
+using AcademicYearInterfaces.Interfaces;
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;

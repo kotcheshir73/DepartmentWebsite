@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentModel", "Departme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentTablet", "DepartmentTablet\DepartmentTablet.csproj", "{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentService", "DepartmentService\DepartmentService.csproj", "{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentUniversalTablet", "DepartmentUniversalTablet\DepartmentUniversalTablet.csproj", "{1DB13F83-C317-42A8-8FC9-13D6346AA96C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentContext", "DepartmentContext\DepartmentContext.csproj", "{3C73F60D-B076-4676-943A-340477DACCB4}"
@@ -171,22 +169,6 @@ Global
 		{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}.Release|x64.Build.0 = Release|Any CPU
 		{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}.Release|x86.Build.0 = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|ARM.Build.0 = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|x64.Build.0 = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Debug|x86.Build.0 = Debug|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|ARM.ActiveCfg = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|ARM.Build.0 = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|x64.ActiveCfg = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|x64.Build.0 = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|x86.ActiveCfg = Release|Any CPU
-		{CFADD84C-FC9E-4BA7-851E-C6A8924AA5F7}.Release|x86.Build.0 = Release|Any CPU
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|ARM.ActiveCfg = Debug|ARM
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|ARM.Build.0 = Debug|ARM
