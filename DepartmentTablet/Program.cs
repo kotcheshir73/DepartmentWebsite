@@ -4,7 +4,6 @@ using AuthenticationImplementations.Implementations;
 using AuthenticationInterfaces.Interfaces;
 using BaseImplementations.Implementations;
 using BaseInterfaces.Interfaces;
-using DepartmentContext;
 using DepartmentService.Services;
 using LaboratoryHeadInterfaces.Interfaces;
 using LearningProgressImplementations.Implementations;
@@ -68,7 +67,6 @@ namespace DepartmentTablet
         public static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<DbContext, DepartmentDbContext>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());

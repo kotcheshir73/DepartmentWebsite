@@ -1,6 +1,4 @@
-﻿using AuthenticationModels.Models;
-//using DepartmentService;
-//using DepartmentService.ViewModels;
+﻿using Models.Authentication;
 using System;
 
 namespace DepartmentTablet

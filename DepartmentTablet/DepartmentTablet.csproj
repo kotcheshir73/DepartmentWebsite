@@ -228,10 +228,6 @@
       <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
       <Name>AcademicYearInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
-      <Project>{b8f97ce3-c035-4fc7-a316-877610e7adf4}</Project>
-      <Name>AuthenticationModels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Authentication\AuthenticationImplementations\AuthenticationImplementations.csproj">
       <Project>{CB43BDB1-2FD8-4180-90B8-E83E4CDBE55A}</Project>
       <Name>AuthenticationImplementations</Name>
@@ -252,17 +248,13 @@
       <Project>{11529938-F115-45FB-A7C1-34C2D661432A}</Project>
       <Name>Enums</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Models\Models.csproj">
+      <Project>{448538B9-DD05-44E4-BB1A-E367414BDA97}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Database\Tools\Tools.csproj">
       <Project>{F240EBFC-C309-4D05-BC87-5E7143B351D3}</Project>
       <Name>Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DepartmentContext\DepartmentContext.csproj">
-      <Project>{3C73F60D-B076-4676-943A-340477DACCB4}</Project>
-      <Name>DepartmentContext</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
-      <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
-      <Name>DepartmentModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadImplementations\LaboratoryHeadImplementations.csproj">
       <Project>{DEBDA63B-83DC-43A6-B887-4120A992FC5E}</Project>

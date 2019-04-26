@@ -1,5 +1,5 @@
-﻿using DepartmentModel.Enums;
-using DepartmentTablet.CustomControls;
+﻿using DepartmentTablet.CustomControls;
+using Enums;
 using LearningProgressInterfaces.BindingModels;
 using LearningProgressInterfaces.Interfaces;
 using System;
