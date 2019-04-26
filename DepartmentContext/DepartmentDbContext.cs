@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using TicketModels.Models;
 using System.Data.Entity.Validation;
 
 namespace DepartmentContext
@@ -75,21 +74,21 @@ namespace DepartmentContext
         public virtual DbSet<SoftwareRecord> SoftwareRecords { get; set; }
         public virtual DbSet<Software> Softwares { get; set; }
 
-        public virtual DbSet<ExaminationTemplate> ExaminationTemplates { get; set; }
-        public virtual DbSet<ExaminationTemplateBlock> ExaminationTemplateBlocks { get; set; }
-        public virtual DbSet<ExaminationTemplateBlockQuestion> ExaminationTemplateBlockQuestions { get; set; }
-        public virtual DbSet<ExaminationTemplateTicket> ExaminationTemplateTickets { get; set; }
-        public virtual DbSet<ExaminationTemplateTicketQuestion> ExaminationTemplateTicketQuestions { get; set; }
+        //public virtual DbSet<ExaminationTemplate> ExaminationTemplates { get; set; }
+        //public virtual DbSet<ExaminationTemplateBlock> ExaminationTemplateBlocks { get; set; }
+        //public virtual DbSet<ExaminationTemplateBlockQuestion> ExaminationTemplateBlockQuestions { get; set; }
+        //public virtual DbSet<ExaminationTemplateTicket> ExaminationTemplateTickets { get; set; }
+        //public virtual DbSet<ExaminationTemplateTicketQuestion> ExaminationTemplateTicketQuestions { get; set; }
 
-        public virtual DbSet<TicketTemplate> TicketTemplates { get; set; }
-        public virtual DbSet<TicketTemplateBody> TicketTemplateBodies { get; set; }
-        public virtual DbSet<TicketTemplateTable> TicketTemplateTables { get; set; }
-        public virtual DbSet<TicketTemplateTableRow> TicketTemplateTableRows { get; set; }
-        public virtual DbSet<TicketTemplateTableCell> TicketTemplateTableCells { get; set; }
-        public virtual DbSet<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }
-        public virtual DbSet<TicketTemplateParagraphData> TicketTemplateParagraphDatas { get; set; }
-        public virtual DbSet<TicketTemplateElementaryUnit> TicketTemplateElementaryUnits { get; set; }
-        public virtual DbSet<TicketTemplateElementaryAttribute> TicketTemplateElementaryAttributes { get; set; }
+        //public virtual DbSet<TicketTemplate> TicketTemplates { get; set; }
+        //public virtual DbSet<TicketTemplateBody> TicketTemplateBodies { get; set; }
+        //public virtual DbSet<TicketTemplateTable> TicketTemplateTables { get; set; }
+        //public virtual DbSet<TicketTemplateTableRow> TicketTemplateTableRows { get; set; }
+        //public virtual DbSet<TicketTemplateTableCell> TicketTemplateTableCells { get; set; }
+        //public virtual DbSet<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }
+        //public virtual DbSet<TicketTemplateParagraphData> TicketTemplateParagraphDatas { get; set; }
+        //public virtual DbSet<TicketTemplateElementaryUnit> TicketTemplateElementaryUnits { get; set; }
+        //public virtual DbSet<TicketTemplateElementaryAttribute> TicketTemplateElementaryAttributes { get; set; }
 
         /// <summary>
         /// Перегружаем метод созранения изменений. Если возникла ошибка - очищаем все изменения

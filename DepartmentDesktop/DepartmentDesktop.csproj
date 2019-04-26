@@ -322,10 +322,6 @@
       <Project>{f101a003-580e-4616-a9d4-b4cfae1f629e}</Project>
       <Name>ScheduleControlsAndForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TicketModels\TicketModels.csproj">
-      <Project>{a0ec04b3-171d-4fa9-9ea8-fa9e8ec2307e}</Project>
-      <Name>TicketModels</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Down.jpg" />

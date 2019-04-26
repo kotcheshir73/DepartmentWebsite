@@ -134,10 +134,6 @@
       <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
       <Name>DepartmentModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TicketModels\TicketModels.csproj">
-      <Project>{a0ec04b3-171d-4fa9-9ea8-fa9e8ec2307e}</Project>
-      <Name>TicketModels</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201901051242455_InitMigration.resx">
