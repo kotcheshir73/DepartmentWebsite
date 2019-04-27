@@ -56,10 +56,6 @@
             this.labelDisipline = new System.Windows.Forms.Label();
             this.labelSemester = new System.Windows.Forms.Label();
             this.dataGridViewElements = new System.Windows.Forms.DataGridView();
-            this.labelComment = new System.Windows.Forms.Label();
-            this.textBoxComment = new System.Windows.Forms.TextBox();
-            this.labelCommentWishesOfTeacher = new System.Windows.Forms.Label();
-            this.textBoxCommentWishesOfTeacher = new System.Windows.Forms.TextBox();
             this.ColumnClassroomId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnFirstWeekFirstHalfId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSecondWeekFirstHalfId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,6 +81,12 @@
             this.ColumnWeek16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelComment = new System.Windows.Forms.Label();
+            this.textBoxComment = new System.Windows.Forms.TextBox();
+            this.labelCommentWishesOfTeacher = new System.Windows.Forms.Label();
+            this.textBoxCommentWishesOfTeacher = new System.Windows.Forms.TextBox();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewElements)).BeginInit();
             this.SuspendLayout();
             // 
@@ -198,43 +200,6 @@
             this.dataGridViewElements.TabIndex = 6;
             this.dataGridViewElements.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewElements_CellEndEdit);
             // 
-            // labelComment
-            // 
-            this.labelComment.AutoSize = true;
-            this.labelComment.Location = new System.Drawing.Point(16, 421);
-            this.labelComment.Name = "labelComment";
-            this.labelComment.Size = new System.Drawing.Size(127, 13);
-            this.labelComment.TabIndex = 7;
-            this.labelComment.Text = "Объединить с потоком:";
-            // 
-            // textBoxComment
-            // 
-            this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComment.Location = new System.Drawing.Point(173, 418);
-            this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.Size = new System.Drawing.Size(774, 20);
-            this.textBoxComment.TabIndex = 8;
-            // 
-            // labelCommentWishesOfTeacher
-            // 
-            this.labelCommentWishesOfTeacher.AutoSize = true;
-            this.labelCommentWishesOfTeacher.Location = new System.Drawing.Point(16, 455);
-            this.labelCommentWishesOfTeacher.Name = "labelCommentWishesOfTeacher";
-            this.labelCommentWishesOfTeacher.Size = new System.Drawing.Size(151, 13);
-            this.labelCommentWishesOfTeacher.TabIndex = 9;
-            this.labelCommentWishesOfTeacher.Text = "Пожелания преподавателя: ";
-            // 
-            // textBoxCommentWishesOfTeacher
-            // 
-            this.textBoxCommentWishesOfTeacher.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCommentWishesOfTeacher.Location = new System.Drawing.Point(173, 452);
-            this.textBoxCommentWishesOfTeacher.Multiline = true;
-            this.textBoxCommentWishesOfTeacher.Name = "textBoxCommentWishesOfTeacher";
-            this.textBoxCommentWishesOfTeacher.Size = new System.Drawing.Size(775, 60);
-            this.textBoxCommentWishesOfTeacher.TabIndex = 10;
-            // 
             // ColumnClassroomId
             // 
             this.ColumnClassroomId.HeaderText = "ClassroomId";
@@ -274,7 +239,7 @@
             this.ColumnTimeNorm.Name = "ColumnTimeNorm";
             this.ColumnTimeNorm.ReadOnly = true;
             this.ColumnTimeNorm.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnTimeNorm.Width = 47;
+            this.ColumnTimeNorm.Width = 150;
             // 
             // ColumnClassrooms
             // 
@@ -283,7 +248,6 @@
             this.ColumnClassrooms.HeaderText = "аудит.";
             this.ColumnClassrooms.Name = "ColumnClassrooms";
             this.ColumnClassrooms.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnClassrooms.Width = 47;
             // 
             // ColumnWeek1
             // 
@@ -292,7 +256,7 @@
             this.ColumnWeek1.HeaderText = "1";
             this.ColumnWeek1.Name = "ColumnWeek1";
             this.ColumnWeek1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek1.Width = 47;
+            this.ColumnWeek1.Width = 40;
             // 
             // ColumnWeek2
             // 
@@ -301,7 +265,7 @@
             this.ColumnWeek2.HeaderText = "2";
             this.ColumnWeek2.Name = "ColumnWeek2";
             this.ColumnWeek2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek2.Width = 47;
+            this.ColumnWeek2.Width = 40;
             // 
             // ColumnWeek3
             // 
@@ -312,7 +276,7 @@
             this.ColumnWeek3.Name = "ColumnWeek3";
             this.ColumnWeek3.ReadOnly = true;
             this.ColumnWeek3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek3.Width = 47;
+            this.ColumnWeek3.Width = 40;
             // 
             // ColumnWeek4
             // 
@@ -323,7 +287,7 @@
             this.ColumnWeek4.Name = "ColumnWeek4";
             this.ColumnWeek4.ReadOnly = true;
             this.ColumnWeek4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek4.Width = 47;
+            this.ColumnWeek4.Width = 40;
             // 
             // ColumnWeek5
             // 
@@ -334,7 +298,7 @@
             this.ColumnWeek5.Name = "ColumnWeek5";
             this.ColumnWeek5.ReadOnly = true;
             this.ColumnWeek5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek5.Width = 47;
+            this.ColumnWeek5.Width = 40;
             // 
             // ColumnWeek6
             // 
@@ -345,7 +309,7 @@
             this.ColumnWeek6.Name = "ColumnWeek6";
             this.ColumnWeek6.ReadOnly = true;
             this.ColumnWeek6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek6.Width = 47;
+            this.ColumnWeek6.Width = 40;
             // 
             // ColumnWeek7
             // 
@@ -356,7 +320,7 @@
             this.ColumnWeek7.Name = "ColumnWeek7";
             this.ColumnWeek7.ReadOnly = true;
             this.ColumnWeek7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek7.Width = 47;
+            this.ColumnWeek7.Width = 40;
             // 
             // ColumnWeek8
             // 
@@ -367,7 +331,7 @@
             this.ColumnWeek8.Name = "ColumnWeek8";
             this.ColumnWeek8.ReadOnly = true;
             this.ColumnWeek8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek8.Width = 47;
+            this.ColumnWeek8.Width = 40;
             // 
             // ColumnWeek9
             // 
@@ -376,7 +340,7 @@
             this.ColumnWeek9.HeaderText = "9";
             this.ColumnWeek9.Name = "ColumnWeek9";
             this.ColumnWeek9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek9.Width = 48;
+            this.ColumnWeek9.Width = 40;
             // 
             // ColumnWeek10
             // 
@@ -385,7 +349,7 @@
             this.ColumnWeek10.HeaderText = "10";
             this.ColumnWeek10.Name = "ColumnWeek10";
             this.ColumnWeek10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek10.Width = 47;
+            this.ColumnWeek10.Width = 40;
             // 
             // ColumnWeek11
             // 
@@ -396,7 +360,7 @@
             this.ColumnWeek11.Name = "ColumnWeek11";
             this.ColumnWeek11.ReadOnly = true;
             this.ColumnWeek11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek11.Width = 47;
+            this.ColumnWeek11.Width = 40;
             // 
             // ColumnWeek12
             // 
@@ -407,7 +371,7 @@
             this.ColumnWeek12.Name = "ColumnWeek12";
             this.ColumnWeek12.ReadOnly = true;
             this.ColumnWeek12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek12.Width = 47;
+            this.ColumnWeek12.Width = 40;
             // 
             // ColumnWeek13
             // 
@@ -418,7 +382,7 @@
             this.ColumnWeek13.Name = "ColumnWeek13";
             this.ColumnWeek13.ReadOnly = true;
             this.ColumnWeek13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek13.Width = 47;
+            this.ColumnWeek13.Width = 40;
             // 
             // ColumnWeek14
             // 
@@ -429,7 +393,7 @@
             this.ColumnWeek14.Name = "ColumnWeek14";
             this.ColumnWeek14.ReadOnly = true;
             this.ColumnWeek14.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek14.Width = 47;
+            this.ColumnWeek14.Width = 40;
             // 
             // ColumnWeek15
             // 
@@ -440,7 +404,7 @@
             this.ColumnWeek15.Name = "ColumnWeek15";
             this.ColumnWeek15.ReadOnly = true;
             this.ColumnWeek15.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek15.Width = 47;
+            this.ColumnWeek15.Width = 40;
             // 
             // ColumnWeek16
             // 
@@ -451,7 +415,7 @@
             this.ColumnWeek16.Name = "ColumnWeek16";
             this.ColumnWeek16.ReadOnly = true;
             this.ColumnWeek16.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWeek16.Width = 47;
+            this.ColumnWeek16.Width = 40;
             // 
             // ColumnSum
             // 
@@ -462,7 +426,7 @@
             this.ColumnSum.Name = "ColumnSum";
             this.ColumnSum.ReadOnly = true;
             this.ColumnSum.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnSum.Width = 47;
+            this.ColumnSum.Width = 50;
             // 
             // ColumnTotal
             // 
@@ -473,12 +437,73 @@
             this.ColumnTotal.Name = "ColumnTotal";
             this.ColumnTotal.ReadOnly = true;
             this.ColumnTotal.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnTotal.Width = 47;
+            this.ColumnTotal.Width = 50;
+            // 
+            // labelComment
+            // 
+            this.labelComment.AutoSize = true;
+            this.labelComment.Location = new System.Drawing.Point(16, 421);
+            this.labelComment.Name = "labelComment";
+            this.labelComment.Size = new System.Drawing.Size(127, 13);
+            this.labelComment.TabIndex = 7;
+            this.labelComment.Text = "Объединить с потоком:";
+            // 
+            // textBoxComment
+            // 
+            this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxComment.Location = new System.Drawing.Point(173, 418);
+            this.textBoxComment.Name = "textBoxComment";
+            this.textBoxComment.Size = new System.Drawing.Size(774, 20);
+            this.textBoxComment.TabIndex = 8;
+            // 
+            // labelCommentWishesOfTeacher
+            // 
+            this.labelCommentWishesOfTeacher.AutoSize = true;
+            this.labelCommentWishesOfTeacher.Location = new System.Drawing.Point(16, 455);
+            this.labelCommentWishesOfTeacher.Name = "labelCommentWishesOfTeacher";
+            this.labelCommentWishesOfTeacher.Size = new System.Drawing.Size(151, 13);
+            this.labelCommentWishesOfTeacher.TabIndex = 9;
+            this.labelCommentWishesOfTeacher.Text = "Пожелания преподавателя: ";
+            // 
+            // textBoxCommentWishesOfTeacher
+            // 
+            this.textBoxCommentWishesOfTeacher.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxCommentWishesOfTeacher.Location = new System.Drawing.Point(173, 452);
+            this.textBoxCommentWishesOfTeacher.Multiline = true;
+            this.textBoxCommentWishesOfTeacher.Name = "textBoxCommentWishesOfTeacher";
+            this.textBoxCommentWishesOfTeacher.Size = new System.Drawing.Size(775, 60);
+            this.textBoxCommentWishesOfTeacher.TabIndex = 10;
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Location = new System.Drawing.Point(713, 518);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(100, 25);
+            this.buttonSave.TabIndex = 11;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.Location = new System.Drawing.Point(836, 518);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(100, 25);
+            this.buttonCancel.TabIndex = 12;
+            this.buttonCancel.Text = "Отменить";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // ControlLecturerDisciplineTimeDistributionElement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxCommentWishesOfTeacher);
             this.Controls.Add(this.labelCommentWishesOfTeacher);
             this.Controls.Add(this.textBoxComment);
@@ -491,7 +516,7 @@
             this.Controls.Add(this.labelFacultet);
             this.Controls.Add(this.labelTitle);
             this.Name = "ControlLecturerDisciplineTimeDistributionElement";
-            this.Size = new System.Drawing.Size(950, 520);
+            this.Size = new System.Drawing.Size(950, 550);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewElements)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -536,5 +561,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek16;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSum;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTotal;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }
