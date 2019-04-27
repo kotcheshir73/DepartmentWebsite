@@ -33,12 +33,32 @@
             this.textBoxBall = new System.Windows.Forms.TextBox();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.labelComment = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panelMain
+            // 
+            this.panelMain.Controls.Add(this.textBoxComment);
+            this.panelMain.Controls.Add(this.labelDisciplineLesson);
+            this.panelMain.Controls.Add(this.labelComment);
+            this.panelMain.Controls.Add(this.comboBoxDisciplineLesson);
+            this.panelMain.Controls.Add(this.checkBoxBall);
+            this.panelMain.Controls.Add(this.labelStudent);
+            this.panelMain.Controls.Add(this.textBoxBall);
+            this.panelMain.Controls.Add(this.comboBoxStudent);
+            this.panelMain.Controls.Add(this.comboBoxStatus);
+            this.panelMain.Controls.Add(this.labelStatus);
+            this.panelMain.Size = new System.Drawing.Size(364, 185);
+            // 
+            // panelTop
+            // 
+            this.panelTop.Size = new System.Drawing.Size(364, 36);
             // 
             // labelDisciplineLesson
             // 
             this.labelDisciplineLesson.AutoSize = true;
-            this.labelDisciplineLesson.Location = new System.Drawing.Point(12, 9);
+            this.labelDisciplineLesson.Location = new System.Drawing.Point(12, 15);
             this.labelDisciplineLesson.Name = "labelDisciplineLesson";
             this.labelDisciplineLesson.Size = new System.Drawing.Size(56, 13);
             this.labelDisciplineLesson.TabIndex = 0;
@@ -48,7 +68,7 @@
             // 
             this.comboBoxDisciplineLesson.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplineLesson.FormattingEnabled = true;
-            this.comboBoxDisciplineLesson.Location = new System.Drawing.Point(131, 6);
+            this.comboBoxDisciplineLesson.Location = new System.Drawing.Point(131, 12);
             this.comboBoxDisciplineLesson.Name = "comboBoxDisciplineLesson";
             this.comboBoxDisciplineLesson.Size = new System.Drawing.Size(210, 21);
             this.comboBoxDisciplineLesson.TabIndex = 1;
@@ -56,7 +76,7 @@
             // labelStudent
             // 
             this.labelStudent.AutoSize = true;
-            this.labelStudent.Location = new System.Drawing.Point(12, 36);
+            this.labelStudent.Location = new System.Drawing.Point(12, 42);
             this.labelStudent.Name = "labelStudent";
             this.labelStudent.Size = new System.Drawing.Size(54, 13);
             this.labelStudent.TabIndex = 2;
@@ -66,7 +86,7 @@
             // 
             this.comboBoxStudent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStudent.FormattingEnabled = true;
-            this.comboBoxStudent.Location = new System.Drawing.Point(131, 33);
+            this.comboBoxStudent.Location = new System.Drawing.Point(131, 39);
             this.comboBoxStudent.Name = "comboBoxStudent";
             this.comboBoxStudent.Size = new System.Drawing.Size(210, 21);
             this.comboBoxStudent.TabIndex = 3;
@@ -75,7 +95,7 @@
             // 
             this.comboBoxStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatus.FormattingEnabled = true;
-            this.comboBoxStatus.Location = new System.Drawing.Point(131, 60);
+            this.comboBoxStatus.Location = new System.Drawing.Point(131, 66);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(210, 21);
             this.comboBoxStatus.TabIndex = 5;
@@ -83,7 +103,7 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(12, 63);
+            this.labelStatus.Location = new System.Drawing.Point(12, 69);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(48, 13);
             this.labelStatus.TabIndex = 4;
@@ -92,7 +112,7 @@
             // checkBoxBall
             // 
             this.checkBoxBall.AutoSize = true;
-            this.checkBoxBall.Location = new System.Drawing.Point(15, 90);
+            this.checkBoxBall.Location = new System.Drawing.Point(15, 96);
             this.checkBoxBall.Name = "checkBoxBall";
             this.checkBoxBall.Size = new System.Drawing.Size(54, 17);
             this.checkBoxBall.TabIndex = 6;
@@ -103,14 +123,14 @@
             // textBoxBall
             // 
             this.textBoxBall.Enabled = false;
-            this.textBoxBall.Location = new System.Drawing.Point(131, 87);
+            this.textBoxBall.Location = new System.Drawing.Point(131, 93);
             this.textBoxBall.Name = "textBoxBall";
             this.textBoxBall.Size = new System.Drawing.Size(72, 20);
             this.textBoxBall.TabIndex = 7;
             // 
             // textBoxComment
             // 
-            this.textBoxComment.Location = new System.Drawing.Point(131, 113);
+            this.textBoxComment.Location = new System.Drawing.Point(131, 119);
             this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
             this.textBoxComment.Size = new System.Drawing.Size(210, 54);
@@ -119,33 +139,23 @@
             // labelComment
             // 
             this.labelComment.AutoSize = true;
-            this.labelComment.Location = new System.Drawing.Point(12, 116);
+            this.labelComment.Location = new System.Drawing.Point(12, 122);
             this.labelComment.Name = "labelComment";
             this.labelComment.Size = new System.Drawing.Size(80, 13);
             this.labelComment.TabIndex = 8;
             this.labelComment.Text = "Комментарий:";
             // 
-            // DisciplineLessonConductedStudentForm
+            // FormDisciplineLessonConductedStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 221);
-            this.Controls.Add(this.textBoxComment);
-            this.Controls.Add(this.labelComment);
-            this.Controls.Add(this.checkBoxBall);
-            this.Controls.Add(this.textBoxBall);
-            this.Controls.Add(this.comboBoxStatus);
-            this.Controls.Add(this.labelStatus);
-            this.Controls.Add(this.comboBoxStudent);
-            this.Controls.Add(this.labelStudent);
-            this.Controls.Add(this.labelDisciplineLesson);
-            this.Controls.Add(this.comboBoxDisciplineLesson);
-            this.Name = "DisciplineLessonConductedStudentForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormDisciplineLessonConductedStudent";
             this.Text = "Отметка о посещении студента";
-            this.Load += new System.EventHandler(this.FormDisciplineLessonConductedStudent_Load);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

@@ -33,34 +33,31 @@
             this.comboBoxStudentOrderType = new System.Windows.Forms.ComboBox();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
             this.tabPageStudents = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(324, 326);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(784, 325);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(471, 326);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(243, 326);
+            this.panelTop.Size = new System.Drawing.Size(784, 36);
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
             this.tabControl.Controls.Add(this.tabPageStudents);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(784, 320);
+            this.tabControl.Size = new System.Drawing.Size(784, 325);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -74,7 +71,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(776, 294);
+            this.tabPageConfig.Size = new System.Drawing.Size(776, 299);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Приказ";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -134,7 +131,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(676, 294);
+            this.tabPageRecords.Size = new System.Drawing.Size(311, 148);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Блоки приказа";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -144,7 +141,7 @@
             this.tabPageStudents.Location = new System.Drawing.Point(4, 22);
             this.tabPageStudents.Name = "tabPageStudents";
             this.tabPageStudents.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStudents.Size = new System.Drawing.Size(676, 294);
+            this.tabPageStudents.Size = new System.Drawing.Size(311, 148);
             this.tabPageStudents.TabIndex = 2;
             this.tabPageStudents.Text = "Студенты";
             this.tabPageStudents.UseVisualStyleBackColor = true;
@@ -154,14 +151,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 361);
-            this.Controls.Add(this.tabControl);
             this.Name = "FormStudentOrder";
             this.Text = "Приказ";
-            this.Load += new System.EventHandler(this.FormStudentOrder_Load);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.tabControl, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();

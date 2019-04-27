@@ -25,15 +25,19 @@ namespace Models.Examination
 
         [Required]
         [DataMember]
-        public Guid AcademicYearId { get; set; }
-
-        [Required]
-        [DataMember]
         public Guid StudentGroupId { get; set; }
 
         [Required]
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [Required]
+        [DataMember]
         public TypeOfTest TypeOfTest { get; set; }
+
+        [Required]
+        [DataMember]
+        public Semesters Semester { get; set; }
 
         [DataMember]
         public bool IsMain { get; set; }

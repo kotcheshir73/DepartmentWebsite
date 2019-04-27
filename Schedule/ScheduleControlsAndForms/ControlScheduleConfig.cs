@@ -581,7 +581,10 @@ namespace ScheduleControlsAndForms
                 return;
             }
 
-            SaveFileDialog dialog = new SaveFileDialog();
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Excel|*.xlsx"
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _process.ExportOffsetRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
@@ -610,7 +613,10 @@ namespace ScheduleControlsAndForms
                 return;
             }
 
-            SaveFileDialog dialog = new SaveFileDialog();
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Excel|*.xlsx"
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var result = _process.ExportExaminationRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });

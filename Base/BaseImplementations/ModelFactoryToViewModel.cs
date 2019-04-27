@@ -63,7 +63,7 @@ namespace BaseImplementations
                 DisciplineBlockId = entity.DisciplineBlockId,
                 DisciplineName = entity.DisciplineName,
                 DisciplineShortName = string.IsNullOrEmpty(entity.DisciplineShortName) ? entity.ToString() : entity.DisciplineShortName,
-                DisciplineBlockTitle = entity.DisciplineBlock.Title,
+                DisciplineBlockTitle = entity.DisciplineBlock?.ToString() ?? string.Empty,
                 DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
             };
         }
@@ -80,7 +80,7 @@ namespace BaseImplementations
                 Abbreviation = entity.Abbreviation,
                 DateBirth = entity.DateBirth,
                 Post = entity.Post.ToString(),
-                LecturerPost = entity.LecturerPost?.PostTitle,
+                LecturerPost = entity.LecturerPost?.ToString() ?? string.Empty,
                 Rank = entity.Rank.ToString(),
                 Rank2 = entity.Rank2.ToString(),
                 HomeNumber = entity.HomeNumber,
@@ -98,13 +98,13 @@ namespace BaseImplementations
             {
                 Id = entity.Id,
                 EducationDirectionId = entity.EducationDirectionId,
-                EducationDirectionCipher = entity.EducationDirection.Cipher,
+                EducationDirectionCipher = entity.EducationDirection?.ToString() ?? string.Empty,
                 GroupName = entity.GroupName,
                 Course = (int)entity.Course,
                 CountStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted && s.StudentState == StudentState.Учится).Count() : 0,
                 CountAcademStudents = (entity.Students != null) ? entity.Students.Where(s => !s.IsDeleted && s.StudentState == StudentState.Академ).Count() : 0,
                 StewardName = (entity.Students != null) ? entity.Students.FirstOrDefault(s => !s.IsDeleted && s.IsSteward)?.ToString() ?? string.Empty : string.Empty,
-                Curator = entity.CuratorId.HasValue ? entity.Curator.ToString() : "",
+                Curator = entity.Curator?.ToString() ?? string.Empty,
                 CuratorId = entity.CuratorId
             };
         }
@@ -123,7 +123,7 @@ namespace BaseImplementations
                 Description = entity.Description,
                 Photo = entity.Photo != null ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
                 StudentGroupId = entity.StudentGroupId,
-                StudentGroup = (entity.StudentGroup != null) ? entity.StudentGroup.GroupName : string.Empty,
+                StudentGroup = entity.StudentGroup?.GroupName ?? string.Empty,
                 IsSteward = entity.IsSteward
             };
         }
@@ -147,7 +147,7 @@ namespace BaseImplementations
                 Id = entity.Id,
                 StudentOrderId = entity.StudentOrderId,
                 EducationDirectionId = entity.EducationDirectionId,
-                StudentOrder = string.Format("№{0} от {1}", entity.StudentOrder.OrderNumber, entity.StudentOrder.DateCreate.ToShortDateString()),
+                StudentOrder = entity.StudentOrder?.ToString() ?? string.Empty,
                 EducationDirection = entity.EducationDirection?.Cipher ?? string.Empty,
                 StudentOrderType = entity.StudentOrderType.ToString()
             };
@@ -159,13 +159,13 @@ namespace BaseImplementations
             {
                 Id = entity.Id,
                 StudentOrderBlockId = entity.StudentOrderBlockId,
-                StudentOrderBlock = entity.StudentOrderBlock.StudentOrderType.ToString(),
+                StudentOrderBlock = entity.StudentOrderBlock?.StudentOrderType.ToString() ?? string.Empty,
                 StudentId = entity.StudentId,
-                Student = entity.Student.ToString(),
+                Student = entity.Student?.ToString() ?? string.Empty,
                 StudentGroupFromId = entity.StudentGroupFromId,
                 StudentGroupToId = entity.StudentGroupToId,
-                StudentGromFrom = entity.StudentGroupFrom?.GroupName,
-                StudentGroupTo = entity.StudentGroupTo?.GroupName,
+                StudentGromFrom = entity.StudentGroupFrom?.ToString() ?? string.Empty,
+                StudentGroupTo = entity.StudentGroupTo?.ToString() ?? string.Empty,
                 Info = entity.Info
             };
         }

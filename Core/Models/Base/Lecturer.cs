@@ -2,7 +2,6 @@
 using Models.AcademicYearData;
 using Models.Attributes;
 using Models.Examination;
-using Models.LecturerData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

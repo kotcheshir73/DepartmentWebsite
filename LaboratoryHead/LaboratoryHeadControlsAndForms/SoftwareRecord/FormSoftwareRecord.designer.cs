@@ -149,7 +149,6 @@
             this.Controls.Add(this.labelMaterialTechnicalValue);
             this.Name = "SoftwareRecordForm";
             this.Text = "ПО";
-            this.Load += new System.EventHandler(this.FormSoftwareRecord_Load);
             this.Controls.SetChildIndex(this.labelMaterialTechnicalValue, 0);
             this.Controls.SetChildIndex(this.comboBoxMaterialTechnicalValue, 0);
             this.Controls.SetChildIndex(this.labelSoftware, 0);

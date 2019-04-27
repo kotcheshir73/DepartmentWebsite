@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Models.Base
 {
@@ -34,5 +35,17 @@ namespace Models.Base
 
         [ForeignKey("ClassroomId")]
         public virtual List<MaterialTechnicalValue> MaterialTechnicalValues { get; set; }
+
+        //-------------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            if (!string.IsNullOrEmpty(Number))
+            {
+                result.Append(Number);
+            }
+            return result.ToString();
+        }
     }
 }

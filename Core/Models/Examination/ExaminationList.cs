@@ -27,10 +27,6 @@ namespace Models.Examination
 
         [Required]
         [DataMember]
-        public Guid AcademicYearId { get; set; }
-
-        [Required]
-        [DataMember]
         public Guid StudentGroupId { get; set; }
 
         [Required]
@@ -39,7 +35,15 @@ namespace Models.Examination
 
         [Required]
         [DataMember]
+        public Guid AcademicYearId { get; set; }
+
+        [Required]
+        [DataMember]
         public TypeOfTest TypeOfTest { get; set; }
+
+        [Required]
+        [DataMember]
+        public Semesters Semester { get; set; }
 
         [DataMember]
         public string Score { get; set; }

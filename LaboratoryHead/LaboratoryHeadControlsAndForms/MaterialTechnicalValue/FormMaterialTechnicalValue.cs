@@ -26,13 +26,13 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValue
             _service = service;
         }
 
-        private void FormMaterialTechnicalValue_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultC = _service.GetClassrooms(new ClassroomGetBindingModel { });
             if (!resultC.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);
-                return;
+                return false;
             }
 
             comboBoxClassroom.ValueMember = "Value";
@@ -41,7 +41,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValue
                 .Select(d => new { Value = d.Id, Display = d.Number }).ToList();
             comboBoxClassroom.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -80,7 +80,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValue
             dateTimePickerDateDelete.Visible = !string.IsNullOrEmpty(textBoxDeleteReason.Text);
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxClassroom.Text))
             {
@@ -94,7 +94,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValue
             {
                 return false;
             }
-            if(!string.IsNullOrEmpty(textBoxCost.Text))
+            if (!string.IsNullOrEmpty(textBoxCost.Text))
             {
                 if (!decimal.TryParse(textBoxCost.Text, out decimal cost))
                 {
@@ -106,60 +106,52 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValue
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel
                 {
-                    result = _service.CreateMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel
-                    {
-                        ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString()),
-                        DateInclude = dateTimePickerDateInclude.Value,
-                        InventoryNumber = textBoxInventoryNumber.Text,
-                        FullName = textBoxFullName.Text,
-                        Description = textBoxDescription.Text,
-                        Location = textBoxLocation.Text,
-                        Cost = string.IsNullOrEmpty(textBoxCost.Text)? 0 : Convert.ToDecimal(textBoxCost.Text),
-                        DeleteReason = textBoxDeleteReason.Text,
-                        DateDelete = string.IsNullOrEmpty(textBoxDeleteReason.Text) ? (DateTime?)null : dateTimePickerDateDelete.Value
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel
-                    {
-                        Id = _id.Value,
-                        ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString()),
-                        DateInclude = dateTimePickerDateInclude.Value,
-                        InventoryNumber = textBoxInventoryNumber.Text,
-                        FullName = textBoxFullName.Text,
-                        Description = textBoxDescription.Text,
-                        Location = textBoxLocation.Text,
-                        Cost = string.IsNullOrEmpty(textBoxCost.Text) ? 0 : Convert.ToDecimal(textBoxCost.Text),
-                        DeleteReason = textBoxDeleteReason.Text,
-                        DateDelete = string.IsNullOrEmpty(textBoxDeleteReason.Text) ? (DateTime?)null : dateTimePickerDateDelete.Value
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString()),
+                    DateInclude = dateTimePickerDateInclude.Value,
+                    InventoryNumber = textBoxInventoryNumber.Text,
+                    FullName = textBoxFullName.Text,
+                    Description = textBoxDescription.Text,
+                    Location = textBoxLocation.Text,
+                    Cost = string.IsNullOrEmpty(textBoxCost.Text) ? 0 : Convert.ToDecimal(textBoxCost.Text),
+                    DeleteReason = textBoxDeleteReason.Text,
+                    DateDelete = string.IsNullOrEmpty(textBoxDeleteReason.Text) ? (DateTime?)null : dateTimePickerDateDelete.Value
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateMaterialTechnicalValue(new MaterialTechnicalValueSetBindingModel
+                {
+                    Id = _id.Value,
+                    ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString()),
+                    DateInclude = dateTimePickerDateInclude.Value,
+                    InventoryNumber = textBoxInventoryNumber.Text,
+                    FullName = textBoxFullName.Text,
+                    Description = textBoxDescription.Text,
+                    Location = textBoxLocation.Text,
+                    Cost = string.IsNullOrEmpty(textBoxCost.Text) ? 0 : Convert.ToDecimal(textBoxCost.Text),
+                    DeleteReason = textBoxDeleteReason.Text,
+                    DateDelete = string.IsNullOrEmpty(textBoxDeleteReason.Text) ? (DateTime?)null : dateTimePickerDateDelete.Value
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

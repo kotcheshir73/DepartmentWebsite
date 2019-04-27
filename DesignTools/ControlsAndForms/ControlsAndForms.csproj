@@ -48,6 +48,12 @@
     <Compile Include="Controls\StandartControl.designer.cs">
       <DependentUpon>StandartControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StandartSearchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StandartSearchControl.designer.cs">
+      <DependentUpon>StandartSearchControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormError.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,12 @@
     </Compile>
     <Compile Include="Forms\StandartForm.Designer.cs">
       <DependentUpon>StandartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StandartSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StandartSearchForm.Designer.cs">
+      <DependentUpon>StandartSearchForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Messangers\ErrorMessanger.cs" />
     <Compile Include="Models\ColumnConfig.cs" />
@@ -74,11 +86,17 @@
     <EmbeddedResource Include="Controls\StandartControl.resx">
       <DependentUpon>StandartControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StandartSearchControl.resx">
+      <DependentUpon>StandartSearchControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormError.resx">
       <DependentUpon>FormError.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StandartForm.resx">
       <DependentUpon>StandartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StandartSearchForm.resx">
+      <DependentUpon>StandartSearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

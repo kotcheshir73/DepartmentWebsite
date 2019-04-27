@@ -29,24 +29,28 @@
             this.comboBoxTimeNorm = new System.Windows.Forms.ComboBox();
             this.labelClassroomDescription = new System.Windows.Forms.Label();
             this.textBoxClassroomDescription = new System.Windows.Forms.TextBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(105, 96);
+            this.panelMain.Controls.Add(this.labelClassroomDescription);
+            this.panelMain.Controls.Add(this.labelDisciplineTimeDistribution);
+            this.panelMain.Controls.Add(this.textBoxClassroomDescription);
+            this.panelMain.Controls.Add(this.comboBoxTimeNorm);
+            this.panelMain.Controls.Add(this.labelTimeNorm);
+            this.panelMain.Controls.Add(this.comboBoxDisciplineTimeDistribution);
+            this.panelMain.Size = new System.Drawing.Size(344, 95);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(252, 96);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(24, 96);
+            this.panelTop.Size = new System.Drawing.Size(344, 36);
             // 
             // labelDisciplineTimeDistribution
             // 
             this.labelDisciplineTimeDistribution.AutoSize = true;
-            this.labelDisciplineTimeDistribution.Location = new System.Drawing.Point(12, 9);
+            this.labelDisciplineTimeDistribution.Location = new System.Drawing.Point(12, 12);
             this.labelDisciplineTimeDistribution.Name = "labelDisciplineTimeDistribution";
             this.labelDisciplineTimeDistribution.Size = new System.Drawing.Size(74, 13);
             this.labelDisciplineTimeDistribution.TabIndex = 0;
@@ -57,7 +61,7 @@
             this.comboBoxDisciplineTimeDistribution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplineTimeDistribution.Enabled = false;
             this.comboBoxDisciplineTimeDistribution.FormattingEnabled = true;
-            this.comboBoxDisciplineTimeDistribution.Location = new System.Drawing.Point(113, 6);
+            this.comboBoxDisciplineTimeDistribution.Location = new System.Drawing.Point(113, 9);
             this.comboBoxDisciplineTimeDistribution.Name = "comboBoxDisciplineTimeDistribution";
             this.comboBoxDisciplineTimeDistribution.Size = new System.Drawing.Size(220, 21);
             this.comboBoxDisciplineTimeDistribution.TabIndex = 1;
@@ -65,7 +69,7 @@
             // labelTimeNorm
             // 
             this.labelTimeNorm.AutoSize = true;
-            this.labelTimeNorm.Location = new System.Drawing.Point(12, 36);
+            this.labelTimeNorm.Location = new System.Drawing.Point(12, 39);
             this.labelTimeNorm.Name = "labelTimeNorm";
             this.labelTimeNorm.Size = new System.Drawing.Size(95, 13);
             this.labelTimeNorm.TabIndex = 2;
@@ -75,7 +79,7 @@
             // 
             this.comboBoxTimeNorm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTimeNorm.FormattingEnabled = true;
-            this.comboBoxTimeNorm.Location = new System.Drawing.Point(113, 33);
+            this.comboBoxTimeNorm.Location = new System.Drawing.Point(113, 36);
             this.comboBoxTimeNorm.Name = "comboBoxTimeNorm";
             this.comboBoxTimeNorm.Size = new System.Drawing.Size(220, 21);
             this.comboBoxTimeNorm.TabIndex = 3;
@@ -83,7 +87,7 @@
             // labelClassroomDescription
             // 
             this.labelClassroomDescription.AutoSize = true;
-            this.labelClassroomDescription.Location = new System.Drawing.Point(12, 63);
+            this.labelClassroomDescription.Location = new System.Drawing.Point(12, 66);
             this.labelClassroomDescription.Name = "labelClassroomDescription";
             this.labelClassroomDescription.Size = new System.Drawing.Size(67, 13);
             this.labelClassroomDescription.TabIndex = 4;
@@ -91,7 +95,7 @@
             // 
             // textBoxClassroomDescription
             // 
-            this.textBoxClassroomDescription.Location = new System.Drawing.Point(113, 60);
+            this.textBoxClassroomDescription.Location = new System.Drawing.Point(113, 63);
             this.textBoxClassroomDescription.Name = "textBoxClassroomDescription";
             this.textBoxClassroomDescription.Size = new System.Drawing.Size(220, 20);
             this.textBoxClassroomDescription.TabIndex = 5;
@@ -101,26 +105,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(344, 131);
-            this.Controls.Add(this.labelClassroomDescription);
-            this.Controls.Add(this.textBoxClassroomDescription);
-            this.Controls.Add(this.labelDisciplineTimeDistribution);
-            this.Controls.Add(this.comboBoxDisciplineTimeDistribution);
-            this.Controls.Add(this.labelTimeNorm);
-            this.Controls.Add(this.comboBoxTimeNorm);
             this.Name = "FormDisciplineTimeDistributionClassroom";
             this.Text = "Аудитории расчасовки";
-            this.Load += new System.EventHandler(this.FormDisciplineTimeDistributionClassroom_Load);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.comboBoxTimeNorm, 0);
-            this.Controls.SetChildIndex(this.labelTimeNorm, 0);
-            this.Controls.SetChildIndex(this.comboBoxDisciplineTimeDistribution, 0);
-            this.Controls.SetChildIndex(this.labelDisciplineTimeDistribution, 0);
-            this.Controls.SetChildIndex(this.textBoxClassroomDescription, 0);
-            this.Controls.SetChildIndex(this.labelClassroomDescription, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

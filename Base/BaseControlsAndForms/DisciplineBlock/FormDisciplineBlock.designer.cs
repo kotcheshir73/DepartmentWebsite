@@ -30,12 +30,29 @@
             this.labelDisciplineBlockOrder = new System.Windows.Forms.Label();
             this.textBoxDisciplineBlockBlueAsteriskName = new System.Windows.Forms.TextBox();
             this.labelDisciplineBlockBlueAsteriskName = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panelMain
+            // 
+            this.panelMain.Controls.Add(this.labelTitle);
+            this.panelMain.Controls.Add(this.textBoxTitle);
+            this.panelMain.Controls.Add(this.checkBoxDisciplineBlockUseForGrouping);
+            this.panelMain.Controls.Add(this.labelDisciplineBlockBlueAsteriskName);
+            this.panelMain.Controls.Add(this.textBoxDisciplineBlockBlueAsteriskName);
+            this.panelMain.Controls.Add(this.textBoxDisciplineBlockOrder);
+            this.panelMain.Controls.Add(this.labelDisciplineBlockOrder);
+            this.panelMain.Size = new System.Drawing.Size(453, 92);
+            // 
+            // panelTop
+            // 
+            this.panelTop.Size = new System.Drawing.Size(453, 36);
             // 
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(12, 9);
+            this.labelTitle.Location = new System.Drawing.Point(10, 9);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(64, 13);
             this.labelTitle.TabIndex = 0;
@@ -45,7 +62,7 @@
             // 
             this.checkBoxDisciplineBlockUseForGrouping.AutoSize = true;
             this.checkBoxDisciplineBlockUseForGrouping.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxDisciplineBlockUseForGrouping.Location = new System.Drawing.Point(15, 60);
+            this.checkBoxDisciplineBlockUseForGrouping.Location = new System.Drawing.Point(13, 60);
             this.checkBoxDisciplineBlockUseForGrouping.Name = "checkBoxDisciplineBlockUseForGrouping";
             this.checkBoxDisciplineBlockUseForGrouping.Size = new System.Drawing.Size(139, 17);
             this.checkBoxDisciplineBlockUseForGrouping.TabIndex = 4;
@@ -54,7 +71,7 @@
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(193, 6);
+            this.textBoxTitle.Location = new System.Drawing.Point(191, 6);
             this.textBoxTitle.MaxLength = 100;
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(250, 20);
@@ -62,71 +79,49 @@
             // 
             // textBoxDisciplineBlockOrder
             // 
-            this.textBoxDisciplineBlockOrder.Location = new System.Drawing.Point(332, 58);
+            this.textBoxDisciplineBlockOrder.Location = new System.Drawing.Point(330, 58);
             this.textBoxDisciplineBlockOrder.MaxLength = 100;
             this.textBoxDisciplineBlockOrder.Name = "textBoxDisciplineBlockOrder";
             this.textBoxDisciplineBlockOrder.Size = new System.Drawing.Size(111, 20);
             this.textBoxDisciplineBlockOrder.TabIndex = 6;
             // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(83, 91);
-            // 
             // labelDisciplineBlockOrder
             // 
             this.labelDisciplineBlockOrder.AutoSize = true;
-            this.labelDisciplineBlockOrder.Location = new System.Drawing.Point(268, 61);
+            this.labelDisciplineBlockOrder.Location = new System.Drawing.Point(266, 61);
             this.labelDisciplineBlockOrder.Name = "labelDisciplineBlockOrder";
             this.labelDisciplineBlockOrder.Size = new System.Drawing.Size(58, 13);
             this.labelDisciplineBlockOrder.TabIndex = 5;
             this.labelDisciplineBlockOrder.Text = "Порядок*:";
             // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(311, 91);
-            // 
             // textBoxDisciplineBlockBlueAsteriskName
             // 
-            this.textBoxDisciplineBlockBlueAsteriskName.Location = new System.Drawing.Point(193, 32);
+            this.textBoxDisciplineBlockBlueAsteriskName.Location = new System.Drawing.Point(191, 32);
             this.textBoxDisciplineBlockBlueAsteriskName.MaxLength = 100;
             this.textBoxDisciplineBlockBlueAsteriskName.Name = "textBoxDisciplineBlockBlueAsteriskName";
             this.textBoxDisciplineBlockBlueAsteriskName.Size = new System.Drawing.Size(250, 20);
             this.textBoxDisciplineBlockBlueAsteriskName.TabIndex = 3;
             // 
-            // buttonSaveAndClose
-            // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(164, 91);
-            // 
             // labelDisciplineBlockBlueAsteriskName
             // 
             this.labelDisciplineBlockBlueAsteriskName.AutoSize = true;
-            this.labelDisciplineBlockBlueAsteriskName.Location = new System.Drawing.Point(12, 35);
+            this.labelDisciplineBlockBlueAsteriskName.Location = new System.Drawing.Point(10, 35);
             this.labelDisciplineBlockBlueAsteriskName.Name = "labelDisciplineBlockBlueAsteriskName";
             this.labelDisciplineBlockBlueAsteriskName.Size = new System.Drawing.Size(171, 13);
             this.labelDisciplineBlockBlueAsteriskName.TabIndex = 2;
             this.labelDisciplineBlockBlueAsteriskName.Text = "Синоноим для синей звездочки:";
             // 
-            // DisciplineBlockForm
+            // FormDisciplineBlock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(453, 128);
-            this.Controls.Add(this.labelTitle);
-            this.Controls.Add(this.checkBoxDisciplineBlockUseForGrouping);
-            this.Controls.Add(this.textBoxTitle);
-            this.Controls.Add(this.textBoxDisciplineBlockOrder);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.labelDisciplineBlockOrder);
-            this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.textBoxDisciplineBlockBlueAsteriskName);
-            this.Controls.Add(this.buttonSaveAndClose);
-            this.Controls.Add(this.labelDisciplineBlockBlueAsteriskName);
-            this.Name = "DisciplineBlockForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "FormDisciplineBlock";
             this.Text = "Блок дисциплин";
-            this.Load += new System.EventHandler(this.FormDisciplineBlock_Load);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 

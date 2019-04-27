@@ -12,7 +12,7 @@ namespace ScheduleServiceImplementations.Helpers
 {
     class ExportScheduleToHTML
     {
-        public static ResultService ExportSemesterRecordHTML(List<ScheduleLessonTimeViewModel> times, List<SemesterRecordShortViewModel> records, ExportToHTMLClassroomsBindingModel model)
+        public static ResultService ExportSemesterRecordHTML(List<SemesterRecordShortViewModel> records, ExportToHTMLClassroomsBindingModel model)
         {
             try
             {
@@ -44,11 +44,11 @@ namespace ScheduleServiceImplementations.Helpers
                         {
                             writer.WriteLine("\t\t\t<span style='color:#ffffff;'>II</span><span style='color:#ffffff;'> неделя</span></td>");
                         }
-                        for (int t = 0; t < times.Count; ++t)
+                        for (int t = 0; t < model.Times.Count; ++t)
                         {
                             writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
-                            writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
+                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", model.Times[t].Title));
+                            writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", model.Times[t].TimeBeginLesson, model.Times[t].TimeEndLesson));
                         }
                         for (int day = 0; day < 6; day++)
                         {
@@ -67,32 +67,11 @@ namespace ScheduleServiceImplementations.Helpers
                                 }
 
 
-                                var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson);
-                                if (elems != null && elems.Count() > 0)
+                                var elem = list.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson);
+                                if (elem != null)
                                 {
-                                    // одна пара
-                                    if (elems.Count() == 1)
-                                    {
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
-                                            elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonLecturer, elems.First().LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        // подгруппы
-                                        if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
-                                        {
-                                            writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
-                                                elems.First().LessonType, string.Join("/", elems.Select(x => string.Format("{0} {1}", x.LessonDiscipline, x.LessonClassroom))),
-                                                string.Join("/", elems.Select(x => x.LessonLecturer)), elems.First().LessonGroup));
-                                        }
-                                        // поток
-                                        else
-                                        {
-                                            string groups = string.Join(",", elems.Select(x => x.LessonGroup));
-                                            writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
-                                                elems.First().LessonType, elems.First().LessonDiscipline, elems.First().LessonLecturer, groups));
-                                        }
-                                    }
+                                    writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0} {1}<br />{2}<br />{3}</span></td>",
+                                        elem.LessonType, elem.LessonDiscipline, elem.LessonLecturer, elem.LessonGroup));
                                 }
                                 else
                                 {
@@ -197,7 +176,7 @@ namespace ScheduleServiceImplementations.Helpers
         {
             try
             {
-                var currentDates = ScheduleHelper.GetCurrentDates();
+                var currentDates = DepartmentUserManager.GetCurrentDates();
 
                 for (int i = 0; i < model.Classrooms.Count; ++i)
                 {

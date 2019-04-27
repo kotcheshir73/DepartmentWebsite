@@ -1,6 +1,7 @@
 ﻿using AcademicYearControlsAndForms.AcademicPlan;
 using AcademicYearControlsAndForms.Contingent;
 using AcademicYearControlsAndForms.DisciplineTimeDistribution;
+using AcademicYearControlsAndForms.IndividualPlan;
 using AcademicYearControlsAndForms.LecturerWorkload;
 using AcademicYearControlsAndForms.SeasonDates;
 using AcademicYearControlsAndForms.StreamLesson;
@@ -23,16 +24,11 @@ namespace AcademicYearControlsAndForms.AcademicYear
 
         private readonly IAcademicYearService _service;
 
-		public FormAcademicYear(IAcademicYearService service, Guid? id = null) : base(id)
-		{
-			InitializeComponent();
-			_service = service;
-        }
-
-		private void FormAcademicYear_Load(object sender, EventArgs e)
+        public FormAcademicYear(IAcademicYearService service, Guid? id = null) : base(id)
         {
-            StandartForm_Load();
-		}
+            InitializeComponent();
+            _service = service;
+        }
 
         protected override void LoadData()
         {
@@ -92,68 +88,68 @@ namespace AcademicYearControlsAndForms.AcademicYear
             }
             (tabPageDisciplineTimeDistribution.Controls[0] as ControlDisciplineTimeDistribution).LoadData(null, _id.Value);
 
+            if (tabPageIndividualPlan.Controls.Count == 0)
+            {
+                var controlLW = Container.Resolve<ControlIndividualPlan>();
+                controlLW.Dock = DockStyle.Fill;
+                tabPageIndividualPlan.Controls.Add(controlLW);
+            }
+            (tabPageIndividualPlan.Controls[0] as ControlIndividualPlan).LoadData(_id.Value);
+
             var result = _service.GetAcademicYear(new AcademicYearGetBindingModel { Id = _id.Value });
-			if (!result.Succeeded)
-			{
+            if (!result.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				Close();
-			}
-			var entity = result.Result;
+                Close();
+            }
+            var entity = result.Result;
 
-			textBoxTitle.Text = entity.Title;
-		}
+            textBoxTitle.Text = entity.Title;
+        }
 
-		private bool CheckFill()
-		{
-			if (string.IsNullOrEmpty(textBoxTitle.Text))
-			{
-				return false;
-			}
-			return true;
-		}
+        protected override bool CheckFill()
+        {
+            if (string.IsNullOrEmpty(textBoxTitle.Text))
+            {
+                return false;
+            }
+            return true;
+        }
 
         protected override bool Save()
-		{
-			if (CheckFill())
-			{
-				ResultService result;
-				if (!_id.HasValue)
-				{
-					result = _service.CreateAcademicYear(new AcademicYearSetBindingModel
-					{
-						Title = textBoxTitle.Text
-					});
-				}
-				else
-				{
-					result = _service.UpdateAcademicYear(new AcademicYearSetBindingModel
-					{
-						Id = _id.Value,
-						Title = textBoxTitle.Text
-					});
-				}
-				if (result.Succeeded)
-				{
-					if (result.Result != null)
-					{
-						if (result.Result is Guid)
-						{
-							_id = (Guid)result.Result;
-						}
-					}
-					return true;
-				}
-				else
-				{
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-					return false;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return false;
-			}
-		}
-	}
+        {
+            ResultService result;
+            if (!_id.HasValue)
+            {
+                result = _service.CreateAcademicYear(new AcademicYearSetBindingModel
+                {
+                    Title = textBoxTitle.Text
+                });
+            }
+            else
+            {
+                result = _service.UpdateAcademicYear(new AcademicYearSetBindingModel
+                {
+                    Id = _id.Value,
+                    Title = textBoxTitle.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                return false;
+            }
+        }
+    }
 }

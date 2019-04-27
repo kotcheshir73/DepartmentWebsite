@@ -170,7 +170,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizationService.cs" />
     <Compile Include="Controllers\StandartControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -196,12 +195,6 @@
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.Designer.cs">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Services\MakeTicketsUS.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\Services\MakeTicketsUS.Designer.cs">
-      <DependentUpon>MakeTicketsUS.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,9 +214,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetForm.resx">
       <DependentUpon>LecturerCabinetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Services\MakeTicketsUS.resx">
-      <DependentUpon>MakeTicketsUS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -280,18 +270,6 @@
       <Project>{b16ec094-764b-4148-9c5a-2d6d1f8358b6}</Project>
       <Name>AcademicYearControlsAndForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AuthenticationModels\AuthenticationModels.csproj">
-      <Project>{B8F97CE3-C035-4FC7-A316-877610E7ADF4}</Project>
-      <Name>AuthenticationModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AuthenticationServiceImplementations\AuthenticationServiceImplementations.csproj">
-      <Project>{2C74A2F4-AD9B-4EAF-992E-4D82B7C59591}</Project>
-      <Name>AuthenticationServiceImplementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AuthenticationServiceInterfaces\AuthenticationServiceInterfaces.csproj">
-      <Project>{265CB11F-BAAB-4E5F-A639-F907F3DD8C15}</Project>
-      <Name>AuthenticationServiceInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Authentication\AuthenticationControlsAndForms\AuthenticationControlsAndForms.csproj">
       <Project>{9388a4cb-d45c-495a-ac54-0d40116ac1a2}</Project>
       <Name>AuthenticationControlsAndForms</Name>
@@ -300,37 +278,17 @@
       <Project>{6fe79205-77ce-4402-9558-919d283dca19}</Project>
       <Name>BaseControlsAndForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
-      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
-      <Name>BaseImplementations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
-      <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
-      <Name>BaseInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Enums\Enums.csproj">
       <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
       <Name>Enums</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj">
-      <Project>{93f49a76-4d66-42bb-89f4-31ccc2b2c9fa}</Project>
-      <Name>DatabaseContext</Name>
     </ProjectReference>
     <ProjectReference Include="..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DepartmentContext\DepartmentContext.csproj">
-      <Project>{3C73F60D-B076-4676-943A-340477DACCB4}</Project>
-      <Name>DepartmentContext</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DepartmentModel\DepartmentModel.csproj">
-      <Project>{cdf98bdc-d831-44d1-8348-146219f42d2c}</Project>
-      <Name>DepartmentModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DepartmentService\DepartmentService.csproj">
-      <Project>{cfadd84c-fc9e-4ba7-851e-c6a8924aa5f7}</Project>
-      <Name>DepartmentService</Name>
+    <ProjectReference Include="..\Examination\ExaminationControlsAndForms\ExaminationControlsAndForms.csproj">
+      <Project>{db99b176-3158-4270-b530-670d7e3fcfd0}</Project>
+      <Name>ExaminationControlsAndForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\LaboratoryHead\LaboratoryHeadControlsAndForms\LaboratoryHeadControlsAndForms.csproj">
       <Project>{9f668772-5883-446e-9660-847254016e0e}</Project>
@@ -343,14 +301,6 @@
     <ProjectReference Include="..\Schedule\ScheduleControlsAndForms\ScheduleControlsAndForms.csproj">
       <Project>{f101a003-580e-4616-a9d4-b4cfae1f629e}</Project>
       <Name>ScheduleControlsAndForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TicketModels\TicketModels.csproj">
-      <Project>{a0ec04b3-171d-4fa9-9ea8-fa9e8ec2307e}</Project>
-      <Name>TicketModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TicketViews\TicketViews.csproj">
-      <Project>{b27baf0f-f054-49d6-89fd-c4cbfd9e3655}</Project>
-      <Name>TicketViews</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

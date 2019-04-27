@@ -6,7 +6,6 @@ using Models.Base;
 using Models.Examination;
 using Models.LaboratoryHead;
 using Models.LearningProgress;
-using Models.LecturerData;
 using Models.Schedule;
 using System;
 

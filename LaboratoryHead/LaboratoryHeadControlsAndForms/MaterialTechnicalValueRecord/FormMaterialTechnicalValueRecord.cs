@@ -27,13 +27,13 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord
             _mtvId = mtvId;
         }
 
-        private void FormMaterialTechnicalValueRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultMTV = _service.GetMaterialTechnicalValues(new MaterialTechnicalValueGetBindingModel { });
             if (!resultMTV.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке мат.тех.ценностей возникла ошибка: ", resultMTV.Errors);
-                return;
+                return false;
             }
 
             comboBoxMaterialTechnicalValue.ValueMember = "Value";
@@ -46,7 +46,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord
             if (!resultMTVG.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке групп описаний мат.тех.ценностей возникла ошибка: ", resultMTV.Errors);
-                return;
+                return false;
             }
 
             comboBoxMaterialTechnicalValueGroup.ValueMember = "Value";
@@ -55,10 +55,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord
                 .Select(d => new { Value = d.Id, Display = d.GroupName }).ToList();
             comboBoxMaterialTechnicalValueGroup.SelectedItem = null;
 
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
+            return true;
         }
 
         protected override void LoadData()
@@ -78,7 +75,7 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord
             textBoxOrder.Text = entity.Order.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxMaterialTechnicalValue.Text))
             {
@@ -108,52 +105,44 @@ namespace LaboratoryHeadControlsAndForms.MaterialTechnicalValueRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordSetBindingModel
                 {
-                    result = _service.CreateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordSetBindingModel
-                    {
-                        MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
-                        MaterialTechnicalValueGroupId = new Guid(comboBoxMaterialTechnicalValueGroup.SelectedValue.ToString()),
-                        FieldName = textBoxFieldName.Text,
-                        FieldValue = textBoxFieldValue.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
-                        MaterialTechnicalValueGroupId = new Guid(comboBoxMaterialTechnicalValueGroup.SelectedValue.ToString()),
-                        FieldName = textBoxFieldName.Text,
-                        FieldValue = textBoxFieldValue.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
+                    MaterialTechnicalValueGroupId = new Guid(comboBoxMaterialTechnicalValueGroup.SelectedValue.ToString()),
+                    FieldName = textBoxFieldName.Text,
+                    FieldValue = textBoxFieldValue.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateMaterialTechnicalValueRecord(new MaterialTechnicalValueRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    MaterialTechnicalValueId = new Guid(comboBoxMaterialTechnicalValue.SelectedValue.ToString()),
+                    MaterialTechnicalValueGroupId = new Guid(comboBoxMaterialTechnicalValueGroup.SelectedValue.ToString()),
+                    FieldName = textBoxFieldName.Text,
+                    FieldValue = textBoxFieldValue.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

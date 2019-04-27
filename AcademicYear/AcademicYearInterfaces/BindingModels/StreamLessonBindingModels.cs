@@ -18,5 +18,8 @@ namespace AcademicYearInterfaces.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string StreamLessonName { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string Semester { get; set; }
     }
 }

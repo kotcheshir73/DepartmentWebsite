@@ -1,6 +1,7 @@
 ﻿using AuthenticationControlsAndForms.Access;
 using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
+using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using System;
 using System.Windows.Forms;
@@ -9,34 +10,20 @@ using Unity;
 
 namespace AuthenticationControlsAndForms.Role
 {
-    public partial class FormRole : Form
+    public partial class FormRole : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly IRoleService _service;
 
-        private Guid? _id = null;
-
-        public FormRole(IRoleService service, Guid? id = null)
+        public FormRole(IRoleService service, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
-            if (id != Guid.Empty)
-            {
-                _id = id;
-            }
         }
 
-        private void FormRole_Load(object sender, EventArgs e)
-        {
-            if (_id.HasValue)
-            {
-                LoadData();
-            }
-        }
-
-        private void LoadData()
+        protected override void LoadData()
         {
             if (tabPageAccesses.Controls.Count == 0)
             {
@@ -56,7 +43,7 @@ namespace AuthenticationControlsAndForms.Role
             textBoxRoleName.Text = entity.RoleName;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxRoleName.Text))
             {
@@ -65,72 +52,40 @@ namespace AuthenticationControlsAndForms.Role
             return true;
         }
 
-        private bool Save()
+        protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateRole(new RoleSetBindingModel
                 {
-                    result = _service.CreateRole(new RoleSetBindingModel
-                    {
-                        RoleName = textBoxRoleName.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateRole(new RoleSetBindingModel
-                    {
-                        Id = _id.Value,
-                        RoleName = textBoxRoleName.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    RoleName = textBoxRoleName.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateRole(new RoleSetBindingModel
+                {
+                    Id = _id.Value,
+                    RoleName = textBoxRoleName.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
-            }
-        }
-
-        private void buttonSaveAndClose_Click(object sender, EventArgs e)
-        {
-            if (Save())
-            {
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
         }
     }
 }

@@ -62,28 +62,43 @@
             this.comboBoxAcademicLevel = new System.Windows.Forms.ComboBox();
             this.labelAcademicLevel = new System.Windows.Forms.Label();
             this.checkBoxUseInLearningProgress = new System.Windows.Forms.CheckBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.groupBoxMult1.SuspendLayout();
             this.groupBoxMult2.SuspendLayout();
             this.groupBoxMult3.SuspendLayout();
             this.groupBoxKindOfLoad.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(567, 324);
+            this.panelMain.Controls.Add(this.checkBoxUseInLearningProgress);
+            this.panelMain.Controls.Add(this.labelAcademicYear);
+            this.panelMain.Controls.Add(this.comboBoxAcademicLevel);
+            this.panelMain.Controls.Add(this.labelTimeNormName);
+            this.panelMain.Controls.Add(this.labelAcademicLevel);
+            this.panelMain.Controls.Add(this.textBoxTimeNormName);
+            this.panelMain.Controls.Add(this.comboBoxDisciplineBlock);
+            this.panelMain.Controls.Add(this.comboBoxAcademicYear);
+            this.panelMain.Controls.Add(this.labelDisciplineBlock);
+            this.panelMain.Controls.Add(this.groupBoxMult1);
+            this.panelMain.Controls.Add(this.groupBoxKindOfLoad);
+            this.panelMain.Controls.Add(this.groupBoxMult2);
+            this.panelMain.Controls.Add(this.textBoxTimeNormOrder);
+            this.panelMain.Controls.Add(this.groupBoxMult3);
+            this.panelMain.Controls.Add(this.labelTimeNormOrder);
+            this.panelMain.Controls.Add(this.labelTimeNormShortName);
+            this.panelMain.Controls.Add(this.textBoxTimeNormShortName);
+            this.panelMain.Size = new System.Drawing.Size(834, 365);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(714, 324);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(486, 324);
+            this.panelTop.Size = new System.Drawing.Size(834, 36);
             // 
             // labelTimeNormName
             // 
             this.labelTimeNormName.AutoSize = true;
-            this.labelTimeNormName.Location = new System.Drawing.Point(12, 63);
+            this.labelTimeNormName.Location = new System.Drawing.Point(12, 68);
             this.labelTimeNormName.Name = "labelTimeNormName";
             this.labelTimeNormName.Size = new System.Drawing.Size(64, 13);
             this.labelTimeNormName.TabIndex = 4;
@@ -91,7 +106,7 @@
             // 
             // textBoxTimeNormName
             // 
-            this.textBoxTimeNormName.Location = new System.Drawing.Point(176, 60);
+            this.textBoxTimeNormName.Location = new System.Drawing.Point(176, 65);
             this.textBoxTimeNormName.Name = "textBoxTimeNormName";
             this.textBoxTimeNormName.Size = new System.Drawing.Size(220, 20);
             this.textBoxTimeNormName.TabIndex = 5;
@@ -135,7 +150,7 @@
             this.comboBoxAcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAcademicYear.Enabled = false;
             this.comboBoxAcademicYear.FormattingEnabled = true;
-            this.comboBoxAcademicYear.Location = new System.Drawing.Point(176, 6);
+            this.comboBoxAcademicYear.Location = new System.Drawing.Point(176, 11);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
             this.comboBoxAcademicYear.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicYear.TabIndex = 1;
@@ -143,7 +158,7 @@
             // labelAcademicYear
             // 
             this.labelAcademicYear.AutoSize = true;
-            this.labelAcademicYear.Location = new System.Drawing.Point(12, 9);
+            this.labelAcademicYear.Location = new System.Drawing.Point(12, 14);
             this.labelAcademicYear.Name = "labelAcademicYear";
             this.labelAcademicYear.Size = new System.Drawing.Size(79, 13);
             this.labelAcademicYear.TabIndex = 0;
@@ -187,7 +202,7 @@
             // 
             this.groupBoxMult1.Controls.Add(this.comboBoxSelectKindOfLoadType);
             this.groupBoxMult1.Controls.Add(this.labelSelectKindOfLoadType);
-            this.groupBoxMult1.Location = new System.Drawing.Point(4, 173);
+            this.groupBoxMult1.Location = new System.Drawing.Point(4, 178);
             this.groupBoxMult1.Name = "groupBoxMult1";
             this.groupBoxMult1.Size = new System.Drawing.Size(401, 50);
             this.groupBoxMult1.TabIndex = 10;
@@ -198,7 +213,7 @@
             // 
             this.groupBoxMult2.Controls.Add(this.textBoxHours);
             this.groupBoxMult2.Controls.Add(this.labelHours);
-            this.groupBoxMult2.Location = new System.Drawing.Point(4, 229);
+            this.groupBoxMult2.Location = new System.Drawing.Point(4, 234);
             this.groupBoxMult2.Name = "groupBoxMult2";
             this.groupBoxMult2.Size = new System.Drawing.Size(401, 41);
             this.groupBoxMult2.TabIndex = 11;
@@ -211,7 +226,7 @@
             this.groupBoxMult3.Controls.Add(this.labelNumKoef);
             this.groupBoxMult3.Controls.Add(this.labelTimeNormKoef);
             this.groupBoxMult3.Controls.Add(this.comboBoxTimeNormKoef);
-            this.groupBoxMult3.Location = new System.Drawing.Point(4, 276);
+            this.groupBoxMult3.Location = new System.Drawing.Point(4, 281);
             this.groupBoxMult3.Name = "groupBoxMult3";
             this.groupBoxMult3.Size = new System.Drawing.Size(401, 78);
             this.groupBoxMult3.TabIndex = 12;
@@ -220,7 +235,7 @@
             // 
             // textBoxTimeNormShortName
             // 
-            this.textBoxTimeNormShortName.Location = new System.Drawing.Point(176, 86);
+            this.textBoxTimeNormShortName.Location = new System.Drawing.Point(176, 91);
             this.textBoxTimeNormShortName.MaxLength = 5;
             this.textBoxTimeNormShortName.Name = "textBoxTimeNormShortName";
             this.textBoxTimeNormShortName.Size = new System.Drawing.Size(220, 20);
@@ -229,7 +244,7 @@
             // labelTimeNormShortName
             // 
             this.labelTimeNormShortName.AutoSize = true;
-            this.labelTimeNormShortName.Location = new System.Drawing.Point(12, 89);
+            this.labelTimeNormShortName.Location = new System.Drawing.Point(12, 94);
             this.labelTimeNormShortName.Name = "labelTimeNormShortName";
             this.labelTimeNormShortName.Size = new System.Drawing.Size(107, 13);
             this.labelTimeNormShortName.TabIndex = 6;
@@ -237,7 +252,7 @@
             // 
             // textBoxTimeNormOrder
             // 
-            this.textBoxTimeNormOrder.Location = new System.Drawing.Point(176, 112);
+            this.textBoxTimeNormOrder.Location = new System.Drawing.Point(176, 117);
             this.textBoxTimeNormOrder.MaxLength = 100;
             this.textBoxTimeNormOrder.Name = "textBoxTimeNormOrder";
             this.textBoxTimeNormOrder.Size = new System.Drawing.Size(220, 20);
@@ -246,7 +261,7 @@
             // labelTimeNormOrder
             // 
             this.labelTimeNormOrder.AutoSize = true;
-            this.labelTimeNormOrder.Location = new System.Drawing.Point(12, 115);
+            this.labelTimeNormOrder.Location = new System.Drawing.Point(12, 120);
             this.labelTimeNormOrder.Name = "labelTimeNormOrder";
             this.labelTimeNormOrder.Size = new System.Drawing.Size(58, 13);
             this.labelTimeNormOrder.TabIndex = 8;
@@ -285,7 +300,7 @@
             this.groupBoxKindOfLoad.Controls.Add(this.labelKindOfLoadAttributeName);
             this.groupBoxKindOfLoad.Controls.Add(this.textBoxKindOfLoadName);
             this.groupBoxKindOfLoad.Controls.Add(this.labelKindOfLoadName);
-            this.groupBoxKindOfLoad.Location = new System.Drawing.Point(411, 6);
+            this.groupBoxKindOfLoad.Location = new System.Drawing.Point(411, 11);
             this.groupBoxKindOfLoad.Name = "groupBoxKindOfLoad";
             this.groupBoxKindOfLoad.Size = new System.Drawing.Size(419, 274);
             this.groupBoxKindOfLoad.TabIndex = 13;
@@ -403,7 +418,7 @@
             // 
             this.comboBoxDisciplineBlock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplineBlock.FormattingEnabled = true;
-            this.comboBoxDisciplineBlock.Location = new System.Drawing.Point(176, 33);
+            this.comboBoxDisciplineBlock.Location = new System.Drawing.Point(176, 38);
             this.comboBoxDisciplineBlock.Name = "comboBoxDisciplineBlock";
             this.comboBoxDisciplineBlock.Size = new System.Drawing.Size(220, 21);
             this.comboBoxDisciplineBlock.TabIndex = 3;
@@ -411,7 +426,7 @@
             // labelDisciplineBlock
             // 
             this.labelDisciplineBlock.AutoSize = true;
-            this.labelDisciplineBlock.Location = new System.Drawing.Point(12, 36);
+            this.labelDisciplineBlock.Location = new System.Drawing.Point(12, 41);
             this.labelDisciplineBlock.Name = "labelDisciplineBlock";
             this.labelDisciplineBlock.Size = new System.Drawing.Size(96, 13);
             this.labelDisciplineBlock.TabIndex = 2;
@@ -421,7 +436,7 @@
             // 
             this.comboBoxAcademicLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAcademicLevel.FormattingEnabled = true;
-            this.comboBoxAcademicLevel.Location = new System.Drawing.Point(176, 138);
+            this.comboBoxAcademicLevel.Location = new System.Drawing.Point(176, 143);
             this.comboBoxAcademicLevel.Name = "comboBoxAcademicLevel";
             this.comboBoxAcademicLevel.Size = new System.Drawing.Size(220, 21);
             this.comboBoxAcademicLevel.TabIndex = 18;
@@ -429,7 +444,7 @@
             // labelAcademicLevel
             // 
             this.labelAcademicLevel.AutoSize = true;
-            this.labelAcademicLevel.Location = new System.Drawing.Point(12, 141);
+            this.labelAcademicLevel.Location = new System.Drawing.Point(12, 146);
             this.labelAcademicLevel.Name = "labelAcademicLevel";
             this.labelAcademicLevel.Size = new System.Drawing.Size(103, 13);
             this.labelAcademicLevel.TabIndex = 17;
@@ -439,7 +454,7 @@
             // 
             this.checkBoxUseInLearningProgress.AutoSize = true;
             this.checkBoxUseInLearningProgress.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxUseInLearningProgress.Location = new System.Drawing.Point(422, 294);
+            this.checkBoxUseInLearningProgress.Location = new System.Drawing.Point(422, 299);
             this.checkBoxUseInLearningProgress.Name = "checkBoxUseInLearningProgress";
             this.checkBoxUseInLearningProgress.Size = new System.Drawing.Size(218, 17);
             this.checkBoxUseInLearningProgress.TabIndex = 14;
@@ -450,47 +465,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(836, 360);
-            this.Controls.Add(this.checkBoxUseInLearningProgress);
-            this.Controls.Add(this.comboBoxAcademicLevel);
-            this.Controls.Add(this.labelAcademicLevel);
-            this.Controls.Add(this.comboBoxDisciplineBlock);
-            this.Controls.Add(this.labelDisciplineBlock);
-            this.Controls.Add(this.groupBoxKindOfLoad);
-            this.Controls.Add(this.textBoxTimeNormOrder);
-            this.Controls.Add(this.labelTimeNormOrder);
-            this.Controls.Add(this.textBoxTimeNormShortName);
-            this.Controls.Add(this.labelTimeNormShortName);
-            this.Controls.Add(this.groupBoxMult3);
-            this.Controls.Add(this.groupBoxMult2);
-            this.Controls.Add(this.groupBoxMult1);
-            this.Controls.Add(this.comboBoxAcademicYear);
-            this.Controls.Add(this.labelAcademicYear);
-            this.Controls.Add(this.textBoxTimeNormName);
-            this.Controls.Add(this.labelTimeNormName);
+            this.ClientSize = new System.Drawing.Size(834, 401);
             this.Name = "FormTimeNorm";
             this.Text = "Норма времени";
-            this.Load += new System.EventHandler(this.FormTimeNorm_Load);
-            this.Controls.SetChildIndex(this.labelTimeNormName, 0);
-            this.Controls.SetChildIndex(this.textBoxTimeNormName, 0);
-            this.Controls.SetChildIndex(this.labelAcademicYear, 0);
-            this.Controls.SetChildIndex(this.comboBoxAcademicYear, 0);
-            this.Controls.SetChildIndex(this.groupBoxMult1, 0);
-            this.Controls.SetChildIndex(this.groupBoxMult2, 0);
-            this.Controls.SetChildIndex(this.groupBoxMult3, 0);
-            this.Controls.SetChildIndex(this.labelTimeNormShortName, 0);
-            this.Controls.SetChildIndex(this.textBoxTimeNormShortName, 0);
-            this.Controls.SetChildIndex(this.labelTimeNormOrder, 0);
-            this.Controls.SetChildIndex(this.textBoxTimeNormOrder, 0);
-            this.Controls.SetChildIndex(this.groupBoxKindOfLoad, 0);
-            this.Controls.SetChildIndex(this.labelDisciplineBlock, 0);
-            this.Controls.SetChildIndex(this.comboBoxDisciplineBlock, 0);
-            this.Controls.SetChildIndex(this.labelAcademicLevel, 0);
-            this.Controls.SetChildIndex(this.comboBoxAcademicLevel, 0);
-            this.Controls.SetChildIndex(this.checkBoxUseInLearningProgress, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.groupBoxMult1.ResumeLayout(false);
             this.groupBoxMult1.PerformLayout();
             this.groupBoxMult2.ResumeLayout(false);
@@ -500,11 +480,11 @@
             this.groupBoxKindOfLoad.ResumeLayout(false);
             this.groupBoxKindOfLoad.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 
 		#endregion
+
 		private System.Windows.Forms.Label labelTimeNormName;
 		private System.Windows.Forms.TextBox textBoxTimeNormName;
 		private System.Windows.Forms.Label labelSelectKindOfLoadType;

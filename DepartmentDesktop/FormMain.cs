@@ -39,8 +39,8 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
 		private void MakeTicketsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = new Controllers.MakeTicketsUS();
-			ApplyControl(control);
+			//var control = new Controllers.MakeTicketsUS();
+			//ApplyControl(control);
 		}
         /// <summary>
         /// Расчет штатов
@@ -560,12 +560,19 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void РасчасовкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = AcademicYearControlsAndForms.Controller.GetControlLecturerDisciplineTimeDistributions;
+            ApplyControl(control);
+            control.LoadData();
+        }
         #endregion
 
         #region
         private void ExaminationTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = TicketViews.PublicViews.GetExaminationTemplateControl();
+            var control = ExaminationControlsAndForms.Controller.GetControlExaminationTemplate;
             ApplyControl(control);
             control.LoadData();
         }

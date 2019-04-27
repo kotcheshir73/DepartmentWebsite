@@ -31,24 +31,30 @@
             this.comboBoxTimeNorm = new System.Windows.Forms.ComboBox();
             this.labelHours = new System.Windows.Forms.Label();
             this.textBoxHours = new System.Windows.Forms.TextBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(105, 96);
+            this.panelMain.Controls.Add(this.labelHours);
+            this.panelMain.Controls.Add(this.labelDisciplineTimeDistribution);
+            this.panelMain.Controls.Add(this.textBoxHours);
+            this.panelMain.Controls.Add(this.comboBoxTimeNorm);
+            this.panelMain.Controls.Add(this.labelWeekNumber);
+            this.panelMain.Controls.Add(this.labelTimeNorm);
+            this.panelMain.Controls.Add(this.textBoxWeekNumber);
+            this.panelMain.Controls.Add(this.comboBoxDisciplineTimeDistribution);
+            this.panelMain.Size = new System.Drawing.Size(344, 95);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(252, 96);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(24, 96);
+            this.panelTop.Size = new System.Drawing.Size(344, 36);
             // 
             // labelWeekNumber
             // 
             this.labelWeekNumber.AutoSize = true;
-            this.labelWeekNumber.Location = new System.Drawing.Point(12, 63);
+            this.labelWeekNumber.Location = new System.Drawing.Point(9, 68);
             this.labelWeekNumber.Name = "labelWeekNumber";
             this.labelWeekNumber.Size = new System.Drawing.Size(87, 13);
             this.labelWeekNumber.TabIndex = 4;
@@ -56,7 +62,7 @@
             // 
             // textBoxWeekNumber
             // 
-            this.textBoxWeekNumber.Location = new System.Drawing.Point(113, 60);
+            this.textBoxWeekNumber.Location = new System.Drawing.Point(110, 65);
             this.textBoxWeekNumber.Name = "textBoxWeekNumber";
             this.textBoxWeekNumber.Size = new System.Drawing.Size(61, 20);
             this.textBoxWeekNumber.TabIndex = 5;
@@ -64,7 +70,7 @@
             // labelDisciplineTimeDistribution
             // 
             this.labelDisciplineTimeDistribution.AutoSize = true;
-            this.labelDisciplineTimeDistribution.Location = new System.Drawing.Point(12, 9);
+            this.labelDisciplineTimeDistribution.Location = new System.Drawing.Point(9, 14);
             this.labelDisciplineTimeDistribution.Name = "labelDisciplineTimeDistribution";
             this.labelDisciplineTimeDistribution.Size = new System.Drawing.Size(74, 13);
             this.labelDisciplineTimeDistribution.TabIndex = 0;
@@ -75,7 +81,7 @@
             this.comboBoxDisciplineTimeDistribution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisciplineTimeDistribution.Enabled = false;
             this.comboBoxDisciplineTimeDistribution.FormattingEnabled = true;
-            this.comboBoxDisciplineTimeDistribution.Location = new System.Drawing.Point(113, 6);
+            this.comboBoxDisciplineTimeDistribution.Location = new System.Drawing.Point(110, 11);
             this.comboBoxDisciplineTimeDistribution.Name = "comboBoxDisciplineTimeDistribution";
             this.comboBoxDisciplineTimeDistribution.Size = new System.Drawing.Size(220, 21);
             this.comboBoxDisciplineTimeDistribution.TabIndex = 1;
@@ -83,7 +89,7 @@
             // labelTimeNorm
             // 
             this.labelTimeNorm.AutoSize = true;
-            this.labelTimeNorm.Location = new System.Drawing.Point(12, 36);
+            this.labelTimeNorm.Location = new System.Drawing.Point(9, 41);
             this.labelTimeNorm.Name = "labelTimeNorm";
             this.labelTimeNorm.Size = new System.Drawing.Size(95, 13);
             this.labelTimeNorm.TabIndex = 2;
@@ -93,7 +99,7 @@
             // 
             this.comboBoxTimeNorm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTimeNorm.FormattingEnabled = true;
-            this.comboBoxTimeNorm.Location = new System.Drawing.Point(113, 33);
+            this.comboBoxTimeNorm.Location = new System.Drawing.Point(110, 38);
             this.comboBoxTimeNorm.Name = "comboBoxTimeNorm";
             this.comboBoxTimeNorm.Size = new System.Drawing.Size(220, 21);
             this.comboBoxTimeNorm.TabIndex = 3;
@@ -101,7 +107,7 @@
             // labelHours
             // 
             this.labelHours.AutoSize = true;
-            this.labelHours.Location = new System.Drawing.Point(204, 63);
+            this.labelHours.Location = new System.Drawing.Point(201, 68);
             this.labelHours.Name = "labelHours";
             this.labelHours.Size = new System.Drawing.Size(42, 13);
             this.labelHours.TabIndex = 6;
@@ -109,7 +115,7 @@
             // 
             // textBoxHours
             // 
-            this.textBoxHours.Location = new System.Drawing.Point(272, 60);
+            this.textBoxHours.Location = new System.Drawing.Point(269, 65);
             this.textBoxHours.Name = "textBoxHours";
             this.textBoxHours.Size = new System.Drawing.Size(61, 20);
             this.textBoxHours.TabIndex = 7;
@@ -119,30 +125,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(344, 131);
-            this.Controls.Add(this.labelHours);
-            this.Controls.Add(this.textBoxHours);
-            this.Controls.Add(this.labelWeekNumber);
-            this.Controls.Add(this.textBoxWeekNumber);
-            this.Controls.Add(this.labelDisciplineTimeDistribution);
-            this.Controls.Add(this.comboBoxDisciplineTimeDistribution);
-            this.Controls.Add(this.labelTimeNorm);
-            this.Controls.Add(this.comboBoxTimeNorm);
             this.Name = "FormDisciplineTimeDistributionRecord";
             this.Text = "Часы расчасовки";
-            this.Load += new System.EventHandler(this.FormDisciplineTimeDistributionRecord_Load);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.comboBoxTimeNorm, 0);
-            this.Controls.SetChildIndex(this.labelTimeNorm, 0);
-            this.Controls.SetChildIndex(this.comboBoxDisciplineTimeDistribution, 0);
-            this.Controls.SetChildIndex(this.labelDisciplineTimeDistribution, 0);
-            this.Controls.SetChildIndex(this.textBoxWeekNumber, 0);
-            this.Controls.SetChildIndex(this.labelWeekNumber, 0);
-            this.Controls.SetChildIndex(this.textBoxHours, 0);
-            this.Controls.SetChildIndex(this.labelHours, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

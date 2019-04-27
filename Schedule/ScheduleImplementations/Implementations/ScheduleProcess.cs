@@ -381,7 +381,7 @@ namespace ScheduleImplementations.Services
             {
                 return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            var times = result.Result.List;
+            model.Times = result.Result.List;
 
             var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel());
             if (!resultSemester.Succeeded)
@@ -390,7 +390,114 @@ namespace ScheduleImplementations.Services
             }
             var list = resultSemester.Result;
 
-            return ExportScheduleToExcel.ExportSemesterRecordExcel(times, list, model);
+            List<SemesterRecordShortViewModel> records = new List<SemesterRecordShortViewModel>();
+            for (int classroom = 0; classroom < model.Classrooms.Count; ++classroom)
+            {
+                for (int week = 0; week < 2; week++)
+                {
+                    for (int day = 0; day < 6; day++)
+                    {
+                        for (int lesson = 0; lesson < 8; lesson++)
+                        {
+                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл.ToString() &&
+                                                        x.LessonClassroom == model.Classrooms[classroom]).OrderBy(x => x.LessonGroup);
+                            if (elems != null && elems.Count() > 0)
+                            {
+                                if (elems.Count() == 1)
+                                {
+                                    var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
+                                    if (exs == null)
+                                    {
+                                        records.Add(new SemesterRecordShortViewModel
+                                        {
+                                            Week = week,
+                                            Day = day,
+                                            Lesson = lesson,
+                                            IsStreaming = false,
+                                            IsSubgroup = false,
+                                            LessonType = elems.First().LessonType,
+                                            LessonClassroom = elems.First().LessonClassroom,
+                                            LessonDiscipline = elems.First().LessonDiscipline,
+                                            LessonGroup = elems.First().LessonGroup,
+                                            LessonLecturer = elems.First().LessonLecturer
+                                        });
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Накладка");
+                                    }
+                                }
+                                else
+                                {
+                                    // подгруппы
+                                    if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
+                                    {
+                                        var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
+                                        if (exs == null)
+                                        {
+                                            foreach (var elem in elems)
+                                            {
+                                                records.Add(new SemesterRecordShortViewModel
+                                                {
+                                                    Week = week,
+                                                    Day = day,
+                                                    Lesson = lesson,
+                                                    IsStreaming = false,
+                                                    IsSubgroup = true,
+                                                    LessonType = elem.LessonType,
+                                                    LessonClassroom = elem.LessonClassroom,
+                                                    LessonDiscipline = elem.LessonDiscipline,
+                                                    LessonGroup = elem.LessonGroup,
+                                                    LessonLecturer = elem.LessonLecturer
+                                                });
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Накладка");
+                                        }
+                                    }
+                                    // поток
+                                    else
+                                    {
+                                        string groups = string.Join(",", elems.Select(x => x.LessonGroup));
+                                        var stream = _serviceSL.GetStreamingLesson(new StreamingLessonGetBindingModel
+                                        {
+                                            IncomingGroups = groups
+                                        });
+                                        if (stream.Succeeded)
+                                        {
+                                            groups = stream.Result.StreamName;
+                                        }
+                                        var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
+                                        if (exs == null)
+                                        {
+                                            records.Add(new SemesterRecordShortViewModel
+                                            {
+                                                Week = week,
+                                                Day = day,
+                                                Lesson = lesson,
+                                                IsStreaming = true,
+                                                IsSubgroup = false,
+                                                LessonType = elems.First().LessonType,
+                                                LessonClassroom = elems.First().LessonClassroom,
+                                                LessonDiscipline = elems.First().LessonDiscipline,
+                                                LessonGroup = groups,
+                                                LessonLecturer = elems.First().LessonLecturer
+                                            });
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Накладка");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ExportScheduleToExcel.ExportSemesterRecordExcel(records, model);
         }
 
         public ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model)
@@ -409,7 +516,15 @@ namespace ScheduleImplementations.Services
             }
             var list = resultOffset.Result;
 
-            return ExportScheduleToExcel.ExportOffsetRecordExcel(times, list, model);
+            var resultDates = GetCurrentDates();
+            if (!resultDates.Succeeded)
+            {
+                return ResultService.Error("Error:", "CurrentDates not found", ResultServiceStatusCode.NotFound);
+            }
+            model.Times = times;
+            model.Dates = resultDates.Result;
+
+            return ExportScheduleToExcel.ExportOffsetRecordExcel(list, model);
         }
 
         public ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model)
@@ -434,7 +549,15 @@ namespace ScheduleImplementations.Services
             }
             var list = resultExamination.Result;
 
-            return ExportScheduleToExcel.ExportExaminationRecordExcel(times, list, model);
+            var resultDates = GetCurrentDates();
+            if (!resultDates.Succeeded)
+            {
+                return ResultService.Error("Error:", "CurrentDates not found", ResultServiceStatusCode.NotFound);
+            }
+            model.Times = times;
+            model.Dates = resultDates.Result;
+
+            return ExportScheduleToExcel.ExportExaminationRecordExcel(list, model);
         }
 
         public ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model)
@@ -444,7 +567,7 @@ namespace ScheduleImplementations.Services
             {
                 return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
-            var times = result.Result.List;
+            model.Times = result.Result.List;
             // TODO определить период
             var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel { IsFirstHalfSemester = false });
             if (!resultSemester.Succeeded)
@@ -452,8 +575,114 @@ namespace ScheduleImplementations.Services
                 return ResultService.Error("Error:", "ScheduleSemester not found", ResultServiceStatusCode.NotFound);
             }
             var list = resultSemester.Result;
-
-            return ExportScheduleToHTML.ExportSemesterRecordHTML(times, list, model);
+            List<SemesterRecordShortViewModel> records = new List<SemesterRecordShortViewModel>();
+            for (int classroom = 0; classroom < model.Classrooms.Count; ++classroom)
+            {
+                for (int week = 0; week < 2; week++)
+                {
+                    for (int day = 0; day < 6; day++)
+                    {
+                        for (int lesson = 0; lesson < 8; lesson++)
+                        {
+                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл.ToString() &&
+                                                        x.LessonClassroom == model.Classrooms[classroom]).OrderBy(x => x.LessonGroup);
+                            if (elems != null && elems.Count() > 0)
+                            {
+                                if (elems.Count() == 1)
+                                {
+                                    var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
+                                    if (exs == null)
+                                    {
+                                        records.Add(new SemesterRecordShortViewModel
+                                        {
+                                            Week = week,
+                                            Day = day,
+                                            Lesson = lesson,
+                                            IsStreaming = false,
+                                            IsSubgroup = false,
+                                            LessonType = elems.First().LessonType,
+                                            LessonClassroom = elems.First().LessonClassroom,
+                                            LessonDiscipline = elems.First().LessonDiscipline,
+                                            LessonGroup = elems.First().LessonGroup,
+                                            LessonLecturer = elems.First().LessonLecturer
+                                        });
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Накладка");
+                                    }
+                                }
+                                else
+                                {
+                                    // подгруппы
+                                    if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
+                                    {
+                                        var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
+                                        if (exs == null)
+                                        {
+                                            foreach (var elem in elems)
+                                            {
+                                                records.Add(new SemesterRecordShortViewModel
+                                                {
+                                                    Week = week,
+                                                    Day = day,
+                                                    Lesson = lesson,
+                                                    IsStreaming = false,
+                                                    IsSubgroup = true,
+                                                    LessonType = elem.LessonType,
+                                                    LessonClassroom = elem.LessonClassroom,
+                                                    LessonDiscipline = elem.LessonDiscipline,
+                                                    LessonGroup = elem.LessonGroup,
+                                                    LessonLecturer = elem.LessonLecturer
+                                                });
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Накладка");
+                                        }
+                                    }
+                                    // поток
+                                    else
+                                    {
+                                        string groups = string.Join(",", elems.Select(x => x.LessonGroup));
+                                        var stream = _serviceSL.GetStreamingLesson(new StreamingLessonGetBindingModel
+                                        {
+                                            IncomingGroups = groups
+                                        });
+                                        if (stream.Succeeded)
+                                        {
+                                            groups = stream.Result.StreamName;
+                                        }
+                                        var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
+                                        if (exs == null)
+                                        {
+                                            records.Add(new SemesterRecordShortViewModel
+                                            {
+                                                Week = week,
+                                                Day = day,
+                                                Lesson = lesson,
+                                                IsStreaming = true,
+                                                IsSubgroup = false,
+                                                LessonType = elems.First().LessonType,
+                                                LessonClassroom = elems.First().LessonClassroom,
+                                                LessonDiscipline = elems.First().LessonDiscipline,
+                                                LessonGroup = groups,
+                                                LessonLecturer = elems.First().LessonLecturer
+                                            });
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Накладка");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ExportScheduleToHTML.ExportSemesterRecordHTML(records, model);
         }
 
         public ResultService ExportOffsetRecordHTML(ExportToHTMLClassroomsBindingModel model)
@@ -489,7 +718,7 @@ namespace ScheduleImplementations.Services
                 return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
             }
             times.AddRange(result.Result.List);
-            
+
             var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel());
             if (!resultExamination.Succeeded)
             {

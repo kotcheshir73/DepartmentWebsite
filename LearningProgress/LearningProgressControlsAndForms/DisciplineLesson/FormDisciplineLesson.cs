@@ -40,7 +40,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             _tnId = tnId;
         }
 
-        private void FormDisciplineLesson_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             foreach (var elem in Enum.GetValues(typeof(Semesters)))
             {
@@ -52,7 +52,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             if (!resultAY.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учбеных годов возникла ошибка: ", resultAY.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicYear.ValueMember = "Value";
@@ -65,7 +65,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             if (!resultD.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
-                return;
+                return false;
             }
 
             comboBoxDiscipline.ValueMember = "Value";
@@ -78,7 +78,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             if (!resultED.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке направлений возникла ошибка: ", resultED.Errors);
-                return;
+                return false;
             }
 
             comboBoxEducationDirection.ValueMember = "Value";
@@ -91,7 +91,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             if (!resultTN.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке норм времени возникла ошибка: ", resultTN.Errors);
-                return;
+                return false;
             }
 
             comboBoxTimeNorm.ValueMember = "Value";
@@ -100,7 +100,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
                 .Select(d => new { Value = d.Id, Display = d.TimeNormName }).ToList();
             comboBoxTimeNorm.SelectedValue = _tnId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -135,7 +135,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             }
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(comboBoxSemester.Text))
             {
@@ -176,60 +176,52 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineLesson(new DisciplineLessonRecordBindingModel
                 {
-                    result = _service.CreateDisciplineLesson(new DisciplineLessonRecordBindingModel
-                    {
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
-                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                        Semester = comboBoxSemester.Text,
-                        Title = textBoxPostTitle.Text,
-                        Description = textBoxDiscription.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        CountOfPairs = Convert.ToInt32(textBoxCountOfPairs.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineLesson(new DisciplineLessonRecordBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
-                        TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                        Semester = comboBoxSemester.Text,
-                        Title = textBoxPostTitle.Text,
-                        Description = textBoxDiscription.Text,
-                        Order = Convert.ToInt32(textBoxOrder.Text),
-                        CountOfPairs = Convert.ToInt32(textBoxCountOfPairs.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+                    TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
+                    Semester = comboBoxSemester.Text,
+                    Title = textBoxPostTitle.Text,
+                    Description = textBoxDiscription.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    CountOfPairs = Convert.ToInt32(textBoxCountOfPairs.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineLesson(new DisciplineLessonRecordBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    EducationDirectionId = new Guid(comboBoxEducationDirection.SelectedValue.ToString()),
+                    TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
+                    Semester = comboBoxSemester.Text,
+                    Title = textBoxPostTitle.Text,
+                    Description = textBoxDiscription.Text,
+                    Order = Convert.ToInt32(textBoxOrder.Text),
+                    CountOfPairs = Convert.ToInt32(textBoxCountOfPairs.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

@@ -30,24 +30,29 @@
             this.labelTypeClassroom = new System.Windows.Forms.Label();
             this.comboBoxTypeClassroom = new System.Windows.Forms.ComboBox();
             this.checkBoxNotUseInSchedule = new System.Windows.Forms.CheckBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(146, 106);
+            this.panelMain.Controls.Add(this.checkBoxNotUseInSchedule);
+            this.panelMain.Controls.Add(this.labelClassroom);
+            this.panelMain.Controls.Add(this.comboBoxTypeClassroom);
+            this.panelMain.Controls.Add(this.textBoxClassroom);
+            this.panelMain.Controls.Add(this.labelTypeClassroom);
+            this.panelMain.Controls.Add(this.labelCapacity);
+            this.panelMain.Controls.Add(this.textBoxCapacity);
+            this.panelMain.Size = new System.Drawing.Size(434, 95);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(293, 106);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(65, 106);
+            this.panelTop.Size = new System.Drawing.Size(434, 36);
             // 
             // labelClassroom
             // 
             this.labelClassroom.AutoSize = true;
-            this.labelClassroom.Location = new System.Drawing.Point(12, 9);
+            this.labelClassroom.Location = new System.Drawing.Point(12, 14);
             this.labelClassroom.Name = "labelClassroom";
             this.labelClassroom.Size = new System.Drawing.Size(67, 13);
             this.labelClassroom.TabIndex = 0;
@@ -55,7 +60,7 @@
             // 
             // textBoxClassroom
             // 
-            this.textBoxClassroom.Location = new System.Drawing.Point(85, 6);
+            this.textBoxClassroom.Location = new System.Drawing.Point(85, 11);
             this.textBoxClassroom.Name = "textBoxClassroom";
             this.textBoxClassroom.Size = new System.Drawing.Size(100, 20);
             this.textBoxClassroom.TabIndex = 1;
@@ -63,7 +68,7 @@
             // labelCapacity
             // 
             this.labelCapacity.AutoSize = true;
-            this.labelCapacity.Location = new System.Drawing.Point(223, 9);
+            this.labelCapacity.Location = new System.Drawing.Point(223, 14);
             this.labelCapacity.Name = "labelCapacity";
             this.labelCapacity.Size = new System.Drawing.Size(83, 13);
             this.labelCapacity.TabIndex = 2;
@@ -71,7 +76,7 @@
             // 
             // textBoxCapacity
             // 
-            this.textBoxCapacity.Location = new System.Drawing.Point(312, 6);
+            this.textBoxCapacity.Location = new System.Drawing.Point(312, 11);
             this.textBoxCapacity.MaxLength = 4;
             this.textBoxCapacity.Name = "textBoxCapacity";
             this.textBoxCapacity.Size = new System.Drawing.Size(100, 20);
@@ -81,7 +86,7 @@
             // labelTypeClassroom
             // 
             this.labelTypeClassroom.AutoSize = true;
-            this.labelTypeClassroom.Location = new System.Drawing.Point(12, 48);
+            this.labelTypeClassroom.Location = new System.Drawing.Point(12, 40);
             this.labelTypeClassroom.Name = "labelTypeClassroom";
             this.labelTypeClassroom.Size = new System.Drawing.Size(88, 13);
             this.labelTypeClassroom.TabIndex = 4;
@@ -91,7 +96,7 @@
             // 
             this.comboBoxTypeClassroom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTypeClassroom.FormattingEnabled = true;
-            this.comboBoxTypeClassroom.Location = new System.Drawing.Point(106, 45);
+            this.comboBoxTypeClassroom.Location = new System.Drawing.Point(106, 37);
             this.comboBoxTypeClassroom.Name = "comboBoxTypeClassroom";
             this.comboBoxTypeClassroom.Size = new System.Drawing.Size(210, 21);
             this.comboBoxTypeClassroom.TabIndex = 5;
@@ -100,7 +105,7 @@
             // 
             this.checkBoxNotUseInSchedule.AutoSize = true;
             this.checkBoxNotUseInSchedule.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxNotUseInSchedule.Location = new System.Drawing.Point(15, 79);
+            this.checkBoxNotUseInSchedule.Location = new System.Drawing.Point(12, 64);
             this.checkBoxNotUseInSchedule.Name = "checkBoxNotUseInSchedule";
             this.checkBoxNotUseInSchedule.Size = new System.Drawing.Size(186, 17);
             this.checkBoxNotUseInSchedule.TabIndex = 6;
@@ -111,29 +116,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 138);
-            this.Controls.Add(this.checkBoxNotUseInSchedule);
-            this.Controls.Add(this.comboBoxTypeClassroom);
-            this.Controls.Add(this.labelTypeClassroom);
-            this.Controls.Add(this.textBoxCapacity);
-            this.Controls.Add(this.labelCapacity);
-            this.Controls.Add(this.textBoxClassroom);
-            this.Controls.Add(this.labelClassroom);
+            this.ClientSize = new System.Drawing.Size(434, 131);
             this.Name = "FormClassroom";
             this.Text = "Аудитория";
-            this.Load += new System.EventHandler(this.FormClassroom_Load);
-            this.Controls.SetChildIndex(this.labelClassroom, 0);
-            this.Controls.SetChildIndex(this.textBoxClassroom, 0);
-            this.Controls.SetChildIndex(this.labelCapacity, 0);
-            this.Controls.SetChildIndex(this.textBoxCapacity, 0);
-            this.Controls.SetChildIndex(this.labelTypeClassroom, 0);
-            this.Controls.SetChildIndex(this.comboBoxTypeClassroom, 0);
-            this.Controls.SetChildIndex(this.checkBoxNotUseInSchedule, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

@@ -149,7 +149,6 @@
             this.Controls.Add(this.labelMaterialTechnicalValue);
             this.Name = "MaterialTechnicalValueRecordForm";
             this.Text = "Запись описания МТЦ";
-            this.Load += new System.EventHandler(this.FormMaterialTechnicalValueRecord_Load);
             this.Controls.SetChildIndex(this.labelMaterialTechnicalValue, 0);
             this.Controls.SetChildIndex(this.comboBoxMaterialTechnicalValue, 0);
             this.Controls.SetChildIndex(this.labelMaterialTechnicalValueGroup, 0);

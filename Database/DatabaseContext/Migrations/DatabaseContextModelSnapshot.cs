@@ -15,7 +15,7 @@ namespace DatabaseContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -261,6 +261,164 @@ namespace DatabaseContext.Migrations
                     b.ToTable("DisciplineTimeDistributionRecords");
                 });
 
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlan", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<Guid>("AcademicYearId");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid>("LecturerId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("LecturerId");
+
+                    b.ToTable("IndividualPlans");
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanKindOfWork", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<Guid>("IndividualPlanTitleId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("TimeNormDescription");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IndividualPlanTitleId");
+
+                    b.ToTable("IndividualPlanKindOfWorks");
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanNIRContractualWork", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<Guid>("IndividualPlanId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("JobContent");
+
+                    b.Property<string>("PlannedTerm");
+
+                    b.Property<string>("Post");
+
+                    b.Property<bool>("ReadyMark");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IndividualPlanId");
+
+                    b.ToTable("IndividualPlanNIRContractualWorks");
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanNIRScientificArticle", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<Guid>("IndividualPlanId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("Publishing");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("TypeOfPublication");
+
+                    b.Property<double>("Volume");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IndividualPlanId");
+
+                    b.ToTable("IndividualPlanNIRScientificArticles");
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanRecord", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<double>("FactAutumn");
+
+                    b.Property<double>("FactSpring");
+
+                    b.Property<Guid>("IndividualPlanId");
+
+                    b.Property<Guid>("IndividualPlanKindOfWorkId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<double>("PlanAutumn");
+
+                    b.Property<double>("PlanSpring");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IndividualPlanId");
+
+                    b.HasIndex("IndividualPlanKindOfWorkId");
+
+                    b.ToTable("IndividualPlanRecords");
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanTitle", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IndividualPlanTitles");
+                });
+
             modelBuilder.Entity("Models.AcademicYearData.LecturerWorkload", b =>
                 {
                     b.Property<Guid>("Id");
@@ -339,6 +497,8 @@ namespace DatabaseContext.Migrations
                     b.Property<DateTime?>("DateDelete");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("Semester");
 
                     b.Property<decimal>("StreamLessonHours");
 
@@ -908,6 +1068,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("Score");
 
+                    b.Property<int>("Semester");
+
                     b.Property<Guid>("StudentGroupId");
 
                     b.Property<Guid>("StudentId");
@@ -1077,6 +1239,8 @@ namespace DatabaseContext.Migrations
                     b.Property<bool>("IsMain");
 
                     b.Property<Guid>("LecturerId");
+
+                    b.Property<int>("Semester");
 
                     b.Property<Guid>("StudentGroupId");
 
@@ -1742,162 +1906,6 @@ namespace DatabaseContext.Migrations
                     b.ToTable("DisciplineStudentRecords");
                 });
 
-            modelBuilder.Entity("Models.LecturerData.IndividualPlan", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<Guid>("AcademicYearId");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid>("LecturerId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AcademicYearId");
-
-                    b.HasIndex("LecturerId");
-
-                    b.ToTable("IndividualPlans");
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanKindOfWork", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<Guid>("IndividualPlanTitleId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("Order");
-
-                    b.Property<string>("TimeNormDescription");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IndividualPlanTitleId");
-
-                    b.ToTable("IndividualPlanKindOfWorks");
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanNIRContractualWork", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("JobContent");
-
-                    b.Property<Guid>("LecturerId");
-
-                    b.Property<string>("PlannedTerm");
-
-                    b.Property<string>("Post");
-
-                    b.Property<string>("ReadyMark");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LecturerId");
-
-                    b.ToTable("IndividualPlanNIRContractualWorks");
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanNIRScientificArticle", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid>("LecturerId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Publishing");
-
-                    b.Property<string>("Status");
-
-                    b.Property<string>("TypeOfPublication");
-
-                    b.Property<string>("Volume");
-
-                    b.Property<string>("Year");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LecturerId");
-
-                    b.ToTable("IndividualPlanNIRScientificArticles");
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanRecord", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<double>("FactAutumn");
-
-                    b.Property<double>("FactSpring");
-
-                    b.Property<Guid>("IndividualPlanId");
-
-                    b.Property<Guid>("IndividualPlanKindOfWorkId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("PlanAutumn");
-
-                    b.Property<double>("PlanSpring");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IndividualPlanId");
-
-                    b.HasIndex("IndividualPlanKindOfWorkId");
-
-                    b.ToTable("IndividualPlanRecords");
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanTitle", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("Order");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IndividualPlanTitles");
-                });
-
             modelBuilder.Entity("Models.Schedule.ConsultationRecord", b =>
                 {
                     b.Property<Guid>("Id");
@@ -2238,6 +2246,56 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.AcademicYearData.TimeNorm", "TimeNorm")
                         .WithMany("DisciplineTimeDistributionRecords")
                         .HasForeignKey("TimeNormId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlan", b =>
+                {
+                    b.HasOne("Models.AcademicYearData.AcademicYear", "AcademicYear")
+                        .WithMany("IndividualPlans")
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Models.Base.Lecturer", "Lecturer")
+                        .WithMany("IndividualPlans")
+                        .HasForeignKey("LecturerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanKindOfWork", b =>
+                {
+                    b.HasOne("Models.AcademicYearData.IndividualPlanTitle", "IndividualPlanTitle")
+                        .WithMany("IndividualPlanKindOfWorks")
+                        .HasForeignKey("IndividualPlanTitleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanNIRContractualWork", b =>
+                {
+                    b.HasOne("Models.AcademicYearData.IndividualPlan", "IndividualPlan")
+                        .WithMany("IndividualPlanNIRContractualWorks")
+                        .HasForeignKey("IndividualPlanId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanNIRScientificArticle", b =>
+                {
+                    b.HasOne("Models.AcademicYearData.IndividualPlan", "IndividualPlan")
+                        .WithMany("IndividualPlanNIRScientificArticles")
+                        .HasForeignKey("IndividualPlanId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.IndividualPlanRecord", b =>
+                {
+                    b.HasOne("Models.AcademicYearData.IndividualPlan", "IndividualPlan")
+                        .WithMany("IndividualPlanRecords")
+                        .HasForeignKey("IndividualPlanId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Models.AcademicYearData.IndividualPlanKindOfWork", "IndividualPlanKindOfWork")
+                        .WithMany("IndividualPlanRecords")
+                        .HasForeignKey("IndividualPlanKindOfWorkId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2732,56 +2790,6 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.Base.Student", "Student")
                         .WithMany("DisciplineStudentRecords")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlan", b =>
-                {
-                    b.HasOne("Models.AcademicYearData.AcademicYear", "AcademicYear")
-                        .WithMany("IndividualPlans")
-                        .HasForeignKey("AcademicYearId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Models.Base.Lecturer", "Lecturer")
-                        .WithMany("IndividualPlans")
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanKindOfWork", b =>
-                {
-                    b.HasOne("Models.LecturerData.IndividualPlanTitle", "IndividualPlanTitle")
-                        .WithMany("IndividualPlanKindOfWorks")
-                        .HasForeignKey("IndividualPlanTitleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanNIRContractualWork", b =>
-                {
-                    b.HasOne("Models.Base.Lecturer", "Lecturer")
-                        .WithMany()
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanNIRScientificArticle", b =>
-                {
-                    b.HasOne("Models.Base.Lecturer", "Lecturer")
-                        .WithMany()
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.LecturerData.IndividualPlanRecord", b =>
-                {
-                    b.HasOne("Models.LecturerData.IndividualPlan", "IndividualPlan")
-                        .WithMany("IndividualPlanRecords")
-                        .HasForeignKey("IndividualPlanId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Models.LecturerData.IndividualPlanKindOfWork", "IndividualPlanKindOfWorks")
-                        .WithMany("IndividualPlanRecords")
-                        .HasForeignKey("IndividualPlanKindOfWorkId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

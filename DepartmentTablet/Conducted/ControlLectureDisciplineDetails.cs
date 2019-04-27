@@ -1,6 +1,6 @@
-﻿using DepartmentService.BindingModels;
-using DepartmentService.IServices;
-using DepartmentTablet.CustomControls;
+﻿using DepartmentTablet.CustomControls;
+using LearningProgressInterfaces.BindingModels;
+using LearningProgressInterfaces.Interfaces;
 using System;
 using System.Collections;
 using System.Drawing;

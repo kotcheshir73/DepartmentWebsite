@@ -22,11 +22,6 @@ namespace LaboratoryHeadControlsAndForms.Software
             _service = service;
         }
 
-        private void FormSoftware_Load(object sender, EventArgs e)
-        {
-            StandartForm_Load();
-        }
-
         protected override void LoadData()
         {
             var result = _service.GetSoftware(new SoftwareGetBindingModel { Id = _id.Value });
@@ -36,14 +31,14 @@ namespace LaboratoryHeadControlsAndForms.Software
                 Close();
             }
             var entity = result.Result;
-            
+
             textBoxSoftwareName.Text = entity.SoftwareName;
             textBoxSoftwareDescription.Text = entity.SoftwareDescription;
             textBoxSoftwareKey.Text = entity.SoftwareKey;
             textBoxSoftwareK.Text = entity.SoftwareK;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxSoftwareName.Text))
             {
@@ -54,50 +49,42 @@ namespace LaboratoryHeadControlsAndForms.Software
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateSoftware(new SoftwareSetBindingModel
                 {
-                    result = _service.CreateSoftware(new SoftwareSetBindingModel
-                    {
-                        SoftwareName = textBoxSoftwareName.Text,
-                        SoftwareDescription = textBoxSoftwareDescription.Text,
-                        SoftwareKey = textBoxSoftwareKey.Text,
-                        SoftwareK = textBoxSoftwareK.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateSoftware(new SoftwareSetBindingModel
-                    {
-                        Id = _id.Value,
-                        SoftwareName = textBoxSoftwareName.Text,
-                        SoftwareDescription = textBoxSoftwareDescription.Text,
-                        SoftwareKey = textBoxSoftwareKey.Text,
-                        SoftwareK = textBoxSoftwareK.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    SoftwareName = textBoxSoftwareName.Text,
+                    SoftwareDescription = textBoxSoftwareDescription.Text,
+                    SoftwareKey = textBoxSoftwareKey.Text,
+                    SoftwareK = textBoxSoftwareK.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateSoftware(new SoftwareSetBindingModel
+                {
+                    Id = _id.Value,
+                    SoftwareName = textBoxSoftwareName.Text,
+                    SoftwareDescription = textBoxSoftwareDescription.Text,
+                    SoftwareKey = textBoxSoftwareKey.Text,
+                    SoftwareK = textBoxSoftwareK.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

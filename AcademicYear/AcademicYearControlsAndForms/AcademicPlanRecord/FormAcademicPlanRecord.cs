@@ -30,32 +30,32 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
             _apId = apId;
         }
 
-        private void FormAcademicPlanRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_apId == null)
             {
                 MessageBox.Show("Неуказан учебный план", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             var resultAP = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { Id = _apId });
             if (!resultAP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных планов возникла ошибка: ", resultAP.Errors);
-                return;
+                return false;
             }
 
             var resultD = _service.GetDisciplines(new DisciplineGetBindingModel { });
             if (!resultD.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке дисциплин возникла ошибка: ", resultD.Errors);
-                return;
+                return false;
             }
 
             var resultC = _service.GetContingents(new ContingentGetBindingModel { AcademicPlanId = _apId });
             if (!resultC.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке контингента возникла ошибка: ", resultC.Errors);
-                return;
+                return false;
             }
 
             foreach (var elem in Enum.GetValues(typeof(Semesters)))
@@ -81,7 +81,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                 .Select(c => new { Value = c.Id, Display = c.ContingentName }).ToList();
             comboBoxContingent.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -115,7 +115,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
             textBoxZet.Text = entity.Zet.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxAcademicPlan.SelectedValue == null)
             {
@@ -129,8 +129,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
             {
                 return false;
             }
-            int zet = 0;
-            if (!int.TryParse(textBoxZet.Text, out zet))
+            if (!int.TryParse(textBoxZet.Text, out int zet))
             {
                 return false;
             }
@@ -139,52 +138,44 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                 {
-                    result = _service.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
-                    {
-                        AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
-                        Semester = comboBoxSemester.Text,
-                        Zet = Convert.ToInt32(textBoxZet.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
-                        DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
-                        ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
-                        Semester = comboBoxSemester.Text,
-                        Zet = Convert.ToInt32(textBoxZet.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
+                    Semester = comboBoxSemester.Text,
+                    Zet = Convert.ToInt32(textBoxZet.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
+                    DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
+                    ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
+                    Semester = comboBoxSemester.Text,
+                    Zet = Convert.ToInt32(textBoxZet.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

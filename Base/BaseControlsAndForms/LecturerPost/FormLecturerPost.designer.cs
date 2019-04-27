@@ -27,24 +27,26 @@
             this.textBoxPostTitle = new System.Windows.Forms.TextBox();
             this.labelHours = new System.Windows.Forms.Label();
             this.textBoxHours = new System.Windows.Forms.TextBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(145, 66);
+            this.panelMain.Controls.Add(this.textBoxHours);
+            this.panelMain.Controls.Add(this.labelPostTitle);
+            this.panelMain.Controls.Add(this.labelHours);
+            this.panelMain.Controls.Add(this.textBoxPostTitle);
+            this.panelMain.Size = new System.Drawing.Size(414, 65);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(292, 66);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(64, 66);
+            this.panelTop.Size = new System.Drawing.Size(414, 36);
             // 
             // labelPostTitle
             // 
             this.labelPostTitle.AutoSize = true;
-            this.labelPostTitle.Location = new System.Drawing.Point(12, 9);
+            this.labelPostTitle.Location = new System.Drawing.Point(12, 12);
             this.labelPostTitle.Name = "labelPostTitle";
             this.labelPostTitle.Size = new System.Drawing.Size(64, 13);
             this.labelPostTitle.TabIndex = 0;
@@ -52,7 +54,7 @@
             // 
             // textBoxPostTitle
             // 
-            this.textBoxPostTitle.Location = new System.Drawing.Point(82, 6);
+            this.textBoxPostTitle.Location = new System.Drawing.Point(82, 9);
             this.textBoxPostTitle.Name = "textBoxPostTitle";
             this.textBoxPostTitle.Size = new System.Drawing.Size(311, 20);
             this.textBoxPostTitle.TabIndex = 1;
@@ -60,7 +62,7 @@
             // labelHours
             // 
             this.labelHours.AutoSize = true;
-            this.labelHours.Location = new System.Drawing.Point(12, 35);
+            this.labelHours.Location = new System.Drawing.Point(12, 38);
             this.labelHours.Name = "labelHours";
             this.labelHours.Size = new System.Drawing.Size(42, 13);
             this.labelHours.TabIndex = 2;
@@ -68,7 +70,7 @@
             // 
             // textBoxHours
             // 
-            this.textBoxHours.Location = new System.Drawing.Point(82, 32);
+            this.textBoxHours.Location = new System.Drawing.Point(82, 35);
             this.textBoxHours.Name = "textBoxHours";
             this.textBoxHours.Size = new System.Drawing.Size(93, 20);
             this.textBoxHours.TabIndex = 3;
@@ -78,22 +80,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(414, 101);
-            this.Controls.Add(this.textBoxHours);
-            this.Controls.Add(this.labelHours);
-            this.Controls.Add(this.textBoxPostTitle);
-            this.Controls.Add(this.labelPostTitle);
             this.Name = "FormLecturerPost";
             this.Text = "Преподавательская должность";
-            this.Load += new System.EventHandler(this.FormLecturerPost_Load);
-            this.Controls.SetChildIndex(this.labelPostTitle, 0);
-            this.Controls.SetChildIndex(this.textBoxPostTitle, 0);
-            this.Controls.SetChildIndex(this.labelHours, 0);
-            this.Controls.SetChildIndex(this.textBoxHours, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

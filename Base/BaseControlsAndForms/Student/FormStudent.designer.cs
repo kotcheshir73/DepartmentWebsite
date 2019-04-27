@@ -40,25 +40,40 @@
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.labelEmail = new System.Windows.Forms.Label();
             this.checkBoxIsSteward = new System.Windows.Forms.CheckBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(160, 278);
+            this.panelMain.Controls.Add(this.checkBoxIsSteward);
+            this.panelMain.Controls.Add(this.labelStudentGroup);
+            this.panelMain.Controls.Add(this.textBoxEmail);
+            this.panelMain.Controls.Add(this.labelNumberOfBook);
+            this.panelMain.Controls.Add(this.labelEmail);
+            this.panelMain.Controls.Add(this.textBoxNumberOfBook);
+            this.panelMain.Controls.Add(this.comboBoxStudentGroup);
+            this.panelMain.Controls.Add(this.labelLastName);
+            this.panelMain.Controls.Add(this.textBoxLastName);
+            this.panelMain.Controls.Add(this.buttonUpload);
+            this.panelMain.Controls.Add(this.labelFirstName);
+            this.panelMain.Controls.Add(this.pictureBoxPhoto);
+            this.panelMain.Controls.Add(this.textBoxFirstName);
+            this.panelMain.Controls.Add(this.textBoxDescription);
+            this.panelMain.Controls.Add(this.labelPatronymic);
+            this.panelMain.Controls.Add(this.labelDescription);
+            this.panelMain.Controls.Add(this.textBoxPatronymic);
+            this.panelMain.Size = new System.Drawing.Size(484, 285);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(307, 278);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(79, 278);
+            this.panelTop.Size = new System.Drawing.Size(484, 36);
             // 
             // labelNumberOfBook
             // 
             this.labelNumberOfBook.AutoSize = true;
-            this.labelNumberOfBook.Location = new System.Drawing.Point(12, 36);
+            this.labelNumberOfBook.Location = new System.Drawing.Point(12, 40);
             this.labelNumberOfBook.Name = "labelNumberOfBook";
             this.labelNumberOfBook.Size = new System.Drawing.Size(91, 13);
             this.labelNumberOfBook.TabIndex = 2;
@@ -66,7 +81,7 @@
             // 
             // textBoxNumberOfBook
             // 
-            this.textBoxNumberOfBook.Location = new System.Drawing.Point(109, 33);
+            this.textBoxNumberOfBook.Location = new System.Drawing.Point(109, 37);
             this.textBoxNumberOfBook.Name = "textBoxNumberOfBook";
             this.textBoxNumberOfBook.Size = new System.Drawing.Size(100, 20);
             this.textBoxNumberOfBook.TabIndex = 3;
@@ -74,7 +89,7 @@
             // labelLastName
             // 
             this.labelLastName.AutoSize = true;
-            this.labelLastName.Location = new System.Drawing.Point(12, 62);
+            this.labelLastName.Location = new System.Drawing.Point(12, 66);
             this.labelLastName.Name = "labelLastName";
             this.labelLastName.Size = new System.Drawing.Size(63, 13);
             this.labelLastName.TabIndex = 4;
@@ -82,7 +97,7 @@
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(109, 59);
+            this.textBoxLastName.Location = new System.Drawing.Point(109, 63);
             this.textBoxLastName.MaxLength = 30;
             this.textBoxLastName.Name = "textBoxLastName";
             this.textBoxLastName.Size = new System.Drawing.Size(200, 20);
@@ -90,7 +105,7 @@
             // 
             // textBoxFirstName
             // 
-            this.textBoxFirstName.Location = new System.Drawing.Point(109, 85);
+            this.textBoxFirstName.Location = new System.Drawing.Point(109, 89);
             this.textBoxFirstName.MaxLength = 20;
             this.textBoxFirstName.Name = "textBoxFirstName";
             this.textBoxFirstName.Size = new System.Drawing.Size(200, 20);
@@ -99,7 +114,7 @@
             // labelFirstName
             // 
             this.labelFirstName.AutoSize = true;
-            this.labelFirstName.Location = new System.Drawing.Point(12, 88);
+            this.labelFirstName.Location = new System.Drawing.Point(12, 92);
             this.labelFirstName.Name = "labelFirstName";
             this.labelFirstName.Size = new System.Drawing.Size(36, 13);
             this.labelFirstName.TabIndex = 6;
@@ -107,7 +122,7 @@
             // 
             // textBoxPatronymic
             // 
-            this.textBoxPatronymic.Location = new System.Drawing.Point(109, 111);
+            this.textBoxPatronymic.Location = new System.Drawing.Point(109, 115);
             this.textBoxPatronymic.MaxLength = 30;
             this.textBoxPatronymic.Name = "textBoxPatronymic";
             this.textBoxPatronymic.Size = new System.Drawing.Size(200, 20);
@@ -116,7 +131,7 @@
             // labelPatronymic
             // 
             this.labelPatronymic.AutoSize = true;
-            this.labelPatronymic.Location = new System.Drawing.Point(12, 114);
+            this.labelPatronymic.Location = new System.Drawing.Point(12, 118);
             this.labelPatronymic.Name = "labelPatronymic";
             this.labelPatronymic.Size = new System.Drawing.Size(57, 13);
             this.labelPatronymic.TabIndex = 8;
@@ -124,7 +139,7 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(109, 163);
+            this.textBoxDescription.Location = new System.Drawing.Point(109, 167);
             this.textBoxDescription.MaxLength = 30;
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
@@ -134,7 +149,7 @@
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(12, 166);
+            this.labelDescription.Location = new System.Drawing.Point(12, 170);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(60, 13);
             this.labelDescription.TabIndex = 12;
@@ -142,7 +157,7 @@
             // 
             // pictureBoxPhoto
             // 
-            this.pictureBoxPhoto.Location = new System.Drawing.Point(325, 6);
+            this.pictureBoxPhoto.Location = new System.Drawing.Point(325, 10);
             this.pictureBoxPhoto.Name = "pictureBoxPhoto";
             this.pictureBoxPhoto.Size = new System.Drawing.Size(150, 150);
             this.pictureBoxPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -151,7 +166,7 @@
             // 
             // buttonUpload
             // 
-            this.buttonUpload.Location = new System.Drawing.Point(353, 174);
+            this.buttonUpload.Location = new System.Drawing.Point(353, 178);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(100, 25);
             this.buttonUpload.TabIndex = 14;
@@ -162,7 +177,7 @@
             // labelStudentGroup
             // 
             this.labelStudentGroup.AutoSize = true;
-            this.labelStudentGroup.Location = new System.Drawing.Point(12, 9);
+            this.labelStudentGroup.Location = new System.Drawing.Point(12, 13);
             this.labelStudentGroup.Name = "labelStudentGroup";
             this.labelStudentGroup.Size = new System.Drawing.Size(49, 13);
             this.labelStudentGroup.TabIndex = 0;
@@ -172,14 +187,14 @@
             // 
             this.comboBoxStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStudentGroup.FormattingEnabled = true;
-            this.comboBoxStudentGroup.Location = new System.Drawing.Point(109, 6);
+            this.comboBoxStudentGroup.Location = new System.Drawing.Point(109, 10);
             this.comboBoxStudentGroup.Name = "comboBoxStudentGroup";
             this.comboBoxStudentGroup.Size = new System.Drawing.Size(200, 21);
             this.comboBoxStudentGroup.TabIndex = 1;
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Location = new System.Drawing.Point(109, 137);
+            this.textBoxEmail.Location = new System.Drawing.Point(109, 141);
             this.textBoxEmail.MaxLength = 150;
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(200, 20);
@@ -188,7 +203,7 @@
             // labelEmail
             // 
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(12, 140);
+            this.labelEmail.Location = new System.Drawing.Point(12, 144);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(44, 13);
             this.labelEmail.TabIndex = 10;
@@ -197,7 +212,7 @@
             // checkBoxIsSteward
             // 
             this.checkBoxIsSteward.AutoSize = true;
-            this.checkBoxIsSteward.Location = new System.Drawing.Point(339, 227);
+            this.checkBoxIsSteward.Location = new System.Drawing.Point(339, 231);
             this.checkBoxIsSteward.Name = "checkBoxIsSteward";
             this.checkBoxIsSteward.Size = new System.Drawing.Size(73, 17);
             this.checkBoxIsSteward.TabIndex = 15;
@@ -208,50 +223,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 309);
-            this.Controls.Add(this.checkBoxIsSteward);
-            this.Controls.Add(this.textBoxEmail);
-            this.Controls.Add(this.labelEmail);
-            this.Controls.Add(this.comboBoxStudentGroup);
-            this.Controls.Add(this.labelStudentGroup);
-            this.Controls.Add(this.buttonUpload);
-            this.Controls.Add(this.pictureBoxPhoto);
-            this.Controls.Add(this.textBoxDescription);
-            this.Controls.Add(this.labelDescription);
-            this.Controls.Add(this.textBoxPatronymic);
-            this.Controls.Add(this.labelPatronymic);
-            this.Controls.Add(this.textBoxFirstName);
-            this.Controls.Add(this.labelFirstName);
-            this.Controls.Add(this.textBoxLastName);
-            this.Controls.Add(this.labelLastName);
-            this.Controls.Add(this.textBoxNumberOfBook);
-            this.Controls.Add(this.labelNumberOfBook);
+            this.ClientSize = new System.Drawing.Size(484, 321);
             this.Name = "FormStudent";
             this.Text = "Студент";
-            this.Load += new System.EventHandler(this.FormStudent_Load);
-            this.Controls.SetChildIndex(this.labelNumberOfBook, 0);
-            this.Controls.SetChildIndex(this.textBoxNumberOfBook, 0);
-            this.Controls.SetChildIndex(this.labelLastName, 0);
-            this.Controls.SetChildIndex(this.textBoxLastName, 0);
-            this.Controls.SetChildIndex(this.labelFirstName, 0);
-            this.Controls.SetChildIndex(this.textBoxFirstName, 0);
-            this.Controls.SetChildIndex(this.labelPatronymic, 0);
-            this.Controls.SetChildIndex(this.textBoxPatronymic, 0);
-            this.Controls.SetChildIndex(this.labelDescription, 0);
-            this.Controls.SetChildIndex(this.textBoxDescription, 0);
-            this.Controls.SetChildIndex(this.pictureBoxPhoto, 0);
-            this.Controls.SetChildIndex(this.buttonUpload, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.labelStudentGroup, 0);
-            this.Controls.SetChildIndex(this.comboBoxStudentGroup, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.labelEmail, 0);
-            this.Controls.SetChildIndex(this.textBoxEmail, 0);
-            this.Controls.SetChildIndex(this.checkBoxIsSteward, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

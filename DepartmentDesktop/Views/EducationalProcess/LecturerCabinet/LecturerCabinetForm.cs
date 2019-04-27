@@ -34,7 +34,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerCabinet
 
         private void LoadData()
         {
-            (tabPageDisciplines.Controls[0] as LecturerCabinetControl).LoadData();
+           // (tabPageDisciplines.Controls[0] as LecturerCabinetControl).LoadData();
         }
     }
 }

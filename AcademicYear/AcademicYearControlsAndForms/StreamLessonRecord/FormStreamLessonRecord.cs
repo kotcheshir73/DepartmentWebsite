@@ -30,26 +30,26 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
             _ayId = ayId;
         }
 
-        private void FormStreamLessonRecord_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             if (_sId == null)
             {
                 MessageBox.Show("Неуказан поток", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             var resultSL = _service.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = _ayId });
             if (!resultSL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке потоков возникла ошибка: ", resultSL.Errors);
-                return;
+                return false;
             }
 
             var resultAP = _service.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = _ayId });
             if (!resultAP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных планов возникла ошибка: ", resultAP.Errors);
-                return;
+                return false;
             }
 
             comboBoxStreamLesson.ValueMember = "Value";
@@ -64,7 +64,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
                 .Select(x => new { Value = x.Id, Display = string.Format("{0}. {1} курсы", x.EducationDirection, x.AcademicCoursesStrings) }).ToList();
             comboBoxAcademicPlan.SelectedItem = null;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -82,7 +82,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
             checkBoxIsMain.Checked = entity.IsMain;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxStreamLesson.SelectedValue == null)
             {
@@ -97,48 +97,40 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateStreamLessonRecord(new StreamLessonRecordSetBindingModel
                 {
-                    result = _service.CreateStreamLessonRecord(new StreamLessonRecordSetBindingModel
-                    {
-                        StreamLessonId = new Guid(comboBoxStreamLesson.SelectedValue.ToString()),
-                        AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
-                        IsMain = checkBoxIsMain.Checked
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateStreamLessonRecord(new StreamLessonRecordSetBindingModel
-                    {
-                        Id = _id.Value,
-                        StreamLessonId = new Guid(comboBoxStreamLesson.SelectedValue.ToString()),
-                        AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
-                        IsMain = checkBoxIsMain.Checked
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    StreamLessonId = new Guid(comboBoxStreamLesson.SelectedValue.ToString()),
+                    AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
+                    IsMain = checkBoxIsMain.Checked
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateStreamLessonRecord(new StreamLessonRecordSetBindingModel
+                {
+                    Id = _id.Value,
+                    StreamLessonId = new Guid(comboBoxStreamLesson.SelectedValue.ToString()),
+                    AcademicPlanRecordElementId = new Guid(comboBoxAcademicPlanRecordElement.SelectedValue.ToString()),
+                    IsMain = checkBoxIsMain.Checked
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

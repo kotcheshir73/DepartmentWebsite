@@ -28,13 +28,13 @@ namespace AcademicYearControlsAndForms.StreamLesson
             _ayId = ayId;
         }
 
-        private void FormStreamLesson_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { });
             if (!resultAY.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicYear.ValueMember = "Value";
@@ -43,7 +43,7 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
             comboBoxAcademicYear.SelectedValue = _ayId;
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -63,13 +63,13 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 Close();
             }
             var entity = result.Result;
-            
+
             comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
             textBoxStreamLessonName.Text = entity.StreamLessonName;
             textBoxStreamLessonHours.Text = entity.StreamLessonHours.ToString();
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxAcademicYear.SelectedValue == null)
             {
@@ -93,48 +93,40 @@ namespace AcademicYearControlsAndForms.StreamLesson
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateStreamLesson(new StreamLessonSetBindingModel
                 {
-                    result = _service.CreateStreamLesson(new StreamLessonSetBindingModel
-                    {
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        StreamLessonName = textBoxStreamLessonName.Text,
-                        StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateStreamLesson(new StreamLessonSetBindingModel
-                    {
-                        Id = _id.Value,
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        StreamLessonName = textBoxStreamLessonName.Text,
-                        StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    StreamLessonName = textBoxStreamLessonName.Text,
+                    StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateStreamLesson(new StreamLessonSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    StreamLessonName = textBoxStreamLessonName.Text,
+                    StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }

@@ -31,7 +31,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
 
         private string _semester;
 
-        public FormDisciplineLessonConducted(IDisciplineLessonConductedService service, ILearningProgressProcess process, Guid? ayId = null, Guid? edId = null, Guid? dId = null, Guid? tnId = null, 
+        public FormDisciplineLessonConducted(IDisciplineLessonConductedService service, ILearningProgressProcess process, Guid? ayId = null, Guid? edId = null, Guid? dId = null, Guid? tnId = null,
             string semester = null, Guid? id = null) : base(id)
         {
             InitializeComponent();
@@ -44,7 +44,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
             _semester = semester;
         }
 
-        private void FormDisciplineLessonConducted_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultSemesters = _process.GetSemesters(new LearningProcessSemesterBindingModel
             {
@@ -57,7 +57,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
             if (!resultSemesters.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке семестров возникла ошибка: ", resultSemesters.Errors);
-                return;
+                return false;
             }
 
             var resultSG = _process.GetStudentGroups(new LearningProcessStudentGroupBindingModel
@@ -68,7 +68,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
             if (!resultSG.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных групп возникла ошибка: ", resultSG.Errors);
-                return;
+                return false;
             }
 
             comboBoxStudentGroups.ValueMember = "Value";
@@ -80,7 +80,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
             if (!resultDL.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке занятий дисциплин возникла ошибка: ", resultDL.Errors);
-                return;
+                return false;
             }
 
             comboBoxDisciplineLesson.ValueMember = "Value";
@@ -88,7 +88,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
             comboBoxDisciplineLesson.DataSource = resultDL.Result.List
                 .Select(d => new { Value = d.Id, Display = d.Title }).ToList();
 
-            StandartForm_Load();
+            return true;
         }
 
         protected override void LoadData()
@@ -115,7 +115,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
             comboBoxSubgroup.Text = entity.Subgroup;
         }
 
-        private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (comboBoxDisciplineLesson.SelectedValue == null)
             {
@@ -134,50 +134,42 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
 
         protected override bool Save()
         {
-            if (CheckFill())
+            ResultService result;
+            if (!_id.HasValue)
             {
-                ResultService result;
-                if (!_id.HasValue)
+                result = _service.CreateDisciplineLessonConducted(new DisciplineLessonConductedSetBindingModel
                 {
-                    result = _service.CreateDisciplineLessonConducted(new DisciplineLessonConductedSetBindingModel
-                    {
-                        DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
-                        StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
-                        Date = dateTimePickerDate.Value,
-                        Subgroup = comboBoxSubgroup.Text
-                    });
-                }
-                else
-                {
-                    result = _service.UpdateDisciplineLessonConducted(new DisciplineLessonConductedSetBindingModel
-                    {
-                        Id = _id.Value,
-                        DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
-                        StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
-                        Date = dateTimePickerDate.Value,
-                        Subgroup = comboBoxSubgroup.Text
-                    });
-                }
-                if (result.Succeeded)
-                {
-                    if (result.Result != null)
-                    {
-                        if (result.Result is Guid)
-                        {
-                            _id = (Guid)result.Result;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                    return false;
-                }
+                    DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
+                    StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
+                    Date = dateTimePickerDate.Value,
+                    Subgroup = comboBoxSubgroup.Text
+                });
             }
             else
             {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = _service.UpdateDisciplineLessonConducted(new DisciplineLessonConductedSetBindingModel
+                {
+                    Id = _id.Value,
+                    DisciplineLessonId = new Guid(comboBoxDisciplineLesson.SelectedValue.ToString()),
+                    StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
+                    Date = dateTimePickerDate.Value,
+                    Subgroup = comboBoxSubgroup.Text
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
+                    {
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
                 return false;
             }
         }
@@ -186,8 +178,12 @@ namespace LearningProgressControlsAndForms.DisciplineLessonConducted
         {
             if (comboBoxStudentGroups.SelectedValue != null)
             {
-                var resultS = _process.GetDisciplineLessonSubgroup(new DisciplineLessonSubgroupBindingModel { DisciplineId = _dId.Value, StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
-                Semester = _semester});
+                var resultS = _process.GetDisciplineLessonSubgroup(new DisciplineLessonSubgroupBindingModel
+                {
+                    DisciplineId = _dId.Value,
+                    StudentGroupId = new Guid(comboBoxStudentGroups.SelectedValue.ToString()),
+                    Semester = _semester
+                });
                 if (!resultS.Succeeded)
                 {
                     ErrorMessanger.PrintErrorMessage("При загрузке подгрупп возникла ошибка: ", resultS.Errors);

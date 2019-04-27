@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -19,6 +20,9 @@ namespace Models.AcademicYearData
 
         [DataMember]
         public decimal StreamLessonHours { get; set; }
+
+        [DataMember]
+        public Semesters Semester { get; set; }
 
         //-------------------------------------------------------------------------
 

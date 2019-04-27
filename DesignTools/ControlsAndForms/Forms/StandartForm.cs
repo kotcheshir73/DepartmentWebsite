@@ -14,7 +14,7 @@ namespace ControlsAndForms.Forms
             InitializeComponent();
         }
 
-        public StandartForm(Guid? id = null)
+        public StandartForm(Guid? id)
         {
             InitializeComponent();
             if (id != Guid.Empty)
@@ -23,15 +23,27 @@ namespace ControlsAndForms.Forms
             }
         }
 
-        protected void StandartForm_Load()
+        private void StandartForm_Load(object sender, EventArgs e)
         {
-            if (_id.HasValue)
+            if (LoadComponents())
             {
-                LoadData();
+                if (_id.HasValue)
+                {
+                    LoadData();
+                }
+            }
+            else
+            {
+                panelMain.Enabled = false;
+                panelTop.Enabled = false;
             }
         }
 
+        protected virtual bool LoadComponents() { return true; }
+
         protected virtual void LoadData() { }
+
+        protected virtual bool CheckFill() { return true; }
 
         protected virtual bool Save() { return true; }
 
@@ -42,19 +54,33 @@ namespace ControlsAndForms.Forms
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (Save())
+            if (CheckFill())
             {
-                MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData();
+                if (Save())
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ButtonSaveAndClose_Click(object sender, EventArgs e)
         {
-            if (Save())
+            if (CheckFill())
             {
-                DialogResult = DialogResult.OK;
-                Close();
+                if (Save())
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

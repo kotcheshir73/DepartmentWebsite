@@ -26,13 +26,13 @@ namespace AcademicYearControlsAndForms.SeasonDates
             _ayId = ayId;
         }
 
-        private void FormSeasonDates_Load(object sender, EventArgs e)
+        protected override bool LoadComponents()
         {
             var resultAY = _service.GetAcademicYears(new AcademicYearGetBindingModel { Id = _ayId });
             if (!resultAY.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке учебных годов возникла ошибка: ", resultAY.Errors);
-                return;
+                return false;
             }
 
             comboBoxAcademicYear.ValueMember = "Value";
@@ -41,43 +41,43 @@ namespace AcademicYearControlsAndForms.SeasonDates
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
             comboBoxAcademicYear.SelectedItem = _ayId;
 
-            StandartForm_Load();
-		}
+            return true;
+        }
 
         protected override void LoadData()
         {
             var result = _service.GetSeasonDates(new SeasonDatesGetBindingModel { Id = _id.Value });
-			if (!result.Succeeded)
-			{
+            if (!result.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-				Close();
-			}
-			var entity = result.Result;
+                Close();
+            }
+            var entity = result.Result;
 
-			textBoxTitle.Text = entity.Title;
-			dateTimePickerDateBeginExamination.Value = Convert.ToDateTime(entity.DateBeginExamination);
-			dateTimePickerDateBeginOffset.Value = Convert.ToDateTime(entity.DateBeginOffset);
-			dateTimePickerDateBeginFirstHalfSemester.Value = Convert.ToDateTime(entity.DateBeginFirstHalfSemester);
+            textBoxTitle.Text = entity.Title;
+            dateTimePickerDateBeginExamination.Value = Convert.ToDateTime(entity.DateBeginExamination);
+            dateTimePickerDateBeginOffset.Value = Convert.ToDateTime(entity.DateBeginOffset);
+            dateTimePickerDateBeginFirstHalfSemester.Value = Convert.ToDateTime(entity.DateBeginFirstHalfSemester);
             dateTimePickerDateBeginSecondHalfSemester.Value = Convert.ToDateTime(entity.DateBeginSecondHalfSemester);
             dateTimePickerDateEndExamination.Value = Convert.ToDateTime(entity.DateEndExamination);
-			dateTimePickerDateEndOffset.Value = Convert.ToDateTime(entity.DateEndOffset);
-			dateTimePickerDateEndFirstHalfSemester.Value = Convert.ToDateTime(entity.DateEndFirstHalfSemester);
+            dateTimePickerDateEndOffset.Value = Convert.ToDateTime(entity.DateEndOffset);
+            dateTimePickerDateEndFirstHalfSemester.Value = Convert.ToDateTime(entity.DateEndFirstHalfSemester);
             dateTimePickerDateEndSecondHalfSemester.Value = Convert.ToDateTime(entity.DateEndSecondHalfSemester);
             dateTimePickerDateBeginPractic.Enabled = !string.IsNullOrEmpty(entity.DateBeginPractice);
-			if (!string.IsNullOrEmpty(entity.DateBeginPractice))
-			{
-				dateTimePickerDateBeginPractic.Value = Convert.ToDateTime(entity.DateBeginPractice);
-			}
-			dateTimePickerDateEndPractic.Enabled = !string.IsNullOrEmpty(entity.DateEndPractice);
-			if (!string.IsNullOrEmpty(entity.DateEndPractice))
-			{
-				dateTimePickerDateEndPractic.Value = Convert.ToDateTime(entity.DateEndPractice);
-			}
-			checkBoxDateBeginPractic.Checked = !string.IsNullOrEmpty(entity.DateBeginPractice);
-			checkBoxDateEndPractic.Checked = !string.IsNullOrEmpty(entity.DateEndPractice);
-		}
+            if (!string.IsNullOrEmpty(entity.DateBeginPractice))
+            {
+                dateTimePickerDateBeginPractic.Value = Convert.ToDateTime(entity.DateBeginPractice);
+            }
+            dateTimePickerDateEndPractic.Enabled = !string.IsNullOrEmpty(entity.DateEndPractice);
+            if (!string.IsNullOrEmpty(entity.DateEndPractice))
+            {
+                dateTimePickerDateEndPractic.Value = Convert.ToDateTime(entity.DateEndPractice);
+            }
+            checkBoxDateBeginPractic.Checked = !string.IsNullOrEmpty(entity.DateBeginPractice);
+            checkBoxDateEndPractic.Checked = !string.IsNullOrEmpty(entity.DateEndPractice);
+        }
 
-		private bool CheckFill()
+        protected override bool CheckFill()
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text))
             {
@@ -96,83 +96,75 @@ namespace AcademicYearControlsAndForms.SeasonDates
                 return false;
             }
             return true;
-		}
+        }
 
         protected override bool Save()
-		{
-			if (CheckFill())
-			{
-				DateTime? dateBeginPractic = null;
-				DateTime? dateEndPractic = null;
-				if(checkBoxDateBeginPractic.Checked)
-				{
-					dateBeginPractic = dateTimePickerDateBeginPractic.Value;
-				}
-				if(checkBoxDateEndPractic.Checked)
-				{
-					dateEndPractic = dateTimePickerDateEndPractic.Value;
-				}
-				ResultService result;
-				if (!_id.HasValue)
-				{
-					result = _service.CreateSeasonDates(new SeasonDatesSetBindingModel
+        {
+            DateTime? dateBeginPractic = null;
+            DateTime? dateEndPractic = null;
+            if (checkBoxDateBeginPractic.Checked)
+            {
+                dateBeginPractic = dateTimePickerDateBeginPractic.Value;
+            }
+            if (checkBoxDateEndPractic.Checked)
+            {
+                dateEndPractic = dateTimePickerDateEndPractic.Value;
+            }
+            ResultService result;
+            if (!_id.HasValue)
+            {
+                result = _service.CreateSeasonDates(new SeasonDatesSetBindingModel
+                {
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    Title = textBoxTitle.Text,
+                    DateBeginExamination = dateTimePickerDateBeginExamination.Value,
+                    DateBeginOffset = dateTimePickerDateBeginOffset.Value,
+                    DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
+                    DateBeginSecondHalfSemester = dateTimePickerDateBeginSecondHalfSemester.Value,
+                    DateEndExamination = dateTimePickerDateEndExamination.Value,
+                    DateEndOffset = dateTimePickerDateEndOffset.Value,
+                    DateEndFirstHalfSemester = dateTimePickerDateEndFirstHalfSemester.Value,
+                    DateEndSecondHalfSemester = dateTimePickerDateEndSecondHalfSemester.Value,
+                    DateBeginPractice = dateBeginPractic,
+                    DateEndPractice = dateEndPractic
+                });
+            }
+            else
+            {
+                result = _service.UpdateSeasonDates(new SeasonDatesSetBindingModel
+                {
+                    Id = _id.Value,
+                    AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
+                    Title = textBoxTitle.Text,
+                    DateBeginExamination = dateTimePickerDateBeginExamination.Value,
+                    DateBeginOffset = dateTimePickerDateBeginOffset.Value,
+                    DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
+                    DateBeginSecondHalfSemester = dateTimePickerDateBeginSecondHalfSemester.Value,
+                    DateEndExamination = dateTimePickerDateEndExamination.Value,
+                    DateEndOffset = dateTimePickerDateEndOffset.Value,
+                    DateEndFirstHalfSemester = dateTimePickerDateEndFirstHalfSemester.Value,
+                    DateEndSecondHalfSemester = dateTimePickerDateEndSecondHalfSemester.Value,
+                    DateBeginPractice = dateBeginPractic,
+                    DateEndPractice = dateEndPractic
+                });
+            }
+            if (result.Succeeded)
+            {
+                if (result.Result != null)
+                {
+                    if (result.Result is Guid)
                     {
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        Title = textBoxTitle.Text,
-						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
-						DateBeginOffset = dateTimePickerDateBeginOffset.Value,
-						DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
-                        DateBeginSecondHalfSemester = dateTimePickerDateBeginSecondHalfSemester.Value,
-                        DateEndExamination = dateTimePickerDateEndExamination.Value,
-						DateEndOffset = dateTimePickerDateEndOffset.Value,
-						DateEndFirstHalfSemester = dateTimePickerDateEndFirstHalfSemester.Value,
-                        DateEndSecondHalfSemester = dateTimePickerDateEndSecondHalfSemester.Value,
-                        DateBeginPractice = dateBeginPractic,
-						DateEndPractice = dateEndPractic
-					});
-				}
-				else
-				{
-					result = _service.UpdateSeasonDates(new SeasonDatesSetBindingModel
-					{
-						Id = _id.Value,
-                        AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                        Title = textBoxTitle.Text,
-						DateBeginExamination = dateTimePickerDateBeginExamination.Value,
-						DateBeginOffset = dateTimePickerDateBeginOffset.Value,
-                        DateBeginFirstHalfSemester = dateTimePickerDateBeginFirstHalfSemester.Value,
-                        DateBeginSecondHalfSemester = dateTimePickerDateBeginSecondHalfSemester.Value,
-                        DateEndExamination = dateTimePickerDateEndExamination.Value,
-						DateEndOffset = dateTimePickerDateEndOffset.Value,
-                        DateEndFirstHalfSemester = dateTimePickerDateEndFirstHalfSemester.Value,
-                        DateEndSecondHalfSemester = dateTimePickerDateEndSecondHalfSemester.Value,
-                        DateBeginPractice = dateBeginPractic,
-						DateEndPractice = dateEndPractic
-					});
-				}
-				if (result.Succeeded)
-				{
-					if (result.Result != null)
-					{
-						if (result.Result is Guid)
-						{
-							_id = (Guid)result.Result;
-						}
-					}
-					return true;
-				}
-				else
-				{
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-					return false;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return false;
-			}
-		}
+                        _id = (Guid)result.Result;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+                return false;
+            }
+        }
 
         private void CheckBoxDateBeginPractic_CheckedChanged(object sender, EventArgs e)
         {

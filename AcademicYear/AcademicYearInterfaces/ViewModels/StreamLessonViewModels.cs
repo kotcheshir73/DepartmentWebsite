@@ -11,6 +11,8 @@ namespace AcademicYearInterfaces.ViewModels
 
         public string AcademicYear { get; set; }
 
+        public string Semester { get; set; }
+
         public string StreamLessonName { get; set; }
 
         public decimal StreamLessonHours { get; set; }

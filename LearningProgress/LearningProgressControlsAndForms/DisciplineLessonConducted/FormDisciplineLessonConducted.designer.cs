@@ -34,21 +34,20 @@
             this.comboBoxStudentGroups = new System.Windows.Forms.ComboBox();
             this.labelStudentGroup = new System.Windows.Forms.Label();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(99, 470);
+            this.panelMain.Controls.Add(this.tabControl);
+            this.panelMain.Size = new System.Drawing.Size(1143, 461);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(246, 470);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(18, 470);
+            this.panelTop.Size = new System.Drawing.Size(1143, 36);
             // 
             // comboBoxDisciplineLesson
             // 
@@ -104,15 +103,13 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageConfig);
             this.tabControl.Controls.Add(this.tabPageRecords);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1143, 468);
+            this.tabControl.Size = new System.Drawing.Size(1143, 461);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageConfig
@@ -128,7 +125,7 @@
             this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPageConfig.Name = "tabPageConfig";
             this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConfig.Size = new System.Drawing.Size(1135, 442);
+            this.tabPageConfig.Size = new System.Drawing.Size(1135, 435);
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Проводимое занятие";
             this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -162,19 +159,15 @@
             this.tabPageRecords.Text = "Студенты";
             this.tabPageRecords.UseVisualStyleBackColor = true;
             // 
-            // DisciplineLessonConductedForm
+            // FormDisciplineLessonConducted
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1143, 497);
-            this.Controls.Add(this.tabControl);
-            this.Name = "DisciplineLessonConductedForm";
+            this.Name = "FormDisciplineLessonConducted";
             this.Text = "Проведение занятия";
-            this.Load += new System.EventHandler(this.FormDisciplineLessonConducted_Load);
-            this.Controls.SetChildIndex(this.tabControl, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
@@ -183,6 +176,7 @@
         }
 
         #endregion
+
         private System.Windows.Forms.ComboBox comboBoxDisciplineLesson;
         private System.Windows.Forms.Label labelDisciplineLesson;
         private System.Windows.Forms.Label labelDate;

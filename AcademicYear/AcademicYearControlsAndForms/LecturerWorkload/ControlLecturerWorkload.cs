@@ -149,7 +149,7 @@ namespace AcademicYearControlsAndForms.LecturerWorkload
         {
             if(MessageBox.Show("Создать нагрузку преподавателей?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                var result = _process.CreateLecturerWorkload(new AcademicYearGetBindingModel { Id = _ayId });
+                var result = _process.CreateLecturerWorkloads(new AcademicYearGetBindingModel { Id = _ayId });
                 if (!result.Succeeded)
                 {
                     ErrorMessanger.PrintErrorMessage("При создании возникла ошибка: ", result.Errors);
