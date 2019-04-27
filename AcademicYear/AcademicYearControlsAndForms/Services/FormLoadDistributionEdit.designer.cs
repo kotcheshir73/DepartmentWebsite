@@ -1,6 +1,6 @@
-﻿namespace AcademicYearControlsAndForms.Services.LoadDistribution
+﻿namespace AcademicYearControlsAndForms.Services
 {
-    partial class LoadDistributionEditForm
+    partial class FormLoadDistributionEdit
     {
         /// <summary>
         /// Clean up any resources being used.

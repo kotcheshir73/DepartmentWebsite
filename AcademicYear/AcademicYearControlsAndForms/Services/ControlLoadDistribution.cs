@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using Unity;
 using Unity.Resolution;
 
-namespace AcademicYearControlsAndForms.Services.LoadDistribution
+namespace AcademicYearControlsAndForms.Services
 {
     public partial class ControlLoadDistribution : UserControl
     {
@@ -314,7 +314,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                 }
                 else if (dataGridViewList.Columns[j].Name.StartsWith("ColumnLecturer"))
                 {
-                    editForm = Container.Resolve<LoadDistributionEditForm>(
+                    editForm = Container.Resolve<FormLoadDistributionEdit>(
                         new ParameterOverrides
                         {
                             { "academicYearId", comboBoxAcademicYear.SelectedValue.ToString() },
@@ -323,11 +323,11 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                             { "disciplineName", dataGridViewList[3, i].Value.ToString() },
                             { "lecturerName", dataGridViewList.Columns[j].HeaderText }
                         }
-                        .OnType<LoadDistributionEditForm>());
+                        .OnType<FormLoadDistributionEdit>());
                 }
                 else if (dataGridViewList.Columns[j].Name.StartsWith("ColumnAPRE"))
                 {
-                    editForm = Container.Resolve<LoadDistributionEditForm>(
+                    editForm = Container.Resolve<FormLoadDistributionEdit>(
                         new ParameterOverrides
                         {
                             { "academicYearId", comboBoxAcademicYear.SelectedValue.ToString() },
@@ -336,7 +336,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
                             { "disciplineName", dataGridViewList[3, i].Value.ToString() },
                             { "lecturerName", "" }
                         }
-                        .OnType<LoadDistributionEditForm>());
+                        .OnType<FormLoadDistributionEdit>());
                 }
 
                 if(editForm != null)
@@ -510,7 +510,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
 
         private void ButtonCreateDisciplineTimeDistributions_Click(object sender, EventArgs e)
         {
-            var result = _process.CreateAllFindDisciplineTimeDistribution(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
+            var result = _process.CreateDisciplineTimeDistributions(new AcademicYearGetBindingModel { Id = new Guid(comboBoxAcademicYear.SelectedValue.ToString()) });
             if(!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При создании расчасовок возникла ошибка: ", result.Errors);
@@ -526,7 +526,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                var result = _process.ImportLecturerWorkload(new ImportLecturerWorkloadBindingModel
+                var result = _process.ImportLecturerWorkloads(new ImportLecturerWorkloadBindingModel
                 {
                     AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                     Path = fbd.SelectedPath

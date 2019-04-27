@@ -560,6 +560,13 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void РасчасовкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = AcademicYearControlsAndForms.Controller.GetControlLecturerDisciplineTimeDistributions;
+            ApplyControl(control);
+            control.LoadData();
+        }
         #endregion
 
         #region

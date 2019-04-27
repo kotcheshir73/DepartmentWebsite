@@ -14,7 +14,7 @@ using AcademicYearControlsAndForms.IndividualPlanNIRScientificArticle;
 using AcademicYearControlsAndForms.IndividualPlanRecord;
 using AcademicYearControlsAndForms.IndividualPlanTitle;
 using AcademicYearControlsAndForms.SeasonDates;
-using AcademicYearControlsAndForms.Services.LoadDistribution;
+using AcademicYearControlsAndForms.Services;
 using AcademicYearControlsAndForms.StreamLesson;
 using AcademicYearControlsAndForms.StreamLessonRecord;
 using AcademicYearControlsAndForms.TimeNorm;
@@ -109,5 +109,7 @@ namespace AcademicYearControlsAndForms
         public static ControlIndividualPlanNIRScientificArticle GetControlIndividualPlanNIRScientificArticle { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlIndividualPlanNIRScientificArticle>(); } }
 
         public static ControlIndividualPlanNIRContractualWork GetControlIndividualPlanNIRContractualWork { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlIndividualPlanNIRContractualWork>(); } }
+
+        public static ControlLecturerDisciplineTimeDistributions GetControlLecturerDisciplineTimeDistributions { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlLecturerDisciplineTimeDistributions>(); } }
     }
 }

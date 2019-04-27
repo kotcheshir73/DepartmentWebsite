@@ -193,6 +193,7 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 AcademicYear = entity.AcademicYear.Title,
+                Semester = entity.Semester.ToString(),
                 StreamLessonName = entity.StreamLessonName,
                 StreamLessonHours = entity.StreamLessonHours
             };

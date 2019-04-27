@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Tools;
 
-namespace AcademicYearControlsAndForms.Services.LoadDistribution
+namespace AcademicYearControlsAndForms.Services
 {
-    public partial class LoadDistributionEditForm : StandartForm
+    public partial class FormLoadDistributionEdit : StandartForm
     {
         private readonly IAcademicYearProcess _process;
 
@@ -26,7 +26,7 @@ namespace AcademicYearControlsAndForms.Services.LoadDistribution
 
         private HashSet<int> listNumEditRows;
 
-        public LoadDistributionEditForm(IAcademicYearProcess process, IAcademicPlanRecordElementService serviceAPRE, IAcademicPlanRecordMissionService serviceAPRM,
+        public FormLoadDistributionEdit(IAcademicYearProcess process, IAcademicPlanRecordElementService serviceAPRE, IAcademicPlanRecordMissionService serviceAPRM,
                                            string academicYearId, string academicPlanRecordId, string lecturerId, string disciplineName, string lecturerName) : base()
         {
             _process = process;

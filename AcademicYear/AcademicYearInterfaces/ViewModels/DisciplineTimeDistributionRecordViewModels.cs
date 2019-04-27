@@ -15,10 +15,11 @@ namespace AcademicYearInterfaces.ViewModels
 
         public string TimeNorm { get; set; }
 
+        //TODO ???
+        public string TimeNormHours { get; set; }
+
         public int WeekNumber { get; set; }
 
         public double Hours { get; set; }
-
-        public string TimeNormHours { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AcademicYearControlsAndForms.Services.LoadDistribution
+﻿namespace AcademicYearControlsAndForms.Services
 {
 	partial class ControlLoadDistribution
 	{

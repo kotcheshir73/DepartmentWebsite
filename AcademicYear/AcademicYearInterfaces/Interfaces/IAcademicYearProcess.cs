@@ -86,28 +86,28 @@ namespace AcademicYearInterfaces.Interfaces
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService CreateAllFindDisciplineTimeDistributionRecord(AcademicYearGetBindingModel model);
+		ResultService CreateDisciplineTimeDistributions(AcademicYearGetBindingModel model);
 
         /// <summary>
-		/// Создание всех возможных расчасовок
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService CreateAllFindDisciplineTimeDistribution(AcademicYearGetBindingModel model);
-
-        /// <summary>
-		/// Создание нагрузки преподавателей
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService CreateLecturerWorkload(AcademicYearGetBindingModel model);
-
-        /// <summary>
-        /// Выгрузка нагрузки преподавателей
+        /// Получение расчасовок преподавателем
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ImportLecturerWorkload(ImportLecturerWorkloadBindingModel model);
+        ResultService<List<LecturerDisciplineTimeDistribution>> GetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributions model);
+
+        /// <summary>
+		/// Создание нагрузок преподавателей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService CreateLecturerWorkloads(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Выгрузка нагрузок преподавателей
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ImportLecturerWorkloads(ImportLecturerWorkloadBindingModel model);
 
         /// <summary>
 		/// Создание всех возможных записей

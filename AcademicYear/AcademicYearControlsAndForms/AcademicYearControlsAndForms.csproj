@@ -279,23 +279,35 @@
     <Compile Include="SeasonDates\FormSeasonDates.designer.cs">
       <DependentUpon>FormSeasonDates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributionElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributionElement.Designer.cs">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributionElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributions.Designer.cs">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\FormDuplicate.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Services\FormDuplicate.designer.cs">
       <DependentUpon>FormDuplicate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\LoadDistribution\ControlLoadDistribution.cs">
+    <Compile Include="Services\ControlLoadDistribution.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\LoadDistribution\ControlLoadDistribution.designer.cs">
+    <Compile Include="Services\ControlLoadDistribution.designer.cs">
       <DependentUpon>ControlLoadDistribution.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionEditForm.cs">
+    <Compile Include="Services\FormLoadDistributionEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\LoadDistribution\LoadDistributionEditForm.designer.cs">
-      <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
+    <Compile Include="Services\FormLoadDistributionEdit.designer.cs">
+      <DependentUpon>FormLoadDistributionEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="StreamLessonRecord\ControlStreamLessonRecord.cs">
       <SubType>UserControl</SubType>
@@ -445,14 +457,20 @@
     <EmbeddedResource Include="SeasonDates\FormSeasonDates.resx">
       <DependentUpon>FormSeasonDates.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlLecturerDisciplineTimeDistributionElement.resx">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributionElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlLecturerDisciplineTimeDistributions.resx">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Services\FormDuplicate.resx">
       <DependentUpon>FormDuplicate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\LoadDistribution\ControlLoadDistribution.resx">
+    <EmbeddedResource Include="Services\ControlLoadDistribution.resx">
       <DependentUpon>ControlLoadDistribution.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\LoadDistribution\LoadDistributionEditForm.resx">
-      <DependentUpon>LoadDistributionEditForm.cs</DependentUpon>
+    <EmbeddedResource Include="Services\FormLoadDistributionEdit.resx">
+      <DependentUpon>FormLoadDistributionEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StreamLessonRecord\ControlStreamLessonRecord.resx">
       <DependentUpon>ControlStreamLessonRecord.cs</DependentUpon>

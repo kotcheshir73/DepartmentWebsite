@@ -169,6 +169,7 @@ namespace AcademicYearImplementations
                 entity = new StreamLesson();
             }
             entity.AcademicYearId = model.AcademicYearId;
+            entity.Semester = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.StreamLessonName = model.StreamLessonName;
             entity.StreamLessonHours = model.StreamLessonHours;
 

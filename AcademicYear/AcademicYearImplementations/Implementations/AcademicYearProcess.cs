@@ -8,19 +8,15 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Enums;
-//using iTextSharp.text;
-//using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
 using Models.AcademicYearData;
 using Models.Base;
 using Models.HelperModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml;
 using Tools;
 
@@ -1795,7 +1791,7 @@ namespace AcademicYearImplementations.Implementations
                     .Where(x => x.Count() > 1);
                     foreach (var apreGroup in apreGroups)
                     {
-                        StreamLesson sl = context.StreamLessons.FirstOrDefault(x => x.StreamLessonName == apreGroup.Key.DisciplineName &&
+                        StreamLesson sl = context.StreamLessons.FirstOrDefault(x => x.StreamLessonName == apreGroup.Key.DisciplineName && x.Semester == apreGroup.Key.Semester &&
                                                                                     x.AcademicYearId == model.AcademicYearId);
                         if (sl == null)
                         {
@@ -1860,65 +1856,110 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        public ResultService CreateAllFindDisciplineTimeDistributionRecord(AcademicYearGetBindingModel model)
+        public ResultService CreateDisciplineTimeDistributions(AcademicYearGetBindingModel model)
         {
             try
             {
+                DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
+
                 using (var context = DepartmentUserManager.GetContext)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
-                    var DisciplineTimeDistributions = context.DisciplineTimeDistributions.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id)
-                        .Include(record => record.AcademicPlanRecord.Contingent);
-                    foreach (var dtd in DisciplineTimeDistributions)
+                    var timeNorms = context.TimeNorms.Where(x => !x.IsDeleted && x.AcademicYearId == model.Id
+                        && (x.KindOfLoadName == "Лекционное занятие" || x.KindOfLoadName == "Практическое занятие" || x.KindOfLoadName == "Лабораторная работа")); //Получение трех норм времени для поиска 
+                    var disciplineBlock = context.DisciplineBlocks.FirstOrDefault(x => x.Title.Contains("Дисциплины"));
+                    // поиск записей учебных планов
+                    var APR = context.AcademicPlanRecords
+                            .Where(x => !x.IsDeleted && x.AcademicPlan.AcademicYearId == model.Id && x.Discipline.DisciplineBlockId == disciplineBlock.Id)
+                            .Include(x => x.Discipline).Include(x => x.Contingent).Include(x => x.AcademicPlan);
+                    foreach (var APRRecord in APR)
                     {
-                        var timeNorms = context.TimeNorms.Where(record => !record.IsDeleted && record.AcademicYearId == model.Id
-                        && (record.KindOfLoadName == "Лекционное занятие" || record.KindOfLoadName == "Практическое занятие" || record.KindOfLoadName == "Лабораторная работа")); //Получение трех норм времени для поиска 
-
-                        var DisciplineTimeDistributionRecords = context.DisciplineTimeDistributionRecords.Where(record => !record.IsDeleted && record.DisciplineTimeDistributionId == dtd.Id);
-                        foreach (var timenor in timeNorms)
+                        var studentGroups = context.StudentGroups
+                                        .Where(x => !x.IsDeleted && x.EducationDirectionId == APRRecord.Contingent.EducationDirectionId && x.Course == APRRecord.Contingent.Course);
+                        foreach (var studentGroup in studentGroups)
                         {
-                            if (DisciplineTimeDistributionRecords.FirstOrDefault(record => record.DisciplineTimeDistributionId == dtd.Id
-                                 && record.TimeNormId == timenor.Id) == null)
+                            // ищем расчасовку
+                            var dTD = context.DisciplineTimeDistributions.FirstOrDefault(x => x.AcademicPlanRecordId == APRRecord.Id && x.StudentGroupId == studentGroup.Id);
+                            if (dTD == null)
                             {
-                                int countOfWeek = 0;
-                                if (Convert.ToInt32(dtd.AcademicPlanRecord.Semester.Value) % 2 != 0)
+                                dTD = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel()
                                 {
-                                    countOfWeek = 16;
-                                }
-                                else
+                                    AcademicPlanRecordId = APRRecord.Id,
+                                    StudentGroupId = studentGroup.Id,
+                                    Comment = "",
+                                    CommentWishesOfTeacher = ""
+                                });
+                                context.DisciplineTimeDistributions.Add(dTD);
+                                context.SaveChanges();
+                            }
+                            else if (dTD.IsDeleted)
+                            {
+                                dTD.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+                            // ищем информацию по нагрузкам
+                            foreach (var timeNorm in timeNorms)
+                            {
+                                for (int i = 1; i < 3; ++i)
                                 {
-                                    if (Convert.ToInt32(dtd.AcademicPlanRecord.Contingent.Course) == 8)
+                                    // ищем для четной недели
+                                    var dTDRecord = context.DisciplineTimeDistributionRecords.FirstOrDefault(x => x.DisciplineTimeDistributionId == dTD.Id && x.TimeNormId == timeNorm.Id && x.WeekNumber == i);
+                                    if (dTDRecord == null)
                                     {
-                                        countOfWeek = 7;
+                                        dTDRecord = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel()
+                                        {
+                                            DisciplineTimeDistributionId = dTD.Id,
+                                            TimeNormId = timeNorm.Id,
+                                            WeekNumber = i,
+                                            Hours = 0.00
+                                        });
+                                        context.DisciplineTimeDistributionRecords.Add(dTDRecord);
                                     }
-                                    else { countOfWeek = 14; }
+                                    else if (dTDRecord.IsDeleted)
+                                    {
+                                        dTDRecord.IsDeleted = false;
+                                        context.SaveChanges();
+                                    }
+                                    // ищем для нечетной недели
+                                    dTDRecord = context.DisciplineTimeDistributionRecords.FirstOrDefault(x => x.DisciplineTimeDistributionId == dTD.Id && x.TimeNormId == timeNorm.Id && x.WeekNumber == i + 8);
+                                    if (dTDRecord == null)
+                                    {
+                                        dTDRecord = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel()
+                                        {
+                                            DisciplineTimeDistributionId = dTD.Id,
+                                            TimeNormId = timeNorm.Id,
+                                            WeekNumber = i + 8,
+                                            Hours = 0.00
+                                        });
+                                        context.DisciplineTimeDistributionRecords.Add(dTDRecord);
+                                    }
+                                    else if (dTDRecord.IsDeleted)
+                                    {
+                                        dTDRecord.IsDeleted = false;
+                                        context.SaveChanges();
+                                    }
                                 }
-
-                                for (int i = 1; i <= countOfWeek; i++)
+                                // ищем информацию по аудиториям
+                                var dTDCLassroom = context.DisciplineTimeDistributionClassrooms.FirstOrDefault(x => x.DisciplineTimeDistributionId == dTD.Id && x.TimeNormId == timeNorm.Id);
+                                if (dTDCLassroom == null)
                                 {
-                                    var entity = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistributionRecord(new DisciplineTimeDistributionRecordSetBindingModel()
+                                    dTDCLassroom = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistributionClassroom(new DisciplineTimeDistributionClassroomSetBindingModel()
                                     {
-                                        DisciplineTimeDistributionId = dtd.Id,
-                                        TimeNormId = timenor.Id,
-                                        WeekNumber = i,
-                                        Hours = 0.00
+                                        DisciplineTimeDistributionId = dTD.Id,
+                                        TimeNormId = timeNorm.Id
                                     });
-                                    context.DisciplineTimeDistributionRecords.Add(entity);
-
-                                    var entityClassroom = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistributionClassroom(new DisciplineTimeDistributionClassroomSetBindingModel()
-                                    {
-                                        DisciplineTimeDistributionId = dtd.Id,
-                                        TimeNormId = timenor.Id,
-                                        ClassroomDescription = ""
-                                    });
-                                    context.DisciplineTimeDistributionClassrooms.Add(entityClassroom);
-
+                                    context.DisciplineTimeDistributionClassrooms.Add(dTDCLassroom);
                                 }
-
+                                else if (dTDCLassroom.IsDeleted)
+                                {
+                                    dTDCLassroom.IsDeleted = false;
+                                    context.SaveChanges();
+                                }
                             }
                         }
                     }
-                    context.SaveChanges();
+
+                    transaction.Commit();
                     return ResultService.Success();
                 }
             }
@@ -1928,7 +1969,232 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        public ResultService CreateAllFindDisciplineTimeDistribution(AcademicYearGetBindingModel model)
+        public ResultService<List<LecturerDisciplineTimeDistribution>> GetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributions model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    List<LecturerDisciplineTimeDistribution> list = new List<LecturerDisciplineTimeDistribution>();
+
+                    var user = context.DepartmentUsers.FirstOrDefault(x => x.Id == model.UserId);
+                    if (user == null)
+                    {
+                        return ResultService<List<LecturerDisciplineTimeDistribution>>.Error("Error:", "Пользователь не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    if (!user.LecturerId.HasValue)
+                    {
+                        return ResultService<List<LecturerDisciplineTimeDistribution>>.Error("Error:", "У пользователя нет аккаунта преподавателя", ResultServiceStatusCode.NotFound);
+                    }
+
+                    // выбираем нагрузку преподавателя в этом учебном году в этом семестре
+                    var query = context.AcademicPlanRecordMissions.Where(x => !x.IsDeleted && x.LecturerId == user.LecturerId &&
+                                                            x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan).Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions);
+
+                    var grahp = query.SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions).Distinct()
+                                    .Include(x => x.AcademicPlanRecord.Discipline).Include(x => x.AcademicPlanRecord.AcademicPlan.AcademicYear)
+                                    .Include(x => x.StudentGroup).Include(x => x.StudentGroup.EducationDirection)
+                                    .OrderBy(x => x.AcademicPlanRecord.Discipline.DisciplineName).ThenBy(x => x.StudentGroup.GroupName);
+
+                    foreach (var elem in grahp)
+                    {
+                        var timeNorms = context.AcademicPlanRecordElements.Where(x => x.AcademicPlanRecordId == elem.AcademicPlanRecordId && !x.IsDeleted)
+                                                        .Include(x => x.TimeNorm)
+                                                        .Select(x => x.TimeNorm)
+                                                        .ToList();
+
+                        //StringBuilder reporting = new StringBuilder();
+                        //if(timeNorms.Any(x => x.TimeNormShortName == "Экз"))
+                        //{
+                        //    reporting.AppendLine("Экзамен");
+                        //}
+                        //if (timeNorms.Any(x => x.TimeNormShortName == "Зач"))
+                        //{
+                        //    reporting.AppendLine("Зачет");
+                        //}
+                        //if (timeNorms.Any(x => x.TimeNormShortName == "ЗсО"))
+                        //{
+                        //    reporting.AppendLine("Зачет с оценкой");
+                        //}
+                        //if (timeNorms.Any(x => x.TimeNormShortName == "КР"))
+                        //{
+                        //    reporting.AppendLine("Курсовая работа");
+                        //}
+                        //if (timeNorms.Any(x => x.TimeNormShortName == "КП"))
+                        //{
+                        //    reporting.AppendLine("Курсовой проект");
+                        //}
+
+                        LecturerDisciplineTimeDistribution ldtd = new LecturerDisciplineTimeDistribution
+                        {
+                            DisciplineTimeDistributionId = elem.Id,
+                            AcademicYear = elem.AcademicPlanRecord.AcademicPlan.AcademicYear.Title,
+                            EducationDirection = $"{elem.StudentGroup.EducationDirection.Cipher} {elem.StudentGroup.EducationDirection.Title}",
+                            Discipline = elem.AcademicPlanRecord.Discipline.DisciplineName,
+                            Semestr = elem.AcademicPlanRecord.Semester.ToString(),
+                            StudentGroup = elem.StudentGroup.GroupName,
+                            Comment = elem.Comment,
+                            CommentWishesOfTeacher = elem.CommentWishesOfTeacher,
+                            LecturerDisciplineTimeDistributionElements = new List<LecturerDisciplineTimeDistributionElement>()
+                        };
+
+                        // Ведет ли преподаватель лекции
+                        var timeNormLec = timeNorms.FirstOrDefault(y => y.TimeNormShortName == "Лек");
+                        if (timeNormLec != null)
+                        {
+                            // объединение лекций по потокам
+                            var apre = context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == elem.AcademicPlanRecordId && x.TimeNormId == timeNormLec.Id && !x.IsDeleted);
+                            if (apre != null)
+                            {
+                                var stream = context.StreamLessonRecords.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.StreamLesson.AcademicYearId == model.AcademicYearId && !x.IsDeleted);
+                                if (stream != null)
+                                {
+                                    string comment = string.Format("объеденить лекции с: {0}.", string.Join(",", context.StreamLessonRecords
+                                            .Where(x => x.StreamLessonId == stream.StreamLessonId && x.Id != stream.Id && !x.IsDeleted)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
+                                            .SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
+                                            .Include(x => x.StudentGroup)
+                                            .Select(x => x.StudentGroup.ToString())));
+                                    if(string.IsNullOrEmpty(ldtd.Comment) || !ldtd.Comment.Contains(comment))
+                                    {
+                                        ldtd.Comment += comment;
+                                    }
+                                }
+                            }
+                            var lec = query.FirstOrDefault(x => x.AcademicPlanRecordElement.TimeNormId == timeNormLec.Id &&
+                                                x.AcademicPlanRecordElement.AcademicPlanRecordId == elem.AcademicPlanRecordId);
+                            if (lec != null)
+                            {
+                                var dtdrs = context.DisciplineTimeDistributionRecords.Where(x => x.DisciplineTimeDistributionId == elem.Id && x.TimeNormId == timeNormLec.Id && !x.IsDeleted).ToList();
+                                var dtdc = context.DisciplineTimeDistributionClassrooms.FirstOrDefault(x => x.DisciplineTimeDistributionId == elem.Id && x.TimeNormId == timeNormLec.Id && !x.IsDeleted);
+                                ldtd.LecturerDisciplineTimeDistributionElements.Add(new LecturerDisciplineTimeDistributionElement
+                                {
+                                    DisciplineTimeDistributionRecordFirstWeekFirstHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Id,
+                                    DisciplineTimeDistributionRecordFirstWeekFirstHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Hours,
+                                    DisciplineTimeDistributionRecordSecondWeekFirstHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Id,
+                                    DisciplineTimeDistributionRecordSecondWeekFirstHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Hours,
+                                    DisciplineTimeDistributionRecordFirstWeekSecondHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 9)?.Id,
+                                    DisciplineTimeDistributionRecordFirstWeekSecondHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 9).Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 9)?.Hours,
+                                    DisciplineTimeDistributionRecordSecondWeekSecondHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Id,
+                                    DisciplineTimeDistributionRecordSecondWeekSecondHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Hours,
+                                    DisciplineTimeDistributionClassroomId = dtdc?.Id,
+                                    DisciplineTimeDistributionClassroom = dtdc?.ClassroomDescription,
+                                    TimeNorm = "Лекции",
+                                    TotalSum = lec.AcademicPlanRecordElement.PlanHours
+                                });
+                            }
+                        }
+
+                        // Ведет ли преподаватель практики
+                        var timeNormPrac = timeNorms.FirstOrDefault(y => y.TimeNormShortName == "Пр");
+                        if (timeNormPrac != null)
+                        {
+                            // объединение практик по потокам
+                            var apre = context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == elem.AcademicPlanRecordId && x.TimeNormId == timeNormPrac.Id && !x.IsDeleted);
+                            if (apre != null)
+                            {
+                                var stream = context.StreamLessonRecords.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.StreamLesson.AcademicYearId == model.AcademicYearId && !x.IsDeleted);
+                                if (stream != null)
+                                {
+                                    string comment = string.Format("объеденить практики с: {0}.", string.Join(",", context.StreamLessonRecords
+                                            .Where(x => x.StreamLessonId == stream.StreamLessonId && x.Id != stream.Id && !x.IsDeleted)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
+                                            .SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
+                                            .Include(x => x.StudentGroup)
+                                            .Select(x => x.StudentGroup.ToString())));
+                                    if (string.IsNullOrEmpty(ldtd.Comment) || !ldtd.Comment.Contains(comment))
+                                    {
+                                        ldtd.Comment += comment;
+                                    }
+                                }
+                            }
+
+                            var prac = query.FirstOrDefault(x => x.AcademicPlanRecordElement.TimeNormId == timeNormPrac.Id &&
+                                                x.AcademicPlanRecordElement.AcademicPlanRecordId == elem.AcademicPlanRecordId);
+                            if (prac != null)
+                            {
+                                var dtdrs = context.DisciplineTimeDistributionRecords.Where(x => x.DisciplineTimeDistributionId == elem.Id && x.TimeNormId == timeNormPrac.Id && !x.IsDeleted).ToList();
+                                var dtdc = context.DisciplineTimeDistributionClassrooms.FirstOrDefault(x => x.DisciplineTimeDistributionId == elem.Id && x.TimeNormId == timeNormPrac.Id && !x.IsDeleted);
+                                ldtd.LecturerDisciplineTimeDistributionElements.Add(new LecturerDisciplineTimeDistributionElement
+                                {
+                                    DisciplineTimeDistributionRecordFirstWeekFirstHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Id,
+                                    DisciplineTimeDistributionRecordFirstWeekFirstHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Hours,
+                                    DisciplineTimeDistributionRecordSecondWeekFirstHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Id,
+                                    DisciplineTimeDistributionRecordSecondWeekFirstHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Hours,
+                                    DisciplineTimeDistributionRecordFirstWeekSecondHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 9)?.Id,
+                                    DisciplineTimeDistributionRecordFirstWeekSecondHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 9).Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 9)?.Hours,
+                                    DisciplineTimeDistributionRecordSecondWeekSecondHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Id,
+                                    DisciplineTimeDistributionRecordSecondWeekSecondHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Hours,
+                                    DisciplineTimeDistributionClassroomId = dtdc?.Id,
+                                    DisciplineTimeDistributionClassroom = dtdc?.ClassroomDescription,
+                                    TimeNorm = "Практ. занятия, семинары",
+                                    TotalSum = prac.AcademicPlanRecordElement.PlanHours
+                                });
+                            }
+                        }
+
+                        // Ведет ли преподаватель практики
+                        var timeNormLab = timeNorms.FirstOrDefault(y => y.TimeNormShortName == "Лаб");
+                        if (timeNormLab != null)
+                        {
+                            // объединение лабораторные по потокам
+                            var apre = context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == elem.AcademicPlanRecordId && x.TimeNormId == timeNormLab.Id && !x.IsDeleted);
+                            if (apre != null)
+                            {
+                                var stream = context.StreamLessonRecords.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.StreamLesson.AcademicYearId == model.AcademicYearId && !x.IsDeleted);
+                                if (stream != null)
+                                {
+                                    string comment = string.Format("объеденить лабораторные с: {0}.", string.Join(",", context.StreamLessonRecords
+                                            .Where(x => x.StreamLessonId == stream.StreamLessonId && x.Id != stream.Id && !x.IsDeleted)
+                                            .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
+                                            .SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
+                                            .Include(x => x.StudentGroup)
+                                            .Select(x => x.StudentGroup.ToString())));
+                                    if (string.IsNullOrEmpty(ldtd.Comment) || !ldtd.Comment.Contains(comment))
+                                    {
+                                        ldtd.Comment += comment;
+                                    }
+                                }
+                            }
+
+                            var lab = query.FirstOrDefault(x => x.AcademicPlanRecordElement.TimeNormId == timeNormLab.Id &&
+                                                x.AcademicPlanRecordElement.AcademicPlanRecordId == elem.AcademicPlanRecordId);
+                            if (lab != null)
+                            {
+                                var dtdrs = context.DisciplineTimeDistributionRecords.Where(x => x.DisciplineTimeDistributionId == elem.Id && x.TimeNormId == timeNormLab.Id && !x.IsDeleted).ToList();
+                                var dtdc = context.DisciplineTimeDistributionClassrooms.FirstOrDefault(x => x.DisciplineTimeDistributionId == elem.Id && x.TimeNormId == timeNormLab.Id && !x.IsDeleted);
+                                ldtd.LecturerDisciplineTimeDistributionElements.Add(new LecturerDisciplineTimeDistributionElement
+                                {
+                                    DisciplineTimeDistributionRecordFirstWeekFirstHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Id,
+                                    DisciplineTimeDistributionRecordFirstWeekFirstHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 1)?.Hours,
+                                    DisciplineTimeDistributionRecordSecondWeekFirstHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Id,
+                                    DisciplineTimeDistributionRecordSecondWeekFirstHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 2)?.Hours,
+                                    DisciplineTimeDistributionRecordFirstWeekSecondHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 9)?.Id,
+                                    DisciplineTimeDistributionRecordFirstWeekSecondHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 9).Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 9)?.Hours,
+                                    DisciplineTimeDistributionRecordSecondWeekSecondHalfId = dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Id,
+                                    DisciplineTimeDistributionRecordSecondWeekSecondHalf = dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Hours == 0 ? null : dtdrs.FirstOrDefault(x => x.WeekNumber == 10)?.Hours,
+                                    DisciplineTimeDistributionClassroomId = dtdc?.Id,
+                                    DisciplineTimeDistributionClassroom = dtdc?.ClassroomDescription,
+                                    TimeNorm = "Лабораторные занятия",
+                                    TotalSum = lab.AcademicPlanRecordElement.PlanHours
+                                });
+                            }
+                        }
+
+                        list.Add(ldtd);
+                    }
+
+                    return ResultService<List<LecturerDisciplineTimeDistribution>>.Success(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<LecturerDisciplineTimeDistribution>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService CreateLecturerWorkloads(AcademicYearGetBindingModel model)
         {
             try
             {
@@ -1936,67 +2202,30 @@ namespace AcademicYearImplementations.Implementations
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
-                    // получаем расчасовки на этот учебный год
-                    var disciplineTimeDistribution = context.DisciplineTimeDistributions.Where(record => !record.IsDeleted && record.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id);
-                    /*var timeNorm = _context.TimeNorms.FirstOrDefault(record => !record.IsDeleted && record.AcademicYearId == model.Id
-                        && record.KindOfLoadName == "Лекционное занятие");*/ //Получение трех норм времени для поиска ведомостей
-                    var disciplineBlock = context.DisciplineBlocks.FirstOrDefault(record => record.Title.Contains("Дисциплины"));
-                    //Поиск найзначеных часов преподавателям
-                    var APR = context.AcademicPlanRecords.Where(record => !record.IsDeleted)
-                        .Include(record => record.Discipline).Include(record => record.Contingent).Where(record => record.Discipline.DisciplineBlockId == disciplineBlock.Id);
-                    //string nameTN = tn.KindOfLoadName == "Зачет с оценкой" ? "Диференцированный_зачет" : tn.KindOfLoadName;
-                    foreach (var APRRecord in APR)
-                    {
-                        var studentGroup = context.StudentGroups.Where(record => !record.IsDeleted && record.EducationDirectionId == APRRecord.Contingent.EducationDirectionId
-                            && record.Course == APRRecord.Contingent.Course);
-                        foreach (var SGRecord in studentGroup)
-                        {
-                            if (disciplineTimeDistribution.FirstOrDefault(record => !record.IsDeleted
-                                 && record.AcademicPlanRecordId == APRRecord.Id
-                                 && record.StudentGroupId == SGRecord.Id) == null)
-                            {
-                                var entity = AcademicYearModelFacotryFromBindingModel.CreateDisciplineTimeDistribution(new DisciplineTimeDistributionSetBindingModel()
-                                {
-                                    AcademicPlanRecordId = APRRecord.Id,
-                                    StudentGroupId = SGRecord.Id,
-                                    Comment = "",
-                                    CommentWishesOfTeacher = ""
-                                });
-                                context.DisciplineTimeDistributions.Add(entity);
-                            }
-                        }
-                    }
-
-                    context.SaveChanges();
-                    CreateAllFindDisciplineTimeDistributionRecord(model);
-                    return ResultService.Success();
-                }
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-
-        public ResultService CreateLecturerWorkload(AcademicYearGetBindingModel model)
-        {
-            try
-            {
-                using (var context = DepartmentUserManager.GetContext)
-                {
-                    DepartmentUserManager.CheckAccess(AccessOperation.Учебные_планы, AccessType.View, "Учебные планы");
 
                     var lecturers = context.Lecturers.Where(x => !x.IsDeleted).ToList();
                     foreach (var lecturer in lecturers)
                     {
-                        context.LecturerWorkload.Add(AcademicYearModelFacotryFromBindingModel.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
+                        var lecturerWorkload = context.LecturerWorkload.FirstOrDefault(x => x.LecturerId == lecturer.Id && x.AcademicYearId == model.Id);
+                        if (lecturerWorkload == null)
                         {
-                            LecturerId = lecturer.Id,
-                            AcademicYearId = model.Id.Value,
-                            Workload = 0
-                        }));
-                        context.SaveChanges();
+                            lecturerWorkload = AcademicYearModelFacotryFromBindingModel.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
+                            {
+                                LecturerId = lecturer.Id,
+                                AcademicYearId = model.Id.Value,
+                                Workload = 0
+                            });
+                            context.LecturerWorkload.Add(lecturerWorkload);
+                            context.SaveChanges();
+                        }
+                        else if (lecturerWorkload.IsDeleted)
+                        {
+                            lecturerWorkload.IsDeleted = false;
+                            context.SaveChanges();
+                        }
                     }
+
+                    transaction.Commit();
 
                     return ResultService.Success();
                 }
@@ -2007,7 +2236,7 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        public ResultService ImportLecturerWorkload(ImportLecturerWorkloadBindingModel model)
+        public ResultService ImportLecturerWorkloads(ImportLecturerWorkloadBindingModel model)
         {
             try
             {
@@ -2154,7 +2383,7 @@ namespace AcademicYearImplementations.Implementations
 
                             MergeCells mergeCells = new MergeCells();
                             string[] symbols = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-                            for(int i = 0; i < counter - 2; ++i)
+                            for (int i = 0; i < counter - 2; ++i)
                             {
                                 MergeCell mergeCell;
                                 if (i < symbols.Length)
@@ -2163,8 +2392,11 @@ namespace AcademicYearImplementations.Implementations
                                 }
                                 else
                                 {
-                                    mergeCell = new MergeCell() { Reference = new StringValue(symbols[i / symbols.Length - 1] + symbols[i % symbols.Length] + "1" + ":" + 
-                                        symbols[i / symbols.Length - 1] + symbols[i % symbols.Length] + "4") };
+                                    mergeCell = new MergeCell()
+                                    {
+                                        Reference = new StringValue(symbols[i / symbols.Length - 1] + symbols[i % symbols.Length] + "1" + ":" +
+                                        symbols[i / symbols.Length - 1] + symbols[i % symbols.Length] + "4")
+                                    };
                                 }
                                 mergeCells.Append(mergeCell);
                             }
@@ -2234,29 +2466,35 @@ namespace AcademicYearImplementations.Implementations
             {
                 DepartmentUserManager.CheckAccess(AccessOperation.Индивидуальный_план, AccessType.Delete, "Индивидуальный план");
 
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var kindOfWorks = context.IndividualPlanKindOfWorks.Where(record => !record.IsDeleted).ToList();
-                    var lecturers = context.Lecturers.Where(record => !record.IsDeleted).ToList();
+                    var kindOfWorks = context.IndividualPlanKindOfWorks.Where(x => !x.IsDeleted).ToList();
+                    var lecturers = context.Lecturers.Where(x => !x.IsDeleted).ToList();
                     using (var transaction = context.Database.BeginTransaction())
                     {
-                        foreach (var lec in lecturers)
+                        foreach (var lecturer in lecturers)
                         {
-                            var individualPlan = context.IndividualPlans.FirstOrDefault(record => !record.IsDeleted && record.LecturerId == lec.Id && record.AcademicYearId == model.Id);
+                            var individualPlan = context.IndividualPlans.FirstOrDefault(x => x.LecturerId == lecturer.Id && x.AcademicYearId == model.Id);
                             if (individualPlan == null)
                             {
                                 individualPlan = AcademicYearModelFacotryFromBindingModel.CreateIndividualPlan(new IndividualPlanSetBindingModel
                                 {
                                     AcademicYearId = model.Id.Value,
-                                    LecturerId = lec.Id,
+                                    LecturerId = lecturer.Id,
                                 });
                                 context.IndividualPlans.Add(individualPlan);
                                 context.SaveChanges();
                             }
+                            else if (individualPlan.IsDeleted)
+                            {
+                                individualPlan.IsDeleted = false;
+                                context.SaveChanges();
+                            }
+
                             var lecturersTimes = context.IndividualPlanRecords.Where(record => !record.IsDeleted && record.IndividualPlanId == individualPlan.Id);
                             foreach (var kindOfW in kindOfWorks)
                             {
+                                var individualPlanRecord = context.IndividualPlanRecords.FirstOrDefault(x => x.IndividualPlanKindOfWorkId == kindOfW.Id && x.IndividualPlanId == individualPlan.Id);
                                 if (lecturersTimes.FirstOrDefault(record => record.IndividualPlanKindOfWorkId == kindOfW.Id) == null)
                                 {
                                     var entity = AcademicYearModelFacotryFromBindingModel.CreateIndividualPlanRecord(new IndividualPlanRecordSetBindingModel
@@ -2304,7 +2542,7 @@ namespace AcademicYearImplementations.Implementations
             newCell.DataType = new EnumValue<CellValues>(type);
 
         }
-        
+
         /// <summary>
         /// Метод генерирует стили для ячеек
         /// </summary>

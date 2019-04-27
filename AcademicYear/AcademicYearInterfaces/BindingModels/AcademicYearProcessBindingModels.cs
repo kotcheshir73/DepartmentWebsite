@@ -105,4 +105,11 @@ namespace AcademicYearInterfaces.BindingModels
 
         public string Path { get; set; }
     }
+
+    public class LecturerDisciplineTimeDistributions
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid UserId { get; set; }
+    }
 }
