@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using BaseInterfaces.ViewModels;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -7,6 +9,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,27 +23,28 @@
             </div>
             <div class="navbar-collapse collapse">
                 <div id="menu">
-                    <p></p>
-                    <ul>
-                        <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                        <li>
-                            @Html.ActionLink("Индивидуальный план", "", "")
-                            <ul>
-                                <li>@Html.ActionLink("Учебно-методическая работа", "Metodich", "IndividualPlan")</li>
-                                <li>@Html.ActionLink("Организационно-методическая работа", "Organizac", "IndividualPlan")</li>
-                                <li>@Html.ActionLink("Воспитательная работа", "Vospit", "IndividualPlan")</li>
-                                <li>@Html.ActionLink("Научно-исследовательская работа", "Index", "NIR")</li>
-                            </ul>
-                        </li>
-                        <li>@Html.ActionLink("Расчасовки", "Index", "Grafic")</li>
-                        <li>
-                            @Html.ActionLink("Ведомости", "Index", "Statement")
-                        </li>
-                        <li>
-                            @Html.ActionLink("Сводная ведомость", "Index", "SummaryStatement")
-                        </li>
-
-                    </ul>
+                    @Html.Action("GetMenuList", "Menu")
+                    @*@RenderBody()*@
+                    @*<p></p>
+        <ul>
+            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+            <li>
+                @Html.ActionLink("Индивидуальный план", "", "")
+                <ul>
+                    <li>@Html.ActionLink("Учебно-методическая работа", "Metodich", "IndividualPlan")</li>
+                    <li>@Html.ActionLink("Организационно-методическая работа", "Organizac", "IndividualPlan")</li>
+                    <li>@Html.ActionLink("Воспитательная работа", "Vospit", "IndividualPlan")</li>
+                    <li>@Html.ActionLink("Научно-исследовательская работа", "Index", "NIR")</li>
+                </ul>
+            </li>
+            <li>@Html.ActionLink("Расчасовки", "Index", "Grafic")</li>
+            <li>
+                @Html.ActionLink("Ведомости", "Index", "Statement")
+            </li>
+            <li>
+                @Html.ActionLink("Сводная ведомость", "Index", "SummaryStatement")
+            </li>
+        </ul>*@
                     <div style="clear: both;"></div>
                 </div>
 
