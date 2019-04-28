@@ -2,24 +2,22 @@
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.ViewModels;
 using Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using Tools;
 
 namespace DepartmentWeb.Services
 {
-    public class MenuService
+    public class LecturerService
     {
 
         public static ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
         {
             try
             {
-                //DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
-
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
@@ -49,6 +47,33 @@ namespace DepartmentWeb.Services
             catch (Exception ex)
             {
                 return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public static ResultService<LecturerViewModel> GetLecturer(LecturerGetBindingModel model)
+        {
+            try
+            {                
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var entity = context.Lecturers
+                                .Include(x => x.LecturerPost)
+                                .FirstOrDefault(x => x.Id == model.Id);
+                    if (entity == null)
+                    {
+                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (entity.IsDeleted)
+                    {
+                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                    }
+
+                    return ResultService<LecturerViewModel>.Success(ModelFactoryToViewModel.CreateLecturerViewModel(entity));
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<LecturerViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

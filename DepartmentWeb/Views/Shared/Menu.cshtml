@@ -6,11 +6,11 @@
         <p></p>
         <ul>
             <li style="color:white">
-                @item.Name                
+                @Html.ActionLink(item.Name, item.Action, item.Controller)
                 <ul @*style="overflow-y:scroll;max-height:100%"*@>
                     @foreach (var tmp in item.Child)
                     {
-                        <li>@Html.ActionLink(tmp.Name, tmp.Action, tmp.Controller, new { id = tmp.Id },  null)</li>
+                        <li>@Html.ActionLink(tmp.Name, tmp.Action, tmp.Controller, new { id = tmp.Id }, null)</li>
                     }
                 </ul>
             </li>

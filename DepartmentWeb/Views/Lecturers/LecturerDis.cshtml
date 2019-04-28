@@ -1,0 +1,8 @@
+﻿@model List<LearningProgressInterfaces.ViewModels.LearningProcessDisciplineViewModel>
+
+    @foreach(var item in Model)
+    {
+        <li>@Html.ActionLink(item.DisciplineName, "")</li>
+    }
+
+

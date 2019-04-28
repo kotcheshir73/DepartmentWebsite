@@ -1,0 +1,14 @@
+﻿@model List<BaseInterfaces.ViewModels.LecturerViewModel>
+@{
+    ViewBag.Title = "Преподаватели";
+}
+
+<h2>Преподаватели</h2>
+
+@foreach (var tmp in Model)
+{
+<li>
+    @Html.ActionLink(tmp.FullName + " - " + tmp.Post + tmp.LecturerPost, "Lecturer", "Lecturers", new { id = tmp.Id }, null)
+    <img src="data:image/png;base64,@(Convert.ToBase64String(tmp.PhotoByteArr))" />    
+</li>
+}

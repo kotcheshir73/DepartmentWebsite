@@ -19,12 +19,12 @@ namespace DepartmentWeb.Controllers
         {
             //Tools.DepartmentUserManager.Login("admin", "qwerty");
             List<MenuElementModel> menuElements = new List<MenuElementModel>();
-            MenuElementModel lecturer = new MenuElementModel() { Name = "Преподаватели", Child = new List<MenuElementModel>(), Controller = "", Action = ""  };
+            MenuElementModel lecturer = new MenuElementModel() { Name = "Преподаватели", Child = new List<MenuElementModel>(), Controller = "Lecturers", Action = "Index" };
 
-            var list = DepartmentWeb.Services.MenuService.GetLecturers(new BaseInterfaces.BindingModels.LecturerGetBindingModel());
+            var list = DepartmentWeb.Services.LecturerService.GetLecturers(new BaseInterfaces.BindingModels.LecturerGetBindingModel());
             foreach (var tmp in list.Result.List)
             {
-                lecturer.Child.Add(new MenuElementModel() { Id = tmp.Id, Name = tmp.FullName, Controller = "Lecturer", Action = "Index" });
+                lecturer.Child.Add(new MenuElementModel() { Id = tmp.Id, Name = tmp.FullName, Controller = "Lecturers", Action = "Lecturer" });
             }
 
             menuElements.Add(lecturer);
