@@ -2194,6 +2194,101 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
+        public ResultService SetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributionSet model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    var dtd = context.DisciplineTimeDistributions.FirstOrDefault(x => x.Id == model.DisciplineTimeDistributionId);
+                    if (dtd == null)
+                    {
+                        return ResultService.Error("Error:", "Элемент расчасовка не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (dtd.IsDeleted)
+                    {
+                        return ResultService.Error("Error:", "Элемент расчасовка был удален", ResultServiceStatusCode.WasDelete);
+                    }
+                    dtd.Comment = model.Comment;
+                    dtd.CommentWishesOfTeacher = model.CommentWishesOfTeacher;
+
+                    context.SaveChanges();
+
+                    foreach(var elem in model.LecturerDisciplineTimeDistributionElements)
+                    {
+                        var dtdClassroom = context.DisciplineTimeDistributionClassrooms.FirstOrDefault(x => x.Id == elem.DisciplineTimeDistributionClassroomId);
+                        if (dtdClassroom == null)
+                        {
+                            return ResultService.Error("Error:", "Элемент аудитория расчасовки не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        else if (dtdClassroom.IsDeleted)
+                        {
+                            return ResultService.Error("Error:", "Элемент аудитория расчасовки был удален", ResultServiceStatusCode.WasDelete);
+                        }
+                        dtdClassroom.ClassroomDescription = elem.DisciplineTimeDistributionClassroom;
+                        context.SaveChanges();
+
+                        var tdtdRecordFirstFirst = context.DisciplineTimeDistributionRecords.FirstOrDefault(x => x.Id == elem.DisciplineTimeDistributionRecordFirstWeekFirstHalfId);
+                        if (tdtdRecordFirstFirst == null)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        else if (tdtdRecordFirstFirst.IsDeleted)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки был удален", ResultServiceStatusCode.WasDelete);
+                        }
+                        tdtdRecordFirstFirst.Hours = elem.DisciplineTimeDistributionRecordFirstWeekFirstHalf ?? 0;
+                        context.SaveChanges();
+
+                        var tdtdRecordSecondFirst = context.DisciplineTimeDistributionRecords.FirstOrDefault(x => x.Id == elem.DisciplineTimeDistributionRecordSecondWeekFirstHalfId);
+                        if (tdtdRecordSecondFirst == null)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        else if (tdtdRecordSecondFirst.IsDeleted)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки был удален", ResultServiceStatusCode.WasDelete);
+                        }
+                        tdtdRecordSecondFirst.Hours = elem.DisciplineTimeDistributionRecordSecondWeekFirstHalf ?? 0;
+                        context.SaveChanges();
+
+                        var tdtdRecordFirstSecond = context.DisciplineTimeDistributionRecords.FirstOrDefault(x => x.Id == elem.DisciplineTimeDistributionRecordFirstWeekSecondHalfId);
+                        if (tdtdRecordFirstSecond == null)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        else if (tdtdRecordFirstSecond.IsDeleted)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки был удален", ResultServiceStatusCode.WasDelete);
+                        }
+                        tdtdRecordFirstSecond.Hours = elem.DisciplineTimeDistributionRecordFirstWeekSecondHalf ?? 0;
+                        context.SaveChanges();
+
+                        var tdtdRecordSecondSecond = context.DisciplineTimeDistributionRecords.FirstOrDefault(x => x.Id == elem.DisciplineTimeDistributionRecordSecondWeekSecondHalfId);
+                        if (tdtdRecordSecondSecond == null)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        else if (tdtdRecordSecondSecond.IsDeleted)
+                        {
+                            return ResultService.Error("Error:", "Элемент часы расчасовки был удален", ResultServiceStatusCode.WasDelete);
+                        }
+                        tdtdRecordSecondSecond.Hours = elem.DisciplineTimeDistributionRecordSecondWeekSecondHalf ?? 0;
+                        context.SaveChanges();
+                    }
+
+                    transaction.Commit();
+
+                    return ResultService.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService CreateLecturerWorkloads(AcademicYearGetBindingModel model)
         {
             try

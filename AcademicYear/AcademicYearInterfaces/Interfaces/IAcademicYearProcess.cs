@@ -96,6 +96,13 @@ namespace AcademicYearInterfaces.Interfaces
         ResultService<List<LecturerDisciplineTimeDistribution>> GetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributions model);
 
         /// <summary>
+        /// Сохранение расчасовки преподавателя
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService SetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributionSet model);
+
+        /// <summary>
 		/// Создание нагрузок преподавателей
 		/// </summary>
 		/// <param name="model"></param>
