@@ -146,4 +146,13 @@ namespace AcademicYearInterfaces.BindingModels
 
         public string DisciplineTimeDistributionClassroom { get; set; }
     }
+
+    public class ImportDisciplineTimeDistributions
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public string Path { get; set; }
+
+        public int Semester { get; set; }
+    }
 }

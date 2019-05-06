@@ -17,14 +17,17 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
 
         private readonly IDisciplineTimeDistributionService _service;
 
+        private readonly IAcademicYearProcess _process;
+
         private Guid? _aprId;
 
         private Guid? _ayId;
 
-        public ControlDisciplineTimeDistribution(IDisciplineTimeDistributionService service)
+        public ControlDisciplineTimeDistribution(IDisciplineTimeDistributionService service, IAcademicYearProcess process)
         {
             InitializeComponent();
             _service = service;
+            _process = process;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
@@ -34,14 +37,20 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
                 new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 100, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd", "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string> { "toolStripButtonAdd" };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+            {
+                { "ImportLecturersToolStripMenuItem", "Выгрузить расчасовки по преподавателям"}
+            };
+
+            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("ImportLecturersToolStripMenuItem", ImportLecturersToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -144,6 +153,27 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
                         }
                     }
                     standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void ImportLecturersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                var result = _process.ImportDisciplineTimeDistributionsLecturers(new ImportDisciplineTimeDistributions
+                {
+                    AcademicYearId = _ayId.Value,
+                    Path = fbd.SelectedPath
+                });
+                if (!result.Succeeded)
+                {
+                    ErrorMessanger.PrintErrorMessage("При выгрузке возникла ошибка: ", result.Errors);
+                }
+                else
+                {
+                    MessageBox.Show("Готово", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
