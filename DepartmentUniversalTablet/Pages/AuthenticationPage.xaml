@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="DepartmentUniversalTablet.Pages.AuthenticationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DepartmentUniversalTablet.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Margin="20" VerticalAlignment="Center" >
+            <TextBox x:Name="login" PlaceholderText="Login"   Margin="10"/>
+            <PasswordBox x:Name="password" PlaceholderText="Password" Margin="10"/>
+            <Button x:Name="button" Content="Войти" Click="buttonClick" HorizontalAlignment="Stretch" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Page>
