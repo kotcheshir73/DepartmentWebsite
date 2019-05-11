@@ -12,7 +12,7 @@
         <StackPanel Margin="20" VerticalAlignment="Center" >
             <TextBox x:Name="login" PlaceholderText="Login"   Margin="10"/>
             <PasswordBox x:Name="password" PlaceholderText="Password" Margin="10"/>
-            <Button x:Name="button" Content="Войти" Click="buttonClick" HorizontalAlignment="Stretch" Margin="10"/>
+            <Button x:Name="button" Content="Войти" Click="buttonClickAsync" HorizontalAlignment="Stretch" Margin="10"/>
         </StackPanel>
     </Grid>
 </Page>

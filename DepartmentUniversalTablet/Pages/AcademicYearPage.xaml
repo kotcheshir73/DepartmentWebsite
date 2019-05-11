@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="DepartmentUniversalTablet.Pages.AcademicYearPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DepartmentUniversalTablet.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <Page.Resources>
+        <Style TargetType="Button" >
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Background" Value="#34495e" />
+            <Setter Property="Control.Foreground" Value="#ecf0f1" />
+            <Setter Property="Control.Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer>
+        <Grid x:Name="grid">
+
+        </Grid>
+    </ScrollViewer>
+</Page>
