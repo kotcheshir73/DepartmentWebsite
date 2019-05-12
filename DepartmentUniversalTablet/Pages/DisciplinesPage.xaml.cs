@@ -67,7 +67,9 @@ namespace DepartmentUniversalTablet.Pages
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-
+            ImportManager importManager = new ImportManager();
+            var discipline = importManager.extCollection.FirstOrDefault(x => x.Discipline == ((Button)sender).Content.ToString());
+            Frame.Navigate(discipline != null ? discipline.GetUI : importManager.extCollection.FirstOrDefault(x => x.Discipline == "Standart").GetUI, sender);
         }
 
     }
