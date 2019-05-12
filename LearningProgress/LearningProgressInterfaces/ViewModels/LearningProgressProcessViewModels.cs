@@ -7,6 +7,11 @@ namespace LearningProgressInterfaces.ViewModels
         public Guid Id { get; set; }
 
         public string DisciplineName { get; set; }
+
+        public override string ToString()
+        {
+            return DisciplineName;
+        }
     }
 
     public class LearningProcessDisciplineDetailViewModel

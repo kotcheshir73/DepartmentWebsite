@@ -34,7 +34,7 @@ namespace DepartmentUniversalTablet.Pages
             {
                 if (DepartmentUserManager.Login(login.Text, password.Password))
                 {
-
+                    Frame.Navigate(typeof(EducationDirectionsPage));
                 }
             }
             catch(Exception ex)
