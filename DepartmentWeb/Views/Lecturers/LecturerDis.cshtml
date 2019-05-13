@@ -2,7 +2,7 @@
 
     @foreach(var item in Model)
     {
-        <li>@Html.ActionLink(item.DisciplineName, "")</li>
+        <li>@Html.ActionLink(item.DisciplineName, "DisContent", "Discipline", new { id = item.Id }, null)</li>
     }
 
 

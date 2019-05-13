@@ -262,6 +262,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\DisciplineController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndividualPlanController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
@@ -348,6 +349,8 @@
     <Content Include="Views\Lecturers\Index.cshtml" />
     <Content Include="Views\Lecturers\Lecturer.cshtml" />
     <Content Include="Views\Lecturers\LecturerDis.cshtml" />
+    <Content Include="Views\Discipline\Index.cshtml" />
+    <Content Include="Views\Discipline\DisContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

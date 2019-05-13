@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentWeb", "DepartmentWeb\DepartmentWeb.csproj", "{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}"
 EndProject
@@ -81,9 +81,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examination", "Examination"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExaminationInterfaces", "Examination\ExaminationInterfaces\ExaminationInterfaces.csproj", "{0DB32F00-A6D8-44EE-B5B5-A9ECFC495469}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExaminationImplementations", "Examination\ExaminationImplementations\ExaminationImplementations.csproj", "{9A940850-A7EF-42B3-B2F1-5DC73BACE869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExaminationImplementations", "Examination\ExaminationImplementations\ExaminationImplementations.csproj", "{9A940850-A7EF-42B3-B2F1-5DC73BACE869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExaminationControlsAndForms", "Examination\ExaminationControlsAndForms\ExaminationControlsAndForms.csproj", "{DB99B176-3158-4270-B530-670D7E3FCFD0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{0BF95E74-85A2-4089-8252-B01A5266BB03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebImplementations", "WebImplementations\WebImplementations.csproj", "{CAC806D0-4DA3-4826-BE60-53E87CCB6956}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebInterfaces", "WebInterfaces\WebInterfaces.csproj", "{6640D462-30E3-4CCF-AE09-358FE1C24076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -597,6 +603,38 @@ Global
 		{DB99B176-3158-4270-B530-670D7E3FCFD0}.Release|x64.Build.0 = Release|Any CPU
 		{DB99B176-3158-4270-B530-670D7E3FCFD0}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB99B176-3158-4270-B530-670D7E3FCFD0}.Release|x86.Build.0 = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|ARM.Build.0 = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|x64.Build.0 = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Debug|x86.Build.0 = Debug|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|ARM.ActiveCfg = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|ARM.Build.0 = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|x64.Build.0 = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|x86.ActiveCfg = Release|Any CPU
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956}.Release|x86.Build.0 = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|x64.Build.0 = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Debug|x86.Build.0 = Debug|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|ARM.Build.0 = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|x64.ActiveCfg = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|x64.Build.0 = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|x86.ActiveCfg = Release|Any CPU
+		{6640D462-30E3-4CCF-AE09-358FE1C24076}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -629,6 +667,8 @@ Global
 		{0DB32F00-A6D8-44EE-B5B5-A9ECFC495469} = {D4712E11-05E8-47EC-82FB-E5A85FCE5A80}
 		{9A940850-A7EF-42B3-B2F1-5DC73BACE869} = {D4712E11-05E8-47EC-82FB-E5A85FCE5A80}
 		{DB99B176-3158-4270-B530-670D7E3FCFD0} = {D4712E11-05E8-47EC-82FB-E5A85FCE5A80}
+		{CAC806D0-4DA3-4826-BE60-53E87CCB6956} = {0BF95E74-85A2-4089-8252-B01A5266BB03}
+		{6640D462-30E3-4CCF-AE09-358FE1C24076} = {0BF95E74-85A2-4089-8252-B01A5266BB03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD70DF74-4FDA-48C1-8C85-D1B0880CFFFE}

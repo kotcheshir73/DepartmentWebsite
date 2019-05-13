@@ -7,6 +7,7 @@ using Models.Examination;
 using Models.LaboratoryHead;
 using Models.LearningProgress;
 using Models.Schedule;
+using Models.Web;
 using System;
 
 namespace DatabaseContext
@@ -121,6 +122,11 @@ namespace DatabaseContext
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<ScheduleLessonTime> ScheduleLessonTimes { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
+        #endregion
+
+        #region Web
+        public virtual DbSet<Event> Events { set; get; }
+        public virtual DbSet<Comment> Comments { set; get; }
         #endregion
 
         public virtual DbSet<CurrentSettings> CurrentSettings { set; get; }
