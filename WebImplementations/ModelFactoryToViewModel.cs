@@ -34,5 +34,18 @@ namespace WebImplementations
             };
         }
 
+        public static WebProcessLevelCommentViewModel CreateWebProcessLevelCommentViewModel(Comment entity)
+        {
+            return new WebProcessLevelCommentViewModel
+            {
+                Id = entity.Id,
+                Content = entity.Content,
+                Date = entity.DateCreate,
+                DepartmentUser = entity.DepartmentUser.UserName,
+                IsChild = entity.ChildComments.Count!=0
+            };
+        }
+        
+
     }
 }
