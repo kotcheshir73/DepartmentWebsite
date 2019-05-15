@@ -15,4 +15,13 @@ namespace WebInterfaces.BindingModels
     {
         
     }
+
+    public class WebProcessFolderLoadSetBindingModel
+    {
+        public string DisciplineName { get; set; }
+
+        public string Semestr { get; set; }
+
+        public string TimeNorm { get; set; }
+    }
 }

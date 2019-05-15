@@ -15,5 +15,12 @@ namespace WebInterfaces.Interfaces
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<WebProcessLevelCommentPageViewModel> GetListLevelComment(CommentGetBindingModel model);
+
+        /// <summary>
+		/// Создание папок для дисциплины
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model);
     }
 }

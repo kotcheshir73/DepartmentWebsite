@@ -9,6 +9,8 @@ using ScheduleInterfaces.Interfaces;
 using System;
 using Unity;
 using Unity.Lifetime;
+using WebImplementations.Implementations;
+using WebInterfaces.Interfaces;
 
 namespace DepartmentWeb
 {
@@ -103,6 +105,10 @@ namespace DepartmentWeb
             container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
             container.RegisterType<IAcademicYearProcess, AcademicYearProcess>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebProcessService, WebProcessService>(new HierarchicalLifetimeManager());
         }
     }
 }

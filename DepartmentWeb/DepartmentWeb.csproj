@@ -351,6 +351,7 @@
     <Content Include="Views\Lecturers\LecturerDis.cshtml" />
     <Content Include="Views\Discipline\Index.cshtml" />
     <Content Include="Views\Discipline\DisContent.cshtml" />
+    <Content Include="Views\Discipline\LoadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -428,6 +429,14 @@
     <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj">
       <Project>{58DE8AB4-B69F-499C-BCF6-B5720B88ECC4}</Project>
       <Name>ScheduleInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebImplementations\WebImplementations.csproj">
+      <Project>{CAC806D0-4DA3-4826-BE60-53E87CCB6956}</Project>
+      <Name>WebImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj">
+      <Project>{6640D462-30E3-4CCF-AE09-358FE1C24076}</Project>
+      <Name>WebInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

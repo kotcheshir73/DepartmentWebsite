@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Tools;
@@ -13,6 +14,50 @@ namespace WebImplementations.Implementations
 {
     public class WebProcessService : IWebProcessService
     {
+        public void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model)
+        {
+            //определить путь для папок
+            string path = @"D:\Department\";
+            string tmp = "";
+            var dis = model.FirstOrDefault().DisciplineName;
+            DirectoryInfo dirInfo;
+
+            foreach (var sem in model.Select(x => new { Semestr = x.Semestr  }).GroupBy(x => x.Semestr))
+            {
+                foreach (var tn in model.Select(x => new { TimeNorm = x.TimeNorm }).GroupBy(x => x.TimeNorm))
+                {
+                    tmp = tn.Key;
+                    if (tn.Key.Contains("Руководство и прием курсовых"))
+                    {
+                        tmp="Курсовая";
+                    }
+                    else if (tn.Key.Contains("Практическое занятие"))
+                    {
+                        tmp = "Практики";
+                    }
+                    else if (tn.Key.Contains("Лабораторное занятие"))
+                    {
+                        tmp = "Лабораторные";
+                    }
+                    else if (tn.Key.Contains("Лекция"))
+                    {
+                        tmp = "Лекции";
+                    }
+                    dirInfo = new DirectoryInfo(path + dis + @"\" + sem.Key + @"\" + tmp);
+                    if (!dirInfo.Exists)
+                    {
+                        dirInfo.Create();
+                    }
+                }
+                dirInfo = new DirectoryInfo(path + dis + @"\" + sem.Key + @"\Дополнительно");
+                if (!dirInfo.Exists)
+                {
+                    dirInfo.Create();
+                }
+            }
+
+        }
+
         public ResultService<WebProcessLevelCommentPageViewModel> GetListLevelComment(CommentGetBindingModel model)
         {
             try
@@ -56,5 +101,7 @@ namespace WebImplementations.Implementations
                 return ResultService<WebProcessLevelCommentPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+
     }
 }
