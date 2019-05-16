@@ -1,19 +1,10 @@
-﻿using AcademicYearImplementations.Implementations;
-using AcademicYearInterfaces.Interfaces;
-using BaseImplementations.Implementations;
-using BaseInterfaces.Interfaces;
-using BaseInterfaces.ViewModels;
-using LearningProgressImplementations.Implementations;
-using LearningProgressInterfaces.BindingModels;
+﻿using LearningProgressImplementations.Implementations;
 using LearningProgressInterfaces.Interfaces;
-using LearningProgressInterfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Tools;
-using Unity;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -23,20 +14,25 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Unity;
+using LearningProgressInterfaces.BindingModels;
+using Tools;
+using BaseInterfaces.ViewModels;
+using LearningProgressInterfaces.ViewModels;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace DepartmentUniversalTablet.Pages
+namespace DepartmentUniversalTablet.ExportPackages.Standart
 {
     /// <summary>
-    /// Страница выбора из назначенных дисциплин.
+    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class DisciplinesPage : Page
+    public sealed partial class TimeNormsPage : Page
     {
         private ILearningProgressProcess _serviceLP;
         private DisciplineLessonGetBindingModel getModel;
 
-        public DisciplinesPage()
+        public TimeNormsPage()
         {
             this.InitializeComponent();
 
@@ -46,11 +42,12 @@ namespace DepartmentUniversalTablet.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             getModel = (DisciplineLessonGetBindingModel)e.Parameter;
-            var list = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
+            var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
             {
-                UserId = DepartmentUserManager.UserId.Value,
                 AcademicYearId = getModel.AcademicYearId.Value,
-                EducationDirectionId = getModel.EducationDirectionId.Value
+                DisciplineId = getModel.DisciplineId.Value,
+                EducationDirectionId = getModel.EducationDirectionId.Value,
+                UserId = DepartmentUserManager.UserId.Value
             }).Result;
 
             Button button1;
@@ -66,12 +63,8 @@ namespace DepartmentUniversalTablet.Pages
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            getModel.DisciplineId = ((LearningProcessDisciplineViewModel)((Button)sender).Content).Id;
-
-            ImportManager importManager = new ImportManager();
-            var discipline = importManager.extCollection.FirstOrDefault(x => x.Discipline == ((Button)sender).Content.ToString());//TODO: Как правильно отбирать
-            Frame.Navigate(discipline != null ? discipline.GetUI : importManager.extCollection.FirstOrDefault(x => x.Discipline == "Standart").GetUI, getModel);
+            getModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
+            Frame.Navigate(typeof(DisciplineLessonsPage), getModel);
         }
-
     }
 }

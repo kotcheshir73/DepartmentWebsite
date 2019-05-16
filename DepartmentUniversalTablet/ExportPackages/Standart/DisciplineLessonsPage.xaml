@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="DepartmentUniversalTablet.ExportPackages.Standart.TypeLessonPage"
+    x:Class="DepartmentUniversalTablet.ExportPackages.Standart.DisciplineLessonsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DepartmentUniversalTablet.ExportPackages.Standart"
@@ -8,9 +8,16 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Style TargetType="Button" >
+            <Setter Property="Control.FontSize" Value="15" />
+            <Setter Property="Control.Margin" Value="20" />
+        </Style>
+    </Page.Resources>
+
     <StackPanel>
-        <TextBlock x:Name="textBlock">
-            MFGB;DFBFGNGFNG
-        </TextBlock>
+        <StackPanel x:Name="grid">
+
+        </StackPanel>
     </StackPanel>
 </Page>

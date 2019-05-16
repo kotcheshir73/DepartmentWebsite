@@ -21,6 +21,11 @@ namespace LearningProgressInterfaces.ViewModels
         public string TimeNormName { get; set; }
 
         public string Info { get; set; }
+
+        public override string ToString()
+        {
+            return TimeNormName;
+        }
     }
 
     public class LessonConductedViewModel

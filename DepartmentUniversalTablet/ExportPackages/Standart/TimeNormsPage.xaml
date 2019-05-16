@@ -1,8 +1,8 @@
 ﻿<Page
-    x:Class="DepartmentUniversalTablet.Pages.EducationDirectionsPage"
+    x:Class="DepartmentUniversalTablet.ExportPackages.Standart.TimeNormsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:DepartmentUniversalTablet.Pages"
+    xmlns:local="using:DepartmentUniversalTablet.ExportPackages.Standart"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -12,13 +12,12 @@
         <Style TargetType="Button" >
             <Setter Property="Control.FontSize" Value="15" />
             <Setter Property="Control.Margin" Value="20" />
-            <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
-
-    <ScrollViewer>
+    
+    <StackPanel>
         <StackPanel x:Name="grid">
 
         </StackPanel>
-    </ScrollViewer>
+    </StackPanel>
 </Page>
