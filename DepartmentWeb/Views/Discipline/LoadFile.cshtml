@@ -1,18 +1,17 @@
-﻿
+﻿@model List<WebInterfaces.ViewModels.WebProcessFileForDownloadViewModel>
 @{
     ViewBag.Title = "LoadFile";
 }
 
-<h2>LoadFile</h2>
+<h3>Выберите папку назначения</h3>
 
-<h3>Выберите файл для загрузки</h3>
-
-
-    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <input type="file" name="uploads" /><br>
-        <input type="file" name="uploads" /><br>
-        <input type="file" name="uploads" /><br>
-        <input type="submit" value="Загрузить" />
-    }
+<p></p>
+<h3>Выберите файлы для загрузки</h3>
+@using (Html.BeginForm("LoadFile", "Discipline", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    @Html.DropDownList("direction", new SelectList(Model, "Path", "Name"))
+    <input id="File1" multiple="multiple" name="File1" type="file" />
+    <input id="btnUpload" type="submit" value="Отправить" />
+}
 

@@ -24,4 +24,9 @@ namespace WebInterfaces.BindingModels
 
         public string TimeNorm { get; set; }
     }
+
+    public class WebProcessDisciplineForDownloadGetBindingModel
+    {
+        public string DisciplineName { get; set; }
+    }
 }

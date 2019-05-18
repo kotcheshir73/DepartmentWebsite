@@ -22,5 +22,12 @@ namespace WebInterfaces.Interfaces
 		/// <param name="model"></param>
 		/// <returns></returns>
 		void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model);
+
+        /// <summary>
+		/// Получение 
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<WebProcessDisciplineForDownloadViewModel> GetDisciplineForDownload(WebProcessDisciplineForDownloadGetBindingModel model);
     }
 }

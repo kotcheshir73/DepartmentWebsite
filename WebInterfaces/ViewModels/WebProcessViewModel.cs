@@ -18,4 +18,47 @@ namespace WebInterfaces.ViewModels
 
         public Guid Id { get; set; }
     }
+
+    public class WebProcessDisciplineForDownloadViewModel
+    {
+        public WebProcessDisciplineForDownloadViewModel()
+        {
+            Semestrs = new List<WebProcessSemestrForDownloadViewModel>();
+            
+        }
+        public string Name { get; set; }
+
+        public List<WebProcessSemestrForDownloadViewModel> Semestrs { get; set; }
+    }
+
+    public class WebProcessSemestrForDownloadViewModel
+    {
+        public WebProcessSemestrForDownloadViewModel()
+        {
+            TimeNorms = new List<WebProcessTimeNormForDownloadViewModel>();
+
+        }
+        public string Name { get; set; }
+
+        public List<WebProcessTimeNormForDownloadViewModel> TimeNorms { get; set; }
+    }
+
+    public class WebProcessTimeNormForDownloadViewModel
+    {
+        public WebProcessTimeNormForDownloadViewModel()
+        {
+            Files = new List<WebProcessFileForDownloadViewModel>();
+
+        }
+        public string Name { get; set; }
+
+        public List<WebProcessFileForDownloadViewModel> Files { get; set; }
+    }
+
+    public class WebProcessFileForDownloadViewModel
+    {
+        public string Name { get; set; }
+
+        public string Path { get; set; }
+    }
 }

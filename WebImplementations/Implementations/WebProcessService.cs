@@ -14,10 +14,11 @@ namespace WebImplementations.Implementations
 {
     public class WebProcessService : IWebProcessService
     {
+        //определить путь для папок
+        private string Path => @"D:\Department\";
+
         public void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model)
-        {
-            //определить путь для папок
-            string path = @"D:\Department\";
+        {            
             string tmp = "";
             var dis = model.FirstOrDefault().DisciplineName;
             DirectoryInfo dirInfo;
@@ -43,19 +44,52 @@ namespace WebImplementations.Implementations
                     {
                         tmp = "Лекции";
                     }
-                    dirInfo = new DirectoryInfo(path + dis + @"\" + sem.Key + @"\" + tmp);
+                    dirInfo = new DirectoryInfo(Path + dis + @"\" + sem.Key + @"\" + tmp);
                     if (!dirInfo.Exists)
                     {
                         dirInfo.Create();
                     }
                 }
-                dirInfo = new DirectoryInfo(path + dis + @"\" + sem.Key + @"\Дополнительно");
+                dirInfo = new DirectoryInfo(Path + dis + @"\" + sem.Key + @"\Дополнительно");
                 if (!dirInfo.Exists)
                 {
                     dirInfo.Create();
                 }
             }
+        }
 
+        public ResultService<WebProcessDisciplineForDownloadViewModel> GetDisciplineForDownload(WebProcessDisciplineForDownloadGetBindingModel model)
+        {
+            try
+            {
+                DirectoryInfo discipline = new DirectoryInfo(Path + model.DisciplineName);
+                WebProcessDisciplineForDownloadViewModel disciplineForDownload
+                = new WebProcessDisciplineForDownloadViewModel() { Name = model.DisciplineName };
+
+                foreach (var semestr in discipline.GetDirectories())
+                {
+                    var semestrForDownload = new WebProcessSemestrForDownloadViewModel() { Name = semestr.Name };
+                    foreach (var timenorm in semestr.GetDirectories())
+                    {
+                        var timenormForDownload = new WebProcessTimeNormForDownloadViewModel() { Name = timenorm.Name };
+                        foreach (var file in timenorm.GetFiles())
+                        {
+                            timenormForDownload.Files.Add(new WebProcessFileForDownloadViewModel()
+                            {
+                                Name = file.Name,
+                                Path = $@"{discipline.Name}\{semestr.Name}\{timenorm.Name}\{file.Name}"
+                            });
+                        }
+                        semestrForDownload.TimeNorms.Add(timenormForDownload);
+                    }
+                    disciplineForDownload.Semestrs.Add(semestrForDownload);
+                }
+                return ResultService<WebProcessDisciplineForDownloadViewModel>.Success(disciplineForDownload);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<WebProcessDisciplineForDownloadViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
         }
 
         public ResultService<WebProcessLevelCommentPageViewModel> GetListLevelComment(CommentGetBindingModel model)
@@ -101,7 +135,5 @@ namespace WebImplementations.Implementations
                 return ResultService<WebProcessLevelCommentPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-
-
     }
 }

@@ -1,9 +1,34 @@
-﻿
+﻿@model WebInterfaces.ViewModels.WebProcessDisciplineForDownloadViewModel
 @{
     ViewBag.Title = "DisContent";
 }
 
-<h2>DisContent</h2>
+<h2>
+    @Model.Name
+</h2>
 <div class="btn btn-default">
-    @Html.ActionLink("Загрузить файлы", "LoadFile", null, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
+    @Html.ActionLink("Загрузить файлы", "LoadFile",  new { Model.Name }, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
 </div>
+
+@foreach (var sem in Model.Semestrs)
+{
+    @:<p>
+    @sem.Name
+    foreach (var tn in sem.TimeNorms)
+    {
+        @:<p>
+        @tn.Name
+        foreach (var file in tn.Files)
+        {
+            @:<p>
+            if (file.Name.Contains(".pdf"))
+            {
+                <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" target="_blank">@file.Name</a><br />
+            }
+            else
+            {
+                <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" >@file.Name</a><br />
+            }
+        }
+    }
+}
