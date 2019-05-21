@@ -22,7 +22,7 @@ namespace DepartmentWeb.Controllers
             MenuElementModel lecturer = new MenuElementModel() { Name = "Преподаватели", Child = new List<MenuElementModel>(), Controller = "Lecturers", Action = "Index" };
 
             var list = DepartmentWeb.Services.LecturerService.GetLecturers(new BaseInterfaces.BindingModels.LecturerGetBindingModel());
-            foreach (var tmp in list.Result.List)
+            foreach (var tmp in list.Result)
             {
                 lecturer.Child.Add(new MenuElementModel() { Id = tmp.Id, Name = tmp.FullName, Controller = "Lecturers", Action = "Lecturer" });
             }

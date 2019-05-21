@@ -1,14 +1,26 @@
 ﻿@model List<BaseInterfaces.ViewModels.LecturerViewModel>
 @{
-    ViewBag.Title = "Преподаватели";
+    ViewBag.Title = "Преподавательский состав";
 }
 
-<h2>Преподаватели</h2>
+<h2 class="page-header">Преподавательский состав</h2>
+<table class="table">    
 
-@foreach (var tmp in Model)
-{
-<li>
-    @Html.ActionLink(tmp.FullName + " - " + tmp.Post + tmp.LecturerPost, "Lecturer", "Lecturers", new { id = tmp.Id }, null)
-    <img src="data:image/png;base64,@(Convert.ToBase64String(tmp.PhotoByteArr))" />    
-</li>
-}
+   @foreach (var tmp in Model)
+    {        
+        <tr id="list">    
+            <td>
+                <img src="data:image/png;base64,@(Convert.ToBase64String(tmp.PhotoByteArr))" alt=@tmp.FullName/>
+            </td>
+            <td >
+                @Html.ActionLink(tmp.LastName + " " 
+                                    + tmp.FirstName + " "  
+                                    + tmp.Patronymic  + " - " 
+                                    + tmp.Post + " " 
+                                    +  tmp.Rank2 + " " 
+                                    + tmp.LecturerPost ,
+                                    "Lecturer", "Lecturers", new { id = tmp.Id }, null)
+            </td>    
+        </tr>
+    }
+</table>

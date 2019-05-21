@@ -3,32 +3,72 @@
     ViewBag.Title = "DisContent";
 }
 
-<h2>
+<h2 class="page-header">
     @Model.Name
 </h2>
+
 <div class="btn btn-default">
-    @Html.ActionLink("Загрузить файлы", "LoadFile",  new { Model.Name }, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
+    @Html.ActionLink("Добавить файлы", "LoadFile", new { Model.Name }, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
 </div>
 
-@foreach (var sem in Model.Semestrs)
-{
-    @:<p>
-    @sem.Name
-    foreach (var tn in sem.TimeNorms)
+
+<div class="text-lec">
+    @foreach (var sem in Model.Semestrs)
     {
-        @:<p>
-        @tn.Name
-        foreach (var file in tn.Files)
-        {
-            @:<p>
-            if (file.Name.Contains(".pdf"))
+
+        <input class="hide" id=@sem.Name type="checkbox">
+        <label for=@sem.Name>@sem.Name семестр</label>
+        @:<div>
+            foreach (var tn in sem.TimeNorms)
             {
-                <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" target="_blank">@file.Name</a><br />
+
+                <input class="hide" id=@(sem.Name+tn.Name) type="checkbox">
+                <label for=@(sem.Name+tn.Name)>@tn.Name</label>
+                @:<div>
+                    foreach (var file in tn.Files)
+                    {
+
+                        if (file.Name.Contains(".pdf"))
+                        {
+                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" target="_blank">@file.Name</a><br />
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})">@file.Name</a><br />
+                        }
+
+                    }
+                @:</div>
+                <br />
             }
-            else
-            {
-                <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" >@file.Name</a><br />
-            }
-        }
+        @:</div>
+        <br />
     }
-}
+</div>
+
+        
+
+
+        @*@foreach (var sem in Model.Semestrs)
+            {
+                @:<p>
+                @sem.Name
+                foreach (var tn in sem.TimeNorms)
+                {
+                    @:<p>
+                    @tn.Name
+                    foreach (var file in tn.Files)
+                    {
+                        @:<p>
+                        if (file.Name.Contains(".pdf"))
+                        {
+                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" target="_blank">@file.Name</a><br />
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" >@file.Name</a><br />
+                        }
+                    }
+                }
+            }
+        *@

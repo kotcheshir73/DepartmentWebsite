@@ -14,39 +14,45 @@ namespace DepartmentWeb.Services
     public class LecturerService
     {
 
-        public static ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
+        public static ResultService<List<LecturerViewModel>> GetLecturers(LecturerGetBindingModel model)
         {
             try
             {
-                int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var query = context.Lecturers.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderBy(x => x.LecturerPost.Hours).ThenBy(x => x.Post).ThenBy(x => x.LastName);
-
-                    if (model.PageNumber.HasValue && model.PageSize.HasValue)
-                    {
-                        countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
-                        query = query
-                                    .Skip(model.PageSize.Value * model.PageNumber.Value)
-                                    .Take(model.PageSize.Value);
-                    }
-
+                    query = query.OrderBy(x => x.LecturerPost.Hours).ThenBy(x => x.LastName);
+                    
                     query = query.Include(x => x.LecturerPost).Include(x => x.LecturerWorkloads);
 
-                    var result = new LecturerPageViewModel
+                    var result = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList();
+
+                    List<string> orderList = new List<string>
                     {
-                        MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList()
+                        "ЗаведующийКафедрой",
+                        "ЗаместительЗаведующегоКафедрой"
                     };
 
-                    return ResultService<LecturerPageViewModel>.Success(result);
+                    var newRes = new List<LecturerViewModel>();
+
+                    foreach(var item in orderList)
+                    {
+                        var tmp = result.FirstOrDefault(x => x.Post == item);
+                        newRes.Add(tmp);
+                        result.Remove(tmp);
+                    }
+                    foreach(var item in result)
+                    {
+                        newRes.Add(item);
+                    }
+
+                    return ResultService<List<LecturerViewModel>>.Success(newRes);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<List<LecturerViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
@@ -67,7 +73,7 @@ namespace DepartmentWeb.Services
                     {
                         return ResultService<LecturerViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-
+                                       
                     return ResultService<LecturerViewModel>.Success(ModelFactoryToViewModel.CreateLecturerViewModel(entity));
                 }
             }

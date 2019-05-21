@@ -76,6 +76,7 @@ namespace DepartmentWeb.Controllers
         [HttpPost]
         public ActionResult LoadFile(HttpPostedFileBase[] file1)
         {
+            
             foreach (var file in file1)
             {
                 //file.SaveAs(Server.MapPath("~/Files/" + Request.Form["direction"].ToString() + "//" + file.FileName)); //сохранение на сервер

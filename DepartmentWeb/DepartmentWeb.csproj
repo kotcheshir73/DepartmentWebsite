@@ -286,7 +286,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\logoUlstu.png" />
+    <Content Include="Images\logo_1_1.png" />
+    <Content Include="Images\Ulstu.png" />
     <Content Include="Images\yng.jpg" />
+    <Content Include="Images\УлГТУ.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

@@ -2,10 +2,11 @@
 
 @foreach (var item in Model)
 {
-    <div id="menu">
+    <div id="menu" >
         <p></p>
         <ul>
-            <li style="color:white">
+            <li><a href="~/Home/Index" style="background:none"> <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a></li>
+            <li style="color:white; margin: 8px">
                 @Html.ActionLink(item.Name, item.Action, item.Controller)
                 <ul @*style="overflow-y:scroll;max-height:100%"*@>
                     @foreach (var tmp in item.Child)
@@ -14,7 +15,10 @@
                     }
                 </ul>
             </li>
-            </ul>
+            
+                <li style="float:right"><a href="http://www.ulstu.ru" style="background:none"> <img src="~/Images/Ulstu.png" width="80" height="50" alt="УлГТУ"></a></li>
+            
+        </ul>
     </div>
     }
 
