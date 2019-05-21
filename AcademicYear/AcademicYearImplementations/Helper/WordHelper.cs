@@ -68,6 +68,38 @@ namespace AcademicYearImplementations.Helper
             }
         }
 
+        public static ResultService ImportDisciplineTimeDistributionsDisciplines(ImportDisciplineTimeDistributions model)
+        {
+            try
+            {
+                DepartmentUserManager.CheckAccess(AccessOperation.Расчасовки, AccessType.View, "Расчасовки");
+
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var disciplines = context.Disciplines.Where(x => !x.IsDeleted);
+
+                    foreach (var discipline in disciplines)
+                    {
+                        // выбираем нагрузку по дисциплине в этом учебном году в этом семестре
+                        var grahp = context.DisciplineTimeDistributions.Where(x => !x.IsDeleted && x.AcademicPlanRecord.DisciplineId == discipline.Id && 
+                                                                x.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId)
+                                        .Include(x => x.AcademicPlanRecord.Discipline).Include(x => x.AcademicPlanRecord.AcademicPlan.AcademicYear)
+                                        .Include(x => x.AcademicPlanRecord.Contingent)
+                                        .Include(x => x.StudentGroup).Include(x => x.StudentGroup.EducationDirection).Include(x => x.StudentGroup.Students)
+                                        .OrderBy(x => x.AcademicPlanRecord.Discipline.DisciplineName).ThenBy(x => x.StudentGroup.GroupName);
+
+                        CreateDisciplineTimeDistributionDocument(string.Format("{0}/{1}.docx", model.Path, discipline.ToString()), grahp.ToList());
+                    }
+
+                    return ResultService.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         private static void CreateDisciplineTimeDistributionDocument(string fileName, List<DisciplineTimeDistribution> grahp)
         {
             using (var context = DepartmentUserManager.GetContext)
