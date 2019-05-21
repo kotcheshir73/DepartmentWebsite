@@ -95,13 +95,32 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportPackages\Standart\DisciplineLessonsPage.xaml.cs">
+      <DependentUpon>DisciplineLessonsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Standart\ExportPackage.cs" />
+    <Compile Include="ExportPackages\Standart\TimeNormsPage.xaml.cs">
+      <DependentUpon>TimeNormsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IExportPackage.cs" />
+    <Compile Include="ImportManager.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AcademicYearsPage.xaml.cs">
+      <DependentUpon>AcademicYearsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DisciplinesPage.xaml.cs">
+      <DependentUpon>DisciplinesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AuthenticationPage.xaml.cs">
       <DependentUpon>AuthenticationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EducationDirectionsPage.xaml.cs">
+      <DependentUpon>EducationDirectionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -124,11 +143,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ExportPackages\Standart\DisciplineLessonsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Standart\TimeNormsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\AcademicYearsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DisciplinesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AuthenticationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EducationDirectionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,13 +176,60 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.6</Version>
     </PackageReference>
+    <PackageReference Include="System.Composition">
+      <Version>1.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Unity">
+      <Version>5.10.3</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AcademicYear\AcademicYearImplementations\AcademicYearImplementations.csproj">
+      <Project>{42a82700-3b9b-4d07-aa62-095bfa1096a0}</Project>
+      <Name>AcademicYearImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj">
+      <Project>{08eb5287-a4a9-4e23-b0a6-5f6bc186b5e6}</Project>
+      <Name>AcademicYearInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Authentication\AuthenticationImplementations\AuthenticationImplementations.csproj">
+      <Project>{cb43bdb1-2fd8-4180-90b8-e83e4cdbe55a}</Project>
+      <Name>AuthenticationImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj">
+      <Project>{5a871e8a-69ff-4338-a42f-30305b18fae9}</Project>
+      <Name>AuthenticationInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LearningProgress\LearningProgressImplementations\LearningProgressImplementations.csproj">
+      <Project>{7d39cda2-4b78-40f0-b33f-5e56e840ef53}</Project>
+      <Name>LearningProgressImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj">
+      <Project>{64072079-cadd-414a-baa5-49e604733d47}</Project>
+      <Name>LearningProgressInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj">
+      <Project>{36250d0e-e6c6-4fa1-b41c-4b757db7fa9f}</Project>
+      <Name>ScheduleImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj">
+      <Project>{58de8ab4-b69f-499c-bcf6-b5720b88ecc4}</Project>
+      <Name>ScheduleInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
   <Identity Name="f2cac53a-5393-42a7-8413-c82fd945a487" Publisher="CN=kater" Version="1.0.0.0" />
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  IgnorableNamespaces="uap mp uap3 iot">
   <mp:PhoneIdentity PhoneProductId="f2cac53a-5393-42a7-8413-c82fd945a487" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>DepartmentUniversalTablet</DisplayName>
@@ -24,8 +27,11 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
-    <Capability Name="privateNetworkClientServer" />
-    <Capability Name="internetClientServer" />
-    <uap:Capability Name="enterpriseAuthentication" />
+    <Capability Name="internetClientServer"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap3:Capability Name="remoteSystem"/>
+    <iot:Capability Name="lowLevelDevices"/>
+    <DeviceCapability Name="proximity"/>
   </Capabilities>
 </Package>

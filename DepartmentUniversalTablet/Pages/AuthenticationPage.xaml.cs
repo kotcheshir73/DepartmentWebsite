@@ -28,9 +28,33 @@ namespace DepartmentUniversalTablet.Pages
             this.InitializeComponent();
         }
 
-        private void buttonClick(object sender, RoutedEventArgs e)
+        private async void buttonClickAsync(object sender, RoutedEventArgs e)
         {
-            DepartmentUserManager.Login("admin", "qwerty");
+            try
+            {
+                if (DepartmentUserManager.Login(login.Text, password.Password))
+                {
+                    Frame.Navigate(typeof(AcademicYearsPage));
+                }
+            }
+            catch(Exception ex)
+            {
+                ContentDialog closeDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Закрыть",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await closeDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    App.Current.Exit();
+                }
+            }
+
         }
     }
 }
