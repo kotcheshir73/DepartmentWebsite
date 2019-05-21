@@ -2028,7 +2028,7 @@ namespace AcademicYearImplementations.Implementations
                                 var stream = context.StreamLessonRecords.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.StreamLesson.AcademicYearId == model.AcademicYearId && !x.IsDeleted);
                                 if (stream != null)
                                 {
-                                    string comment = string.Format("объеденить лекции с: {0}.", string.Join(",", context.StreamLessonRecords
+                                    string comment = string.Format("объединить лекции с: {0}.", string.Join(",", context.StreamLessonRecords
                                             .Where(x => x.StreamLessonId == stream.StreamLessonId && x.Id != stream.Id && !x.IsDeleted)
                                             .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
                                             .SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
@@ -2075,7 +2075,7 @@ namespace AcademicYearImplementations.Implementations
                                 var stream = context.StreamLessonRecords.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.StreamLesson.AcademicYearId == model.AcademicYearId && !x.IsDeleted);
                                 if (stream != null)
                                 {
-                                    string comment = string.Format("объеденить практики с: {0}.", string.Join(",", context.StreamLessonRecords
+                                    string comment = string.Format("объединить практики с: {0}.", string.Join(",", context.StreamLessonRecords
                                             .Where(x => x.StreamLessonId == stream.StreamLessonId && x.Id != stream.Id && !x.IsDeleted)
                                             .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
                                             .SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
@@ -2123,7 +2123,7 @@ namespace AcademicYearImplementations.Implementations
                                 var stream = context.StreamLessonRecords.FirstOrDefault(x => x.AcademicPlanRecordElementId == apre.Id && x.StreamLesson.AcademicYearId == model.AcademicYearId && !x.IsDeleted);
                                 if (stream != null)
                                 {
-                                    string comment = string.Format("объеденить лабораторные с: {0}.", string.Join(",", context.StreamLessonRecords
+                                    string comment = string.Format("объединить лабораторные с: {0}.", string.Join(",", context.StreamLessonRecords
                                             .Where(x => x.StreamLessonId == stream.StreamLessonId && x.Id != stream.Id && !x.IsDeleted)
                                             .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
                                             .SelectMany(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineTimeDistributions)
