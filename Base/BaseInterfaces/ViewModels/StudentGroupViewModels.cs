@@ -24,5 +24,9 @@ namespace BaseInterfaces.ViewModels
         public string StewardName { get; set; }
 
         public string Curator { get; set; }
-	}
+        public override string ToString()
+        {
+            return GroupName;
+        }
+    }
 }

@@ -109,6 +109,36 @@ namespace Tools
         }
 
         /// <summary>
+        /// Аутентификация пользователя
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public  static async void LoginAsync(string login, string password)
+        {
+            var passHash = GetPasswordHash(password);
+
+            using (var context = GetContext)
+            {
+                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
+                if (user == null)
+                {
+                    throw new Exception("Введен неверный логин/пароль");
+                }
+                if (user.IsLocked)
+                {
+                    throw new Exception("Пользователь заблокирован");
+                }
+                user.DateLastVisit = DateTime.Now;
+                context.SaveChanges();
+                _user = user;
+                _roles = context.DepartmentUserRoles.Where(x => x.UserId == _user.Id).Select(x => x.Role).ToList();
+            }
+
+            return;
+        }
+
+        /// <summary>
         /// Смена пароля
         /// </summary>
         /// <param name="login"></param>

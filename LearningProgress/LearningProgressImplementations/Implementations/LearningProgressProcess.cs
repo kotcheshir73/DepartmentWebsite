@@ -133,7 +133,7 @@ namespace LearningProgressImplementations.Implementations
                             ResultServiceStatusCode.NotFound);
                     }
 
-                    var query = context.AcademicPlanRecordMissions
+                    var queryAPRM = context.AcademicPlanRecordMissions
                         .Include(x => x.AcademicPlanRecordElement)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
                         .Include(x => x.AcademicPlanRecordElement.TimeNorm)
@@ -142,8 +142,13 @@ namespace LearningProgressImplementations.Implementations
                         .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId &&
                                         x.LecturerId == user.LecturerId && x.AcademicPlanRecordElement.TimeNorm.UseInLearningProgress &&
                                         x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirectionId == model.EducationDirectionId &&
-                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId)
-                        .OrderBy(x => x.AcademicPlanRecordElement.TimeNorm.TimeNormOrder)
+                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId);
+                    if (!string.IsNullOrEmpty(model.Semester))
+                    {
+                        Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+                        queryAPRM = queryAPRM.Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Semester == sem);
+                    }
+                    var query = queryAPRM.OrderBy(x => x.AcademicPlanRecordElement.TimeNorm.TimeNormOrder)
                         .Select(x => new
                         {
                             x.AcademicPlanRecordElement.TimeNormId,
@@ -598,7 +603,7 @@ namespace LearningProgressImplementations.Implementations
                                 .Include(x => x.Student)
                                 .Include(x => x.Student.StudentGroup)
                                 .Include(x => x.Discipline)
-                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester && !x.IsDeleted);
                             if (dsr == null)
                             {
                                 dsr = LearningProgressModelFacotryFromBindingModel.CreateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
@@ -616,7 +621,7 @@ namespace LearningProgressImplementations.Implementations
                                 .Include(x => x.Student)
                                 .Include(x => x.Student.StudentGroup)
                                 .Include(x => x.Discipline)
-                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester && !x.IsDeleted);
                             }
 
                             list.Add(LearningProgressModelFactoryToViewModel.CreateDisciplineStudentRecordViewModel(dsr));
@@ -679,13 +684,16 @@ namespace LearningProgressImplementations.Implementations
 
 
                     var students = context.DisciplineStudentRecords
-                        .Where(x => x.Student.StudentGroupId == model.StudentGroupId && x.DisciplineId == dlc.DisciplineLesson.DisciplineId);
+                        .Where(x => x.Student.StudentGroupId == model.StudentGroupId 
+                            && x.DisciplineId == dlc.DisciplineLesson.DisciplineId
+                            && !x.IsDeleted);
 
                     if (dlc.Subgroup.Contains("Подгруппа"))
                     {
                         int subgroup = Convert.ToInt32(dlc.Subgroup.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1]);
                         students = students.Where(x => x.SubGroup == subgroup);
                     }
+
 
                     List<DisciplineLessonConductedStudentViewModel> list = new List<DisciplineLessonConductedStudentViewModel>();
 

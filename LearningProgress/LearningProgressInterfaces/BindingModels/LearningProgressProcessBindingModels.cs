@@ -22,6 +22,8 @@ namespace LearningProgressInterfaces.BindingModels
         public Guid EducationDirectionId { get; set; }
 
         public Guid UserId { get; set; }
+
+        public string Semester { get; set; }
     }
 
     public class LearningProcessFormDisciplineLessonsBindingModel

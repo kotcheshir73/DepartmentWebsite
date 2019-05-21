@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
+using Tools;
 using Unity;
 using Unity.Attributes;
 
@@ -30,7 +31,7 @@ namespace DepartmentTablet.CustomControls
             {
                 AcademicYearId = new Guid(list[0].ToString()),
                 EducationDirectionId = new Guid(list[1].ToString()),
-                UserId = AuthorizationService.UserId.Value
+                UserId = DepartmentUserManager.UserId.Value
             });
             if (!result.Succeeded)
             {

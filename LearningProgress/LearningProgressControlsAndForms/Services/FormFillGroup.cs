@@ -51,17 +51,17 @@ namespace LearningProgressControlsAndForms.Services
             dataGridViewStudents.Columns[0].Visible = false;
             dataGridViewStudents.Columns[1].Visible = false;
             dataGridViewStudents.Columns[2].Visible = false;
-            dataGridViewStudents.Columns[3].Visible = false;
-            dataGridViewStudents.Columns[4].HeaderText = "Дисциплина";
+            dataGridViewStudents.Columns[3].HeaderText = "Дисциплина";
+            dataGridViewStudents.Columns[3].ReadOnly = true;
+            dataGridViewStudents.Columns[4].HeaderText = "Группа";
             dataGridViewStudents.Columns[4].ReadOnly = true;
-            dataGridViewStudents.Columns[5].HeaderText = "Группа";
+            dataGridViewStudents.Columns[5].HeaderText = "Семестр";
             dataGridViewStudents.Columns[5].ReadOnly = true;
-            dataGridViewStudents.Columns[6].HeaderText = "Семестр";
+            dataGridViewStudents.Columns[6].HeaderText = "Студент";
             dataGridViewStudents.Columns[6].ReadOnly = true;
-            dataGridViewStudents.Columns[7].HeaderText = "Студент";
-            dataGridViewStudents.Columns[7].ReadOnly = true;
-            dataGridViewStudents.Columns[8].HeaderText = "Вариант";
-            dataGridViewStudents.Columns[9].HeaderText = "Подгруппа";
+            dataGridViewStudents.Columns[7].HeaderText = "Вариант";
+            dataGridViewStudents.Columns[8].HeaderText = "Подгруппа";
+            dataGridViewStudents.Columns[9].Visible = false;
         }
 
         private void ButtonApply_Click(object sender, EventArgs e)
@@ -72,12 +72,12 @@ namespace LearningProgressControlsAndForms.Services
                 {
                     var result = _service.UpdateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
                     {
-                        Id = new Guid(dataGridViewStudents.Rows[i].Cells[0].Value.ToString()),
+                        Id = new Guid(dataGridViewStudents.Rows[i].Cells[9].Value.ToString()),
                         DisciplineId = _dId.Value,
-                        StudentId = new Guid(dataGridViewStudents.Rows[i].Cells[3].Value.ToString()),
+                        StudentId = new Guid(dataGridViewStudents.Rows[i].Cells[2].Value.ToString()),
                         Semester = _semester.ToString(),
-                        Variant = dataGridViewStudents.Rows[i].Cells[8].Value.ToString(),
-                        SubGroup = Convert.ToInt32(dataGridViewStudents.Rows[i].Cells[9].Value)
+                        Variant = dataGridViewStudents.Rows[i].Cells[7].Value.ToString(),
+                        SubGroup = Convert.ToInt32(dataGridViewStudents.Rows[i].Cells[8].Value)
                     });
                     if (!result.Succeeded)
                     {

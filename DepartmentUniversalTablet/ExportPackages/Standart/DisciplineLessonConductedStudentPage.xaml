@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="DepartmentUniversalTablet.ExportPackages.Standart.DisciplineLessonConductedStudentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DepartmentUniversalTablet.ExportPackages.Standart"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <ScrollViewer>
+        <StackPanel x:Name="grid" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <TextBlock x:Name="studentName" Text="{Binding Student}" Margin="10" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
+                <RadioButton x:Name="ComeRadioButton" GroupName="Status" Content="Явка" Margin="10" Checked="radioButton_Checked"/>
+                <RadioButton x:Name="NotComeRadioButton" GroupName="Status" Content="Не явка" Margin="10" Checked="radioButton_Checked"/>
+                <RadioButton x:Name="PassRadioButton" GroupName="Status" Content="Пропуск" Margin="10" Checked="radioButton_Checked"/>
+            </StackPanel>
+            <Slider x:Name="ball" Minimum="0" Maximum="10"  Orientation="Horizontal" 
+                    Margin="10" TickFrequency="10" TickPlacement="Outside" ValueChanged="slider_ValueChanged"/>
+                    <!--Value="{Binding Ball, Mode=TwoWay, TargetNullValue = 0}"-->
+            <TextBox MaxLength="400" Text="{Binding Comment, Mode=TwoWay}" IsSpellCheckEnabled="True" PlaceholderText="Введите комментарий..." Height="40" Margin="10"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

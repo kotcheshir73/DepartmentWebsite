@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <ProgressRing x:Name="progressRing" IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="100" />
         <StackPanel Margin="20" VerticalAlignment="Center" >
             <TextBox x:Name="login" PlaceholderText="Login"   Margin="10"/>
             <PasswordBox x:Name="password" PlaceholderText="Password" Margin="10"/>

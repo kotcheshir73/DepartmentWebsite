@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Tools;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -30,8 +31,13 @@ namespace DepartmentUniversalTablet.Pages
 
         private async void buttonClickAsync(object sender, RoutedEventArgs e)
         {
+            progressRing.IsActive = true;
             try
             {
+                //bool result = await Task.Run(() =>
+                //{
+                //    return DepartmentUserManager.Login(login.Text, password.Password);
+                //});
                 if (DepartmentUserManager.Login(login.Text, password.Password))
                 {
                     Frame.Navigate(typeof(AcademicYearsPage));
@@ -53,6 +59,10 @@ namespace DepartmentUniversalTablet.Pages
                 {
                     App.Current.Exit();
                 }
+            }
+            finally
+            {
+                progressRing.IsActive = false;
             }
 
         }

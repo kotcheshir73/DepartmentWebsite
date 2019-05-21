@@ -16,30 +16,33 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Unity;
+using BaseInterfaces.BindingModels;
+using LearningProgressInterfaces.ViewModels;
+using Enums;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace DepartmentUniversalTablet.ExportPackages.Standart
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница для отображения списка занятий одного типа отбираемого из таблицы DiscilineLessonConducted.
     /// </summary>
     public sealed partial class DisciplineLessonsPage : Page
     {
-        private IDisciplineLessonService _serviceDL;
-        private DisciplineLessonGetBindingModel getModel;
+        private ILearningProgressProcess _serviceLP;
+        private FullDisciplineLessonConductedBindingModel bindingModel;
 
         public DisciplineLessonsPage()
         {
             this.InitializeComponent();
 
-            _serviceDL = UnityConfig.Container.Resolve<DisciplineLessonService>();
+            _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getModel = (DisciplineLessonGetBindingModel)e.Parameter;
-            var list = _serviceDL.GetDisciplineLessons(getModel).Result.List;
+            bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+            var list = _serviceLP.GetFullDisciplineLessonConducteds(bindingModel).Result;
 
             Button button1;
 
@@ -54,8 +57,8 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            //getModel.EducationDirectionId = ((EducationDirectionViewModel)((Button)sender).Content).Id;
-            //Frame.Navigate(typeof(DisciplineLessonsPage), getModel);
+            var tmpModel = ((DisciplineLessonConductedViewModel)((Button)sender).Content);
+            Frame.Navigate(typeof(StudentsPage), tmpModel);
         }
 
 

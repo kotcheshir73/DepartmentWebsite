@@ -12,12 +12,13 @@
         <Style TargetType="Button" >
             <Setter Property="Control.FontSize" Value="15" />
             <Setter Property="Control.Margin" Value="20" />
+            <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
 
-    <StackPanel>
+    <ScrollViewer>
         <StackPanel x:Name="grid">
 
         </StackPanel>
-    </StackPanel>
+    </ScrollViewer>
 </Page>

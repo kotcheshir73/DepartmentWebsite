@@ -23,12 +23,12 @@ using BaseInterfaces.ViewModels;
 namespace DepartmentUniversalTablet.Pages
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница выбора учебного направления.
     /// </summary>
     public sealed partial class EducationDirectionsPage : Page
     {
         private IEducationDirectionService _serviceED;
-        private DisciplineLessonGetBindingModel getModel;
+        private FullDisciplineLessonConductedBindingModel bindingModel;
 
         public EducationDirectionsPage()
         {
@@ -39,7 +39,7 @@ namespace DepartmentUniversalTablet.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getModel = new DisciplineLessonGetBindingModel()
+            bindingModel = new FullDisciplineLessonConductedBindingModel()
             {
                 AcademicYearId = (Guid)e.Parameter
             };
@@ -58,8 +58,8 @@ namespace DepartmentUniversalTablet.Pages
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            getModel.EducationDirectionId = ((EducationDirectionViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplinesPage), getModel);
+            bindingModel.EducationDirectionId = ((EducationDirectionViewModel)((Button)sender).Content).Id;
+            Frame.Navigate(typeof(DisciplinesPage), bindingModel);
         }
     }
 }

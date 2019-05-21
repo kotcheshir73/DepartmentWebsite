@@ -95,10 +95,19 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportPackages\Standart\DisciplineLessonConductedStudentPage.xaml.cs">
+      <DependentUpon>DisciplineLessonConductedStudentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Standart\DisciplineLessonsPage.xaml.cs">
       <DependentUpon>DisciplineLessonsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportPackages\Standart\ExportPackage.cs" />
+    <Compile Include="ExportPackages\Standart\StudentGroupsPage.xaml.cs">
+      <DependentUpon>StudentGroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Standart\StudentsPage.xaml.cs">
+      <DependentUpon>StudentsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Standart\TimeNormsPage.xaml.cs">
       <DependentUpon>TimeNormsPage.xaml</DependentUpon>
     </Compile>
@@ -118,6 +127,9 @@
     </Compile>
     <Compile Include="Pages\EducationDirectionsPage.xaml.cs">
       <DependentUpon>EducationDirectionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SemestersPage.xaml.cs">
+      <DependentUpon>SemestersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityConfig.cs" />
@@ -143,7 +155,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ExportPackages\Standart\DisciplineLessonConductedStudentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExportPackages\Standart\DisciplineLessonsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Standart\StudentGroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Standart\StudentsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -168,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\EducationDirectionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SemestersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +235,10 @@
     <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj">
       <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
       <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Enums\Enums.csproj">
+      <Project>{11529938-F115-45FB-A7C1-34C2D661432A}</Project>
+      <Name>Enums</Name>
     </ProjectReference>
     <ProjectReference Include="..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>

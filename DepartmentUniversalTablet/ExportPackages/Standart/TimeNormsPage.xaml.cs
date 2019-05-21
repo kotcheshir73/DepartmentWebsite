@@ -25,12 +25,12 @@ using LearningProgressInterfaces.ViewModels;
 namespace DepartmentUniversalTablet.ExportPackages.Standart
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница выбора типа занятий.
     /// </summary>
     public sealed partial class TimeNormsPage : Page
     {
         private ILearningProgressProcess _serviceLP;
-        private DisciplineLessonGetBindingModel getModel;
+        private FullDisciplineLessonConductedBindingModel bindingModel;
 
         public TimeNormsPage()
         {
@@ -41,13 +41,14 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getModel = (DisciplineLessonGetBindingModel)e.Parameter;
+            bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
             var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
             {
-                AcademicYearId = getModel.AcademicYearId.Value,
-                DisciplineId = getModel.DisciplineId.Value,
-                EducationDirectionId = getModel.EducationDirectionId.Value,
-                UserId = DepartmentUserManager.UserId.Value
+                AcademicYearId = bindingModel.AcademicYearId,
+                DisciplineId = bindingModel.DisciplineId,
+                EducationDirectionId = bindingModel.EducationDirectionId,
+                UserId = DepartmentUserManager.UserId.Value,
+                Semester = bindingModel.Semester
             }).Result;
 
             Button button1;
@@ -63,8 +64,8 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            getModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplineLessonsPage), getModel);
+            bindingModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
+            Frame.Navigate(typeof(StudentGroupsPage), bindingModel);
         }
     }
 }
