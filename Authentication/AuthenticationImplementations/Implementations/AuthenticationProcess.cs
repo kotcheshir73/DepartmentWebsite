@@ -1,4 +1,5 @@
 ﻿using AuthenticationInterfaces.Interfaces;
+using AuthenticationInterfaces.ViewModels;
 using Enums;
 using Models.Authentication;
 using System;
@@ -518,6 +519,28 @@ namespace AuthenticationImplementations.Implementations
                 #endregion
                 transaction.Commit();
             }
+        }
+
+        public LoginViewModel Login(string login, string hash)
+        {
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == hash);
+                if (user == null)
+                {
+                    throw new Exception("Введен неверный логин/пароль");
+                }
+                if (user.IsLocked)
+                {
+                    throw new Exception("Пользователь заблокирован");
+                }
+                user.DateLastVisit = DateTime.Now;
+                context.SaveChanges();
+                //_roles = context.DepartmentUserRoles.Where(x => x.UserId == _user.Id).Select(x => x.Role).ToList();
+
+                return AuthenticationModelFactoryToViewModel.CreateLoginViewModel(user);
+            }
+            
         }
     }
 }

@@ -41,5 +41,13 @@ namespace AuthenticationImplementations
                 DateLastVisit = entity.DateLastVisit
             };
         }
+
+        public static LoginViewModel CreateLoginViewModel(DepartmentUser entity)
+        {
+            return new LoginViewModel
+            {
+                UserName = entity.UserName
+            };
+        }
     }
 }

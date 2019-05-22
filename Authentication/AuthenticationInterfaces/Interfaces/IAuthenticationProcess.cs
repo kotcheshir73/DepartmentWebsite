@@ -1,4 +1,5 @@
-﻿using Tools;
+﻿using AuthenticationInterfaces.ViewModels;
+using Tools;
 
 namespace AuthenticationInterfaces.Interfaces
 {
@@ -15,5 +16,7 @@ namespace AuthenticationInterfaces.Interfaces
         ResultService SynchronizationRolesAndAccess();
 
         ResultService SynchronizationUsers();
+
+        LoginViewModel Login(string login, string hash);
     }
 }
