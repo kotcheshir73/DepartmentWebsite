@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DepartmentUniversalTablet.ExportPackages.Standart
+namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /*
     1. Авторизация
@@ -23,9 +23,9 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
     [Export(typeof(IExportPackage))]
     class ExportPackage : IExportPackage
     {
-        public string Discipline => "Standart";
+        public string Discipline => "Технологии программирования";
 
-        public string Lecturer => "Standart";
+        public string Lecturer => "Эгов Е.Н.";
 
         public Type GetUI => typeof(TimeNormsPage);
     }

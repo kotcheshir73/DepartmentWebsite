@@ -27,7 +27,7 @@ using BaseImplementations.Implementations;
 namespace DepartmentUniversalTablet.Pages
 {
     /// <summary>
-    /// Страница выбора симестра .
+    /// Страница выбора семестра.
     /// </summary>
     public sealed partial class SemestersPage : Page
     {
@@ -72,7 +72,7 @@ namespace DepartmentUniversalTablet.Pages
             var disciplineViewModel = _serviceD.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel { Id = bindingModel.DisciplineId });
             ImportManager importManager = new ImportManager();
             var exportModel = importManager.extCollection
-                .FirstOrDefault(x => x.Discipline == disciplineViewModel.Result.DisciplineName);//TODO: Как правильно отбирать
+                .FirstOrDefault(x => x.Discipline == disciplineViewModel.Result.DisciplineName && x.Lecturer == DepartmentUserManager.LecturerName);//TODO: Как правильно отбирать
             Frame.Navigate(exportModel != null ? exportModel.GetUI 
                 : importManager.extCollection.FirstOrDefault(x => x.Discipline == "Standart" && x.Lecturer == "Standart").GetUI, bindingModel);
         }

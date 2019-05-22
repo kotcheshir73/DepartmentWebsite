@@ -38,10 +38,9 @@ namespace DepartmentUniversalTablet.Pages
                 //{
                 //    return DepartmentUserManager.Login(login.Text, password.Password);
                 //});
-                if (DepartmentUserManager.Login(login.Text, password.Password))
-                {
-                    Frame.Navigate(typeof(AcademicYearsPage));
-                }
+                DepartmentUserManager.LoginAsync(login.Text, password.Password);
+                    
+                Frame.Navigate(typeof(AcademicYearsPage));
             }
             catch(Exception ex)
             {

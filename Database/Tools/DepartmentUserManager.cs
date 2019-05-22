@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Tools
 {
@@ -22,6 +23,9 @@ namespace Tools
         {
             get { return _user?.Id; }
         }
+
+        public static string LecturerName => $"{_user?.Lecturer?.LastName} {_user?.Lecturer?.FirstName[0]}.{_user?.Lecturer?.Patronymic?[0]}.";
+        
 
         public static DepartmentDatabaseContext GetContext
         {
@@ -120,7 +124,7 @@ namespace Tools
 
             using (var context = GetContext)
             {
-                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
+                var user = context.DepartmentUsers.Where(x => x.LecturerId != null).Include(x => x.Lecturer).FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
                 if (user == null)
                 {
                     throw new Exception("Введен неверный логин/пароль");
