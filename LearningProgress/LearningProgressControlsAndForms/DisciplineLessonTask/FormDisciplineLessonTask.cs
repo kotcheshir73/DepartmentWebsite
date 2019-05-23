@@ -113,7 +113,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
                 }
                 if (!string.IsNullOrEmpty(textBoxMaxBall.Text))
                 {
-                    if (!decimal.TryParse(textBoxMaxBall.Text, out decimal maxBall))
+                    if (!double.TryParse(textBoxMaxBall.Text, out double maxBall))
                     {
                         return false;
                     }
@@ -134,7 +134,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
                     Description = textBoxDiscription.Text,
                     IsNecessarily = checkBoxIsNecessarily.Checked,
                     Order = Convert.ToInt32(textBoxOrder.Text),
-                    MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
+                    MaxBall = checkBoxMaxBall.Checked ? Convert.ToDouble(textBoxMaxBall.Text) : (double?)null
                 });
             }
             else
@@ -147,7 +147,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTask
                     Description = textBoxDiscription.Text,
                     IsNecessarily = checkBoxIsNecessarily.Checked,
                     Order = Convert.ToInt32(textBoxOrder.Text),
-                    MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null
+                    MaxBall = checkBoxMaxBall.Checked ? Convert.ToDouble(textBoxMaxBall.Text) : (double?)null
                 });
             }
             if (result.Succeeded)

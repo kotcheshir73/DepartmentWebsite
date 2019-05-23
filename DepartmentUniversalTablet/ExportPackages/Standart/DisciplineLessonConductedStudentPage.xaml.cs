@@ -44,7 +44,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
             this.DataContext = dataContext;
 
-            ball.Value = Convert.ToDouble(dataContext.Ball.Value);
+            //ball.Value = dataContext.Ball.Value;
 
             switch (dataContext.Status)
             {
@@ -75,7 +75,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
         private void slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            dataContext.Ball = Convert.ToDecimal(((Slider)sender).Value);
+            //dataContext.Ball = ((Slider)sender).Value;
         }
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)

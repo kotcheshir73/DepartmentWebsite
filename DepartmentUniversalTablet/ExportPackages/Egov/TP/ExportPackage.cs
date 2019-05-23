@@ -14,11 +14,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
     4. Дисциплина
     5. Семестр
     //Тут переход в стандартный модуль
-    6. TimeNormsPage
-    7. StudentGroupsPage
-    8. DisciplineLessonsPage
-    9. Студенты
-    10. DisciplineLessonConductedStudentPage
+        ??????
     */
     [Export(typeof(IExportPackage))]
     class ExportPackage : IExportPackage

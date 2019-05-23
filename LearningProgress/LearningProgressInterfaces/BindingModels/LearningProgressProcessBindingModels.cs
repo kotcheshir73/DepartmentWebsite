@@ -49,7 +49,7 @@ namespace LearningProgressInterfaces.BindingModels
         
         public List<string> Tasks { get; set; }
 
-        public decimal? MaxBall { get; set; }
+        public double? MaxBall { get; set; }
 
         public bool IsNecessarily { get; set; }
     }

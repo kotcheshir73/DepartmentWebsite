@@ -20,7 +20,7 @@ namespace LearningProgressInterfaces.ViewModels
 
         public string Comment { get; set; }
 
-        public decimal? Ball { get; set; }
+        public double? Ball { get; set; }
 
         public override string ToString()
         {

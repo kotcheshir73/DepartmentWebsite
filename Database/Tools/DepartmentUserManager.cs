@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Tools
 {
@@ -120,7 +121,7 @@ namespace Tools
         /// <returns></returns>
         public  static async void LoginAsync(string login, string password)
         {
-            var passHash = GetPasswordHash(password);
+            var passHash = /*await*/ GetPasswordHash(password);
 
             using (var context = GetContext)
             {

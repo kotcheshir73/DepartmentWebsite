@@ -22,7 +22,7 @@ namespace LearningProgressInterfaces.ViewModels
 
         public DateTime DateAccept { get; set; }
         
-        public decimal Score { get; set; }
+        public double Score { get; set; }
         
         public string Comment { get; set; }
         
