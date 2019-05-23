@@ -91,7 +91,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebImplementations", "WebIm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebInterfaces", "WebInterfaces\WebInterfaces.csproj", "{6640D462-30E3-4CCF-AE09-358FE1C24076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentWebCore", "DepartmentWebCore\DepartmentWebCore.csproj", "{6BB66BF9-20AE-410A-90B5-A8362CE03D84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DepartmentWebCore", "DepartmentWebCore\DepartmentWebCore.csproj", "{6BB66BF9-20AE-410A-90B5-A8362CE03D84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

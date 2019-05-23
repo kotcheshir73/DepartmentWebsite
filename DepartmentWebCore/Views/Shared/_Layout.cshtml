@@ -1,54 +1,95 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DepartmentWebCore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    @*<environment exclude="Development">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>*@
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">DepartmentWebCore</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                <div id="menu">
+                    <p></p>
+                    <ul>
+                        <li><a href="~/Home/Index" style="background:none"> <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a></li>
+
+                        @foreach (var item in DepartmentWebCore.Services.MenuService.getMenuElementList())
+                        {
+                            <li style="color:white; margin: 8px">
+                                @Html.ActionLink(item.Name, item.Action, item.Controller)
+                                @if(item.Child.Count != 0)
+                                {
+                                    @Html.Partial("Menu", item)
+                                }
+                                
+                            </li>
+
+                        }
+                        <li style="float:right"><a href="http://www.ulstu.ru" style="background:none"> <img src="~/Images/Ulstu.png" width="80" height="50" alt="УлГТУ"></a></li>
+                    </ul>
+                    <div style="clear: both;"></div>
+                </div>
+                @*@{Html.ActionLink("Men", "Menu");}*@
+                @*<partial name="~/Views/Shared/Menu.cshtml" />*@
+                @*<a href='@Url.Action("Menu", "Menu")'>Преподаватели</a>*@
+                @*@Html.Action("GetMenuList", "Menu")*@
+                @*@RenderBody()*@
+                @*<p></p>
+        <ul>
+            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+            <li>
+                @Html.ActionLink("Индивидуальный план", "", "")
+                <ul>
+                    <li>@Html.ActionLink("Учебно-методическая работа", "Metodich", "IndividualPlan")</li>
+                    <li>@Html.ActionLink("Организационно-методическая работа", "Organizac", "IndividualPlan")</li>
+                    <li>@Html.ActionLink("Воспитательная работа", "Vospit", "IndividualPlan")</li>
+                    <li>@Html.ActionLink("Научно-исследовательская работа", "Index", "NIR")</li>
                 </ul>
+            </li>
+            <li>@Html.ActionLink("Расчасовки", "Index", "Grafic")</li>
+            <li>
+                @Html.ActionLink("Ведомости", "Index", "Statement")
+            </li>
+            <li>
+                @Html.ActionLink("Сводная ведомость", "Index", "SummaryStatement")
+            </li>
+        </ul>*@
+
+
             </div>
         </div>
-    </nav>
 
-    <partial name="_CookieConsentPartial" />
-
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - DepartmentWebCore</p>
+            <p>&copy; @DateTime.Now.Year – Кафедра "Информационные системы"</p>
         </footer>
     </div>
 
     <environment include="Development">
+        
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

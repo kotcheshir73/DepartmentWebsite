@@ -1,0 +1,17 @@
+﻿@model MenuElementModel
+
+        
+<ul @*style="overflow-y:scroll;max-height:100%"*@>
+    @foreach (var item in Model.Child)
+    {
+    <li>
+        @Html.ActionLink(item.Name, item.Action, item.Controller, new { id = item.Id }, null)
+        @if (item.Child.Count != 0)
+        {
+            @Html.Partial("Menu", item)
+        }
+    </li>
+    }
+</ul>
+
+        

@@ -6,40 +6,57 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DepartmentWebCore.Models;
 using Microsoft.AspNetCore.Authorization;
+using AcademicYearInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private IAcademicYearProcess _process;
+
+        private IAcademicYearService _serviceAY;
+
+        public HomeController(IAcademicYearProcess process, IAcademicYearService serviceAY)
+        {
+            //Tools.DepartmentUserManager.Login("admin", "qwerty");
+
+            _process = process;
+
+            _serviceAY = serviceAY;
+
+            /*
+            var tmp = serviceAPRE.GetAcademicPlanRecordElement(new DepartmentService.BindingModels.AcademicPlanRecordElementGetBindingModel()
+            {
+                Id = new Guid("F297DC8B-8616-42ED-A1F8-043EFF53260D")
+            });     */  //тестирование подключения к бд
+        }
+
+        public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
-        public IActionResult About()
+        public ActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public ActionResult NIR()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public IActionResult Privacy()
+        public ActionResult Contact()
         {
+            ViewBag.Message = "Your contact page.";
+
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
     }
 }
