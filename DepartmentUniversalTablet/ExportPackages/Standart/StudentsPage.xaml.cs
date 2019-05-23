@@ -19,6 +19,7 @@ using Unity;
 using LearningProgressInterfaces.ViewModels;
 using LearningProgressInterfaces.Interfaces;
 using LearningProgressImplementations.Implementations;
+using Enums;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,6 +33,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
         private IDisciplineLessonConductedStudentService _serviceDLCS;
         private ILearningProgressProcess _serviceLP;
         private DisciplineLessonConductedViewModel bindingModel;
+        private List<DisciplineLessonConductedStudentViewModel> dataContext;
 
         public StudentsPage()
         {
@@ -44,27 +46,66 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             bindingModel = (DisciplineLessonConductedViewModel)e.Parameter;
-            var list = _serviceLP.GetDisciplineLessonConductedStudentsForFill(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentsForFillBindingModel
+            dataContext = _serviceLP.GetDisciplineLessonConductedStudentsForFill(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentsForFillBindingModel
             {
                 StudentGroupId = bindingModel.StudentGroupId,
                 DisciplineLessonConductedId = bindingModel.Id
             }).Result;
             Button button1;
 
-            foreach (var item in list)
+            foreach (var item in dataContext)
             {
                 button1 = new Button();
+                
+                var ComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Явка", Margin = new Thickness(5), Tag = item.Id };
+                ComeRadioButton.Checked += radioButton_Checked;
+                var NotComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Не явка", Margin = new Thickness(5), Tag = item.Id };
+                NotComeRadioButton.Checked += radioButton_Checked;
+                var PassRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Пропуск", Margin = new Thickness(5), Tag = item.Id };
+                PassRadioButton.Checked += radioButton_Checked;
 
-                //https://metanit.com/sharp/wpf/11.php
-                //StackPanel stackPanelInButton = new StackPanel();
-                //stackPanelInButton.DataContext = item;
-                //Binding binding = new Binding();
-                //stackPanelInButton.Children.Add(new TextBlock { Text =  });
-                //button1.Content = stackPanelInButton;
+                switch (item.Status)
+                {
+                    case DisciplineLessonStudentStatus.НеЯвка:
+                        NotComeRadioButton.IsChecked = true;
+                        break;
+                    case DisciplineLessonStudentStatus.Явка:
+                        ComeRadioButton.IsChecked = true;
+                        break;
+                    case DisciplineLessonStudentStatus.Пропуск:
+                        PassRadioButton.IsChecked = true;
+                        break;
+                }
+
+                var StackPanelRadioButton = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(5) };
+                StackPanelRadioButton.Children.Add(ComeRadioButton);
+                StackPanelRadioButton.Children.Add(NotComeRadioButton);
+                StackPanelRadioButton.Children.Add(PassRadioButton);
 
                 button1.Content = item;
                 button1.Click += button_Click;
-                grid.Children.Add(button1);
+
+                var StackPanel = new StackPanel { Margin = new Thickness(5), HorizontalAlignment = HorizontalAlignment.Stretch };
+                StackPanel.Children.Add(button1);
+                StackPanel.Children.Add(StackPanelRadioButton);
+
+                grid.Children.Add(StackPanel);
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            foreach(var item in dataContext)
+            {
+                _serviceDLCS.UpdateDisciplineLessonConductedStudent(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentSetBindingModel
+                {
+                    Id = item.Id,
+                    Ball = item.Ball,
+                    Comment = item.Comment,
+                    DisciplineLessonConductedId = item.DisciplineLessonConductedId,
+                    Status = item.Status.ToString(),
+                    StudentId = item.StudentId
+                });
             }
         }
 
@@ -72,6 +113,15 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
         {
             var tmp = ((DisciplineLessonConductedStudentViewModel)((Button)sender).Content);
             Frame.Navigate(typeof(DisciplineLessonConductedStudentPage), tmp);
+        }
+
+        private void radioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton pressed = (RadioButton)sender;
+            string content = (string)pressed.Content == "Не явка" ? "НеЯвка" : (string)pressed.Content;
+
+            dataContext[dataContext.FindIndex(x => x.Id == ((Guid)pressed.Tag))].Status 
+                = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), content);
         }
     }
 }

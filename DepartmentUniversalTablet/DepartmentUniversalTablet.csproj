@@ -117,9 +117,6 @@
     </Compile>
     <Compile Include="IExportPackage.cs" />
     <Compile Include="ImportManager.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\AcademicYearsPage.xaml.cs">
       <DependentUpon>AcademicYearsPage.xaml</DependentUpon>
     </Compile>
@@ -182,10 +179,6 @@
     <Page Include="ExportPackages\Standart\TimeNormsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\AcademicYearsPage.xaml">
       <SubType>Designer</SubType>

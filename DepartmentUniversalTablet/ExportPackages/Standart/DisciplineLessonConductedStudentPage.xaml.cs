@@ -44,8 +44,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
             this.DataContext = dataContext;
 
-            //ball.Value = dataContext.Ball.Value;
-
             switch (dataContext.Status)
             {
                 case DisciplineLessonStudentStatus.НеЯвка:
@@ -71,11 +69,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
                 Status = dataContext.Status.ToString(),
                 StudentId = dataContext.StudentId
             });
-        }
-
-        private void slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            //dataContext.Ball = ((Slider)sender).Value;
         }
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)
