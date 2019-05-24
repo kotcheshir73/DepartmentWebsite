@@ -10,7 +10,7 @@
  *
  * NUGET: END LICENSE TEXT */
 a:hover
-* Bootstrap v3.0.0
+/* Bootstrap v3.0.0
 *
 * Copyright 2013 Twitter, Inc
 * Licensed under the Apache License v2.0
@@ -1824,7 +1824,7 @@ legend {
 label {
     display: inline-block;
     margin-bottom: 5px;
-    font-weight: bold;
+    
 }
 
 input[type="search"] {
@@ -7139,6 +7139,8 @@ td.visible-print {
         position: absolute;
         visibility: hidden;
     }
+
+    
 }
 
 
@@ -7281,4 +7283,26 @@ td.visible-print {
     font-size: 14px;
     cursor: pointer;
     border-radius: 4px;
+}
+
+.logout {
+    text-decoration: none;
+    background: none;
+    border: none;
+    color: white;
+    display: block;
+    padding: 0 15px;
+}
+
+    .logout:hover {
+        background-color: #9db1cc;
+    }
+
+.input {
+    width: 300px;
+    font-size: 13px;
+    margin-left:40px;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
 }
