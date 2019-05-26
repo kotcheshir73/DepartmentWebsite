@@ -43,24 +43,45 @@ namespace DepartmentUniversalTablet.Pages
             _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-            var list = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
+            try
             {
-                UserId = DepartmentUserManager.UserId.Value,
-                AcademicYearId = bindingModel.AcademicYearId,
-                EducationDirectionId = bindingModel.EducationDirectionId
-            }).Result;
+                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+                var list = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
+                {
+                    UserId = DepartmentUserManager.UserId.Value,
+                    AcademicYearId = bindingModel.AcademicYearId,
+                    EducationDirectionId = bindingModel.EducationDirectionId
+                }).Result;
 
-            Button button1;
+                Button button1;
 
-            foreach (var item in list)
+                foreach (var item in list)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
+            }
+            catch (Exception ex)
             {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                }
             }
         }
 

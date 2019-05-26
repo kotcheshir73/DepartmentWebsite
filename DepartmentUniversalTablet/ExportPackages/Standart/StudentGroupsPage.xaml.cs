@@ -39,43 +39,64 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             _serviceSG = UnityConfig.Container.Resolve<StudentGroupService>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-            AcademicCourse course = AcademicCourse.Course_1;
-            switch (bindingModel.Semester)
+            try
             {
-                case "Первый":
-                case "Второй":
-                    course = AcademicCourse.Course_1;
-                    break;
-                case "Третий":
-                case "Четвертый":
-                    course = AcademicCourse.Course_2;
-                    break;
-                case "Пятый":
-                case "Шестой":
-                    course = AcademicCourse.Course_3;
-                    break;
-                case "Седьмой":
-                case "Восьмой":
-                    course = AcademicCourse.Course_4;
-                    break;
+                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+                AcademicCourse course = AcademicCourse.Course_1;
+                switch (bindingModel.Semester)
+                {
+                    case "Первый":
+                    case "Второй":
+                        course = AcademicCourse.Course_1;
+                        break;
+                    case "Третий":
+                    case "Четвертый":
+                        course = AcademicCourse.Course_2;
+                        break;
+                    case "Пятый":
+                    case "Шестой":
+                        course = AcademicCourse.Course_3;
+                        break;
+                    case "Седьмой":
+                    case "Восьмой":
+                        course = AcademicCourse.Course_4;
+                        break;
+                }
+                var list = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel
+                {
+                    Course = course.ToString(),
+                    EducationDirectionId = bindingModel.EducationDirectionId
+                }).Result.List;
+
+                Button button1;
+
+                foreach (var item in list)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
             }
-            var list = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel
+            catch (Exception ex)
             {
-                Course = course.ToString(),
-                EducationDirectionId = bindingModel.EducationDirectionId
-            }).Result.List;
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
 
-            Button button1;
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
 
-            foreach (var item in list)
-            {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                }
             }
         }
 

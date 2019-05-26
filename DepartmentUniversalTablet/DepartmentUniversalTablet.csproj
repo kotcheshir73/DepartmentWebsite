@@ -95,7 +95,19 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonConductedStudentPage.xaml.cs">
+      <DependentUpon>DisciplineLessonConductedStudentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonsPage.xaml.cs">
+      <DependentUpon>DisciplineLessonsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Egov\TP\ExportPackage.cs" />
+    <Compile Include="ExportPackages\Egov\TP\StudentGroupsPage.xaml.cs">
+      <DependentUpon>StudentGroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Egov\TP\StudentsPage.xaml.cs">
+      <DependentUpon>StudentsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Egov\TP\TimeNormsPage.xaml.cs">
       <DependentUpon>TimeNormsPage.xaml</DependentUpon>
     </Compile>
@@ -156,9 +168,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ExportPackages\Egov\TP\TimeNormsPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonConductedStudentPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\StudentGroupsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\StudentsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\TimeNormsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ExportPackages\Standart\DisciplineLessonConductedStudentPage.xaml">
       <SubType>Designer</SubType>

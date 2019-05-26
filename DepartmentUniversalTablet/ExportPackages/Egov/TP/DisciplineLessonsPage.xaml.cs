@@ -1,5 +1,6 @@
-﻿using BaseImplementations.Implementations;
-using BaseInterfaces.Interfaces;
+﻿using LearningProgressImplementations.Implementations;
+using LearningProgressInterfaces.BindingModels;
+using LearningProgressInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,44 +9,42 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Unity;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using LearningProgressInterfaces.BindingModels;
-using BaseInterfaces.ViewModels;
+using Unity;
+using BaseInterfaces.BindingModels;
+using LearningProgressInterfaces.ViewModels;
+using Enums;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace DepartmentUniversalTablet.Pages
+namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /// <summary>
-    /// Страница выбора учебного направления.
+    /// Страница для отображения списка занятий одного типа отбираемого из таблицы DiscilineLessonConducted.
     /// </summary>
-    public sealed partial class EducationDirectionsPage : Page
+    public sealed partial class DisciplineLessonsPage : Page
     {
-        private IEducationDirectionService _serviceED;
+        private ILearningProgressProcess _serviceLP;
         private FullDisciplineLessonConductedBindingModel bindingModel;
 
-        public EducationDirectionsPage()
+        public DisciplineLessonsPage()
         {
             this.InitializeComponent();
 
-            _serviceED = UnityConfig.Container.Resolve<EducationDirectionService>();
+            _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             try
-            { 
-                bindingModel = new FullDisciplineLessonConductedBindingModel()
-                {
-                    AcademicYearId = (Guid)e.Parameter
-                };
-                var list = _serviceED.GetEducationDirections(new BaseInterfaces.BindingModels.EducationDirectionGetBindingModel()).Result.List;
+            {
+                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+                var list = _serviceLP.GetFullDisciplineLessonConducteds(bindingModel).Result;
 
                 Button button1;
 
@@ -79,8 +78,10 @@ namespace DepartmentUniversalTablet.Pages
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            bindingModel.EducationDirectionId = ((EducationDirectionViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplinesPage), bindingModel);
+            var tmpModel = ((DisciplineLessonConductedViewModel)((Button)sender).Content);
+            Frame.Navigate(typeof(StudentsPage), tmpModel);
         }
+
+
     }
 }

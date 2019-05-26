@@ -39,26 +39,47 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-            var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+            try
             {
-                AcademicYearId = bindingModel.AcademicYearId,
-                DisciplineId = bindingModel.DisciplineId,
-                EducationDirectionId = bindingModel.EducationDirectionId,
-                UserId = DepartmentUserManager.UserId.Value,
-                Semester = bindingModel.Semester
-            }).Result;
+                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+                var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+                {
+                    AcademicYearId = bindingModel.AcademicYearId,
+                    DisciplineId = bindingModel.DisciplineId,
+                    EducationDirectionId = bindingModel.EducationDirectionId,
+                    UserId = DepartmentUserManager.UserId.Value,
+                    Semester = bindingModel.Semester
+                }).Result;
 
-            Button button1;
+                Button button1;
 
-            foreach (var item in list)
+                foreach (var item in list)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
+            }
+            catch (Exception ex)
             {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                }
             }
         }
 

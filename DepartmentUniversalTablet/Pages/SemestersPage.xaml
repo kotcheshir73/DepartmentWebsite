@@ -10,15 +10,15 @@
 
     <Page.Resources>
         <Style TargetType="Button" >
-            <Setter Property="Control.FontSize" Value="15" />
             <Setter Property="Control.Margin" Value="20" />
             <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
 
     <ScrollViewer>
-        <StackPanel x:Name="grid">
-
+        <StackPanel>
+            <TextBlock Text="Выберите семестр преподавания дисциплины:" Margin="10" />
+            <StackPanel x:Name="grid" />
         </StackPanel>
     </ScrollViewer>
 </Page>

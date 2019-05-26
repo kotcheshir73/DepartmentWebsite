@@ -21,7 +21,7 @@ using AcademicYearInterfaces.ViewModels;
 namespace DepartmentUniversalTablet.Pages
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница выбора учебного года.
     /// </summary>
     public sealed partial class AcademicYearsPage : Page
     {
@@ -34,19 +34,43 @@ namespace DepartmentUniversalTablet.Pages
             _serviceAY = UnityConfig.Container.Resolve<IAcademicYearService>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var list = _serviceAY.GetAcademicYears(new AcademicYearInterfaces.BindingModels.AcademicYearGetBindingModel()).Result.List;
-
-            Button button1;
-
-            foreach (var item in list)
+            try
             {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                var list = _serviceAY.GetAcademicYears(new AcademicYearInterfaces.BindingModels.AcademicYearGetBindingModel()).Result.List;
+
+                Button button1;
+
+                foreach (var item in list)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
             }
+            catch (Exception ex)
+            {
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                    //else
+                    //    App.Current.Exit();
+                }
+            }
+            
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

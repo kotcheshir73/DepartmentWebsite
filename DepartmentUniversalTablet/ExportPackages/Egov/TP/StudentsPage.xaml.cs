@@ -20,11 +20,10 @@ using LearningProgressInterfaces.ViewModels;
 using LearningProgressInterfaces.Interfaces;
 using LearningProgressImplementations.Implementations;
 using Enums;
-using System.Drawing;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace DepartmentUniversalTablet.ExportPackages.Standart
+namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /// <summary>
     /// Страница выбора студента.
@@ -88,7 +87,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
                     button1.Content = item;
                     button1.Click += button_Click;
 
-                    var StackPanel = new StackPanel { Margin = new Thickness(10), HorizontalAlignment = HorizontalAlignment.Stretch, BorderThickness = new Thickness(1) };
+                    var StackPanel = new StackPanel { Margin = new Thickness(5), HorizontalAlignment = HorizontalAlignment.Stretch };
                     StackPanel.Children.Add(button1);
                     StackPanel.Children.Add(StackPanelRadioButton);
 

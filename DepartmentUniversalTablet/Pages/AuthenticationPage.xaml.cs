@@ -20,31 +20,42 @@ using Windows.UI.Xaml.Navigation;
 namespace DepartmentUniversalTablet.Pages
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница авторизации.
     /// </summary>
     public sealed partial class AuthenticationPage : Page
     {
         public AuthenticationPage()
         {
             this.InitializeComponent();
-        }
+        } 
 
         private async void buttonClickAsync(object sender, RoutedEventArgs e)
         {
+            progressRing.Visibility = Visibility.Visible;
             progressRing.IsActive = true;
             try
             {
-                //bool result = await Task.Run(() =>
-                //{
-                //    return DepartmentUserManager.Login(login.Text, password.Password);
-                //});
-                DepartmentUserManager.LoginAsync(login.Text, password.Password);
-                    
+                string login = loginTextBox.Text;
+                string password = passwordTextBox.Password;
+
+                
+
+                //Пусть пока останется шаблон, но пока работает без изменений
+                Task task = Task.Run(() =>
+                {
+                    DepartmentUserManager.LoginAsync(login, password);
+                });
+                task.Wait();
+                if (task.Exception != null)
+                {
+                    throw task.Exception;
+                }
+
                 Frame.Navigate(typeof(AcademicYearsPage));
             }
             catch(Exception ex)
             {
-                ContentDialog closeDialog = new ContentDialog()
+                ContentDialog exceptionDialog = new ContentDialog()
                 {
                     Title = "Произошла ошибка",
                     Content = $"Текст ошибки:\n{ex.Message}",
@@ -52,7 +63,7 @@ namespace DepartmentUniversalTablet.Pages
                     SecondaryButtonText = "Остаться"
                 };
 
-                ContentDialogResult result = await closeDialog.ShowAsync();
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
 
                 if (result == ContentDialogResult.Primary)
                 {
@@ -63,7 +74,6 @@ namespace DepartmentUniversalTablet.Pages
             {
                 progressRing.IsActive = false;
             }
-
         }
     }
 }

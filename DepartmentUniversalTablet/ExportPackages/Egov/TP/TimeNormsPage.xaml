@@ -7,8 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <Page.Resources>
+        <Style TargetType="Button" >
+            <Setter Property="Control.FontSize" Value="15" />
+            <Setter Property="Control.Margin" Value="20" />
+            <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Page.Resources>
 
-    <Grid>
-
-    </Grid>
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock Text="Выберите тип занятия:" Margin="10" />
+            <StackPanel x:Name="grid" />
+        </StackPanel>
+    </ScrollViewer>
 </Page>

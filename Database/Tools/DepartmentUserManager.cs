@@ -119,9 +119,9 @@ namespace Tools
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public  static async void LoginAsync(string login, string password)
+        public static void LoginAsync(string login, string password)
         {
-            var passHash = /*await*/ GetPasswordHash(password);
+            var passHash = GetPasswordHash(password);
 
             using (var context = GetContext)
             {

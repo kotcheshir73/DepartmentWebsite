@@ -21,7 +21,7 @@ using Enums;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace DepartmentUniversalTablet.ExportPackages.Standart
+namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /// <summary>
     /// Страница выставления оценок для студента.
