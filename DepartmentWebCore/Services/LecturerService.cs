@@ -3,6 +3,7 @@ using BaseInterfaces.BindingModels;
 using BaseInterfaces.ViewModels;
 using DepartmentWebCore.Models;
 using Enums;
+using LearningProgressInterfaces.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace DepartmentWebCore.Services
                 {
                     var entity = context.Lecturers
                                 .Include(x => x.LecturerPost)
-                                .FirstOrDefault(x => x.Id == model.Id);
+                                .FirstOrDefault(x => x.Abbreviation == model.Abbreviation);
                     if (entity == null)
                     {
                         return ResultService<LecturerViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -84,6 +85,12 @@ namespace DepartmentWebCore.Services
             }
         }
 
-        
+
+        public static List<LearningProcessDisciplineViewModel> LecturerDis(string id)
+        {
+            var list = Services.DisciplineService.GetDisciplines(new BaseInterfaces.BindingModels.LecturerGetBindingModel() { Id = new Guid(id) });
+
+            return list.Result;
+        }
     }
 }

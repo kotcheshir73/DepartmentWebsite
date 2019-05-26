@@ -63,6 +63,10 @@ namespace WebImplementations.Implementations
             try
             {
                 DirectoryInfo discipline = new DirectoryInfo(Path + model.DisciplineName);
+                if(discipline == null)
+                {
+                    return ResultService<WebProcessDisciplineForDownloadViewModel>.Error(new Exception("Папки не иницализированы"), ResultServiceStatusCode.Error);
+                }
                 WebProcessDisciplineForDownloadViewModel disciplineForDownload
                 = new WebProcessDisciplineForDownloadViewModel() { Name = model.DisciplineName };
 

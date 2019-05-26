@@ -11,12 +11,12 @@ namespace DepartmentWebCore.Services
         public static List<MenuElementModel> getMenuElementList()
         {
             List<MenuElementModel> menuElements = new List<MenuElementModel>();
-            MenuElementModel lecturer = new MenuElementModel() { Name = "Преподаватели", Child = new List<MenuElementModel>(), Controller = "Lecturers", Action = "Index" };
+            MenuElementModel lecturer = new MenuElementModel() { Name = "Преподаватели", Child = new List<MenuElementModel>(), Controller = "Lecturer", Action = "Index" };
 
             var list = LecturerService.GetLecturers(new BaseInterfaces.BindingModels.LecturerGetBindingModel());
             foreach (var tmp in list.Result)
             {
-                lecturer.Child.Add(new MenuElementModel() { Id = tmp.Id, Name = tmp.FullName, Controller = "Lecturers", Action = "Lecturer" });
+                lecturer.Child.Add(new MenuElementModel() { Id = tmp.Abbreviation, Name = tmp.FullName, Controller = "Lecturer", Action = "Lecturer" });
             }
 
             menuElements.Add(lecturer);

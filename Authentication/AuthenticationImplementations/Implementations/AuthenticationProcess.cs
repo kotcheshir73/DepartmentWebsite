@@ -11,6 +11,7 @@ using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
 using Tools;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationImplementations.Implementations
 {
@@ -536,9 +537,10 @@ namespace AuthenticationImplementations.Implementations
                 }
                 user.DateLastVisit = DateTime.Now;
                 context.SaveChanges();
-                //_roles = context.DepartmentUserRoles.Where(x => x.UserId == _user.Id).Select(x => x.Role).ToList();
 
-                return AuthenticationModelFactoryToViewModel.CreateLoginViewModel(user);
+                var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).ToList();
+
+                return AuthenticationModelFactoryToViewModel.CreateLoginViewModel(user, roles);
             }
             
         }

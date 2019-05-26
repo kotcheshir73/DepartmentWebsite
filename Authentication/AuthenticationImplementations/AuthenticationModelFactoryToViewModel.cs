@@ -1,5 +1,6 @@
 ﻿using AuthenticationInterfaces.ViewModels;
 using Models.Authentication;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -42,11 +43,12 @@ namespace AuthenticationImplementations
             };
         }
 
-        public static LoginViewModel CreateLoginViewModel(DepartmentUser entity)
+        public static LoginViewModel CreateLoginViewModel(DepartmentUser entity, List<string> list)
         {
             return new LoginViewModel
             {
-                UserName = entity.UserName
+                UserName = entity.UserName,
+                UserRoles = list
             };
         }
     }

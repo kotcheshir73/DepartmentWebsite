@@ -4,7 +4,10 @@ using Tools.BindingModels;
 
 namespace BaseInterfaces.BindingModels
 {
-    public class LecturerGetBindingModel : PageSettingGetBinidingModel { }
+    public class LecturerGetBindingModel : PageSettingGetBinidingModel
+    {
+        public string Abbreviation { get; set; }
+    }
 
     public class LecturerSetBindingModel : PageSettingSetBinidingModel
     {

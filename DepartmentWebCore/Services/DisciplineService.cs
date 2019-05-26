@@ -84,22 +84,42 @@ namespace DepartmentWebCore.Services
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.AcademicPlanRecordElements
+                    var entity = context.AcademicPlanRecordMissions
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                                .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName == model.DisciplineName 
+                                    && x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == GetAcademicYear().Result.Id)
+                                .Where(x => (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лекция") 
+                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Практическое занятие") 
+                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лабораторное занятие") 
+                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName.Contains("Руководство и прием курсовых")))
+                                .Select(x => new WebProcessFolderLoadSetBindingModel
+                                {
+                                    DisciplineName = x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
+                                    Semestr = x.AcademicPlanRecordElement.AcademicPlanRecord.Semester.ToString(),
+                                    TimeNorm = x.AcademicPlanRecordElement.TimeNorm.TimeNormName,
+                                    LecturerName = $"{x.Lecturer.LastName} {x.Lecturer.FirstName[0]}.{x.Lecturer.Patronymic[0]}."
+
+                                }).ToList();
+
+                    /*var entity = context.AcademicPlanRecordElements
                                 .Include(x => x.AcademicPlanRecord.Discipline)
                                 .Include(x => x.AcademicPlanRecord.AcademicPlan)
-                                .Where(x => x.AcademicPlanRecord.Discipline.Id == model.Id 
+                                .Where(x => x.AcademicPlanRecord.Discipline.Id == model.Id
                                     && x.AcademicPlanRecord.AcademicPlan.AcademicYearId == GetAcademicYear().Result.Id)
-                                .Where(x => (x.TimeNorm.TimeNormName == "Лекция") 
-                                    || (x.TimeNorm.TimeNormName == "Практическое занятие") 
-                                    || (x.TimeNorm.TimeNormName == "Лабораторное занятие") 
+                                .Where(x => (x.TimeNorm.TimeNormName == "Лекция")
+                                    || (x.TimeNorm.TimeNormName == "Практическое занятие")
+                                    || (x.TimeNorm.TimeNormName == "Лабораторное занятие")
                                     || (x.TimeNorm.TimeNormName.Contains("Руководство и прием курсовых")))
                                 .Select(x => new WebProcessFolderLoadSetBindingModel
                                 {
                                     DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
                                     Semestr = x.AcademicPlanRecord.Semester.ToString(),
-                                    TimeNorm = x.TimeNorm.TimeNormName
-                                    
-                                }).ToList();
+                                    TimeNorm = x.TimeNorm.TimeNormName,
+                                    LecturerNames = x.AcademicPlanRecord.
+
+                                }).ToList();*/
 
                     return ResultService<List<WebProcessFolderLoadSetBindingModel>>.Success(entity);
                 }

@@ -23,6 +23,11 @@ namespace WebInterfaces.BindingModels
         public string Semestr { get; set; }
 
         public string TimeNorm { get; set; }
+
+        public string DisciplineDescription { get; set; }
+
+        public string LecturerName { get; set; }
+
     }
 
     public class WebProcessDisciplineForDownloadGetBindingModel
