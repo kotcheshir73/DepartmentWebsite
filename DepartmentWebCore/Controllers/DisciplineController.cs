@@ -31,6 +31,7 @@ namespace DepartmentWebCore.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Преподаватель, Студент")]
         public ActionResult DisContent(string id)
         {
             if(id != null)
@@ -95,6 +96,7 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
+        [RequestSizeLimit(1073741824)]
         public async Task<IActionResult> LoadFile(IFormFileCollection files)
         {
             foreach (var formFile in files)

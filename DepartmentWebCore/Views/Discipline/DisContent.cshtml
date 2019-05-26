@@ -12,42 +12,52 @@
         @Html.ActionLink("Добавить файлы", "LoadFile", new { Model.Name }, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
     </div>
 }
-<div>Преподаватели: @Model.LecturerName</div>
+
+
 <div class="text-lec">
-    @foreach (var sem in Model.Semestrs)
+    Преподаватели: @Model.LecturerName<p></p>
+    @if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
     {
 
-        <input class="hide" id=@sem.Name type="checkbox">
-        <label for=@sem.Name>@sem.Name семестр</label>
-        @:<div>
-            foreach (var tn in sem.TimeNorms)
-            {
+        @foreach (var sem in Model.Semestrs)
+        {
 
-                <input class="hide" id=@(sem.Name+tn.Name) type="checkbox">
-                <label for=@(sem.Name+tn.Name)>@tn.Name</label>
-                @:<div>
-                    foreach (var file in tn.Files)
-                    {
+            <input class="hide" id=@sem.Name type="checkbox">
+            <label for=@sem.Name>@sem.Name семестр</label>
+            @:<div>
+                foreach (var tn in sem.TimeNorms)
+                {
 
-                        if (file.Name.Contains(".pdf"))
+                    <input class="hide" id=@(sem.Name + tn.Name) type="checkbox">
+                    <label for=@(sem.Name + tn.Name)>@tn.Name</label>
+                    @:<div>
+                        foreach (var file in tn.Files)
                         {
-                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" target="_blank">@file.Name</a><br />
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Download", new {path = file.Path, fileName = file.Name})">@file.Name</a><br />
-                        }
 
-                    }
-                @:</div>
-                <br />
-            }
-        @:</div>
-        <br />
+                            if (file.Name.Contains(".pdf"))
+                            {
+                                <a href="@Url.Action("PDF", new { path = file.Path, fileName = file.Name })" target="_blank">@file.Name</a><br />
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a><br />
+                            }
+
+                        }
+                    @:</div>
+                    <br />
+                }
+            @:</div>
+            <br />
+        }
+
+    }
+    else
+    {
+        @:У вас нет доступа к этой странице.
     }
 </div>
 
-        
 
 
         @*@foreach (var sem in Model.Semestrs)

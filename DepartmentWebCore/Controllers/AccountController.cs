@@ -16,7 +16,7 @@ namespace DepartmentWebCore.Controllers
 {
     public class AccountController : Controller
     {
-        private IAuthenticationProcess _serviceA;
+        private readonly IAuthenticationProcess _serviceA;
 
         public AccountController(IAuthenticationProcess serviceA )
         {
@@ -42,7 +42,7 @@ namespace DepartmentWebCore.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)//TODO: если неверные данны выдавать ошибку
-                {
+                {                    
                     ModelState.AddModelError("fdhhfdhdfh", ex.Message);
                 }
             }
