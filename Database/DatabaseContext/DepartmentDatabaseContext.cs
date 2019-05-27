@@ -79,11 +79,14 @@ namespace DatabaseContext
 
         public virtual DbSet<TicketTemplate> TicketTemplates { get; set; }
         public virtual DbSet<TicketTemplateBody> TicketTemplateBodies { get; set; }
+        public virtual DbSet<TicketTemplateBodyProperties> TicketTemplateBodyProperties { get; set; }
         public virtual DbSet<TicketTemplateTable> TicketTemplateTables { get; set; }
         public virtual DbSet<TicketTemplateTableRow> TicketTemplateTableRows { get; set; }
         public virtual DbSet<TicketTemplateTableCell> TicketTemplateTableCells { get; set; }
         public virtual DbSet<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }
-        public virtual DbSet<TicketTemplateParagraphData> TicketTemplateParagraphDatas { get; set; }
+        public virtual DbSet<TicketTemplateParagraphProperties> TicketTemplateParagraphProperties { get; set; }
+        public virtual DbSet<TicketTemplateParagraphRun> TicketTemplateParagraphRuns { get; set; }
+        public virtual DbSet<TicketTemplateParagraphRunProperties> TicketTemplateParagraphRunProperties { get; set; }
         public virtual DbSet<TicketTemplateElementaryUnit> TicketTemplateElementaryUnits { get; set; }
         public virtual DbSet<TicketTemplateElementaryAttribute> TicketTemplateElementaryAttributes { get; set; }
         #endregion

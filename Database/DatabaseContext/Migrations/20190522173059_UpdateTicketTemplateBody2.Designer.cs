@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190522173059_UpdateTicketTemplateBody2")]
+    partial class UpdateTicketTemplateBody2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1520,13 +1522,13 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid>("TicketTemplateParagraphId");
 
-                    b.Property<Guid?>("TicketTemplateParagraphRunPropertiesId");
+                    b.Property<Guid>("TicketTemplateRunPropertiesId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TicketTemplateParagraphId");
 
-                    b.ToTable("TicketTemplateParagraphRuns");
+                    b.ToTable("TicketTemplateParagraphRun");
                 });
 
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphRunProperties", b =>
@@ -2725,7 +2727,7 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphRunProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateParagraphRun", "TicketTemplateParagraphRun")
-                        .WithOne("TicketTemplateParagraphRunProperties")
+                        .WithOne("TicketTemplateRunProperties")
                         .HasForeignKey("Models.Examination.TicketTemplateParagraphRunProperties", "TicketTemplateParagraphRunId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

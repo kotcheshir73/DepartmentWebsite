@@ -152,48 +152,48 @@ namespace TicketServiceImplementations.Helpers
             }
         }
 
-        private string GetParagraptData(TicketTemplateParagraphData element)
-        {
-            if (element == null)
-            {
-                return string.Empty;
-            }
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                return string.Empty;
-            }
+        //private string GetParagraptData(TicketTemplateParagraphData element)
+        //{
+        //    if (element == null)
+        //    {
+        //        return string.Empty;
+        //    }
+        //    if (string.IsNullOrEmpty(element.Name))
+        //    {
+        //        return string.Empty;
+        //    }
 
-            StringBuilder attributes = new StringBuilder();
-            if (element.TicketTemplateElementaryAttributes != null)
-            {
-                foreach (var attr in element.TicketTemplateElementaryAttributes)
-                {
-                    attributes.Append(GetAttribute(attr));
-                }
-            }
-            StringBuilder inits = new StringBuilder();
-            if (element.TicketTemplateElementaryUnits != null)
-            {
-                foreach (var unit in element.TicketTemplateElementaryUnits.OrderBy(x => x.Order))
-                {
-                    inits.Append(GetUnit(unit));
-                }
-            }
-            StringBuilder text = new StringBuilder();
-            if (!string.IsNullOrEmpty(element.Text))
-            {
-                string textResult = element.Text;
-                Match match = Regex.Match(textResult, @"\{\#[a-z,A-Z,0-9,\:,\,]*\}");
-                if (match.Success)
-                {
-                    string matchValue = match.Value.Substring(2, match.Value.Length - 3);
-                    textResult = textResult.Replace(match.Value, ReplacmentText(matchValue));
-                }
-                text.AppendFormat("<{0}>{1}</{0}>", element.TextName, textResult);
-            }
+        //    StringBuilder attributes = new StringBuilder();
+        //    if (element.TicketTemplateElementaryAttributes != null)
+        //    {
+        //        foreach (var attr in element.TicketTemplateElementaryAttributes)
+        //        {
+        //            attributes.Append(GetAttribute(attr));
+        //        }
+        //    }
+        //    StringBuilder inits = new StringBuilder();
+        //    if (element.TicketTemplateElementaryUnits != null)
+        //    {
+        //        foreach (var unit in element.TicketTemplateElementaryUnits.OrderBy(x => x.Order))
+        //        {
+        //            inits.Append(GetUnit(unit));
+        //        }
+        //    }
+        //    StringBuilder text = new StringBuilder();
+        //    if (!string.IsNullOrEmpty(element.Text))
+        //    {
+        //        string textResult = element.Text;
+        //        Match match = Regex.Match(textResult, @"\{\#[a-z,A-Z,0-9,\:,\,]*\}");
+        //        if (match.Success)
+        //        {
+        //            string matchValue = match.Value.Substring(2, match.Value.Length - 3);
+        //            textResult = textResult.Replace(match.Value, ReplacmentText(matchValue));
+        //        }
+        //        text.AppendFormat("<{0}>{1}</{0}>", element.TextName, textResult);
+        //    }
 
-            return string.Format("<{0}{1}>{2}{3}{4}</{0}>", element.Name, attributes.ToString(), GetUnit(element.Font), inits.ToString(), text.ToString());
-        }
+        //    return string.Format("<{0}{1}>{2}{3}{4}</{0}>", element.Name, attributes.ToString(), GetUnit(element.Font), inits.ToString(), text.ToString());
+        //}
 
         private string GetParagraph(TicketTemplateParagraph element)
         {
@@ -201,32 +201,32 @@ namespace TicketServiceImplementations.Helpers
             {
                 return string.Empty;
             }
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                return string.Empty;
-            }
+            //if (string.IsNullOrEmpty(element.Name))
+            //{
+            //    return string.Empty;
+            //}
 
             StringBuilder attributes = new StringBuilder();
-            if (element.TicketTemplateElementaryAttributes != null)
-            {
-                foreach (var attr in element.TicketTemplateElementaryAttributes)
-                {
-                    attributes.Append(GetAttribute(attr));
-                }
-            }
+            //if (element.TicketTemplateElementaryAttributes != null)
+            //{
+            //    foreach (var attr in element.TicketTemplateElementaryAttributes)
+            //    {
+            //        attributes.Append(GetAttribute(attr));
+            //    }
+            //}
             StringBuilder nodes = new StringBuilder();
-            if (element.TicketTemplateParagraphDatas != null)
-            {
-                foreach (var node in element.TicketTemplateParagraphDatas.OrderBy(x => x.Order))
-                {
-                    if (node != null)
-                    {
-                        nodes.Append(GetParagraptData(node));
-                    }
-                }
-            }
+            //if (element.TicketTemplateParagraphDatas != null)
+            //{
+            //    foreach (var node in element.TicketTemplateParagraphDatas.OrderBy(x => x.Order))
+            //    {
+            //        if (node != null)
+            //        {
+            //            nodes.Append(GetParagraptData(node));
+            //        }
+            //    }
+            //}
 
-            return string.Format("<{0}{1}>{2}{3}</{0}>", element.Name, attributes.ToString(), GetUnit(element.ParagraphFormat), nodes.ToString());
+            return string.Format("<{0}{1}>{2}{3}</{0}>", /*element.Name*/"", attributes.ToString(), /*GetUnit(element.ParagraphFormat)*/"", nodes.ToString());
         }
 
         private string GetTableCell(TicketTemplateTableCell element)
@@ -349,14 +349,14 @@ namespace TicketServiceImplementations.Helpers
             return sb.ToString();
         }
 
-        public string GetBodyFormat(TicketTemplateBody element)
-        {
-            if (element == null)
-            {
-                return string.Empty;
-            }
+        //public string GetBodyFormat(TicketTemplateBody element)
+        //{
+        //    if (element == null)
+        //    {
+        //        return string.Empty;
+        //    }
 
-            return GetUnit(element.BodyFormat);
-        }
+        //    return GetUnit(element.BodyFormat);
+        //}
     }
 }

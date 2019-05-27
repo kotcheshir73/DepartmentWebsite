@@ -58,64 +58,64 @@ namespace TicketServiceImplementations.Helpers
             {
                 foreach (var paragraph in Paragraphs)
                 {
-                    if (paragraph.TicketTemplateParagraphDatas != null)
-                    {
-                        foreach (var data in paragraph.TicketTemplateParagraphDatas)
-                        {
-                            if (!string.IsNullOrEmpty(data.Text))
-                            {
-                                string str = data.Text;
-                                Match match = Regex.Match(data.Text, @"\{\#[a-z,A-Z,0-9,\:,\,]*\}");
-                                if(match.Success)
-                                {
-                                    string matchValue = match.Value.Substring(2, match.Value.Length - 3);
-                                    if (matchValue.StartsWith("question"))
-                                    {
-                                        if (_questions.ContainsKey(matchValue))
-                                        {
-                                            _questions[matchValue]++;
-                                        }
-                                        else
-                                        {
-                                            _questions.Add(matchValue, 1);
-                                        }
-                                    }
-                                    if(matchValue.StartsWith("random"))
-                                    {
-                                        string randomName = matchValue.Split(':')[0];
-                                        if(!randomName.ToLower().Contains("random"))
-                                        {
-                                            randomName = $"random{randomName}";
-                                        }
-                                        if (_questions.ContainsKey(randomName))
-                                        {
-                                            _questions[randomName]++;
-                                        }
-                                        else
-                                        {
-                                            _questions.Add(randomName, 1);
-                                        }
-                                        if(RandomQuestions.ContainsKey(randomName))
-                                        {
-                                            RandomQuestions[randomName] = matchValue.Split(':')[1];
-                                        }
-                                        else
-                                        {
-                                            RandomQuestions.Add(randomName, matchValue.Split(':')[1]);
-                                        }
-                                        string[] subMatchValue = matchValue.Split(':')[1].Split(',');
-                                        foreach (var subStr in subMatchValue)
-                                        {
-                                            if (!_questions.ContainsKey(subStr))
-                                            {
-                                                _questions.Add(subStr, 0);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //if (paragraph.TicketTemplateParagraphDatas != null)
+                    //{
+                    //    foreach (var data in paragraph.TicketTemplateParagraphDatas)
+                    //    {
+                    //        if (!string.IsNullOrEmpty(data.Text))
+                    //        {
+                    //            string str = data.Text;
+                    //            Match match = Regex.Match(data.Text, @"\{\#[a-z,A-Z,0-9,\:,\,]*\}");
+                    //            if(match.Success)
+                    //            {
+                    //                string matchValue = match.Value.Substring(2, match.Value.Length - 3);
+                    //                if (matchValue.StartsWith("question"))
+                    //                {
+                    //                    if (_questions.ContainsKey(matchValue))
+                    //                    {
+                    //                        _questions[matchValue]++;
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        _questions.Add(matchValue, 1);
+                    //                    }
+                    //                }
+                    //                if(matchValue.StartsWith("random"))
+                    //                {
+                    //                    string randomName = matchValue.Split(':')[0];
+                    //                    if(!randomName.ToLower().Contains("random"))
+                    //                    {
+                    //                        randomName = $"random{randomName}";
+                    //                    }
+                    //                    if (_questions.ContainsKey(randomName))
+                    //                    {
+                    //                        _questions[randomName]++;
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        _questions.Add(randomName, 1);
+                    //                    }
+                    //                    if(RandomQuestions.ContainsKey(randomName))
+                    //                    {
+                    //                        RandomQuestions[randomName] = matchValue.Split(':')[1];
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        RandomQuestions.Add(randomName, matchValue.Split(':')[1]);
+                    //                    }
+                    //                    string[] subMatchValue = matchValue.Split(':')[1].Split(',');
+                    //                    foreach (var subStr in subMatchValue)
+                    //                    {
+                    //                        if (!_questions.ContainsKey(subStr))
+                    //                        {
+                    //                            _questions.Add(subStr, 0);
+                    //                        }
+                    //                    }
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
             }
         }

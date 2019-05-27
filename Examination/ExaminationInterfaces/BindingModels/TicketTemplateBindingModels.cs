@@ -12,6 +12,10 @@ namespace ExaminationInterfaces.BindingModels
     {
         public Guid? ExaminationTemplateId { get; set; }
 
+        public Guid? TicketTemplateBodyId { get; set; }
+
         public string TemplateName { get; set; }
+
+        public TicketTemplateBodySetBindingModel TicketTemplateBodySetBindingModel { get; set; }
     }
 }

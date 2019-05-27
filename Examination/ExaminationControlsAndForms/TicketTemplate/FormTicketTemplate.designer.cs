@@ -33,13 +33,11 @@
             this.examinationTemplateElement = new ExaminationControlsAndForms.ExaminationTemplate.ControlExaminationTemplateSearch();
             this.labelExaminationTemplate = new System.Windows.Forms.Label();
             this.tabPageTicketTemplate = new System.Windows.Forms.TabPage();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.tabPageParagraphsData = new System.Windows.Forms.TabPage();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageConfig.SuspendLayout();
-            this.tabPageTicketTemplate.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -142,30 +140,20 @@
             // 
             // tabPageTicketTemplate
             // 
-            this.tabPageTicketTemplate.Controls.Add(this.webBrowser);
             this.tabPageTicketTemplate.Location = new System.Drawing.Point(4, 22);
             this.tabPageTicketTemplate.Name = "tabPageTicketTemplate";
             this.tabPageTicketTemplate.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTicketTemplate.Size = new System.Drawing.Size(1176, 606);
+            this.tabPageTicketTemplate.Size = new System.Drawing.Size(1176, 599);
             this.tabPageTicketTemplate.TabIndex = 1;
             this.tabPageTicketTemplate.Text = "Шаблон";
             this.tabPageTicketTemplate.UseVisualStyleBackColor = true;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.Location = new System.Drawing.Point(3, 3);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(1170, 600);
-            this.webBrowser.TabIndex = 0;
             // 
             // tabPageParagraphsData
             // 
             this.tabPageParagraphsData.Location = new System.Drawing.Point(4, 22);
             this.tabPageParagraphsData.Name = "tabPageParagraphsData";
             this.tabPageParagraphsData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageParagraphsData.Size = new System.Drawing.Size(1176, 606);
+            this.tabPageParagraphsData.Size = new System.Drawing.Size(311, 148);
             this.tabPageParagraphsData.TabIndex = 2;
             this.tabPageParagraphsData.Text = "Параграфы";
             this.tabPageParagraphsData.UseVisualStyleBackColor = true;
@@ -182,7 +170,6 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageConfig.ResumeLayout(false);
             this.tabPageConfig.PerformLayout();
-            this.tabPageTicketTemplate.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -196,7 +183,6 @@
         private ExaminationTemplate.ControlExaminationTemplateSearch examinationTemplateElement;
         private System.Windows.Forms.Label labelExaminationTemplate;
         private System.Windows.Forms.TabPage tabPageTicketTemplate;
-        private System.Windows.Forms.WebBrowser webBrowser;
         private System.Windows.Forms.Button buttonLoadTemplate;
         private System.Windows.Forms.Label labelLinkToFile;
         private System.Windows.Forms.TextBox textBoxLinkToFile;

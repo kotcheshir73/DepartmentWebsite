@@ -6,8 +6,6 @@ namespace Models.Examination
     {
         public Guid? TicketTemplateParagraphDataId { get; set; }
 
-        public Guid? TicketTemplateParagraphId { get; set; }
-
         public Guid? TicketTemplateTableRowId { get; set; }
 
         public Guid? TicketTemplateElementaryUnitId { get; set; }
@@ -19,8 +17,6 @@ namespace Models.Examination
         //-------------------------------------------------------------------------
 
         public virtual TicketTemplateParagraph TicketTemplateParagraph { get; set; }
-
-        public virtual TicketTemplateParagraphData TicketTemplateParagraphData { get; set; }
 
         public virtual TicketTemplateTableRow TicketTemplateTableRow { get; set; }
 

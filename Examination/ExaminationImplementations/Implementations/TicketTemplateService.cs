@@ -62,7 +62,13 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.ExaminationTemplate);
+                    query = query.Include(x => x.ExaminationTemplate)
+                        .Include(x => x.TicketTemplateBody)
+                        .Include(x => x.TicketTemplateBody.TicketTemplateBodyProperties)
+                        .Include(x => x.TicketTemplateBody.TicketTemplateParagraphs)
+                        .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                        .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                        .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
 
                     var result = new TicketTemplatePageViewModel
                     {
@@ -99,7 +105,7 @@ namespace ExaminationImplementations.Implementations
                         return ResultService<TicketTemplateViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    entity.TicketTemplateBodies = new List<TicketTemplateBody> { TicketBodyGet.GetBody(entity.Id) };
+                    //entity.TicketTemplateBodies = new List<TicketTemplateBody> { TicketBodyGet.GetBody(entity.Id) };
 
                     return ResultService<TicketTemplateViewModel>.Success(ExaminationModelFactoryToViewModel.CreateTicketTemplate(entity));
                 }
@@ -222,23 +228,23 @@ namespace ExaminationImplementations.Implementations
             paragraph.DateDelete = DateTime.Now;
             context.SaveChanges();
 
-            var datas = context.TicketTemplateParagraphDatas.Where(x => x.TicketTemplateParagraphId == paragraph.Id);
-            foreach (var data in datas)
-            {
-                data.IsDeleted = true;
-                data.DateDelete = DateTime.Now;
-                context.SaveChanges();
+            //var datas = context.TicketTemplateParagraphDatas.Where(x => x.TicketTemplateParagraphId == paragraph.Id);
+            //foreach (var data in datas)
+            //{
+            //    data.IsDeleted = true;
+            //    data.DateDelete = DateTime.Now;
+            //    context.SaveChanges();
 
-                var ticketTemplateElementaryUnits = context.TicketTemplateElementaryUnits.Where(x => x.TicketTemplateParagraphDataId == data.Id);
-                foreach (var ticketTemplateElementaryUnit in ticketTemplateElementaryUnits)
-                {
-                    DeleteUnit(context, ticketTemplateElementaryUnit);
-                }
+            //    var ticketTemplateElementaryUnits = context.TicketTemplateElementaryUnits.Where(x => x.TicketTemplateParagraphDataId == data.Id);
+            //    foreach (var ticketTemplateElementaryUnit in ticketTemplateElementaryUnits)
+            //    {
+            //        DeleteUnit(context, ticketTemplateElementaryUnit);
+            //    }
 
-                DeleteAttribute(context, context.TicketTemplateElementaryAttributes.Where(x => x.TicketTemplateParagraphDataId == data.Id).ToList());
-            }
+            //    DeleteAttribute(context, context.TicketTemplateElementaryAttributes.Where(x => x.TicketTemplateParagraphDataId == data.Id).ToList());
+            //}
 
-            DeleteAttribute(context, context.TicketTemplateElementaryAttributes.Where(x => x.TicketTemplateParagraphId == paragraph.Id).ToList());
+            //DeleteAttribute(context, context.TicketTemplateElementaryAttributes.Where(x => x.TicketTemplateParagraphId == paragraph.Id).ToList());
         }
 
         private void DeleteUnit(DepartmentDatabaseContext context, TicketTemplateElementaryUnit unit)

@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190522152530_UpdateTicketTemplateBody")]
+    partial class UpdateTicketTemplateBody
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1300,7 +1302,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("TemplateName");
 
-                    b.Property<Guid?>("TicketTemplateBodyId");
+                    b.Property<string>("XML");
 
                     b.HasKey("Id");
 
@@ -1325,9 +1327,7 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateId")
-                        .IsUnique()
-                        .HasFilter("[TicketTemplateId] IS NOT NULL");
+                    b.HasIndex("TicketTemplateId");
 
                     b.ToTable("TicketTemplateBodies");
                 });
@@ -1355,8 +1355,6 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("PageMarginTop");
 
                     b.Property<string>("PageSizeHeight");
-
-                    b.Property<string>("PageSizeOrient");
 
                     b.Property<string>("PageSizeWidth");
 
@@ -1514,19 +1512,17 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int>("Order");
-
                     b.Property<string>("Text");
 
                     b.Property<Guid>("TicketTemplateParagraphId");
 
-                    b.Property<Guid?>("TicketTemplateParagraphRunPropertiesId");
+                    b.Property<Guid>("TicketTemplateRunPropertiesId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TicketTemplateParagraphId");
 
-                    b.ToTable("TicketTemplateParagraphRuns");
+                    b.ToTable("TicketTemplateParagraphRun");
                 });
 
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphRunProperties", b =>
@@ -2662,8 +2658,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateBody", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplate", "TicketTemplate")
-                        .WithOne("TicketTemplateBody")
-                        .HasForeignKey("Models.Examination.TicketTemplateBody", "TicketTemplateId");
+                        .WithMany("TicketTemplateBodies")
+                        .HasForeignKey("TicketTemplateId");
                 });
 
             modelBuilder.Entity("Models.Examination.TicketTemplateBodyProperties", b =>
@@ -2725,7 +2721,7 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphRunProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateParagraphRun", "TicketTemplateParagraphRun")
-                        .WithOne("TicketTemplateParagraphRunProperties")
+                        .WithOne("TicketTemplateRunProperties")
                         .HasForeignKey("Models.Examination.TicketTemplateParagraphRunProperties", "TicketTemplateParagraphRunId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

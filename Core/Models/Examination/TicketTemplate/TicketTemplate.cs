@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace Models.Examination
@@ -12,7 +10,7 @@ namespace Models.Examination
         public Guid? ExaminationTemplateId { get; set; }
 
         [DataMember]
-        public string XML { get; set; }
+        public Guid? TicketTemplateBodyId { get; set; }
 
         [DataMember]
         public string TemplateName { get; set; }
@@ -21,10 +19,9 @@ namespace Models.Examination
 
         public virtual ExaminationTemplate ExaminationTemplate { get; set; }
 
-        //-------------------------------------------------------------------------
+        public virtual TicketTemplateBody TicketTemplateBody { get; set; }
 
-        [ForeignKey("TicketTemplateId")]
-        public virtual List<TicketTemplateBody> TicketTemplateBodies { get; set; }
+        //-------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------
     }

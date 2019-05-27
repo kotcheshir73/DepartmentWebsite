@@ -1,4 +1,5 @@
 ﻿using Enums;
+using ExaminationImplementations.Helpers;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
@@ -77,60 +78,12 @@ namespace ExaminationImplementations.Implementations
         {
             DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
-            // переводим doc-файл в формат xml и обрабатываем его
-            object missing = System.Reflection.Missing.Value;
-            //Application wordApp = new Application
-            //{
-            //    Visible = false,
-            //    ScreenUpdating = false
-            //};
-
-            //Object xmlFormat = WdSaveFormat.wdFormatXML;
-            //Object docFile = model.FileName;
-            string fileXML = model.FileName + ".xml";
-            //Object xmlFile = fileXML;
-            //try
-            //{
-            //    Document doc = wordApp.Documents.Open(ref docFile, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
-            //    ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-
-            //    doc.SaveAs(ref xmlFile, ref xmlFormat, ref missing, ref missing, ref missing, ref missing, ref missing,
-            //    ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-
-            //    doc.Close(ref missing, ref missing, ref missing);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return ResultService<TicketTemplateViewModel>.Error(ex, ResultServiceStatusCode.Error);
-            //}
-            //finally
-            //{
-            //    wordApp.Quit(WdSaveOptions.wdPromptToSaveChanges, WdOriginalFormat.wdWordDocument, Type.Missing);
-            //}
-
-            string text = string.Empty;
-            try
-            {
-                using (StreamReader reader = new StreamReader(fileXML))
-                {
-                    text = reader.ReadToEnd();
-                }
-                File.Delete(fileXML);
-            }
-            catch (Exception ex)
-            {
-                return ResultService<TicketTemplateViewModel>.Error(ex, ResultServiceStatusCode.Error);
-            }
-
-            TicketTemplate ticketTemplate = new TicketTemplate
+            TicketTemplateViewModel ticketTemplate = new TicketTemplateViewModel
             {
                 TemplateName = model.TemplateName,
-                TicketTemplateBodies = new List<TicketTemplateBody>()
+                Body = ExaminationModelFactoryToViewModel.CreateTicketTemplateBodyViewModel(WordParser.ParseDocument(model.FileName))
             };
-            var body = XMLParser.GetBody(text, ticketTemplate.Id);
-            ticketTemplate.TicketTemplateBodies.Add(body);
-
-            return ResultService<TicketTemplateViewModel>.Success(ExaminationModelFactoryToViewModel.CreateTicketTemplate(ticketTemplate));
+            return ResultService<TicketTemplateViewModel>.Success(ticketTemplate);
         }
 
         public ResultService MakeTickets(TicketProcessMakeTicketsBindingModel model)
@@ -427,61 +380,16 @@ namespace ExaminationImplementations.Implementations
         public ResultService SaveTemplate(TicketProcessLoadTemplateBindingModel model)
         {
             DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
-
-            // переводим doc-файл в формат xml и обрабатываем его
-            object missing = System.Reflection.Missing.Value;
-            //Application wordApp = new Application
-            //{
-            //    Visible = false,
-            //    ScreenUpdating = false
-            //};
-
-            //Object xmlFormat = WdSaveFormat.wdFormatXML;
-            //Object docFile = model.FileName;
-            string fileXML = model.FileName + ".xml";
-            //Object xmlFile = fileXML;
-            //try
-            //{
-            //    Document doc = wordApp.Documents.Open(ref docFile, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing,
-            //    ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-
-            //    doc.SaveAs(ref xmlFile, ref xmlFormat, ref missing, ref missing, ref missing, ref missing, ref missing,
-            //    ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-
-            //    doc.Close(ref missing, ref missing, ref missing);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            //}
-            //finally
-            //{
-            //    wordApp.Quit(WdSaveOptions.wdPromptToSaveChanges, WdOriginalFormat.wdWordDocument, Type.Missing);
-            //}
-
-            string text = string.Empty;
-            try
-            {
-                using (StreamReader reader = new StreamReader(fileXML))
-                {
-                    text = reader.ReadToEnd();
-                }
-                File.Delete(fileXML);
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-            }
-
+            
             TicketTemplate ticketTemplate = new TicketTemplate
             {
                 ExaminationTemplateId = model.ExaminationTemplateId,
-                TemplateName = model.TemplateName,
-                XML = text,
-                TicketTemplateBodies = new List<TicketTemplateBody>()
+                TemplateName = model.TemplateName
             };
 
-            var body = XMLParser.GetBody(text, ticketTemplate.Id);
+            var body = WordParser.ParseDocument(model.FileName);
+            body.TicketTemplateId = ticketTemplate.Id;
+            ticketTemplate.TicketTemplateBodyId = body.Id;
 
             try
             {
@@ -494,10 +402,26 @@ namespace ExaminationImplementations.Implementations
                             context.TicketTemplates.Add(ticketTemplate);
                             context.SaveChanges();
 
-                            if (body != null)
+                            var paragraphs = body.TicketTemplateParagraphs;
+                            body.TicketTemplateParagraphs = null;
+
+                            context.TicketTemplateBodies.Add(body);
+                            context.SaveChanges();
+
+                            foreach (var paragraph in paragraphs)
                             {
-                                context.TicketTemplateBodies.Add(body);
+                                var runs = paragraph.TicketTemplateParagraphRuns;
+
+                                paragraph.TicketTemplateParagraphRuns = null;
+
+                                context.TicketTemplateParagraphs.Add(paragraph);
                                 context.SaveChanges();
+
+                                foreach(var run in runs)
+                                {
+                                    context.TicketTemplateParagraphRuns.Add(run);
+                                    context.SaveChanges();
+                                }
                             }
 
                             transaction.Commit();
@@ -530,52 +454,52 @@ namespace ExaminationImplementations.Implementations
                         return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);
                     }
 
-                    var body = XMLParser.GetBody(ticketTemplate.XML, ticketTemplate.Id);
+                    //var body = XMLParser.GetBody(ticketTemplate.XML, ticketTemplate.Id);
 
-                    var questions = TicketTemplateAnalyser.AnalysisBody(body);
+                    //var questions = TicketTemplateAnalyser.AnalysisBody(body);
 
                     using (var transaction = context.Database.BeginTransaction())
                     {
                         try
                         {
-                            foreach (var question in questions)
-                            {
-                                var block = context.ExaminationTemplateBlocks.FirstOrDefault(x => x.ExaminationTemplateId == model.ExaminationTemplateId && x.QuestionTagInTemplate == question.Key && !x.IsDeleted);
-                                if (block == null)
-                                {
-                                    block = context.ExaminationTemplateBlocks.FirstOrDefault(x => x.ExaminationTemplateId == model.ExaminationTemplateId && x.QuestionTagInTemplate == question.Key);
-                                    if (block == null)
-                                    {
-                                        block = ExaminationModelFacotryFromBindingModel.CreateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
-                                        {
-                                            ExaminationTemplateId = model.ExaminationTemplateId,
-                                            BlockName = question.Key,
-                                            CountQuestionInTicket = question.Value,
-                                            QuestionTagInTemplate = question.Key,
-                                            IsCombine = question.Key.ToLower().Contains("random"),
-                                            CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty
-                                        });
-                                        context.ExaminationTemplateBlocks.Add(block);
-                                        context.SaveChanges();
-                                    }
-                                    else
-                                    {
-                                        block.CountQuestionInTicket = question.Value;
-                                        block.IsCombine = question.Key.ToLower().Contains("random");
-                                        block.CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty;
-                                        block.IsDeleted = false;
-                                        block.DateDelete = null;
-                                        context.SaveChanges();
-                                    }
-                                }
-                                else
-                                {
-                                    block.CountQuestionInTicket = question.Value;
-                                    block.IsCombine = question.Key.ToLower().Contains("random");
-                                    block.CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty;
-                                    context.SaveChanges();
-                                }
-                            }
+                            //foreach (var question in questions)
+                            //{
+                            //    var block = context.ExaminationTemplateBlocks.FirstOrDefault(x => x.ExaminationTemplateId == model.ExaminationTemplateId && x.QuestionTagInTemplate == question.Key && !x.IsDeleted);
+                            //    if (block == null)
+                            //    {
+                            //        block = context.ExaminationTemplateBlocks.FirstOrDefault(x => x.ExaminationTemplateId == model.ExaminationTemplateId && x.QuestionTagInTemplate == question.Key);
+                            //        if (block == null)
+                            //        {
+                            //            block = ExaminationModelFacotryFromBindingModel.CreateExaminationTemplateBlock(new ExaminationTemplateBlockSetBindingModel
+                            //            {
+                            //                ExaminationTemplateId = model.ExaminationTemplateId,
+                            //                BlockName = question.Key,
+                            //                CountQuestionInTicket = question.Value,
+                            //                QuestionTagInTemplate = question.Key,
+                            //                IsCombine = question.Key.ToLower().Contains("random"),
+                            //                CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty
+                            //            });
+                            //            context.ExaminationTemplateBlocks.Add(block);
+                            //            context.SaveChanges();
+                            //        }
+                            //        else
+                            //        {
+                            //            block.CountQuestionInTicket = question.Value;
+                            //            block.IsCombine = question.Key.ToLower().Contains("random");
+                            //            block.CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty;
+                            //            block.IsDeleted = false;
+                            //            block.DateDelete = null;
+                            //            context.SaveChanges();
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        block.CountQuestionInTicket = question.Value;
+                            //        block.IsCombine = question.Key.ToLower().Contains("random");
+                            //        block.CombineBlocks = question.Key.ToLower().Contains("random") ? TicketTemplateAnalyser.RandomQuestions[question.Key] : string.Empty;
+                            //        context.SaveChanges();
+                            //    }
+                            //}
 
                             transaction.Commit();
                         }
@@ -619,14 +543,14 @@ namespace ExaminationImplementations.Implementations
                     var blocks = context.ExaminationTemplateBlocks.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).ToList();
                     var tickets = context.ExaminationTemplateTickets.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).OrderBy(x => x.TicketNumber);
 
-                    var body = TicketBodyGet.GetBody(ticketTemplate.Id);
+                    //var body = TicketBodyGet.GetBody(ticketTemplate.Id);
 
                     TicketDocCreator docCreator = new TicketDocCreator();
 
                     using (StreamWriter writer = new StreamWriter(model.FileName + ".xml"))
                     {
-                        var stratIndex = ticketTemplate.XML.IndexOf("<w:body>");
-                        writer.Write(ticketTemplate.XML.Substring(0, stratIndex));
+                        //var stratIndex = ticketTemplate.XML.IndexOf("<w:body>");
+                        //writer.Write(ticketTemplate.XML.Substring(0, stratIndex));
                         writer.Write("<w:body><wx:sect>");
                         foreach(var ticket in tickets)
                         {
@@ -635,10 +559,10 @@ namespace ExaminationImplementations.Implementations
                                                 .Include(x => x.ExaminationTemplateBlockQuestion)
                                                 .ToList();
 
-                            writer.Write(docCreator.GetBody(body, examinationTemplate, ticket, questions, blocks));
+                           // writer.Write(docCreator.GetBody(body, examinationTemplate, ticket, questions, blocks));
                         }
 
-                        writer.Write(docCreator.GetBodyFormat(body));
+                        //writer.Write(docCreator.GetBodyFormat(body));
                         writer.Write("</wx:sect></w:body></w:wordDocument>");
                     }
 
@@ -690,11 +614,11 @@ namespace ExaminationImplementations.Implementations
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var body = TicketBodyGet.GetBody(model.TicketTemplateId);
-                    if(body != null)
-                    {
+                    //var body = TicketBodyGet.GetBody(model.TicketTemplateId);
+                    //if(body != null)
+                    //{
 
-                    }
+                    //}
                 }
             }
             catch(Exception ex)

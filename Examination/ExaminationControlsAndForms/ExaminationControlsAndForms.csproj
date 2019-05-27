@@ -168,6 +168,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ControlTicketTemplateLoader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateLoader.Designer.cs">
+      <DependentUpon>ControlTicketTemplateLoader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\FormExaminationTemplateUploadTickets.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -267,6 +273,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Services\ControlTicketTemplateLoader.resx">
+      <DependentUpon>ControlTicketTemplateLoader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Services\FormExaminationTemplateUploadTickets.resx">
       <DependentUpon>FormExaminationTemplateUploadTickets.cs</DependentUpon>
     </EmbeddedResource>

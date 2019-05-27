@@ -1,5 +1,6 @@
 ﻿using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
+using ExaminationControlsAndForms.Services;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
@@ -30,6 +31,13 @@ namespace ExaminationControlsAndForms.TicketTemplate
             _process = process;
             examinationTemplateElement.Service = _serviceET;
             examinationTemplateElement.Id = examinationTemplateId;
+            if (tabPageTicketTemplate.Controls.Count == 0)
+            {
+                var control = new ControlTicketTemplateLoader(process);
+                control.Dock = DockStyle.Fill;
+                control.SetId = examinationTemplateId.Value;
+                tabPageTicketTemplate.Controls.Add(control);
+            }
 
             if (id != Guid.Empty)
             {
@@ -48,24 +56,24 @@ namespace ExaminationControlsAndForms.TicketTemplate
             var entity = result.Result;
 
             textBoxTemplateName.Text = entity.TemplateName;
-            LoadBody(entity.Body);
+          //  LoadBody(entity.Body);
         }
 
         /// <summary>
         /// Загрузка шаблона билета
         /// </summary>
         /// <param name="body"></param>
-        private void LoadBody(TicketProcessBodyViewModel body)
+        private void LoadBody(TicketTemplateBodyViewModel body)
         {
-            var steps = (body.Tables?.Count ?? 0) + (body.Paragraphs?.Count ?? 0);
+            var steps = /*(body.Tables?.Count ?? 0) + */(body.TicketTemplateParagraphPageViewModel?.List.Count ?? 0);
             StringBuilder html = new StringBuilder("<body>");
             string size = "";
             for (int i = 0; i < steps; ++i)
             {
-                html.Append(ProcessTable(body.Tables?.FirstOrDefault(x => x.Order == i), ref size));
-                html.Append(ProcessParagraph(body.Paragraphs?.FirstOrDefault(x => x.Order == i), ref size));
+               // html.Append(ProcessTable(body.Tables?.FirstOrDefault(x => x.Order == i), ref size));
+                html.Append(ProcessParagraph(body.TicketTemplateParagraphPageViewModel?.List.FirstOrDefault(x => x.Order == i), ref size));
             }
-            webBrowser.DocumentText = html.ToString();
+           // webBrowser.DocumentText = html.ToString();
         }
 
         /// <summary>
@@ -165,7 +173,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                         StringBuilder cellCompile = new StringBuilder();
                         foreach (var paragraph in cell.Paragraphs)
                         {
-                            cellCompile.Append(ProcessParagraph(paragraph, ref size));
+                          //  cellCompile.Append(ProcessParagraph(paragraph, ref size));
                         }
 
                         rowCompile.Append($"<td{rowSpan}{colSpan}{width}>{cellCompile.ToString()}</td>");
@@ -192,66 +200,53 @@ namespace ExaminationControlsAndForms.TicketTemplate
         /// <param name="paragraph"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private string ProcessParagraph(TicketProcessParagraphViewModel paragraph, ref string size)
+        private string ProcessParagraph(TicketTemplateParagraphViewModel paragraph, ref string size)
         {
-            if (paragraph != null && paragraph.ParagraphDatas != null)
+            string aligment = "";
+            if (paragraph.TicketTemplateParagraphPropertiesViewModel != null)
             {
-                string aligment = "";
-                if (paragraph.ParagraphFormat != null)
+                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphPropertiesViewModel.Justification))
                 {
-                    var attrAlign = paragraph.ParagraphFormat?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:jc")?
-                        .ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val");
-                    if (attrAlign != null)
-                    {
-                        aligment = $" align={attrAlign.Value}";
-                    }
-                    var elemSize = paragraph.ParagraphFormat?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:rPr")?
-                        .ChildElementaryUnits?.FirstOrDefault(x => x.Name.StartsWith("w:sz"))?.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val");
-                    if (elemSize != null)
-                    {
-                        size = $" style=\"font-size:{elemSize.Value}pt \"";
-                    }
+                    aligment = $" align={paragraph.TicketTemplateParagraphPropertiesViewModel.Justification}";
                 }
-                StringBuilder pdata = new StringBuilder($"<p{aligment}{size}>");
-                foreach (var data in paragraph.ParagraphDatas)
+                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphPropertiesViewModel.RunSize))
                 {
-                    string text = data.Text;
-                    var brElem = data.ElementaryUnits?.FirstOrDefault(x => x.Name == "w:br");
-                    if (brElem != null)
-                    {
-                        text = $"{text}<br />";
-                    }
-                    var bold = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:b");
-                    if (bold != null)
-                    {
-                        text = $"<b>{text}</b>";
-                    }
-                    var underline = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:u");
-                    if (underline != null)
-                    {
-                        text = $"<u>{text}</u>";
-                    }
-                    var italic = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:i");
-                    if (italic != null)
-                    {
-                        text = $"<i>{text}</i>";
-                    }
-                    var rSize = data.Font?.ChildElementaryUnits?.FirstOrDefault(x => x.Name.StartsWith("w:sz"))?
-                        .ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val");
-                    if (rSize != null)
-                    {
-                        text = $"<span style=\"font-size:{rSize.Value}pt \">{text}</span>";
-                    }
-                    else if (!string.IsNullOrEmpty(size))
-                    {
-                        text = $"<span style=\"font-size:{size}pt \">{text}</span>";
-                    }
-                    pdata.Append(text);
+                    size = $" style=\"font-size:{paragraph.TicketTemplateParagraphPropertiesViewModel.RunSize}pt \"";
                 }
-                return pdata.ToString();
             }
-
-            return string.Empty;
+            StringBuilder paragraphBuilder = new StringBuilder($"<p{aligment}{size}>");
+            if (paragraph.TicketTemplateParagraphRunPageViewModel != null)
+            {
+                foreach (var elem in paragraph.TicketTemplateParagraphRunPageViewModel.List)
+                {
+                    string text = elem.Text;
+                    if(elem.TicketTemplateParagraphRunPropertiesViewModel != null)
+                    {
+                        if(elem.TicketTemplateParagraphRunPropertiesViewModel.RunBold)
+                        {
+                            text = $"<b>{text}</b>";
+                        }
+                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunItalic)
+                        {
+                            text = $"<i>{text}</i>";
+                        }
+                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunUnderline)
+                        {
+                            text = $"<u>{text}</u>";
+                        }
+                        if (!string.IsNullOrEmpty(elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize))
+                        {
+                            text = $"<span style=\"font-size:{elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize}pt \">{text}</span>";
+                        }
+                        else if (!string.IsNullOrEmpty(size))
+                        {
+                            text = $"<span style=\"font-size:{size}pt \">{text}</span>";
+                        }
+                    }
+                    paragraphBuilder.Append(text);
+                }
+            }
+            return paragraphBuilder.ToString();
         }
 
         protected override bool CheckFill()
@@ -259,14 +254,14 @@ namespace ExaminationControlsAndForms.TicketTemplate
             labelLinkToFile.ForeColor =
             labelTemplateName.ForeColor =
                 SystemColors.ControlText;
-            if (textBoxLinkToFile.Visible)
-            {
-                if (string.IsNullOrEmpty(textBoxLinkToFile.Text))
-                {
-                    labelLinkToFile.ForeColor = Color.Red;
-                    return false;
-                }
-            }
+            //if (textBoxLinkToFile.Visible)
+            //{
+            //    if (string.IsNullOrEmpty(textBoxLinkToFile.Text))
+            //    {
+            //        labelLinkToFile.ForeColor = Color.Red;
+            //        return false;
+            //    }
+            //}
             if (string.IsNullOrEmpty(textBoxTemplateName.Text))
             {
                 labelTemplateName.ForeColor = Color.Red;
@@ -284,7 +279,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 {
                     ExaminationTemplateId = examinationTemplateElement.Id.Value,
                     TemplateName = textBoxTemplateName.Text,
-                    FileName = textBoxLinkToFile.Text
+                    //FileName = textBoxLinkToFile.Text
                 });
             }
             else
@@ -293,7 +288,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 {
                     Id = _id.Value,
                     ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                    TemplateName = textBoxTemplateName.Text
+                   // TemplateName = textBoxTemplateName.Text
                 });
             }
             if (result.Succeeded)
@@ -318,7 +313,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "doc|*.doc|docx|*.docx"
+                Filter = "docx|*.docx"
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {

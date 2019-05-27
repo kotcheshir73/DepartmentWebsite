@@ -1,4 +1,5 @@
-﻿using Tools.ViewModels;
+﻿using System;
+using Tools.ViewModels;
 
 namespace ExaminationInterfaces.ViewModels
 {
@@ -6,8 +7,10 @@ namespace ExaminationInterfaces.ViewModels
 
     public class TicketTemplateViewModel : PageSettingElementViewModel
     {
+        public Guid? ExaminationTemplateId { get; set; }
+
         public string TemplateName { get; set; }
 
-        public TicketProcessBodyViewModel Body { get; set; }
+        public TicketTemplateBodyViewModel Body { get; set; }
     }
 }
