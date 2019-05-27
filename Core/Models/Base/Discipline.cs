@@ -37,6 +37,9 @@ namespace Models.Base
         [DataMember]
         public string DisciplineShortName { get; set; }
 
+        [DataMember]
+        public string DisciplineDescription { get; set; }
+
         [MaxLength(200)]
         [DataMember]
         public string DisciplineBlueAsteriskName { get; set; }

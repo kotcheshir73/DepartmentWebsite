@@ -37,9 +37,6 @@ namespace Models.Web
         //-------------------------------------------------------------------------
 
         [ForeignKey("EventId")]
-		public virtual List<EventFile> EventFiles { get; set; }
-
-        [ForeignKey("EventId")]
         public virtual List<Comment> Comments { get; set; }
 
         //-------------------------------------------------------------------------

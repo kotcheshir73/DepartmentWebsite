@@ -36,13 +36,13 @@
 
                             if (file.Name.Contains(".pdf"))
                             {
-                                <a href="@Url.Action("PDF", new { path = file.Path, fileName = file.Name })" target="_blank">@file.Name</a><br />
+                                <a href="@Url.Action("PDF", new { path = file.Path, fileName = file.Name })" target="_blank">@file.Name</a>
                             }
                             else
                             {
-                                <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a><br />
+                                <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a>
                             }
-
+                            
                         }
                     @:</div>
                     <br />

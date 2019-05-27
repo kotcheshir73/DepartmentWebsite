@@ -34,25 +34,25 @@ namespace DepartmentWebCore.Controllers
         [Authorize(Roles = "Преподаватель, Студент")]
         public ActionResult DisContent(string id)
         {
-            if(id != null)
+            if (id != null)
                 ViewBag.DisId = id;//TODO:Это не доделано
             var dis = Services.DisciplineService.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel() { DisciplineName = id });
 
             var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
             { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
 
-            if(tmp.StatusCode == Enums.ResultServiceStatusCode.Error)
+            if (tmp.StatusCode == Enums.ResultServiceStatusCode.Error)
             {
                 _serviceWP.CreateFolderDis(dis.Result);
                 tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
                 { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
             }
 
-            foreach(var item in dis.Result.Select(x => new { LecturerName = x.LecturerName }).GroupBy(x => x.LecturerName))
+            foreach (var item in dis.Result.Select(x => new { LecturerName = x.LecturerName }).GroupBy(x => x.LecturerName))
             {
                 tmp.Result.LecturerName += item.Key + " ";
             }
-            
+
 
 
             return View(tmp.Result);
@@ -105,7 +105,7 @@ namespace DepartmentWebCore.Controllers
                 {
                     using (var stream = new FileStream(@"D:\Department\" + Request.Form["direction"].ToString() + "\\" + formFile.FileName, FileMode.Create))
                     {
-                       await formFile.CopyToAsync(stream);
+                        await formFile.CopyToAsync(stream);
                     }
                 }
             }
@@ -116,6 +116,8 @@ namespace DepartmentWebCore.Controllers
             //    file..SaveAs(@"D:\Department\" + Request.Form["direction"].ToString() + "\\" + file.FileName); //сохранение по физическому пути
             //}
             return RedirectToAction("Index", "Home");
-        }
+        }       
+
+
     }
 }
