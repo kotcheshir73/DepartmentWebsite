@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="DepartmentUniversalTablet.ExportPackages.Egov.TP.TypeOfActivitysPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DepartmentUniversalTablet.ExportPackages.Egov.TP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock Text="Выберите..." Margin="10"/>
+        <StackPanel Margin="10" VerticalAlignment="Center" >
+            <Button Content="Присутствие" Click="buttonClick_Conducted" HorizontalAlignment="Stretch" Margin="10"/>
+            <Button Content="Задачи" Click="buttonClick_Task" HorizontalAlignment="Stretch" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Page>

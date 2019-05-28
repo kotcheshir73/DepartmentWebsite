@@ -13,6 +13,8 @@ namespace LearningProgressInterfaces.BindingModels
         public Guid? EducationDirectionId { get; set; }
 
         public Guid? TimeNormId { get; set; }
+
+        public string Semester { get; set; }
     }
 
     public class DisciplineLessonRecordBindingModel : PageSettingSetBinidingModel

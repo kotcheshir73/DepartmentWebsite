@@ -810,7 +810,7 @@ namespace LearningProgressImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var students = context.Students.Where(x => x.StudentGroupId == model.StudentGroupId && !x.IsDeleted).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
-                    var dlt = context.DisciplineLessonTasks.FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId && !x.IsDeleted);
+                    var dlt = context.DisciplineLessonTasks.Include(x => x.DisciplineLesson).FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId && !x.IsDeleted);
                     var variants = context.DisciplineLessonTaskVariants.Where(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId && !x.IsDeleted).ToList();
                     if (dlt == null)
                     {

@@ -1,6 +1,6 @@
-﻿using BaseImplementations.Implementations;
-using BaseInterfaces.Interfaces;
+﻿using LearningProgressImplementations.Implementations;
 using LearningProgressInterfaces.BindingModels;
+using LearningProgressInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,26 +17,26 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Unity;
 using BaseInterfaces.BindingModels;
+using LearningProgressInterfaces.ViewModels;
 using Enums;
-using BaseInterfaces.ViewModels;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /// <summary>
-    /// Страница выбора студенческой группы.
+    /// Страница для отображения списка занятий одного типа отбираемого из таблицы DiscilineLessonConducted.
     /// </summary>
-    public sealed partial class StudentGroupsPage : Page
+    public sealed partial class DisciplineLessonConductedsPage : Page
     {
-        private IStudentGroupService _serviceSG;
+        private ILearningProgressProcess _serviceLP;
         private FullDisciplineLessonConductedBindingModel bindingModel;
 
-        public StudentGroupsPage()
+        public DisciplineLessonConductedsPage()
         {
             this.InitializeComponent();
 
-            _serviceSG = UnityConfig.Container.Resolve<StudentGroupService>();
+            _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,31 +44,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                AcademicCourse course = AcademicCourse.Course_1;
-                switch (bindingModel.Semester)
-                {
-                    case "Первый":
-                    case "Второй":
-                        course = AcademicCourse.Course_1;
-                        break;
-                    case "Третий":
-                    case "Четвертый":
-                        course = AcademicCourse.Course_2;
-                        break;
-                    case "Пятый":
-                    case "Шестой":
-                        course = AcademicCourse.Course_3;
-                        break;
-                    case "Седьмой":
-                    case "Восьмой":
-                        course = AcademicCourse.Course_4;
-                        break;
-                }
-                var list = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel
-                {
-                    Course = course.ToString(),
-                    EducationDirectionId = bindingModel.EducationDirectionId
-                }).Result.List;
+                var list = _serviceLP.GetFullDisciplineLessonConducteds(bindingModel).Result;
 
                 Button button1;
 
@@ -102,8 +78,10 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            bindingModel.StudentGroupId = ((StudentGroupViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(TypeOfActivitysPage), bindingModel);
+            var tmpModel = ((DisciplineLessonConductedViewModel)((Button)sender).Content);
+            Frame.Navigate(typeof(DisciplineLessonConductedStudentsPage), tmpModel);
         }
+
+
     }
 }

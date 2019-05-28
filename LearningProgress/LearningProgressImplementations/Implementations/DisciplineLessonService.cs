@@ -88,6 +88,11 @@ namespace LearningProgressImplementations.Implementations
                     {
                         query = query.Where(x => x.Id == model.Id);
                     }
+                    if (!string.IsNullOrEmpty(model.Semester))
+                    {
+                        Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+                        query = query.Where(x => x.Semester == sem);
+                    }
 
                     query = query.OrderBy(d => d.Semester).ThenBy(x => x.Order);
 

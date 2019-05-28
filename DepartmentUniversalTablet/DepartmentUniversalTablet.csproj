@@ -18,6 +18,13 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>DepartmentUniversalTablet_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxPackageDir>D:\Projects\C#\KursWork\</AppxPackageDir>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -98,6 +105,21 @@
     <Compile Include="ExportPackages\Egov\TP\DisciplineLessonConductedStudentPage.xaml.cs">
       <DependentUpon>DisciplineLessonConductedStudentPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonConductedsPage.xaml.cs">
+      <DependentUpon>DisciplineLessonConductedsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonTasksPage.xaml.cs">
+      <DependentUpon>DisciplineLessonTasksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonTaskStudentPage.xaml.cs">
+      <DependentUpon>DisciplineLessonTaskStudentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonTaskStudentsPage.xaml.cs">
+      <DependentUpon>DisciplineLessonTaskStudentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExportPackages\Egov\TP\TypeOfActivitysPage.xaml.cs">
+      <DependentUpon>TypeOfActivitysPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Egov\TP\DisciplineLessonsPage.xaml.cs">
       <DependentUpon>DisciplineLessonsPage.xaml</DependentUpon>
     </Compile>
@@ -105,8 +127,8 @@
     <Compile Include="ExportPackages\Egov\TP\StudentGroupsPage.xaml.cs">
       <DependentUpon>StudentGroupsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExportPackages\Egov\TP\StudentsPage.xaml.cs">
-      <DependentUpon>StudentsPage.xaml</DependentUpon>
+    <Compile Include="ExportPackages\Egov\TP\DisciplineLessonConductedStudentsPage.xaml.cs">
+      <DependentUpon>DisciplineLessonConductedStudentsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportPackages\Egov\TP\TimeNormsPage.xaml.cs">
       <DependentUpon>TimeNormsPage.xaml</DependentUpon>
@@ -172,6 +194,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonConductedsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonTasksPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonTaskStudentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonTaskStudentsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\TypeOfActivitysPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExportPackages\Egov\TP\DisciplineLessonsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -180,7 +222,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ExportPackages\Egov\TP\StudentsPage.xaml">
+    <Page Include="ExportPackages\Egov\TP\DisciplineLessonConductedStudentsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

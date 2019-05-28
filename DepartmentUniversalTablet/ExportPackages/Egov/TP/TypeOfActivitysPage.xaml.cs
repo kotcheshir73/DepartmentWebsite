@@ -1,5 +1,4 @@
-﻿using LearningProgressInterfaces.Interfaces;
-using LearningProgressInterfaces.ViewModels;
+﻿using LearningProgressInterfaces.BindingModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,8 +14,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Unity;
-using LearningProgressImplementations.Implementations;
-using LearningProgressInterfaces.BindingModels;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,16 +22,13 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class DisciplineLessonsPage : Page
+    public sealed partial class TypeOfActivitysPage : Page
     {
-        private IDisciplineLessonService _serviceDL;
         private FullDisciplineLessonConductedBindingModel bindingModel;
 
-        public DisciplineLessonsPage()
+        public TypeOfActivitysPage()
         {
             this.InitializeComponent();
-
-            _serviceDL = UnityConfig.Container.Resolve<DisciplineLessonService>();
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,24 +36,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                var list = _serviceDL.GetDisciplineLessons(new DisciplineLessonGetBindingModel
-                {
-                    AcademicYearId = bindingModel.AcademicYearId,
-                    DisciplineId = bindingModel.DisciplineId,
-                    EducationDirectionId = bindingModel.EducationDirectionId,
-                    TimeNormId = bindingModel.TimeNormId,
-                    Semester = bindingModel.Semester
-                }).Result.List;
-                
-                Button button1;
-
-                foreach (var item in list)
-                {
-                    button1 = new Button();
-                    button1.Content = item;
-                    button1.Click += button_Click;
-                    grid.Children.Add(button1);
-                }
             }
             catch (Exception ex)
             {
@@ -81,10 +57,14 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
             }
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void buttonClick_Conducted(object sender, RoutedEventArgs e)
         {
-            var tmp = ((DisciplineLessonViewModel)((Button)sender).Content);
-            Frame.Navigate(typeof(DisciplineLessonTasksPage), tmp);
+            Frame.Navigate(typeof(DisciplineLessonConductedsPage), bindingModel);
+        }
+
+        private void buttonClick_Task(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(DisciplineLessonsPage), bindingModel);
         }
     }
 }

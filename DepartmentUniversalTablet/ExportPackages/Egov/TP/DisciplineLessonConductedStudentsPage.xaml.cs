@@ -28,14 +28,14 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
     /// <summary>
     /// Страница выбора студента.
     /// </summary>
-    public sealed partial class StudentsPage : Page
+    public sealed partial class DisciplineLessonConductedStudentsPage : Page
     {
         private IDisciplineLessonConductedStudentService _serviceDLCS;
         private ILearningProgressProcess _serviceLP;
         private DisciplineLessonConductedViewModel bindingModel;
         private List<DisciplineLessonConductedStudentViewModel> dataContext;
 
-        public StudentsPage()
+        public DisciplineLessonConductedStudentsPage()
         {
             this.InitializeComponent();
 

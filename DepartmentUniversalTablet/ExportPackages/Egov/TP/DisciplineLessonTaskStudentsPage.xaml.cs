@@ -1,6 +1,6 @@
-﻿using BaseImplementations.Implementations;
-using BaseInterfaces.Interfaces;
-using LearningProgressInterfaces.BindingModels;
+﻿using LearningProgressImplementations.Implementations;
+using LearningProgressInterfaces.Interfaces;
+using LearningProgressInterfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,59 +16,40 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Unity;
-using BaseInterfaces.BindingModels;
-using Enums;
-using BaseInterfaces.ViewModels;
+using LearningProgressInterfaces.BindingModels;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /// <summary>
-    /// Страница выбора студенческой группы.
+    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class StudentGroupsPage : Page
+    public sealed partial class DisciplineLessonTaskStudentsPage : Page
     {
-        private IStudentGroupService _serviceSG;
-        private FullDisciplineLessonConductedBindingModel bindingModel;
+        private ILearningProgressProcess _serviceLP;
+        private DisciplineLessonTaskViewModel bindingModel;
 
-        public StudentGroupsPage()
+        public DisciplineLessonTaskStudentsPage()
         {
             this.InitializeComponent();
 
-            _serviceSG = UnityConfig.Container.Resolve<StudentGroupService>();
+            _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             try
             {
-                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                AcademicCourse course = AcademicCourse.Course_1;
-                switch (bindingModel.Semester)
+                FullDisciplineLessonConductedBindingModel oldBindingModel = (FullDisciplineLessonConductedBindingModel)Frame.BackStack.ToList().FirstOrDefault(x => x.SourcePageType.Name == "DisciplineLessonsPage").Parameter;
+
+                bindingModel = (DisciplineLessonTaskViewModel)e.Parameter;
+                var list = _serviceLP.GetDisciplineLessonTaskStudentAcceptForForm(new DisciplineLessonTaskStudentAcceptForFormBindingModel
                 {
-                    case "Первый":
-                    case "Второй":
-                        course = AcademicCourse.Course_1;
-                        break;
-                    case "Третий":
-                    case "Четвертый":
-                        course = AcademicCourse.Course_2;
-                        break;
-                    case "Пятый":
-                    case "Шестой":
-                        course = AcademicCourse.Course_3;
-                        break;
-                    case "Седьмой":
-                    case "Восьмой":
-                        course = AcademicCourse.Course_4;
-                        break;
-                }
-                var list = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel
-                {
-                    Course = course.ToString(),
-                    EducationDirectionId = bindingModel.EducationDirectionId
-                }).Result.List;
+                    DateAccept = DateTime.Now,
+                    DisciplineLessonTaskId = bindingModel.Id,
+                    StudentGroupId = oldBindingModel.StudentGroupId
+                }).Result;
 
                 Button button1;
 
@@ -102,8 +83,8 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            bindingModel.StudentGroupId = ((StudentGroupViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(TypeOfActivitysPage), bindingModel);
+            var tmp = ((DisciplineLessonTaskStudentAcceptViewModel)((Button)sender).Content);
+            Frame.Navigate(typeof(DisciplineLessonTaskStudentPage), tmp);
         }
     }
 }
