@@ -42,8 +42,6 @@ namespace WebImplementations.Implementations
                     }
 
                     query = query.OrderBy(x => x.DateCreate);
-                    
-                    query = query.Include(x => x.DepartmentUser);
 
                     var result = new CommentPageViewModel
                     {                        

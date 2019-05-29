@@ -17,7 +17,7 @@ namespace WebImplementations
                 Id = entity.Id,
                 Content = entity.Content,
                 Date = entity.DateCreate,
-                DepartmentUser = entity.DepartmentUser.UserName,
+                DepartmentUser = entity.DepartmentUser,
                 Tag = entity.Tag,
                 Title = entity.Title
             };
@@ -30,7 +30,7 @@ namespace WebImplementations
                 Id = entity.Id,
                 Content = entity.Content,
                 Date = entity.DateCreate,
-                DepartmentUser = entity.DepartmentUser.UserName                
+                DepartmentUser = entity.DepartmentUser               
             };
         }
 
@@ -41,7 +41,7 @@ namespace WebImplementations
                 Id = entity.Id,
                 Content = entity.Content,
                 Date = entity.DateCreate,
-                DepartmentUser = entity.DepartmentUser.UserName,
+                DepartmentUser = entity.DepartmentUser,
                 IsChild = entity.ChildComments.Count!=0
             };
         }

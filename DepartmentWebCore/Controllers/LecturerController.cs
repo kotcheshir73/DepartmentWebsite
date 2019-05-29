@@ -11,12 +11,12 @@ namespace DepartmentWebCore.Controllers
     public class LecturerController : Controller
     {    
 
-        private ILecturerService _serviceL;
+        //private readonly ILecturerService _serviceL;
 
-        public LecturerController(ILecturerService serviceL)
-        {
-            _serviceL = serviceL;
-        }
+        //public LecturerController(ILecturerService serviceL)
+        //{
+        //    _serviceL = serviceL;
+        //}
 
         // GET: Lecturer
         public ActionResult Index()

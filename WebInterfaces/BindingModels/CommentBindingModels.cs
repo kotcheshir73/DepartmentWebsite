@@ -28,7 +28,7 @@ namespace WebInterfaces.BindingModels
         public Guid ParentId { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public Guid DepartmentUserId { get; set; }
+        public string DepartmentUser { get; set; }
                 
     }
 }

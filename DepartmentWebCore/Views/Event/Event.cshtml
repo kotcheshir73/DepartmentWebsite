@@ -1,7 +1,22 @@
-﻿
+﻿@model WebInterfaces.ViewModels.EventViewModel
 @{
     ViewData["Title"] = "Event";
 }
 
 <h2>Event</h2>
 
+@Model.DepartmentUser<br />
+@Model.Date<br />
+@Model.Title<br />
+@Model.Content<br />
+@foreach (var file in DepartmentWebCore.Services.FileService.GetFilesForEvent(Model.Id.ToString()))
+{
+    if (file.Name.Contains(".pdf"))
+    {
+        <a href="@Url.Action("PDF", new { path = file.Path, fileName = file.Name })" target="_blank">@file.Name</a>
+    }
+    else
+    {
+        <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a>
+    }
+}

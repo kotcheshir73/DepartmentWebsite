@@ -35,7 +35,7 @@ namespace WebInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateEvent(EventSetBindingModel model);
+        ResultService UpdateEvent(EventUpdateBindingModel model);
 
         /// <summary>
         /// Удаление новости

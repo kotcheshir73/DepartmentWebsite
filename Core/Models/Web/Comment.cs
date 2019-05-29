@@ -16,9 +16,8 @@ namespace Models.Web
     [DataContract]
     public class Comment : BaseEntity
     {
-        [Required]
         [DataMember]
-        public Guid DepartmentUserId { get; set; }
+        public string DepartmentUser { get; set; }
 
         [Required]
         [DataMember]
@@ -34,9 +33,7 @@ namespace Models.Web
         public Guid? ParentId { get; set; }
 
         //-------------------------------------------------------------------------
-
-        public virtual DepartmentUser DepartmentUser { get; set; }
-
+        
         public virtual Discipline Discipline { get; set; }
 
         public virtual Event Event { get; set; }

@@ -18,16 +18,13 @@
     Преподаватели: @Model.LecturerName<p></p>
     @if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
     {
-
         @foreach (var sem in Model.Semestrs)
         {
-
             <input class="hide" id=@sem.Name type="checkbox">
             <label for=@sem.Name>@sem.Name семестр</label>
             @:<div>
                 foreach (var tn in sem.TimeNorms)
                 {
-
                     <input class="hide" id=@(sem.Name + tn.Name) type="checkbox">
                     <label for=@(sem.Name + tn.Name)>@tn.Name</label>
                     @:<div>
@@ -42,7 +39,10 @@
                             {
                                 <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a>
                             }
-                            
+                            @if (User.IsInRole("Преподаватель") && Model.LecturerName.Contains(User.Identity.Name))
+                            {
+                                <a href="@Url.Action("DeleteFile", new { path = file.Path })">Удалить </a>
+                            }<br />
                         }
                     @:</div>
                     <br />
@@ -57,29 +57,3 @@
         @:У вас нет доступа к этой странице.
     }
 </div>
-
-
-
-        @*@foreach (var sem in Model.Semestrs)
-            {
-                @:<p>
-                @sem.Name
-                foreach (var tn in sem.TimeNorms)
-                {
-                    @:<p>
-                    @tn.Name
-                    foreach (var file in tn.Files)
-                    {
-                        @:<p>
-                        if (file.Name.Contains(".pdf"))
-                        {
-                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" target="_blank">@file.Name</a><br />
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("PDF", new {path = file.Path, fileName = file.Name})" >@file.Name</a><br />
-                        }
-                    }
-                }
-            }
-        *@

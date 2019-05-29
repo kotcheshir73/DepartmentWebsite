@@ -21,9 +21,20 @@ namespace WebInterfaces.BindingModels
         public string Content { get; set; }
 
         [Required(ErrorMessage = "required")]
-        public Guid DepartmentUserId { get; set; }
+        public string DepartmentUser { get; set; }
 
         public string Tag { get; set; }
         
+    }
+
+    public class EventUpdateBindingModel : PageSettingSetBinidingModel
+    {
+        [Required(ErrorMessage = "required")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public string Content { get; set; }
+
+        public string Tag { get; set; }
     }
 }

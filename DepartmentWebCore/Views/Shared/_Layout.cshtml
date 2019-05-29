@@ -32,7 +32,7 @@
                     <p></p>
                     <ul>
                         <li><a href="~/Home/Index" style="background:none"> <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a></li>
-
+                        <li style="margin: 8px"><a href="~/Event/Index" > Новости</a></li>
                         @foreach (var item in DepartmentWebCore.Services.MenuService.getMenuElementList())
                         {
                             <li style="color:white; margin: 8px">
@@ -54,7 +54,7 @@
                                 @*<a type="submit" asp-controller="Account" asp-action="Logout"> Выход </a>
                                 *@
                                 <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <input type="submit" value="Выход" class="logout"  />
+                                    <input type="submit" value="Выход" class="logout" />
                                 </form>
                             }
                             else
@@ -62,9 +62,9 @@
                                 <a asp-controller="Account" asp-action="Login">Вход</a>
                             }
                         </li>
-                            @*@if(User.Identity.IsAuthenticated)*@
-                            @*<li style="float:right; color:white; margin: 8px"><a href="~/Account/Login"> Войти </a></li>*@
-                        </ul>
+                        @*@if(User.Identity.IsAuthenticated)*@
+                        @*<li style="float:right; color:white; margin: 8px"><a href="~/Account/Login"> Войти </a></li>*@
+                    </ul>
                     <div style="clear: both;"></div>
                 </div>
                 @*@{Html.ActionLink("Men", "Menu");}*@

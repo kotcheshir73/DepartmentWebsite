@@ -141,7 +141,7 @@ namespace DatabaseContext
             {
                 return base.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 foreach (var entry in ChangeTracker.Entries())
                 {

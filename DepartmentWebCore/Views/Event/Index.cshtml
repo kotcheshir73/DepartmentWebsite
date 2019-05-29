@@ -1,0 +1,34 @@
+﻿@model WebInterfaces.ViewModels.EventPageViewModel
+
+@{
+    ViewData["Title"] = "Event";
+}
+
+<h2 class="page-header">Новости</h2>
+
+@if (User.IsInRole("Преподаватель"))
+{
+    <div class="btn btn-default">
+        @Html.ActionLink("Добавить новость", "CreateEvent", null, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
+    </div>
+}
+@if (Model != null)
+{
+    @foreach (var ev in Model?.List)
+    {
+        <p></p>
+        @:Автор: @ev.DepartmentUser
+        @:Дата: @ev.Date <br />
+        @Html.ActionLink(@ev.Title, "Event", new { id = ev.Id })<br />
+        @:Текст: @ev.Content<br />
+        @if (User.IsInRole("Преподаватель") && ev.DepartmentUser.Contains(User.Identity.Name))
+        {
+            @:<div class="btn btn-default">
+                @Html.ActionLink("Изменить", "EditEvent", new { id = ev.Id })
+            @:</div>
+            @:<div class="btn btn-default">
+                @Html.ActionLink("Удалить", "DeleteEvent", new { id = ev.Id })
+            @:</div>
+        }
+    }
+}

@@ -1,0 +1,46 @@
+﻿@model DepartmentWebCore.Models.EventWithFilesModel
+
+@{
+    ViewData["Title"] = "EditEvent";
+}
+
+<h2>EditEvent</h2>
+
+<h4>EventSetBindingModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditEvent" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Заголовок</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label">Содержание</label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="fileForUpload" required multiple="multiple" type="file" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+
+        @foreach(var file in Model.fileForDownload)
+        {
+            <a href="@Url.Action("DeleteFile", new { path = file.Path})">Удалить @file.Name</a>
+        }
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-default">Назад</a>
+</div>
+

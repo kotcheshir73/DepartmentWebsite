@@ -1,4 +1,5 @@
 ﻿using BaseInterfaces.Interfaces;
+using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +32,11 @@ namespace DepartmentWebCore.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Преподаватель, Студент")]
+        [Authorize]
         public ActionResult DisContent(string id)
         {
-            if (id != null)
-                ViewBag.DisId = id;//TODO:Это не доделано
+            //if (id != null)
+            //    ViewBag.DisId = id;//TODO:Это не доделано
             var dis = Services.DisciplineService.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel() { DisciplineName = id });
 
             var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
@@ -52,8 +53,6 @@ namespace DepartmentWebCore.Controllers
             {
                 tmp.Result.LecturerName += item.Key + " ";
             }
-
-
 
             return View(tmp.Result);
         }
@@ -81,41 +80,32 @@ namespace DepartmentWebCore.Controllers
             return View(listSelect);
         }
 
+        [Authorize]
         public FileResult Download(string path, string fileName)
         {
-            var doc = new byte[0];
-            doc = System.IO.File.ReadAllBytes(Path + path);
-            return File(doc, "application/vnd.ms-powerpoint", fileName);
+            return File(FileService.GetFileByPathForDiscipline(path), "application/vnd.ms-powerpoint", fileName);
         }
 
+        [Authorize]
         public FileResult PDF(string path, string fileName)
         {
-            var doc = new byte[0];
-            doc = System.IO.File.ReadAllBytes(Path + path);
-            return File(doc, "application/pdf");
+            return File(FileService.GetFileByPathForDiscipline(path), "application/pdf");
+        }
+
+        [Authorize(Roles = "Преподаватель")]
+        public IActionResult DeleteFile(string path)
+        {
+            FileService.DeleteFileByPathForDiscipline(path);
+            return RedirectToAction("DisContent", "Discipline", new { id = path.Split('\\')[0] }, null);
         }
 
         [HttpPost]
-        [RequestSizeLimit(1073741824)]
+        [Authorize]
         public async Task<IActionResult> LoadFile(IFormFileCollection files)
         {
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    using (var stream = new FileStream(@"D:\Department\" + Request.Form["direction"].ToString() + "\\" + formFile.FileName, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-            }
-
-            //foreach (var file in file1)
-            //{
-            //    //file.SaveAs(Server.MapPath("~/Files/" + Request.Form["direction"].ToString() + "//" + file.FileName)); //сохранение на сервер
-            //    file..SaveAs(@"D:\Department\" + Request.Form["direction"].ToString() + "\\" + file.FileName); //сохранение по физическому пути
-            //}
-            return RedirectToAction("Index", "Home");
+            string path = Request.Form["direction"].ToString();
+            await FileService.SaveFilesForDiscipline(files, path);
+            return RedirectToAction("DisContent", "Discipline", new { id = path.Split('\\')[0] }, null);
         }       
 
 

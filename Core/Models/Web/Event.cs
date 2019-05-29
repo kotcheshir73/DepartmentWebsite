@@ -23,16 +23,14 @@ namespace Models.Web
         [DataMember]
         public string Content { get; set; }
 
-        [Required]
         [DataMember]
-        public Guid DepartmentUserId { get; set; }
+        public string DepartmentUser { get; set; }
         
         [DataMember]
         public string Tag { get; set; }        
 
         //-------------------------------------------------------------------------
 
-        public virtual DepartmentUser DepartmentUser { get; set; }
 
         //-------------------------------------------------------------------------
 

@@ -45,7 +45,6 @@ namespace WebImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.DepartmentUser);
 
                     var result = new EventPageViewModel
                     {
@@ -111,7 +110,7 @@ namespace WebImplementations.Implementations
             }
         }
 
-        public ResultService UpdateEvent(EventSetBindingModel model)
+        public ResultService UpdateEvent(EventUpdateBindingModel model)
         {
             try
             {
@@ -128,7 +127,7 @@ namespace WebImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateEvent(model, entity);
+                    entity = ModelFacotryFromBindingModel.UpdateEvent(model, entity);
 
                     context.SaveChanges();
 
