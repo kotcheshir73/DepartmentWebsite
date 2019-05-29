@@ -1,4 +1,4 @@
-﻿@model WebInterfaces.ViewModels.EventViewModel
+﻿@model WebInterfaces.ViewModels.WebProcessEventWithCommentViewModel
 @{
     ViewData["Title"] = "Event";
 }
@@ -9,7 +9,7 @@
 @Model.Date<br />
 @Model.Title<br />
 @Model.Content<br />
-@foreach (var file in DepartmentWebCore.Services.FileService.GetFilesForEvent(Model.Id.ToString()))
+@foreach (var file in DepartmentWebCore.Services.FileService.GetFilesForEvent(Model.EventId.ToString()))
 {
     if (file.Name.Contains(".pdf"))
     {
@@ -20,3 +20,37 @@
         <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a>
     }
 }
+@if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
+{
+    @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new WebInterfaces.BindingModels.CommentSetBindingModel { EventId = Model.EventId })
+}
+@if (Model.commentList.Count != 0)
+{
+    @foreach (var com in Model.commentList)
+    {
+        @com.DepartmentUser <br/>
+        @com.Content <br />
+        @if (User.Identity.Name != null && com.DepartmentUser.Contains(User.Identity.Name))
+        {
+            <a href = "@Url.Action("DeleteCommentEvent", "Comment", new { id = com.Id, eventId = Model.EventId })" > Удалить </a >
+        }
+        @if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
+        {
+            @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new WebInterfaces.BindingModels.CommentSetBindingModel { EventId = Model.EventId, ParentId = com.Id })
+        }
+        @if (com.commentList.Count != 0)
+        {
+            @foreach (var comChild in com.commentList)
+            {
+                @:Ответ на комметарий @com.DepartmentUser от @comChild.DepartmentUser @comChild.Date <br />
+                @comChild.Content
+                @if (User.Identity.Name != null && comChild.DepartmentUser.Contains(User.Identity.Name))
+                {
+                    <a href="@Url.Action("DeleteComment", new { id = com.Id, eventId = Model.EventId })">Удалить </a>
+                }
+                <br />
+            }
+        }
+    }
+}
+

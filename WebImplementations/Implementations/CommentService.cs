@@ -140,7 +140,18 @@ namespace WebImplementations.Implementations
         {
             try
             {
-                //DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
+                foreach (var com in GetComments(new CommentGetBindingModel
+                    {
+                        EventId = model.EventId,
+                        DisciplineId = model.DisciplineId,
+                        ParentId = model.Id
+                    }).Result.List)
+                {
+                    DeleteComment(new CommentGetBindingModel
+                    {
+                        Id = com.Id
+                    });
+                }
 
                 using (var context = DepartmentUserManager.GetContext)
                 {

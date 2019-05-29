@@ -5,7 +5,23 @@ using Tools.ViewModels;
 
 namespace WebInterfaces.ViewModels
 {
-    public class WebProcessLevelCommentPageViewModel : PageSettingListViewModel<WebProcessLevelCommentViewModel> { }
+    public class WebProcessEventWithCommentViewModel
+    {
+        public Guid EventId { get; set; }
+
+        public string Title { get; set; }
+
+        public string Content { get; set; }
+
+        public string DepartmentUser { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public string Tag { get; set; }
+
+        public List<WebProcessLevelCommentViewModel> commentList = new List<WebProcessLevelCommentViewModel>();
+    }
+
     public class WebProcessLevelCommentViewModel
     {
         public string Content { get; set; }
@@ -14,7 +30,7 @@ namespace WebInterfaces.ViewModels
 
         public DateTime Date { get; set; }
 
-        public bool IsChild { get; set; }
+        public List<WebProcessLevelCommentViewModel> commentList = new List<WebProcessLevelCommentViewModel>();
 
         public Guid Id { get; set; }
     }

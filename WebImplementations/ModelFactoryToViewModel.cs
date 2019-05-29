@@ -41,8 +41,7 @@ namespace WebImplementations
                 Id = entity.Id,
                 Content = entity.Content,
                 Date = entity.DateCreate,
-                DepartmentUser = entity.DepartmentUser,
-                IsChild = entity.ChildComments.Count!=0
+                DepartmentUser = entity.DepartmentUser
             };
         }
         

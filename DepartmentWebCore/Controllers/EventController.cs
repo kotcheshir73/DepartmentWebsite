@@ -16,10 +16,12 @@ namespace DepartmentWebCore.Controllers
     public class EventController : Controller
     {
         private readonly IEventService _serviceE;
+        private readonly IWebProcessService _serviceWP;
 
-        public EventController(IEventService serviceE)
+        public EventController(IEventService serviceE, IWebProcessService serviceWP)
         {
             _serviceE = serviceE;
+            _serviceWP = serviceWP;
         }
 
         public IActionResult Index()
@@ -104,7 +106,7 @@ namespace DepartmentWebCore.Controllers
 
         public IActionResult Event(Guid id)
         {
-            var element = _serviceE.GetEvent(new EventGetBindingModel
+            var element = _serviceWP.GetEventWithComment(new EventGetBindingModel
             {
                 Id = id
             }).Result;

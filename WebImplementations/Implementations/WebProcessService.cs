@@ -1,5 +1,6 @@
 ﻿using Enums;
 using Microsoft.EntityFrameworkCore;
+using Models.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -96,7 +97,43 @@ namespace WebImplementations.Implementations
             }
         }
 
-        public ResultService<WebProcessLevelCommentPageViewModel> GetListLevelComment(CommentGetBindingModel model)
+        public ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(EventGetBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var entity = context.Events.FirstOrDefault(x => x.Id == model.Id);
+                    if (entity == null)
+                    {
+                        return ResultService<WebProcessEventWithCommentViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (entity.IsDeleted)
+                    {
+                        return ResultService<WebProcessEventWithCommentViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                    }
+
+                    WebProcessEventWithCommentViewModel viewModel = new WebProcessEventWithCommentViewModel
+                    {
+                        EventId = entity.Id,
+                        Content = entity.Content,
+                        Date = entity.DateCreate,
+                        DepartmentUser = entity.DepartmentUser,
+                        Tag = entity.Tag,
+                        Title = entity.Title,
+                        commentList = GetListLevelComment(new CommentGetBindingModel { EventId = model.Id, ParentId = null}).Result
+                    };
+
+                    return ResultService<WebProcessEventWithCommentViewModel>.Success(viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<WebProcessEventWithCommentViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<WebProcessLevelCommentViewModel>> GetListLevelComment(CommentGetBindingModel model)
         {
             try
             {
@@ -124,20 +161,27 @@ namespace WebImplementations.Implementations
 
                     query = query.OrderBy(x => x.DateCreate);
 
-                    query = query.Include(x => x.DepartmentUser);
+                    var result = query.Select(CreateWebProcessLevelCommentViewModel).ToList();
 
-                    var result = new WebProcessLevelCommentPageViewModel
-                    {
-                        List = query.Select(ModelFactoryToViewModel.CreateWebProcessLevelCommentViewModel).ToList()
-                    };
-
-                    return ResultService<WebProcessLevelCommentPageViewModel>.Success(result);
+                    return ResultService<List<WebProcessLevelCommentViewModel>>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<WebProcessLevelCommentPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService< List<WebProcessLevelCommentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
+        }
+
+        private WebProcessLevelCommentViewModel CreateWebProcessLevelCommentViewModel(Comment entity)
+        {
+            return new WebProcessLevelCommentViewModel
+            {
+                Id = entity.Id,
+                Content = entity.Content,
+                Date = entity.DateCreate,
+                DepartmentUser = entity.DepartmentUser,
+                commentList = GetListLevelComment(new CommentGetBindingModel { EventId = entity.EventId, DisciplineId = entity.DisciplineId, ParentId = entity.Id }).Result
+            };
         }
     }
 }

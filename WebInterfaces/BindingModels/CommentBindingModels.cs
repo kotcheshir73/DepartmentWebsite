@@ -21,13 +21,12 @@ namespace WebInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public string Content { get; set; }
 
-        public Guid DisciplineId { get; set; }
+        public Guid? DisciplineId { get; set; }
 
-        public Guid EventId { get; set; }
+        public Guid? EventId { get; set; }
 
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
 
-        [Required(ErrorMessage = "required")]
         public string DepartmentUser { get; set; }
                 
     }

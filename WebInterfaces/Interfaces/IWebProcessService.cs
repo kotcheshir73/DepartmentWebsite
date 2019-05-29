@@ -14,7 +14,7 @@ namespace WebInterfaces.Interfaces
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		ResultService<WebProcessLevelCommentPageViewModel> GetListLevelComment(CommentGetBindingModel model);
+		ResultService<List<WebProcessLevelCommentViewModel>> GetListLevelComment(CommentGetBindingModel model);
 
         /// <summary>
 		/// Создание папок для дисциплины
@@ -24,10 +24,17 @@ namespace WebInterfaces.Interfaces
 		void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model);
 
         /// <summary>
-		/// Получение 
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService<WebProcessDisciplineForDownloadViewModel> GetDisciplineForDownload(WebProcessDisciplineForDownloadGetBindingModel model);
+        /// Получение модели новости содержащуюю рекрсию листов коментариев
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(EventGetBindingModel model);
+
+        /// <summary>
+        /// Получение 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<WebProcessDisciplineForDownloadViewModel> GetDisciplineForDownload(WebProcessDisciplineForDownloadGetBindingModel model);
     }
 }
