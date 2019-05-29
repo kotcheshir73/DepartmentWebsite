@@ -9,11 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ProgressRing x:Name="progressRing" IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="100" />
+        
         <StackPanel Margin="20" VerticalAlignment="Center" >
             <TextBox x:Name="loginTextBox" PlaceholderText="Login"   Margin="10"/>
             <PasswordBox x:Name="passwordTextBox" PlaceholderText="Password" Margin="10"/>
-            <Button Content="Войти" Click="buttonClickAsync" HorizontalAlignment="Stretch" Margin="10"/>
+            <Button x:Name="loginButton" Content="Войти" Click="buttonClickAsync" HorizontalAlignment="Stretch" Margin="10"/>
+            <ProgressRing x:Name="progressRing" Visibility="Collapsed" IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="100" />
         </StackPanel>
     </Grid>
 </Page>

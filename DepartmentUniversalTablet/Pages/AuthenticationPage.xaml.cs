@@ -32,24 +32,19 @@ namespace DepartmentUniversalTablet.Pages
         private async void buttonClickAsync(object sender, RoutedEventArgs e)
         {
             progressRing.Visibility = Visibility.Visible;
+            loginButton.Visibility = Visibility.Collapsed;
+            loginTextBox.Visibility = Visibility.Collapsed;
+            passwordTextBox.Visibility = Visibility.Collapsed;
             progressRing.IsActive = true;
             try
             {
                 string login = loginTextBox.Text;
                 string password = passwordTextBox.Password;
 
-                
-
-                //Пусть пока останется шаблон, но пока работает без изменений
-                Task task = Task.Run(() =>
+                await Task.Run(() =>
                 {
                     DepartmentUserManager.LoginAsync(login, password);
                 });
-                task.Wait();
-                if (task.Exception != null)
-                {
-                    throw task.Exception;
-                }
 
                 Frame.Navigate(typeof(AcademicYearsPage));
             }
@@ -73,6 +68,10 @@ namespace DepartmentUniversalTablet.Pages
             finally
             {
                 progressRing.IsActive = false;
+                progressRing.Visibility = Visibility.Collapsed;
+                loginButton.Visibility = Visibility.Visible;
+                loginTextBox.Visibility = Visibility.Visible;
+                passwordTextBox.Visibility = Visibility.Visible;
             }
         }
     }
