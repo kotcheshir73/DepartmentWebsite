@@ -10,14 +10,14 @@
 
     <ScrollViewer>
         <StackPanel x:Name="grid" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-            <TextBlock Text="{Binding DisciplineLessonTask}" Margin="10" />
-            <TextBlock Text="{Binding Task}" Margin="10" />
-            <TextBlock Text="{Binding Student}" Margin="10" />
+            <TextBlock Text="{Binding DisciplineLessonTask}" TextWrapping="Wrap"  Margin="10" />
+            <TextBlock Text="{Binding Task}" TextWrapping="Wrap" Margin="10" />
+            <TextBlock Text="{Binding Student}" TextWrapping="Wrap" Margin="10" />
             <Slider x:Name="ball" Minimum="0" Maximum="{Binding MaxBall}" Orientation="Horizontal" Value="{Binding Score, Mode=TwoWay, TargetNullValue = 0}"
-                     TickPlacement="Outside" Margin="10"/>
+                     TickPlacement="Outside" StepFrequency="0.1" Margin="10"/>
             <CalendarDatePicker x:Name="calendar" DateChanged="Calendar_DateChanged" HorizontalAlignment="Stretch" Margin="10" PlaceholderText="Выберите дату" CalendarIdentifier="GregorianCalendar"  />
             <ComboBox x:Name="result" SelectedItem="{Binding Result, Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="10"/>
-            <TextBox x:Name="textBoxComment" TextChanged="TextBoxComment_TextChanged" IsSpellCheckEnabled="True" PlaceholderText="Введите комментарий..." Margin="10"/> <!--Text="{Binding Comment, Mode=TwoWay}"-->
+            <TextBox x:Name="textBoxComment" TextWrapping="Wrap" TextChanged="TextBoxComment_TextChanged" IsSpellCheckEnabled="True" PlaceholderText="Введите комментарий..." Margin="10"/> <!--Text="{Binding Comment, Mode=TwoWay}"-->
         </StackPanel>
     </ScrollViewer>
 </Page>

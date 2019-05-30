@@ -97,6 +97,18 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
             RadioButton pressed = (RadioButton)sender;
             string content = (string)pressed.Content == "Не явка" ? "НеЯвка" : (string)pressed.Content; 
             dataContext.Status = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), content);
+            switch (content)
+            {
+                case "НеЯвка":
+                    ball.Value = 0;
+                    break;
+                case "Явка":
+                    ball.Value = 1;
+                    break;
+                case "Пропуск":
+                    ball.Value = -1;
+                    break;
+            }
         }
 
     }

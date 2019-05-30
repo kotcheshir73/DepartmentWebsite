@@ -16,7 +16,7 @@ namespace BaseInterfaces.ViewModels
 
         public override string ToString()
         {
-            return Description;
+            return $"{Cipher} - {ShortName}";
         }
     }
 }

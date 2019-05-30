@@ -135,6 +135,8 @@ namespace LearningProgressInterfaces.BindingModels
         public Guid DisciplineLessonConductedId { get; set; }
 
         public Guid StudentGroupId { get; set; }
+
+        public string Semester { get; set; }
     }
 
     public class LessonConductedsBindingModel

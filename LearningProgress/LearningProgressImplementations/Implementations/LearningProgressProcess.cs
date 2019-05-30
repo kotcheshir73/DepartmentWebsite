@@ -686,6 +686,7 @@ namespace LearningProgressImplementations.Implementations
                     var students = context.DisciplineStudentRecords
                         .Where(x => x.Student.StudentGroupId == model.StudentGroupId 
                             && x.DisciplineId == dlc.DisciplineLesson.DisciplineId
+                            && x.Semester == (Semesters)Enum.Parse(typeof(Semesters), model.Semester)
                             && !x.IsDeleted);
 
                     if (dlc.Subgroup.Contains("Подгруппа"))

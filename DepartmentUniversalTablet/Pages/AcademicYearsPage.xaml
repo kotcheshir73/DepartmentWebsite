@@ -10,7 +10,7 @@
 
     <Page.Resources>
         <Style TargetType="Button" >
-            <Setter Property="Control.Margin" Value="20" /> 
+            <Setter Property="Control.Margin" Value="20" />
             <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>

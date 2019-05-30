@@ -51,7 +51,8 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
                 dataContext = _serviceLP.GetDisciplineLessonConductedStudentsForFill(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentsForFillBindingModel
                 {
                     StudentGroupId = bindingModel.StudentGroupId,
-                    DisciplineLessonConductedId = bindingModel.Id
+                    DisciplineLessonConductedId = bindingModel.Id,
+                    Semester = bindingModel.Semester
                 }).Result;
                 Button button1;
 
@@ -140,9 +141,20 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
         {
             RadioButton pressed = (RadioButton)sender;
             string content = (string)pressed.Content == "Не явка" ? "НеЯвка" : (string)pressed.Content;
-
-            dataContext[dataContext.FindIndex(x => x.Id == ((Guid)pressed.Tag))].Status 
-                = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), content);
+            int index = dataContext.FindIndex(x => x.Id == ((Guid)pressed.Tag));
+            dataContext[index].Status = (DisciplineLessonStudentStatus)Enum.Parse(typeof(DisciplineLessonStudentStatus), content);
+            switch (content)
+            {
+                case "НеЯвка":
+                    dataContext[index].Ball = 0;
+                    break;
+                case "Явка":
+                    dataContext[index].Ball = 1;
+                    break;
+                case "Пропуск":
+                    dataContext[index].Ball = -1;
+                    break;
+            }
         }
     }
 }

@@ -13,12 +13,12 @@
         <StackPanel x:Name="grid" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch">
             <TextBlock x:Name="studentName" Text="{Binding Student}" Margin="10" />
             <Grid  HorizontalAlignment="Stretch" Margin="10" >
-                <RadioButton x:Name="ComeRadioButton" GroupName="Status" Content="Явка" Margin="10" HorizontalAlignment="Left" Checked="radioButton_Checked"/>
+                <RadioButton x:Name="PassRadioButton" GroupName="Status" Content="Пропуск" Margin="10" HorizontalAlignment="Left" Checked="radioButton_Checked"/>
                 <RadioButton x:Name="NotComeRadioButton" GroupName="Status" Content="Не явка" Margin="10" HorizontalAlignment="Center" Checked="radioButton_Checked"/>
-                <RadioButton x:Name="PassRadioButton" GroupName="Status" Content="Пропуск" Margin="10" HorizontalAlignment="Right" Checked="radioButton_Checked"/>
+                <RadioButton x:Name="ComeRadioButton" GroupName="Status" Content="Явка" Margin="10" HorizontalAlignment="Right" Checked="radioButton_Checked"/>
             </Grid>
-            <Slider x:Name="ball" Minimum="0" Maximum="10"  Orientation="Horizontal" Value="{Binding Ball, Mode=TwoWay, TargetNullValue = 0}"
-                    Margin="10" TickFrequency="10" TickPlacement="Outside"/>
+            <Slider x:Name="ball" Minimum="-1" Maximum="1"  Orientation="Horizontal" Value="{Binding Ball, Mode=TwoWay, TargetNullValue = 1}"
+                    Margin="10" TickFrequency="3" TickPlacement="Outside"/>
                     <!---->
             <TextBox MaxLength="400" Text="{Binding Comment, Mode=TwoWay}" IsSpellCheckEnabled="True" PlaceholderText="Введите комментарий..." Height="40" Margin="10"/>
         </StackPanel>

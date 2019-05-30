@@ -52,7 +52,8 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
                 dataContext = _serviceLP.GetDisciplineLessonConductedStudentsForFill(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentsForFillBindingModel
                 {
                     StudentGroupId = bindingModel.StudentGroupId,
-                    DisciplineLessonConductedId = bindingModel.Id
+                    DisciplineLessonConductedId = bindingModel.Id,
+                    Semester = bindingModel.Semester
                 }).Result;
                 Button button1;
 
