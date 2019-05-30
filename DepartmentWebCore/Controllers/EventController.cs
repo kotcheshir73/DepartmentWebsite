@@ -106,6 +106,7 @@ namespace DepartmentWebCore.Controllers
             {
                 Id = id
             });
+
             FileService.DeleteDirectoryByPathForEvent(id.ToString());
             return RedirectToAction("Index", "Event");
         }

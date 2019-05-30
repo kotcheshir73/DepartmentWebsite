@@ -18,6 +18,14 @@ namespace WebImplementations.Implementations
 
         //private readonly string _entity = "Студенты";
 
+        private readonly ICommentService _serviceC;
+
+        public EventService(ICommentService serviceC)
+        {
+            _serviceC = serviceC;
+        }
+
+
         public ResultService<EventPageViewModel> GetEvents(EventGetBindingModel model)
         {
             try
@@ -159,6 +167,17 @@ namespace WebImplementations.Implementations
                     }
                     entity.IsDeleted = true;
                     entity.DateDelete = DateTime.Now;
+
+                    foreach (var comment in _serviceC.GetComments(new CommentGetBindingModel
+                    {
+                        EventId = entity.Id
+                    }).Result.List)
+                    {
+                        _serviceC.DeleteComment(new CommentGetBindingModel
+                        {
+                            Id = comment.Id
+                        });
+                    }
 
                     context.SaveChanges();
 
