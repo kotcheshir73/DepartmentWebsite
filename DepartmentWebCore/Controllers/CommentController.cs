@@ -63,21 +63,19 @@ namespace DepartmentWebCore.Controllers
             {
                 Id = comment.Id
             });
-
-            //foreach(var com in comment.commentList)
-            //{
-            //    _serviceC.DeleteComment( new CommentGetBindingModel
-            //    {
-            //        Id = com.Id
-            //    });
-            //}
-            //_serviceC.DeleteComment(new CommentGetBindingModel
-            //{
-            //    Id = comment.Id
-            //});
             return RedirectToAction("Event", "Event", new { id = eventId }, null);
         }
 
-        
+        public ActionResult DeleteCommentDiscipline(WebProcessLevelCommentViewModel comment, string disciplineName)
+        {
+            _serviceC.DeleteComment(new CommentGetBindingModel
+            {
+                Id = comment.Id
+            });
+
+            return RedirectToAction("DisContent", "Discipline", new { id = disciplineName }, null);
+            //return RedirectToAction("Event", "Event", new { id = disciplineId }, null);
+        }
+
     }
 }

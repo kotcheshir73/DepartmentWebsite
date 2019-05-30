@@ -64,7 +64,8 @@ namespace BaseImplementations
                 DisciplineName = entity.DisciplineName,
                 DisciplineShortName = string.IsNullOrEmpty(entity.DisciplineShortName) ? entity.ToString() : entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock?.ToString() ?? string.Empty,
-                DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
+                DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName,
+                DisciplineDescription =entity.DisciplineDescription
             };
         }
 

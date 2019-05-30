@@ -40,14 +40,18 @@ namespace WebInterfaces.ViewModels
         public WebProcessDisciplineForDownloadViewModel()
         {
             Semestrs = new List<WebProcessSemestrForDownloadViewModel>();
-            LecturerName = "";
-            
+            Comments = new List<WebProcessLevelCommentViewModel>();
+            LecturerName = "";            
         }
         public string Name { get; set; }
 
         public string LecturerName { get; set; }
 
+        public string Description { get; set; }
 
+        public Guid DisciplineId { get; set; }
+
+        public List<WebProcessLevelCommentViewModel> Comments { get; set; }
 
         public List<WebProcessSemestrForDownloadViewModel> Semestrs { get; set; }
     }

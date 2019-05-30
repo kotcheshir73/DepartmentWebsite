@@ -3,6 +3,7 @@ using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using Enums;
 using Microsoft.EntityFrameworkCore;
+using Models.Base;
 using System;
 using System.Linq;
 using Tools;
@@ -65,27 +66,36 @@ namespace BaseImplementations.Implementations
 			}
 		}
 
-		public ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel model)
+		public ResultService<DisciplineViewModel> GetDiscipline(DisciplineGetBindingModel bindingModel)
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                //DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.Disciplines
-                                .Include(x => x.DisciplineBlock)
-                                .FirstOrDefault(x => x.Id == model.Id);
-                    if (entity == null)
+                                .Include(x => x.DisciplineBlock);
+                    Discipline model = new Discipline();
+                    if (bindingModel.Id.HasValue)
+                    {
+                        model = entity.FirstOrDefault(x => x.Id == bindingModel.Id);
+                    }
+                    else if(!string.IsNullOrEmpty(bindingModel.DisciplineName))
+                    {
+                        model = entity.FirstOrDefault(x => x.DisciplineName == bindingModel.DisciplineName);
+                    }
+                                
+                    if (model == null)
                     {
                         return ResultService<DisciplineViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    else if (entity.IsDeleted)
+                    else if (model.IsDeleted)
                     {
                         return ResultService<DisciplineViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<DisciplineViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineViewModel(entity));
+                    return ResultService<DisciplineViewModel>.Success(ModelFactoryToViewModel.CreateDisciplineViewModel(model));
                 }
 			}
 			catch (Exception ex)

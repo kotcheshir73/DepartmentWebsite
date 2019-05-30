@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using BaseInterfaces.Interfaces;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 using Models.Web;
 using System;
@@ -15,6 +16,13 @@ namespace WebImplementations.Implementations
 {
     public class WebProcessService : IWebProcessService
     {
+        private readonly IDisciplineService _serviceD;
+
+        public WebProcessService(IDisciplineService serviceD)
+        {            
+            _serviceD = serviceD;
+        }
+
         //определить путь для папок
         private string Path => @"D:\Department\";
 
@@ -68,8 +76,19 @@ namespace WebImplementations.Implementations
                 {
                     return ResultService<WebProcessDisciplineForDownloadViewModel>.Error(new Exception("Папки не иницализированы"), ResultServiceStatusCode.Error);
                 }
+                var dis = _serviceD.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel
+                {
+                    DisciplineName=model.DisciplineName
+                }).Result;
                 WebProcessDisciplineForDownloadViewModel disciplineForDownload
-                = new WebProcessDisciplineForDownloadViewModel() { Name = model.DisciplineName };
+                = new WebProcessDisciplineForDownloadViewModel() {
+                    DisciplineId = dis.Id,
+                    Name = model.DisciplineName,
+                    Description = dis.DisciplineDescription,
+                    Comments= GetListLevelComment(new CommentGetBindingModel { DisciplineId = dis.Id, ParentId = null }).Result
+                };
+
+                
 
                 foreach (var semestr in discipline.GetDirectories())
                 {

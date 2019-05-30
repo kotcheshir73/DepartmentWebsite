@@ -103,23 +103,7 @@ namespace DepartmentWebCore.Services
 
                                 }).ToList();
 
-                    /*var entity = context.AcademicPlanRecordElements
-                                .Include(x => x.AcademicPlanRecord.Discipline)
-                                .Include(x => x.AcademicPlanRecord.AcademicPlan)
-                                .Where(x => x.AcademicPlanRecord.Discipline.Id == model.Id
-                                    && x.AcademicPlanRecord.AcademicPlan.AcademicYearId == GetAcademicYear().Result.Id)
-                                .Where(x => (x.TimeNorm.TimeNormName == "Лекция")
-                                    || (x.TimeNorm.TimeNormName == "Практическое занятие")
-                                    || (x.TimeNorm.TimeNormName == "Лабораторное занятие")
-                                    || (x.TimeNorm.TimeNormName.Contains("Руководство и прием курсовых")))
-                                .Select(x => new WebProcessFolderLoadSetBindingModel
-                                {
-                                    DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
-                                    Semestr = x.AcademicPlanRecord.Semester.ToString(),
-                                    TimeNorm = x.TimeNorm.TimeNormName,
-                                    LecturerNames = x.AcademicPlanRecord.
-
-                                }).ToList();*/
+                    
 
                     return ResultService<List<WebProcessFolderLoadSetBindingModel>>.Success(entity);
                 }
