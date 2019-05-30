@@ -7306,3 +7306,8 @@ td.visible-print {
     border: 1px solid #cecece;
     border-radius: 5px;
 }
+
+#pag a {
+    color: red;
+    font-weight:bold;
+}

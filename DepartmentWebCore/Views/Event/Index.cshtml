@@ -31,4 +31,21 @@
             @:</div>
         }
     }
+
+    @*@for (int i = Model.CurrentPage - 4 < 0 ? 0 : Model.CurrentPage - 4; i < Model.MaxCount; i++)
+        {
+            @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
+        }*@
+
+    @for (int i = Model.CurrentPage - 4 < 0 ? 0 : Model.CurrentPage - 4, j = 0; i < Model.MaxCount && j < 10; i++, j++)
+    {
+        if (i == Model.CurrentPage)
+        {
+            <div id="pag" style="color:red"> @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })</div>
+        }
+        else
+        {
+            @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
+        }
+    }
 }

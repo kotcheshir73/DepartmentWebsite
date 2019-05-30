@@ -5,7 +5,10 @@ using Tools.ViewModels;
 
 namespace WebInterfaces.ViewModels
 {
-    public class EventPageViewModel : PageSettingListViewModel<EventViewModel> { }
+    public class EventPageViewModel : PageSettingListViewModel<EventViewModel>
+    {
+        public int CurrentPage { get; set; }
+    }
     public class EventViewModel : PageSettingElementViewModel
     {
         public string Title { get; set; }

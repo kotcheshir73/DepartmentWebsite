@@ -35,7 +35,7 @@ namespace WebImplementations.Implementations
                         //query = query.Where(x => x.Tag.Contains(model.Tag));
                     //}
 
-                    query = query.OrderBy(x => x.DateCreate);
+                    query = query.OrderByDescending(x => x.DateCreate);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -45,10 +45,10 @@ namespace WebImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-
                     var result = new EventPageViewModel
                     {
                         MaxCount = countPages,
+                        CurrentPage = model.PageNumber.Value,
                         List = query.Select(ModelFactoryToViewModel.CreateEventViewModel).ToList()
                     };
 

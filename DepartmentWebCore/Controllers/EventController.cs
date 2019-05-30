@@ -24,13 +24,14 @@ namespace DepartmentWebCore.Controllers
             _serviceWP = serviceWP;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 0)
         {
-            var tmp = _serviceE.GetEvents(new WebInterfaces.BindingModels.EventGetBindingModel { });
-            //if(tmp.Result == null)
-            //{
-            //    return View();
-            //}
+            var tmp = _serviceE.GetEvents(new WebInterfaces.BindingModels.EventGetBindingModel
+            {
+                PageNumber=page,
+                PageSize=10
+            });
+            
             return View(tmp.Result);
         }
 
@@ -49,7 +50,9 @@ namespace DepartmentWebCore.Controllers
                 DepartmentUser = User.Identity.Name,
                 Title = model.Title                
             });
-            await FileService.SaveFilesForEvent(model.fileForUpload, newEventId.Result.ToString());
+            if (model.fileForUpload != null) { 
+                await FileService.SaveFilesForEvent(model.fileForUpload, newEventId.Result.ToString());
+            }
             return RedirectToAction("Index", "Event");
         }
 
@@ -82,7 +85,10 @@ namespace DepartmentWebCore.Controllers
                 Tag = model.Tag,
                 Title = model.Title
             });
-            await FileService.SaveFilesForEvent(model.fileForUpload, model.Id.ToString());
+            if (model.fileForUpload != null)
+            {
+                await FileService.SaveFilesForEvent(model.fileForUpload, model.Id.ToString());
+            }
             return RedirectToAction("Index", "Event");
         }
 
