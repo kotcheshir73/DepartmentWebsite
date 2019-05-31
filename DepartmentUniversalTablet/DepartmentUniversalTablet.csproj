@@ -143,8 +143,8 @@
     <Compile Include="ExportPackages\Standart\StudentGroupsPage.xaml.cs">
       <DependentUpon>StudentGroupsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExportPackages\Standart\StudentsPage.xaml.cs">
-      <DependentUpon>StudentsPage.xaml</DependentUpon>
+    <Compile Include="ExportPackages\Standart\DisciplineLessonConductedStudentsPage.xaml.cs">
+      <DependentUpon>DisciplineLessonConductedStudentsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportPackages\Standart\TimeNormsPage.xaml.cs">
       <DependentUpon>TimeNormsPage.xaml</DependentUpon>
@@ -242,7 +242,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExportPackages\Standart\StudentsPage.xaml">
+    <Page Include="ExportPackages\Standart\DisciplineLessonConductedStudentsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

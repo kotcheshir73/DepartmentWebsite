@@ -48,16 +48,21 @@ namespace DepartmentUniversalTablet.Pages
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                var list = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
+                var result = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
                 {
                     UserId = DepartmentUserManager.UserId.Value,
                     AcademicYearId = bindingModel.AcademicYearId,
                     EducationDirectionId = bindingModel.EducationDirectionId
-                }).Result;
+                });
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
 
                 Button button1;
 
-                foreach (var item in list)
+                foreach (var item in result.Result)
                 {
                     button1 = new Button();
                     button1.Content = item;
