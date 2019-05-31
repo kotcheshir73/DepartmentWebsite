@@ -45,15 +45,11 @@ namespace DepartmentUniversalTablet.Pages
                 {
                     AcademicYearId = (Guid)e.Parameter
                 };
-                var result = _serviceED.GetEducationDirections(new BaseInterfaces.BindingModels.EducationDirectionGetBindingModel());
-                if (!result.Succeeded)
-                {
-                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
-                }
+                var list = _serviceED.GetEducationDirections(new BaseInterfaces.BindingModels.EducationDirectionGetBindingModel()).Result.List;
 
                 Button button1;
 
-                foreach (var item in result.Result.List)
+                foreach (var item in list)
                 {
                     button1 = new Button();
                     button1.Content = item;

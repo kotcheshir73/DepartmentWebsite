@@ -64,19 +64,15 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
                         course = AcademicCourse.Course_4;
                         break;
                 }
-                var result = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel
+                var list = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel
                 {
                     Course = course.ToString(),
                     EducationDirectionId = bindingModel.EducationDirectionId
-                });
-                if (!result.Succeeded)
-                {
-                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
-                }
+                }).Result.List;
 
                 Button button1;
 
-                foreach (var item in result.Result.List)
+                foreach (var item in list)
                 {
                     button1 = new Button();
                     button1.Content = item;

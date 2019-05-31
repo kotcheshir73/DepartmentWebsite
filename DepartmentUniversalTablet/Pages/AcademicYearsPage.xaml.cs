@@ -38,15 +38,11 @@ namespace DepartmentUniversalTablet.Pages
         {
             try
             {
-                var result = _serviceAY.GetAcademicYears(new AcademicYearInterfaces.BindingModels.AcademicYearGetBindingModel());
-                if (!result.Succeeded)
-                {
-                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
-                }
+                var list = _serviceAY.GetAcademicYears(new AcademicYearInterfaces.BindingModels.AcademicYearGetBindingModel()).Result.List;
 
                 Button button1;
 
-                foreach (var item in result.Result.List)
+                foreach (var item in list)
                 {
                     button1 = new Button();
                     button1.Content = item;
@@ -70,6 +66,8 @@ namespace DepartmentUniversalTablet.Pages
                 {
                     if (Frame.CanGoBack)
                         Frame.GoBack();
+                    //else
+                    //    App.Current.Exit();
                 }
             }
             

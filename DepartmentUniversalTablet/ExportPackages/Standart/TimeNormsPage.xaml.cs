@@ -44,22 +44,18 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                var result = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+                var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
                 {
                     AcademicYearId = bindingModel.AcademicYearId,
                     DisciplineId = bindingModel.DisciplineId,
                     EducationDirectionId = bindingModel.EducationDirectionId,
                     UserId = DepartmentUserManager.UserId.Value,
                     Semester = bindingModel.Semester
-                });
-                if (!result.Succeeded)
-                {
-                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
-                }
+                }).Result;
 
                 Button button1;
 
-                foreach (var item in result.Result)
+                foreach (var item in list)
                 {
                     button1 = new Button();
                     button1.Content = item;
