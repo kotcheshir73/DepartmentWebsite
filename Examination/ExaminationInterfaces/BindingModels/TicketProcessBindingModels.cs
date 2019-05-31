@@ -9,8 +9,6 @@ namespace ExaminationInterfaces.BindingModels
         public string FileName { get; set; }
 
         public string TemplateName { get; set; }
-
-        public Guid? ExaminationTemplateId { get; set; }
     }
 
     public class TicketProcessLoadQuestionsBindingModel

@@ -5,7 +5,7 @@ namespace ExaminationInterfaces.BindingModels
 {
     public class TicketTemplateParagraphRunPropertiesGetBindingModel : PageSettingGetBinidingModel
     {
-        public Guid TicketTemplateParagraphRunId { get; set; }
+        public Guid? TicketTemplateParagraphRunId { get; set; }
     }
 
     public class TicketTemplateParagraphRunPropertiesSetBindingModel : PageSettingSetBinidingModel

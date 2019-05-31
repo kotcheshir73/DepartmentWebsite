@@ -65,6 +65,7 @@ namespace ExaminationImplementations
             }
             entity.DisciplineId = model.DisciplineId;
             entity.EducationDirectionId = model.EducationDirectionId;
+            entity.TicketTemplateId = model.TicketTemplateId;
             entity.Semester = model.Semester;
             entity.ExaminationTemplateName = model.ExaminationTemplateName;
 
@@ -133,7 +134,6 @@ namespace ExaminationImplementations
             {
                 entity = new TicketTemplate();
             }
-            entity.ExaminationTemplateId = model.ExaminationTemplateId;
             entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
             entity.TemplateName = model.TemplateName;
             if(model.TicketTemplateBodySetBindingModel != null)
@@ -198,6 +198,10 @@ namespace ExaminationImplementations
             if (entity == null)
             {
                 entity = new TicketTemplateParagraph();
+                if (model.TicketTemplateParagraphPropertiesSetBindingModel != null)
+                {
+                    model.TicketTemplateParagraphPropertiesSetBindingModel.TicketTemplateParagraphId = entity.Id;
+                }
             }
 
             entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
@@ -218,6 +222,10 @@ namespace ExaminationImplementations
                 foreach (var elem in model.TicketTemplateParagraphRunSetBindingModels)
                 {
                     entity.TicketTemplateParagraphRuns.Add(CreateTicketTemplateParagraphRun(elem, entity.TicketTemplateParagraphRuns.FirstOrDefault(x => x.Id == elem.Id)));
+                    if (!entity.TicketTemplateParagraphPropertiesId.HasValue)
+                    {
+                        entity.TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphProperties.Id;
+                    }
                 }
             }
 
@@ -254,14 +262,23 @@ namespace ExaminationImplementations
             if (entity == null)
             {
                 entity = new TicketTemplateParagraphRun();
+                if (model.TicketTemplateParagraphRunPropertiesSetBindingModel != null)
+                {
+                    model.TicketTemplateParagraphRunPropertiesSetBindingModel.TicketTemplateParagraphRunId = entity.Id;
+                }
             }
             entity.TicketTemplateParagraphId = model.TicketTemplateParagraphId;
             entity.TicketTemplateParagraphRunPropertiesId = model.TicketTemplateRunPropertiesId;
             entity.Order = model.Order;
             entity.Text = model.Text;
+            entity.TabChar = model.TabChar;
             if (model.TicketTemplateParagraphRunPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateParagraphRunProperties = CreateTicketTemplateParagraphRunProperties(model.TicketTemplateParagraphRunPropertiesSetBindingModel, entity.TicketTemplateParagraphRunProperties);
+                if(!entity.TicketTemplateParagraphRunPropertiesId.HasValue)
+                {
+                    entity.TicketTemplateParagraphRunPropertiesId = entity.TicketTemplateParagraphRunProperties.Id;
+                }
             }
 
             return entity;

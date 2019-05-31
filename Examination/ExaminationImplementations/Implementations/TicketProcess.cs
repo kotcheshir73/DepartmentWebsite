@@ -383,7 +383,6 @@ namespace ExaminationImplementations.Implementations
             
             TicketTemplate ticketTemplate = new TicketTemplate
             {
-                ExaminationTemplateId = model.ExaminationTemplateId,
                 TemplateName = model.TemplateName
             };
 
@@ -448,11 +447,11 @@ namespace ExaminationImplementations.Implementations
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var ticketTemplate = context.TicketTemplates.FirstOrDefault(x => x.ExaminationTemplateId == model.ExaminationTemplateId && !x.IsDeleted);
-                    if (ticketTemplate == null)
-                    {
-                        return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);
-                    }
+                    //var ticketTemplate = context.TicketTemplates.FirstOrDefault(x => x.ExaminationTemplateId == model.ExaminationTemplateId && !x.IsDeleted);
+                    //if (ticketTemplate == null)
+                    //{
+                    //    return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);
+                    //}
 
                     //var body = XMLParser.GetBody(ticketTemplate.XML, ticketTemplate.Id);
 
@@ -531,17 +530,17 @@ namespace ExaminationImplementations.Implementations
                         return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);
                     }
 
-                    var examinationTemplate = context.ExaminationTemplates
-                        .Include(x => x.Discipline)
-                        .Include(x => x.EducationDirection)
-                        .FirstOrDefault(x => x.Id == ticketTemplate.ExaminationTemplateId && !x.IsDeleted);
-                    if (examinationTemplate == null)
-                    {
-                        return ResultService.Error("Error:", "ExaminationTemplate not found", ResultServiceStatusCode.NotFound);
-                    }
+                    //var examinationTemplate = context.ExaminationTemplates
+                    //    .Include(x => x.Discipline)
+                    //    .Include(x => x.EducationDirection)
+                    //    .FirstOrDefault(x => x.Id == ticketTemplate.ExaminationTemplateId && !x.IsDeleted);
+                    //if (examinationTemplate == null)
+                    //{
+                    //    return ResultService.Error("Error:", "ExaminationTemplate not found", ResultServiceStatusCode.NotFound);
+                    //}
 
-                    var blocks = context.ExaminationTemplateBlocks.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).ToList();
-                    var tickets = context.ExaminationTemplateTickets.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).OrderBy(x => x.TicketNumber);
+                    //var blocks = context.ExaminationTemplateBlocks.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).ToList();
+                    //var tickets = context.ExaminationTemplateTickets.Where(x => x.ExaminationTemplateId == ticketTemplate.ExaminationTemplateId && !x.IsDeleted).OrderBy(x => x.TicketNumber);
 
                     //var body = TicketBodyGet.GetBody(ticketTemplate.Id);
 
@@ -552,15 +551,15 @@ namespace ExaminationImplementations.Implementations
                         //var stratIndex = ticketTemplate.XML.IndexOf("<w:body>");
                         //writer.Write(ticketTemplate.XML.Substring(0, stratIndex));
                         writer.Write("<w:body><wx:sect>");
-                        foreach(var ticket in tickets)
-                        {
-                            var questions = context.ExaminationTemplateTicketQuestions
-                                                .Where(x => x.ExaminationTemplateTicketId == ticket.Id && !x.IsDeleted)
-                                                .Include(x => x.ExaminationTemplateBlockQuestion)
-                                                .ToList();
+                        //foreach(var ticket in tickets)
+                        //{
+                        //    var questions = context.ExaminationTemplateTicketQuestions
+                        //                        .Where(x => x.ExaminationTemplateTicketId == ticket.Id && !x.IsDeleted)
+                        //                        .Include(x => x.ExaminationTemplateBlockQuestion)
+                        //                        .ToList();
 
-                           // writer.Write(docCreator.GetBody(body, examinationTemplate, ticket, questions, blocks));
-                        }
+                        //   // writer.Write(docCreator.GetBody(body, examinationTemplate, ticket, questions, blocks));
+                        //}
 
                         //writer.Write(docCreator.GetBodyFormat(body));
                         writer.Write("</wx:sect></w:body></w:wordDocument>");

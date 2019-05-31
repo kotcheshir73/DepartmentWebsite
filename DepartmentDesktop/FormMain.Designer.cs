@@ -96,10 +96,11 @@
             this.studentsDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.посещаемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.успеваемостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.examinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.examinationTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.расчасовкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.examinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.examinationTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ticketTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -637,21 +638,6 @@
             this.успеваемостьToolStripMenuItem.Text = "Успеваемость";
             this.успеваемостьToolStripMenuItem.Click += new System.EventHandler(this.УспеваемостьToolStripMenuItem_Click);
             // 
-            // examinationToolStripMenuItem
-            // 
-            this.examinationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.examinationTemplateToolStripMenuItem});
-            this.examinationToolStripMenuItem.Name = "examinationToolStripMenuItem";
-            this.examinationToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-            this.examinationToolStripMenuItem.Text = "Экзамены";
-            // 
-            // examinationTemplateToolStripMenuItem
-            // 
-            this.examinationTemplateToolStripMenuItem.Name = "examinationTemplateToolStripMenuItem";
-            this.examinationTemplateToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.examinationTemplateToolStripMenuItem.Text = "Формирование экзаменов";
-            this.examinationTemplateToolStripMenuItem.Click += new System.EventHandler(this.ExaminationTemplateToolStripMenuItem_Click);
-            // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
@@ -663,6 +649,29 @@
             this.расчасовкиToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.расчасовкиToolStripMenuItem.Text = "Расчасовки";
             this.расчасовкиToolStripMenuItem.Click += new System.EventHandler(this.РасчасовкиToolStripMenuItem_Click);
+            // 
+            // examinationToolStripMenuItem
+            // 
+            this.examinationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.examinationTemplateToolStripMenuItem,
+            this.ticketTemplateToolStripMenuItem});
+            this.examinationToolStripMenuItem.Name = "examinationToolStripMenuItem";
+            this.examinationToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.examinationToolStripMenuItem.Text = "Экзамены";
+            // 
+            // examinationTemplateToolStripMenuItem
+            // 
+            this.examinationTemplateToolStripMenuItem.Name = "examinationTemplateToolStripMenuItem";
+            this.examinationTemplateToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.examinationTemplateToolStripMenuItem.Text = "Формирование экзаменов";
+            this.examinationTemplateToolStripMenuItem.Click += new System.EventHandler(this.ExaminationTemplateToolStripMenuItem_Click);
+            // 
+            // ticketTemplateToolStripMenuItem
+            // 
+            this.ticketTemplateToolStripMenuItem.Name = "ticketTemplateToolStripMenuItem";
+            this.ticketTemplateToolStripMenuItem.Size = new System.Drawing.Size(279, 22);
+            this.ticketTemplateToolStripMenuItem.Text = "Шаблоны экзаменационных билетов";
+            this.ticketTemplateToolStripMenuItem.Click += new System.EventHandler(this.ticketTemplateToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -756,6 +765,7 @@
         private System.Windows.Forms.ToolStripMenuItem studentOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem расчасовкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ticketTemplateToolStripMenuItem;
     }
 }
 

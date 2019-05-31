@@ -84,14 +84,6 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
             }
             (tabPageTickets.Controls[0] as ControlExaminationTemplateTicket).LoadData(_id.Value);
 
-            if (tabPageTicketTemplate.Controls.Count == 0)
-            {
-                var control = Container.Resolve<ControlTicketTemplate>();
-                control.Dock = DockStyle.Fill;
-                tabPageTicketTemplate.Controls.Add(control);
-            }
-            (tabPageTicketTemplate.Controls[0] as ControlTicketTemplate).LoadData(_id.Value);
-
             var result = _service.GetExaminationTemplate(new ExaminationTemplateGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {

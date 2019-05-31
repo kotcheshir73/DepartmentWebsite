@@ -231,6 +231,10 @@ namespace ExaminationImplementations.Helpers
                 {
                     run.Text = (elem as DocumentFormat.OpenXml.Wordprocessing.Text).Text;
                 }
+                if (elem is DocumentFormat.OpenXml.Wordprocessing.TabChar)
+                {
+                    run.TabChar = true;
+                }
             }
             return run;
         }

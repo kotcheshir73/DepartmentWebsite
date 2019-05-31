@@ -3,12 +3,8 @@ using ControlsAndForms.Messangers;
 using ExaminationControlsAndForms.Services;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
-using ExaminationInterfaces.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Tools;
 using Unity;
@@ -24,24 +20,15 @@ namespace ExaminationControlsAndForms.TicketTemplate
 
         private readonly ITicketProcess _process;
 
-        public FormTicketTemplate(ITicketTemplateService service, IExaminationTemplateService _serviceET, ITicketProcess process, Guid? examinationTemplateId = null, Guid? id = null) : base(id)
+        public FormTicketTemplate(ITicketTemplateService service, IExaminationTemplateService _serviceET, ITicketProcess process, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
             _process = process;
-            examinationTemplateElement.Service = _serviceET;
-            examinationTemplateElement.Id = examinationTemplateId;
-            if (tabPageTicketTemplate.Controls.Count == 0)
-            {
-                var control = new ControlTicketTemplateLoader(process);
-                control.Dock = DockStyle.Fill;
-                control.SetId = examinationTemplateId.Value;
-                tabPageTicketTemplate.Controls.Add(control);
-            }
 
             if (id != Guid.Empty)
             {
-                buttonLoadTemplate.Visible = labelLinkToFile.Visible = textBoxLinkToFile.Visible = false;
+              //  buttonLoadTemplate.Visible = labelLinkToFile.Visible = textBoxLinkToFile.Visible = false;
             }
         }
 
@@ -53,200 +40,25 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 Close();
             }
+            if (tabPageTicketTemplate.Controls.Count == 0)
+            {
+                var control = new ControlTicketTemplateViewer
+                {
+                    Dock = DockStyle.Fill
+                };
+                control.LoadView(result.Result);
+                tabPageTicketTemplate.Controls.Add(control);
+            }
             var entity = result.Result;
 
             textBoxTemplateName.Text = entity.TemplateName;
-          //  LoadBody(entity.Body);
-        }
 
-        /// <summary>
-        /// Загрузка шаблона билета
-        /// </summary>
-        /// <param name="body"></param>
-        private void LoadBody(TicketTemplateBodyViewModel body)
-        {
-            var steps = /*(body.Tables?.Count ?? 0) + */(body.TicketTemplateParagraphPageViewModel?.List.Count ?? 0);
-            StringBuilder html = new StringBuilder("<body>");
-            string size = "";
-            for (int i = 0; i < steps; ++i)
+            if(entity.Body != null)
             {
-               // html.Append(ProcessTable(body.Tables?.FirstOrDefault(x => x.Order == i), ref size));
-                html.Append(ProcessParagraph(body.TicketTemplateParagraphPageViewModel?.List.FirstOrDefault(x => x.Order == i), ref size));
+                var control = Container.Resolve<ControlTicketTemplateViewerBody>();
+                control.LoadView(entity.Body, entity.Id);
+                tabPageParagraphsData.Controls.Add(control);
             }
-           // webBrowser.DocumentText = html.ToString();
-        }
-
-        /// <summary>
-        /// Обработка таблицы
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        private string ProcessTable(TicketProcessTableViewModel table, ref string size)
-        {
-            if (table != null && table.TableRows != null)
-            {
-                StringBuilder tableRes = new StringBuilder();
-                List<double> percentWidth = new List<double>();
-                var totalWidth = table.Columns?.ChildElementaryUnits?.Sum(x => Convert.ToInt32(x.ElementaryAttributes?.FirstOrDefault(a => a.Name == "w:w")?.Value ?? "0")) ?? 0;
-                if (totalWidth == 0)
-                {
-                    return string.Empty;
-                }
-                foreach (var elem in table.Columns.ChildElementaryUnits)
-                {
-                    percentWidth.Add(Convert.ToDouble(elem.ElementaryAttributes?.FirstOrDefault(a => a.Name == "w:w")?.Value ?? "0") / totalWidth);
-                }
-                for (int i = 0; i < table.TableRows.Count; ++i)
-                {
-                    int countCells = 0;
-                    StringBuilder rowCompile = new StringBuilder();
-                    foreach (var cell in table.TableRows[i].TableCells)
-                    {
-                        var colMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:gridSpan");
-                        string colSpan = "";
-                        if (colMerge != null)
-                        {
-                            // объединение по строкам
-                            colSpan = $" colspan=\"{colMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value}\"";
-                        }
-                        // проверка на объединение по строкам
-                        var rowMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:vmerge");
-                        string rowSpan = "";
-                        if (rowMerge != null)
-                        {
-                            if (rowMerge.ElementaryAttributes != null && rowMerge.ElementaryAttributes.Count > 0)
-                            {
-                                int countRows = 1;
-                                // если это первая строка при объединение, ищем, как далеко вниз она идет
-                                for (int j = i + 1; j < table.TableRows.Count; ++j)
-                                {
-                                    int countSecCells = 0;
-                                    // идем дло нужной ячейки
-                                    foreach (var cellSec in table.TableRows[j].TableCells)
-                                    {
-                                        if (countCells == countSecCells)
-                                        {
-                                            var rowSecMerge = cellSec.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:vmerge");
-                                            if (rowSecMerge == null)
-                                            {
-                                                // если у ячейки по нужной позиции нет признака объежинения, то прерываем
-                                                j = table.TableRows.Count;
-                                            }
-                                            else
-                                            {
-                                                if (rowSecMerge.ElementaryAttributes != null && rowSecMerge.ElementaryAttributes.Count > 0)
-                                                {
-                                                    // началось другое объединение, прерываем это
-                                                    j = table.TableRows.Count;
-                                                }
-                                                else
-                                                {
-                                                    countRows++;
-                                                }
-                                            }
-                                            break;
-                                        }
-                                        var colSecMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:gridSpan");
-                                        if (colSecMerge != null)
-                                        {
-                                            // либо несколько ячеек объединенных
-                                            countSecCells += Convert.ToInt32(colSecMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value ?? "0");
-                                        }
-                                        else
-                                        {
-                                            // либо одна
-                                            countSecCells++;
-                                        }
-                                    }
-                                }
-                                rowSpan = $" rowspan=\"{countRows}\"";
-                            }
-                            else
-                            {
-                                // иначе, игнорируем строку
-                                continue;
-                            }
-                        }
-                        string width = colMerge == null ? $" width=\"{percentWidth[countCells]}%\"" : "";
-
-                        StringBuilder cellCompile = new StringBuilder();
-                        foreach (var paragraph in cell.Paragraphs)
-                        {
-                          //  cellCompile.Append(ProcessParagraph(paragraph, ref size));
-                        }
-
-                        rowCompile.Append($"<td{rowSpan}{colSpan}{width}>{cellCompile.ToString()}</td>");
-                        if (colMerge != null)
-                        {
-                            countCells += Convert.ToInt32(colMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value ?? "0");
-                        }
-                        else
-                        {
-                            countCells++;
-                        }
-                    }
-                    tableRes.Append($"<tr>{rowCompile.ToString()}</tr>");
-                }
-
-                return $"<table width=\"100%\" border=\"1px solid black\">{tableRes.ToString()}</table>";
-            }
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Обработка параграфа
-        /// </summary>
-        /// <param name="paragraph"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        private string ProcessParagraph(TicketTemplateParagraphViewModel paragraph, ref string size)
-        {
-            string aligment = "";
-            if (paragraph.TicketTemplateParagraphPropertiesViewModel != null)
-            {
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphPropertiesViewModel.Justification))
-                {
-                    aligment = $" align={paragraph.TicketTemplateParagraphPropertiesViewModel.Justification}";
-                }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphPropertiesViewModel.RunSize))
-                {
-                    size = $" style=\"font-size:{paragraph.TicketTemplateParagraphPropertiesViewModel.RunSize}pt \"";
-                }
-            }
-            StringBuilder paragraphBuilder = new StringBuilder($"<p{aligment}{size}>");
-            if (paragraph.TicketTemplateParagraphRunPageViewModel != null)
-            {
-                foreach (var elem in paragraph.TicketTemplateParagraphRunPageViewModel.List)
-                {
-                    string text = elem.Text;
-                    if(elem.TicketTemplateParagraphRunPropertiesViewModel != null)
-                    {
-                        if(elem.TicketTemplateParagraphRunPropertiesViewModel.RunBold)
-                        {
-                            text = $"<b>{text}</b>";
-                        }
-                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunItalic)
-                        {
-                            text = $"<i>{text}</i>";
-                        }
-                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunUnderline)
-                        {
-                            text = $"<u>{text}</u>";
-                        }
-                        if (!string.IsNullOrEmpty(elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize))
-                        {
-                            text = $"<span style=\"font-size:{elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize}pt \">{text}</span>";
-                        }
-                        else if (!string.IsNullOrEmpty(size))
-                        {
-                            text = $"<span style=\"font-size:{size}pt \">{text}</span>";
-                        }
-                    }
-                    paragraphBuilder.Append(text);
-                }
-            }
-            return paragraphBuilder.ToString();
         }
 
         protected override bool CheckFill()
@@ -254,14 +66,14 @@ namespace ExaminationControlsAndForms.TicketTemplate
             labelLinkToFile.ForeColor =
             labelTemplateName.ForeColor =
                 SystemColors.ControlText;
-            //if (textBoxLinkToFile.Visible)
-            //{
-            //    if (string.IsNullOrEmpty(textBoxLinkToFile.Text))
-            //    {
-            //        labelLinkToFile.ForeColor = Color.Red;
-            //        return false;
-            //    }
-            //}
+            if (textBoxLinkToFile.Visible)
+            {
+                if (string.IsNullOrEmpty(textBoxLinkToFile.Text))
+                {
+                    labelLinkToFile.ForeColor = Color.Red;
+                    return false;
+                }
+            }
             if (string.IsNullOrEmpty(textBoxTemplateName.Text))
             {
                 labelTemplateName.ForeColor = Color.Red;
@@ -277,9 +89,8 @@ namespace ExaminationControlsAndForms.TicketTemplate
             {
                 result = _process.SaveTemplate(new TicketProcessLoadTemplateBindingModel
                 {
-                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
                     TemplateName = textBoxTemplateName.Text,
-                    //FileName = textBoxLinkToFile.Text
+                    FileName = textBoxLinkToFile.Text
                 });
             }
             else
@@ -287,8 +98,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 result = _service.UpdateTicketTemplate(new TicketTemplateSetBindingModel
                 {
                     Id = _id.Value,
-                    ExaminationTemplateId = examinationTemplateElement.Id.Value,
-                   // TemplateName = textBoxTemplateName.Text
+                    TemplateName = textBoxTemplateName.Text
                 });
             }
             if (result.Succeeded)
@@ -325,11 +135,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 });
                 if (template.Succeeded)
                 {
-                    var result = template.Result;
-                    if (result.Body != null)
-                    {
-                        LoadBody(result.Body);
-                    }
+                    (tabPageTicketTemplate.Controls[0] as ControlTicketTemplateViewer).LoadView(template.Result);
                 }
                 else
                 {

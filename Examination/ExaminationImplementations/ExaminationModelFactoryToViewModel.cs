@@ -74,7 +74,9 @@ namespace ExaminationImplementations
                 DisciplineId = entity.DisciplineId,
                 DisciplneName = entity.Discipline.DisciplineName,
                 EducationDirectionId = entity.EducationDirectionId,
+                TicketTemplateId = entity.TicketTemplateId,
                 EducationDirectionName = entity.EducationDirection?.ShortName,
+                TicketTemplateName = entity.TicketTemplate?.TemplateName ?? string.Empty,
                 Semester = entity.Semester.ToString(),
                 ExaminationTemplateName = entity.ExaminationTemplateName
             };
@@ -378,7 +380,8 @@ namespace ExaminationImplementations
                 TicketTemplateParagraphRunPropertiesViewModel = entity.TicketTemplateParagraphRunProperties != null ?
                                                                 CreateTicketTemplateParagraphRunPropertiesViewModel(entity.TicketTemplateParagraphRunProperties) : null,
                 Order = entity.Order,
-                Text = entity.Text
+                Text = entity.Text,
+                TabChar = entity.TabChar
             };
         }
 

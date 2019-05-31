@@ -24,7 +24,7 @@ namespace DatabaseContext
             if (optionsBuilder.IsConfigured == false)
             {
                 optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=SSPI;MultipleActiveResultSets=True;");
-                //optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=SSPI;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
                 //Persist Security Info=True;Trusted_Connection=True;MultipleActiveResultSets = True;
             }
             base.OnConfiguring(optionsBuilder);

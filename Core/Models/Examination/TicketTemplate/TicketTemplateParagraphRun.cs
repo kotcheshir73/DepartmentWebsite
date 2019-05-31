@@ -19,6 +19,9 @@ namespace Models.Examination
         public string Text { get; set; }
 
         [DataMember]
+        public bool TabChar { get; set; }
+
+        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------

@@ -46,7 +46,6 @@
             // 
             // ticketTemplateElement
             // 
-            this.ticketTemplateElement.ExaminationTemplateId = null;
             this.ticketTemplateElement.Id = null;
             this.ticketTemplateElement.Location = new System.Drawing.Point(115, 6);
             this.ticketTemplateElement.Name = "ticketTemplateElement";

@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190527181823_ChangeLinkExaminationTicketTemplate")]
+    partial class ChangeLinkExaminationTicketTemplate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1517,8 +1519,6 @@ namespace DatabaseContext.Migrations
                     b.Property<bool>("IsDeleted");
 
                     b.Property<int>("Order");
-
-                    b.Property<bool>("TabChar");
 
                     b.Property<string>("Text");
 

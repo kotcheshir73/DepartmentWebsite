@@ -20,7 +20,6 @@ namespace ExaminationControlsAndForms.Services
             InitializeComponent();
             _process = process;
             ticketTemplateElement.Service = serviceTT;
-            ticketTemplateElement.ExaminationTemplateId = examinationTemplateId;
         }
 
         private void ButtonFileName_Click(object sender, EventArgs e)

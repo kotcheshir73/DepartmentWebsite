@@ -15,6 +15,8 @@ namespace ExaminationInterfaces.ViewModels
 
         public string Text { get; set; }
 
+        public bool TabChar { get; set; }
+
         public int Order { get; set; }
     }
 }

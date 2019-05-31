@@ -42,11 +42,6 @@ namespace ExaminationImplementations.Implementations
                 {
                     var query = context.TicketTemplates.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.ExaminationTemplateId.HasValue)
-                    {
-                        query = query.Where(x => x.ExaminationTemplateId == model.ExaminationTemplateId);
-                    }
-
                     if (model.Id.HasValue)
                     {
                         query = query.Where(x => x.Id == model.Id);
@@ -62,7 +57,7 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.ExaminationTemplate)
+                    query = query
                         .Include(x => x.TicketTemplateBody)
                         .Include(x => x.TicketTemplateBody.TicketTemplateBodyProperties)
                         .Include(x => x.TicketTemplateBody.TicketTemplateParagraphs)
@@ -94,7 +89,12 @@ namespace ExaminationImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.TicketTemplates
-                                    .Include(x => x.ExaminationTemplate)
+                                    .Include(x => x.TicketTemplateBody)
+                                    .Include(x => x.TicketTemplateBody.TicketTemplateBodyProperties)
+                                    .Include(x => x.TicketTemplateBody.TicketTemplateParagraphs)
+                                    .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                                    .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                                    .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
                                     .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
