@@ -44,11 +44,15 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                var list = _serviceLP.GetFullDisciplineLessonConducteds(bindingModel).Result;
+                var result = _serviceLP.GetFullDisciplineLessonConducteds(bindingModel);
+                if (!result.Succeeded)
+                {
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
 
                 Button button1;
 
-                foreach (var item in list)
+                foreach (var item in result.Result)
                 {
                     button1 = new Button();
                     button1.Content = item;

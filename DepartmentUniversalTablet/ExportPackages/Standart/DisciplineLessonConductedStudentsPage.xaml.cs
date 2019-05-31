@@ -29,14 +29,14 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
     /// <summary>
     /// Страница выбора студента.
     /// </summary>
-    public sealed partial class StudentsPage : Page
+    public sealed partial class DisciplineLessonConductedStudentsPage : Page
     {
         private IDisciplineLessonConductedStudentService _serviceDLCS;
         private ILearningProgressProcess _serviceLP;
         private DisciplineLessonConductedViewModel bindingModel;
         private List<DisciplineLessonConductedStudentViewModel> dataContext;
 
-        public StudentsPage()
+        public DisciplineLessonConductedStudentsPage()
         {
             this.InitializeComponent();
 
@@ -49,13 +49,20 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             try
             {
                 bindingModel = (DisciplineLessonConductedViewModel)e.Parameter;
-                dataContext = _serviceLP.GetDisciplineLessonConductedStudentsForFill(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentsForFillBindingModel
+                var result = _serviceLP.GetDisciplineLessonConductedStudentsForFill(new LearningProgressInterfaces.BindingModels.DisciplineLessonConductedStudentsForFillBindingModel
                 {
                     StudentGroupId = bindingModel.StudentGroupId,
                     DisciplineLessonConductedId = bindingModel.Id,
                     Semester = bindingModel.Semester
-                }).Result;
+                });
+                if (!result.Succeeded)
+                {
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
+
+
                 Button button1;
+                dataContext = result.Result;
 
                 foreach (var item in dataContext)
                 {
