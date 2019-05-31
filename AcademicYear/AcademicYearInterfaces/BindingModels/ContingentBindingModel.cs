@@ -8,6 +8,8 @@ namespace AcademicYearInterfaces.BindingModels
         public Guid? AcademicYearId { get; set; }
 
         public Guid? AcademicPlanId { get; set; }
+
+        public Guid? EducationDirectionId { get; set; }
     }
 
 	public class ContingentSetBindingModel : PageSettingSetBinidingModel

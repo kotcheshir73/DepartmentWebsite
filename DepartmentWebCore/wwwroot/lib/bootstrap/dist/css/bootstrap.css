@@ -57,6 +57,7 @@ html {
 
 body {
     margin: 0;
+    min-width: 650px;
 }
 
 a:focus {
@@ -426,7 +427,7 @@ p {
     line-height: 1.4;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     .lead {
         font-size: 21px;
     }
@@ -4348,7 +4349,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
     position: fixed;
     right: 0;
     left: 0;
-    border-width: 0 0 1px;
+    border-width: 0 0 5px;
 }
 
 @media (min-width: 768px) {
@@ -4691,7 +4692,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-inverse {
     background-color: #222222;
-    border-color: #080808;
+    border-color: #222222;
 }
 
     .navbar-inverse .navbar-brand {
@@ -7086,89 +7087,75 @@ td.visible-print {
     }
 }
 
-#menu > ul {
-    width: 100%;
+
+
+
+
+
+/* Блок меню*/
+ul {
+    margin: 0;
+    padding: 0;
     font-family: Tahoma;
     font-size: 20px;
     font-style: normal;
 }
 
-#menu ul {
-    background-color: #222222;
-    display: inline-block;
-    margin: 0px;
-    padding: 0;
-}
-
-#menu li {
-    list-style: none;
-}
-
-#menu > ul > li {
-    float: left;
-}
-
-@media(max-width: 1500px) {
-    #menu li > ul {
-        overflow-y: scroll;
-        position: absolute;
-        height: 90vh !important;
-        visibility: hidden;
+    ul.navig li {
+        background: #222222;
+        float: left; /*делаем меню горизонтальным*/
+        list-style: none;
     }
 
-    #menu ::-webkit-scrollbar-track {
-        background-color: #222222
-    }
-
-    #menu ::-webkit-scrollbar-thumb {
-        border-radius: 15px;
-        background-color: #9db1cc;
-    }
-
-        #menu ::-webkit-scrollbar-thumb:hover {
-            background-color: #5b7dab;
+        ul.navig li a {
+            text-decoration: none;
+            display: block;
+            padding: 0 10px;
+            color: #ffffff;
         }
 
-    #menu ::-webkit-scrollbar {
-        width: 5px;
-    }
-}
+        ul.navig li ul {
+            display: none; /*скрываем вложенные пункты*/
+        }
 
-@media(min-width: 1501px) {
-    #menu li > ul {
-        position: absolute;
-        visibility: hidden;
+    ul.navig { /*задаём высоту и ширину меню*/
+        background: #222222;
     }
 
-    
-}
+        /*Выпадающее меню*/
 
+        ul.navig li:hover {
+            background: #9db1cc;
+            position: relative;
+        }
 
-#menu li:hover ul {
-    visibility: visible;
-}
+            ul.navig li:hover > ul {
+                display: block;
+                position: absolute;
+                top: 30px; /*первый уровень меню раскрывается вниз*/
+                left: 0;
+                background: #9db1cc;
+            }
+        /*Второй и последующие уровни вложенности*/
+        ul.navig li ul li {
+            height: auto;
+            width: 220px;
+        }
 
-#menu li a {
-    color: white;
-    display: block;
-    padding: 0 15px;
-    text-decoration: none;
-}
+        ul.navig li:hover ul li ul {
+            position: absolute;
+            top: 0;
+            left: 220px; /*второй и последующие уровни расскрываются вправо*/
+        }
 
-    #menu li a:hover {
-        color: black;
+@media screen and (max-width: 700px) {
+    #menu{
+        width:650px;
     }
 
-#menu li ul li a {
-    background: #222222;
-    text-decoration: none;
 }
 
-    #menu li ul li a:hover, ul li:hover a {
-        background: #9db1cc;
-        text-decoration: none;
-        color: #000;
-    }
+
 
 #list {
     margin: 10px
@@ -7311,3 +7298,4 @@ td.visible-print {
     color: red;
     font-weight:bold;
 }
+

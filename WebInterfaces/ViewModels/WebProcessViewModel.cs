@@ -5,6 +5,24 @@ using Tools.ViewModels;
 
 namespace WebInterfaces.ViewModels
 {
+    public class WebProcessDisciplineListInfoViewModel
+    {
+        public string EducationDirectionName { get; set; }
+
+        public string Course { get; set; }
+
+        public List<WebProcessDisciplineForListViewModel> Discipline = new List<WebProcessDisciplineForListViewModel>();
+    }
+
+    public class WebProcessDisciplineForListViewModel
+    {
+        public string DisciplineName { get; set; }
+
+        public string TimeNormName { get; set; }
+
+        public string Semester { get; set; }
+    }
+
     public class WebProcessEventWithCommentViewModel
     {
         public Guid EventId { get; set; }

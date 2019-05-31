@@ -27,9 +27,14 @@ namespace DepartmentWebCore.Controllers
         }
 
         // GET: Discipline
-        public ActionResult Index()
+        public ActionResult Index(Guid id)
         {
-            return View();
+            var list = DisciplineService.GetDisciplinesByCourses(new BaseInterfaces.BindingModels.DisciplineGetBindingModel
+            {
+                ContingentId = id
+            }).Result;
+
+            return View(list);
         }
 
         [Authorize]

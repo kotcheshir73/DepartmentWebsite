@@ -2,6 +2,7 @@
 using AcademicYearInterfaces.ViewModels;
 using BaseImplementations;
 using BaseInterfaces.BindingModels;
+using BaseInterfaces.ViewModels;
 using Enums;
 using LearningProgressInterfaces.BindingModels;
 using LearningProgressInterfaces.ViewModels;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Web;
 using Tools;
 using WebInterfaces.BindingModels;
+using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Services
 {
@@ -49,7 +51,47 @@ namespace DepartmentWebCore.Services
             }
         }
 
-        private static ResultService<AcademicYearViewModel> GetAcademicYear()
+        public static ResultService<WebProcessDisciplineListInfoViewModel> GetDisciplinesByCourses(DisciplineGetBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var query = context.AcademicPlanRecordElements.Where(x => !x.IsDeleted)
+                        .Include(x => x.TimeNorm)
+                        .Include(x => x.AcademicPlanRecord.Discipline)
+                        .Include(x => x.AcademicPlanRecord.Contingent.EducationDirection)
+                        .Where(x => x.TimeNorm.TimeNormShortName == "Экз" || x.TimeNorm.TimeNormShortName == "ЗсО" || x.TimeNorm.TimeNormShortName == "Зач")
+                        .Where(x => x.TimeNorm.AcademicYearId == GetAcademicYear().Result.Id)
+                        .Where(x => x.AcademicPlanRecord.ContingentId == model.ContingentId);
+                        
+                        
+                     var result = query.Select(x => new WebProcessDisciplineForListViewModel
+                        {
+                            DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
+                            Semester = x.AcademicPlanRecord.Semester.ToString(),
+                            TimeNormName = x.TimeNorm.KindOfLoadName
+                        }).Distinct()
+                        .OrderBy(x => x.DisciplineName)
+                        .ToList();
+
+                    WebProcessDisciplineListInfoViewModel resultModel = new WebProcessDisciplineListInfoViewModel
+                    {
+                        Course = query.FirstOrDefault().AcademicPlanRecord.Contingent.Course.ToString(),
+                        EducationDirectionName = query.FirstOrDefault().AcademicPlanRecord.Contingent.EducationDirection.Description,
+                        Discipline = result
+                    };
+
+                    return ResultService<WebProcessDisciplineListInfoViewModel>.Success(resultModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<WebProcessDisciplineListInfoViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public static ResultService<AcademicYearViewModel> GetAcademicYear()
         {
             try
             {                

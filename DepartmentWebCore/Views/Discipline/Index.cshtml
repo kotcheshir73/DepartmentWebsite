@@ -1,7 +1,11 @@
-﻿
+﻿@model WebInterfaces.ViewModels.WebProcessDisciplineListInfoViewModel
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>@Model.EducationDirectionName . @Model.Course</h2>
 
+@foreach (var tmp in Model.Discipline)
+{
+    @tmp.DisciplineName @:-  @tmp.TimeNormName  -    @tmp.Semester <br/>
+}
