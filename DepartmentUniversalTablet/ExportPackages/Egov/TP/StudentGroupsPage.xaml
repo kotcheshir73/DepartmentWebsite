@@ -17,7 +17,7 @@
     </Page.Resources>
 
     <ScrollViewer>
-        <StackPanel>
+        <StackPanel VerticalAlignment="Center">
             <TextBlock Text="Выберите студенческую группу:" Margin="10" />
             <StackPanel x:Name="grid" />
         </StackPanel>

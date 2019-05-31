@@ -16,8 +16,8 @@
     </Page.Resources>
     
     <ScrollViewer>
-        <StackPanel>
-            <TextBlock Text="Выберите метку для студента или откройте для расширенного редактирования:" Margin="10" />
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Выберите метку для студента или откройте для расширенного редактирования:" TextWrapping="Wrap"  Margin="10" />
             <StackPanel x:Name="grid" />
         </StackPanel>
     </ScrollViewer>

@@ -15,8 +15,8 @@
         </Style>
     </Page.Resources>
     <ScrollViewer>
-        <StackPanel>
-            <TextBlock Text="Выберите дисциплину:" Margin="10" />
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Выберите дисциплину:" TextWrapping="Wrap" Margin="10" />
             <StackPanel x:Name="grid" />
         </StackPanel>
     </ScrollViewer>

@@ -83,7 +83,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
         private void button_Click(object sender, RoutedEventArgs e)
         {
             var tmpModel = ((DisciplineLessonConductedViewModel)((Button)sender).Content);
-            Frame.Navigate(typeof(StudentsPage), tmpModel);
+            Frame.Navigate(typeof(DisciplineLessonConductedStudentsPage), tmpModel);
         }
 
 

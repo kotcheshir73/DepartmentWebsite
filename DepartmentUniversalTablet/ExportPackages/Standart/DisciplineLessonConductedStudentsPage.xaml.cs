@@ -68,11 +68,11 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
                 {
                     button1 = new Button();
                 
-                    var ComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Явка", Margin = new Thickness(5), Tag = item.Id };
+                    var ComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Явка", Margin = new Thickness(5), HorizontalAlignment = HorizontalAlignment.Right, Tag = item.Id };
                     ComeRadioButton.Checked += radioButton_Checked;
-                    var NotComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Не явка", Margin = new Thickness(5), Tag = item.Id };
+                    var NotComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Не явка", Margin = new Thickness(5), HorizontalAlignment = HorizontalAlignment.Center, Tag = item.Id };
                     NotComeRadioButton.Checked += radioButton_Checked;
-                    var PassRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Пропуск", Margin = new Thickness(5), Tag = item.Id };
+                    var PassRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Пропуск", Margin = new Thickness(5), HorizontalAlignment = HorizontalAlignment.Left, Tag = item.Id };
                     PassRadioButton.Checked += radioButton_Checked;
 
                     switch (item.Status)
