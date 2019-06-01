@@ -57,7 +57,7 @@ html {
 
 body {
     margin: 0;
-    min-width: 650px;
+    min-width: 750px;
 }
 
 a:focus {
@@ -1177,7 +1177,7 @@ pre {
     }
 
     .col-md-4 {
-        width: 33.33333333333333%;
+        width: 90%;
     }
 
     .col-md-5 {
@@ -7150,7 +7150,7 @@ ul {
 
 @media screen and (max-width: 700px) {
     #menu{
-        width:650px;
+        width:700px;
     }
 
 }
@@ -7299,3 +7299,20 @@ ul {
     font-weight:bold;
 }
 
+.comment {
+    font-size: 18px;
+}
+.text-event {
+    margin:10px;
+    font-size: 25px;
+}
+
+.but {
+    margin:0 0 15px 0; 
+    float:right
+}
+.tab {
+    font-weight:normal;
+    
+    font-size:18px;
+}

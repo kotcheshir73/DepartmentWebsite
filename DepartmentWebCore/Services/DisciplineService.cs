@@ -30,8 +30,9 @@ namespace DepartmentWebCore.Services
                     var query = context.AcademicPlanRecordMissions
                         .Include(x => x.AcademicPlanRecordElement)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
-                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineBlock)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                        .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineBlock.Title.Contains("Дисциплины"))
                         .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == GetAcademicYear().Result.Id &&                                        
                                         x.LecturerId == modelL.Id)
                         .Select(x => new LearningProcessDisciplineViewModel
@@ -59,8 +60,9 @@ namespace DepartmentWebCore.Services
                 {
                     var query = context.AcademicPlanRecordElements.Where(x => !x.IsDeleted)
                         .Include(x => x.TimeNorm)
-                        .Include(x => x.AcademicPlanRecord.Discipline)
+                        .Include(x => x.AcademicPlanRecord.Discipline.DisciplineBlock)
                         .Include(x => x.AcademicPlanRecord.Contingent.EducationDirection)
+                                .Where(x => x.AcademicPlanRecord.Discipline.DisciplineBlock.Title.Contains("Дисциплины"))
                         .Where(x => x.TimeNorm.TimeNormShortName == "Экз" || x.TimeNorm.TimeNormShortName == "ЗсО" || x.TimeNorm.TimeNormShortName == "Зач")
                         .Where(x => x.TimeNorm.AcademicYearId == GetAcademicYear().Result.Id)
                         .Where(x => x.AcademicPlanRecord.ContingentId == model.ContingentId);
@@ -69,16 +71,19 @@ namespace DepartmentWebCore.Services
                      var result = query.Select(x => new WebProcessDisciplineForListViewModel
                         {
                             DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
-                            Semester = x.AcademicPlanRecord.Semester.ToString(),
+                            Semester = (int)x.AcademicPlanRecord.Semester.Value,
                             TimeNormName = x.TimeNorm.KindOfLoadName
                         }).Distinct()
-                        .OrderBy(x => x.DisciplineName)
+                        .OrderBy(x => x.Semester).ThenBy(x=>x.DisciplineName)
                         .ToList();
+
+                    var educDir = query.FirstOrDefault().AcademicPlanRecord.Contingent.EducationDirection;
 
                     WebProcessDisciplineListInfoViewModel resultModel = new WebProcessDisciplineListInfoViewModel
                     {
                         Course = query.FirstOrDefault().AcademicPlanRecord.Contingent.Course.ToString(),
-                        EducationDirectionName = query.FirstOrDefault().AcademicPlanRecord.Contingent.EducationDirection.Description,
+                        EducationDirectionName = educDir.Title + " " 
+                            + (educDir.Description.Contains("бакалавр") ? "- Бакалавриат" : "- Магистратура"),
                         Discipline = result
                     };
 
@@ -128,10 +133,11 @@ namespace DepartmentWebCore.Services
                 {
                     var entity = context.AcademicPlanRecordMissions
                                 .Include(x => x.Lecturer)
-                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineBlock)
                                 .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
                                 .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName == model.DisciplineName 
                                     && x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == GetAcademicYear().Result.Id)
+                                .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineBlock.Title.Contains("Дисциплины"))
                                 .Where(x => (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лекция") 
                                     || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Практическое занятие") 
                                     || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лабораторное занятие") 

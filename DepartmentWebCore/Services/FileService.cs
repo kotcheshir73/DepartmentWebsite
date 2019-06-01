@@ -104,11 +104,14 @@ namespace DepartmentWebCore.Services
         public static void DeleteDirectoryByPathForEvent(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(EventPath + path);
-            foreach(var file in dir.GetFiles())
+            if (dir.Exists)
             {
-                file.Delete();
+                foreach(var file in dir.GetFiles())
+                {
+                    file.Delete();
+                }
+                dir.Delete();
             }
-            dir.Delete();
         }
     }
 }

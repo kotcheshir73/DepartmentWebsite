@@ -6,7 +6,7 @@
 <h2 class="page-header">
     @Model.Name
 </h2>
-<h5>@Model.Description</h5>
+<h4 style="line-height:1.5;margin:8px">@Model.Description</h4><hr/>
 @if (User.IsInRole("Преподаватель") && Model.LecturerName.Contains(User.Identity.Name))
 {
     <div class="btn btn-default">
@@ -25,38 +25,35 @@
             <label for=@sem.Name>@sem.Name семестр</label>
             @:<div>
                 foreach (var tn in sem.TimeNorms)
-                {
+            {
                     <input class="hide" id=@(sem.Name + tn.Name) type="checkbox">
                     <label for=@(sem.Name + tn.Name)>@tn.Name</label>
                     @:<div>
                         foreach (var file in tn.Files)
-                        {
+                {
 
-                            if (file.Name.Contains(".pdf"))
-                            {
+                    if (file.Name.Contains(".pdf"))
+                    {
                                 <a href="@Url.Action("PDF", new { path = file.Path, fileName = file.Name })" target="_blank">@file.Name</a>
-                            }
-                            else
-                            {
+                    }
+                    else
+                    {
                                 <a href="@Url.Action("Download", new { path = file.Path, fileName = file.Name })">@file.Name</a>
-                            }
+                    }
                             @if (User.IsInRole("Преподаватель") && Model.LecturerName.Contains(User.Identity.Name))
                             {
                                 <a href="@Url.Action("DeleteFile", new { path = file.Path })">Удалить </a>
                             }<br />
-                        }
+                }
                     @:</div>
                     <br />
-                }
+            }
             @:</div>
             <br />
+
+
         }
-
-        //zdes comment iz event
-
-
-
-
+        <p></p>
 
 
     }
@@ -65,40 +62,63 @@
         @:У вас нет доступа к этой странице.
     }
 
-
-    
 </div>
-@if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
-{
-    @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new WebInterfaces.BindingModels.CommentSetBindingModel { DisciplineId = Model.DisciplineId })
-}
 
-@if (Model.Comments.Count != 0)
-{
-    @foreach (var com in Model.Comments)
+<hr />
+@{int i = 0; }
+<div class="comment">
+    @if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
     {
-        @com.DepartmentUser @com.Date<br />
-        @com.Content <br />
-        @if (User.Identity.Name != null && com.DepartmentUser.Contains(User.Identity.Name))
+        <div style="margin:0 0 8px 0">Комментарии:</div>
+
+        @if (Model.Comments.Count != 0)
         {
-            <a href="@Url.Action("DeleteCommentDiscipline", "Comment", new { id = com.Id, disciplineName = Model.Name })"> Удалить </a>
-        }
-        @if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
-        {
-            @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new WebInterfaces.BindingModels.CommentSetBindingModel { DisciplineId = Model.DisciplineId, ParentId = com.Id })
-        }
-        @if (com.commentList.Count != 0)
-        {
-            @foreach (var comChild in com.commentList)
-            {
-                @:Ответ на комметарий @com.DepartmentUser от @comChild.DepartmentUser @comChild.Date <br />
-                @comChild.Content
-                @if (User.Identity.Name != null && comChild.DepartmentUser.Contains(User.Identity.Name))
+            @foreach (var com in Model.Comments)
+            {                   
+                <div class="text-lec" style="margin:8px">@com.Content                     
+                    <b style="font-size:18px; font-weight:normal">
+                        @if (User.Identity.Name != null && com.DepartmentUser.Contains(User.Identity.Name))
+                        {
+                            <a href="@Url.Action("DeleteCommentDiscipline", "Comment", new { id = com.Id, disciplineName = Model.Name })"> Удалить </a>
+                        }
+                    </b>
+                </div>
+                <p align="right"><i style="margin:8px 8px 8px 16px">Пользователь: @com.DepartmentUser - @com.Date</i></p>
+                
+                <div style="margin:0  0 8px 0">
+                    <a href="#hidden2+@i" style="text-decoration:none" onclick="view('hidden2+@i'); return false">Ответить</a>
+                    <div id="hidden2+@i" style="display: none;">
+                        @{i++;}
+                        @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new WebInterfaces.BindingModels.CommentSetBindingModel { DisciplineId = Model.DisciplineId, ParentId = com.Id })                
+                    </div>
+                </div>
+                @if (com.commentList.Count != 0)
                 {
-                    <a href="@Url.Action("DeleteCommentDiscipline", "Comment", new { id = com.Id, disciplineName = Model.Name })"> Удалить </a>
+                    <div style="margin:0  0 8px 38px">
+                        @foreach (var comChild in com.commentList)
+                        {
+                            @comChild.Content
+                            @if (User.Identity.Name != null && comChild.DepartmentUser.Contains(User.Identity.Name))
+                            {
+                                <a href="@Url.Action("DeleteCommentDiscipline", "Comment", new { id = com.Id, disciplineName = Model.Name })"> Удалить </a>
+                            }
+                            <p align="right"><i style="margin:8px 8px 8px 16px">Ответ @com.DepartmentUser от пользователя @comChild.DepartmentUser @comChild.Date <br /></i></p>
+                            <br />
+                        }
+                    </div>
                 }
-                <br />
             }
         }
+        <br/>
+        @:Добавить новый комментарий:
+        @await Html.PartialAsync("~/Views/Comment/AddComment.cshtml", new WebInterfaces.BindingModels.CommentSetBindingModel { DisciplineId = Model.DisciplineId })
+
     }
-}
+</div>
+
+<script>
+        function view(n) {
+        style = document.getElementById(n).style;
+        style.display = (style.display == 'block') ? 'none' : 'block';
+        }
+</script>

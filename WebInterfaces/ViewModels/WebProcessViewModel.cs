@@ -20,7 +20,7 @@ namespace WebInterfaces.ViewModels
 
         public string TimeNormName { get; set; }
 
-        public string Semester { get; set; }
+        public int Semester { get; set; }
     }
 
     public class WebProcessEventWithCommentViewModel

@@ -8,44 +8,50 @@
 
 @if (User.IsInRole("Преподаватель"))
 {
-    <div class="btn btn-default">
-        @Html.ActionLink("Добавить новость", "CreateEvent", null, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
-    </div>
+    <div class="but" >
+        <form asp-action="CreateEvent" asp-controller="Event" method="get">
+            <input type="submit" value="Добавить новость" class="btn btn-default" />
+        </form>
+    </div>    
+
 }
 @if (Model != null)
 {
     @foreach (var ev in Model?.List)
     {
         <p></p>
-        @:Автор: @ev.DepartmentUser
-        @:Дата: @ev.Date <br />
-        @Html.ActionLink(@ev.Title, "Event", new { id = ev.Id })<br />
-        @:Текст: @ev.Content<br />
+        @:Автор: @ev.DepartmentUser от @ev.Date <br />
+        <h2>@Html.ActionLink(@ev.Title, "Event", new { id = ev.Id })</h2><br />
+        <div style="margin:0 0 0 15px"> @ev.Content</div><br />
         @if (User.IsInRole("Преподаватель") && ev.DepartmentUser.Contains(User.Identity.Name))
         {
-            @:<div class="btn btn-default">
-                @Html.ActionLink("Изменить", "EditEvent", new { id = ev.Id })
-            @:</div>
-            @:<div class="btn btn-default">
-                @Html.ActionLink("Удалить", "DeleteEvent", new { id = ev.Id })
-            @:</div>
+
+            <div class="btn btn-default">
+                @Html.ActionLink("Изменить", "EditEvent", new { id = ev.Id }, new { style = "text-decoration:none; color:#333333"})
+            </div>
+            <div class="btn btn-default">
+                @Html.ActionLink("Удалить", "DeleteEvent", new { id = ev.Id, page = Model.CurrentPage}, new { style = "text-decoration:none; color:#333333"})
+            </div>
         }
+
+        <hr />
     }
 
     @*@for (int i = Model.CurrentPage - 4 < 0 ? 0 : Model.CurrentPage - 4; i < Model.MaxCount; i++)
         {
             @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
         }*@
-
-    @for (int i = Model.CurrentPage - 4 < 0 ? 0 : Model.CurrentPage - 4, j = 0; i < Model.MaxCount && j < 10; i++, j++)
-    {
-        if (i == Model.CurrentPage)
+    <p align="center" style="font-size:18px">
+        @for (int i = Model.CurrentPage - 4 < 0 ? 0 : Model.CurrentPage - 4, j = 0; i < Model.MaxCount && j < 10; i++, j++)
         {
-            <div id="pag" style="color:red"> @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })</div>
+            if (i == Model.CurrentPage)
+            {
+                <b id="pag" style="color:#ff6a00;"> @(i+1) </b>
+            }
+            else
+            {
+                @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
+            }
         }
-        else
-        {
-            @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
-        }
-    }
+    </p>
 }

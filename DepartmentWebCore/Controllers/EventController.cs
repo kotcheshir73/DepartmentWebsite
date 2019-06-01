@@ -100,7 +100,7 @@ namespace DepartmentWebCore.Controllers
         }
 
         [Authorize(Roles = "Преподаватель")]
-        public ActionResult DeleteEvent(Guid id)
+        public ActionResult DeleteEvent(Guid id, int page)
         {
             _serviceE.DeleteEvent(new EventGetBindingModel
             {
@@ -108,7 +108,7 @@ namespace DepartmentWebCore.Controllers
             });
 
             FileService.DeleteDirectoryByPathForEvent(id.ToString());
-            return RedirectToAction("Index", "Event");
+            return RedirectToAction("Index", "Event", new { page = page });
         }
 
         public IActionResult Event(Guid id)

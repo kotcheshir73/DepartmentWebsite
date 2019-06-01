@@ -2,7 +2,7 @@
 @if(Model.Count!=0) {
     <p class="text-lec">Преподаваемые дисциплины:</p>
 }
-    <ul>
+    <ul style="margin:0 0 0 10px">
         @foreach (var item in Model)
         {
             <li>@Html.ActionLink(item.DisciplineName, "DisContent", "Discipline", new { id = item.DisciplineName }, null)</li>

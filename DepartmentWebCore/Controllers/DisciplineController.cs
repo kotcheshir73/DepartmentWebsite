@@ -37,29 +37,35 @@ namespace DepartmentWebCore.Controllers
             return View(list);
         }
 
-        [Authorize]
+        
         public ActionResult DisContent(string id)
-        {
-            //if (id != null)
-            //    ViewBag.DisId = id;//TODO:Это не доделано
+        {            
             var dis = Services.DisciplineService.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel() { DisciplineName = id });
-
-            var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
-            { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
-
-            if (tmp.StatusCode == Enums.ResultServiceStatusCode.Error)
+            
+            if(dis.Result.Count != 0)
             {
-                _serviceWP.CreateFolderDis(dis.Result);
-                tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
+                var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
                 { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
-            }
 
-            foreach (var item in dis.Result.Select(x => new { LecturerName = x.LecturerName }).GroupBy(x => x.LecturerName))
+                if (tmp.StatusCode == Enums.ResultServiceStatusCode.Error)
+                {
+                    _serviceWP.CreateFolderDis(dis.Result);
+                    tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
+                    { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
+                }
+
+                foreach (var item in dis.Result.Select(x => new { LecturerName = x.LecturerName }).GroupBy(x => x.LecturerName))
+                {
+                    tmp.Result.LecturerName += item.Key + " ";
+                }
+
+                return View(tmp.Result);
+            }
+            else
             {
-                tmp.Result.LecturerName += item.Key + " ";
+                return RedirectToAction("Error", "Shared", new { message = "Дисциплина не назначена преподавателю" }, null);//Отобразить ошибку "дисциплина не назначена преподавателю"
             }
-
-            return View(tmp.Result);
+            
         }
 
         [Authorize(Roles = "Преподаватель")]
