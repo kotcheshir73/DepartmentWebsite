@@ -37,7 +37,7 @@ namespace ScheduleImplementations.Services
                     if (model.ClassroomId.HasValue)
                     {
                         DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
-                        selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
+                        selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value || x.ConsultationClassroomId == model.ClassroomId.Value);
                     }
                     if (!string.IsNullOrEmpty(model.StudentGroupName))
                     {

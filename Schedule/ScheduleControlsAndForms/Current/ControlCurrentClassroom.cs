@@ -125,7 +125,7 @@ namespace ScheduleControlsAndForms.Current
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                        control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id, ClassroomNumber = classrooms[i].Number });
                         tabControlClassroom.TabPages[i].Controls.Add(control);
                     }
                 }

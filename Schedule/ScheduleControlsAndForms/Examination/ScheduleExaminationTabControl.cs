@@ -55,7 +55,7 @@ namespace ScheduleControlsAndForms.Examination
                             {
                                 Dock = DockStyle.Fill
                             };
-                            control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                            control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id, ClassroomNumber = classrooms[i].Number });
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
                     }

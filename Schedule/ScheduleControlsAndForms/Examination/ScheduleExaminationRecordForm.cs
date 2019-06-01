@@ -62,6 +62,13 @@ namespace ScheduleControlsAndForms.Examination
 				.Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
 			comboBoxClassroom.SelectedItem = null;
 			textBoxClassroom.Text = string.Empty;
+            
+            comboBoxConsultationClassroom.ValueMember = "Value";
+            comboBoxConsultationClassroom.DisplayMember = "Display";
+            comboBoxConsultationClassroom.DataSource = resultS.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
+            comboBoxConsultationClassroom.SelectedItem = null;
+            textBoxConsultationClassroom.Text = string.Empty;
 
             comboBoxDiscipline.ValueMember = "Value";
             comboBoxDiscipline.DisplayMember = "Display";
@@ -98,6 +105,7 @@ namespace ScheduleControlsAndForms.Examination
                 textBoxLessonGroup.Text = entity.LessonGroup;
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
                 textBoxClassroom.Text = entity.LessonClassroom;
+                textBoxConsultationClassroom.Text = entity.LessonConsultationClassroom;
 
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
                 dateTimePickerDateExamination.Value = entity.DateExamination;
@@ -118,6 +126,10 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
                 }
+                if(entity.ConsultationClassroomId.HasValue)
+                {
+                    comboBoxConsultationClassroom.SelectedValue = entity.ConsultationClassroomId;
+                }
 
                 dateTimePickerDateConsultation.Enabled = false;
                 dateTimePickerDateExamination.Enabled = false;
@@ -126,7 +138,7 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ComboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text) && comboBoxDiscipline.SelectedIndex > -1)
+            if (comboBoxDiscipline.SelectedIndex > -1)
             {
                 textBoxLessonDiscipline.Text = comboBoxDiscipline.Text;
             }
@@ -134,7 +146,7 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ComboBoxLecturer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text) && comboBoxLecturer.SelectedIndex > -1)
+            if (comboBoxLecturer.SelectedIndex > -1)
             {
                 textBoxLessonLecturer.Text = comboBoxLecturer.Text;
             }
@@ -142,7 +154,7 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ComboBoxStudentGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxStudentGroup.SelectedIndex > -1)
+            if (comboBoxStudentGroup.SelectedIndex > -1)
             {
                 textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
             }
@@ -150,9 +162,17 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxClassroom.Text) && comboBoxClassroom.SelectedIndex > -1)
+            if (comboBoxClassroom.SelectedIndex > -1)
             {
                 textBoxClassroom.Text = comboBoxClassroom.Text;
+            }
+        }
+
+        private void СomboBoxConsultationClassroom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxConsultationClassroom.SelectedIndex > -1)
+            {
+                textBoxConsultationClassroom.Text = comboBoxConsultationClassroom.Text;
             }
         }
 
@@ -201,6 +221,11 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
                 }
+                Guid? consultaionClassroomId = null;
+                if (comboBoxConsultationClassroom.SelectedValue != null)
+                {
+                    consultaionClassroomId = new Guid(comboBoxConsultationClassroom.SelectedValue.ToString());
+                }
                 ResultService result;
                 if (!_id.HasValue)
                 {
@@ -213,11 +238,13 @@ namespace ScheduleControlsAndForms.Examination
                         LessonLecturer = textBoxLessonLecturer.Text,
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
+                         LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
-                        StudentGroupId = studentGroupId
+                        StudentGroupId = studentGroupId,
+                        ConsultationClassroomId = consultaionClassroomId
                     });
                 }
                 else
@@ -232,11 +259,13 @@ namespace ScheduleControlsAndForms.Examination
                         LessonLecturer = textBoxLessonLecturer.Text,
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
+                        LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
-                        StudentGroupId = studentGroupId
+                        StudentGroupId = studentGroupId,
+                        ConsultationClassroomId = consultaionClassroomId
                     });
                 }
                 if (result.Succeeded)
