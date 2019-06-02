@@ -1041,5 +1041,52 @@ namespace LearningProgressImplementations.Implementations
                 return ResultService<List<DisciplineLessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+        public ResultService<List<GetFinalResultsOfGroupViewModel>> GetFinalResultsOfGroup(GetFinalResultsOfGroupBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var students = context.Students.Where(x => x.StudentGroupId == model.StudentGroupId && !x.IsDeleted).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+                    List<GetFinalResultsOfGroupViewModel> list = new List<GetFinalResultsOfGroupViewModel>();
+                    Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+
+                    foreach (var student in students)
+                    {
+                        var conductedBall = context.DisciplineLessonConductedStudents
+                                            .Include(x => x.DisciplineLessonConducted.DisciplineLesson.TimeNorm)
+                                            .Where(x => !x.IsDeleted &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.AcademicYearId == model.AcademicYearId &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.DisciplineId == model.DisciplineId &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.Semester == sem &&
+                                                        x.StudentId == student.Id)
+                                            .Sum(x => x.Ball);
+
+                        var taskBall = context.DisciplineLessonTaskStudentAccepts
+                                            .Include(x => x.DisciplineLessonTask.DisciplineLesson.TimeNorm)
+                                            .Where(x => !x.IsDeleted &&
+                                                        x.DisciplineLessonTask.DisciplineLesson.AcademicYearId == model.AcademicYearId &&
+                                                        x.DisciplineLessonTask.DisciplineLesson.DisciplineId == model.DisciplineId &&
+                                                        x.DisciplineLessonTask.DisciplineLesson.Semester == sem &&
+                                                        x.StudentId == student.Id)
+                                            .Sum(x => x.Score);
+
+                        list.Add(new GetFinalResultsOfGroupViewModel
+                        {
+                            Student = $"{student.LastName} {student.FirstName}",
+                            ConductedBall = conductedBall.Value,
+                            TaskBall = taskBall
+                        });
+                    }
+
+                    return ResultService<List<GetFinalResultsOfGroupViewModel>>.Success(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<GetFinalResultsOfGroupViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
     }
 }

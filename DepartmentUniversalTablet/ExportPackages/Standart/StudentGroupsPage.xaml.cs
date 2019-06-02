@@ -78,9 +78,10 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
                 foreach (var item in result.Result.List)
                 {
-                    button1 = new Button();
+                    button1 = new Button { HorizontalAlignment = HorizontalAlignment.Stretch };
                     button1.Content = item;
                     button1.Click += button_Click;
+
                     grid.Children.Add(button1);
                 }
             }
@@ -107,7 +108,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
         private void button_Click(object sender, RoutedEventArgs e)
         {
             bindingModel.StudentGroupId = ((StudentGroupViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplineLessonsPage), bindingModel);
+            Frame.Navigate(typeof(TimeNormsPage), bindingModel);
         }
     }
 }

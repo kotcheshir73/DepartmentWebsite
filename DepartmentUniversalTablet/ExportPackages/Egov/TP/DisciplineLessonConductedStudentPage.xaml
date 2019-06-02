@@ -20,7 +20,7 @@
             <Slider x:Name="ball" Minimum="-1" Maximum="1"  Orientation="Horizontal" Value="{Binding Ball, Mode=TwoWay, TargetNullValue = 1}"
                     Margin="10" TickFrequency="3" TickPlacement="Outside"/>
                     <!---->
-            <TextBox MaxLength="400" Text="{Binding Comment, Mode=TwoWay}" IsSpellCheckEnabled="True" PlaceholderText="Введите комментарий..." Height="40" Margin="10"/>
+            <TextBox MaxLength="500" Text="{Binding Comment, Mode=TwoWay}" TextWrapping="Wrap" IsSpellCheckEnabled="True" PlaceholderText="Введите комментарий..." Margin="10"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

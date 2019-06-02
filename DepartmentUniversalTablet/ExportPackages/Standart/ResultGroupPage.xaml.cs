@@ -16,23 +16,20 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Unity;
 using LearningProgressInterfaces.BindingModels;
-using Tools;
-using BaseInterfaces.ViewModels;
-using LearningProgressInterfaces.ViewModels;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace DepartmentUniversalTablet.ExportPackages.Standart
 {
     /// <summary>
-    /// Страница выбора типа занятий.
+    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class TimeNormsPage : Page
+    public sealed partial class ResultGroupPage : Page
     {
         private ILearningProgressProcess _serviceLP;
         private FullDisciplineLessonConductedBindingModel bindingModel;
 
-        public TimeNormsPage()
+        public ResultGroupPage()
         {
             this.InitializeComponent();
 
@@ -44,27 +41,21 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                var result = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+                var result = _serviceLP.GetFinalResultsOfGroup(new GetFinalResultsOfGroupBindingModel
                 {
                     AcademicYearId = bindingModel.AcademicYearId,
                     DisciplineId = bindingModel.DisciplineId,
-                    EducationDirectionId = bindingModel.EducationDirectionId,
-                    UserId = DepartmentUserManager.UserId.Value,
-                    Semester = bindingModel.Semester
+                    Semester = bindingModel.Semester,
+                    StudentGroupId = bindingModel.StudentGroupId
                 });
                 if (!result.Succeeded)
                 {
                     throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
                 }
 
-                Button button1;
-
                 foreach (var item in result.Result)
                 {
-                    button1 = new Button();
-                    button1.Content = item;
-                    button1.Click += button_Click;
-                    grid.Children.Add(button1);
+                    grid.Children.Add(new TextBlock { FontSize=22, TextAlignment = TextAlignment.Center, Text = $"{item.Student}: {item.ConductedBall}" });
                 }
             }
             catch (Exception ex)
@@ -85,17 +76,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
                         Frame.GoBack();
                 }
             }
-        }
-
-        private void button_OpenResult(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ResultGroupPage), bindingModel);
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            bindingModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplineLessonsPage), bindingModel);
         }
     }
 }

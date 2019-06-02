@@ -140,6 +140,9 @@
       <DependentUpon>DisciplineLessonsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportPackages\Standart\ExportPackage.cs" />
+    <Compile Include="ExportPackages\Standart\ResultGroupPage.xaml.cs">
+      <DependentUpon>ResultGroupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Standart\StudentGroupsPage.xaml.cs">
       <DependentUpon>StudentGroupsPage.xaml</DependentUpon>
     </Compile>
@@ -235,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportPackages\Standart\DisciplineLessonsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Standart\ResultGroupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

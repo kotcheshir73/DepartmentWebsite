@@ -202,4 +202,15 @@ namespace LearningProgressInterfaces.BindingModels
 
         public string Semester { get; set; }
     }
+
+    public class GetFinalResultsOfGroupBindingModel
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid DisciplineId { get; set; }
+
+        public Guid StudentGroupId { get; set; }
+
+        public string Semester { get; set; }
+    }
 }

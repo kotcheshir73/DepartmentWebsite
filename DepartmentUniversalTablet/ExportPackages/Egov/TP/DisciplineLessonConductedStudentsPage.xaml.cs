@@ -59,13 +59,13 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
                 foreach (var item in dataContext)
                 {
                     button1 = new Button();
-                
-                    var ComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Явка", Margin = new Thickness(5), Tag = item.Id };
-                    ComeRadioButton.Checked += radioButton_Checked;
-                    var NotComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Не явка", Margin = new Thickness(5), Tag = item.Id };
-                    NotComeRadioButton.Checked += radioButton_Checked;
-                    var PassRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Пропуск", Margin = new Thickness(5), Tag = item.Id };
+
+                    var PassRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Пропуск", Margin = new Thickness(2), Tag = item.Id };
                     PassRadioButton.Checked += radioButton_Checked;
+                    var NotComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Не явка", Margin = new Thickness(2), Tag = item.Id };
+                    NotComeRadioButton.Checked += radioButton_Checked;
+                    var ComeRadioButton = new RadioButton { GroupName = "Status" + item.Id, Content = "Явка", Margin = new Thickness(2), Tag = item.Id };
+                    ComeRadioButton.Checked += radioButton_Checked;
 
                     switch (item.Status)
                     {
@@ -80,7 +80,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
                             break;
                     }
 
-                    var StackPanelRadioButton = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(5) };
+                    var StackPanelRadioButton = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Stretch, Margin = new Thickness(3) };
                     StackPanelRadioButton.Children.Add(ComeRadioButton);
                     StackPanelRadioButton.Children.Add(NotComeRadioButton);
                     StackPanelRadioButton.Children.Add(PassRadioButton);
@@ -88,7 +88,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
                     button1.Content = item;
                     button1.Click += button_Click;
 
-                    var StackPanel = new StackPanel { Margin = new Thickness(5), HorizontalAlignment = HorizontalAlignment.Stretch };
+                    var StackPanel = new StackPanel { Margin = new Thickness(20), HorizontalAlignment = HorizontalAlignment.Stretch };
                     StackPanel.Children.Add(button1);
                     StackPanel.Children.Add(StackPanelRadioButton);
 
