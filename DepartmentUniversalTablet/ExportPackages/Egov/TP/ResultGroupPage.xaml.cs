@@ -61,7 +61,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
                 foreach (var item in result.Result)
                 {
                     grid.Children.Add(new TextBlock { FontSize = 22, Text = $"{item.Student}", Width = 230, Margin = new Thickness(10) });
-                    grid.Children.Add(new TextBlock { FontSize = 22, Text = $"{item.ConductedBall}/{item.TaskBall}", Width = 50, Margin = new Thickness(10) });
+                    grid.Children.Add(new TextBlock { FontSize = 22, Text = $"{Math.Round(item.ConductedBall, 2)}/{Math.Round(item.TaskBall, 2)}", Width = 100, Margin = new Thickness(10) });
                 }
             }
             catch (Exception ex)
