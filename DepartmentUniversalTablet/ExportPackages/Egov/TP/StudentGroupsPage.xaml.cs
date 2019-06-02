@@ -103,7 +103,7 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
         private void button_Click(object sender, RoutedEventArgs e)
         {
             bindingModel.StudentGroupId = ((StudentGroupViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(TypeOfActivitysPage), bindingModel);
+            Frame.Navigate(typeof(TimeNormsPage), bindingModel);
         }
     }
 }

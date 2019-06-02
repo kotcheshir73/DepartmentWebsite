@@ -16,27 +16,29 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Unity;
 using LearningProgressInterfaces.BindingModels;
-using Tools;
-using BaseInterfaces.ViewModels;
-using LearningProgressInterfaces.ViewModels;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 {
     /// <summary>
-    /// Страница выбора типа занятий.
+    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class TimeNormsPage : Page
+    public sealed partial class ResultGroupPage : Page
     {
         private ILearningProgressProcess _serviceLP;
         private FullDisciplineLessonConductedBindingModel bindingModel;
 
-        public TimeNormsPage()
+        public ResultGroupPage()
         {
             this.InitializeComponent();
 
             _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,23 +46,22 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
             try
             {
                 bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
-                var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+                var result = _serviceLP.GetFinalResultsOfGroup(new GetFinalResultsOfGroupBindingModel
                 {
                     AcademicYearId = bindingModel.AcademicYearId,
                     DisciplineId = bindingModel.DisciplineId,
-                    EducationDirectionId = bindingModel.EducationDirectionId,
-                    UserId = DepartmentUserManager.UserId.Value,
-                    Semester = bindingModel.Semester
-                }).Result;
-
-                Button button1;
-
-                foreach (var item in list)
+                    Semester = bindingModel.Semester,
+                    StudentGroupId = bindingModel.StudentGroupId
+                });
+                if (!result.Succeeded)
                 {
-                    button1 = new Button();
-                    button1.Content = item;
-                    button1.Click += button_Click;
-                    grid.Children.Add(button1);
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
+
+                foreach (var item in result.Result)
+                {
+                    grid.Children.Add(new TextBlock { FontSize = 22, Text = $"{item.Student}", Width = 230, Margin = new Thickness(10) });
+                    grid.Children.Add(new TextBlock { FontSize = 22, Text = $"{item.ConductedBall}/{item.TaskBall}", Width = 50, Margin = new Thickness(10) });
                 }
             }
             catch (Exception ex)
@@ -81,17 +82,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
                         Frame.GoBack();
                 }
             }
-        }
-
-        private void button_OpenResult(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ResultGroupPage), bindingModel);
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            bindingModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(TypeOfActivitysPage), bindingModel);
         }
     }
 }

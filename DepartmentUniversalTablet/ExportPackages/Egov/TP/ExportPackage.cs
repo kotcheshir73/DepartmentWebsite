@@ -28,6 +28,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 
         public string Lecturer => "Эгов Е.Н.";
 
-        public Type GetUI => typeof(TimeNormsPage);
+        public Type GetUI => typeof(StudentGroupsPage);
     }
 }

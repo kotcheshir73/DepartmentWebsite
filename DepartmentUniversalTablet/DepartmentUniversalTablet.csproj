@@ -117,6 +117,9 @@
     <Compile Include="ExportPackages\Egov\TP\DisciplineLessonTaskStudentsPage.xaml.cs">
       <DependentUpon>DisciplineLessonTaskStudentsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportPackages\Egov\TP\ResultGroupPage.xaml.cs">
+      <DependentUpon>ResultGroupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportPackages\Egov\TP\TypeOfActivitysPage.xaml.cs">
       <DependentUpon>TypeOfActivitysPage.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,10 @@
     <Page Include="ExportPackages\Egov\TP\DisciplineLessonTaskStudentsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportPackages\Egov\TP\ResultGroupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ExportPackages\Egov\TP\TypeOfActivitysPage.xaml">
       <SubType>Designer</SubType>
