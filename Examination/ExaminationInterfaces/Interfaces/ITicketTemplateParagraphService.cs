@@ -7,35 +7,35 @@ namespace ExaminationInterfaces.Interfaces
     public interface ITicketTemplateParagraphService
     {
         /// <summary>
-		/// Получение списка строк параграфа
+		/// Получение списка параграфов
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<TicketTemplateParagraphPageViewModel> GetTicketTemplateParagraphs(TicketTemplateParagraphGetBindingModel model);
 
         /// <summary>
-		/// Получение строки параграфа
+		/// Получение параграфа
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService<TicketTemplateParagraphViewModel> GetTicketTemplateParagraph(TicketTemplateParagraphGetBindingModel model);
 
         /// <summary>
-        /// Создание строки параграфа
+        /// Создание параграфа
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService CreateTicketTemplateParagraph(TicketTemplateParagraphSetBindingModel model);
 
         /// <summary>
-        /// Изменение строки параграфа
+        /// Изменение параграфа
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService UpdateTicketTemplateParagraph(TicketTemplateParagraphSetBindingModel model);
 
         /// <summary>
-        /// Удаление строки параграфа
+        /// Удаление параграфа
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

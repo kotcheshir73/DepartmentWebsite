@@ -9,7 +9,7 @@ namespace Models.Examination
     /// Класс отвечает за абзац в документе
     /// </summary>
     [DataContract]
-    public class TicketTemplateParagraph : BaseEntity
+    public class TicketTemplateParagraph : IdEntity
     {
         [DataMember]
         public Guid? TicketTemplateBodyId { get; set; }

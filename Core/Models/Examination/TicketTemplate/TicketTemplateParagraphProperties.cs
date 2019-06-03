@@ -8,7 +8,7 @@ namespace Models.Examination
     /// Свойства абзаца, которые нас могут инетерсовать
     /// </summary>
     [DataContract]
-    public class TicketTemplateParagraphProperties : BaseEntity
+    public class TicketTemplateParagraphProperties : IdEntity
     {
         [DataMember]
         [ForeignKey("TicketTemplateParagraph")]

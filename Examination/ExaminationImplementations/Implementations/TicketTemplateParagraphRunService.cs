@@ -11,9 +11,9 @@ namespace ExaminationImplementations.Implementations
 {
     public class TicketTemplateParagraphRunService : ITicketTemplateParagraphRunService
     {
-        private readonly AccessOperation _serviceOperation = AccessOperation.СоставлениеЭкзаменов;
+        private readonly AccessOperation _serviceOperation = AccessOperation.ШаблоныБилетов;
 
-        private readonly string _entity = "Составление Экзаменов";
+        private readonly string _entity = "Шаблоны Билетов";
 
         public ResultService<TicketTemplateParagraphRunPageViewModel> GetTicketTemplateParagraphRuns(TicketTemplateParagraphRunGetBindingModel model)
         {
@@ -24,7 +24,7 @@ namespace ExaminationImplementations.Implementations
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.TicketTemplateParagraphRuns.Where(x => !x.IsDeleted).AsQueryable();
+                    var query = context.TicketTemplateParagraphRuns.AsQueryable();
 
                     if (model.TicketTemplateParagraphId.HasValue)
                     {
@@ -78,10 +78,6 @@ namespace ExaminationImplementations.Implementations
                     {
                         return ResultService<TicketTemplateParagraphRunViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    else if (entity.IsDeleted)
-                    {
-                        return ResultService<TicketTemplateParagraphRunViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
-                    }
 
                     return ResultService<TicketTemplateParagraphRunViewModel>.Success(ExaminationModelFactoryToViewModel.CreateTicketTemplateParagraphRunViewModel(entity));
                 }
@@ -112,20 +108,7 @@ namespace ExaminationImplementations.Implementations
                     }
                     else
                     {
-                        if (exsistEntity.IsDeleted)
-                        {
-                            exsistEntity.IsDeleted = false;
-                            if (exsistEntity.TicketTemplateParagraphRunProperties != null)
-                            {
-                                exsistEntity.TicketTemplateParagraphRunProperties.IsDeleted = false;
-                            }
-                            context.SaveChanges();
-                            return ResultService.Success(exsistEntity.Id);
-                        }
-                        else
-                        {
-                            return ResultService.Error("Error:", "Элемент уже существует", ResultServiceStatusCode.ExsistItem);
-                        }
+                        return ResultService.Error("Error:", "Элемент уже существует", ResultServiceStatusCode.ExsistItem);
                     }
                 }
             }
@@ -147,10 +130,6 @@ namespace ExaminationImplementations.Implementations
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
-                    }
-                    else if (entity.IsDeleted)
-                    {
-                        return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
                     entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplateParagraphRun(model, entity);

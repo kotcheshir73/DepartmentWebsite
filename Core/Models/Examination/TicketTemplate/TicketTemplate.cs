@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Models.Examination
 {
     [DataContract]
-    public class TicketTemplate : BaseEntity
+    public class TicketTemplate : IdEntity
     {
         [DataMember]
         public Guid? TicketTemplateBodyId { get; set; }

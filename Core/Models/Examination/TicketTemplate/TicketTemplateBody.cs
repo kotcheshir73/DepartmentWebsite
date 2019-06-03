@@ -9,7 +9,7 @@ namespace Models.Examination
     /// Класс описывает тело документа
     /// </summary>
     [DataContract]
-    public class TicketTemplateBody : BaseEntity
+    public class TicketTemplateBody : IdEntity
     {
         [DataMember]
         [ForeignKey("TicketTemplate")]

@@ -9,20 +9,20 @@ using Tools;
 
 namespace ExaminationImplementations.Implementations
 {
-    public class TicketTemplateParagraphService : ITicketTemplateParagraphService
+    public class TicketTemplateBodyService : ITicketTemplateBodyService
     {
         private readonly AccessOperation _serviceOperation = AccessOperation.ШаблоныБилетов;
 
         private readonly string _entity = "Шаблоны Билетов";
 
-        private readonly ITicketTemplateParagraphRunService _runService;
+        private readonly ITicketTemplateParagraphService _paragraphService;
 
-        public TicketTemplateParagraphService(ITicketTemplateParagraphRunService runService)
+        public TicketTemplateBodyService(ITicketTemplateParagraphService paragraphService)
         {
-            _runService = runService;
+            _paragraphService = paragraphService;
         }
 
-        public ResultService<TicketTemplateParagraphPageViewModel> GetTicketTemplateParagraphs(TicketTemplateParagraphGetBindingModel model)
+        public ResultService<TicketTemplateBodyPageViewModel> GetTicketTemplateBodys(TicketTemplateBodyGetBindingModel model)
         {
             try
             {
@@ -31,11 +31,11 @@ namespace ExaminationImplementations.Implementations
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.TicketTemplateParagraphs.AsQueryable();
+                    var query = context.TicketTemplateBodies.AsQueryable();
 
-                    if (model.TicketTemplateBodyId.HasValue)
+                    if (model.TicketTemplateId.HasValue)
                     {
-                        query = query.Where(x => x.TicketTemplateBodyId == model.TicketTemplateBodyId);
+                        query = query.Where(x => x.TicketTemplateId == model.TicketTemplateId);
                     }
 
                     if (model.Id.HasValue)
@@ -53,24 +53,24 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.TicketTemplateParagraphProperties).Include(x => x.TicketTemplateParagraphRuns);
+                    query = query.Include(x => x.TicketTemplateBodyProperties).Include(x => x.TicketTemplateParagraphs).Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns");
 
-                    var result = new TicketTemplateParagraphPageViewModel
+                    var result = new TicketTemplateBodyPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ExaminationModelFactoryToViewModel.CreateTicketTemplateParagraphViewModel).ToList()
+                        List = query.Select(ExaminationModelFactoryToViewModel.CreateTicketTemplateBodyViewModel).ToList()
                     };
 
-                    return ResultService<TicketTemplateParagraphPageViewModel>.Success(result);
+                    return ResultService<TicketTemplateBodyPageViewModel>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<TicketTemplateParagraphPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<TicketTemplateBodyPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService<TicketTemplateParagraphViewModel> GetTicketTemplateParagraph(TicketTemplateParagraphGetBindingModel model)
+        public ResultService<TicketTemplateBodyViewModel> GetTicketTemplateBody(TicketTemplateBodyGetBindingModel model)
         {
             try
             {
@@ -78,25 +78,26 @@ namespace ExaminationImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.TicketTemplateParagraphs
-                                .Include(x => x.TicketTemplateParagraphProperties)
-                                .Include(x => x.TicketTemplateParagraphRuns)
+                    var entity = context.TicketTemplateBodies
+                                .Include(x => x.TicketTemplateBodyProperties)
+                                .Include(x => x.TicketTemplateParagraphs)
+                                .Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns")
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<TicketTemplateParagraphViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<TicketTemplateBodyViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
 
-                    return ResultService<TicketTemplateParagraphViewModel>.Success(ExaminationModelFactoryToViewModel.CreateTicketTemplateParagraphViewModel(entity));
+                    return ResultService<TicketTemplateBodyViewModel>.Success(ExaminationModelFactoryToViewModel.CreateTicketTemplateBodyViewModel(entity));
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<TicketTemplateParagraphViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<TicketTemplateBodyViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService CreateTicketTemplateParagraph(TicketTemplateParagraphSetBindingModel model)
+        public ResultService CreateTicketTemplateBody(TicketTemplateBodySetBindingModel model)
         {
             try
             {
@@ -104,13 +105,13 @@ namespace ExaminationImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplateParagraph(model);
+                    var entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplateBody(model);
 
-                    var exsistEntity = context.TicketTemplateParagraphs.Include(x => x.TicketTemplateParagraphProperties)
-                                                    .FirstOrDefault(x => x.TicketTemplateBodyId == entity.TicketTemplateBodyId && x.Order == model.Order);
+                    var exsistEntity = context.TicketTemplateBodies.Include(x => x.TicketTemplateBodyProperties)
+                                                    .FirstOrDefault(x => x.TicketTemplateId == entity.TicketTemplateId);
                     if (exsistEntity == null)
                     {
-                        context.TicketTemplateParagraphs.Add(entity);
+                        context.TicketTemplateBodies.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -126,7 +127,7 @@ namespace ExaminationImplementations.Implementations
             }
         }
 
-        public ResultService UpdateTicketTemplateParagraph(TicketTemplateParagraphSetBindingModel model)
+        public ResultService UpdateTicketTemplateBody(TicketTemplateBodySetBindingModel model)
         {
             try
             {
@@ -134,13 +135,13 @@ namespace ExaminationImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.TicketTemplateParagraphs.Include(x => x.TicketTemplateParagraphProperties).FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.TicketTemplateBodies.Include(x => x.TicketTemplateBodyProperties).FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
 
-                    entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplateParagraph(model, entity);
+                    entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplateBody(model, entity);
 
                     context.SaveChanges();
 
@@ -153,7 +154,7 @@ namespace ExaminationImplementations.Implementations
             }
         }
 
-        public ResultService DeleteTicketTemplateParagraph(TicketTemplateParagraphGetBindingModel model)
+        public ResultService DeleteTicketTemplateBody(TicketTemplateBodyGetBindingModel model)
         {
             try
             {
@@ -162,27 +163,27 @@ namespace ExaminationImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 using (var transation = context.Database.BeginTransaction())
                 {
-                    var entity = context.TicketTemplateParagraphs.Include(x => x.TicketTemplateParagraphProperties).Include(x => x.TicketTemplateParagraphRuns).FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.TicketTemplateBodies.Include(x => x.TicketTemplateBodyProperties).Include(x => x.TicketTemplateParagraphs).FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
 
-                    if (entity.TicketTemplateParagraphProperties != null)
+                    if (entity.TicketTemplateBodyProperties != null)
                     {
-                        context.TicketTemplateParagraphProperties.Remove(entity.TicketTemplateParagraphProperties);
+                        context.TicketTemplateBodyProperties.Remove(entity.TicketTemplateBodyProperties);
                         context.SaveChanges();
                     }
 
-                    if (entity.TicketTemplateParagraphRuns != null)
+                    if (entity.TicketTemplateParagraphs != null)
                     {
-                        foreach (var run in entity.TicketTemplateParagraphRuns)
+                        foreach (var run in entity.TicketTemplateParagraphs)
                         {
-                            _runService.DeleteTicketTemplateParagraphRun(new TicketTemplateParagraphRunGetBindingModel { Id = run.Id });
+                            _paragraphService.DeleteTicketTemplateParagraph(new TicketTemplateParagraphGetBindingModel { Id = run.Id });
                         }
                     }
 
-                    context.TicketTemplateParagraphs.Remove(entity);
+                    context.TicketTemplateBodies.Remove(entity);
                     context.SaveChanges();
 
                     transation.Commit();

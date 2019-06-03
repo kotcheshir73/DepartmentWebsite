@@ -149,6 +149,10 @@ namespace ExaminationImplementations
             if (entity == null)
             {
                 entity = new TicketTemplateBody();
+                if (model.TicketTemplateBodyPropertiesSetBindingModel != null)
+                {
+                    model.TicketTemplateBodyPropertiesSetBindingModel.TicketTemplateBodyId = entity.Id;
+                }
             }
 
             entity.TicketTemplateId = model.TicketTemplateId;
@@ -156,6 +160,10 @@ namespace ExaminationImplementations
             if (model.TicketTemplateBodyPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateBodyProperties = CreateTicketTemplateBodyProperties(model.TicketTemplateBodyPropertiesSetBindingModel, entity.TicketTemplateBodyProperties);
+                if (!entity.TicketTemplateBodyPropertiesId.HasValue)
+                {
+                    entity.TicketTemplateBodyPropertiesId = entity.TicketTemplateBodyProperties.Id;
+                }
             }
             if (model.TicketTemplateParagraphSetBindingModels != null && model.TicketTemplateParagraphSetBindingModels.Count > 0)
             {
@@ -212,6 +220,10 @@ namespace ExaminationImplementations
             if (model.TicketTemplateParagraphPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateParagraphProperties = CreateTicketTemplateParagraphProperties(model.TicketTemplateParagraphPropertiesSetBindingModel, entity.TicketTemplateParagraphProperties);
+                if (!entity.TicketTemplateParagraphPropertiesId.HasValue)
+                {
+                    entity.TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphProperties.Id;
+                }
             }
             if (model.TicketTemplateParagraphRunSetBindingModels != null && model.TicketTemplateParagraphRunSetBindingModels.Count > 0)
             {
@@ -222,10 +234,6 @@ namespace ExaminationImplementations
                 foreach (var elem in model.TicketTemplateParagraphRunSetBindingModels)
                 {
                     entity.TicketTemplateParagraphRuns.Add(CreateTicketTemplateParagraphRun(elem, entity.TicketTemplateParagraphRuns.FirstOrDefault(x => x.Id == elem.Id)));
-                    if (!entity.TicketTemplateParagraphPropertiesId.HasValue)
-                    {
-                        entity.TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphProperties.Id;
-                    }
                 }
             }
 

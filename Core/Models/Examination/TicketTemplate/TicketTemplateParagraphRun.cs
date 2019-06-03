@@ -7,7 +7,7 @@ namespace Models.Examination
     /// Строка в документе
     /// </summary>
     [DataContract]
-    public class TicketTemplateParagraphRun : BaseEntity
+    public class TicketTemplateParagraphRun : IdEntity
     {
         [DataMember]
         public Guid TicketTemplateParagraphId { get; set; }

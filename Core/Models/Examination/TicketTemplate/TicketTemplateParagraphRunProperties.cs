@@ -8,7 +8,7 @@ namespace Models.Examination
     /// Свойства строки
     /// </summary>
     [DataContract]
-    public class TicketTemplateParagraphRunProperties : BaseEntity
+    public class TicketTemplateParagraphRunProperties : IdEntity
     {
         [DataMember]
         [ForeignKey("TicketTemplateParagraphRun")]
