@@ -88,7 +88,7 @@ namespace ScheduleImplementations.Services
                 {
                     var entity = context.ExaminationRecords
                                 .Where(x => x.Id == model.Id)
-                                .Include(x => x.Classroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
+                                .Include(x => x.Classroom).Include(x => x.ConsultationClassroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

@@ -205,7 +205,7 @@ namespace ScheduleServiceImplementations.Helpers
                     var currentdate = Convert.ToDateTime(currentDates.DateBeginExamination);
                     var days = (Convert.ToDateTime(currentDates.DateEndExamination) - currentdate).Days;
 
-                    var list = records.Where(rec => rec.LessonClassroom == model.Classrooms[i]).ToList();
+                    var list = records.Where(rec => rec.LessonClassroom == model.Classrooms[i] || rec.LessonConsultationClassroom == model.Classrooms[i]).ToList();
 
 
                     for (int k = 0; k < days; k++)
@@ -226,13 +226,12 @@ namespace ScheduleServiceImplementations.Helpers
                             switch (r)
                             {
                                 case 0:
-                                    if (list.Exists(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                        times[0].DateBeginLesson.Hour))
+                                    var recordFirstExam = list.FirstOrDefault(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour == times[0].DateBeginLesson.Hour &&
+                                                                                rec.LessonClassroom == model.Classrooms[i]);
+                                    if (recordFirstExam != null)
                                     {
-                                        var record = list.Find(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                                    times[0].DateBeginLesson.Hour);
                                         writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                                            recordFirstExam.LessonDiscipline, recordFirstExam.LessonLecturer, recordFirstExam.LessonGroup));
                                     }
                                     else
                                     {
@@ -240,13 +239,12 @@ namespace ScheduleServiceImplementations.Helpers
                                     }
                                     break;
                                 case 1:
-                                    if (list.Exists(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                        times[1].DateBeginLesson.Hour))
+                                    var recordSecondExam = list.FirstOrDefault(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour == times[1].DateBeginLesson.Hour &&
+                                                                                rec.LessonClassroom == model.Classrooms[i]);
+                                    if (recordSecondExam != null)
                                     {
-                                        var record = list.Find(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour ==
-                                                                                                                    times[1].DateBeginLesson.Hour);
                                         writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                                            recordSecondExam.LessonDiscipline, recordSecondExam.LessonLecturer, recordSecondExam.LessonGroup));
                                     }
                                     else
                                     {
@@ -254,13 +252,12 @@ namespace ScheduleServiceImplementations.Helpers
                                     }
                                     break;
                                 case 2:
-                                    if (list.Exists(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                            times[2].DateBeginLesson.Hour))
+                                    var recordFirstConsult = list.FirstOrDefault(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour == times[2].DateBeginLesson.Hour &&
+                            ((rec.LessonClassroom == model.Classrooms[i] && string.IsNullOrEmpty(rec.LessonConsultationClassroom)) || rec.LessonConsultationClassroom == model.Classrooms[i]));
+                                    if (recordFirstConsult != null)
                                     {
-                                        var record = list.Find(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                                        times[2].DateBeginLesson.Hour);
                                         writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                                            recordFirstConsult.LessonDiscipline, recordFirstConsult.LessonLecturer, recordFirstConsult.LessonGroup));
                                     }
                                     else
                                     {
@@ -268,13 +265,12 @@ namespace ScheduleServiceImplementations.Helpers
                                     }
                                     break;
                                 case 3:
-                                    if (list.Exists(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                            times[3].DateBeginLesson.Hour))
+                                    var recordSecondConsult = list.FirstOrDefault(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour == times[3].DateBeginLesson.Hour &&
+                            ((rec.LessonClassroom == model.Classrooms[i] && string.IsNullOrEmpty(rec.LessonConsultationClassroom)) || rec.LessonConsultationClassroom == model.Classrooms[i]));
+                                    if (recordSecondConsult != null)
                                     {
-                                        var record = list.Find(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour ==
-                                                                                                                        times[3].DateBeginLesson.Hour);
                                         writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                                            recordSecondConsult.LessonDiscipline, recordSecondConsult.LessonLecturer, recordSecondConsult.LessonGroup));
                                     }
                                     else
                                     {

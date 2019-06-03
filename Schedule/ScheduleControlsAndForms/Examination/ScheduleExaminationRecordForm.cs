@@ -27,12 +27,12 @@ namespace ScheduleControlsAndForms.Examination
         }
 
         private void ScheduleExaminationRecordForm_Load(object sender, EventArgs e)
-		{
-			var resultS = _process.GetClassrooms(new ClassroomGetBindingModel { });
-			if (!resultS.Succeeded)
-			{
+        {
+            var resultS = _process.GetClassrooms(new ClassroomGetBindingModel { });
+            if (!resultS.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
-				return;
+                return;
             }
 
             var resultD = _process.GetDisciplines(new DisciplineGetBindingModel { });
@@ -49,20 +49,20 @@ namespace ScheduleControlsAndForms.Examination
                 return;
             }
 
-			var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { } );
-			if (!resultSG.Succeeded)
-			{
+            var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
+            if (!resultSG.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-				return;
-			}
+                return;
+            }
 
-			comboBoxClassroom.ValueMember = "Value";
-			comboBoxClassroom.DisplayMember = "Display";
-			comboBoxClassroom.DataSource = resultS.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
-			comboBoxClassroom.SelectedItem = null;
-			textBoxClassroom.Text = string.Empty;
-            
+            comboBoxClassroom.ValueMember = "Value";
+            comboBoxClassroom.DisplayMember = "Display";
+            comboBoxClassroom.DataSource = resultS.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
+            comboBoxClassroom.SelectedItem = null;
+            textBoxClassroom.Text = string.Empty;
+
             comboBoxConsultationClassroom.ValueMember = "Value";
             comboBoxConsultationClassroom.DisplayMember = "Display";
             comboBoxConsultationClassroom.DataSource = resultS.Result.List
@@ -83,25 +83,25 @@ namespace ScheduleControlsAndForms.Examination
                 .Select(ed => new { Value = ed.Id, Display = ed.FullName }).ToList();
             comboBoxLecturer.SelectedItem = null;
             textBoxLessonLecturer.Text = string.Empty;
-            
-            comboBoxStudentGroup.ValueMember = "Value";
-			comboBoxStudentGroup.DisplayMember = "Display";
-			comboBoxStudentGroup.DataSource = resultSG.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
-			comboBoxStudentGroup.SelectedItem = null;
-			textBoxLessonGroup.Text = string.Empty;
 
-			if (_id.HasValue)
+            comboBoxStudentGroup.ValueMember = "Value";
+            comboBoxStudentGroup.DisplayMember = "Display";
+            comboBoxStudentGroup.DataSource = resultSG.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+            comboBoxStudentGroup.SelectedItem = null;
+            textBoxLessonGroup.Text = string.Empty;
+
+            if (_id.HasValue)
             {
                 var result = _service.GetExaminationRecord(new ScheduleGetBindingModel { Id = _id.Value });
-				if (!result.Succeeded)
-				{
+                if (!result.Succeeded)
+                {
                     ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-				}
-				var entity = result.Result;
+                    Close();
+                }
+                var entity = result.Result;
 
-				textBoxLessonDiscipline.Text = entity.LessonDiscipline;
+                textBoxLessonDiscipline.Text = entity.LessonDiscipline;
                 textBoxLessonGroup.Text = entity.LessonGroup;
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
                 textBoxClassroom.Text = entity.LessonClassroom;
@@ -126,13 +126,10 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
                 }
-                if(entity.ConsultationClassroomId.HasValue)
+                if (entity.ConsultationClassroomId.HasValue)
                 {
                     comboBoxConsultationClassroom.SelectedValue = entity.ConsultationClassroomId;
                 }
-
-                dateTimePickerDateConsultation.Enabled = false;
-                dateTimePickerDateExamination.Enabled = false;
             }
         }
 
@@ -238,7 +235,7 @@ namespace ScheduleControlsAndForms.Examination
                         LessonLecturer = textBoxLessonLecturer.Text,
                         LessonGroup = textBoxLessonGroup.Text,
                         LessonClassroom = textBoxClassroom.Text,
-                         LessonConsultationClassroom = textBoxConsultationClassroom.Text,
+                        LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,
@@ -274,9 +271,9 @@ namespace ScheduleControlsAndForms.Examination
                     Close();
                 }
                 else
-				{
+                {
                     ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-				}
+                }
             }
             else
             {

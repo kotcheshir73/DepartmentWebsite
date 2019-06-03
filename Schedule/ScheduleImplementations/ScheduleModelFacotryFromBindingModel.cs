@@ -95,13 +95,13 @@ namespace ScheduleImplementations
                 entity = new ExaminationRecord()
                 {
                     NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = seasonDate.Id,
-                    LessonConsultationClassroom = model.LessonConsultationClassroom
+                    SeasonDatesId = seasonDate.Id
                 };
             }
             entity.DateExamination = model.DateExamination;
             entity.DateConsultation = model.DateConsultation;
             entity.ConsultationClassroomId = model.ConsultationClassroomId;
+            entity.LessonConsultationClassroom = model.LessonConsultationClassroom;
             CreateScheduleRecord(model, entity);
 
             return entity;
