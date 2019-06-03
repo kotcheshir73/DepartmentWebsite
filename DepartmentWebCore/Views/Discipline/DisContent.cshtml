@@ -1,22 +1,25 @@
 ﻿@model WebInterfaces.ViewModels.WebProcessDisciplineForDownloadViewModel
 @{
-    ViewBag.Title = "DisContent";
+    ViewBag.Title = Model.Name;
 }
 
 <h2 class="page-header">
     @Model.Name
 </h2>
 <h4 style="line-height:1.5;margin:8px">@Model.Description</h4><hr/>
-@if (User.IsInRole("Преподаватель") && Model.LecturerName.Contains(User.Identity.Name))
-{
-    <div class="btn btn-default">
-        @Html.ActionLink("Добавить файлы", "LoadFile", new { Model.Name }, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
-    </div>
-}
+
 
 
 <div class="text-lec">
     Преподаватели: @Model.LecturerName<p></p>
+
+    @if (User.IsInRole("Преподаватель") && Model.LecturerName.Contains(User.Identity.Name))
+    {
+        <div class="btn btn-default" style="float:right">
+            @Html.ActionLink("Добавить файлы", "LoadFile", new { Model.Name }, new { @style = "color: #333333 !important ; text-decoration: none !important ;" })
+        </div>
+    }
+
     @if (User.IsInRole("Преподаватель") || User.IsInRole("Студент"))
     {
         @foreach (var sem in Model.Semestrs)

@@ -1,6 +1,6 @@
 ﻿@model WebInterfaces.ViewModels.WebProcessDisciplineListInfoViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.EducationDirectionName + " - Курс " + Model.Course.Split('_')[1];
 }
 
 <h2 class="page-header">@Model.EducationDirectionName - Курс @Model.Course.Split('_')[1]</h2>

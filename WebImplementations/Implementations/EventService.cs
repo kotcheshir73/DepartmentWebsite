@@ -44,21 +44,30 @@ namespace WebImplementations.Implementations
                     //}
 
                     query = query.OrderByDescending(x => x.DateCreate);
-
+                    var result = new EventPageViewModel();
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
                         countPages = (int)Math.Ceiling((double)query.Count() / model.PageSize.Value);
                         query = query
                                     .Skip(model.PageSize.Value * model.PageNumber.Value)
                                     .Take(model.PageSize.Value);
+
+                        result = new EventPageViewModel
+                        {
+                            MaxCount = countPages,
+                            CurrentPage = model.PageNumber.Value,
+                            List = query.Select(ModelFactoryToViewModel.CreateEventViewModel).ToList()
+                        };
+                    }
+                    else
+                    {
+                        result = new EventPageViewModel
+                        {
+                            List = query.Select(ModelFactoryToViewModel.CreateEventViewModel).ToList()
+                        };
                     }
 
-                    var result = new EventPageViewModel
-                    {
-                        MaxCount = countPages,
-                        CurrentPage = model.PageNumber.Value,
-                        List = query.Select(ModelFactoryToViewModel.CreateEventViewModel).ToList()
-                    };
+                    
 
                     return ResultService<EventPageViewModel>.Success(result);
                 }

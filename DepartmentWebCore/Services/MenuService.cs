@@ -37,7 +37,7 @@ namespace DepartmentWebCore.Services
                 var directionMenu = new MenuElementModel { Name = directionItem.ShortName, Child = new List<MenuElementModel>() };
                 foreach (var tmp in courseOfDirection.Result)
                 {
-                    directionMenu.Child.Add(new MenuElementModel { Id = tmp.Id.ToString(), Name = tmp.Course.ToString(), Controller = "Discipline", Action = "Index" });
+                    directionMenu.Child.Add(new MenuElementModel { Id = tmp.Id.ToString(), Name = "Курс " + tmp.Course.ToString().Split('_')[1], Controller = "Discipline", Action = "Index" });
                 }
                 direction.Child.Add(directionMenu);
             }

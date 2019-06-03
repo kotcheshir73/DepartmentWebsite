@@ -1,6 +1,6 @@
 ﻿@model BaseInterfaces.ViewModels.LecturerViewModel
 @{
-    ViewBag.Title = "Lecturer";
+    ViewBag.Title = Model.LastName + " " + Model.FirstName + " " + Model.Patronymic;
 }
 
 <h2 class="page-header">@Model.LastName @Model.FirstName @Model.Patronymic</h2>
