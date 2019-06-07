@@ -211,6 +211,7 @@
             this.Controls.Add(this.buttonShowProperties);
             this.Controls.Add(this.panelAction);
             this.Controls.Add(this.panelProperties);
+            this.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.Name = "ControlTicketTemplateViewerRun";
             this.Size = new System.Drawing.Size(572, 67);
             this.panelProperties.ResumeLayout(false);

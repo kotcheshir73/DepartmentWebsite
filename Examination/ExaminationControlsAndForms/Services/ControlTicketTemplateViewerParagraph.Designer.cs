@@ -431,6 +431,7 @@
             this.Controls.Add(this.panelOrder);
             this.Controls.Add(this.panelAction);
             this.Controls.Add(this.panelParagraphProperties);
+            this.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.Name = "ControlTicketTemplateViewerParagraph";
             this.Size = new System.Drawing.Size(710, 170);
             this.panelParagraphProperties.ResumeLayout(false);

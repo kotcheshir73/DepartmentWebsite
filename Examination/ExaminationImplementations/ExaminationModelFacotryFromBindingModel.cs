@@ -133,6 +133,10 @@ namespace ExaminationImplementations
             if (entity == null)
             {
                 entity = new TicketTemplate();
+                if(model.TicketTemplateBodySetBindingModel != null)
+                {
+                    model.TicketTemplateBodySetBindingModel.TicketTemplateId = entity.Id;
+                }
             }
             entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
             entity.TemplateName = model.TemplateName;
@@ -160,10 +164,7 @@ namespace ExaminationImplementations
             if (model.TicketTemplateBodyPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateBodyProperties = CreateTicketTemplateBodyProperties(model.TicketTemplateBodyPropertiesSetBindingModel, entity.TicketTemplateBodyProperties);
-                if (!entity.TicketTemplateBodyPropertiesId.HasValue)
-                {
-                    entity.TicketTemplateBodyPropertiesId = entity.TicketTemplateBodyProperties.Id;
-                }
+                entity.TicketTemplateBodyPropertiesId = entity.TicketTemplateBodyProperties.Id;
             }
             if (model.TicketTemplateParagraphSetBindingModels != null && model.TicketTemplateParagraphSetBindingModels.Count > 0)
             {
@@ -220,10 +221,7 @@ namespace ExaminationImplementations
             if (model.TicketTemplateParagraphPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateParagraphProperties = CreateTicketTemplateParagraphProperties(model.TicketTemplateParagraphPropertiesSetBindingModel, entity.TicketTemplateParagraphProperties);
-                if (!entity.TicketTemplateParagraphPropertiesId.HasValue)
-                {
-                    entity.TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphProperties.Id;
-                }
+                entity.TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphProperties.Id;
             }
             if (model.TicketTemplateParagraphRunSetBindingModels != null && model.TicketTemplateParagraphRunSetBindingModels.Count > 0)
             {
@@ -283,10 +281,7 @@ namespace ExaminationImplementations
             if (model.TicketTemplateParagraphRunPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateParagraphRunProperties = CreateTicketTemplateParagraphRunProperties(model.TicketTemplateParagraphRunPropertiesSetBindingModel, entity.TicketTemplateParagraphRunProperties);
-                if(!entity.TicketTemplateParagraphRunPropertiesId.HasValue)
-                {
-                    entity.TicketTemplateParagraphRunPropertiesId = entity.TicketTemplateParagraphRunProperties.Id;
-                }
+                entity.TicketTemplateParagraphRunPropertiesId = entity.TicketTemplateParagraphRunProperties.Id;
             }
 
             return entity;

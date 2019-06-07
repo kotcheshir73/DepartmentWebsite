@@ -11,7 +11,8 @@ namespace ConsoleMigrationApp
             {
                 db.Database.Migrate();
             }
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Done!");
+            Console.ReadKey();
         }
     }
 }

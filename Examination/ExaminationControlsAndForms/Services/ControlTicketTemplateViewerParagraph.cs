@@ -3,6 +3,7 @@ using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using Tools;
 using Unity;
@@ -16,11 +17,13 @@ namespace ExaminationControlsAndForms.Services
 
         private readonly ITicketTemplateParagraphService _service;
 
-        private Guid _ticketTemplateBodyId;
+        private Guid? _ticketTemplateBodyId;
 
-        private Guid? _id;
+        private Guid _id;
 
-        private Guid? _ticketTemplatePropertiesId;
+        private Guid? _ticketTemplateParagraphPropertiesId;
+
+        private Guid? _ticketTemplateTableCellId;
 
         public ControlTicketTemplateViewerParagraph(ITicketTemplateParagraphService service)
         {
@@ -28,14 +31,49 @@ namespace ExaminationControlsAndForms.Services
             _service = service;
         }
 
-        public void LoadView(TicketTemplateParagraphViewModel model, Guid ticketTemplateBodyId)
+        public TicketTemplateParagraphSetBindingModel GetModel => new TicketTemplateParagraphSetBindingModel
         {
+            Id = _id,
+            TicketTemplateBodyId = _ticketTemplateBodyId,
+            Order = Convert.ToInt32(numericUpDownOrder.Value),
+            TicketTemplateParagraphPropertiesId = _ticketTemplateParagraphPropertiesId,
+            TicketTemplateTableCellId = _ticketTemplateTableCellId,
+            TicketTemplateParagraphPropertiesSetBindingModel  = new TicketTemplateParagraphPropertiesSetBindingModel
+            {
+                Id = _ticketTemplateParagraphPropertiesId.Value,
+                TicketTemplateParagraphId = _id,
+
+                IndentationFirstLine = textBoxFirstLine.Text,
+                IndentationHanging = textBoxHanging.Text,
+                IndentationLeft = textBoxLeft.Text,
+                IndentationRight = textBoxRight.Text,
+
+                Justification = textBoxJustification.Text,
+
+                SpacingBetweenLinesAfter = textBoxAfter.Text,
+                SpacingBetweenLinesBefore = textBoxBefore.Text,
+                SpacingBetweenLinesLine = textBoxLine.Text,
+                SpacingBetweenLinesLineRule = textBoxLineRule.Text,
+
+                RunBold = checkBoxBold.Checked,
+                RunItalic = checkBoxItalic.Checked,
+                RunUnderline = checkBoxUnderline.Checked,
+                RunSize = textBoxSize.Text
+            },
+            TicketTemplateParagraphRunSetBindingModels = panelRuns.Controls.Cast<ControlTicketTemplateViewerRun>()?.Select(x => x.GetModel)?.ToList()
+        };
+
+        public void LoadView(TicketTemplateParagraphViewModel model, bool flag = true)
+        {
+            panelAction.Enabled = flag;
+
             _id = model.Id;
-            _ticketTemplateBodyId = ticketTemplateBodyId;
+            _ticketTemplateBodyId = model.TicketTemplateBodyId;
+            _ticketTemplateTableCellId = model.TicketTemplateTableCellId;
             numericUpDownOrder.Value = model.Order;
             if (model.TicketTemplateParagraphPropertiesViewModel != null)
             {
-                _ticketTemplatePropertiesId = model.TicketTemplateParagraphPropertiesId;
+                _ticketTemplateParagraphPropertiesId = model.TicketTemplateParagraphPropertiesId;
                 textBoxJustification.Text = model.TicketTemplateParagraphPropertiesViewModel.Justification;
 
                 textBoxLine.Text = model.TicketTemplateParagraphPropertiesViewModel.SpacingBetweenLinesLine;
@@ -53,25 +91,24 @@ namespace ExaminationControlsAndForms.Services
                 checkBoxUnderline.Checked = model.TicketTemplateParagraphPropertiesViewModel.RunUnderline;
                 textBoxSize.Text = model.TicketTemplateParagraphPropertiesViewModel.RunSize;
             }
+
             if (model.TicketTemplateParagraphRunPageViewModel != null)
             {
                 panelRuns.Controls.Clear();
-                int top = 0;
+                model.TicketTemplateParagraphRunPageViewModel.List.Reverse();
                 foreach (var run in model.TicketTemplateParagraphRunPageViewModel.List)
                 {
                     var control = Container.Resolve<ControlTicketTemplateViewerRun>();
-                    control.Location = new System.Drawing.Point(0, top);
-                    control.LoadView(run, model.Id);
+                    control.Dock = DockStyle.Top;
+                    control.LoadView(run, flag);
                     panelRuns.Controls.Add(control);
-                    top += control.Height;
                 }
             }
-            buttonAddRun.Visible = _id.HasValue;
         }
 
-        private void ButtonShowProperties_Click(object sender, System.EventArgs e)
+        private void ButtonShowProperties_Click(object sender, EventArgs e)
         {
-            if(panelParagraphProperties.Visible)
+            if (panelParagraphProperties.Visible)
             {
                 panelParagraphProperties.Visible = false;
             }
@@ -81,62 +118,33 @@ namespace ExaminationControlsAndForms.Services
             }
         }
 
-        private void ButtonSave_Click(object sender, System.EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
-            ResultService result;
-            if (!_id.HasValue)
+            ResultService result = _service.UpdateTicketTemplateParagraph(new TicketTemplateParagraphSetBindingModel
             {
-                result = _service.CreateTicketTemplateParagraph(new TicketTemplateParagraphSetBindingModel
+                Id = _id,
+                Order = Convert.ToInt32(numericUpDownOrder.Value),
+                TicketTemplateBodyId = _ticketTemplateBodyId,
+                TicketTemplateParagraphPropertiesId = _ticketTemplateParagraphPropertiesId,
+                TicketTemplateParagraphPropertiesSetBindingModel = new TicketTemplateParagraphPropertiesSetBindingModel
                 {
-                    Order = Convert.ToInt32(numericUpDownOrder.Value),
-                    TicketTemplateBodyId = _ticketTemplateBodyId,
-                    TicketTemplateParagraphPropertiesSetBindingModel = new TicketTemplateParagraphPropertiesSetBindingModel
-                    {
-                        IndentationFirstLine = textBoxFirstLine.Text,
-                        IndentationHanging = textBoxHanging.Text,
-                        IndentationLeft = textBoxLeft.Text,
-                        IndentationRight = textBoxRight.Text,
-                        Justification = textBoxJustification.Text,
-                        SpacingBetweenLinesAfter = textBoxAfter.Text,
-                        SpacingBetweenLinesBefore = textBoxBefore.Text,
-                        SpacingBetweenLinesLine = textBoxLine.Text,
-                        SpacingBetweenLinesLineRule = textBoxLineRule.Text,
-                        RunBold = checkBoxBold.Checked,
-                        RunItalic = checkBoxItalic.Checked,
-                        RunUnderline = checkBoxUnderline.Checked,
-                        RunSize = textBoxSize.Text
-                    }
-                });
-            }
-            else
-            {
-                result = _service.UpdateTicketTemplateParagraph(new TicketTemplateParagraphSetBindingModel
-                {
-                    Id = _id.Value,
-                    Order = Convert.ToInt32(numericUpDownOrder.Value),
-                    TicketTemplateBodyId = _ticketTemplateBodyId,
-                    TicketTemplateParagraphPropertiesId = _ticketTemplatePropertiesId,
-                    TicketTemplateParagraphPropertiesSetBindingModel = _ticketTemplatePropertiesId.HasValue ? 
-                    new TicketTemplateParagraphPropertiesSetBindingModel
-                    {
-                        Id = _ticketTemplatePropertiesId.Value,
-                        TicketTemplateParagraphId = _id.Value,
-                        IndentationFirstLine = textBoxFirstLine.Text,
-                        IndentationHanging = textBoxHanging.Text,
-                        IndentationLeft = textBoxLeft.Text,
-                        IndentationRight = textBoxRight.Text,
-                        Justification = textBoxJustification.Text,
-                        SpacingBetweenLinesAfter = textBoxAfter.Text,
-                        SpacingBetweenLinesBefore = textBoxBefore.Text,
-                        SpacingBetweenLinesLine = textBoxLine.Text,
-                        SpacingBetweenLinesLineRule = textBoxLineRule.Text,
-                        RunBold = checkBoxBold.Checked,
-                        RunItalic = checkBoxItalic.Checked,
-                        RunUnderline = checkBoxUnderline.Checked,
-                        RunSize = textBoxSize.Text
-                    } : null
-                });
-            }
+                    Id = _ticketTemplateParagraphPropertiesId.Value,
+                    TicketTemplateParagraphId = _id,
+                    IndentationFirstLine = textBoxFirstLine.Text,
+                    IndentationHanging = textBoxHanging.Text,
+                    IndentationLeft = textBoxLeft.Text,
+                    IndentationRight = textBoxRight.Text,
+                    Justification = textBoxJustification.Text,
+                    SpacingBetweenLinesAfter = textBoxAfter.Text,
+                    SpacingBetweenLinesBefore = textBoxBefore.Text,
+                    SpacingBetweenLinesLine = textBoxLine.Text,
+                    SpacingBetweenLinesLineRule = textBoxLineRule.Text,
+                    RunBold = checkBoxBold.Checked,
+                    RunItalic = checkBoxItalic.Checked,
+                    RunUnderline = checkBoxUnderline.Checked,
+                    RunSize = textBoxSize.Text
+                }
+            });
             if (result.Succeeded)
             {
                 MessageBox.Show("Сохранено", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -145,7 +153,7 @@ namespace ExaminationControlsAndForms.Services
                     var model = _service.GetTicketTemplateParagraph(new TicketTemplateParagraphGetBindingModel { Id = (Guid)result.Result });
                     if (model.Succeeded)
                     {
-                        LoadView(model.Result, _ticketTemplateBodyId);
+                        LoadView(model.Result);
                     }
                 }
             }
@@ -155,38 +163,33 @@ namespace ExaminationControlsAndForms.Services
             }
         }
 
-        private void ButtonDel_Click(object sender, System.EventArgs e)
+        private void ButtonDel_Click(object sender, EventArgs e)
         {
-            if (_id.HasValue)
+            if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
-                if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                {
-                    return;
-                }
-                var result = _service.DeleteTicketTemplateParagraph(new TicketTemplateParagraphGetBindingModel { Id = _id.Value });
-                if (!result.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                    return;
-                }
+                return;
+            }
+            var result = _service.DeleteTicketTemplateParagraph(new TicketTemplateParagraphGetBindingModel { Id = _id });
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                return;
             }
             Enabled = false;
         }
 
         private void ButtonAddRun_Click(object sender, EventArgs e)
         {
-            int top = 0;
-            foreach(var contrl in panelRuns.Controls)
-            {
-                if((contrl as ControlTicketTemplateViewerRun).Top >= top)
-                {
-                    top = (contrl as ControlTicketTemplateViewerRun).Top;
-                    top += (contrl as ControlTicketTemplateViewerRun).Height;
-                }
-            }
             var control = Container.Resolve<ControlTicketTemplateViewerRun>();
-            control.Location = new System.Drawing.Point(0, top);
-            control.LoadView(_id.Value);
+            control.Dock = DockStyle.Top;
+            control.LoadView(new TicketTemplateParagraphRunViewModel
+            {
+                Id = Guid.NewGuid(),
+                TicketTemplateParagraphId = _id,
+                Order = 0,
+                TicketTemplateRunPropertiesId = Guid.NewGuid(),
+                TicketTemplateParagraphRunPropertiesViewModel = new TicketTemplateParagraphRunPropertiesViewModel()
+            });
             panelRuns.Controls.Add(control);
         }
     }

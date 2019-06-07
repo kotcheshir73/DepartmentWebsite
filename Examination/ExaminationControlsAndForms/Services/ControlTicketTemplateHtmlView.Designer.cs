@@ -1,6 +1,6 @@
 ﻿namespace ExaminationControlsAndForms.Services
 {
-    partial class ControlTicketTemplateViewer
+    partial class ControlTicketTemplateHtmlView
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

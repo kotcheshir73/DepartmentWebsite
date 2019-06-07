@@ -7,35 +7,35 @@ namespace ExaminationInterfaces.Interfaces
     public interface ITicketTemplateService
     {
         /// <summary>
-        /// Получение списка экзаменов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<ExaminationTemplatePageViewModel> GetExaminationTemplates(ExaminationTemplateGetBindingModel model);
-
-        /// <summary>
-        /// Получение списка экзаменов
+        /// Получение списка шаблонов
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService<TicketTemplatePageViewModel> GetTicketTemplates(TicketTemplateGetBindingModel model);
 
         /// <summary>
-        /// Получения экзамена
+        /// Получения шаблона
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService<TicketTemplateViewModel> GetTicketTemplate(TicketTemplateGetBindingModel model);
 
         /// <summary>
-        /// Изменение экзамена
+        /// Создание шаблона
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService CreateTicketTemplate(TicketTemplateSetBindingModel model);
+
+        /// <summary>
+        /// Изменение шаблона
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService UpdateTicketTemplate(TicketTemplateSetBindingModel model);
 
         /// <summary>
-        /// Удаление экзамена
+        /// Удаление шаблона
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

@@ -13,10 +13,10 @@ namespace Models.Examination
     {
         [DataMember]
         [ForeignKey("TicketTemplate")]
-        public Guid? TicketTemplateId { get; set; }
+        public Guid TicketTemplateId { get; set; }
 
         [DataMember]
-        public Guid? TicketTemplateBodyPropertiesId { get; set; }
+        public Guid TicketTemplateBodyPropertiesId { get; set; }
 
         //-------------------------------------------------------------------------
 

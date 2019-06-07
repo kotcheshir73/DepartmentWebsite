@@ -1,6 +1,11 @@
-﻿using ExaminationInterfaces.ViewModels;
+﻿using ControlsAndForms.Messangers;
+using ExaminationInterfaces.BindingModels;
+using ExaminationInterfaces.Interfaces;
+using ExaminationInterfaces.ViewModels;
 using System;
+using System.Linq;
 using System.Windows.Forms;
+using Tools;
 using Unity;
 
 namespace ExaminationControlsAndForms.Services
@@ -10,23 +15,50 @@ namespace ExaminationControlsAndForms.Services
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-       // private readonly ITicketTemplateParagraphService _service;
+        private readonly ITicketTemplateBodyService _service;
 
         private Guid _ticketTemplateId;
 
-        private Guid? _id;
+        private Guid _id;
 
-        private Guid? _ticketTemplateBodyPropertiesId;
+        private Guid _ticketTemplateBodyPropertiesId;
 
-        public ControlTicketTemplateViewerBody()
+        public ControlTicketTemplateViewerBody(ITicketTemplateBodyService service)
         {
             InitializeComponent();
+            _service = service;
         }
 
-        public void LoadView(TicketTemplateBodyViewModel model, Guid ticketTemplateId)
+        public TicketTemplateBodySetBindingModel GetModel => new TicketTemplateBodySetBindingModel
         {
+            Id = _id,
+            TicketTemplateId = _ticketTemplateId,
+            TicketTemplateBodyPropertiesId = _ticketTemplateBodyPropertiesId,
+            TicketTemplateBodyPropertiesSetBindingModel = new TicketTemplateBodyPropertiesSetBindingModel
+            {
+                Id = _ticketTemplateBodyPropertiesId,
+                TicketTemplateBodyId = _id,
+
+                PageMarginBottom = textBoxBottom.Text,
+                PageMarginFooter = textBoxFooter.Text,
+                PageMarginGutter = textBoxGutter.Text,
+                PageMarginLeft = textBoxLeft.Text,
+                PageMarginRight = textBoxRight.Text,
+                PageMarginTop = textBoxTop.Text,
+
+                PageSizeHeight = textBoxHeight.Text,
+                PageSizeOrient = textBoxOrient.Text,
+                PageSizeWidth = textBoxOrient.Text
+            },
+            TicketTemplateParagraphSetBindingModels = panelParagraphs.Controls.Cast<ControlTicketTemplateViewerParagraph>()?.Select(x => x.GetModel)?.ToList()
+        };
+
+        public void LoadView(TicketTemplateBodyViewModel model, bool flag = true)
+        {
+            panelAction.Enabled = flag;
+
             _id = model.Id;
-            _ticketTemplateId = ticketTemplateId;
+            _ticketTemplateId = model.TicketTemplateId;
             if (model.TicketTemplateBodyPropertiesViewModel != null)
             {
                 _ticketTemplateBodyPropertiesId = model.TicketTemplateBodyPropertiesId;
@@ -46,22 +78,70 @@ namespace ExaminationControlsAndForms.Services
             if (model.TicketTemplateParagraphPageViewModel != null)
             {
                 panelParagraphs.Controls.Clear();
-                int top = 0;
+                model.TicketTemplateParagraphPageViewModel.List.Reverse();
                 foreach (var run in model.TicketTemplateParagraphPageViewModel.List)
                 {
                     var control = Container.Resolve<ControlTicketTemplateViewerParagraph>();
-                    control.Location = new System.Drawing.Point(0, top);
-                    control.LoadView(run, model.Id);
+                    control.LoadView(run, flag);
+                    control.Dock = DockStyle.Top;
                     panelParagraphs.Controls.Add(control);
-                    top += control.Height + 5;
                 }
             }
-            buttonAddParagraph.Visible = _id.HasValue;
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
+            ResultService result = _service.UpdateTicketTemplateBody(new TicketTemplateBodySetBindingModel
+            {
+                Id = _id,
+                TicketTemplateId = _ticketTemplateId,
+                TicketTemplateBodyPropertiesId = _ticketTemplateBodyPropertiesId,
+                TicketTemplateBodyPropertiesSetBindingModel =
+                new TicketTemplateBodyPropertiesSetBindingModel
+                {
+                    Id = _ticketTemplateBodyPropertiesId,
+                    TicketTemplateBodyId = _id,
+                    PageMarginBottom = textBoxBottom.Text,
+                    PageMarginFooter = textBoxFooter.Text,
+                    PageMarginGutter = textBoxGutter.Text,
+                    PageMarginLeft = textBoxLeft.Text,
+                    PageMarginRight = textBoxRight.Text,
+                    PageMarginTop = textBoxTop.Text,
+                    PageSizeHeight = textBoxHeight.Text,
+                    PageSizeOrient = textBoxOrient.Text,
+                    PageSizeWidth = textBoxWidth.Text
+                }
+            });
+            if (result.Succeeded)
+            {
+                MessageBox.Show("Сохранено", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result.Result != null && result.Result is Guid)
+                {
+                    var model = _service.GetTicketTemplateBody(new TicketTemplateBodyGetBindingModel { Id = (Guid)result.Result });
+                    if (model.Succeeded)
+                    {
+                        LoadView(model.Result);
+                    }
+                }
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+            }
+        }
 
+        private void ButtonAddParagraph_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<ControlTicketTemplateViewerParagraph>();
+            control.Dock = DockStyle.Top;
+            control.LoadView(new TicketTemplateParagraphViewModel
+            {
+                Id = Guid.NewGuid(),
+                TicketTemplateBodyId = _id,
+                TicketTemplateParagraphPropertiesId = Guid.NewGuid(),
+                TicketTemplateParagraphPropertiesViewModel = new TicketTemplateParagraphPropertiesViewModel()
+            });
+            panelParagraphs.Controls.Add(control);
         }
     }
 }

@@ -30,8 +30,8 @@
             this.labelLinkToFile = new System.Windows.Forms.Label();
             this.textBoxLinkToFile = new System.Windows.Forms.TextBox();
             this.buttonLoadTemplate = new System.Windows.Forms.Button();
-            this.tabPageTicketTemplate = new System.Windows.Forms.TabPage();
-            this.tabPageParagraphsData = new System.Windows.Forms.TabPage();
+            this.tabPageHtmlView = new System.Windows.Forms.TabPage();
+            this.tabPageBody = new System.Windows.Forms.TabPage();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -66,8 +66,8 @@
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabPageConfig);
-            this.tabControl.Controls.Add(this.tabPageTicketTemplate);
-            this.tabControl.Controls.Add(this.tabPageParagraphsData);
+            this.tabControl.Controls.Add(this.tabPageHtmlView);
+            this.tabControl.Controls.Add(this.tabPageBody);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
@@ -116,25 +116,25 @@
             this.buttonLoadTemplate.UseVisualStyleBackColor = true;
             this.buttonLoadTemplate.Click += new System.EventHandler(this.ButtonLoadTemplate_Click);
             // 
-            // tabPageTicketTemplate
+            // tabPageHtmlView
             // 
-            this.tabPageTicketTemplate.Location = new System.Drawing.Point(4, 22);
-            this.tabPageTicketTemplate.Name = "tabPageTicketTemplate";
-            this.tabPageTicketTemplate.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTicketTemplate.Size = new System.Drawing.Size(311, 148);
-            this.tabPageTicketTemplate.TabIndex = 1;
-            this.tabPageTicketTemplate.Text = "Шаблон";
-            this.tabPageTicketTemplate.UseVisualStyleBackColor = true;
+            this.tabPageHtmlView.Location = new System.Drawing.Point(4, 22);
+            this.tabPageHtmlView.Name = "tabPageHtmlView";
+            this.tabPageHtmlView.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageHtmlView.Size = new System.Drawing.Size(1176, 599);
+            this.tabPageHtmlView.TabIndex = 1;
+            this.tabPageHtmlView.Text = "Визуальное представление";
+            this.tabPageHtmlView.UseVisualStyleBackColor = true;
             // 
-            // tabPageParagraphsData
+            // tabPageBody
             // 
-            this.tabPageParagraphsData.Location = new System.Drawing.Point(4, 22);
-            this.tabPageParagraphsData.Name = "tabPageParagraphsData";
-            this.tabPageParagraphsData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageParagraphsData.Size = new System.Drawing.Size(1176, 599);
-            this.tabPageParagraphsData.TabIndex = 2;
-            this.tabPageParagraphsData.Text = "Параграфы";
-            this.tabPageParagraphsData.UseVisualStyleBackColor = true;
+            this.tabPageBody.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBody.Name = "tabPageBody";
+            this.tabPageBody.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageBody.Size = new System.Drawing.Size(1176, 599);
+            this.tabPageBody.TabIndex = 2;
+            this.tabPageBody.Text = "Тело шаблона";
+            this.tabPageBody.UseVisualStyleBackColor = true;
             // 
             // FormTicketTemplate
             // 
@@ -158,10 +158,10 @@
         private System.Windows.Forms.TextBox textBoxTemplateName;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageConfig;
-        private System.Windows.Forms.TabPage tabPageTicketTemplate;
+        private System.Windows.Forms.TabPage tabPageHtmlView;
         private System.Windows.Forms.Button buttonLoadTemplate;
         private System.Windows.Forms.Label labelLinkToFile;
         private System.Windows.Forms.TextBox textBoxLinkToFile;
-        private System.Windows.Forms.TabPage tabPageParagraphsData;
+        private System.Windows.Forms.TabPage tabPageBody;
     }
 }

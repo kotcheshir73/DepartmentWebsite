@@ -10,7 +10,7 @@ namespace ExaminationInterfaces.BindingModels
 
     public class TicketTemplateBodyPropertiesSetBindingModel : PageSettingSetBinidingModel
     {
-        public Guid? TicketTemplateBodyId { get; set; }
+        public Guid TicketTemplateBodyId { get; set; }
 
         public string PageSizeHeight { get; set; }
         

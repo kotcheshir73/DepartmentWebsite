@@ -1296,12 +1296,6 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
                     b.Property<string>("TemplateName");
 
                     b.Property<Guid?>("TicketTemplateBodyId");
@@ -1315,21 +1309,14 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<DateTime>("DateCreate");
+                    b.Property<Guid>("TicketTemplateBodyPropertiesId");
 
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid?>("TicketTemplateBodyPropertiesId");
-
-                    b.Property<Guid?>("TicketTemplateId");
+                    b.Property<Guid>("TicketTemplateId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TicketTemplateId")
-                        .IsUnique()
-                        .HasFilter("[TicketTemplateId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateBodies");
                 });
@@ -1337,12 +1324,6 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateBodyProperties", b =>
                 {
                     b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("PageMarginBottom");
 
@@ -1362,13 +1343,12 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("PageSizeWidth");
 
-                    b.Property<Guid?>("TicketTemplateBodyId");
+                    b.Property<Guid>("TicketTemplateBodyId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TicketTemplateBodyId")
-                        .IsUnique()
-                        .HasFilter("[TicketTemplateBodyId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateBodyProperties");
                 });
@@ -1437,15 +1417,9 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
                     b.Property<int>("Order");
 
-                    b.Property<Guid?>("TicketTemplateBodyId");
+                    b.Property<Guid>("TicketTemplateBodyId");
 
                     b.Property<Guid?>("TicketTemplateParagraphPropertiesId");
 
@@ -1464,10 +1438,6 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
                     b.Property<string>("IndentationFirstLine");
 
                     b.Property<string>("IndentationHanging");
@@ -1475,8 +1445,6 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("IndentationLeft");
 
                     b.Property<string>("IndentationRight");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Justification");
 
@@ -1510,12 +1478,6 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
-
                     b.Property<int>("Order");
 
                     b.Property<bool>("TabChar");
@@ -1536,12 +1498,6 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphRunProperties", b =>
                 {
                     b.Property<Guid>("Id");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("RunBold");
 
@@ -2664,14 +2620,16 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Models.Examination.TicketTemplate", "TicketTemplate")
                         .WithOne("TicketTemplateBody")
-                        .HasForeignKey("Models.Examination.TicketTemplateBody", "TicketTemplateId");
+                        .HasForeignKey("Models.Examination.TicketTemplateBody", "TicketTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Models.Examination.TicketTemplateBodyProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateBody", "TicketTemplateBody")
                         .WithOne("TicketTemplateBodyProperties")
-                        .HasForeignKey("Models.Examination.TicketTemplateBodyProperties", "TicketTemplateBodyId");
+                        .HasForeignKey("Models.Examination.TicketTemplateBodyProperties", "TicketTemplateBodyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Models.Examination.TicketTemplateElementaryAttribute", b =>
@@ -2700,7 +2658,8 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Models.Examination.TicketTemplateBody", "TicketTemplateBody")
                         .WithMany("TicketTemplateParagraphs")
-                        .HasForeignKey("TicketTemplateBodyId");
+                        .HasForeignKey("TicketTemplateBodyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Models.Examination.TicketTemplateTableCell", "TicketTemplateTableCell")
                         .WithMany("TicketTemplateParagraphs")

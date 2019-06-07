@@ -524,7 +524,7 @@ namespace ExaminationImplementations.Implementations
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var ticketTemplate = context.TicketTemplates.FirstOrDefault(x => x.Id == model.TicketTemplateId && !x.IsDeleted);
+                    var ticketTemplate = context.TicketTemplates.FirstOrDefault(x => x.Id == model.TicketTemplateId);
                     if(ticketTemplate == null)
                     {
                         return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);

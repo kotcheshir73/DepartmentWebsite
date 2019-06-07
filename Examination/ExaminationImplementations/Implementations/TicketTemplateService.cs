@@ -1,14 +1,10 @@
-﻿using DatabaseContext;
-using Enums;
+﻿using Enums;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using Models.Examination;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using TicketServiceImplementations.Helpers;
 using Tools;
 
 namespace ExaminationImplementations.Implementations
@@ -18,18 +14,6 @@ namespace ExaminationImplementations.Implementations
         private readonly AccessOperation _serviceOperation = AccessOperation.ШаблоныБилетов;
 
         private readonly string _entity = "Шаблоны Билетов";
-
-        private readonly IExaminationTemplateService _serviceET;
-
-        public TicketTemplateService(IExaminationTemplateService serviceET)
-        {
-            _serviceET = serviceET;
-        }
-
-        public ResultService<ExaminationTemplatePageViewModel> GetExaminationTemplates(ExaminationTemplateGetBindingModel model)
-        {
-            return _serviceET.GetExaminationTemplates(model);
-        }
 
         public ResultService<TicketTemplatePageViewModel> GetTicketTemplates(TicketTemplateGetBindingModel model)
         {
@@ -107,6 +91,94 @@ namespace ExaminationImplementations.Implementations
             catch (Exception ex)
             {
                 return ResultService<TicketTemplateViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService CreateTicketTemplate(TicketTemplateSetBindingModel model)
+        {
+            try
+            {
+                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
+
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplate(model);
+
+                    var exsistEntity = context.TicketTemplates
+                                                    .FirstOrDefault(x => x.Id == entity.Id);
+                    if (exsistEntity == null)
+                    {
+                        using (var transaction = context.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var body = entity.TicketTemplateBody;
+                                entity.TicketTemplateBodyId = null;
+                                entity.TicketTemplateBody = null;
+
+                                context.TicketTemplates.Add(entity);
+                                context.SaveChanges();
+
+                                var paragraphs = body.TicketTemplateParagraphs;
+                                body.TicketTemplateParagraphs = null;
+
+                                context.TicketTemplateBodies.Add(body);
+                                context.SaveChanges();
+
+                                paragraphs.ForEach(paragraph =>
+                                {
+                                    var runs = paragraph.TicketTemplateParagraphRuns;
+                                    paragraph.TicketTemplateParagraphRuns = null;
+
+                                    context.TicketTemplateParagraphs.Add(paragraph);
+                                    context.SaveChanges();
+
+                                    runs?.ForEach(run =>
+                                    {
+                                        context.TicketTemplateParagraphRuns.Add(run);
+                                        context.SaveChanges();
+                                    });
+
+                                });
+
+                                //foreach (var paragraph in paragraphs)
+                                //{
+                                //    var runs = paragraph.TicketTemplateParagraphRuns;
+                                //    paragraph.TicketTemplateParagraphRuns = null;
+
+                                //    context.TicketTemplateParagraphs.Add(paragraph);
+                                //    context.SaveChanges();
+
+                                //    if (runs != null)
+                                //    {
+                                //        context.TicketTemplateParagraphRuns.AddRange(runs);
+                                //        context.SaveChanges();
+                                //    }
+                                //}
+
+                                entity.TicketTemplateBodyId = body.Id;
+                                context.SaveChanges();
+
+                                transaction.Commit();
+
+                                return ResultService.Success(entity.Id);
+                            }
+                            catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return ResultService.Error("Error:", "Элемент уже существует", ResultServiceStatusCode.ExsistItem);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 

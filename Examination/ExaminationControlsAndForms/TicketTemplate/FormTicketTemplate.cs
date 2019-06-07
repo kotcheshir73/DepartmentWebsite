@@ -25,11 +25,21 @@ namespace ExaminationControlsAndForms.TicketTemplate
             InitializeComponent();
             _service = service;
             _process = process;
+        }
 
-            if (id != Guid.Empty)
+        protected override bool LoadComponents()
+        {
+            var controlView = new ControlTicketTemplateHtmlView
             {
-              //  buttonLoadTemplate.Visible = labelLinkToFile.Visible = textBoxLinkToFile.Visible = false;
-            }
+                Dock = DockStyle.Fill
+            };
+            tabPageHtmlView.Controls.Add(controlView);
+
+            var control = Container.Resolve<ControlTicketTemplateViewerBody>();
+            control.Dock = DockStyle.Fill;
+            tabPageBody.Controls.Add(control);
+
+            return base.LoadComponents();
         }
 
         protected override void LoadData()
@@ -40,24 +50,15 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 Close();
             }
-            if (tabPageTicketTemplate.Controls.Count == 0)
-            {
-                var control = new ControlTicketTemplateViewer
-                {
-                    Dock = DockStyle.Fill
-                };
-                control.LoadView(result.Result);
-                tabPageTicketTemplate.Controls.Add(control);
-            }
+            buttonLoadTemplate.Visible = labelLinkToFile.Visible = textBoxLinkToFile.Visible = false;
             var entity = result.Result;
 
             textBoxTemplateName.Text = entity.TemplateName;
 
-            if(entity.Body != null)
+            if (entity.Body != null)
             {
-                var control = Container.Resolve<ControlTicketTemplateViewerBody>();
-                control.LoadView(entity.Body, entity.Id);
-                tabPageParagraphsData.Controls.Add(control);
+                (tabPageHtmlView.Controls[0] as ControlTicketTemplateHtmlView).LoadView(entity);
+                (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).LoadView(entity.Body);
             }
         }
 
@@ -87,10 +88,11 @@ namespace ExaminationControlsAndForms.TicketTemplate
             ResultService result;
             if (!_id.HasValue)
             {
-                result = _process.SaveTemplate(new TicketProcessLoadTemplateBindingModel
+                result = _service.CreateTicketTemplate(new TicketTemplateSetBindingModel
                 {
                     TemplateName = textBoxTemplateName.Text,
-                    FileName = textBoxLinkToFile.Text
+                    TicketTemplateBodyId = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel.Id,
+                    TicketTemplateBodySetBindingModel = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel
                 });
             }
             else
@@ -98,7 +100,8 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 result = _service.UpdateTicketTemplate(new TicketTemplateSetBindingModel
                 {
                     Id = _id.Value,
-                    TemplateName = textBoxTemplateName.Text
+                    TemplateName = textBoxTemplateName.Text,
+                    TicketTemplateBodyId = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel.Id
                 });
             }
             if (result.Succeeded)
@@ -135,7 +138,8 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 });
                 if (template.Succeeded)
                 {
-                    (tabPageTicketTemplate.Controls[0] as ControlTicketTemplateViewer).LoadView(template.Result);
+                    (tabPageHtmlView.Controls[0] as ControlTicketTemplateHtmlView).LoadView(template.Result);
+                    (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).LoadView(template.Result.Body, false);
                 }
                 else
                 {

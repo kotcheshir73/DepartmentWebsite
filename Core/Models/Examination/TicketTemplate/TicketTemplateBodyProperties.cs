@@ -12,7 +12,7 @@ namespace Models.Examination
     {
         [DataMember]
         [ForeignKey("TicketTemplateBody")]
-        public Guid? TicketTemplateBodyId { get; set; }
+        public Guid TicketTemplateBodyId { get; set; }
 
         [DataMember]
         public string PageSizeHeight { get; set; }

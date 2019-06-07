@@ -7,9 +7,9 @@ namespace ExaminationInterfaces.ViewModels
 
     public class TicketTemplateBodyViewModel : PageSettingElementViewModel
     {
-        public Guid? TicketTemplateId { get; set; }
+        public Guid TicketTemplateId { get; set; }
 
-        public Guid? TicketTemplateBodyPropertiesId { get; set; }
+        public Guid TicketTemplateBodyPropertiesId { get; set; }
 
         public TicketTemplateBodyPropertiesViewModel TicketTemplateBodyPropertiesViewModel { get; set; }
 

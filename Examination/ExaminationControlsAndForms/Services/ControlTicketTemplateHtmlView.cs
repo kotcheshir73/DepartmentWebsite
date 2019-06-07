@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace ExaminationControlsAndForms.Services
 {
-    public partial class ControlTicketTemplateViewer : UserControl
+    public partial class ControlTicketTemplateHtmlView : UserControl
     {
-        public ControlTicketTemplateViewer()
+        public ControlTicketTemplateHtmlView()
         {
             InitializeComponent();
         }

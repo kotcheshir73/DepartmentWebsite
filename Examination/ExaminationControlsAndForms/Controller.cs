@@ -46,6 +46,7 @@ namespace ExaminationControlsAndForms
             currentContainer.RegisterType<ITicketTemplateService, TicketTemplateService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ITicketTemplateParagraphRunService, TicketTemplateParagraphRunService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ITicketTemplateParagraphService, TicketTemplateParagraphService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateBodyService, TicketTemplateBodyService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IExaminationProcess, ExaminationProcess>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ITicketProcess, TicketProcess>(new HierarchicalLifetimeManager());
