@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panelAction = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.buttonAddParagraph = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.panelParagraphs = new System.Windows.Forms.Panel();
@@ -54,15 +55,22 @@
             this.labelHeight = new System.Windows.Forms.Label();
             this.textBoxWidth = new System.Windows.Forms.TextBox();
             this.labelWidth = new System.Windows.Forms.Label();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.panelTables = new System.Windows.Forms.Panel();
             this.panelAction.SuspendLayout();
             this.panelProperties.SuspendLayout();
             this.groupBoxRunningTitle.SuspendLayout();
             this.groupBoxPageMargin.SuspendLayout();
             this.groupBoxPageSize.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelAction
             // 
+            this.panelAction.Controls.Add(this.button1);
             this.panelAction.Controls.Add(this.buttonAddParagraph);
             this.panelAction.Controls.Add(this.buttonSave);
             this.panelAction.Dock = System.Windows.Forms.DockStyle.Right;
@@ -70,6 +78,15 @@
             this.panelAction.Name = "panelAction";
             this.panelAction.Size = new System.Drawing.Size(150, 500);
             this.panelAction.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(24, 144);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 40);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Добавить таблицу";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // buttonAddParagraph
             // 
@@ -95,9 +112,9 @@
             // 
             this.panelParagraphs.AutoScroll = true;
             this.panelParagraphs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelParagraphs.Location = new System.Drawing.Point(0, 98);
+            this.panelParagraphs.Location = new System.Drawing.Point(0, 0);
             this.panelParagraphs.Name = "panelParagraphs";
-            this.panelParagraphs.Size = new System.Drawing.Size(750, 402);
+            this.panelParagraphs.Size = new System.Drawing.Size(748, 199);
             this.panelParagraphs.TabIndex = 3;
             // 
             // panelProperties
@@ -303,11 +320,40 @@
             this.labelWidth.TabIndex = 0;
             this.labelWidth.Text = "Ширина:";
             // 
+            // splitContainer
+            // 
+            this.splitContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Location = new System.Drawing.Point(0, 98);
+            this.splitContainer.Name = "splitContainer";
+            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.panelParagraphs);
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.panelTables);
+            this.splitContainer.Size = new System.Drawing.Size(750, 402);
+            this.splitContainer.SplitterDistance = 201;
+            this.splitContainer.SplitterWidth = 8;
+            this.splitContainer.TabIndex = 4;
+            // 
+            // panelTables
+            // 
+            this.panelTables.AutoScroll = true;
+            this.panelTables.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTables.Location = new System.Drawing.Point(0, 0);
+            this.panelTables.Name = "panelTables";
+            this.panelTables.Size = new System.Drawing.Size(748, 191);
+            this.panelTables.TabIndex = 0;
+            // 
             // ControlTicketTemplateViewerBody
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panelParagraphs);
+            this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.panelProperties);
             this.Controls.Add(this.panelAction);
             this.Name = "ControlTicketTemplateViewerBody";
@@ -320,6 +366,10 @@
             this.groupBoxPageMargin.PerformLayout();
             this.groupBoxPageSize.ResumeLayout(false);
             this.groupBoxPageSize.PerformLayout();
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+            this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -351,5 +401,8 @@
         private System.Windows.Forms.Label labelFooter;
         private System.Windows.Forms.TextBox textBoxGutter;
         private System.Windows.Forms.Label labelGutter;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.SplitContainer splitContainer;
+        private System.Windows.Forms.Panel panelTables;
     }
 }

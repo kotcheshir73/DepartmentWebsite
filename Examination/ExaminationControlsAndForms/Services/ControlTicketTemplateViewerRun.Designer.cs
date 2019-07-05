@@ -43,6 +43,7 @@
             this.numericUpDownOrder = new System.Windows.Forms.NumericUpDown();
             this.labelOrder = new System.Windows.Forms.Label();
             this.buttonShowProperties = new System.Windows.Forms.Button();
+            this.checkBoxBreak = new System.Windows.Forms.CheckBox();
             this.panelProperties.SuspendLayout();
             this.panelAction.SuspendLayout();
             this.panelOrder.SuspendLayout();
@@ -118,7 +119,7 @@
             this.textBox.Location = new System.Drawing.Point(218, 0);
             this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(266, 42);
+            this.textBox.Size = new System.Drawing.Size(314, 42);
             this.textBox.TabIndex = 1;
             // 
             // panelAction
@@ -126,7 +127,7 @@
             this.panelAction.Controls.Add(this.buttonDel);
             this.panelAction.Controls.Add(this.buttonSave);
             this.panelAction.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelAction.Location = new System.Drawing.Point(484, 0);
+            this.panelAction.Location = new System.Drawing.Point(532, 0);
             this.panelAction.Name = "panelAction";
             this.panelAction.Size = new System.Drawing.Size(88, 67);
             this.panelAction.TabIndex = 2;
@@ -153,19 +154,20 @@
             // 
             // panelOrder
             // 
+            this.panelOrder.Controls.Add(this.checkBoxBreak);
             this.panelOrder.Controls.Add(this.checkBoxTab);
             this.panelOrder.Controls.Add(this.numericUpDownOrder);
             this.panelOrder.Controls.Add(this.labelOrder);
             this.panelOrder.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelOrder.Location = new System.Drawing.Point(218, 42);
             this.panelOrder.Name = "panelOrder";
-            this.panelOrder.Size = new System.Drawing.Size(266, 25);
+            this.panelOrder.Size = new System.Drawing.Size(314, 25);
             this.panelOrder.TabIndex = 3;
             // 
             // checkBoxTab
             // 
             this.checkBoxTab.AutoSize = true;
-            this.checkBoxTab.Location = new System.Drawing.Point(208, 4);
+            this.checkBoxTab.Location = new System.Drawing.Point(200, 4);
             this.checkBoxTab.Name = "checkBoxTab";
             this.checkBoxTab.Size = new System.Drawing.Size(45, 17);
             this.checkBoxTab.TabIndex = 2;
@@ -201,6 +203,17 @@
             this.buttonShowProperties.UseVisualStyleBackColor = true;
             this.buttonShowProperties.Click += new System.EventHandler(this.ButtonShowProperties_Click);
             // 
+            // checkBoxBreak
+            // 
+            this.checkBoxBreak.AutoSize = true;
+            this.checkBoxBreak.Location = new System.Drawing.Point(251, 4);
+            this.checkBoxBreak.Name = "checkBoxBreak";
+            this.checkBoxBreak.Size = new System.Drawing.Size(54, 17);
+            this.checkBoxBreak.TabIndex = 3;
+            this.checkBoxBreak.Text = "Break";
+            this.checkBoxBreak.UseVisualStyleBackColor = true;
+            this.checkBoxBreak.CheckedChanged += new System.EventHandler(this.CheckBoxBreak_CheckedChanged);
+            // 
             // ControlTicketTemplateViewerRun
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,7 +226,7 @@
             this.Controls.Add(this.panelProperties);
             this.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.Name = "ControlTicketTemplateViewerRun";
-            this.Size = new System.Drawing.Size(572, 67);
+            this.Size = new System.Drawing.Size(620, 67);
             this.panelProperties.ResumeLayout(false);
             this.panelProperties.PerformLayout();
             this.panelAction.ResumeLayout(false);
@@ -242,5 +255,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownOrder;
         private System.Windows.Forms.Button buttonShowProperties;
         private System.Windows.Forms.CheckBox checkBoxTab;
+        private System.Windows.Forms.CheckBox checkBoxBreak;
     }
 }

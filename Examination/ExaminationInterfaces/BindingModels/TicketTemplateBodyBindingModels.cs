@@ -13,10 +13,12 @@ namespace ExaminationInterfaces.BindingModels
     {
         public Guid TicketTemplateId { get; set; }
         
-        public Guid TicketTemplateBodyPropertiesId { get; set; }
+        public Guid? TicketTemplateBodyPropertiesId { get; set; }
 
         public TicketTemplateBodyPropertiesSetBindingModel TicketTemplateBodyPropertiesSetBindingModel { get; set; }
 
         public List<TicketTemplateParagraphSetBindingModel> TicketTemplateParagraphSetBindingModels { get; set; }
+
+        public List<TicketTemplateTableSetBindingModel> TicketTemplateTableSetBindingModels { get; set; }
     }
 }

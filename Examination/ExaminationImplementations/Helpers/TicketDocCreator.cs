@@ -93,64 +93,64 @@ namespace TicketServiceImplementations.Helpers
             return maket;
         }
 
-        private string GetAttribute(TicketTemplateElementaryAttribute element)
-        {
-            if (element == null)
-            {
-                return string.Empty;
-            }
-            if (string.IsNullOrEmpty(element.Name) || string.IsNullOrEmpty(element.Value))
-            {
-                return string.Empty;
-            }
-            return string.Format(" {0}=\"{1}\"", element.Name, element.Value);
-        }
+        //private string GetAttribute(TicketTemplateElementaryAttribute element)
+        //{
+        //    if (element == null)
+        //    {
+        //        return string.Empty;
+        //    }
+        //    if (string.IsNullOrEmpty(element.Name) || string.IsNullOrEmpty(element.Value))
+        //    {
+        //        return string.Empty;
+        //    }
+        //    return string.Format(" {0}=\"{1}\"", element.Name, element.Value);
+        //}
 
-        private string GetUnit(TicketTemplateElementaryUnit element)
-        {
-            if (element == null)
-            {
-                return string.Empty;
-            }
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                return string.Empty;
-            }
-            StringBuilder attributes = new StringBuilder();
-            if (element.TicketTemplateElementaryAttributes != null)
-            {
-                foreach (var attr in element.TicketTemplateElementaryAttributes)
-                {
-                    string attrString = GetAttribute(attr);
-                    if(element.Name.Contains("w:ilfo") && attr.Name == "w:val")
-                    {
-                        // Для списокв надо сбрасывать счетчик, чтобы в документе нумерация сбрасывалась в 1
-                        if(_val != attr.Value)
-                        {
-                            _counter++;
-                            _val = attr.Value;
-                        }
-                        attrString = $" w:val=\"{(_counter)}\"";
-                    }
-                    attributes.Append(attrString);
-                }
-            }
+        //private string GetUnit(TicketTemplateElementaryUnit element)
+        //{
+        //    if (element == null)
+        //    {
+        //        return string.Empty;
+        //    }
+        //    if (string.IsNullOrEmpty(element.Name))
+        //    {
+        //        return string.Empty;
+        //    }
+        //    StringBuilder attributes = new StringBuilder();
+        //    if (element.TicketTemplateElementaryAttributes != null)
+        //    {
+        //        foreach (var attr in element.TicketTemplateElementaryAttributes)
+        //        {
+        //            string attrString = GetAttribute(attr);
+        //            if(element.Name.Contains("w:ilfo") && attr.Name == "w:val")
+        //            {
+        //                // Для списокв надо сбрасывать счетчик, чтобы в документе нумерация сбрасывалась в 1
+        //                if(_val != attr.Value)
+        //                {
+        //                    _counter++;
+        //                    _val = attr.Value;
+        //                }
+        //                attrString = $" w:val=\"{(_counter)}\"";
+        //            }
+        //            attributes.Append(attrString);
+        //        }
+        //    }
 
-            if (element.ChildElementaryUnits != null && element.ChildElementaryUnits.Count > 0)
-            {
-                StringBuilder nodes = new StringBuilder();
-                foreach (var child in element.ChildElementaryUnits)
-                {
-                    nodes.Append(GetUnit(child));
-                }
+        //    if (element.ChildElementaryUnits != null && element.ChildElementaryUnits.Count > 0)
+        //    {
+        //        StringBuilder nodes = new StringBuilder();
+        //        foreach (var child in element.ChildElementaryUnits)
+        //        {
+        //            nodes.Append(GetUnit(child));
+        //        }
 
-                return string.Format("<{0}{1}>{2}</{0}>", element.Name, attributes.ToString(), nodes.ToString());
-            }
-            else
-            {
-                return string.Format("<{0}{1}/>", element.Name, attributes.ToString());
-            }
-        }
+        //        return string.Format("<{0}{1}>{2}</{0}>", element.Name, attributes.ToString(), nodes.ToString());
+        //    }
+        //    else
+        //    {
+        //        return string.Format("<{0}{1}/>", element.Name, attributes.ToString());
+        //    }
+        //}
 
         //private string GetParagraptData(TicketTemplateParagraphData element)
         //{
@@ -235,10 +235,10 @@ namespace TicketServiceImplementations.Helpers
             {
                 return string.Empty;
             }
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                return string.Empty;
-            }
+            //if (string.IsNullOrEmpty(element.Name))
+            //{
+            //    return string.Empty;
+            //}
 
             StringBuilder nodes = new StringBuilder();
             if (element.TicketTemplateParagraphs != null)
@@ -252,7 +252,7 @@ namespace TicketServiceImplementations.Helpers
                 }
             }
 
-            return string.Format("<{0}>{1}{2}</{0}>", element.Name, GetUnit(element.Properties), nodes.ToString());
+            return string.Format("<{0}>{1}{2}</{0}>", "", "", nodes.ToString());
         }
 
         private string GetTableRow(TicketTemplateTableRow element)
@@ -261,19 +261,19 @@ namespace TicketServiceImplementations.Helpers
             {
                 return string.Empty;
             }
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                return string.Empty;
-            }
+            //if (string.IsNullOrEmpty(element.Name))
+            //{
+            //    return string.Empty;
+            //}
 
             StringBuilder attributes = new StringBuilder();
-            if (element.TicketTemplateElementaryAttributes != null)
-            {
-                foreach (var attr in element.TicketTemplateElementaryAttributes)
-                {
-                    attributes.Append(GetAttribute(attr));
-                }
-            }
+            //if (element.TicketTemplateElementaryAttributes != null)
+            //{
+            //    foreach (var attr in element.TicketTemplateElementaryAttributes)
+            //    {
+            //        attributes.Append(GetAttribute(attr));
+            //    }
+            //}
             StringBuilder nodes = new StringBuilder();
             if (element.TicketTemplateTableCells != null)
             {
@@ -286,7 +286,7 @@ namespace TicketServiceImplementations.Helpers
                 }
             }
 
-            return string.Format("<{0}{1}>{2}{3}</{0}>", element.Name, attributes.ToString(), GetUnit(element.Properties), nodes.ToString());
+            return string.Format("<{0}{1}>{2}{3}</{0}>", "", attributes.ToString(), "", nodes.ToString());
         }
 
         private string GetTabel(TicketTemplateTable element)
@@ -295,10 +295,10 @@ namespace TicketServiceImplementations.Helpers
             {
                 return string.Empty;
             }
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                return string.Empty;
-            }
+            //if (string.IsNullOrEmpty(element.Name))
+            //{
+            //    return string.Empty;
+            //}
 
             StringBuilder nodes = new StringBuilder();
             if (element.TicketTemplateTableRows != null)
@@ -312,7 +312,7 @@ namespace TicketServiceImplementations.Helpers
                 }
             }
 
-            return string.Format("<{0}>{1}{2}{3}</{0}>", element.Name, GetUnit(element.Properties), GetUnit(element.Columns), nodes.ToString());
+            return string.Format("<{0}>{1}{2}{3}</{0}>", "", "", "", nodes.ToString());
         }
 
         public string GetBody(TicketTemplateBody element, ExaminationTemplate examinationTemplate, ExaminationTemplateTicket examinationTemplateTicket,

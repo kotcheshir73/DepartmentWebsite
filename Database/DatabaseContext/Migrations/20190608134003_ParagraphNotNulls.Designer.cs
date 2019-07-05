@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190608134003_ParagraphNotNulls")]
+    partial class ParagraphNotNulls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1309,7 +1311,7 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<Guid?>("TicketTemplateBodyPropertiesId");
+                    b.Property<Guid>("TicketTemplateBodyPropertiesId");
 
                     b.Property<Guid>("TicketTemplateId");
 
@@ -1353,6 +1355,66 @@ namespace DatabaseContext.Migrations
                     b.ToTable("TicketTemplateBodyProperties");
                 });
 
+            modelBuilder.Entity("Models.Examination.TicketTemplateElementaryAttribute", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<Guid?>("TicketTemplateElementaryUnitId");
+
+                    b.Property<Guid?>("TicketTemplateParagraphDataId");
+
+                    b.Property<Guid?>("TicketTemplateParagraphId");
+
+                    b.Property<Guid?>("TicketTemplateTableRowId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketTemplateElementaryUnitId");
+
+                    b.HasIndex("TicketTemplateParagraphId");
+
+                    b.HasIndex("TicketTemplateTableRowId");
+
+                    b.ToTable("TicketTemplateElementaryAttributes");
+                });
+
+            modelBuilder.Entity("Models.Examination.TicketTemplateElementaryUnit", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Order");
+
+                    b.Property<Guid?>("ParentElementaryUnitId");
+
+                    b.Property<Guid?>("TicketTemplateParagraphDataId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentElementaryUnitId");
+
+                    b.ToTable("TicketTemplateElementaryUnits");
+                });
+
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraph", b =>
                 {
                     b.Property<Guid>("Id");
@@ -1361,7 +1423,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid?>("TicketTemplateBodyId");
 
-                    b.Property<Guid?>("TicketTemplateParagraphPropertiesId");
+                    b.Property<Guid>("TicketTemplateParagraphPropertiesId");
 
                     b.Property<Guid?>("TicketTemplateTableCellId");
 
@@ -1418,8 +1480,6 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<bool>("Break");
-
                     b.Property<int>("Order");
 
                     b.Property<bool>("TabChar");
@@ -1428,7 +1488,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid>("TicketTemplateParagraphId");
 
-                    b.Property<Guid?>("TicketTemplateParagraphRunPropertiesId");
+                    b.Property<Guid>("TicketTemplateParagraphRunPropertiesId");
 
                     b.HasKey("Id");
 
@@ -1463,13 +1523,27 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
+                    b.Property<Guid?>("ColumnsId");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
                     b.Property<int>("Order");
+
+                    b.Property<Guid?>("PropertiesId");
 
                     b.Property<Guid?>("TicketTemplateBodyId");
 
-                    b.Property<Guid?>("TicketTemplateTablePropertiesId");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ColumnsId");
+
+                    b.HasIndex("PropertiesId");
 
                     b.HasIndex("TicketTemplateBodyId");
 
@@ -1480,162 +1554,54 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
                     b.Property<int>("Order");
 
-                    b.Property<Guid?>("TicketTemplateTableCellPropertiesId");
+                    b.Property<Guid?>("PropertiesId");
 
                     b.Property<Guid?>("TicketTemplateTableRowId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PropertiesId");
 
                     b.HasIndex("TicketTemplateTableRowId");
 
                     b.ToTable("TicketTemplateTableCells");
                 });
 
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableCellProperties", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("GridSpan");
-
-                    b.Property<string>("ShadingColor");
-
-                    b.Property<string>("ShadingFill");
-
-                    b.Property<string>("ShadingValue");
-
-                    b.Property<string>("TableCellWidth");
-
-                    b.Property<Guid?>("TicketTemplateTableCellId");
-
-                    b.Property<string>("VerticalMerge");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TicketTemplateTableCellId")
-                        .IsUnique()
-                        .HasFilter("[TicketTemplateTableCellId] IS NOT NULL");
-
-                    b.ToTable("TicketTemplateTableCellProperties");
-                });
-
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableGridColumn", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<int>("Order");
-
-                    b.Property<Guid?>("TicketTemplateTableId");
-
-                    b.Property<string>("Width");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TicketTemplateTableId");
-
-                    b.ToTable("TicketTemplateTableGridColumn");
-                });
-
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableProperties", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("BorderBottomColor");
-
-                    b.Property<string>("BorderBottomSize");
-
-                    b.Property<string>("BorderBottomSpace");
-
-                    b.Property<string>("BorderBottomValue");
-
-                    b.Property<string>("BorderLeftColor");
-
-                    b.Property<string>("BorderLeftSize");
-
-                    b.Property<string>("BorderLeftSpace");
-
-                    b.Property<string>("BorderLeftValue");
-
-                    b.Property<string>("BorderRightColor");
-
-                    b.Property<string>("BorderRightSize");
-
-                    b.Property<string>("BorderRightSpace");
-
-                    b.Property<string>("BorderRightValue");
-
-                    b.Property<string>("BorderTopColor");
-
-                    b.Property<string>("BorderTopSize");
-
-                    b.Property<string>("BorderTopSpace");
-
-                    b.Property<string>("BorderTopValue");
-
-                    b.Property<string>("LayoutType");
-
-                    b.Property<string>("LookFirstColumn");
-
-                    b.Property<string>("LookFirstRow");
-
-                    b.Property<string>("LookLastColumn");
-
-                    b.Property<string>("LookLastRow");
-
-                    b.Property<string>("LookNoHorizontalBand");
-
-                    b.Property<string>("LookNoVerticalBand");
-
-                    b.Property<string>("LookValue");
-
-                    b.Property<Guid?>("TicketTemplateTableId");
-
-                    b.Property<string>("Width");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TicketTemplateTableId")
-                        .IsUnique()
-                        .HasFilter("[TicketTemplateTableId] IS NOT NULL");
-
-                    b.ToTable("TicketTemplateTableProperties");
-                });
-
             modelBuilder.Entity("Models.Examination.TicketTemplateTableRow", b =>
                 {
                     b.Property<Guid>("Id");
 
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
                     b.Property<int>("Order");
+
+                    b.Property<Guid?>("PropertiesId");
 
                     b.Property<Guid?>("TicketTemplateTableId");
 
-                    b.Property<Guid?>("TicketTemplateTableRowPropertiesId");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("PropertiesId");
 
                     b.HasIndex("TicketTemplateTableId");
 
                     b.ToTable("TicketTemplateTableRows");
-                });
-
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableRowProperties", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("CantSplit");
-
-                    b.Property<string>("TableRowHeight");
-
-                    b.Property<Guid?>("TicketTemplateTableRowId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TicketTemplateTableRowId")
-                        .IsUnique()
-                        .HasFilter("[TicketTemplateTableRowId] IS NOT NULL");
-
-                    b.ToTable("TicketTemplateTableRowProperties");
                 });
 
             modelBuilder.Entity("Models.LaboratoryHead.MaterialTechnicalValue", b =>
@@ -2668,6 +2634,28 @@ namespace DatabaseContext.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Models.Examination.TicketTemplateElementaryAttribute", b =>
+                {
+                    b.HasOne("Models.Examination.TicketTemplateElementaryUnit", "TicketTemplateElementaryUnit")
+                        .WithMany("TicketTemplateElementaryAttributes")
+                        .HasForeignKey("TicketTemplateElementaryUnitId");
+
+                    b.HasOne("Models.Examination.TicketTemplateParagraph", "TicketTemplateParagraph")
+                        .WithMany()
+                        .HasForeignKey("TicketTemplateParagraphId");
+
+                    b.HasOne("Models.Examination.TicketTemplateTableRow", "TicketTemplateTableRow")
+                        .WithMany("TicketTemplateElementaryAttributes")
+                        .HasForeignKey("TicketTemplateTableRowId");
+                });
+
+            modelBuilder.Entity("Models.Examination.TicketTemplateElementaryUnit", b =>
+                {
+                    b.HasOne("Models.Examination.TicketTemplateElementaryUnit")
+                        .WithMany("ChildElementaryUnits")
+                        .HasForeignKey("ParentElementaryUnitId");
+                });
+
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraph", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateBody", "TicketTemplateBody")
@@ -2705,6 +2693,14 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Models.Examination.TicketTemplateTable", b =>
                 {
+                    b.HasOne("Models.Examination.TicketTemplateElementaryUnit", "Columns")
+                        .WithMany()
+                        .HasForeignKey("ColumnsId");
+
+                    b.HasOne("Models.Examination.TicketTemplateElementaryUnit", "Properties")
+                        .WithMany()
+                        .HasForeignKey("PropertiesId");
+
                     b.HasOne("Models.Examination.TicketTemplateBody", "TicketTemplateBody")
                         .WithMany("TicketTemplateTables")
                         .HasForeignKey("TicketTemplateBodyId");
@@ -2712,44 +2708,24 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Models.Examination.TicketTemplateTableCell", b =>
                 {
+                    b.HasOne("Models.Examination.TicketTemplateElementaryUnit", "Properties")
+                        .WithMany()
+                        .HasForeignKey("PropertiesId");
+
                     b.HasOne("Models.Examination.TicketTemplateTableRow", "TicketTemplateTableRow")
                         .WithMany("TicketTemplateTableCells")
                         .HasForeignKey("TicketTemplateTableRowId");
                 });
 
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableCellProperties", b =>
-                {
-                    b.HasOne("Models.Examination.TicketTemplateTableCell", "TicketTemplateTableCell")
-                        .WithOne("TicketTemplateTableCellProperties")
-                        .HasForeignKey("Models.Examination.TicketTemplateTableCellProperties", "TicketTemplateTableCellId");
-                });
-
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableGridColumn", b =>
-                {
-                    b.HasOne("Models.Examination.TicketTemplateTable", "TicketTemplateTable")
-                        .WithMany("TicketTemplateTableGridColumns")
-                        .HasForeignKey("TicketTemplateTableId");
-                });
-
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableProperties", b =>
-                {
-                    b.HasOne("Models.Examination.TicketTemplateTable", "TicketTemplateTable")
-                        .WithOne("TicketTemplateTableProperties")
-                        .HasForeignKey("Models.Examination.TicketTemplateTableProperties", "TicketTemplateTableId");
-                });
-
             modelBuilder.Entity("Models.Examination.TicketTemplateTableRow", b =>
                 {
+                    b.HasOne("Models.Examination.TicketTemplateElementaryUnit", "Properties")
+                        .WithMany()
+                        .HasForeignKey("PropertiesId");
+
                     b.HasOne("Models.Examination.TicketTemplateTable", "TicketTemplateTable")
                         .WithMany("TicketTemplateTableRows")
                         .HasForeignKey("TicketTemplateTableId");
-                });
-
-            modelBuilder.Entity("Models.Examination.TicketTemplateTableRowProperties", b =>
-                {
-                    b.HasOne("Models.Examination.TicketTemplateTableRow", "TicketTemplateTableRow")
-                        .WithOne("TicketTemplateTableRowProperties")
-                        .HasForeignKey("Models.Examination.TicketTemplateTableRowProperties", "TicketTemplateTableRowId");
                 });
 
             modelBuilder.Entity("Models.LaboratoryHead.MaterialTechnicalValue", b =>

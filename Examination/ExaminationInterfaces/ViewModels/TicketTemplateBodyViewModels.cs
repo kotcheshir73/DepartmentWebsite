@@ -9,9 +9,11 @@ namespace ExaminationInterfaces.ViewModels
     {
         public Guid TicketTemplateId { get; set; }
 
-        public Guid TicketTemplateBodyPropertiesId { get; set; }
+        public Guid? TicketTemplateBodyPropertiesId { get; set; }
 
         public TicketTemplateBodyPropertiesViewModel TicketTemplateBodyPropertiesViewModel { get; set; }
+
+        public TicketTemplateTablePageViewModel TicketTemplateTablePageViewModel { get; set; }
 
         public TicketTemplateParagraphPageViewModel TicketTemplateParagraphPageViewModel { get; set; }
     }

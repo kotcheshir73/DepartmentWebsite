@@ -35,6 +35,7 @@ namespace ExaminationControlsAndForms.Services
             Order = Convert.ToInt32(numericUpDownOrder.Value),
             Text = textBox.Text,
             TabChar = checkBoxTab.Checked,
+            Break = checkBoxBreak.Checked,
             TicketTemplateRunPropertiesId = _ticketTemplateRunPropertiesId,
             TicketTemplateParagraphRunPropertiesSetBindingModel = new TicketTemplateParagraphRunPropertiesSetBindingModel
             {
@@ -55,6 +56,7 @@ namespace ExaminationControlsAndForms.Services
             _ticketTemplateParagraphId = model.TicketTemplateParagraphId;
             numericUpDownOrder.Value = model.Order;
             checkBoxTab.Checked = model.TabChar;
+            checkBoxBreak.Checked = model.Break;
             textBox.Text = model.Text;
             if (model.TicketTemplateParagraphRunPropertiesViewModel != null)
             {
@@ -135,7 +137,25 @@ namespace ExaminationControlsAndForms.Services
 
         private void CheckBoxTab_CheckedChanged(object sender, EventArgs e)
         {
-            textBox.Visible = !checkBoxTab.Checked;
+            SetTabOrBreak();
+        }
+
+        private void CheckBoxBreak_CheckedChanged(object sender, EventArgs e)
+        {
+            SetTabOrBreak();
+        }
+
+        private void SetTabOrBreak()
+        {
+            textBox.Visible = !(checkBoxBreak.Checked || checkBoxTab.Checked);
+            if (checkBoxBreak.Checked)
+            {
+                checkBoxTab.Checked = false;
+            }
+            if (checkBoxTab.Checked)
+            {
+                checkBoxBreak.Checked = false;
+            }
         }
     }
 }

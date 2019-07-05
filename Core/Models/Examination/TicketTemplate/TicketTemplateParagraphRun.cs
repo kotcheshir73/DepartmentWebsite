@@ -22,6 +22,9 @@ namespace Models.Examination
         public bool TabChar { get; set; }
 
         [DataMember]
+        public bool Break { get; set; }
+
+        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------

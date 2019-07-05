@@ -21,7 +21,7 @@ namespace ExaminationControlsAndForms.Services
 
         private Guid _id;
 
-        private Guid _ticketTemplateBodyPropertiesId;
+        private Guid? _ticketTemplateBodyPropertiesId;
 
         public ControlTicketTemplateViewerBody(ITicketTemplateBodyService service)
         {
@@ -36,7 +36,7 @@ namespace ExaminationControlsAndForms.Services
             TicketTemplateBodyPropertiesId = _ticketTemplateBodyPropertiesId,
             TicketTemplateBodyPropertiesSetBindingModel = new TicketTemplateBodyPropertiesSetBindingModel
             {
-                Id = _ticketTemplateBodyPropertiesId,
+                Id = _ticketTemplateBodyPropertiesId.Value,
                 TicketTemplateBodyId = _id,
 
                 PageMarginBottom = textBoxBottom.Text,
@@ -50,7 +50,8 @@ namespace ExaminationControlsAndForms.Services
                 PageSizeOrient = textBoxOrient.Text,
                 PageSizeWidth = textBoxOrient.Text
             },
-            TicketTemplateParagraphSetBindingModels = panelParagraphs.Controls.Cast<ControlTicketTemplateViewerParagraph>()?.Select(x => x.GetModel)?.ToList()
+            TicketTemplateParagraphSetBindingModels = panelParagraphs.Controls.Cast<ControlTicketTemplateViewerParagraph>()?.Select(x => x.GetModel)?.ToList(),
+            TicketTemplateTableSetBindingModels = panelTables.Controls.Cast<ControlTicketTemplateViewerTable>()?.Select(x => x.GetModel)?.ToList()
         };
 
         public void LoadView(TicketTemplateBodyViewModel model, bool flag = true)
@@ -87,6 +88,18 @@ namespace ExaminationControlsAndForms.Services
                     panelParagraphs.Controls.Add(control);
                 }
             }
+            if(model.TicketTemplateTablePageViewModel != null)
+            {
+                panelTables.Controls.Clear();
+                model.TicketTemplateTablePageViewModel.List.Reverse();
+                foreach (var table in model.TicketTemplateTablePageViewModel.List)
+                {
+                    var control = Container.Resolve<ControlTicketTemplateViewerTable>();
+                    control.LoadView(table, flag);
+                    control.Dock = DockStyle.Top;
+                    panelTables.Controls.Add(control);
+                }
+            }
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
@@ -99,7 +112,7 @@ namespace ExaminationControlsAndForms.Services
                 TicketTemplateBodyPropertiesSetBindingModel =
                 new TicketTemplateBodyPropertiesSetBindingModel
                 {
-                    Id = _ticketTemplateBodyPropertiesId,
+                    Id = _ticketTemplateBodyPropertiesId.Value,
                     TicketTemplateBodyId = _id,
                     PageMarginBottom = textBoxBottom.Text,
                     PageMarginFooter = textBoxFooter.Text,
@@ -142,6 +155,20 @@ namespace ExaminationControlsAndForms.Services
                 TicketTemplateParagraphPropertiesViewModel = new TicketTemplateParagraphPropertiesViewModel()
             });
             panelParagraphs.Controls.Add(control);
+        }
+
+        private void buttonAddTable_Click(object sender, EventArgs e)
+        {
+            var control = Container.Resolve<ControlTicketTemplateViewerTable>();
+            control.Dock = DockStyle.Top;
+            control.LoadView(new TicketTemplateTableViewModel
+            {
+                Id = Guid.NewGuid(),
+                TicketTemplateBodyId = _id,
+                TicketTemplateTablePropertiesId = Guid.NewGuid(),
+                TicketTemplateTablePropertiesViewModel = new TicketTemplateTablePropertiesViewModel()
+            });
+            panelTables.Controls.Add(control);
         }
     }
 }

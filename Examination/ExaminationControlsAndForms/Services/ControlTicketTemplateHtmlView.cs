@@ -28,13 +28,13 @@ namespace ExaminationControlsAndForms.Services
         /// <param name="body"></param>
         private void LoadBody(TicketTemplateBodyViewModel body)
         {
-            var steps = /*(body.Tables?.Count ?? 0) + */(body.TicketTemplateParagraphPageViewModel?.List.Count ?? 0);
+            var steps = (body.TicketTemplateTablePageViewModel?.List.Count ?? 0) + (body.TicketTemplateParagraphPageViewModel?.List.Count ?? 0);
             StringBuilder html = new StringBuilder("<body>");
             string size = "";
             for (int i = 0; i < steps; ++i)
             {
-                // html.Append(ProcessTable(body.Tables?.FirstOrDefault(x => x.Order == i), ref size));
                 html.Append(LoadParagraph(body.TicketTemplateParagraphPageViewModel?.List.FirstOrDefault(x => x.Order == i), ref size));
+                html.Append(LoadTable(body.TicketTemplateTablePageViewModel?.List.FirstOrDefault(x => x.Order == i), ref size));
             }
             webBrowser.DocumentText = html.ToString();
         }
@@ -47,6 +47,11 @@ namespace ExaminationControlsAndForms.Services
         /// <returns></returns>
         private string LoadParagraph(TicketTemplateParagraphViewModel paragraph, ref string size)
         {
+            if(paragraph == null)
+            {
+                return string.Empty;
+            }
+
             string aligment = "";
             if (paragraph.TicketTemplateParagraphPropertiesViewModel != null)
             {
@@ -64,31 +69,42 @@ namespace ExaminationControlsAndForms.Services
             {
                 foreach (var elem in paragraph.TicketTemplateParagraphRunPageViewModel.List)
                 {
-                    string text = elem.Text;
-                    if (elem.TicketTemplateParagraphRunPropertiesViewModel != null)
+                    if (elem.TabChar)
                     {
-                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunBold)
-                        {
-                            text = $"<b>{text}</b>";
-                        }
-                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunItalic)
-                        {
-                            text = $"<i>{text}</i>";
-                        }
-                        if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunUnderline)
-                        {
-                            text = $"<u>{text}</u>";
-                        }
-                        if (!string.IsNullOrEmpty(elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize))
-                        {
-                            text = $"<span style=\"font-size:{elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize}pt \">{text}</span>";
-                        }
-                        else if (!string.IsNullOrEmpty(size))
-                        {
-                            text = $"<span style=\"font-size:{size}pt \">{text}</span>";
-                        }
+                        paragraphBuilder.Append("&nbsp;&nbsp;&nbsp;&nbsp;");
                     }
-                    paragraphBuilder.Append(text);
+                    else if (elem.Break)
+                    {
+                        paragraphBuilder.Append("<br />");
+                    }
+                    else
+                    {
+                        string text = elem.Text;
+                        if (elem.TicketTemplateParagraphRunPropertiesViewModel != null)
+                        {
+                            if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunBold)
+                            {
+                                text = $"<b>{text}</b>";
+                            }
+                            if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunItalic)
+                            {
+                                text = $"<i>{text}</i>";
+                            }
+                            if (elem.TicketTemplateParagraphRunPropertiesViewModel.RunUnderline)
+                            {
+                                text = $"<u>{text}</u>";
+                            }
+                            if (!string.IsNullOrEmpty(elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize))
+                            {
+                                text = $"<span style=\"font-size:{elem.TicketTemplateParagraphRunPropertiesViewModel.RunSize}pt \">{text}</span>";
+                            }
+                            else if (!string.IsNullOrEmpty(size))
+                            {
+                                text = $"<span style=\"font-size:{size}pt \">{text}</span>";
+                            }
+                        }
+                        paragraphBuilder.Append(text);
+                    }
                 }
             }
             return paragraphBuilder.ToString();
@@ -100,63 +116,68 @@ namespace ExaminationControlsAndForms.Services
         /// <param name="table"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private string ProcessTable(TicketProcessTableViewModel table, ref string size)
+        private string LoadTable(TicketTemplateTableViewModel table, ref string size)
         {
-            if (table != null && table.TableRows != null)
+            if (table == null)
+            {
+                return string.Empty;
+            }
+
+            if (table.TicketTemplateTableRowPageViewModel != null)
             {
                 StringBuilder tableRes = new StringBuilder();
                 List<double> percentWidth = new List<double>();
-                var totalWidth = table.Columns?.ChildElementaryUnits?.Sum(x => Convert.ToInt32(x.ElementaryAttributes?.FirstOrDefault(a => a.Name == "w:w")?.Value ?? "0")) ?? 0;
+                var totalWidth = table.TicketTemplateTableGridColumnPageViewModel?.List.Sum(x => Convert.ToInt32(x.Width)) ?? 0;
                 if (totalWidth == 0)
                 {
                     return string.Empty;
                 }
-                foreach (var elem in table.Columns.ChildElementaryUnits)
+                foreach (var elem in table.TicketTemplateTableGridColumnPageViewModel?.List)
                 {
-                    percentWidth.Add(Convert.ToDouble(elem.ElementaryAttributes?.FirstOrDefault(a => a.Name == "w:w")?.Value ?? "0") / totalWidth);
+                    percentWidth.Add(Convert.ToDouble(elem?.Width ?? "0") / totalWidth);
                 }
-                for (int i = 0; i < table.TableRows.Count; ++i)
+                for (int i = 0; i < table.TicketTemplateTableRowPageViewModel.List.Count; ++i)
                 {
-                    int countCells = 0;
+                    int cellIndex = 0;
                     StringBuilder rowCompile = new StringBuilder();
-                    foreach (var cell in table.TableRows[i].TableCells)
+                    foreach (var cell in table.TicketTemplateTableRowPageViewModel.List[i].TicketTemplateTableCellPageViewModel.List)
                     {
-                        var colMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:gridSpan");
+                        var colMerge = cell.TicketTemplateTableCellPropertiesViewModel?.GridSpan ?? string.Empty;
                         string colSpan = "";
-                        if (colMerge != null)
+                        if (!string.IsNullOrEmpty(colMerge))
                         {
                             // объединение по строкам
-                            colSpan = $" colspan=\"{colMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value}\"";
+                            colSpan = $" colspan=\"{colMerge}\"";
                         }
                         // проверка на объединение по строкам
-                        var rowMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:vmerge");
+                        var rowMerge = cell.TicketTemplateTableCellPropertiesViewModel?.VerticalMerge ?? string.Empty;
                         string rowSpan = "";
-                        if (rowMerge != null)
+                        if (!string.IsNullOrEmpty(rowMerge))
                         {
-                            if (rowMerge.ElementaryAttributes != null && rowMerge.ElementaryAttributes.Count > 0)
+                            if (rowMerge == "restart")
                             {
                                 int countRows = 1;
                                 // если это первая строка при объединение, ищем, как далеко вниз она идет
-                                for (int j = i + 1; j < table.TableRows.Count; ++j)
+                                for (int j = i + 1; j < table.TicketTemplateTableRowPageViewModel.List.Count; ++j)
                                 {
                                     int countSecCells = 0;
                                     // идем дло нужной ячейки
-                                    foreach (var cellSec in table.TableRows[j].TableCells)
+                                    foreach (var cellSec in table.TicketTemplateTableRowPageViewModel.List[j].TicketTemplateTableCellPageViewModel.List)
                                     {
-                                        if (countCells == countSecCells)
+                                        if (cellIndex == countSecCells)
                                         {
-                                            var rowSecMerge = cellSec.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:vmerge");
-                                            if (rowSecMerge == null)
+                                            var rowSecMerge = cellSec.TicketTemplateTableCellPropertiesViewModel?.VerticalMerge;
+                                            if (string.IsNullOrEmpty(rowSecMerge))
                                             {
-                                                // если у ячейки по нужной позиции нет признака объежинения, то прерываем
-                                                j = table.TableRows.Count;
+                                                // если у ячейки по нужной позиции нет признака объединения, то прерываем
+                                                j = table.TicketTemplateTableRowPageViewModel.List.Count;
                                             }
                                             else
                                             {
-                                                if (rowSecMerge.ElementaryAttributes != null && rowSecMerge.ElementaryAttributes.Count > 0)
+                                                if (rowSecMerge != "continue")
                                                 {
                                                     // началось другое объединение, прерываем это
-                                                    j = table.TableRows.Count;
+                                                    j = table.TicketTemplateTableRowPageViewModel.List.Count;
                                                 }
                                                 else
                                                 {
@@ -165,11 +186,11 @@ namespace ExaminationControlsAndForms.Services
                                             }
                                             break;
                                         }
-                                        var colSecMerge = cell.Properties?.ChildElementaryUnits?.FirstOrDefault(x => x.Name == "w:gridSpan");
-                                        if (colSecMerge != null)
+                                        var colSecMerge = cell.TicketTemplateTableCellPropertiesViewModel?.GridSpan;
+                                        if (!string.IsNullOrEmpty(colSecMerge))
                                         {
                                             // либо несколько ячеек объединенных
-                                            countSecCells += Convert.ToInt32(colSecMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value ?? "0");
+                                            countSecCells += Convert.ToInt32(colSecMerge);
                                         }
                                         else
                                         {
@@ -180,28 +201,27 @@ namespace ExaminationControlsAndForms.Services
                                 }
                                 rowSpan = $" rowspan=\"{countRows}\"";
                             }
-                            else
+                            else if (rowMerge == "continue")
                             {
-                                // иначе, игнорируем строку
                                 continue;
                             }
                         }
-                        string width = colMerge == null ? $" width=\"{percentWidth[countCells]}%\"" : "";
+                        string width = colMerge == null ? $" width=\"{percentWidth[cellIndex]}%\"" : "";
 
                         StringBuilder cellCompile = new StringBuilder();
-                        foreach (var paragraph in cell.Paragraphs)
+                        foreach (var paragraph in cell.TicketTemplateParagraphPageViewModel.List)
                         {
-                            //  cellCompile.Append(ProcessParagraph(paragraph, ref size));
+                              cellCompile.Append(LoadParagraph(paragraph, ref size));
                         }
 
                         rowCompile.Append($"<td{rowSpan}{colSpan}{width}>{cellCompile.ToString()}</td>");
-                        if (colMerge != null)
+                        if (!string.IsNullOrEmpty(colMerge))
                         {
-                            countCells += Convert.ToInt32(colMerge.ElementaryAttributes?.FirstOrDefault(x => x.Name == "w:val")?.Value ?? "0");
+                            cellIndex += Convert.ToInt32(colMerge);
                         }
                         else
                         {
-                            countCells++;
+                            cellIndex++;
                         }
                     }
                     tableRes.Append($"<tr>{rowCompile.ToString()}</tr>");

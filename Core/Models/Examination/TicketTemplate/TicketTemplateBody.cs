@@ -16,7 +16,7 @@ namespace Models.Examination
         public Guid TicketTemplateId { get; set; }
 
         [DataMember]
-        public Guid TicketTemplateBodyPropertiesId { get; set; }
+        public Guid? TicketTemplateBodyPropertiesId { get; set; }
 
         //-------------------------------------------------------------------------
 

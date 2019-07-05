@@ -174,6 +174,12 @@
     <Compile Include="Services\ControlTicketTemplateViewerBody.Designer.cs">
       <DependentUpon>ControlTicketTemplateViewerBody.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ControlTicketTemplateViewerTableCell.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateViewerTableCell.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTableCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ControlTicketTemplateViewerParagraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -191,6 +197,18 @@
     </Compile>
     <Compile Include="Services\ControlTicketTemplateHtmlView.Designer.cs">
       <DependentUpon>ControlTicketTemplateHtmlView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateViewerTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateViewerTable.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateViewerTableRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateViewerTableRow.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTableRow.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\FormExaminationTemplateUploadTickets.cs">
       <SubType>Form</SubType>
@@ -295,6 +313,9 @@
     <EmbeddedResource Include="Services\ControlTicketTemplateViewerBody.resx">
       <DependentUpon>ControlTicketTemplateViewerBody.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlTicketTemplateViewerTableCell.resx">
+      <DependentUpon>ControlTicketTemplateViewerTableCell.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Services\ControlTicketTemplateViewerParagraph.resx">
       <DependentUpon>ControlTicketTemplateViewerParagraph.cs</DependentUpon>
     </EmbeddedResource>
@@ -303,6 +324,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Services\ControlTicketTemplateHtmlView.resx">
       <DependentUpon>ControlTicketTemplateHtmlView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlTicketTemplateViewerTable.resx">
+      <DependentUpon>ControlTicketTemplateViewerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlTicketTemplateViewerTableRow.resx">
+      <DependentUpon>ControlTicketTemplateViewerTableRow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormExaminationTemplateUploadTickets.resx">
       <DependentUpon>FormExaminationTemplateUploadTickets.cs</DependentUpon>

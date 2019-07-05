@@ -15,6 +15,13 @@ namespace ExaminationImplementations.Implementations
 
         private readonly string _entity = "Шаблоны Билетов";
 
+        private readonly ITicketTemplateBodyService _bodyService;
+
+        public TicketTemplateService(ITicketTemplateBodyService bodyService)
+        {
+            _bodyService = bodyService;
+        }
+
         public ResultService<TicketTemplatePageViewModel> GetTicketTemplates(TicketTemplateGetBindingModel model)
         {
             try
@@ -104,71 +111,12 @@ namespace ExaminationImplementations.Implementations
                 {
                     var entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplate(model);
 
-                    var exsistEntity = context.TicketTemplates
-                                                    .FirstOrDefault(x => x.Id == entity.Id);
+                    var exsistEntity = context.TicketTemplates.FirstOrDefault(x => x.Id == entity.Id);
                     if (exsistEntity == null)
                     {
-                        using (var transaction = context.Database.BeginTransaction())
-                        {
-                            try
-                            {
-                                var body = entity.TicketTemplateBody;
-                                entity.TicketTemplateBodyId = null;
-                                entity.TicketTemplateBody = null;
-
-                                context.TicketTemplates.Add(entity);
-                                context.SaveChanges();
-
-                                var paragraphs = body.TicketTemplateParagraphs;
-                                body.TicketTemplateParagraphs = null;
-
-                                context.TicketTemplateBodies.Add(body);
-                                context.SaveChanges();
-
-                                paragraphs.ForEach(paragraph =>
-                                {
-                                    var runs = paragraph.TicketTemplateParagraphRuns;
-                                    paragraph.TicketTemplateParagraphRuns = null;
-
-                                    context.TicketTemplateParagraphs.Add(paragraph);
-                                    context.SaveChanges();
-
-                                    runs?.ForEach(run =>
-                                    {
-                                        context.TicketTemplateParagraphRuns.Add(run);
-                                        context.SaveChanges();
-                                    });
-
-                                });
-
-                                //foreach (var paragraph in paragraphs)
-                                //{
-                                //    var runs = paragraph.TicketTemplateParagraphRuns;
-                                //    paragraph.TicketTemplateParagraphRuns = null;
-
-                                //    context.TicketTemplateParagraphs.Add(paragraph);
-                                //    context.SaveChanges();
-
-                                //    if (runs != null)
-                                //    {
-                                //        context.TicketTemplateParagraphRuns.AddRange(runs);
-                                //        context.SaveChanges();
-                                //    }
-                                //}
-
-                                entity.TicketTemplateBodyId = body.Id;
-                                context.SaveChanges();
-
-                                transaction.Commit();
-
-                                return ResultService.Success(entity.Id);
-                            }
-                            catch (Exception ex)
-                            {
-                                transaction.Rollback();
-                                return ResultService.Error(ex, ResultServiceStatusCode.Error);
-                            }
-                        }
+                        context.TicketTemplates.Add(entity);
+                        context.SaveChanges();
+                        return ResultService.Success(entity.Id);
                     }
                     else
                     {
@@ -211,76 +159,35 @@ namespace ExaminationImplementations.Implementations
 
         public ResultService DeleteTicketTemplate(TicketTemplateGetBindingModel model)
         {
+            try
             {
-                try
-                {
-                    DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
+                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
-                    using (var context = DepartmentUserManager.GetContext)
-                    using (var transation = context.Database.BeginTransaction())
+                using (var context = DepartmentUserManager.GetContext)
+                using (var transation = context.Database.BeginTransaction())
+                {
+                    var entity = context.TicketTemplates.Include(x => x.TicketTemplateBody).FirstOrDefault(x => x.Id == model.Id);
+                    if (entity == null)
                     {
-                        var entity = context.TicketTemplates.FirstOrDefault(x => x.Id == model.Id);
-                        if (entity == null)
-                        {
-                            return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
-                        }
-                        //else if (entity.IsDeleted)
-                        //{
-                        //    return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
-                        //}
-                        //entity.IsDeleted = true;
-                        //entity.DateDelete = DateTime.Now;
-                        context.SaveChanges();
-
-                        var ticketTemplaetBodies = context.TicketTemplateBodies.Where(x => x.TicketTemplateId == entity.Id);
-                        foreach (var ticketTemplaetBody in ticketTemplaetBodies)
-                        {
-                            //ticketTemplaetBody.IsDeleted = true;
-                            //ticketTemplaetBody.DateDelete = DateTime.Now;
-                            //context.SaveChanges();
-
-                            //var ticketTemplateTables = context.TicketTemplateTables.Where(x => x.TicketTemplateBodyId == ticketTemplaetBody.Id);
-                            //foreach (var ticketTemplateTable in ticketTemplateTables)
-                            //{
-                            //    ticketTemplateTable.IsDeleted = true;
-                            //    ticketTemplateTable.DateDelete = DateTime.Now;
-                            //    context.SaveChanges();
-
-                            //    var ticketTemplateTableRows = context.TicketTemplateTableRows.Where(x => x.TicketTemplateTableId == ticketTemplateTable.Id);
-                            //    foreach (var ticketTemplateTableRow in ticketTemplateTableRows)
-                            //    {
-                            //        ticketTemplateTableRow.IsDeleted = true;
-                            //        ticketTemplateTableRow.DateDelete = DateTime.Now;
-                            //        context.SaveChanges();
-
-                            //        var ticketTemplateTableCells = context.TicketTemplateTableCells.Where(x => x.TicketTemplateTableRowId == ticketTemplateTableRow.Id);
-                            //        foreach (var ticketTemplateTableCell in ticketTemplateTableCells)
-                            //        {
-                            //            ticketTemplateTableCell.IsDeleted = true;
-                            //            ticketTemplateTableCell.DateDelete = DateTime.Now;
-                            //            context.SaveChanges();
-
-                            //            var ticketTemplateTableParagrahs = context.TicketTemplateParagraphs.Where(x => x.TicketTemplateTableCellId == ticketTemplateTableCell.Id);
-                            //            foreach (var ticketTemplateTableParagrah in ticketTemplateTableParagrahs)
-                            //            {
-                            //                DeleteParagraph(context, ticketTemplateTableParagrah);
-                            //            }
-                            //        }
-
-                            //        DeleteAttribute(context, context.TicketTemplateElementaryAttributes.Where(x => x.TicketTemplateTableRowId == ticketTemplateTableRow.Id).ToList());
-                            //    }
-                            //}
-                        }
-
-                        transation.Commit();
-
-                        return ResultService.Success();
+                        return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
+
+                    if (entity.TicketTemplateBody != null)
+                    {
+                        _bodyService.DeleteTicketTemplateBody(new TicketTemplateBodyGetBindingModel { Id = entity.TicketTemplateBody.Id });
+                    }
+
+                    context.TicketTemplates.Remove(entity);
+                    context.SaveChanges();
+
+                    transation.Commit();
+
+                    return ResultService.Success();
                 }
-                catch (Exception ex)
-                {
-                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
-                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }
