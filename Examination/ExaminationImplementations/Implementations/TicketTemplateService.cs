@@ -54,7 +54,18 @@ namespace ExaminationImplementations.Implementations
                         .Include(x => x.TicketTemplateBody.TicketTemplateParagraphs)
                         .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
                         .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
-                        .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
+                        .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
+                        .Include(x => x.TicketTemplateBody.TicketTemplateTables)
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableProperties")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableGridColumns")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableRowProperties")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateTableCellProperties")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                        .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
 
                     var result = new TicketTemplatePageViewModel
                     {
@@ -86,6 +97,17 @@ namespace ExaminationImplementations.Implementations
                                     .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
                                     .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
                                     .Include("TicketTemplateBody.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
+                                    .Include(x => x.TicketTemplateBody.TicketTemplateTables)
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableProperties")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableGridColumns")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableRowProperties")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateTableCellProperties")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                                    .Include("TicketTemplateBody.TicketTemplateTables.TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
                                     .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

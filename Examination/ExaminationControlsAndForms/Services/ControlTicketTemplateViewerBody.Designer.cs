@@ -57,6 +57,14 @@
             this.labelWidth = new System.Windows.Forms.Label();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.panelTables = new System.Windows.Forms.Panel();
+            this.groupBoxKeyWords = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelNumber = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.panelAction.SuspendLayout();
             this.panelProperties.SuspendLayout();
             this.groupBoxRunningTitle.SuspendLayout();
@@ -66,10 +74,12 @@
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
+            this.groupBoxKeyWords.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelAction
             // 
+            this.panelAction.Controls.Add(this.groupBoxKeyWords);
             this.panelAction.Controls.Add(this.button1);
             this.panelAction.Controls.Add(this.buttonAddParagraph);
             this.panelAction.Controls.Add(this.buttonSave);
@@ -349,6 +359,85 @@
             this.panelTables.Size = new System.Drawing.Size(748, 191);
             this.panelTables.TabIndex = 0;
             // 
+            // groupBoxKeyWords
+            // 
+            this.groupBoxKeyWords.Controls.Add(this.label7);
+            this.groupBoxKeyWords.Controls.Add(this.label6);
+            this.groupBoxKeyWords.Controls.Add(this.label5);
+            this.groupBoxKeyWords.Controls.Add(this.label4);
+            this.groupBoxKeyWords.Controls.Add(this.labelNumber);
+            this.groupBoxKeyWords.Controls.Add(this.label2);
+            this.groupBoxKeyWords.Controls.Add(this.label1);
+            this.groupBoxKeyWords.Location = new System.Drawing.Point(10, 200);
+            this.groupBoxKeyWords.Name = "groupBoxKeyWords";
+            this.groupBoxKeyWords.Size = new System.Drawing.Size(130, 250);
+            this.groupBoxKeyWords.TabIndex = 5;
+            this.groupBoxKeyWords.TabStop = false;
+            this.groupBoxKeyWords.Text = "Ключевые слова";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(96, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "{#random:q1,q2,..}";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 53);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "{#questionN}";
+            // 
+            // labelNumber
+            // 
+            this.labelNumber.AutoSize = true;
+            this.labelNumber.Location = new System.Drawing.Point(14, 78);
+            this.labelNumber.Name = "labelNumber";
+            this.labelNumber.Size = new System.Drawing.Size(57, 13);
+            this.labelNumber.TabIndex = 2;
+            this.labelNumber.Text = "{#number}";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(14, 104);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "{#discipline}";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(14, 130);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "{#education}";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 157);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(64, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "{#semester}";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(14, 182);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "{#date}";
+            // 
             // ControlTicketTemplateViewerBody
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -370,6 +459,8 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
+            this.groupBoxKeyWords.ResumeLayout(false);
+            this.groupBoxKeyWords.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -404,5 +495,13 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.Panel panelTables;
+        private System.Windows.Forms.GroupBox groupBoxKeyWords;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelNumber;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }

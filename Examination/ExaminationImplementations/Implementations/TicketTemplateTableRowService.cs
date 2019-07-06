@@ -54,8 +54,11 @@ namespace ExaminationImplementations.Implementations
                     }
 
                     query = query.Include(x => x.TicketTemplateTableRowProperties).Include(x => x.TicketTemplateTableCells)
+                        .Include("TicketTemplateTableCells.TicketTemplateTableCellProperties")
                         .Include("TicketTemplateTableCells.TicketTemplateParagraphs")
-                        .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns");
+                        .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                        .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                        .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
 
                     var result = new TicketTemplateTableRowPageViewModel
                     {
@@ -83,8 +86,11 @@ namespace ExaminationImplementations.Implementations
                     var entity = context.TicketTemplateTableRows
                                 .Include(x => x.TicketTemplateTableRowProperties)
                                 .Include(x => x.TicketTemplateTableCells)
+                                .Include("TicketTemplateTableCells.TicketTemplateTableCellProperties")
                                 .Include("TicketTemplateTableCells.TicketTemplateParagraphs")
+                                .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
                                 .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                                .Include("TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

@@ -19,6 +19,8 @@ namespace ExaminationInterfaces.BindingModels
 
         public List<TicketTemplateTableRowSetBindingModel> TicketTemplateTableRowSetBindingModels { get; set; }
 
+        public List<TicketTemplateTableGridColumnSetBindingModel> TicketTemplateTableGridColumnSetBindingModels { get; set; }
+
         public int Order { get; set; }
     }
 }

@@ -53,7 +53,10 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.TicketTemplateTableCellProperties).Include(x => x.TicketTemplateParagraphs).Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns");
+                    query = query.Include(x => x.TicketTemplateTableCellProperties).Include(x => x.TicketTemplateParagraphs)
+                        .Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                        .Include("TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                        .Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
 
                     var result = new TicketTemplateTableCellPageViewModel
                     {
@@ -82,6 +85,8 @@ namespace ExaminationImplementations.Implementations
                                 .Include(x => x.TicketTemplateTableCellProperties)
                                 .Include(x => x.TicketTemplateParagraphs)
                                 .Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                                .Include("TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                                .Include("TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

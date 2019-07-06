@@ -1,4 +1,5 @@
 ﻿using ControlsAndForms.Messangers;
+using ExaminationControlsAndForms.TicketTemplateTableCell;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 using Tools;
 using Unity;
 
-namespace ExaminationControlsAndForms.Services
+namespace ExaminationControlsAndForms.TicketTemplateTableRow
 {
     public partial class ControlTicketTemplateViewerTableRow : UserControl
     {
@@ -22,12 +23,13 @@ namespace ExaminationControlsAndForms.Services
 
         private Guid _id;
 
-        private Guid? _ticketTemplateTableRowPropertiesId;
+        private FormTicketTemplateTableRowProperties _formTableRowProperties;
 
         public ControlTicketTemplateViewerTableRow(ITicketTemplateTableRowService service)
         {
             InitializeComponent();
             _service = service;
+            _formTableRowProperties = new FormTicketTemplateTableRowProperties();
         }
 
         public TicketTemplateTableRowSetBindingModel GetModel => new TicketTemplateTableRowSetBindingModel
@@ -35,31 +37,19 @@ namespace ExaminationControlsAndForms.Services
             Id = _id,
             TicketTemplateTableId = _ticketTemplateTableId,
             Order = Convert.ToInt32(numericUpDownOrder.Value),
-            TicketTemplateTableRowPropertiesId = _ticketTemplateTableRowPropertiesId,
-            TicketTemplateTableRowPropertiesSetBindingModel = new TicketTemplateTableRowPropertiesSetBindingModel
-            {
-                Id = _ticketTemplateTableRowPropertiesId.Value,
-                TicketTemplateTableRowId = _id,
-
-                TableRowHeight = textBoxTableRowHeight.Text,
-                CantSplit = textBoxCantSplit.Text
-            },
+            TicketTemplateTableRowPropertiesId = _formTableRowProperties.GetTicketTemplateTableRowPropertiesId,
+            TicketTemplateTableRowPropertiesSetBindingModel = _formTableRowProperties.GetTicketTemplateTableRowPropertiesSetBindingModel,
             TicketTemplateTableCellSetBindingModels = panelCells.Controls.Cast<ControlTicketTemplateViewerTableCell>()?.Select(x => x.GetModel)?.ToList()
         };
 
         public void LoadView(TicketTemplateTableRowViewModel model, bool flag = true)
         {
-            panelAction.Enabled = flag;
+            contextMenuStrip.Enabled = flag;
 
             _id = model.Id;
             _ticketTemplateTableId = model.TicketTemplateTableId;
             numericUpDownOrder.Value = model.Order;
-            if (model.TicketTemplateTableRowPropertiesViewModel != null)
-            {
-                _ticketTemplateTableRowPropertiesId = model.TicketTemplateTableRowPropertiesId;
-                textBoxTableRowHeight.Text = model.TicketTemplateTableRowPropertiesViewModel.TableRowHeight;
-                textBoxCantSplit.Text = model.TicketTemplateTableRowPropertiesViewModel.CantSplit;
-            }
+            _formTableRowProperties.SetTicketTemplateTableRowPropertiesViewModel = model.TicketTemplateTableRowPropertiesViewModel;
 
             if (model.TicketTemplateTableCellPageViewModel != null)
             {
@@ -75,34 +65,20 @@ namespace ExaminationControlsAndForms.Services
             }
         }
 
-        private void ButtonShowProperties_Click(object sender, EventArgs e)
+        private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (panelTableRowProperties.Visible)
-            {
-                panelTableRowProperties.Visible = false;
-            }
-            else
-            {
-                panelTableRowProperties.Visible = true;
-            }
+            _formTableRowProperties.ShowDialog();
         }
 
-        private void ButtonSave_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResultService result = _service.UpdateTicketTemplateTableRow(new TicketTemplateTableRowSetBindingModel
             {
                 Id = _id,
                 Order = Convert.ToInt32(numericUpDownOrder.Value),
                 TicketTemplateTableId = _ticketTemplateTableId,
-                TicketTemplateTableRowPropertiesId = _ticketTemplateTableRowPropertiesId,
-                TicketTemplateTableRowPropertiesSetBindingModel = new TicketTemplateTableRowPropertiesSetBindingModel
-                {
-                    Id = _ticketTemplateTableRowPropertiesId.Value,
-                    TicketTemplateTableRowId = _id,
-
-                    TableRowHeight = textBoxTableRowHeight.Text,
-                    CantSplit = textBoxCantSplit.Text
-                }
+                TicketTemplateTableRowPropertiesId = _formTableRowProperties.GetTicketTemplateTableRowPropertiesId,
+                TicketTemplateTableRowPropertiesSetBindingModel = _formTableRowProperties.GetTicketTemplateTableRowPropertiesSetBindingModel
             });
             if (result.Succeeded)
             {
@@ -122,7 +98,7 @@ namespace ExaminationControlsAndForms.Services
             }
         }
 
-        private void ButtonDel_Click(object sender, EventArgs e)
+        private void DelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
@@ -137,7 +113,7 @@ namespace ExaminationControlsAndForms.Services
             Enabled = false;
         }
 
-        private void ButtonAddCell_Click(object sender, EventArgs e)
+        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<ControlTicketTemplateViewerTableCell>();
             control.Dock = DockStyle.Top;

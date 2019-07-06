@@ -53,10 +53,17 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.TicketTemplateTableProperties).Include(x => x.TicketTemplateTableRows)
+                    query = query
+                        .Include(x => x.TicketTemplateTableProperties)
+                        .Include(x => x.TicketTemplateTableGridColumns)
+                        .Include(x => x.TicketTemplateTableRows)
+                        .Include("TicketTemplateTableRows.TicketTemplateTableRowProperties")
                         .Include("TicketTemplateTableRows.TicketTemplateTableCells")
+                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateTableCellProperties")
                         .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs")
-                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns");
+                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
 
                     var result = new TicketTemplateTablePageViewModel
                     {
@@ -82,11 +89,16 @@ namespace ExaminationImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.TicketTemplateTables
-                        .Include(x => x.TicketTemplateTableProperties)
-                        .Include(x => x.TicketTemplateTableRows)
-                        .Include("TicketTemplateTableRows.TicketTemplateTableCells")
-                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs")
-                        .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                                .Include(x => x.TicketTemplateTableProperties)
+                                .Include(x => x.TicketTemplateTableGridColumns)
+                                .Include(x => x.TicketTemplateTableRows)
+                                .Include("TicketTemplateTableRows.TicketTemplateTableRowProperties")
+                                .Include("TicketTemplateTableRows.TicketTemplateTableCells")
+                                .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateTableCellProperties")
+                                .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs")
+                                .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphProperties")
+                                .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns")
+                                .Include("TicketTemplateTableRows.TicketTemplateTableCells.TicketTemplateParagraphs.TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
@@ -112,7 +124,7 @@ namespace ExaminationImplementations.Implementations
                 {
                     var entity = ExaminationModelFacotryFromBindingModel.CreateTicketTemplateTable(model);
 
-                    var exsistEntity = context.TicketTemplateTables.Include(x => x.TicketTemplateTableProperties)
+                    var exsistEntity = context.TicketTemplateTables.Include(x => x.TicketTemplateTableProperties).Include(x => x.TicketTemplateTableGridColumns)
                                                     .FirstOrDefault(x => x.TicketTemplateBodyId == entity.TicketTemplateBodyId && x.Order == model.Order);
                     if (exsistEntity == null)
                     {
@@ -140,7 +152,7 @@ namespace ExaminationImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.TicketTemplateTables.Include(x => x.TicketTemplateTableProperties).FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.TicketTemplateTables.Include(x => x.TicketTemplateTableProperties).Include(x => x.TicketTemplateTableGridColumns).FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -168,7 +180,7 @@ namespace ExaminationImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 using (var transation = context.Database.BeginTransaction())
                 {
-                    var entity = context.TicketTemplateTables.Include(x => x.TicketTemplateTableProperties).Include(x => x.TicketTemplateTableRows).FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.TicketTemplateTables.Include(x => x.TicketTemplateTableProperties).Include(x => x.TicketTemplateTableGridColumns).Include(x => x.TicketTemplateTableRows).FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -177,6 +189,12 @@ namespace ExaminationImplementations.Implementations
                     if (entity.TicketTemplateTableProperties != null)
                     {
                         context.TicketTemplateTableProperties.Remove(entity.TicketTemplateTableProperties);
+                        context.SaveChanges();
+                    }
+
+                    if (entity.TicketTemplateTableGridColumns != null)
+                    {
+                        context.TicketTemplateTableGridColumn.RemoveRange(entity.TicketTemplateTableGridColumns);
                         context.SaveChanges();
                     }
 

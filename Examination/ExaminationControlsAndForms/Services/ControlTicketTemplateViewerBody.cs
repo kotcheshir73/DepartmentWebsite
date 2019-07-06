@@ -1,4 +1,6 @@
 ﻿using ControlsAndForms.Messangers;
+using ExaminationControlsAndForms.TicketTemplateParagraph;
+using ExaminationControlsAndForms.TicketTemplateTable;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;

@@ -1,4 +1,5 @@
 ﻿using ControlsAndForms.Messangers;
+using ExaminationControlsAndForms.TicketTemplateParagraph;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 using Tools;
 using Unity;
 
-namespace ExaminationControlsAndForms.Services
+namespace ExaminationControlsAndForms.TicketTemplateTableCell
 {
     public partial class ControlTicketTemplateViewerTableCell : UserControl
     {
@@ -22,12 +23,13 @@ namespace ExaminationControlsAndForms.Services
 
         private Guid _id;
 
-        private Guid? _ticketTemplateTableCellPropertiesId;
+        private FormTicketTemplateTableCellProperties _formTableCellProperties;
 
         public ControlTicketTemplateViewerTableCell(ITicketTemplateTableCellService service)
         {
             InitializeComponent();
             _service = service;
+            _formTableCellProperties = new FormTicketTemplateTableCellProperties();
         }
 
         public TicketTemplateTableCellSetBindingModel GetModel => new TicketTemplateTableCellSetBindingModel
@@ -35,39 +37,19 @@ namespace ExaminationControlsAndForms.Services
             Id = _id,
             TicketTemplateTableRowId = _ticketTemplateTableRowId,
             Order = Convert.ToInt32(numericUpDownOrder.Value),
-            TicketTemplateTableCellPropertiesId = _ticketTemplateTableCellPropertiesId,
-            TicketTemplateTableCellPropertiesSetBindingModel = new TicketTemplateTableCellPropertiesSetBindingModel
-            {
-                Id = _ticketTemplateTableCellPropertiesId.Value,
-                TicketTemplateTableCellId = _id,
-
-                TableCellWidth = textBoxTableCellWidth.Text,
-                GridSpan = textBoxGridSpan.Text,
-                VerticalMerge = textBoxVerticalMerge.Text,
-                ShadingColor = textBoxShadingColor.Text,
-                ShadingFill = textBoxShadingFill.Text,
-                ShadingValue = textBoxShadingValue.Text
-            },
+            TicketTemplateTableCellPropertiesId = _formTableCellProperties.GetTicketTemplateTableCellPropertiesId,
+            TicketTemplateTableCellPropertiesSetBindingModel = _formTableCellProperties.GetTicketTemplateTableCellPropertiesSetBindingModel,
             TicketTemplateParagraphSetBindingModels = panelParagraphs.Controls.Cast<ControlTicketTemplateViewerParagraph>()?.Select(x => x.GetModel)?.ToList()
         };
 
         public void LoadView(TicketTemplateTableCellViewModel model, bool flag = true)
         {
-            panelAction.Enabled = flag;
+            contextMenuStrip.Enabled = flag;
 
             _id = model.Id;
             _ticketTemplateTableRowId = model.TicketTemplateTableRowId;
             numericUpDownOrder.Value = model.Order;
-            if (model.TicketTemplateTableCellPropertiesViewModel != null)
-            {
-                _ticketTemplateTableCellPropertiesId = model.TicketTemplateTableCellPropertiesId;
-                textBoxTableCellWidth.Text = model.TicketTemplateTableCellPropertiesViewModel.TableCellWidth;
-                textBoxGridSpan.Text = model.TicketTemplateTableCellPropertiesViewModel.GridSpan;
-                textBoxVerticalMerge.Text = model.TicketTemplateTableCellPropertiesViewModel.VerticalMerge;
-                textBoxShadingColor.Text = model.TicketTemplateTableCellPropertiesViewModel.ShadingColor;
-                textBoxShadingFill.Text = model.TicketTemplateTableCellPropertiesViewModel.ShadingFill;
-                textBoxShadingValue.Text = model.TicketTemplateTableCellPropertiesViewModel.ShadingValue;
-            }
+            _formTableCellProperties.SetTicketTemplateTableCellPropertiesViewModel = model.TicketTemplateTableCellPropertiesViewModel;
 
             if (model.TicketTemplateParagraphPageViewModel != null)
             {
@@ -85,36 +67,34 @@ namespace ExaminationControlsAndForms.Services
 
         private void ButtonShowProperties_Click(object sender, EventArgs e)
         {
-            if (panelTableCellProperties.Visible)
-            {
-                panelTableCellProperties.Visible = false;
-            }
-            else
-            {
-                panelTableCellProperties.Visible = true;
-            }
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void ButtonDel_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void ButtonAddParagraph_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _formTableCellProperties.ShowDialog();
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResultService result = _service.UpdateTicketTemplateTableCell(new TicketTemplateTableCellSetBindingModel
             {
                 Id = _id,
                 Order = Convert.ToInt32(numericUpDownOrder.Value),
                 TicketTemplateTableRowId = _ticketTemplateTableRowId,
-                TicketTemplateTableCellPropertiesId = _ticketTemplateTableCellPropertiesId,
-                TicketTemplateTableCellPropertiesSetBindingModel = new TicketTemplateTableCellPropertiesSetBindingModel
-                {
-                    Id = _ticketTemplateTableCellPropertiesId.Value,
-                    TicketTemplateTableCellId = _id,
-
-                    TableCellWidth = textBoxTableCellWidth.Text,
-                    GridSpan = textBoxGridSpan.Text,
-                    VerticalMerge = textBoxVerticalMerge.Text,
-                    ShadingColor = textBoxShadingColor.Text,
-                    ShadingFill = textBoxShadingFill.Text,
-                    ShadingValue = textBoxShadingValue.Text
-                }
+                TicketTemplateTableCellPropertiesId = _formTableCellProperties.GetTicketTemplateTableCellPropertiesId,
+                TicketTemplateTableCellPropertiesSetBindingModel = _formTableCellProperties.GetTicketTemplateTableCellPropertiesSetBindingModel
             });
             if (result.Succeeded)
             {
@@ -134,7 +114,7 @@ namespace ExaminationControlsAndForms.Services
             }
         }
 
-        private void ButtonDel_Click(object sender, EventArgs e)
+        private void DelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
@@ -149,7 +129,7 @@ namespace ExaminationControlsAndForms.Services
             Enabled = false;
         }
 
-        private void ButtonAddParagraph_Click(object sender, EventArgs e)
+        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<ControlTicketTemplateViewerParagraph>();
             control.Dock = DockStyle.Top;

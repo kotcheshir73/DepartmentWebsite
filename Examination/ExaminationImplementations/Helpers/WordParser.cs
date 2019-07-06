@@ -230,7 +230,7 @@ namespace ExaminationImplementations.Helpers
             {
                 if(elem is DocumentFormat.OpenXml.Wordprocessing.TableCell)
                 {
-                    row.TicketTemplateTableCells.Add(GetTableCell(orderCell, elem as DocumentFormat.OpenXml.Wordprocessing.TableCell, row.Id));
+                    row.TicketTemplateTableCells.Add(GetTableCell(orderCell++, elem as DocumentFormat.OpenXml.Wordprocessing.TableCell, row.Id));
                 }
             }
             return row;

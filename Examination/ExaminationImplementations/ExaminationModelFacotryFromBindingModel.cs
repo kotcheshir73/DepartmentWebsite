@@ -233,6 +233,17 @@ namespace ExaminationImplementations
                 entity.TicketTemplateTableProperties = CreateTicketTemplateTableProperties(model.TicketTemplateTablePropertiesSetBindingModel, entity.TicketTemplateTableProperties);
                 entity.TicketTemplateTablePropertiesId = entity.TicketTemplateTableProperties.Id;
             }
+            if (model.TicketTemplateTableGridColumnSetBindingModels != null && model.TicketTemplateTableGridColumnSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateTableGridColumns == null)
+                {
+                    entity.TicketTemplateTableGridColumns = new System.Collections.Generic.List<TicketTemplateTableGridColumn>();
+                }
+                foreach (var elem in model.TicketTemplateTableGridColumnSetBindingModels)
+                {
+                    entity.TicketTemplateTableGridColumns.Add(CreateTicketTemplateTableGridColumn(elem, entity.TicketTemplateTableGridColumns.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
             if (model.TicketTemplateTableRowSetBindingModels != null && model.TicketTemplateTableRowSetBindingModels.Count > 0)
             {
                 if (entity.TicketTemplateTableRows == null)
@@ -283,6 +294,20 @@ namespace ExaminationImplementations
             entity.BorderRightColor = model.BorderRightColor;
             entity.BorderRightSize = model.BorderRightSize;
             entity.BorderRightSpace = model.BorderRightSpace;
+
+            return entity;
+        }
+
+        public static TicketTemplateTableGridColumn CreateTicketTemplateTableGridColumn(TicketTemplateTableGridColumnSetBindingModel model, TicketTemplateTableGridColumn entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateTableGridColumn();
+            }
+
+            entity.TicketTemplateTableId = model.TicketTemplateTableId;
+            entity.Order = model.Order;
+            entity.Width = model.Width;
 
             return entity;
         }

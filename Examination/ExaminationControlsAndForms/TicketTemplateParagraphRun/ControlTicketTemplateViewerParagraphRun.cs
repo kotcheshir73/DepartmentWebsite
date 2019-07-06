@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using Tools;
 using Unity;
 
-namespace ExaminationControlsAndForms.Services
+namespace ExaminationControlsAndForms.TicketTemplateParagraphRun
 {
-    public partial class ControlTicketTemplateViewerRun : UserControl
+    public partial class ControlTicketTemplateViewerParagraphRun : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -20,12 +20,13 @@ namespace ExaminationControlsAndForms.Services
 
         private Guid _id;
 
-        private Guid? _ticketTemplateRunPropertiesId;
+        private FormTicketTemplateParagraphRunProperties _formParagraphRunProperties;
 
-        public ControlTicketTemplateViewerRun(ITicketTemplateParagraphRunService service)
+        public ControlTicketTemplateViewerParagraphRun(ITicketTemplateParagraphRunService service)
         {
             InitializeComponent();
             _service = service;
+            _formParagraphRunProperties = new FormTicketTemplateParagraphRunProperties();
         }
 
         public TicketTemplateParagraphRunSetBindingModel GetModel => new TicketTemplateParagraphRunSetBindingModel
@@ -36,21 +37,13 @@ namespace ExaminationControlsAndForms.Services
             Text = textBox.Text,
             TabChar = checkBoxTab.Checked,
             Break = checkBoxBreak.Checked,
-            TicketTemplateRunPropertiesId = _ticketTemplateRunPropertiesId,
-            TicketTemplateParagraphRunPropertiesSetBindingModel = new TicketTemplateParagraphRunPropertiesSetBindingModel
-            {
-                Id = _ticketTemplateRunPropertiesId.Value,
-                TicketTemplateParagraphRunId = _id,
-                RunBold = checkBoxBold.Checked,
-                RunItalic = checkBoxItalic.Checked,
-                RunUnderline = checkBoxUnderline.Checked,
-                RunSize = textBoxSize.Text
-            }
+            TicketTemplateRunPropertiesId = _formParagraphRunProperties.GetTicketTemplateParagraphRunPropertiesId,
+            TicketTemplateParagraphRunPropertiesSetBindingModel = _formParagraphRunProperties.GetTicketTemplateParagraphRunPropertiesSetBindingModel
         };
 
         public void LoadView(TicketTemplateParagraphRunViewModel model, bool flag = true)
         {
-            panelAction.Enabled = flag;
+            contextMenuStrip.Enabled = flag;
 
             _id = model.Id;
             _ticketTemplateParagraphId = model.TicketTemplateParagraphId;
@@ -58,81 +51,7 @@ namespace ExaminationControlsAndForms.Services
             checkBoxTab.Checked = model.TabChar;
             checkBoxBreak.Checked = model.Break;
             textBox.Text = model.Text;
-            if (model.TicketTemplateParagraphRunPropertiesViewModel != null)
-            {
-                _ticketTemplateRunPropertiesId = model.TicketTemplateRunPropertiesId;
-                checkBoxBold.Checked = model.TicketTemplateParagraphRunPropertiesViewModel.RunBold;
-                checkBoxItalic.Checked = model.TicketTemplateParagraphRunPropertiesViewModel.RunItalic;
-                checkBoxUnderline.Checked = model.TicketTemplateParagraphRunPropertiesViewModel.RunUnderline;
-                textBoxSize.Text = model.TicketTemplateParagraphRunPropertiesViewModel.RunSize;
-            }
-        }
-
-        private void ButtonShowProperties_Click(object sender, EventArgs e)
-        {
-            if (panelProperties.Visible)
-            {
-                panelProperties.Visible = false;
-                buttonShowProperties.BackgroundImage = Properties.Resources.Right;
-            }
-            else
-            {
-                panelProperties.Visible = true;
-                buttonShowProperties.BackgroundImage = Properties.Resources.Left;
-            }
-        }
-
-        private void ButtonSave_Click(object sender, EventArgs e)
-        {
-            ResultService result = _service.UpdateTicketTemplateParagraphRun(new TicketTemplateParagraphRunSetBindingModel
-            {
-                Id = _id,
-                Order = Convert.ToInt32(numericUpDownOrder.Value),
-                Text = textBox.Text,
-                TabChar = checkBoxTab.Checked,
-                TicketTemplateParagraphId = _ticketTemplateParagraphId,
-                TicketTemplateRunPropertiesId = _ticketTemplateRunPropertiesId,
-                TicketTemplateParagraphRunPropertiesSetBindingModel = new TicketTemplateParagraphRunPropertiesSetBindingModel
-                {
-                    Id = _ticketTemplateRunPropertiesId.Value,
-                    TicketTemplateParagraphRunId = _id,
-                    RunBold = checkBoxBold.Checked,
-                    RunItalic = checkBoxItalic.Checked,
-                    RunUnderline = checkBoxUnderline.Checked,
-                    RunSize = textBoxSize.Text
-                }
-            });
-            if (result.Succeeded)
-            {
-                MessageBox.Show("Сохранено", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if (result.Result != null && result.Result is Guid)
-                {
-                    var model = _service.GetTicketTemplateParagraphRun(new TicketTemplateParagraphRunGetBindingModel { Id = (Guid)result.Result });
-                    if (model.Succeeded)
-                    {
-                        LoadView(model.Result);
-                    }
-                }
-            }
-            else
-            {
-                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-            }
-        }
-
-        private void ButtonDel_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-            {
-                return;
-            }
-            var result = _service.DeleteTicketTemplateParagraphRun(new TicketTemplateParagraphRunGetBindingModel { Id = _id });
-            if (!result.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                return;
-            }
-            Enabled = false;
+            _formParagraphRunProperties.SetTicketTemplateParagraphRunPropertiesViewModel = model.TicketTemplateParagraphRunPropertiesViewModel;
         }
 
         private void CheckBoxTab_CheckedChanged(object sender, EventArgs e)
@@ -156,6 +75,56 @@ namespace ExaminationControlsAndForms.Services
             {
                 checkBoxBreak.Checked = false;
             }
+        }
+
+        private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _formParagraphRunProperties.ShowDialog();
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResultService result = _service.UpdateTicketTemplateParagraphRun(new TicketTemplateParagraphRunSetBindingModel
+            {
+                Id = _id,
+                Order = Convert.ToInt32(numericUpDownOrder.Value),
+                Text = textBox.Text,
+                TabChar = checkBoxTab.Checked,
+                TicketTemplateParagraphId = _ticketTemplateParagraphId,
+                TicketTemplateRunPropertiesId = _formParagraphRunProperties.GetTicketTemplateParagraphRunPropertiesId,
+                TicketTemplateParagraphRunPropertiesSetBindingModel = _formParagraphRunProperties.GetTicketTemplateParagraphRunPropertiesSetBindingModel
+            });
+            if (result.Succeeded)
+            {
+                MessageBox.Show("Сохранено", "Портал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (result.Result != null && result.Result is Guid)
+                {
+                    var model = _service.GetTicketTemplateParagraphRun(new TicketTemplateParagraphRunGetBindingModel { Id = (Guid)result.Result });
+                    if (model.Succeeded)
+                    {
+                        LoadView(model.Result);
+                    }
+                }
+            }
+            else
+            {
+                ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
+            }
+        }
+
+        private void DelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+            var result = _service.DeleteTicketTemplateParagraphRun(new TicketTemplateParagraphRunGetBindingModel { Id = _id });
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                return;
+            }
+            Enabled = false;
         }
     }
 }
