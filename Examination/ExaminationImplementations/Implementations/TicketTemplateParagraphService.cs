@@ -15,13 +15,6 @@ namespace ExaminationImplementations.Implementations
 
         private readonly string _entity = "Шаблоны Билетов";
 
-        private readonly ITicketTemplateParagraphRunService _runService;
-
-        public TicketTemplateParagraphService(ITicketTemplateParagraphRunService runService)
-        {
-            _runService = runService;
-        }
-
         public ResultService<TicketTemplateParagraphPageViewModel> GetTicketTemplateParagraphs(TicketTemplateParagraphGetBindingModel model)
         {
             try
@@ -53,7 +46,10 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.TicketTemplateParagraphProperties).Include(x => x.TicketTemplateParagraphRuns);
+                    query = query
+                        .Include(x => x.TicketTemplateParagraphProperties)
+                        .Include(x => x.TicketTemplateParagraphRuns)
+                        .Include("TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties");
 
                     var result = new TicketTemplateParagraphPageViewModel
                     {
@@ -81,6 +77,7 @@ namespace ExaminationImplementations.Implementations
                     var entity = context.TicketTemplateParagraphs
                                 .Include(x => x.TicketTemplateParagraphProperties)
                                 .Include(x => x.TicketTemplateParagraphRuns)
+                                .Include("TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
@@ -160,32 +157,19 @@ namespace ExaminationImplementations.Implementations
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
-                using (var transation = context.Database.BeginTransaction())
                 {
-                    var entity = context.TicketTemplateParagraphs.Include(x => x.TicketTemplateParagraphProperties).Include(x => x.TicketTemplateParagraphRuns).FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.TicketTemplateParagraphs
+                        .Include(x => x.TicketTemplateParagraphProperties)
+                        .Include(x => x.TicketTemplateParagraphRuns)
+                        .Include("TicketTemplateParagraphRuns.TicketTemplateParagraphRunProperties")
+                        .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
 
-                    if (entity.TicketTemplateParagraphProperties != null)
-                    {
-                        context.TicketTemplateParagraphProperties.Remove(entity.TicketTemplateParagraphProperties);
-                        context.SaveChanges();
-                    }
-
-                    if (entity.TicketTemplateParagraphRuns != null)
-                    {
-                        foreach (var run in entity.TicketTemplateParagraphRuns)
-                        {
-                            _runService.DeleteTicketTemplateParagraphRun(new TicketTemplateParagraphRunGetBindingModel { Id = run.Id });
-                        }
-                    }
-
                     context.TicketTemplateParagraphs.Remove(entity);
                     context.SaveChanges();
-
-                    transation.Commit();
 
                     return ResultService.Success();
                 }

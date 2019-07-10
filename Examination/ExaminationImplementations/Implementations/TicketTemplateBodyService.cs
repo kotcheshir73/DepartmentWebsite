@@ -15,16 +15,6 @@ namespace ExaminationImplementations.Implementations
 
         private readonly string _entity = "Шаблоны Билетов";
 
-        private readonly ITicketTemplateParagraphService _paragraphService;
-
-        private readonly ITicketTemplateTableService _tableService;
-
-        public TicketTemplateBodyService(ITicketTemplateParagraphService paragraphService, ITicketTemplateTableService tableService)
-        {
-            _paragraphService = paragraphService;
-            _tableService = tableService;
-        }
-
         public ResultService<TicketTemplateBodyPageViewModel> GetTicketTemplateBodys(TicketTemplateBodyGetBindingModel model)
         {
             try
@@ -56,7 +46,8 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.TicketTemplateBodyProperties)
+                    query = query
+                        .Include(x => x.TicketTemplateBodyProperties)
                         .Include(x => x.TicketTemplateParagraphs)
                         .Include("TicketTemplateParagraphs.TicketTemplateParagraphProperties")
                         .Include("TicketTemplateParagraphs.TicketTemplateTableGridColumns")
@@ -192,7 +183,6 @@ namespace ExaminationImplementations.Implementations
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
-                using (var transation = context.Database.BeginTransaction())
                 {
                     var entity = context.TicketTemplateBodies
                                 .Include(x => x.TicketTemplateBodyProperties)
@@ -217,32 +207,8 @@ namespace ExaminationImplementations.Implementations
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
 
-                    if (entity.TicketTemplateBodyProperties != null)
-                    {
-                        context.TicketTemplateBodyProperties.Remove(entity.TicketTemplateBodyProperties);
-                        context.SaveChanges();
-                    }
-
-                    if (entity.TicketTemplateParagraphs != null)
-                    {
-                        foreach (var run in entity.TicketTemplateParagraphs)
-                        {
-                            _paragraphService.DeleteTicketTemplateParagraph(new TicketTemplateParagraphGetBindingModel { Id = run.Id });
-                        }
-                    }
-
-                    if (entity.TicketTemplateTables != null)
-                    {
-                        foreach (var run in entity.TicketTemplateTables)
-                        {
-                            _tableService.DeleteTicketTemplateTable(new TicketTemplateTableGetBindingModel { Id = run.Id });
-                        }
-                    }
-
                     context.TicketTemplateBodies.Remove(entity);
                     context.SaveChanges();
-
-                    transation.Commit();
 
                     return ResultService.Success();
                 }

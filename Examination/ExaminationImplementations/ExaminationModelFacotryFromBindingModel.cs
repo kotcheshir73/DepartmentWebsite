@@ -128,31 +128,220 @@ namespace ExaminationImplementations
             return entity;
         }
 
+
         public static TicketTemplate CreateTicketTemplate(TicketTemplateSetBindingModel model, TicketTemplate entity = null)
         {
             if (entity == null)
             {
                 entity = new TicketTemplate();
-                if(model.TicketTemplateBodySetBindingModel != null)
+
+                if (model.TicketTemplateDocumentSettingSetBindingModels != null)
+                {
+                    model.TicketTemplateDocumentSettingSetBindingModels.ForEach(x => x.TicketTemplateId = entity.Id);
+                }
+                if (model.TicketTemplateFontTableSetBindingModels != null)
+                {
+                    model.TicketTemplateFontTableSetBindingModels.ForEach(x => x.TicketTemplateId = entity.Id);
+                }
+                if (model.TicketTemplateNumberingSetBindingModels != null)
+                {
+                    model.TicketTemplateNumberingSetBindingModels.ForEach(x => x.TicketTemplateId = entity.Id);
+                }
+                if (model.TicketTemplateStyleDefinitionSetBindingModels != null)
+                {
+                    model.TicketTemplateStyleDefinitionSetBindingModels.ForEach(x => x.TicketTemplateId = entity.Id);
+                }
+                if (model.TicketTemplateThemePartSetBindingModels != null)
+                {
+                    model.TicketTemplateThemePartSetBindingModels.ForEach(x => x.TicketTemplateId = entity.Id);
+                }
+                if (model.TicketTemplateWebSettingSetBindingModels != null)
+                {
+                    model.TicketTemplateWebSettingSetBindingModels.ForEach(x => x.TicketTemplateId = entity.Id);
+                }
+
+                if (model.TicketTemplateBodySetBindingModel != null)
                 {
                     model.TicketTemplateBodySetBindingModel.TicketTemplateId = entity.Id;
                 }
             }
-            entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
             entity.TemplateName = model.TemplateName;
-            if(model.TicketTemplateBodySetBindingModel != null)
+
+            if (model.TicketTemplateDocumentSettingSetBindingModels != null && model.TicketTemplateDocumentSettingSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateDocumentSettings == null)
+                {
+                    entity.TicketTemplateDocumentSettings = new System.Collections.Generic.List<TicketTemplateDocumentSetting>();
+                }
+                foreach (var elem in model.TicketTemplateDocumentSettingSetBindingModels)
+                {
+                    entity.TicketTemplateDocumentSettings.Add(CreateTicketTemplateDocumentSetting(elem, entity.TicketTemplateDocumentSettings.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
+
+            if (model.TicketTemplateFontTableSetBindingModels != null && model.TicketTemplateFontTableSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateFontTables == null)
+                {
+                    entity.TicketTemplateFontTables = new System.Collections.Generic.List<TicketTemplateFontTable>();
+                }
+                foreach (var elem in model.TicketTemplateFontTableSetBindingModels)
+                {
+                    entity.TicketTemplateFontTables.Add(CreateTicketTemplateFontTable(elem, entity.TicketTemplateFontTables.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
+
+            if (model.TicketTemplateNumberingSetBindingModels != null && model.TicketTemplateNumberingSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateNumberings == null)
+                {
+                    entity.TicketTemplateNumberings = new System.Collections.Generic.List<TicketTemplateNumbering>();
+                }
+                foreach (var elem in model.TicketTemplateNumberingSetBindingModels)
+                {
+                    entity.TicketTemplateNumberings.Add(CreateTicketTemplateNumbering(elem, entity.TicketTemplateNumberings.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
+
+            if (model.TicketTemplateStyleDefinitionSetBindingModels != null && model.TicketTemplateStyleDefinitionSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateStyleDefinitions == null)
+                {
+                    entity.TicketTemplateStyleDefinitions = new System.Collections.Generic.List<TicketTemplateStyleDefinition>();
+                }
+                foreach (var elem in model.TicketTemplateStyleDefinitionSetBindingModels)
+                {
+                    entity.TicketTemplateStyleDefinitions.Add(CreateTicketTemplateStyleDefinition(elem, entity.TicketTemplateStyleDefinitions.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
+
+            if (model.TicketTemplateThemePartSetBindingModels != null && model.TicketTemplateThemePartSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateThemeParts == null)
+                {
+                    entity.TicketTemplateThemeParts = new System.Collections.Generic.List<TicketTemplateThemePart>();
+                }
+                foreach (var elem in model.TicketTemplateThemePartSetBindingModels)
+                {
+                    entity.TicketTemplateThemeParts.Add(CreateTicketTemplateThemePart(elem, entity.TicketTemplateThemeParts.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
+
+            if (model.TicketTemplateWebSettingSetBindingModels != null && model.TicketTemplateWebSettingSetBindingModels.Count > 0)
+            {
+                if (entity.TicketTemplateWebSettings == null)
+                {
+                    entity.TicketTemplateWebSettings = new System.Collections.Generic.List<TicketTemplateWebSetting>();
+                }
+                foreach (var elem in model.TicketTemplateWebSettingSetBindingModels)
+                {
+                    entity.TicketTemplateWebSettings.Add(CreateTicketTemplateWebSetting(elem, entity.TicketTemplateWebSettings.FirstOrDefault(x => x.Id == elem.Id)));
+                }
+            }
+
+            if (model.TicketTemplateBodySetBindingModel != null)
             {
                 entity.TicketTemplateBody = CreateTicketTemplateBody(model.TicketTemplateBodySetBindingModel, entity.TicketTemplateBody);
+                entity.TicketTemplateBodyId = entity.TicketTemplateBody.Id;
             }
 
             return entity;
         }
 
+
+        public static TicketTemplateDocumentSetting CreateTicketTemplateDocumentSetting(TicketTemplateDocumentSettingSetBindingModel model, TicketTemplateDocumentSetting entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateDocumentSetting();
+            }
+
+            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.InnerXml = model.InnerXml;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static TicketTemplateFontTable CreateTicketTemplateFontTable(TicketTemplateFontTableSetBindingModel model, TicketTemplateFontTable entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateFontTable();
+            }
+
+            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.InnerXml = model.InnerXml;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static TicketTemplateNumbering CreateTicketTemplateNumbering(TicketTemplateNumberingSetBindingModel model, TicketTemplateNumbering entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateNumbering();
+            }
+
+            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.InnerXml = model.InnerXml;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static TicketTemplateStyleDefinition CreateTicketTemplateStyleDefinition(TicketTemplateStyleDefinitionSetBindingModel model, TicketTemplateStyleDefinition entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateStyleDefinition();
+            }
+
+            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.InnerXml = model.InnerXml;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static TicketTemplateThemePart CreateTicketTemplateThemePart(TicketTemplateThemePartSetBindingModel model, TicketTemplateThemePart entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateThemePart();
+            }
+
+            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.InnerXml = model.InnerXml;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+        public static TicketTemplateWebSetting CreateTicketTemplateWebSetting(TicketTemplateWebSettingSetBindingModel model, TicketTemplateWebSetting entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TicketTemplateWebSetting();
+            }
+
+            entity.TicketTemplateId = model.TicketTemplateId;
+            entity.InnerXml = model.InnerXml;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
+
         public static TicketTemplateBody CreateTicketTemplateBody(TicketTemplateBodySetBindingModel model, TicketTemplateBody entity = null)
         {
             if (entity == null)
             {
-                entity = new TicketTemplateBody();
+                entity = new TicketTemplateBody
+                {
+                    Id = model.Id
+                };
                 if (model.TicketTemplateBodyPropertiesSetBindingModel != null)
                 {
                     model.TicketTemplateBodyPropertiesSetBindingModel.TicketTemplateBodyId = entity.Id;
@@ -161,11 +350,13 @@ namespace ExaminationImplementations
 
             entity.TicketTemplateId = model.TicketTemplateId;
             entity.TicketTemplateBodyPropertiesId = model.TicketTemplateBodyPropertiesId;
+
             if (model.TicketTemplateBodyPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateBodyProperties = CreateTicketTemplateBodyProperties(model.TicketTemplateBodyPropertiesSetBindingModel, entity.TicketTemplateBodyProperties);
                 entity.TicketTemplateBodyPropertiesId = entity.TicketTemplateBodyProperties.Id;
             }
+
             if (model.TicketTemplateParagraphSetBindingModels != null && model.TicketTemplateParagraphSetBindingModels.Count > 0)
             {
                 if (entity.TicketTemplateParagraphs == null)
@@ -177,6 +368,7 @@ namespace ExaminationImplementations
                     entity.TicketTemplateParagraphs.Add(CreateTicketTemplateParagraph(elem, entity.TicketTemplateParagraphs.FirstOrDefault(x => x.Id == elem.Id)));
                 }
             }
+
             if (model.TicketTemplateTableSetBindingModels != null && model.TicketTemplateTableSetBindingModels.Count > 0)
             {
                 if (entity.TicketTemplateTables == null)
@@ -196,7 +388,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateBodyProperties();
+                entity = new TicketTemplateBodyProperties
+                {
+                    Id = model.Id
+                };
             }
 
             entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
@@ -217,7 +412,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTable();
+                entity = new TicketTemplateTable
+                {
+                    Id = model.Id
+                };
                 if (model.TicketTemplateTablePropertiesSetBindingModel != null)
                 {
                     model.TicketTemplateTablePropertiesSetBindingModel.TicketTemplateTableId = entity.Id;
@@ -263,7 +461,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTableProperties();
+                entity = new TicketTemplateTableProperties
+                {
+                    Id = model.Id
+                };
             }
             entity.Width = model.Width;
             entity.LookValue = model.LookValue;
@@ -302,7 +503,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTableGridColumn();
+                entity = new TicketTemplateTableGridColumn
+                {
+                    Id = model.Id
+                };
             }
 
             entity.TicketTemplateTableId = model.TicketTemplateTableId;
@@ -316,7 +520,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTableRow();
+                entity = new TicketTemplateTableRow
+                {
+                    Id = model.Id
+                };
                 if (model.TicketTemplateTableRowPropertiesSetBindingModel != null)
                 {
                     model.TicketTemplateTableRowPropertiesSetBindingModel.TicketTemplateTableRowId = entity.Id;
@@ -351,7 +558,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTableRowProperties();
+                entity = new TicketTemplateTableRowProperties
+                {
+                    Id = model.Id
+                };
             }
             entity.CantSplit = model.CantSplit;
             entity.TableRowHeight = model.TableRowHeight;
@@ -363,7 +573,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTableCell();
+                entity = new TicketTemplateTableCell
+                {
+                    Id = model.Id
+                };
                 if (model.TicketTemplateTableCellPropertiesSetBindingModel != null)
                 {
                     model.TicketTemplateTableCellPropertiesSetBindingModel.TicketTemplateTableCellId = entity.Id;
@@ -398,7 +611,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateTableCellProperties();
+                entity = new TicketTemplateTableCellProperties
+                {
+                    Id = model.Id
+                };
             }
             entity.TableCellWidth = model.TableCellWidth;
             entity.GridSpan = model.GridSpan;
@@ -414,7 +630,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateParagraph();
+                entity = new TicketTemplateParagraph
+                {
+                    Id = model.Id
+                };
                 if (model.TicketTemplateParagraphPropertiesSetBindingModel != null)
                 {
                     model.TicketTemplateParagraphPropertiesSetBindingModel.TicketTemplateParagraphId = entity.Id;
@@ -450,10 +669,15 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateParagraphProperties();
+                entity = new TicketTemplateParagraphProperties
+                {
+                    Id = model.Id
+                };
             }
 
             entity.TicketTemplateParagraphId = model.TicketTemplateParagraphId;
+            entity.NumberingLevelReference = model.NumberingLevelReference;
+            entity.NumberingId = model.NumberingId;
             entity.IndentationFirstLine = model.IndentationFirstLine;
             entity.IndentationHanging = model.IndentationHanging;
             entity.IndentationLeft = model.IndentationLeft;
@@ -475,7 +699,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateParagraphRun();
+                entity = new TicketTemplateParagraphRun
+                {
+                    Id = model.Id
+                };
                 if (model.TicketTemplateParagraphRunPropertiesSetBindingModel != null)
                 {
                     model.TicketTemplateParagraphRunPropertiesSetBindingModel.TicketTemplateParagraphRunId = entity.Id;
@@ -487,6 +714,7 @@ namespace ExaminationImplementations
             entity.Text = model.Text;
             entity.TabChar = model.TabChar;
             entity.Break = model.Break;
+            entity.BreakType = model.BreakType;
             if (model.TicketTemplateParagraphRunPropertiesSetBindingModel != null)
             {
                 entity.TicketTemplateParagraphRunProperties = CreateTicketTemplateParagraphRunProperties(model.TicketTemplateParagraphRunPropertiesSetBindingModel, entity.TicketTemplateParagraphRunProperties);
@@ -500,7 +728,10 @@ namespace ExaminationImplementations
         {
             if (entity == null)
             {
-                entity = new TicketTemplateParagraphRunProperties();
+                entity = new TicketTemplateParagraphRunProperties
+                {
+                    Id = model.Id
+                };
             }
             entity.TicketTemplateParagraphRunId = model.TicketTemplateParagraphRunId;
             entity.RunBold = model.RunBold;

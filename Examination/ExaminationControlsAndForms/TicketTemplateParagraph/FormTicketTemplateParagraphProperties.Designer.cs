@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBoxJustification = new System.Windows.Forms.GroupBox();
+            this.buttonClose = new System.Windows.Forms.Button();
             this.textBoxJustification = new System.Windows.Forms.TextBox();
             this.groupBoxSpacingBetweenLines = new System.Windows.Forms.GroupBox();
             this.textBoxAfter = new System.Windows.Forms.TextBox();
@@ -54,11 +55,16 @@
             this.checkBoxUnderline = new System.Windows.Forms.CheckBox();
             this.checkBoxItalic = new System.Windows.Forms.CheckBox();
             this.checkBoxBold = new System.Windows.Forms.CheckBox();
-            this.buttonClose = new System.Windows.Forms.Button();
+            this.groupBoxNumerable = new System.Windows.Forms.GroupBox();
+            this.textBoxNumberingLevelReference = new System.Windows.Forms.TextBox();
+            this.labelNumberingLevelReference = new System.Windows.Forms.Label();
+            this.textBoxNumberingId = new System.Windows.Forms.TextBox();
+            this.labelNumberingId = new System.Windows.Forms.Label();
             this.groupBoxJustification.SuspendLayout();
             this.groupBoxSpacingBetweenLines.SuspendLayout();
             this.groupBoxIndentation.SuspendLayout();
             this.groupBoxRun.SuspendLayout();
+            this.groupBoxNumerable.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxJustification
@@ -72,6 +78,16 @@
             this.groupBoxJustification.TabIndex = 0;
             this.groupBoxJustification.TabStop = false;
             this.groupBoxJustification.Text = "Выравнивание:";
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Location = new System.Drawing.Point(363, 17);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(75, 23);
+            this.buttonClose.TabIndex = 6;
+            this.buttonClose.Text = "Закрыть";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // textBoxJustification
             // 
@@ -308,22 +324,59 @@
             this.checkBoxBold.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxBold.UseVisualStyleBackColor = true;
             // 
-            // buttonClose
+            // groupBoxNumerable
             // 
-            this.buttonClose.Location = new System.Drawing.Point(363, 17);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 6;
-            this.buttonClose.Text = "Закрыть";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
+            this.groupBoxNumerable.Controls.Add(this.textBoxNumberingId);
+            this.groupBoxNumerable.Controls.Add(this.labelNumberingId);
+            this.groupBoxNumerable.Controls.Add(this.textBoxNumberingLevelReference);
+            this.groupBoxNumerable.Controls.Add(this.labelNumberingLevelReference);
+            this.groupBoxNumerable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxNumerable.Location = new System.Drawing.Point(0, 261);
+            this.groupBoxNumerable.Name = "groupBoxNumerable";
+            this.groupBoxNumerable.Size = new System.Drawing.Size(463, 51);
+            this.groupBoxNumerable.TabIndex = 4;
+            this.groupBoxNumerable.TabStop = false;
+            this.groupBoxNumerable.Text = "Нумирация:";
+            // 
+            // textBoxNumberingLevelReference
+            // 
+            this.textBoxNumberingLevelReference.Location = new System.Drawing.Point(146, 19);
+            this.textBoxNumberingLevelReference.Name = "textBoxNumberingLevelReference";
+            this.textBoxNumberingLevelReference.Size = new System.Drawing.Size(100, 20);
+            this.textBoxNumberingLevelReference.TabIndex = 1;
+            // 
+            // labelNumberingLevelReference
+            // 
+            this.labelNumberingLevelReference.AutoSize = true;
+            this.labelNumberingLevelReference.Location = new System.Drawing.Point(9, 22);
+            this.labelNumberingLevelReference.Name = "labelNumberingLevelReference";
+            this.labelNumberingLevelReference.Size = new System.Drawing.Size(86, 13);
+            this.labelNumberingLevelReference.TabIndex = 0;
+            this.labelNumberingLevelReference.Text = "LevelReference:";
+            // 
+            // textBoxNumberingId
+            // 
+            this.textBoxNumberingId.Location = new System.Drawing.Point(352, 19);
+            this.textBoxNumberingId.Name = "textBoxNumberingId";
+            this.textBoxNumberingId.Size = new System.Drawing.Size(100, 20);
+            this.textBoxNumberingId.TabIndex = 3;
+            // 
+            // labelNumberingId
+            // 
+            this.labelNumberingId.AutoSize = true;
+            this.labelNumberingId.Location = new System.Drawing.Point(256, 22);
+            this.labelNumberingId.Name = "labelNumberingId";
+            this.labelNumberingId.Size = new System.Drawing.Size(90, 13);
+            this.labelNumberingId.TabIndex = 2;
+            this.labelNumberingId.Text = "Идентификатор:";
             // 
             // FormTicketTemplateParagraphProperties
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(463, 261);
+            this.ClientSize = new System.Drawing.Size(463, 315);
             this.ControlBox = false;
+            this.Controls.Add(this.groupBoxNumerable);
             this.Controls.Add(this.groupBoxRun);
             this.Controls.Add(this.groupBoxIndentation);
             this.Controls.Add(this.groupBoxSpacingBetweenLines);
@@ -339,6 +392,8 @@
             this.groupBoxIndentation.PerformLayout();
             this.groupBoxRun.ResumeLayout(false);
             this.groupBoxRun.PerformLayout();
+            this.groupBoxNumerable.ResumeLayout(false);
+            this.groupBoxNumerable.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -372,5 +427,10 @@
         private System.Windows.Forms.CheckBox checkBoxItalic;
         private System.Windows.Forms.CheckBox checkBoxBold;
         private System.Windows.Forms.Button buttonClose;
+        private System.Windows.Forms.GroupBox groupBoxNumerable;
+        private System.Windows.Forms.TextBox textBoxNumberingLevelReference;
+        private System.Windows.Forms.Label labelNumberingLevelReference;
+        private System.Windows.Forms.TextBox textBoxNumberingId;
+        private System.Windows.Forms.Label labelNumberingId;
     }
 }

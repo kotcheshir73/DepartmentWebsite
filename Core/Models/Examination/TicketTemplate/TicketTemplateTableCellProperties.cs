@@ -12,7 +12,7 @@ namespace Models.Examination
     {
         [DataMember]
         [ForeignKey("TicketTemplateTableCell")]
-        public Guid? TicketTemplateTableCellId { get; set; }
+        public Guid TicketTemplateTableCellId { get; set; }
 
         [DataMember]
         public string TableCellWidth { get; set; }

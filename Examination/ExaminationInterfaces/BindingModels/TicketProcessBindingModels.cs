@@ -42,7 +42,7 @@ namespace ExaminationInterfaces.BindingModels
     {
         public string FileName { get; set; }
 
-        public Guid TicketTemplateId { get; set; }
+        public Guid ExaminationTemplateId { get; set; }
     }
 
     public class TicketProcessGetParagraphDatasBindingModel

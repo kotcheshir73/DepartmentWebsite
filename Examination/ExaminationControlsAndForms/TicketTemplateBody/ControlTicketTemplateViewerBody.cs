@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Tools;
 using Unity;
 
-namespace ExaminationControlsAndForms.Services
+namespace ExaminationControlsAndForms.TicketTemplateBody
 {
     public partial class ControlTicketTemplateViewerBody : UserControl
     {
@@ -90,7 +90,7 @@ namespace ExaminationControlsAndForms.Services
                     panelParagraphs.Controls.Add(control);
                 }
             }
-            if(model.TicketTemplateTablePageViewModel != null)
+            if (model.TicketTemplateTablePageViewModel != null)
             {
                 panelTables.Controls.Clear();
                 model.TicketTemplateTablePageViewModel.List.Reverse();
@@ -159,7 +159,7 @@ namespace ExaminationControlsAndForms.Services
             panelParagraphs.Controls.Add(control);
         }
 
-        private void buttonAddTable_Click(object sender, EventArgs e)
+        private void ButtonAddTable_Click(object sender, EventArgs e)
         {
             var control = Container.Resolve<ControlTicketTemplateViewerTable>();
             control.Dock = DockStyle.Top;

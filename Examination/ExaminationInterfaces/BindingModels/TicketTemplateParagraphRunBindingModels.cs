@@ -22,6 +22,8 @@ namespace ExaminationInterfaces.BindingModels
 
         public bool Break { get; set; }
 
+        public string BreakType { get; set; }
+
         public int Order { get; set; }
     }
 }

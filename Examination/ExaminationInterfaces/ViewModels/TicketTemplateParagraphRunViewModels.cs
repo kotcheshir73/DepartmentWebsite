@@ -19,6 +19,8 @@ namespace ExaminationInterfaces.ViewModels
 
         public bool Break { get; set; }
 
+        public string BreakType { get; set; }
+
         public int Order { get; set; }
     }
 }

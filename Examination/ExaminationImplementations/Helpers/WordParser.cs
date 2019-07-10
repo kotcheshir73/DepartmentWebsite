@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
+using ExaminationInterfaces.BindingModels;
 using Models.Examination;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,35 @@ namespace ExaminationImplementations.Helpers
 {
     public static class WordParser
     {
-        public static TicketTemplateBody ParseDocument(string filename)
+        public static TicketTemplate ParseDocument(TicketProcessLoadTemplateBindingModel model)
         {
-            using (WordprocessingDocument wordDocument = WordprocessingDocument.Open(filename, false))
+            using (WordprocessingDocument wordDocument = WordprocessingDocument.Open(model.FileName, false))
             {
                 var doc = wordDocument.DocumentType;
                 int order = 0;
+
+                TicketTemplate template = new TicketTemplate
+                {
+                    TemplateName = model.TemplateName
+                };
+
                 TicketTemplateBody body = new TicketTemplateBody
                 {
+                    TicketTemplateId = template.Id,
                     TicketTemplateParagraphs = new List<TicketTemplateParagraph>(),
                     TicketTemplateTables = new List<TicketTemplateTable>()
                 };
                 // находим свойства документа
                 body.TicketTemplateBodyProperties = GetBodyProperties(wordDocument.MainDocumentPart.Document.Body, body.Id);
                 body.TicketTemplateBodyPropertiesId = body.TicketTemplateBodyProperties.Id;
+                
+                CreateFontTablePart(wordDocument.MainDocumentPart.FontTablePart, template);
+                CreateNumberingDefinitionsPart(wordDocument.MainDocumentPart.NumberingDefinitionsPart, template);
+                CreateDocumentSettingsPart(wordDocument.MainDocumentPart.DocumentSettingsPart, template);
+                CreateStyleDefinitionsPart(wordDocument.MainDocumentPart.StyleDefinitionsPart, template);
+                CreateThemePart(wordDocument.MainDocumentPart.ThemePart, template);
+                CreateWebSettingsPart(wordDocument.MainDocumentPart.WebSettingsPart, template);
+
                 foreach (OpenXmlElement element in wordDocument.MainDocumentPart.Document.Body.ChildElements)
                 {
                     // находим параграф
@@ -36,7 +52,10 @@ namespace ExaminationImplementations.Helpers
                     }
                 }
 
-                return body;
+                template.TicketTemplateBody = body;
+                template.TicketTemplateBodyId = body.Id;
+
+                return template;
             }
         }
 
@@ -52,7 +71,7 @@ namespace ExaminationImplementations.Helpers
             var elementProeprties = element.ChildElements.OfType<DocumentFormat.OpenXml.Wordprocessing.SectionProperties>()?.FirstOrDefault();
             if (elementProeprties != null)
             {
-                foreach (var elem in element.ChildElements)
+                foreach (var elem in elementProeprties.ChildElements)
                 {
                     if (elem is DocumentFormat.OpenXml.Wordprocessing.PageSize)
                     {
@@ -74,7 +93,115 @@ namespace ExaminationImplementations.Helpers
             return bodyProperties;
         }
 
-        private static TicketTemplateTable GetTable(int order, DocumentFormat.OpenXml.Wordprocessing.Table element, Guid? BodyId)
+        private static void CreateDocumentSettingsPart(DocumentSettingsPart settings, TicketTemplate template)
+        {
+            int orderStyle = 0;
+            if (settings != null)
+            {
+                template.TicketTemplateDocumentSettings = new List<TicketTemplateDocumentSetting>
+                {
+                    new TicketTemplateDocumentSetting
+                    {
+                        InnerXml = settings.Settings.InnerXml,
+                        Order = orderStyle++,
+                        TicketTemplate = template,
+                        TicketTemplateId = template.Id
+                    }
+                };
+            }
+        }
+
+        private static void CreateFontTablePart(FontTablePart fonts, TicketTemplate template)
+        {
+            int orderStyle = 0;
+            if (fonts != null)
+            {
+                template.TicketTemplateFontTables = new List<TicketTemplateFontTable>
+                {
+                    new TicketTemplateFontTable
+                    {
+                        InnerXml = fonts.Fonts.InnerXml,
+                        Order = orderStyle++,
+                        TicketTemplate = template,
+                        TicketTemplateId = template.Id
+                    }
+                };
+            }
+        }
+
+        private static void CreateNumberingDefinitionsPart(NumberingDefinitionsPart numbering, TicketTemplate template)
+        {
+            int orderStyle = 0;
+            if (numbering != null)
+            {
+                template.TicketTemplateNumberings = new List<TicketTemplateNumbering>
+                {
+                    new TicketTemplateNumbering
+                    {
+                        InnerXml = numbering.Numbering.InnerXml,
+                        Order = orderStyle++,
+                        TicketTemplate = template,
+                        TicketTemplateId = template.Id
+                    }
+                };
+            }
+        }
+
+        private static void CreateStyleDefinitionsPart(StyleDefinitionsPart styles, TicketTemplate template)
+        {
+            int orderStyle = 0;
+            if (styles != null)
+            {
+                template.TicketTemplateStyleDefinitions = new List<TicketTemplateStyleDefinition>
+                {
+                    new TicketTemplateStyleDefinition
+                    {
+                        InnerXml = styles.Styles.InnerXml,
+                        Order = orderStyle++,
+                        TicketTemplate = template,
+                        TicketTemplateId = template.Id
+                    }
+                };
+            }
+        }
+
+        private static void CreateThemePart(ThemePart thems, TicketTemplate template)
+        {
+            int orderStyle = 0;
+            if (thems != null)
+            {
+                template.TicketTemplateThemeParts = new List<TicketTemplateThemePart>
+                {
+                    new TicketTemplateThemePart
+                    {
+                        InnerXml = thems.Theme.InnerXml,
+                        Order = orderStyle++,
+                        TicketTemplate = template,
+                        TicketTemplateId = template.Id
+                    }
+                };
+            }
+        }
+
+        private static void CreateWebSettingsPart(WebSettingsPart settings, TicketTemplate template)
+        {
+            int orderStyle = 0;
+            if (settings != null)
+            {
+                template.TicketTemplateWebSettings = new List<TicketTemplateWebSetting>
+                {
+                    new TicketTemplateWebSetting
+                    {
+                        InnerXml = settings.WebSettings.InnerXml,
+                        Order = orderStyle++,
+                        TicketTemplate = template,
+                        TicketTemplateId = template.Id
+                    }
+                };
+            }
+        }
+
+        private static TicketTemplateTable GetTable(int order, DocumentFormat.OpenXml.Wordprocessing.Table element, Guid BodyId)
         {
             if (element == null) { return null; }
             TicketTemplateTable table = new TicketTemplateTable
@@ -434,6 +561,21 @@ namespace ExaminationImplementations.Helpers
                 // идем по вложенным элементам
                 foreach (var elem in elementProeprties.ChildElements)
                 {
+                    // нумирация
+                    if (elem is DocumentFormat.OpenXml.Wordprocessing.NumberingProperties)
+                    {
+                        foreach(var el in elem.ChildElements)
+                        {
+                            if (el is DocumentFormat.OpenXml.Wordprocessing.NumberingLevelReference)
+                            {
+                                properties.NumberingLevelReference = (el as DocumentFormat.OpenXml.Wordprocessing.NumberingLevelReference).Val;
+                            }
+                            if (el is DocumentFormat.OpenXml.Wordprocessing.NumberingId)
+                            {
+                                properties.NumberingId = (el as DocumentFormat.OpenXml.Wordprocessing.NumberingId).Val;
+                            }
+                        }
+                    }
                     // выравнивание
                     if (elem is DocumentFormat.OpenXml.Wordprocessing.Justification)
                     {
@@ -507,6 +649,7 @@ namespace ExaminationImplementations.Helpers
                 else if (elem is DocumentFormat.OpenXml.Wordprocessing.Break)
                 {
                     run.Break = true;
+                    run.BreakType = (elem as DocumentFormat.OpenXml.Wordprocessing.Break).Type;
                 }
             }
             return run;

@@ -12,7 +12,7 @@ namespace Models.Examination
     public class TicketTemplateTableRow : IdEntity
     {
         [DataMember]
-        public Guid? TicketTemplateTableId { get; set; }
+        public Guid TicketTemplateTableId { get; set; }
 
         [DataMember]
         public Guid? TicketTemplateTableRowPropertiesId { get; set; }

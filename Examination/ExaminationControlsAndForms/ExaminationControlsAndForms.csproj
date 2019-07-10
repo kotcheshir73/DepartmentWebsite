@@ -168,10 +168,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ControlTicketTemplateViewerBody.cs">
+    <Compile Include="TicketTemplateBody\ControlTicketTemplateViewerBody.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\ControlTicketTemplateViewerBody.Designer.cs">
+    <Compile Include="TicketTemplateBody\ControlTicketTemplateViewerBody.Designer.cs">
       <DependentUpon>ControlTicketTemplateViewerBody.cs</DependentUpon>
     </Compile>
     <Compile Include="TicketTemplateTableCell\ControlTicketTemplateViewerTableCell.cs">
@@ -346,7 +346,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Services\ControlTicketTemplateViewerBody.resx">
+    <EmbeddedResource Include="TicketTemplateBody\ControlTicketTemplateViewerBody.resx">
       <DependentUpon>ControlTicketTemplateViewerBody.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TicketTemplateTableCell\ControlTicketTemplateViewerTableCell.resx">

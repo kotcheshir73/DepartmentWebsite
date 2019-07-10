@@ -25,6 +25,9 @@ namespace Models.Examination
         public bool Break { get; set; }
 
         [DataMember]
+        public string BreakType { get; set; }
+
+        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------

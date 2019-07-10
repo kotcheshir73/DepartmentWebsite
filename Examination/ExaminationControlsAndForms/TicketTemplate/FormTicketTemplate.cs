@@ -1,10 +1,13 @@
 ﻿using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
 using ExaminationControlsAndForms.Services;
+using ExaminationControlsAndForms.TicketTemplateBody;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
+using ExaminationInterfaces.ViewModels;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Tools;
 using Unity;
@@ -19,6 +22,18 @@ namespace ExaminationControlsAndForms.TicketTemplate
         private readonly ITicketTemplateService _service;
 
         private readonly ITicketProcess _process;
+
+        private TicketTemplateDocumentSettingPageViewModel _ticketTemplateDocumentSettingPageViewModel;
+
+        private TicketTemplateFontTablePageViewModel _ticketTemplateFontTablePageViewModel;
+
+        private TicketTemplateNumberingPageViewModel _ticketTemplateNumberingPageViewModel;
+
+        private TicketTemplateStyleDefinitionPageViewModel _ticketTemplateStyleDefinitionPageViewModel;
+
+        private TicketTemplateThemePartPageViewModel _ticketTemplateThemePartPageViewModel;
+
+        private TicketTemplateWebSettingPageViewModel _ticketTemplateWebSettingPageViewModel;
 
         public FormTicketTemplate(ITicketTemplateService service, IExaminationTemplateService _serviceET, ITicketProcess process, Guid? id = null) : base(id)
         {
@@ -54,6 +69,12 @@ namespace ExaminationControlsAndForms.TicketTemplate
             var entity = result.Result;
 
             textBoxTemplateName.Text = entity.TemplateName;
+            _ticketTemplateDocumentSettingPageViewModel = entity.TicketTemplateDocumentSettingPageViewModel;
+            _ticketTemplateFontTablePageViewModel = entity.TicketTemplateFontTablePageViewModel;
+            _ticketTemplateNumberingPageViewModel = entity.TicketTemplateNumberingPageViewModel;
+            _ticketTemplateStyleDefinitionPageViewModel = entity.TicketTemplateStyleDefinitionPageViewModel;
+            _ticketTemplateThemePartPageViewModel = entity.TicketTemplateThemePartPageViewModel;
+            _ticketTemplateWebSettingPageViewModel = entity.TicketTemplateWebSettingPageViewModel;
 
             if (entity.Body != null)
             {
@@ -92,7 +113,49 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 {
                     TemplateName = textBoxTemplateName.Text,
                     TicketTemplateBodyId = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel.Id,
-                    TicketTemplateBodySetBindingModel = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel
+                    TicketTemplateBodySetBindingModel = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel,
+                    TicketTemplateDocumentSettingSetBindingModels = _ticketTemplateDocumentSettingPageViewModel?.List.Select(x => new TicketTemplateDocumentSettingSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = new Guid()
+                        })?.ToList(),
+                    TicketTemplateFontTableSetBindingModels = _ticketTemplateFontTablePageViewModel?.List.Select(x => new TicketTemplateFontTableSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = new Guid()
+                        })?.ToList(),
+                    TicketTemplateNumberingSetBindingModels = _ticketTemplateNumberingPageViewModel?.List.Select(x => new TicketTemplateNumberingSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = new Guid()
+                        })?.ToList(),
+                    TicketTemplateStyleDefinitionSetBindingModels = _ticketTemplateStyleDefinitionPageViewModel?.List.Select(x => new TicketTemplateStyleDefinitionSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = new Guid()
+                        })?.ToList(),
+                    TicketTemplateThemePartSetBindingModels = _ticketTemplateThemePartPageViewModel?.List.Select(x => new TicketTemplateThemePartSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = new Guid()
+                        })?.ToList(),
+                    TicketTemplateWebSettingSetBindingModels = _ticketTemplateWebSettingPageViewModel?.List.Select(x => new TicketTemplateWebSettingSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = new Guid()
+                        })?.ToList()
                 });
             }
             else
@@ -101,7 +164,49 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 {
                     Id = _id.Value,
                     TemplateName = textBoxTemplateName.Text,
-                    TicketTemplateBodyId = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel.Id
+                    TicketTemplateBodyId = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel.Id,
+                    TicketTemplateDocumentSettingSetBindingModels = _ticketTemplateDocumentSettingPageViewModel?.List.Select(x => new TicketTemplateDocumentSettingSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = _id.Value
+                        })?.ToList(),
+                    TicketTemplateFontTableSetBindingModels = _ticketTemplateFontTablePageViewModel?.List.Select(x => new TicketTemplateFontTableSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = _id.Value
+                        })?.ToList(),
+                    TicketTemplateNumberingSetBindingModels = _ticketTemplateNumberingPageViewModel?.List.Select(x => new TicketTemplateNumberingSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = _id.Value
+                        })?.ToList(),
+                    TicketTemplateStyleDefinitionSetBindingModels = _ticketTemplateStyleDefinitionPageViewModel?.List.Select(x => new TicketTemplateStyleDefinitionSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = _id.Value
+                        })?.ToList(),
+                    TicketTemplateThemePartSetBindingModels = _ticketTemplateThemePartPageViewModel?.List.Select(x => new TicketTemplateThemePartSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = _id.Value
+                        })?.ToList(),
+                    TicketTemplateWebSettingSetBindingModels = _ticketTemplateWebSettingPageViewModel?.List.Select(x => new TicketTemplateWebSettingSetBindingModel
+                        {
+                            Id = x.Id,
+                            InnerXml = x.InnerXml,
+                            Order = x.Order,
+                            TicketTemplateId = _id.Value
+                        })?.ToList()
                 });
             }
             if (result.Succeeded)
@@ -140,6 +245,13 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 {
                     (tabPageHtmlView.Controls[0] as ControlTicketTemplateHtmlView).LoadView(template.Result);
                     (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).LoadView(template.Result.Body, false);
+
+                    _ticketTemplateDocumentSettingPageViewModel = template.Result.TicketTemplateDocumentSettingPageViewModel;
+                    _ticketTemplateFontTablePageViewModel = template.Result.TicketTemplateFontTablePageViewModel;
+                    _ticketTemplateNumberingPageViewModel = template.Result.TicketTemplateNumberingPageViewModel;
+                    _ticketTemplateStyleDefinitionPageViewModel = template.Result.TicketTemplateStyleDefinitionPageViewModel;
+                    _ticketTemplateThemePartPageViewModel = template.Result.TicketTemplateThemePartPageViewModel;
+                    _ticketTemplateWebSettingPageViewModel = template.Result.TicketTemplateWebSettingPageViewModel;
                 }
                 else
                 {

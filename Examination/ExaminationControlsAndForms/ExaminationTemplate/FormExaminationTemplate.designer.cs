@@ -35,6 +35,8 @@
             this.labelEducationDirection = new System.Windows.Forms.Label();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
             this.tabPageTickets = new System.Windows.Forms.TabPage();
+            this.labelTicketTemplateId = new System.Windows.Forms.Label();
+            this.controlTicketTemplateSearch = new ExaminationControlsAndForms.TicketTemplate.ControlTicketTemplateSearch();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -64,6 +66,8 @@
             // 
             // tabPageConfig
             // 
+            this.tabPageConfig.Controls.Add(this.controlTicketTemplateSearch);
+            this.tabPageConfig.Controls.Add(this.labelTicketTemplateId);
             this.tabPageConfig.Controls.Add(this.textBoxExaminationTemplateName);
             this.tabPageConfig.Controls.Add(this.labelExaminationTemplateName);
             this.tabPageConfig.Controls.Add(this.labelSemester);
@@ -159,7 +163,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(826, 439);
+            this.tabPageRecords.Size = new System.Drawing.Size(311, 148);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Блоки вопросов";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -169,10 +173,27 @@
             this.tabPageTickets.Location = new System.Drawing.Point(4, 22);
             this.tabPageTickets.Name = "tabPageTickets";
             this.tabPageTickets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTickets.Size = new System.Drawing.Size(826, 439);
+            this.tabPageTickets.Size = new System.Drawing.Size(311, 148);
             this.tabPageTickets.TabIndex = 2;
             this.tabPageTickets.Text = "Билеты";
             this.tabPageTickets.UseVisualStyleBackColor = true;
+            // 
+            // labelTicketTemplateId
+            // 
+            this.labelTicketTemplateId.AutoSize = true;
+            this.labelTicketTemplateId.Location = new System.Drawing.Point(8, 122);
+            this.labelTicketTemplateId.Name = "labelTicketTemplateId";
+            this.labelTicketTemplateId.Size = new System.Drawing.Size(87, 13);
+            this.labelTicketTemplateId.TabIndex = 8;
+            this.labelTicketTemplateId.Text = "Шаблон билета:";
+            // 
+            // controlTicketTemplateSearch
+            // 
+            this.controlTicketTemplateSearch.Id = null;
+            this.controlTicketTemplateSearch.Location = new System.Drawing.Point(127, 119);
+            this.controlTicketTemplateSearch.Name = "controlTicketTemplateSearch";
+            this.controlTicketTemplateSearch.Size = new System.Drawing.Size(300, 20);
+            this.controlTicketTemplateSearch.TabIndex = 9;
             // 
             // FormExaminationTemplate
             // 
@@ -204,5 +225,7 @@
         private System.Windows.Forms.TabPage tabPageTickets;
         private System.Windows.Forms.TextBox textBoxExaminationTemplateName;
         private System.Windows.Forms.Label labelExaminationTemplateName;
+        private System.Windows.Forms.Label labelTicketTemplateId;
+        private TicketTemplate.ControlTicketTemplateSearch controlTicketTemplateSearch;
     }
 }

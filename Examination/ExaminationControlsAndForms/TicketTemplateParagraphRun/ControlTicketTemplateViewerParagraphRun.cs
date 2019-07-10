@@ -22,6 +22,8 @@ namespace ExaminationControlsAndForms.TicketTemplateParagraphRun
 
         private FormTicketTemplateParagraphRunProperties _formParagraphRunProperties;
 
+        private string _breakType;
+
         public ControlTicketTemplateViewerParagraphRun(ITicketTemplateParagraphRunService service)
         {
             InitializeComponent();
@@ -37,6 +39,7 @@ namespace ExaminationControlsAndForms.TicketTemplateParagraphRun
             Text = textBox.Text,
             TabChar = checkBoxTab.Checked,
             Break = checkBoxBreak.Checked,
+            BreakType = _breakType,
             TicketTemplateRunPropertiesId = _formParagraphRunProperties.GetTicketTemplateParagraphRunPropertiesId,
             TicketTemplateParagraphRunPropertiesSetBindingModel = _formParagraphRunProperties.GetTicketTemplateParagraphRunPropertiesSetBindingModel
         };
@@ -50,6 +53,7 @@ namespace ExaminationControlsAndForms.TicketTemplateParagraphRun
             numericUpDownOrder.Value = model.Order;
             checkBoxTab.Checked = model.TabChar;
             checkBoxBreak.Checked = model.Break;
+            _breakType = model.BreakType;
             textBox.Text = model.Text;
             _formParagraphRunProperties.SetTicketTemplateParagraphRunPropertiesViewModel = model.TicketTemplateParagraphRunPropertiesViewModel;
         }

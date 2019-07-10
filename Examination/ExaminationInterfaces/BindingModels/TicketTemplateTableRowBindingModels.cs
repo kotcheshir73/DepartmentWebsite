@@ -11,7 +11,7 @@ namespace ExaminationInterfaces.BindingModels
 
     public class TicketTemplateTableRowSetBindingModel : PageSettingSetBinidingModel
     {
-        public Guid? TicketTemplateTableId { get; set; }
+        public Guid TicketTemplateTableId { get; set; }
 
         public Guid? TicketTemplateTableRowPropertiesId { get; set; }
 

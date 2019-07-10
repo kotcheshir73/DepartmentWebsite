@@ -12,7 +12,7 @@ namespace Models.Examination
     {
         [DataMember]
         [ForeignKey("TicketTemplateTableRow")]
-        public Guid? TicketTemplateTableRowId { get; set; }
+        public Guid TicketTemplateTableRowId { get; set; }
 
         [DataMember]
         public string CantSplit { get; set; }

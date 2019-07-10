@@ -9,7 +9,7 @@ namespace ExaminationControlsAndForms.TicketTemplateTable
     {
         private Guid _id;
 
-        private Guid? _ticketTemplateTableId;
+        private Guid _ticketTemplateTableId;
 
         public TicketTemplateTableGridColumnSetBindingModel GetModel
         {

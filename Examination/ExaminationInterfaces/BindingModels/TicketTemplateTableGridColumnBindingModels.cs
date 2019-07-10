@@ -10,7 +10,7 @@ namespace ExaminationInterfaces.BindingModels
 
     public class TicketTemplateTableGridColumnSetBindingModel : PageSettingSetBinidingModel
     {
-        public Guid? TicketTemplateTableId { get; set; }
+        public Guid TicketTemplateTableId { get; set; }
 
         public string Width { get; set; }
 

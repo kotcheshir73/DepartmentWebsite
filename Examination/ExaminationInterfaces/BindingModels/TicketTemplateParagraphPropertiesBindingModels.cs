@@ -12,6 +12,10 @@ namespace ExaminationInterfaces.BindingModels
     {
         public Guid TicketTemplateParagraphId { get; set; }
         
+        public string NumberingLevelReference { get; set; }
+        
+        public string NumberingId { get; set; }
+
         public string Justification { get; set; }
         
         public string SpacingBetweenLinesLine { get; set; }

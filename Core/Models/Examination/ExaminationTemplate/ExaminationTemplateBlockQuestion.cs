@@ -23,6 +23,10 @@ namespace Models.Examination
         [DataMember]
         public byte[] QuestionImage { get; set; }
 
+        [NotMapped]
+        // Используется при формировании билетов
+        public bool IsUse { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual ExaminationTemplateBlock ExaminationTemplateBlock { get; set; }

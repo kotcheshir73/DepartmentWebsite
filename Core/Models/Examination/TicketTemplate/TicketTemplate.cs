@@ -20,8 +20,26 @@ namespace Models.Examination
 
         //-------------------------------------------------------------------------
 
-        [ForeignKey("ExaminationTemplateId")]
+        [ForeignKey("TicketTemplateId")]
         public virtual List<ExaminationTemplate> ExaminationTemplates { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateFontTable> TicketTemplateFontTables { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateNumbering> TicketTemplateNumberings { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateDocumentSetting> TicketTemplateDocumentSettings { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateStyleDefinition> TicketTemplateStyleDefinitions { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateWebSetting> TicketTemplateWebSettings { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateThemePart> TicketTemplateThemeParts { get; set; }
 
         //-------------------------------------------------------------------------
     }

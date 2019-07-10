@@ -36,7 +36,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 var result = _service.GetTicketTemplate(new TicketTemplateGetBindingModel { Id = standartElementControl.Id.Value });
                 if (result.Succeeded)
                 {
-                    standartElementControl.textBox.Text = string.Format("Билет №{0}", result.Result.TemplateName);
+                    standartElementControl.textBox.Text = result.Result.TemplateName;
                 }
                 else
                 {

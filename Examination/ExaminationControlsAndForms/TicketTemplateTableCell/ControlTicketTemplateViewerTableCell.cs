@@ -19,7 +19,7 @@ namespace ExaminationControlsAndForms.TicketTemplateTableCell
 
         private readonly ITicketTemplateTableCellService _service;
 
-        private Guid? _ticketTemplateTableRowId;
+        private Guid _ticketTemplateTableRowId;
 
         private Guid _id;
 

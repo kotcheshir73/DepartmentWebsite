@@ -8,11 +8,23 @@ namespace DatabaseContext.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_ExaminationTemplates_TicketTemplates_ExaminationTemplateId",
+                table: "ExaminationTemplates");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_TicketTemplateTableCells_TicketTemplateElementaryUnits_PropertiesId",
                 table: "TicketTemplateTableCells");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_TicketTemplateTableCells_TicketTemplateTableRows_TicketTemplateTableRowId",
+                table: "TicketTemplateTableCells");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_TicketTemplateTableRows_TicketTemplateElementaryUnits_PropertiesId",
+                table: "TicketTemplateTableRows");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_TicketTemplateTableRows_TicketTemplateTables_TicketTemplateTableId",
                 table: "TicketTemplateTableRows");
 
             migrationBuilder.DropForeignKey(
@@ -21,6 +33,10 @@ namespace DatabaseContext.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_TicketTemplateTables_TicketTemplateElementaryUnits_PropertiesId",
+                table: "TicketTemplateTables");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_TicketTemplateTables_TicketTemplateBodies_TicketTemplateBodyId",
                 table: "TicketTemplateTables");
 
             migrationBuilder.DropTable(
@@ -44,6 +60,10 @@ namespace DatabaseContext.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_TicketTemplateTableCells_PropertiesId",
                 table: "TicketTemplateTableCells");
+
+            migrationBuilder.DropIndex(
+                name: "IX_ExaminationTemplates_ExaminationTemplateId",
+                table: "ExaminationTemplates");
 
             migrationBuilder.DropColumn(
                 name: "ColumnsId",
@@ -97,6 +117,10 @@ namespace DatabaseContext.Migrations
                 name: "Name",
                 table: "TicketTemplateTableCells");
 
+            migrationBuilder.DropColumn(
+                name: "ExaminationTemplateId",
+                table: "ExaminationTemplates");
+
             migrationBuilder.RenameColumn(
                 name: "PropertiesId",
                 table: "TicketTemplateTables",
@@ -112,18 +136,134 @@ namespace DatabaseContext.Migrations
                 table: "TicketTemplateTableCells",
                 newName: "TicketTemplateTableCellPropertiesId");
 
+            migrationBuilder.AlterColumn<Guid>(
+                name: "TicketTemplateBodyId",
+                table: "TicketTemplateTables",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "TicketTemplateTableId",
+                table: "TicketTemplateTableRows",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "TicketTemplateTableRowId",
+                table: "TicketTemplateTableCells",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldNullable: true);
+
             migrationBuilder.AddColumn<bool>(
                 name: "Break",
                 table: "TicketTemplateParagraphRuns",
                 nullable: false,
                 defaultValue: false);
 
+            migrationBuilder.AddColumn<string>(
+                name: "BreakType",
+                table: "TicketTemplateParagraphRuns",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "NumberingId",
+                table: "TicketTemplateParagraphProperties",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "NumberingLevelReference",
+                table: "TicketTemplateParagraphProperties",
+                nullable: true);
+
+            migrationBuilder.CreateTable(
+                name: "TicketTemplateDocumentSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TicketTemplateId = table.Column<Guid>(nullable: false),
+                    InnerXml = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTemplateDocumentSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketTemplateDocumentSettings_TicketTemplates_TicketTemplateId",
+                        column: x => x.TicketTemplateId,
+                        principalTable: "TicketTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketTemplateFontTables",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TicketTemplateId = table.Column<Guid>(nullable: false),
+                    InnerXml = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTemplateFontTables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketTemplateFontTables_TicketTemplates_TicketTemplateId",
+                        column: x => x.TicketTemplateId,
+                        principalTable: "TicketTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketTemplateNumberings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TicketTemplateId = table.Column<Guid>(nullable: false),
+                    InnerXml = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTemplateNumberings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketTemplateNumberings_TicketTemplates_TicketTemplateId",
+                        column: x => x.TicketTemplateId,
+                        principalTable: "TicketTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketTemplateStyleDefinitions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TicketTemplateId = table.Column<Guid>(nullable: false),
+                    InnerXml = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTemplateStyleDefinitions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketTemplateStyleDefinitions_TicketTemplates_TicketTemplateId",
+                        column: x => x.TicketTemplateId,
+                        principalTable: "TicketTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateTable(
                 name: "TicketTemplateTableCellProperties",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    TicketTemplateTableCellId = table.Column<Guid>(nullable: true),
+                    TicketTemplateTableCellId = table.Column<Guid>(nullable: false),
                     TableCellWidth = table.Column<string>(nullable: true),
                     GridSpan = table.Column<string>(nullable: true),
                     VerticalMerge = table.Column<string>(nullable: true),
@@ -139,7 +279,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TicketTemplateTableCellId,
                         principalTable: "TicketTemplateTableCells",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,7 +287,7 @@ namespace DatabaseContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    TicketTemplateTableId = table.Column<Guid>(nullable: true),
+                    TicketTemplateTableId = table.Column<Guid>(nullable: false),
                     Order = table.Column<int>(nullable: false),
                     Width = table.Column<string>(nullable: true)
                 },
@@ -159,7 +299,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TicketTemplateTableId,
                         principalTable: "TicketTemplateTables",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,7 +307,7 @@ namespace DatabaseContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    TicketTemplateTableId = table.Column<Guid>(nullable: true),
+                    TicketTemplateTableId = table.Column<Guid>(nullable: false),
                     Width = table.Column<string>(nullable: true),
                     LookValue = table.Column<string>(nullable: true),
                     LookFirstRow = table.Column<string>(nullable: true),
@@ -202,7 +342,7 @@ namespace DatabaseContext.Migrations
                         column: x => x.TicketTemplateTableId,
                         principalTable: "TicketTemplateTables",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,7 +350,7 @@ namespace DatabaseContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    TicketTemplateTableRowId = table.Column<Guid>(nullable: true),
+                    TicketTemplateTableRowId = table.Column<Guid>(nullable: false),
                     CantSplit = table.Column<string>(nullable: true),
                     TableRowHeight = table.Column<string>(nullable: true)
                 },
@@ -222,15 +362,79 @@ namespace DatabaseContext.Migrations
                         column: x => x.TicketTemplateTableRowId,
                         principalTable: "TicketTemplateTableRows",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TicketTemplateThemeParts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TicketTemplateId = table.Column<Guid>(nullable: false),
+                    InnerXml = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTemplateThemeParts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketTemplateThemeParts_TicketTemplates_TicketTemplateId",
+                        column: x => x.TicketTemplateId,
+                        principalTable: "TicketTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketTemplateWebSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TicketTemplateId = table.Column<Guid>(nullable: false),
+                    InnerXml = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketTemplateWebSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketTemplateWebSettings_TicketTemplates_TicketTemplateId",
+                        column: x => x.TicketTemplateId,
+                        principalTable: "TicketTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExaminationTemplates_TicketTemplateId",
+                table: "ExaminationTemplates",
+                column: "TicketTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketTemplateDocumentSettings_TicketTemplateId",
+                table: "TicketTemplateDocumentSettings",
+                column: "TicketTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketTemplateFontTables_TicketTemplateId",
+                table: "TicketTemplateFontTables",
+                column: "TicketTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketTemplateNumberings_TicketTemplateId",
+                table: "TicketTemplateNumberings",
+                column: "TicketTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketTemplateStyleDefinitions_TicketTemplateId",
+                table: "TicketTemplateStyleDefinitions",
+                column: "TicketTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TicketTemplateTableCellProperties_TicketTemplateTableCellId",
                 table: "TicketTemplateTableCellProperties",
                 column: "TicketTemplateTableCellId",
-                unique: true,
-                filter: "[TicketTemplateTableCellId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TicketTemplateTableGridColumn_TicketTemplateTableId",
@@ -241,19 +445,87 @@ namespace DatabaseContext.Migrations
                 name: "IX_TicketTemplateTableProperties_TicketTemplateTableId",
                 table: "TicketTemplateTableProperties",
                 column: "TicketTemplateTableId",
-                unique: true,
-                filter: "[TicketTemplateTableId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TicketTemplateTableRowProperties_TicketTemplateTableRowId",
                 table: "TicketTemplateTableRowProperties",
                 column: "TicketTemplateTableRowId",
-                unique: true,
-                filter: "[TicketTemplateTableRowId] IS NOT NULL");
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketTemplateThemeParts_TicketTemplateId",
+                table: "TicketTemplateThemeParts",
+                column: "TicketTemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketTemplateWebSettings_TicketTemplateId",
+                table: "TicketTemplateWebSettings",
+                column: "TicketTemplateId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ExaminationTemplates_TicketTemplates_TicketTemplateId",
+                table: "ExaminationTemplates",
+                column: "TicketTemplateId",
+                principalTable: "TicketTemplates",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TicketTemplateTableCells_TicketTemplateTableRows_TicketTemplateTableRowId",
+                table: "TicketTemplateTableCells",
+                column: "TicketTemplateTableRowId",
+                principalTable: "TicketTemplateTableRows",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TicketTemplateTableRows_TicketTemplateTables_TicketTemplateTableId",
+                table: "TicketTemplateTableRows",
+                column: "TicketTemplateTableId",
+                principalTable: "TicketTemplateTables",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TicketTemplateTables_TicketTemplateBodies_TicketTemplateBodyId",
+                table: "TicketTemplateTables",
+                column: "TicketTemplateBodyId",
+                principalTable: "TicketTemplateBodies",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_ExaminationTemplates_TicketTemplates_TicketTemplateId",
+                table: "ExaminationTemplates");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_TicketTemplateTableCells_TicketTemplateTableRows_TicketTemplateTableRowId",
+                table: "TicketTemplateTableCells");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_TicketTemplateTableRows_TicketTemplateTables_TicketTemplateTableId",
+                table: "TicketTemplateTableRows");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_TicketTemplateTables_TicketTemplateBodies_TicketTemplateBodyId",
+                table: "TicketTemplateTables");
+
+            migrationBuilder.DropTable(
+                name: "TicketTemplateDocumentSettings");
+
+            migrationBuilder.DropTable(
+                name: "TicketTemplateFontTables");
+
+            migrationBuilder.DropTable(
+                name: "TicketTemplateNumberings");
+
+            migrationBuilder.DropTable(
+                name: "TicketTemplateStyleDefinitions");
+
             migrationBuilder.DropTable(
                 name: "TicketTemplateTableCellProperties");
 
@@ -266,9 +538,31 @@ namespace DatabaseContext.Migrations
             migrationBuilder.DropTable(
                 name: "TicketTemplateTableRowProperties");
 
+            migrationBuilder.DropTable(
+                name: "TicketTemplateThemeParts");
+
+            migrationBuilder.DropTable(
+                name: "TicketTemplateWebSettings");
+
+            migrationBuilder.DropIndex(
+                name: "IX_ExaminationTemplates_TicketTemplateId",
+                table: "ExaminationTemplates");
+
             migrationBuilder.DropColumn(
                 name: "Break",
                 table: "TicketTemplateParagraphRuns");
+
+            migrationBuilder.DropColumn(
+                name: "BreakType",
+                table: "TicketTemplateParagraphRuns");
+
+            migrationBuilder.DropColumn(
+                name: "NumberingId",
+                table: "TicketTemplateParagraphProperties");
+
+            migrationBuilder.DropColumn(
+                name: "NumberingLevelReference",
+                table: "TicketTemplateParagraphProperties");
 
             migrationBuilder.RenameColumn(
                 name: "TicketTemplateTablePropertiesId",
@@ -284,6 +578,12 @@ namespace DatabaseContext.Migrations
                 name: "TicketTemplateTableCellPropertiesId",
                 table: "TicketTemplateTableCells",
                 newName: "PropertiesId");
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "TicketTemplateBodyId",
+                table: "TicketTemplateTables",
+                nullable: true,
+                oldClrType: typeof(Guid));
 
             migrationBuilder.AddColumn<Guid>(
                 name: "ColumnsId",
@@ -312,6 +612,12 @@ namespace DatabaseContext.Migrations
                 table: "TicketTemplateTables",
                 nullable: true);
 
+            migrationBuilder.AlterColumn<Guid>(
+                name: "TicketTemplateTableId",
+                table: "TicketTemplateTableRows",
+                nullable: true,
+                oldClrType: typeof(Guid));
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "DateCreate",
                 table: "TicketTemplateTableRows",
@@ -334,6 +640,12 @@ namespace DatabaseContext.Migrations
                 table: "TicketTemplateTableRows",
                 nullable: true);
 
+            migrationBuilder.AlterColumn<Guid>(
+                name: "TicketTemplateTableRowId",
+                table: "TicketTemplateTableCells",
+                nullable: true,
+                oldClrType: typeof(Guid));
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "DateCreate",
                 table: "TicketTemplateTableCells",
@@ -354,6 +666,11 @@ namespace DatabaseContext.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "Name",
                 table: "TicketTemplateTableCells",
+                nullable: true);
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "ExaminationTemplateId",
+                table: "ExaminationTemplates",
                 nullable: true);
 
             migrationBuilder.CreateTable(
@@ -440,6 +757,11 @@ namespace DatabaseContext.Migrations
                 column: "PropertiesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ExaminationTemplates_ExaminationTemplateId",
+                table: "ExaminationTemplates",
+                column: "ExaminationTemplateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TicketTemplateElementaryAttributes_TicketTemplateElementaryUnitId",
                 table: "TicketTemplateElementaryAttributes",
                 column: "TicketTemplateElementaryUnitId");
@@ -460,6 +782,14 @@ namespace DatabaseContext.Migrations
                 column: "ParentElementaryUnitId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_ExaminationTemplates_TicketTemplates_ExaminationTemplateId",
+                table: "ExaminationTemplates",
+                column: "ExaminationTemplateId",
+                principalTable: "TicketTemplates",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_TicketTemplateTableCells_TicketTemplateElementaryUnits_PropertiesId",
                 table: "TicketTemplateTableCells",
                 column: "PropertiesId",
@@ -468,10 +798,26 @@ namespace DatabaseContext.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_TicketTemplateTableCells_TicketTemplateTableRows_TicketTemplateTableRowId",
+                table: "TicketTemplateTableCells",
+                column: "TicketTemplateTableRowId",
+                principalTable: "TicketTemplateTableRows",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_TicketTemplateTableRows_TicketTemplateElementaryUnits_PropertiesId",
                 table: "TicketTemplateTableRows",
                 column: "PropertiesId",
                 principalTable: "TicketTemplateElementaryUnits",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TicketTemplateTableRows_TicketTemplateTables_TicketTemplateTableId",
+                table: "TicketTemplateTableRows",
+                column: "TicketTemplateTableId",
+                principalTable: "TicketTemplateTables",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -488,6 +834,14 @@ namespace DatabaseContext.Migrations
                 table: "TicketTemplateTables",
                 column: "PropertiesId",
                 principalTable: "TicketTemplateElementaryUnits",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TicketTemplateTables_TicketTemplateBodies_TicketTemplateBodyId",
+                table: "TicketTemplateTables",
+                column: "TicketTemplateBodyId",
+                principalTable: "TicketTemplateBodies",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

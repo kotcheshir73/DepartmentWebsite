@@ -18,6 +18,12 @@ namespace Models.Examination
         public string Justification { get; set; }
 
         [DataMember]
+        public string NumberingLevelReference { get; set; }
+
+        [DataMember]
+        public string NumberingId { get; set; }
+
+        [DataMember]
         public string SpacingBetweenLinesLine { get; set; }
 
         [DataMember]

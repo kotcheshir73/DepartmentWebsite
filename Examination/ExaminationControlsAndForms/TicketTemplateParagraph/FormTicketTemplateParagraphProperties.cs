@@ -20,6 +20,9 @@ namespace ExaminationControlsAndForms.TicketTemplateParagraph
                     _ticketTemplateParagraphPropertiesId = value.Id;
                     _ticketTemplateParagraphId = value.TicketTemplateParagraphId;
 
+                    textBoxNumberingLevelReference.Text = value.NumberingLevelReference;
+                    textBoxNumberingId.Text = value.NumberingId;
+
                     textBoxJustification.Text = value.Justification;
 
                     textBoxLine.Text = value.SpacingBetweenLinesLine;
@@ -48,6 +51,9 @@ namespace ExaminationControlsAndForms.TicketTemplateParagraph
                 {
                     Id = _ticketTemplateParagraphPropertiesId.Value,
                     TicketTemplateParagraphId = _ticketTemplateParagraphId.Value,
+
+                    NumberingLevelReference = textBoxNumberingLevelReference.Text,
+                    NumberingId = textBoxNumberingId.Text,
 
                     IndentationFirstLine = textBoxFirstLine.Text,
                     IndentationHanging = textBoxHanging.Text,

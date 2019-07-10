@@ -18,7 +18,7 @@ namespace ExaminationControlsAndForms.TicketTemplateTable
 
         private readonly ITicketTemplateTableService _service;
 
-        private Guid? _ticketTemplateBodyId;
+        private Guid _ticketTemplateBodyId;
 
         private Guid _id;
 
