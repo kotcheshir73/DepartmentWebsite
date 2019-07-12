@@ -21,7 +21,7 @@
                     <ul class="navig">
                         <li style="background:none"><a href="~/Home/Index" > <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a></li>
                         <li style="margin: 8px 0 0 0"><a href="~/Event/Index" > Новости</a></li>
-                        @foreach (var item in DepartmentWebCore.Services.MenuService.getMenuElementList())
+                        @foreach (var item in DepartmentWebCore.Services.MenuService.GetMenuElementList())
                         {
                             <li style="color:white; margin: 8px 0 0 0">
                                 @Html.ActionLink(item.Name, item.Action, item.Controller)

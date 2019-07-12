@@ -5,11 +5,24 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System;
+using Models.Base;
 
 namespace WebImplementations
 {
-    public static class ModelFactoryToViewModel
+    public static class WebModelFactoryToViewModel
     {
+        public static WebEducationDirectionViewModel CreateWebEducationDirectionViewModel(EducationDirection entity)
+        {
+            return new WebEducationDirectionViewModel
+            {
+                Id = entity.Id,
+                Cipher = entity.Cipher,
+                Title = entity.Title,
+                ShortName = entity.ShortName,
+                Description = entity.Description
+            };
+        }
+
         public static EventViewModel CreateEventViewModel(Event entity)
         {
             return new EventViewModel

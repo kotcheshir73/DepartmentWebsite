@@ -45,7 +45,7 @@ namespace WebImplementations.Implementations
 
                     var result = new CommentPageViewModel
                     {                        
-                        List = query.Select(ModelFactoryToViewModel.CreateCommentViewModel).ToList()
+                        List = query.Select(WebModelFactoryToViewModel.CreateCommentViewModel).ToList()
                     };
 
                     return ResultService<CommentPageViewModel>.Success(result);
@@ -75,7 +75,7 @@ namespace WebImplementations.Implementations
                         return ResultService<CommentViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<CommentViewModel>.Success(ModelFactoryToViewModel.CreateCommentViewModel(entity));
+                    return ResultService<CommentViewModel>.Success(WebModelFactoryToViewModel.CreateCommentViewModel(entity));
                 }
             }
             catch (Exception ex)

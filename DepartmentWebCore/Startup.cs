@@ -118,26 +118,17 @@ namespace DepartmentWebCore
             container.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
-            //container.RegisterType<IStatementService, StatementService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IStatementRecordService, StatementRecordService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IStatementRecordExtendedService, StatementRecordExtendedService>(new HierarchicalLifetimeManager());
-
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
             container.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
-
-            //container.RegisterType<IIndividualPlanTitleService, IndividualPlanTitleService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IIndividualPlanRecordService, IndividualPlanRecordService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IIndividualPlanKindOfWorkService, IndividualPlanKindOfWorkService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IIndividualPlanNIRScientificArticleService, IndividualPlanNIRScientificArticleService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IIndividualPlanNIRContractualWorkService, IndividualPlanNIRContractualWorkService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IProcess, Process>(new HierarchicalLifetimeManager());
             container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
             container.RegisterType<IAcademicYearProcess, AcademicYearProcess>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
+            container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebProcessService, WebProcessService>(new HierarchicalLifetimeManager());

@@ -56,14 +56,14 @@ namespace WebImplementations.Implementations
                         {
                             MaxCount = countPages,
                             CurrentPage = model.PageNumber.Value,
-                            List = query.Select(ModelFactoryToViewModel.CreateEventViewModel).ToList()
+                            List = query.Select(WebModelFactoryToViewModel.CreateEventViewModel).ToList()
                         };
                     }
                     else
                     {
                         result = new EventPageViewModel
                         {
-                            List = query.Select(ModelFactoryToViewModel.CreateEventViewModel).ToList()
+                            List = query.Select(WebModelFactoryToViewModel.CreateEventViewModel).ToList()
                         };
                     }
 
@@ -96,7 +96,7 @@ namespace WebImplementations.Implementations
                         return ResultService<EventViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<EventViewModel>.Success(ModelFactoryToViewModel.CreateEventViewModel(entity));
+                    return ResultService<EventViewModel>.Success(WebModelFactoryToViewModel.CreateEventViewModel(entity));
                 }
             }
             catch (Exception ex)
