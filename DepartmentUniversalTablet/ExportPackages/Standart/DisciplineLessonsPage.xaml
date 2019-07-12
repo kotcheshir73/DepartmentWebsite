@@ -10,14 +10,15 @@
 
     <Page.Resources>
         <Style TargetType="Button" >
-            <Setter Property="Control.FontSize" Value="15" />
             <Setter Property="Control.Margin" Value="20" />
+            <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
 
-    <StackPanel>
-        <StackPanel x:Name="grid">
-
+    <ScrollViewer>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Выберите занятие:" TextWrapping="Wrap"  Margin="10" />
+            <StackPanel x:Name="grid" />
         </StackPanel>
-    </StackPanel>
+    </ScrollViewer>
 </Page>

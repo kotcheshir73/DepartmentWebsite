@@ -20,5 +20,10 @@ namespace LearningProgressInterfaces.ViewModels
         public DateTime Date { get; set; }
 
         public string Subgroup { get; set; }
+
+        public override string ToString()
+        {
+            return $"{DisciplineLesson}\n{Subgroup}";
+        }
     }
 }

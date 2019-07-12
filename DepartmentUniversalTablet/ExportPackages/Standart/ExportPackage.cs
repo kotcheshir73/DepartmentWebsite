@@ -8,21 +8,25 @@ using System.Threading.Tasks;
 namespace DepartmentUniversalTablet.ExportPackages.Standart
 {
     /*
-    1. Выбираем год обучения
-    2. Направление
-    3. Дисциплина
-    4. Тип занятий(лек, лаб)
-    5. Занятие
-    6. Группа или подгруппа
-    7. Ввод списком отметок(например, для лекций), либо выбор студента для ввода отметки
+    1. Авторизация
+    2. Учебный год
+    3. Направление
+    4. Дисциплина
+    5. Семестр
+    //Тут переход в стандартный модуль
+    6. TimeNormsPage
+    7. StudentGroupsPage
+    8. DisciplineLessonsPage
+    9. Студенты
+    10. DisciplineLessonConductedStudentPage
     */
-   [Export(typeof(IExportPackage))]
+    [Export(typeof(IExportPackage))]
     class ExportPackage : IExportPackage
     {
         public string Discipline => "Standart";
 
         public string Lecturer => "Standart";
 
-        public Type GetUI => typeof(TimeNormsPage);
+        public Type GetUI => typeof(StudentGroupsPage);
     }
 }

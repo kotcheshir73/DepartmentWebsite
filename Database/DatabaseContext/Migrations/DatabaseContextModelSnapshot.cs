@@ -1950,7 +1950,7 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
-                    b.Property<decimal?>("Ball");
+                    b.Property<double?>("Ball");
 
                     b.Property<string>("Comment");
 
@@ -1993,7 +1993,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("IsNecessarily");
 
-                    b.Property<decimal?>("MaxBall");
+                    b.Property<double?>("MaxBall");
 
                     b.Property<int>("Order");
 
@@ -2027,7 +2027,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("Result");
 
-                    b.Property<decimal>("Score");
+                    b.Property<double>("Score");
 
                     b.Property<Guid>("StudentId");
 

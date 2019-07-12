@@ -133,7 +133,7 @@ namespace LearningProgressImplementations.Implementations
                             ResultServiceStatusCode.NotFound);
                     }
 
-                    var query = context.AcademicPlanRecordMissions
+                    var queryAPRM = context.AcademicPlanRecordMissions
                         .Include(x => x.AcademicPlanRecordElement)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
                         .Include(x => x.AcademicPlanRecordElement.TimeNorm)
@@ -142,8 +142,13 @@ namespace LearningProgressImplementations.Implementations
                         .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId &&
                                         x.LecturerId == user.LecturerId && x.AcademicPlanRecordElement.TimeNorm.UseInLearningProgress &&
                                         x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirectionId == model.EducationDirectionId &&
-                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId)
-                        .OrderBy(x => x.AcademicPlanRecordElement.TimeNorm.TimeNormOrder)
+                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId);
+                    if (!string.IsNullOrEmpty(model.Semester))
+                    {
+                        Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+                        queryAPRM = queryAPRM.Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Semester == sem);
+                    }
+                    var query = queryAPRM.OrderBy(x => x.AcademicPlanRecordElement.TimeNorm.TimeNormOrder)
                         .Select(x => new
                         {
                             x.AcademicPlanRecordElement.TimeNormId,
@@ -598,7 +603,7 @@ namespace LearningProgressImplementations.Implementations
                                 .Include(x => x.Student)
                                 .Include(x => x.Student.StudentGroup)
                                 .Include(x => x.Discipline)
-                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester && !x.IsDeleted);
                             if (dsr == null)
                             {
                                 dsr = LearningProgressModelFacotryFromBindingModel.CreateDisciplineStudentRecord(new DisciplineStudentRecordSetBindingModel
@@ -616,7 +621,7 @@ namespace LearningProgressImplementations.Implementations
                                 .Include(x => x.Student)
                                 .Include(x => x.Student.StudentGroup)
                                 .Include(x => x.Discipline)
-                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester);
+                                .FirstOrDefault(x => x.StudentId == st.Id && x.DisciplineId == model.DisciplineId && x.Semester == model.Semester && !x.IsDeleted);
                             }
 
                             list.Add(LearningProgressModelFactoryToViewModel.CreateDisciplineStudentRecordViewModel(dsr));
@@ -679,13 +684,17 @@ namespace LearningProgressImplementations.Implementations
 
 
                     var students = context.DisciplineStudentRecords
-                        .Where(x => x.Student.StudentGroupId == model.StudentGroupId && x.DisciplineId == dlc.DisciplineLesson.DisciplineId);
+                        .Where(x => x.Student.StudentGroupId == model.StudentGroupId 
+                            && x.DisciplineId == dlc.DisciplineLesson.DisciplineId
+                            && x.Semester == (Semesters)Enum.Parse(typeof(Semesters), model.Semester)
+                            && !x.IsDeleted);
 
                     if (dlc.Subgroup.Contains("Подгруппа"))
                     {
                         int subgroup = Convert.ToInt32(dlc.Subgroup.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[1]);
                         students = students.Where(x => x.SubGroup == subgroup);
                     }
+
 
                     List<DisciplineLessonConductedStudentViewModel> list = new List<DisciplineLessonConductedStudentViewModel>();
 
@@ -802,7 +811,7 @@ namespace LearningProgressImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var students = context.Students.Where(x => x.StudentGroupId == model.StudentGroupId && !x.IsDeleted).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
-                    var dlt = context.DisciplineLessonTasks.FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId && !x.IsDeleted);
+                    var dlt = context.DisciplineLessonTasks.Include(x => x.DisciplineLesson).FirstOrDefault(x => x.Id == model.DisciplineLessonTaskId && !x.IsDeleted);
                     var variants = context.DisciplineLessonTaskVariants.Where(x => x.DisciplineLessonTaskId == model.DisciplineLessonTaskId && !x.IsDeleted).ToList();
                     if (dlt == null)
                     {
@@ -1030,6 +1039,53 @@ namespace LearningProgressImplementations.Implementations
             catch (Exception ex)
             {
                 return ResultService<List<DisciplineLessonConductedViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<GetFinalResultsOfGroupViewModel>> GetFinalResultsOfGroup(GetFinalResultsOfGroupBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var students = context.Students.Where(x => x.StudentGroupId == model.StudentGroupId && !x.IsDeleted).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+                    List<GetFinalResultsOfGroupViewModel> list = new List<GetFinalResultsOfGroupViewModel>();
+                    Semesters sem = (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
+
+                    foreach (var student in students)
+                    {
+                        var conductedBall = context.DisciplineLessonConductedStudents
+                                            .Include(x => x.DisciplineLessonConducted.DisciplineLesson.TimeNorm)
+                                            .Where(x => !x.IsDeleted &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.AcademicYearId == model.AcademicYearId &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.DisciplineId == model.DisciplineId &&
+                                                        x.DisciplineLessonConducted.DisciplineLesson.Semester == sem &&
+                                                        x.StudentId == student.Id)
+                                            .Sum(x => x.Ball);
+
+                        var taskBall = context.DisciplineLessonTaskStudentAccepts
+                                            .Include(x => x.DisciplineLessonTask.DisciplineLesson.TimeNorm)
+                                            .Where(x => !x.IsDeleted &&
+                                                        x.DisciplineLessonTask.DisciplineLesson.AcademicYearId == model.AcademicYearId &&
+                                                        x.DisciplineLessonTask.DisciplineLesson.DisciplineId == model.DisciplineId &&
+                                                        x.DisciplineLessonTask.DisciplineLesson.Semester == sem &&
+                                                        x.StudentId == student.Id)
+                                            .Sum(x => x.Score);
+
+                        list.Add(new GetFinalResultsOfGroupViewModel
+                        {
+                            Student = $"{student.LastName} {student.FirstName}",
+                            ConductedBall = conductedBall.Value,
+                            TaskBall = taskBall
+                        });
+                    }
+
+                    return ResultService<List<GetFinalResultsOfGroupViewModel>>.Success(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<GetFinalResultsOfGroupViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
     }

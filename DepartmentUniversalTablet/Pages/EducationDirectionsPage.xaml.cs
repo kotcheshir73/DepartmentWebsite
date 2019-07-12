@@ -23,12 +23,12 @@ using BaseInterfaces.ViewModels;
 namespace DepartmentUniversalTablet.Pages
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница выбора учебного направления.
     /// </summary>
     public sealed partial class EducationDirectionsPage : Page
     {
         private IEducationDirectionService _serviceED;
-        private DisciplineLessonGetBindingModel getModel;
+        private FullDisciplineLessonConductedBindingModel bindingModel;
 
         public EducationDirectionsPage()
         {
@@ -37,29 +37,54 @@ namespace DepartmentUniversalTablet.Pages
             _serviceED = UnityConfig.Container.Resolve<EducationDirectionService>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getModel = new DisciplineLessonGetBindingModel()
-            {
-                AcademicYearId = (Guid)e.Parameter
-            };
-            var list = _serviceED.GetEducationDirections(new BaseInterfaces.BindingModels.EducationDirectionGetBindingModel()).Result.List;
+            try
+            { 
+                bindingModel = new FullDisciplineLessonConductedBindingModel()
+                {
+                    AcademicYearId = (Guid)e.Parameter
+                };
+                var result = _serviceED.GetEducationDirections(new BaseInterfaces.BindingModels.EducationDirectionGetBindingModel());
+                if (!result.Succeeded)
+                {
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
 
-            Button button1;
+                Button button1;
 
-            foreach (var item in list)
+                foreach (var item in result.Result.List)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
+            }
+            catch (Exception ex)
             {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                }
             }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            getModel.EducationDirectionId = ((EducationDirectionViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplinesPage), getModel);
+            bindingModel.EducationDirectionId = ((EducationDirectionViewModel)((Button)sender).Content).Id;
+            Frame.Navigate(typeof(DisciplinesPage), bindingModel);
         }
     }
 }

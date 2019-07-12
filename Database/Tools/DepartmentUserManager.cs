@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Tools
 {
@@ -22,6 +24,9 @@ namespace Tools
         {
             get { return _user?.Id; }
         }
+
+        public static string LecturerName => $"{_user?.Lecturer?.LastName} {_user?.Lecturer?.FirstName[0]}.{_user?.Lecturer?.Patronymic?[0]}.";
+        
 
         public static DepartmentDatabaseContext GetContext
         {
@@ -106,6 +111,36 @@ namespace Tools
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Аутентификация пользователя
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static void LoginAsync(string login, string password)
+        {
+            var passHash = GetPasswordHash(password);
+
+            using (var context = GetContext)
+            {
+                var user = context.DepartmentUsers.Where(x => x.LecturerId != null).Include(x => x.Lecturer).FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
+                if (user == null)
+                {
+                    throw new Exception("Введен неверный логин/пароль");
+                }
+                if (user.IsLocked)
+                {
+                    throw new Exception("Пользователь заблокирован");
+                }
+                user.DateLastVisit = DateTime.Now;
+                context.SaveChanges();
+                _user = user;
+                _roles = context.DepartmentUserRoles.Where(x => x.UserId == _user.Id).Select(x => x.Role).ToList();
+            }
+
+            return;
         }
 
         /// <summary>

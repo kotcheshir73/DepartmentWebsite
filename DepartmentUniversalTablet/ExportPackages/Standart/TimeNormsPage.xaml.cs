@@ -25,12 +25,12 @@ using LearningProgressInterfaces.ViewModels;
 namespace DepartmentUniversalTablet.ExportPackages.Standart
 {
     /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// Страница выбора типа занятий.
     /// </summary>
     public sealed partial class TimeNormsPage : Page
     {
         private ILearningProgressProcess _serviceLP;
-        private DisciplineLessonGetBindingModel getModel;
+        private FullDisciplineLessonConductedBindingModel bindingModel;
 
         public TimeNormsPage()
         {
@@ -39,32 +39,63 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getModel = (DisciplineLessonGetBindingModel)e.Parameter;
-            var list = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+            try
             {
-                AcademicYearId = getModel.AcademicYearId.Value,
-                DisciplineId = getModel.DisciplineId.Value,
-                EducationDirectionId = getModel.EducationDirectionId.Value,
-                UserId = DepartmentUserManager.UserId.Value
-            }).Result;
+                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+                var result = _serviceLP.GetDisciplineDetails(new LearningProcessDisciplineDetailBindingModel()
+                {
+                    AcademicYearId = bindingModel.AcademicYearId,
+                    DisciplineId = bindingModel.DisciplineId,
+                    EducationDirectionId = bindingModel.EducationDirectionId,
+                    UserId = DepartmentUserManager.UserId.Value,
+                    Semester = bindingModel.Semester
+                });
+                if (!result.Succeeded)
+                {
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
 
-            Button button1;
+                Button button1;
 
-            foreach (var item in list)
-            {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                foreach (var item in result.Result)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
             }
+            catch (Exception ex)
+            {
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                }
+            }
+        }
+
+        private void button_OpenResult(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ResultGroupPage), bindingModel);
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            getModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(DisciplineLessonsPage), getModel);
+            bindingModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
+            Frame.Navigate(typeof(DisciplineLessonsPage), bindingModel);
         }
     }
 }

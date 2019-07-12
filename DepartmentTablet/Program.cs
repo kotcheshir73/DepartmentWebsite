@@ -16,6 +16,7 @@ using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Tools;
 using Unity;
 using Unity.Lifetime;
 
@@ -58,7 +59,8 @@ namespace DepartmentTablet
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            AuthorizationService.Login("admin", "qwerty");
+            //AuthorizationService.Login("admin", "qwerty");
+            DepartmentUserManager.Login("admin", "qwerty");
             Application.Run(container.Resolve<FormMain>());
         }
 

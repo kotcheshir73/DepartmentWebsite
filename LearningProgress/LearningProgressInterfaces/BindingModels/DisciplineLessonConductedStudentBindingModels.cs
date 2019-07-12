@@ -30,6 +30,6 @@ namespace LearningProgressInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public string Status { get; set; }
 
-        public decimal? Ball { get; set; }
+        public double? Ball { get; set; }
     }
 }

@@ -53,5 +53,7 @@ namespace LearningProgressInterfaces.Interfaces
         ResultService<List<DisciplineLessonTaskStudentAcceptViewModel>> GetDisciplineLessonTaskStudentAcceptForFill(DisciplineLessonTaskStudentAcceptForFillBindingModel model);
 
         ResultService<List<DisciplineLessonConductedViewModel>> GetFullDisciplineLessonConducteds(FullDisciplineLessonConductedBindingModel model);
+
+        ResultService<List<GetFinalResultsOfGroupViewModel>> GetFinalResultsOfGroup(GetFinalResultsOfGroupBindingModel model);
     }
 }

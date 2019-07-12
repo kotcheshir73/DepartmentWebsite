@@ -92,7 +92,7 @@ namespace LearningProgressControlsAndForms.Services
                 DisciplineLessonId = _dlId,
                 TitleTemplate = textBoxTaskTemplate.Text,
                 IsNecessarily = checkBoxIsNecessarily.Checked,
-                MaxBall = checkBoxMaxBall.Checked ? Convert.ToDecimal(textBoxMaxBall.Text) : (decimal?)null,
+                MaxBall = checkBoxMaxBall.Checked ? Convert.ToDouble(textBoxMaxBall.Text) : (double?)null,
                 Tasks = tasks
             });
             if (!result.Succeeded)

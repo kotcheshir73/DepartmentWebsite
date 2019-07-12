@@ -1,5 +1,6 @@
 ﻿using Models.Authentication;
 using System;
+using Tools;
 
 namespace DepartmentTablet
 {
@@ -13,6 +14,7 @@ namespace DepartmentTablet
 
         public static bool Login(string userName, string password)
         {
+            DepartmentUserManager.Login(userName, password);
             //_user = AccessCheckService.Login(userName, password);
             return _user != null;
         }

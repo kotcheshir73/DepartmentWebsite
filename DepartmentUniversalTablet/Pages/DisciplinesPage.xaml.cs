@@ -34,7 +34,7 @@ namespace DepartmentUniversalTablet.Pages
     public sealed partial class DisciplinesPage : Page
     {
         private ILearningProgressProcess _serviceLP;
-        private DisciplineLessonGetBindingModel getModel;
+        private FullDisciplineLessonConductedBindingModel bindingModel;
 
         public DisciplinesPage()
         {
@@ -43,34 +43,58 @@ namespace DepartmentUniversalTablet.Pages
             _serviceLP = UnityConfig.Container.Resolve<LearningProgressProcess>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            getModel = (DisciplineLessonGetBindingModel)e.Parameter;
-            var list = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
+            try
             {
-                UserId = DepartmentUserManager.UserId.Value,
-                AcademicYearId = getModel.AcademicYearId.Value,
-                EducationDirectionId = getModel.EducationDirectionId.Value
-            }).Result;
+                bindingModel = (FullDisciplineLessonConductedBindingModel)e.Parameter;
+                var result = _serviceLP.GetDisciplines(new LearningProgressInterfaces.BindingModels.LearningProcessDisciplineBindingModel()
+                {
+                    UserId = DepartmentUserManager.UserId.Value,
+                    AcademicYearId = bindingModel.AcademicYearId,
+                    EducationDirectionId = bindingModel.EducationDirectionId
+                });
 
-            Button button1;
+                if (!result.Succeeded)
+                {
+                    throw new Exception("При загрузке возникла ошибка: " + result.Errors.FirstOrDefault(x => x.Key == "Error:").Value);
+                }
 
-            foreach (var item in list)
+                Button button1;
+
+                foreach (var item in result.Result)
+                {
+                    button1 = new Button();
+                    button1.Content = item;
+                    button1.Click += button_Click;
+                    grid.Children.Add(button1);
+                }
+            }
+            catch (Exception ex)
             {
-                button1 = new Button();
-                button1.Content = item;
-                button1.Click += button_Click;
-                grid.Children.Add(button1);
+                ContentDialog exceptionDialog = new ContentDialog()
+                {
+                    Title = "Произошла ошибка",
+                    Content = $"Текст ошибки:\n{ex.Message}",
+                    PrimaryButtonText = "Назад",
+                    SecondaryButtonText = "Остаться"
+                };
+
+                ContentDialogResult result = await exceptionDialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    if (Frame.CanGoBack)
+                        Frame.GoBack();
+                }
             }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            getModel.DisciplineId = ((LearningProcessDisciplineViewModel)((Button)sender).Content).Id;
+            bindingModel.DisciplineId = ((LearningProcessDisciplineViewModel)((Button)sender).Content).Id;
 
-            ImportManager importManager = new ImportManager();
-            var discipline = importManager.extCollection.FirstOrDefault(x => x.Discipline == ((Button)sender).Content.ToString());//TODO: Как правильно отбирать
-            Frame.Navigate(discipline != null ? discipline.GetUI : importManager.extCollection.FirstOrDefault(x => x.Discipline == "Standart").GetUI, getModel);
+            Frame.Navigate(typeof(SemestersPage), bindingModel);
         }
 
     }
