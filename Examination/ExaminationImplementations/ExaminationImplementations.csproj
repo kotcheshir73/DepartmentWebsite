@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Enums\Enums.csproj" />
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj" />
+    <ProjectReference Include="..\ExaminationInterfaces\ExaminationInterfaces.csproj" />
+  </ItemGroup>
+
+</Project>

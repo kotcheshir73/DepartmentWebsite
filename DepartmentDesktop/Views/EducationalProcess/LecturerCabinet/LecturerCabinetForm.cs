@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using Unity;
-using Unity.Attributes;
 
 namespace DepartmentDesktop.Views.EducationalProcess.LecturerCabinet
 {
@@ -35,7 +34,7 @@ namespace DepartmentDesktop.Views.EducationalProcess.LecturerCabinet
 
         private void LoadData()
         {
-            (tabPageDisciplines.Controls[0] as LecturerCabinetControl).LoadData();
+           // (tabPageDisciplines.Controls[0] as LecturerCabinetControl).LoadData();
         }
     }
 }

@@ -10,7 +10,15 @@
 @using (Html.BeginForm())
 {
     //@Html.HiddenFor(model => model.Id.ToString())
-    @Html.TextBoxFor(model => model.Date)
+    //@Html.TextBoxFor(model => model.Date)
+
+    <div class="form-group">
+        @Html.Label("Дата", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <input type="submit" />
 }

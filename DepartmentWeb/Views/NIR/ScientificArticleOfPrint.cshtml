@@ -47,7 +47,8 @@
             @Html.DisplayFor(modelItem => item.Year)
         </td>
         <td>
-            @Html.ActionLink("Изменить | ", "UpdateScientificArticleOfPrint", new { id = item.Id })
+            @Html.ActionLink("Изменить", "UpdateScientificArticleOfPrint", new { id = item.Id })
+            &nbsp;
             @Html.ActionLink("Удалить", "DeleteScientificArticleOfPrint", new { id = item.Id })
         </td>
     </tr>

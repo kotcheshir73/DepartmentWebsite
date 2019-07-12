@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B16EC094-764B-4148-9C5A-2D6D1F8358B6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AcademicYearControlsAndForms</RootNamespace>
+    <AssemblyName>AcademicYearControlsAndForms</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.BouncyCastle.1.8.5\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="iTextSharp.LGPLv2.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\iTextSharp.LGPLv2.Core.1.5.0\lib\net40\iTextSharp.LGPLv2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.10.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.5.10.3\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcademicPlanRecordElement\ControlAcademicPlanRecordElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecordElement\ControlAcademicPlanRecordElement.designer.cs">
+      <DependentUpon>ControlAcademicPlanRecordElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlanRecordElement\FormAcademicPlanRecordElement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecordElement\FormAcademicPlanRecordElement.designer.cs">
+      <DependentUpon>FormAcademicPlanRecordElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\ControlAcademicPlanRecordMission.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\ControlAcademicPlanRecordMission.Designer.cs">
+      <DependentUpon>ControlAcademicPlanRecordMission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\FormAcademicPlanRecordMission.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecordMission\FormAcademicPlanRecordMission.Designer.cs">
+      <DependentUpon>FormAcademicPlanRecordMission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlanRecord\ControlAcademicPlanRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecord\ControlAcademicPlanRecord.designer.cs">
+      <DependentUpon>ControlAcademicPlanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlanRecord\FormAcademicPlanRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademicPlanRecord\FormAcademicPlanRecord.designer.cs">
+      <DependentUpon>FormAcademicPlanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlan\ControlAcademicPlan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AcademicPlan\ControlAcademicPlan.designer.cs">
+      <DependentUpon>ControlAcademicPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicPlan\FormAcademicPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademicPlan\FormAcademicPlan.designer.cs">
+      <DependentUpon>FormAcademicPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicYear\ControlAcademicYear.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AcademicYear\ControlAcademicYear.designer.cs">
+      <DependentUpon>ControlAcademicYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcademicYear\FormAcademicYear.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AcademicYear\FormAcademicYear.designer.cs">
+      <DependentUpon>FormAcademicYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contingent\ControlContingent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Contingent\ControlContingent.designer.cs">
+      <DependentUpon>ControlContingent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contingent\FormContingent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Contingent\FormContingent.designer.cs">
+      <DependentUpon>FormContingent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller.cs" />
+    <Compile Include="DisciplineTimeDistributionClassroom\ControlDisciplineTimeDistributionClassroom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionClassroom\ControlDisciplineTimeDistributionClassroom.Designer.cs">
+      <DependentUpon>ControlDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionClassroom\FormDisciplineTimeDistributionClassroom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionClassroom\FormDisciplineTimeDistributionClassroom.Designer.cs">
+      <DependentUpon>FormDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\ControlDisciplineTimeDistributionRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\ControlDisciplineTimeDistributionRecord.Designer.cs">
+      <DependentUpon>ControlDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\FormDisciplineTimeDistributionRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistributionRecord\FormDisciplineTimeDistributionRecord.Designer.cs">
+      <DependentUpon>FormDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\ControlDisciplineTimeDistribution.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\ControlDisciplineTimeDistribution.Designer.cs">
+      <DependentUpon>ControlDisciplineTimeDistribution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.Designer.cs">
+      <DependentUpon>FormDisciplineTimeDistribution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\ControlIndividualPlanKindOfWork.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\ControlIndividualPlanKindOfWork.Designer.cs">
+      <DependentUpon>ControlIndividualPlanKindOfWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\FormIndividualPlanKindOfWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanKindOfWork\FormIndividualPlanKindOfWork.Designer.cs">
+      <DependentUpon>FormIndividualPlanKindOfWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\ControlIndividualPlanNIRContractualWork.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\ControlIndividualPlanNIRContractualWork.Designer.cs">
+      <DependentUpon>ControlIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\FormIndividualPlanNIRContractualWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRContractualWork\FormIndividualPlanNIRContractualWork.Designer.cs">
+      <DependentUpon>FormIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\ControlIndividualPlanNIRScientificArticle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\ControlIndividualPlanNIRScientificArticle.Designer.cs">
+      <DependentUpon>ControlIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\FormIndividualPlanNIRScientificArticle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanNIRScientificArticle\FormIndividualPlanNIRScientificArticle.Designer.cs">
+      <DependentUpon>FormIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\ControlIndividualPlanRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\ControlIndividualPlanRecord.Designer.cs">
+      <DependentUpon>ControlIndividualPlanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\FormIndividualPlanRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanRecord\FormIndividualPlanRecord.Designer.cs">
+      <DependentUpon>FormIndividualPlanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\ControlIndividualPlanTitle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\ControlIndividualPlanTitle.Designer.cs">
+      <DependentUpon>ControlIndividualPlanTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\FormIndividualPlanTitle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlanTitle\FormIndividualPlanTitle.Designer.cs">
+      <DependentUpon>FormIndividualPlanTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlan\ControlIndividualPlan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndividualPlan\ControlIndividualPlan.Designer.cs">
+      <DependentUpon>ControlIndividualPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndividualPlan\FormIndividualPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IndividualPlan\FormIndividualPlan.Designer.cs">
+      <DependentUpon>FormIndividualPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LecturerWorkload\ControlLecturerWorkload.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LecturerWorkload\ControlLecturerWorkload.Designer.cs">
+      <DependentUpon>ControlLecturerWorkload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LecturerWorkload\FormLecturerWorkload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LecturerWorkload\FormLecturerWorkload.Designer.cs">
+      <DependentUpon>FormLecturerWorkload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeasonDates\ControlSeasonDates.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SeasonDates\ControlSeasonDates.designer.cs">
+      <DependentUpon>ControlSeasonDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SeasonDates\FormSeasonDates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeasonDates\FormSeasonDates.designer.cs">
+      <DependentUpon>FormSeasonDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributionElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributionElement.Designer.cs">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributionElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlLecturerDisciplineTimeDistributions.Designer.cs">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormDuplicate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormDuplicate.designer.cs">
+      <DependentUpon>FormDuplicate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlLoadDistribution.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlLoadDistribution.designer.cs">
+      <DependentUpon>ControlLoadDistribution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FormLoadDistributionEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormLoadDistributionEdit.designer.cs">
+      <DependentUpon>FormLoadDistributionEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StreamLessonRecord\ControlStreamLessonRecord.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StreamLessonRecord\ControlStreamLessonRecord.designer.cs">
+      <DependentUpon>ControlStreamLessonRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StreamLessonRecord\FormStreamLessonRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StreamLessonRecord\FormStreamLessonRecord.designer.cs">
+      <DependentUpon>FormStreamLessonRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StreamLesson\ControlStreamLesson.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StreamLesson\ControlStreamLesson.designer.cs">
+      <DependentUpon>ControlStreamLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StreamLesson\FormStreamLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StreamLesson\FormStreamLesson.designer.cs">
+      <DependentUpon>FormStreamLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeNorm\ControlTimeNorm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeNorm\ControlTimeNorm.designer.cs">
+      <DependentUpon>ControlTimeNorm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeNorm\FormTimeNorm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeNorm\FormTimeNorm.designer.cs">
+      <DependentUpon>FormTimeNorm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AcademicPlanRecordElement\ControlAcademicPlanRecordElement.resx">
+      <DependentUpon>ControlAcademicPlanRecordElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecordElement\FormAcademicPlanRecordElement.resx">
+      <DependentUpon>FormAcademicPlanRecordElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecordMission\ControlAcademicPlanRecordMission.resx">
+      <DependentUpon>ControlAcademicPlanRecordMission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecordMission\FormAcademicPlanRecordMission.resx">
+      <DependentUpon>FormAcademicPlanRecordMission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecord\ControlAcademicPlanRecord.resx">
+      <DependentUpon>ControlAcademicPlanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlanRecord\FormAcademicPlanRecord.resx">
+      <DependentUpon>FormAcademicPlanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlan\ControlAcademicPlan.resx">
+      <DependentUpon>ControlAcademicPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicPlan\FormAcademicPlan.resx">
+      <DependentUpon>FormAcademicPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicYear\ControlAcademicYear.resx">
+      <DependentUpon>ControlAcademicYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcademicYear\FormAcademicYear.resx">
+      <DependentUpon>FormAcademicYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contingent\ControlContingent.resx">
+      <DependentUpon>ControlContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contingent\FormContingent.resx">
+      <DependentUpon>FormContingent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionClassroom\ControlDisciplineTimeDistributionClassroom.resx">
+      <DependentUpon>ControlDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionClassroom\FormDisciplineTimeDistributionClassroom.resx">
+      <DependentUpon>FormDisciplineTimeDistributionClassroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionRecord\ControlDisciplineTimeDistributionRecord.resx">
+      <DependentUpon>ControlDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistributionRecord\FormDisciplineTimeDistributionRecord.resx">
+      <DependentUpon>FormDisciplineTimeDistributionRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistribution\ControlDisciplineTimeDistribution.resx">
+      <DependentUpon>ControlDisciplineTimeDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineTimeDistribution\FormDisciplineTimeDistribution.resx">
+      <DependentUpon>FormDisciplineTimeDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanKindOfWork\ControlIndividualPlanKindOfWork.resx">
+      <DependentUpon>ControlIndividualPlanKindOfWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanKindOfWork\FormIndividualPlanKindOfWork.resx">
+      <DependentUpon>FormIndividualPlanKindOfWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRContractualWork\ControlIndividualPlanNIRContractualWork.resx">
+      <DependentUpon>ControlIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRContractualWork\FormIndividualPlanNIRContractualWork.resx">
+      <DependentUpon>FormIndividualPlanNIRContractualWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRScientificArticle\ControlIndividualPlanNIRScientificArticle.resx">
+      <DependentUpon>ControlIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanNIRScientificArticle\FormIndividualPlanNIRScientificArticle.resx">
+      <DependentUpon>FormIndividualPlanNIRScientificArticle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanRecord\ControlIndividualPlanRecord.resx">
+      <DependentUpon>ControlIndividualPlanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanRecord\FormIndividualPlanRecord.resx">
+      <DependentUpon>FormIndividualPlanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanTitle\ControlIndividualPlanTitle.resx">
+      <DependentUpon>ControlIndividualPlanTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlanTitle\FormIndividualPlanTitle.resx">
+      <DependentUpon>FormIndividualPlanTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlan\ControlIndividualPlan.resx">
+      <DependentUpon>ControlIndividualPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndividualPlan\FormIndividualPlan.resx">
+      <DependentUpon>FormIndividualPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LecturerWorkload\ControlLecturerWorkload.resx">
+      <DependentUpon>ControlLecturerWorkload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LecturerWorkload\FormLecturerWorkload.resx">
+      <DependentUpon>FormLecturerWorkload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="SeasonDates\ControlSeasonDates.resx">
+      <DependentUpon>ControlSeasonDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeasonDates\FormSeasonDates.resx">
+      <DependentUpon>FormSeasonDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlLecturerDisciplineTimeDistributionElement.resx">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributionElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlLecturerDisciplineTimeDistributions.resx">
+      <DependentUpon>ControlLecturerDisciplineTimeDistributions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormDuplicate.resx">
+      <DependentUpon>FormDuplicate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlLoadDistribution.resx">
+      <DependentUpon>ControlLoadDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormLoadDistributionEdit.resx">
+      <DependentUpon>FormLoadDistributionEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StreamLessonRecord\ControlStreamLessonRecord.resx">
+      <DependentUpon>ControlStreamLessonRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StreamLessonRecord\FormStreamLessonRecord.resx">
+      <DependentUpon>FormStreamLessonRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StreamLesson\ControlStreamLesson.resx">
+      <DependentUpon>ControlStreamLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StreamLesson\FormStreamLesson.resx">
+      <DependentUpon>FormStreamLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeNorm\ControlTimeNorm.resx">
+      <DependentUpon>ControlTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeNorm\FormTimeNorm.resx">
+      <DependentUpon>FormTimeNorm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj">
+      <Project>{f3e484d4-3940-4266-8794-5ceddac96477}</Project>
+      <Name>BaseImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
+      <Project>{de1c3ed3-3d02-4894-a079-57775f53dd49}</Project>
+      <Name>BaseInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
+      <Project>{11529938-F115-45FB-A7C1-34C2D661432A}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
+      <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
+      <Project>{e6dde9dc-2f92-46b0-8143-a6ef12f30db0}</Project>
+      <Name>ControlsAndForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcademicYearImplementations\AcademicYearImplementations.csproj">
+      <Project>{42A82700-3B9B-4D07-AA62-095BFA1096A0}</Project>
+      <Name>AcademicYearImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcademicYearInterfaces\AcademicYearInterfaces.csproj">
+      <Project>{08EB5287-A4A9-4E23-B0A6-5F6BC186B5E6}</Project>
+      <Name>AcademicYearInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Del.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ref.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Upd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Down.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up.jpg" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
