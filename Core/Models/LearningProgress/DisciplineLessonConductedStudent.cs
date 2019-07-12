@@ -28,7 +28,7 @@ namespace Models.LearningProgress
         public DisciplineLessonStudentStatus Status { get; set; }
 
         [DataMember]
-        public decimal? Ball { get; set; }
+        public double? Ball { get; set; }
 
         //-------------------------------------------------------------------------
 

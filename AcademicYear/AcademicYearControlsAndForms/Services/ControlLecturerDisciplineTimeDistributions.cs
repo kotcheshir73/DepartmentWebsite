@@ -86,7 +86,7 @@ namespace AcademicYearControlsAndForms.Services
                     Text = $"{elem.Discipline} {elem.StudentGroup} {elem.Semestr}",
                     UseVisualStyleBackColor = true
                 };
-                ControlLecturerDisciplineTimeDistributionElement control = new ControlLecturerDisciplineTimeDistributionElement(elem)
+                ControlLecturerDisciplineTimeDistributionElement control = new ControlLecturerDisciplineTimeDistributionElement(_process, elem)
                 {
                     Dock = DockStyle.Fill
                 };

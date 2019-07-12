@@ -114,6 +114,7 @@ namespace LearningProgressImplementations
                 DisciplineLessonTaskId = entity.DisciplineLessonTaskId,
                 StudentId = entity.StudentId,
                 DisciplineLessonTask = entity.DisciplineLessonTask.Task,
+                MaxBall = entity.DisciplineLessonTask.MaxBall.Value,
                 Student = string.Format("{0} {1}", entity.Student.LastName, entity.Student.FirstName),
                 Result = entity.Result,
                 Task = entity.Task,

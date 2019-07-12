@@ -15,6 +15,8 @@ namespace ExaminationInterfaces.BindingModels
 
         public Guid? EducationDirectionId { get; set; }
 
+        public Guid? TicketTemplateId { get; set; }
+
         public Semesters? Semester { get; set; }
 
         public string ExaminationTemplateName { get; set; }

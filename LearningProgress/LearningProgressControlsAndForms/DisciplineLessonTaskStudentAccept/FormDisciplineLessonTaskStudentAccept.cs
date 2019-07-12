@@ -145,7 +145,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
                     Result = comboBoxResult.Text,
                     Task = textBoxTask.Text,
                     DateAccept = dateTimePickerDateAccept.Value,
-                    Score = Convert.ToDecimal(textBoxScore.Text),
+                    Score = Convert.ToDouble(textBoxScore.Text),
                     Comment = textBoxComment.Text
                 });
             }
@@ -159,7 +159,7 @@ namespace LearningProgressControlsAndForms.DisciplineLessonTaskStudentAccept
                     Result = comboBoxResult.Text,
                     Task = textBoxTask.Text,
                     DateAccept = dateTimePickerDateAccept.Value,
-                    Score = Convert.ToDecimal(textBoxScore.Text),
+                    Score = Convert.ToDouble(textBoxScore.Text),
                     Comment = textBoxComment.Text
                 });
             }

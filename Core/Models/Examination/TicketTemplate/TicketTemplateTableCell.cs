@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Models.Examination
 {
-    public class TicketTemplateTableCell : BaseEntity
+    /// <summary>
+    /// Класс, описывающий ячейку
+    /// </summary>
+    [DataContract]
+    public class TicketTemplateTableCell : IdEntity
     {
-        public Guid? TicketTemplateTableRowId { get; set; }
+        [DataMember]
+        public Guid TicketTemplateTableRowId { get; set; }
 
-        public Guid? PropertiesId { get; set; }
+        [DataMember]
+        public Guid? TicketTemplateTableCellPropertiesId { get; set; }
 
-        public string Name { get; set; }
-
+        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual TicketTemplateTableRow TicketTemplateTableRow { get; set; }
 
-        public virtual TicketTemplateElementaryUnit Properties { get; set; }
+        public virtual TicketTemplateTableCellProperties TicketTemplateTableCellProperties { get; set; }
 
         //-------------------------------------------------------------------------
 

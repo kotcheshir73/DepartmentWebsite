@@ -576,6 +576,13 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+
+        private void ticketTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = ExaminationControlsAndForms.Controller.GetControlTicketTemplate;
+            ApplyControl(control);
+            control.LoadData();
+        }
         #endregion
     }
 }

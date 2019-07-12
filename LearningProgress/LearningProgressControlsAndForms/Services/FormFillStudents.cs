@@ -69,18 +69,18 @@ namespace LearningProgressControlsAndForms.Services
             {
                 for (int i = 0; i < dataGridViewStudents.Rows.Count; ++i)
                 {
-                    decimal? ball = null;
+                    double? ball = null;
                     if (dataGridViewStudents.Rows[i].Cells[5].Value != null)
                     {
                         string tempVal = dataGridViewStudents.Rows[i].Cells[5].Value.ToString();
-                        if (decimal.TryParse(tempVal, out decimal temp))
+                        if (double.TryParse(tempVal, out double temp))
                         {
                             ball = temp;
                         }
                         else if (tempVal.Contains(","))
                         {
                             tempVal = tempVal.Replace(",", ".");
-                            if (decimal.TryParse(tempVal, out temp))
+                            if (double.TryParse(tempVal, out temp))
                             {
                                 ball = temp;
                             }
@@ -88,7 +88,7 @@ namespace LearningProgressControlsAndForms.Services
                         else if (tempVal.Contains("."))
                         {
                             tempVal = tempVal.Replace(".", ",");
-                            if (decimal.TryParse(tempVal, out temp))
+                            if (double.TryParse(tempVal, out temp))
                             {
                                 ball = temp;
                             }

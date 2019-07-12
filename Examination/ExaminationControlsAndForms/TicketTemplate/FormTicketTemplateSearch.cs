@@ -3,7 +3,6 @@ using ControlsAndForms.Messangers;
 using ControlsAndForms.Models;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace ExaminationControlsAndForms.TicketTemplate
@@ -12,13 +11,10 @@ namespace ExaminationControlsAndForms.TicketTemplate
     {
         private ITicketTemplateService _service;
 
-        private Guid _examinationTemplateId;
-
-        public FormTicketTemplateSearch(ITicketTemplateService service, Guid examinationTemplateId)
+        public FormTicketTemplateSearch(ITicketTemplateService service)
         {
             InitializeComponent();
             _service = service;
-            _examinationTemplateId = examinationTemplateId;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
@@ -31,7 +27,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
 
         protected override void LoadRecords()
         {
-            var result = _service.GetTicketTemplates(new TicketTemplateGetBindingModel { ExaminationTemplateId = _examinationTemplateId });
+            var result = _service.GetTicketTemplates(new TicketTemplateGetBindingModel());
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);

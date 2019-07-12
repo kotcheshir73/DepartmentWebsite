@@ -30,7 +30,7 @@ namespace Models.LearningProgress
         public int Order { get; set; }
         
         [DataMember]
-        public decimal? MaxBall { get; set; }
+        public double? MaxBall { get; set; }
 
         [DataMember]
         public string Description { get; set; }

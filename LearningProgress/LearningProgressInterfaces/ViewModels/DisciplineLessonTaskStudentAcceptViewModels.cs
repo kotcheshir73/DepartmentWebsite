@@ -22,10 +22,17 @@ namespace LearningProgressInterfaces.ViewModels
 
         public DateTime DateAccept { get; set; }
         
-        public decimal Score { get; set; }
-        
+        public double Score { get; set; }
+
+        public double MaxBall { get; set; }
+
         public string Comment { get; set; }
         
         public string Log { get; set; }
+
+        public override string ToString()
+        {
+            return Student;
+        }
     }
 }

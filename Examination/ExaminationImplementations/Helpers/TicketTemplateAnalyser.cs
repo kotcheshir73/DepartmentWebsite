@@ -58,15 +58,15 @@ namespace TicketServiceImplementations.Helpers
             {
                 foreach (var paragraph in Paragraphs)
                 {
-                    if (paragraph.TicketTemplateParagraphDatas != null)
+                    if (paragraph.TicketTemplateParagraphRuns != null)
                     {
-                        foreach (var data in paragraph.TicketTemplateParagraphDatas)
+                        foreach (var run in paragraph.TicketTemplateParagraphRuns)
                         {
-                            if (!string.IsNullOrEmpty(data.Text))
+                            if (!string.IsNullOrEmpty(run.Text))
                             {
-                                string str = data.Text;
-                                Match match = Regex.Match(data.Text, @"\{\#[a-z,A-Z,0-9,\:,\,]*\}");
-                                if(match.Success)
+                                string str = run.Text;
+                                Match match = Regex.Match(run.Text, @"\{\#[a-z,A-Z,0-9,\:,\,]*\}");
+                                if (match.Success)
                                 {
                                     string matchValue = match.Value.Substring(2, match.Value.Length - 3);
                                     if (matchValue.StartsWith("question"))
@@ -80,10 +80,10 @@ namespace TicketServiceImplementations.Helpers
                                             _questions.Add(matchValue, 1);
                                         }
                                     }
-                                    if(matchValue.StartsWith("random"))
+                                    if (matchValue.StartsWith("random"))
                                     {
                                         string randomName = matchValue.Split(':')[0];
-                                        if(!randomName.ToLower().Contains("random"))
+                                        if (!randomName.ToLower().Contains("random"))
                                         {
                                             randomName = $"random{randomName}";
                                         }
@@ -95,7 +95,7 @@ namespace TicketServiceImplementations.Helpers
                                         {
                                             _questions.Add(randomName, 1);
                                         }
-                                        if(RandomQuestions.ContainsKey(randomName))
+                                        if (RandomQuestions.ContainsKey(randomName))
                                         {
                                             RandomQuestions[randomName] = matchValue.Split(':')[1];
                                         }

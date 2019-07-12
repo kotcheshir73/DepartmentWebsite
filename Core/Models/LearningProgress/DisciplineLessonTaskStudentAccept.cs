@@ -33,7 +33,7 @@ namespace Models.LearningProgress
 
         [Required]
         [DataMember]
-        public decimal Score { get; set; }
+        public double Score { get; set; }
 
         [DataMember]
         public string Comment { get; set; }

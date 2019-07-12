@@ -19,8 +19,6 @@ namespace ExaminationControlsAndForms.TicketTemplate
 
         private readonly ITicketProcess _process;
 
-        private Guid _examinationTemplateId;
-
         public ControlTicketTemplate(ITicketTemplateService service, ITicketProcess process)
         {
             InitializeComponent();
@@ -59,9 +57,8 @@ namespace ExaminationControlsAndForms.TicketTemplate
             });
         }
 
-        public void LoadData(Guid examinationTemplateId)
+        public void LoadData()
         {
-            _examinationTemplateId = examinationTemplateId;
             standartControl.LoadPage();
         }
 
@@ -69,7 +66,6 @@ namespace ExaminationControlsAndForms.TicketTemplate
         {
             var result = _service.GetTicketTemplates(new TicketTemplateGetBindingModel
             {
-                ExaminationTemplateId = _examinationTemplateId,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
@@ -94,7 +90,6 @@ namespace ExaminationControlsAndForms.TicketTemplate
             var form = Container.Resolve<FormTicketTemplate>(
                 new ParameterOverrides
                 {
-                    { "examinationTemplateId", _examinationTemplateId },
                     { "id", Guid.Empty }
                 }
                 .OnType<FormTicketTemplate>());
@@ -112,7 +107,6 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 var form = Container.Resolve<FormTicketTemplate>(
                     new ParameterOverrides
                     {
-                        { "examinationTemplateId", _examinationTemplateId },
                         { "id", id }
                     }
                     .OnType<FormTicketTemplate>());

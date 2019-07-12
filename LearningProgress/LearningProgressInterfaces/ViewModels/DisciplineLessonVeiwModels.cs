@@ -39,5 +39,10 @@ namespace LearningProgressInterfaces.ViewModels
         public DateTime? Date { get; set; }
 
         public byte[] DisciplineLessonFile { get; set; }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

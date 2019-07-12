@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.156
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepartmentWeb", "DepartmentWeb\DepartmentWeb.csproj", "{D17D50AE-00E8-4CB3-B403-42C554D0A1FC}"
 EndProject
@@ -156,6 +156,8 @@ Global
 		{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B3016D0-4F7D-4B1C-99A9-1D7F64626E89}.Release|x86.Build.0 = Release|Any CPU
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|Any CPU.Build.0 = Debug|x86
+		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|ARM.ActiveCfg = Debug|ARM
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|ARM.Build.0 = Debug|ARM
 		{1DB13F83-C317-42A8-8FC9-13D6346AA96C}.Debug|ARM.Deploy.0 = Debug|ARM

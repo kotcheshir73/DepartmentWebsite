@@ -6,25 +6,40 @@ using System.Runtime.Serialization;
 namespace Models.Examination
 {
     [DataContract]
-    public class TicketTemplate : BaseEntity
+    public class TicketTemplate : IdEntity
     {
         [DataMember]
-        public Guid? ExaminationTemplateId { get; set; }
-
-        [DataMember]
-        public string XML { get; set; }
+        public Guid? TicketTemplateBodyId { get; set; }
 
         [DataMember]
         public string TemplateName { get; set; }
 
         //-------------------------------------------------------------------------
 
-        public virtual ExaminationTemplate ExaminationTemplate { get; set; }
+        public virtual TicketTemplateBody TicketTemplateBody { get; set; }
 
         //-------------------------------------------------------------------------
 
         [ForeignKey("TicketTemplateId")]
-        public virtual List<TicketTemplateBody> TicketTemplateBodies { get; set; }
+        public virtual List<ExaminationTemplate> ExaminationTemplates { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateFontTable> TicketTemplateFontTables { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateNumbering> TicketTemplateNumberings { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateDocumentSetting> TicketTemplateDocumentSettings { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateStyleDefinition> TicketTemplateStyleDefinitions { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateWebSetting> TicketTemplateWebSettings { get; set; }
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateThemePart> TicketTemplateThemeParts { get; set; }
 
         //-------------------------------------------------------------------------
     }

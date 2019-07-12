@@ -23,7 +23,7 @@ namespace LearningProgressInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public int Order { get; set; }
 
-        public decimal? MaxBall { get; set; }
+        public double? MaxBall { get; set; }
 
         public string Description { get; set; }
 

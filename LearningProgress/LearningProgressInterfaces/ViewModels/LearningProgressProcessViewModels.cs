@@ -7,6 +7,11 @@ namespace LearningProgressInterfaces.ViewModels
         public Guid Id { get; set; }
 
         public string DisciplineName { get; set; }
+
+        public override string ToString()
+        {
+            return DisciplineName;
+        }
     }
 
     public class LearningProcessDisciplineDetailViewModel
@@ -16,6 +21,11 @@ namespace LearningProgressInterfaces.ViewModels
         public string TimeNormName { get; set; }
 
         public string Info { get; set; }
+
+        public override string ToString()
+        {
+            return TimeNormName;
+        }
     }
 
     public class LessonConductedViewModel
@@ -27,5 +37,14 @@ namespace LearningProgressInterfaces.ViewModels
         public string StatusBall { get; set; }
 
         public string Subgroup { get; set; }
+    }
+
+    public class GetFinalResultsOfGroupViewModel
+    {
+        public string Student { get; set; }
+
+        public double ConductedBall { get; set; }
+
+        public double TaskBall { get; set; }
     }
 }

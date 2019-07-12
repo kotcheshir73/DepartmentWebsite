@@ -9,9 +9,13 @@ namespace ExaminationInterfaces.ViewModels
     {
         public Guid? EducationDirectionId { get; set; }
 
+        public Guid? TicketTemplateId { get; set; }
+
         public Guid DisciplineId { get; set; }
 
         public string EducationDirectionName { get; set; }
+
+        public string TicketTemplateName { get; set; }
 
         public string DisciplneName { get; set; }
 

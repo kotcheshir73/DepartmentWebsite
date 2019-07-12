@@ -22,6 +22,8 @@ namespace LearningProgressInterfaces.BindingModels
         public Guid EducationDirectionId { get; set; }
 
         public Guid UserId { get; set; }
+
+        public string Semester { get; set; }
     }
 
     public class LearningProcessFormDisciplineLessonsBindingModel
@@ -47,7 +49,7 @@ namespace LearningProgressInterfaces.BindingModels
         
         public List<string> Tasks { get; set; }
 
-        public decimal? MaxBall { get; set; }
+        public double? MaxBall { get; set; }
 
         public bool IsNecessarily { get; set; }
     }
@@ -133,6 +135,8 @@ namespace LearningProgressInterfaces.BindingModels
         public Guid DisciplineLessonConductedId { get; set; }
 
         public Guid StudentGroupId { get; set; }
+
+        public string Semester { get; set; }
     }
 
     public class LessonConductedsBindingModel
@@ -195,6 +199,17 @@ namespace LearningProgressInterfaces.BindingModels
         public Guid StudentGroupId { get; set; }
 
         public Guid TimeNormId { get; set; }
+
+        public string Semester { get; set; }
+    }
+
+    public class GetFinalResultsOfGroupBindingModel
+    {
+        public Guid AcademicYearId { get; set; }
+
+        public Guid DisciplineId { get; set; }
+
+        public Guid StudentGroupId { get; set; }
 
         public string Semester { get; set; }
     }

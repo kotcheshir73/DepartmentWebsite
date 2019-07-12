@@ -15,19 +15,20 @@ namespace ExaminationControlsAndForms.Services
 
         private ITicketProcess _process;
 
-        public FormExaminationTemplateUploadTickets(ITicketProcess process, ITicketTemplateService serviceTT, Guid? examinationTemplateId = null)
+        private Guid _examinationTemplateId;
+
+        public FormExaminationTemplateUploadTickets(ITicketProcess process, Guid? examinationTemplateId = null)
         {
             InitializeComponent();
             _process = process;
-            ticketTemplateElement.Service = serviceTT;
-            ticketTemplateElement.ExaminationTemplateId = examinationTemplateId;
+            _examinationTemplateId = examinationTemplateId.Value;
         }
 
         private void ButtonFileName_Click(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog
             {
-                Filter = "doc|*.doc|docx|*.docx"
+                Filter = "docx|*.docx"
             };
             if(sfd.ShowDialog() == DialogResult.OK)
             {
@@ -37,20 +38,15 @@ namespace ExaminationControlsAndForms.Services
 
         private void ButtonUploadTickets_Click(object sender, EventArgs e)
         {
-            labelTicketTemplate.ForeColor =
             buttonFileName.ForeColor =
                 SystemColors.ControlText;
-            if (!ticketTemplateElement.Id.HasValue)
-            {
-                labelTicketTemplate.ForeColor = Color.Red;
-            }
             if(string.IsNullOrEmpty(textBoxFileName.Text))
             {
                 buttonFileName.ForeColor = Color.Red;
             }
             var result = _process.UploadTickets(new TicketProcessUploadTicketsBindingModel
             {
-                TicketTemplateId = ticketTemplateElement.Id.Value,
+                ExaminationTemplateId = _examinationTemplateId,
                 FileName = textBoxFileName.Text
             });
             if (result.Succeeded)
