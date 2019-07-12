@@ -29,6 +29,10 @@ namespace Models.Examination
         [DataMember]
         public string CombineBlocks { get; set; }
 
+        [NotMapped]
+        // Используется при формировании билетов
+        public bool IsUse { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual ExaminationTemplate ExaminationTemplate { get; set; }

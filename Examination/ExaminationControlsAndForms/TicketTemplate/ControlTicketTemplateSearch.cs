@@ -12,14 +12,6 @@ namespace ExaminationControlsAndForms.TicketTemplate
 
         public ITicketTemplateService Service { set { _service = value; } }
 
-        private Guid? _examinationTemplateId;
-
-        public Guid? ExaminationTemplateId
-        {
-            get { return _examinationTemplateId; }
-            set { _examinationTemplateId = value; }
-        }
-
         public Guid? Id
         {
             get { return standartElementControl.Id; }
@@ -44,7 +36,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
                 var result = _service.GetTicketTemplate(new TicketTemplateGetBindingModel { Id = standartElementControl.Id.Value });
                 if (result.Succeeded)
                 {
-                    standartElementControl.textBox.Text = string.Format("Билет №{0}", result.Result.TemplateName);
+                    standartElementControl.textBox.Text = result.Result.TemplateName;
                 }
                 else
                 {
@@ -59,11 +51,7 @@ namespace ExaminationControlsAndForms.TicketTemplate
             {
                 throw new Exception("Неизвестен сервер");
             }
-            if (!_examinationTemplateId.HasValue)
-            {
-                throw new Exception("Неизвестен экзамен");
-            }
-            var searchForm = new FormTicketTemplateSearch(_service, _examinationTemplateId.Value);
+            var searchForm = new FormTicketTemplateSearch(_service);
             if (searchForm.ShowDialog() == DialogResult.OK)
             {
                 standartElementControl.Id = searchForm.SelectedId;

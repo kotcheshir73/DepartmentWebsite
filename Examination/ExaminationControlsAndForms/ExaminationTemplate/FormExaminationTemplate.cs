@@ -24,10 +24,11 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
 
         private readonly IExaminationTemplateService _service;
 
-        public FormExaminationTemplate(IExaminationTemplateService service, Guid? id = null) : base(id)
+        public FormExaminationTemplate(IExaminationTemplateService service, ITicketTemplateService serviceTT, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
+            controlTicketTemplateSearch.Service = serviceTT;
         }
 
         protected override bool LoadComponents()
@@ -84,14 +85,6 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
             }
             (tabPageTickets.Controls[0] as ControlExaminationTemplateTicket).LoadData(_id.Value);
 
-            if (tabPageTicketTemplate.Controls.Count == 0)
-            {
-                var control = Container.Resolve<ControlTicketTemplate>();
-                control.Dock = DockStyle.Fill;
-                tabPageTicketTemplate.Controls.Add(control);
-            }
-            (tabPageTicketTemplate.Controls[0] as ControlTicketTemplate).LoadData(_id.Value);
-
             var result = _service.GetExaminationTemplate(new ExaminationTemplateGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
@@ -107,6 +100,7 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
                 comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
             }
             textBoxExaminationTemplateName.Text = entity.ExaminationTemplateName;
+            controlTicketTemplateSearch.Id = entity.TicketTemplateId;
         }
 
         protected override bool CheckFill()
@@ -130,7 +124,8 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
                     DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                     EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
                     Semester = string.IsNullOrEmpty(comboBoxSemester.Text) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), comboBoxSemester.Text),
-                    ExaminationTemplateName = textBoxExaminationTemplateName.Text
+                    ExaminationTemplateName = textBoxExaminationTemplateName.Text,
+                    TicketTemplateId = controlTicketTemplateSearch.Id
                 });
             }
             else
@@ -141,7 +136,8 @@ namespace ExaminationControlsAndForms.ExaminationTemplate
                     DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                     EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
                     Semester = string.IsNullOrEmpty(comboBoxSemester.Text) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), comboBoxSemester.Text),
-                    ExaminationTemplateName = textBoxExaminationTemplateName.Text
+                    ExaminationTemplateName = textBoxExaminationTemplateName.Text,
+                    TicketTemplateId = controlTicketTemplateSearch.Id
                 });
             }
             if (result.Succeeded)

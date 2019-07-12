@@ -80,13 +80,26 @@ namespace DatabaseContext
 
         public virtual DbSet<TicketTemplate> TicketTemplates { get; set; }
         public virtual DbSet<TicketTemplateBody> TicketTemplateBodies { get; set; }
+        public virtual DbSet<TicketTemplateBodyProperties> TicketTemplateBodyProperties { get; set; }
+
+        public virtual DbSet<TicketTemplateFontTable> TicketTemplateFontTables { get; set; }
+        public virtual DbSet<TicketTemplateNumbering> TicketTemplateNumberings { get; set; }
+        public virtual DbSet<TicketTemplateDocumentSetting> TicketTemplateDocumentSettings { get; set; }
+        public virtual DbSet<TicketTemplateStyleDefinition> TicketTemplateStyleDefinitions { get; set; }
+        public virtual DbSet<TicketTemplateWebSetting> TicketTemplateWebSettings { get; set; }
+        public virtual DbSet<TicketTemplateThemePart> TicketTemplateThemeParts { get; set; }
+
         public virtual DbSet<TicketTemplateTable> TicketTemplateTables { get; set; }
+        public virtual DbSet<TicketTemplateTableProperties> TicketTemplateTableProperties { get; set; }
+        public virtual DbSet<TicketTemplateTableGridColumn> TicketTemplateTableGridColumn { get; set; }
         public virtual DbSet<TicketTemplateTableRow> TicketTemplateTableRows { get; set; }
+        public virtual DbSet<TicketTemplateTableRowProperties> TicketTemplateTableRowProperties { get; set; }
         public virtual DbSet<TicketTemplateTableCell> TicketTemplateTableCells { get; set; }
+        public virtual DbSet<TicketTemplateTableCellProperties> TicketTemplateTableCellProperties { get; set; }
         public virtual DbSet<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }
-        public virtual DbSet<TicketTemplateParagraphData> TicketTemplateParagraphDatas { get; set; }
-        public virtual DbSet<TicketTemplateElementaryUnit> TicketTemplateElementaryUnits { get; set; }
-        public virtual DbSet<TicketTemplateElementaryAttribute> TicketTemplateElementaryAttributes { get; set; }
+        public virtual DbSet<TicketTemplateParagraphProperties> TicketTemplateParagraphProperties { get; set; }
+        public virtual DbSet<TicketTemplateParagraphRun> TicketTemplateParagraphRuns { get; set; }
+        public virtual DbSet<TicketTemplateParagraphRunProperties> TicketTemplateParagraphRunProperties { get; set; }
         #endregion
 
         #region LaboratoryHead
