@@ -31,7 +31,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
-                new ColumnConfig { Name = "AcademicLevel", Title = "Уровень", Width = 150, Visible = true },
                 new ColumnConfig { Name = "AcademicCourses", Title = "Курсы", Width = 150, Visible = true }
             };
 
@@ -91,7 +90,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.EducationDirection,
-                    res.AcademicLevel,
                     res.AcademicCoursesStrings
                 );
             }

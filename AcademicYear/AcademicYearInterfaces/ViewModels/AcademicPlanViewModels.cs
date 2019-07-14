@@ -15,8 +15,6 @@ namespace AcademicYearInterfaces.ViewModels
 
 		public string EducationDirection { get; set; }
 
-		public string AcademicLevel { get; set; }
-
 		public string AcademicCoursesStrings { get; set; }
 
 		public int? AcademicCourses { get; set; }

@@ -35,7 +35,6 @@ namespace AcademicYearImplementations
                 EducationDirectionId = entity.EducationDirectionId,
                 EducationDirection = entity.EducationDirectionId.HasValue ? string.Format("{0} {1}", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName) : string.Empty,
                 AcademicYear = entity.AcademicYear.Title,
-                AcademicLevel = entity.AcademicLevel.ToString(),
                 AcademicCoursesStrings = courses,
                 AcademicCourses = entity.AcademicCourses.HasValue ? (int)entity.AcademicCourses : (int?)null
             };
@@ -227,7 +226,7 @@ namespace AcademicYearImplementations
                 TimeNormName = entity.TimeNormName,
                 TimeNormShortName = entity.TimeNormShortName,
                 TimeNormOrder = entity.TimeNormOrder,
-                TimeNormAcademicLevel = entity.TimeNormAcademicLevel.HasValue ? entity.TimeNormAcademicLevel.ToString() : null,
+                TimeNormEducationDirectionQualification = entity.TimeNormEducationDirectionQualification.HasValue ? entity.TimeNormEducationDirectionQualification.ToString() : null,
                 KindOfLoadName = entity.KindOfLoadName,
                 KindOfLoadAttributeName = entity.KindOfLoadAttributeName,
                 KindOfLoadBlueAsteriskName = entity.KindOfLoadBlueAsteriskName,
