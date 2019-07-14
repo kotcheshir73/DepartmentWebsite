@@ -28,7 +28,8 @@ namespace BaseControlsAndForms.EducationDirection
 				new ColumnConfig { Name = "Cipher", Title = "Шифр", Width = 100, Visible = true },
                 new ColumnConfig { Name = "ShortName", Title = "Кратко", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
-				new ColumnConfig { Name = "Description", Title = "Описание", Visible = true }
+                new ColumnConfig { Name = "Qualification", Title = "Квалификация", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Description", Title = "Описание", Visible = true }
 			};
 
 			List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -78,6 +79,7 @@ namespace BaseControlsAndForms.EducationDirection
 					res.Cipher,
                     res.ShortName,
 					res.Title,
+                    res.Qualification,
 					res.Description
 				});
 			}

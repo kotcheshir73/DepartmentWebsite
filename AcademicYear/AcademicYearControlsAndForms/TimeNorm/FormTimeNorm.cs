@@ -53,9 +53,9 @@ namespace AcademicYearControlsAndForms.TimeNorm
                 .Select(ay => new { Value = ay.Id, Display = ay.Title }).ToList();
             comboBoxDisciplineBlock.SelectedItem = null;
 
-            foreach (var elem in Enum.GetValues(typeof(AcademicLevel)))
+            foreach (var elem in Enum.GetValues(typeof(EducationDirectionQualification)))
             {
-                comboBoxAcademicLevel.Items.Add(elem.ToString());
+                comboBoxEducationDirectionQualification.Items.Add(elem.ToString());
             }
 
             foreach (var elem in Enum.GetValues(typeof(KindOfLoadType)))
@@ -88,9 +88,9 @@ namespace AcademicYearControlsAndForms.TimeNorm
             textBoxTimeNormName.Text = entity.TimeNormName;
             textBoxTimeNormShortName.Text = entity.TimeNormShortName;
             textBoxTimeNormOrder.Text = entity.TimeNormOrder.ToString();
-            if (entity.TimeNormAcademicLevel != null)
+            if (entity.TimeNormEducationDirectionQualification != null)
             {
-                comboBoxAcademicLevel.SelectedIndex = comboBoxAcademicLevel.Items.IndexOf(entity.TimeNormAcademicLevel);
+                comboBoxEducationDirectionQualification.SelectedIndex = comboBoxEducationDirectionQualification.Items.IndexOf(entity.TimeNormEducationDirectionQualification);
             }
 
             textBoxKindOfLoadName.Text = entity.KindOfLoadName;
@@ -160,7 +160,7 @@ namespace AcademicYearControlsAndForms.TimeNorm
                     TimeNormName = textBoxTimeNormName.Text,
                     TimeNormShortName = textBoxTimeNormShortName.Text,
                     TimeNormOrder = Convert.ToInt32(textBoxTimeNormOrder.Text),
-                    TimeNormAcademicLevel = string.IsNullOrEmpty(comboBoxAcademicLevel.Text) ? null : comboBoxAcademicLevel.Text,
+                    TimeNormEducationDirectionQualification = string.IsNullOrEmpty(comboBoxEducationDirectionQualification.Text) ? null : comboBoxEducationDirectionQualification.Text,
                     KindOfLoadName = textBoxKindOfLoadName.Text,
                     KindOfLoadAttributeName = textBoxKindOfLoadAttributeName.Text,
                     KindOfLoadBlueAsteriskName = textBoxKindOfLoadBlueAsteriskName.Text,
@@ -183,7 +183,7 @@ namespace AcademicYearControlsAndForms.TimeNorm
                     TimeNormName = textBoxTimeNormName.Text,
                     TimeNormShortName = textBoxTimeNormShortName.Text,
                     TimeNormOrder = Convert.ToInt32(textBoxTimeNormOrder.Text),
-                    TimeNormAcademicLevel = string.IsNullOrEmpty(comboBoxAcademicLevel.Text) ? null : comboBoxAcademicLevel.Text,
+                    TimeNormEducationDirectionQualification = string.IsNullOrEmpty(comboBoxEducationDirectionQualification.Text) ? null : comboBoxEducationDirectionQualification.Text,
                     KindOfLoadName = textBoxKindOfLoadName.Text,
                     KindOfLoadAttributeName = textBoxKindOfLoadAttributeName.Text,
                     KindOfLoadBlueAsteriskName = textBoxKindOfLoadBlueAsteriskName.Text,

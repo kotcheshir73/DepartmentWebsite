@@ -59,8 +59,8 @@
             this.labelKindOfLoadAttributeName = new System.Windows.Forms.Label();
             this.comboBoxDisciplineBlock = new System.Windows.Forms.ComboBox();
             this.labelDisciplineBlock = new System.Windows.Forms.Label();
-            this.comboBoxAcademicLevel = new System.Windows.Forms.ComboBox();
-            this.labelAcademicLevel = new System.Windows.Forms.Label();
+            this.comboBoxEducationDirectionQualification = new System.Windows.Forms.ComboBox();
+            this.labelEducationDirectionQualification = new System.Windows.Forms.Label();
             this.checkBoxUseInLearningProgress = new System.Windows.Forms.CheckBox();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
@@ -74,9 +74,9 @@
             // 
             this.panelMain.Controls.Add(this.checkBoxUseInLearningProgress);
             this.panelMain.Controls.Add(this.labelAcademicYear);
-            this.panelMain.Controls.Add(this.comboBoxAcademicLevel);
+            this.panelMain.Controls.Add(this.comboBoxEducationDirectionQualification);
             this.panelMain.Controls.Add(this.labelTimeNormName);
-            this.panelMain.Controls.Add(this.labelAcademicLevel);
+            this.panelMain.Controls.Add(this.labelEducationDirectionQualification);
             this.panelMain.Controls.Add(this.textBoxTimeNormName);
             this.panelMain.Controls.Add(this.comboBoxDisciplineBlock);
             this.panelMain.Controls.Add(this.comboBoxAcademicYear);
@@ -432,23 +432,23 @@
             this.labelDisciplineBlock.TabIndex = 2;
             this.labelDisciplineBlock.Text = "Блок дисциплин*:";
             // 
-            // comboBoxAcademicLevel
+            // comboBoxEducationDirectionQualification
             // 
-            this.comboBoxAcademicLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxAcademicLevel.FormattingEnabled = true;
-            this.comboBoxAcademicLevel.Location = new System.Drawing.Point(176, 143);
-            this.comboBoxAcademicLevel.Name = "comboBoxAcademicLevel";
-            this.comboBoxAcademicLevel.Size = new System.Drawing.Size(220, 21);
-            this.comboBoxAcademicLevel.TabIndex = 18;
+            this.comboBoxEducationDirectionQualification.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxEducationDirectionQualification.FormattingEnabled = true;
+            this.comboBoxEducationDirectionQualification.Location = new System.Drawing.Point(176, 143);
+            this.comboBoxEducationDirectionQualification.Name = "comboBoxEducationDirectionQualification";
+            this.comboBoxEducationDirectionQualification.Size = new System.Drawing.Size(220, 21);
+            this.comboBoxEducationDirectionQualification.TabIndex = 18;
             // 
-            // labelAcademicLevel
+            // labelEducationDirectionQualification
             // 
-            this.labelAcademicLevel.AutoSize = true;
-            this.labelAcademicLevel.Location = new System.Drawing.Point(12, 146);
-            this.labelAcademicLevel.Name = "labelAcademicLevel";
-            this.labelAcademicLevel.Size = new System.Drawing.Size(103, 13);
-            this.labelAcademicLevel.TabIndex = 17;
-            this.labelAcademicLevel.Text = "Уровень обучения:";
+            this.labelEducationDirectionQualification.AutoSize = true;
+            this.labelEducationDirectionQualification.Location = new System.Drawing.Point(12, 146);
+            this.labelEducationDirectionQualification.Name = "labelEducationDirectionQualification";
+            this.labelEducationDirectionQualification.Size = new System.Drawing.Size(103, 13);
+            this.labelEducationDirectionQualification.TabIndex = 17;
+            this.labelEducationDirectionQualification.Text = "Уровень обучения:";
             // 
             // checkBoxUseInLearningProgress
             // 
@@ -521,8 +521,8 @@
         private System.Windows.Forms.Label labelKindOfLoadBlueAsteriskPracticNameToolTip;
         private System.Windows.Forms.ComboBox comboBoxDisciplineBlock;
         private System.Windows.Forms.Label labelDisciplineBlock;
-        private System.Windows.Forms.ComboBox comboBoxAcademicLevel;
-        private System.Windows.Forms.Label labelAcademicLevel;
+        private System.Windows.Forms.ComboBox comboBoxEducationDirectionQualification;
+        private System.Windows.Forms.Label labelEducationDirectionQualification;
         private System.Windows.Forms.CheckBox checkBoxUseInLearningProgress;
     }
 }

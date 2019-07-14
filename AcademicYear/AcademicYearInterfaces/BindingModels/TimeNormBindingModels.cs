@@ -28,7 +28,7 @@ namespace AcademicYearInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public int TimeNormOrder { get; set; }
 
-        public string TimeNormAcademicLevel { get; set; }
+        public string TimeNormEducationDirectionQualification { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string KindOfLoadName { get; set; }
