@@ -1,25 +1,30 @@
-﻿@model List<BaseInterfaces.ViewModels.LecturerViewModel>
+﻿@using WebInterfaces.ViewModels
+
+@model List<WebLecturerViewModel>
+
 @{
     ViewBag.Title = "Преподавательский состав";
 }
 
 <h2 class="page-header">Преподавательский состав</h2>
+
 <table class="table">    
 
-   @foreach (var tmp in Model)
+   @foreach (var lecturer in Model)
     {        
-        <tr id="list">    
+        <tr id="list" class="lecturer-element" data-id="@lecturer.Id">    
             <td>
-                <img src="data:image/png;base64,@(Convert.ToBase64String(tmp.PhotoByteArr))" alt=@tmp.FullName/>
+                @if (lecturer.Photo != null && lecturer.Photo.Length > 0)
+                {
+                    <img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.Photo))" width="50" height="50" alt="@lecturer.FullName" />
+                }
+                else
+                {
+                    <img src="~/Images/default-lecturer.png" width="50" height="50" alt="@lecturer.FullName">
+                }
             </td>
-            <td >
-                @Html.ActionLink(tmp.LastName + " " 
-                                    + tmp.FirstName + " "  
-                                    + tmp.Patronymic  + " - " 
-                                    + tmp.Post + " " 
-                                    +  tmp.Rank2 + " " 
-                                    + tmp.LecturerPost ,
-                                    "Lecturer", "Lecturer", new { id = tmp.Abbreviation }, null)
+            <td class="lecturer-element-line">
+               @string.Format("{0} {1} {2} {3} {4} {5}", lecturer.LastName, lecturer.FirstName, lecturer.Patronymic, lecturer.Post, lecturer.Rank2, lecturer.LecturerPost)
             </td>    
         </tr>
     }

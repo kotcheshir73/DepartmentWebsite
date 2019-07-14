@@ -14,76 +14,32 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            
-            
-                <div id="menu">
-                    <p></p>
-                    <ul class="navig">
-                        <li style="background:none"><a href="~/Home/Index" > <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a></li>
-                        <li style="margin: 8px 0 0 0"><a href="~/Event/Index" > Новости</a></li>
-                        @foreach (var item in DepartmentWebCore.Services.MenuService.GetMenuElementList())
-                        {
-                            <li style="color:white; margin: 8px 0 0 0">
-                                @Html.ActionLink(item.Name, item.Action, item.Controller)
-                                @if (item.Child.Count != 0)
-                                {
-                                    @Html.Partial("Menu", item)
-                                }
-                            </li>
-                        }
+            <div class="logo">
+                <a href="~/Home/Index"> <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a>
+            </div>
 
-                        <li style="float:right; background:none"><a href="http://www.ulstu.ru"> <img src="~/Images/Ulstu.png" width="80" height="50" alt="УлГТУ"></a></li>
-                        <li style="float:right; color:white; margin: 8px">
-                            @if (User.Identity.IsAuthenticated)
-                            {
+            <div id="menu" class="menu"></div>
 
-                                @*<a type="submit" asp-controller="Account" asp-action="Logout"> Выход </a>
-                                *@
-                                <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <input type="submit" value="Выход" class="logout" />
-                                </form>
-                            }
-                            else
-                            {
-                                <a asp-controller="Account" asp-action="Login">Вход</a>
-                            }
-                        </li>
-                        @*@if(User.Identity.IsAuthenticated)*@
-                        @*<li style="float:right; color:white; margin: 8px"><a href="~/Account/Login"> Войти </a></li>*@
-                    </ul>
-                    <div style="clear: both;"></div>
-                </div>
-                @*@{Html.ActionLink("Men", "Menu");}*@
-                @*<partial name="~/Views/Shared/Menu.cshtml" />*@
-                @*<a href='@Url.Action("Menu", "Menu")'>Преподаватели</a>*@
-                @*@Html.Action("GetMenuList", "Menu")*@
-                @*@RenderBody()*@
-                @*<p></p>
-        <ul>
-            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-            <li>
-                @Html.ActionLink("Индивидуальный план", "", "")
-                <ul>
-                    <li>@Html.ActionLink("Учебно-методическая работа", "Metodich", "IndividualPlan")</li>
-                    <li>@Html.ActionLink("Организационно-методическая работа", "Organizac", "IndividualPlan")</li>
-                    <li>@Html.ActionLink("Воспитательная работа", "Vospit", "IndividualPlan")</li>
-                    <li>@Html.ActionLink("Научно-исследовательская работа", "Index", "NIR")</li>
-                </ul>
-            </li>
-            <li>@Html.ActionLink("Расчасовки", "Index", "Grafic")</li>
-            <li>
-                @Html.ActionLink("Ведомости", "Index", "Statement")
-            </li>
-            <li>
-                @Html.ActionLink("Сводная ведомость", "Index", "SummaryStatement")
-            </li>
-        </ul>*@
+            <div class="ulstu">
+                <a href="http://www.ulstu.ru"> <img src="~/Images/Ulstu.png" width="80" height="50" alt="УлГТУ"></a>
+            </div>
 
-
+            <div class="login">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <input type="submit" value="Выход" class="logout" />
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Вход</a>
+                }
             </div>
         </div>
+    </div>
 
-    
+
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -92,8 +48,8 @@
         </footer>
     </div>
 
+
     <environment include="Development">
-        
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -113,7 +69,6 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

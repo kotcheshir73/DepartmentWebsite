@@ -1,11 +1,7 @@
-﻿using WebInterfaces.ViewModels;
-using Enums;
-using Models.Web;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System;
+﻿using Models.AcademicYearData;
 using Models.Base;
+using Models.Web;
+using WebInterfaces.ViewModels;
 
 namespace WebImplementations
 {
@@ -20,6 +16,35 @@ namespace WebImplementations
                 Title = entity.Title,
                 ShortName = entity.ShortName,
                 Description = entity.Description
+            };
+        }
+
+        public static WebLecturerViewModel CreateWebLecturerViewModel(Lecturer entity)
+        {
+            return new WebLecturerViewModel
+            {
+                Id = entity.Id,
+                LecturerPostId = entity.LecturerPostId,
+                LastName = entity.LastName,
+                FirstName = entity.FirstName,
+                Patronymic = entity.Patronymic,
+                Post = entity.Post.ToString(),
+                LecturerPost = entity.LecturerPost?.ToString() ?? string.Empty,
+                Rank = entity.Rank.ToString(),
+                Rank2 = entity.Rank2.ToString(),
+                Email = entity.Email,
+                Description = entity.Description,
+                Photo = entity.Photo
+            };
+        }
+
+        public static WebContingentViewModel CreateWebContingentViewModel(Contingent entity)
+        {
+            return new WebContingentViewModel
+            {
+                Id = entity.Id,
+                ContingentName = entity.ContingentName,
+                Course = (int)entity.Course
             };
         }
 

@@ -83,34 +83,6 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
-            // Could be used to register more types
-            container.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILecturerPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStudentOrderService, StudentOrderService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStudentOrderBlockService, StudentOrderBlockService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStudentOrderBlockStudentService, StudentOrderBlockStudentService>(new HierarchicalLifetimeManager());
-
-            container.RegisterType<IAcademicYearService, AcademicYearService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAcademicPlanService, AcademicPlanService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAcademicPlanRecordService, AcademicPlanRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAcademicPlanRecordElementService, AcademicPlanRecordElementService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAcademicPlanRecordMissionService, AcademicPlanRecordMissionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IContingentService, ContingentService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IDisciplineTimeDistributionService, DisciplineTimeDistributionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IDisciplineTimeDistributionRecordService, DisciplineTimeDistributionRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IDisciplineTimeDistributionClassroomService, DisciplineTimeDistributionClassroomService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILecturerWorkloadService, LecturerWorkloadService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISeasonDatesService, SeasonDatesService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStreamLessonService, StreamLessonService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ITimeNormService, TimeNormService>(new HierarchicalLifetimeManager());
-
             container.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
@@ -123,12 +95,9 @@ namespace DepartmentWebCore
             container.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IProcess, Process>(new HierarchicalLifetimeManager());
-            container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAcademicYearProcess, AcademicYearProcess>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
-
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebContingentService, WebContingentService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebProcessService, WebProcessService>(new HierarchicalLifetimeManager());

@@ -1,72 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseInterfaces.Interfaces;
-using LearningProgressInterfaces.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using WebInterfaces.BindingModels;
+using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
     public class LecturerController : Controller
-    {    
+    {
+        private readonly IWebLecturerService _serviceL;
 
-        //private readonly ILecturerService _serviceL;
-
-        //public LecturerController(ILecturerService serviceL)
-        //{
-        //    _serviceL = serviceL;
-        //}
-
-        // GET: Lecturer
-        public ActionResult Index()
+        public LecturerController(IWebLecturerService serviceL)
         {
-            var list = DepartmentWebCore.Services.LecturerService.GetLecturers(new BaseInterfaces.BindingModels.LecturerGetBindingModel());
-            foreach (var tmp in list.Result)
-            {
-                if (tmp.Rank2.ToLower() == "отсутствует")
-                {
-                    tmp.Rank2 = "";
-                }
-                else
-                {
-                    string str = tmp.Rank2;
-                    tmp.Rank2 = "";
-                    for (int i = 0; i < str.Length; i++)
-                    {
-                        tmp.Rank2 += str[i] + ".";
-                    }
-                    tmp.Rank2 += ",";
-                }
-
-                if (tmp.LecturerPost == "отсутствует")
-                {
-                    tmp.LecturerPost = "";
-                }
-                else
-                {
-                    tmp.LecturerPost = tmp.LecturerPost.ToLower();
-                }
-
-                if (tmp.Post == "ЗаведующийКафедрой")
-                {
-                    tmp.Post = "Заведующий кафедрой,";
-                }
-                else if (tmp.Post == "ЗаместительЗаведующегоКафедрой")
-                {
-                    tmp.Post = "Заместитель заведующего кафедрой,";
-                }
-                else
-                {
-                    tmp.Post = "";
-                }
-            }
-            return View(list.Result);
+            _serviceL = serviceL;
         }
 
-        public ActionResult Lecturer(string id)
+        [HttpGet]
+        public ActionResult Index()
         {
-            var model = Services.LecturerService.GetLecturer(new BaseInterfaces.BindingModels.LecturerGetBindingModel() { Abbreviation = id });
+            var list = _serviceL.GetLecturers(new WebLecturerGetBindingModel());
+            if(list.Succeeded)
+            {
+                foreach (var tmp in list.Result.List)
+                {
+                    if (tmp.Rank2.ToLower() == "отсутствует")
+                    {
+                        tmp.Rank2 = "";
+                    }
+                    else
+                    {
+                        string str = tmp.Rank2;
+                        tmp.Rank2 = "";
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            tmp.Rank2 += str[i] + ".";
+                        }
+                        tmp.Rank2 += ",";
+                    }
+
+                    if (tmp.LecturerPost == "отсутствует")
+                    {
+                        tmp.LecturerPost = "";
+                    }
+                    else
+                    {
+                        tmp.LecturerPost = tmp.LecturerPost.ToLower();
+                    }
+
+                    if (tmp.Post == "ЗаведующийКафедрой")
+                    {
+                        tmp.Post = "Зав. кафедрой,";
+                    }
+                    else if (tmp.Post == "ЗаместительЗаведующегоКафедрой")
+                    {
+                        tmp.Post = "Зам. зав. кафедрой,";
+                    }
+                    else
+                    {
+                        tmp.Post = "";
+                    }
+                }
+            }
+
+            return View(list.Result.List);
+        }
+
+        [HttpGet]
+        public ActionResult Lecturer(Guid id)
+        {
+            var model = _serviceL.GetLecturer(new WebLecturerGetBindingModel { Id = id });
+
+            if (!model.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
             if (model.Result.Rank2.ToLower() == "отсутствует")
             {
                 model.Result.Rank2 = "";
@@ -79,7 +86,6 @@ namespace DepartmentWebCore.Controllers
                 {
                     model.Result.Rank2 += str[i] + ".";
                 }
-                model.Result.Rank2 += ",";
             }
 
             if (model.Result.LecturerPost == "отсутствует")
@@ -99,9 +105,8 @@ namespace DepartmentWebCore.Controllers
             {
                 model.Result.Post = "";
             }
+
             return View(model.Result);
         }
-
     }
-    
 }

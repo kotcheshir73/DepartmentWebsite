@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DepartmentWebCore.Models
 {
@@ -11,10 +9,15 @@ namespace DepartmentWebCore.Models
         {
             Child = new List<MenuElementModel>(); 
         }
-        public string Id { get; set; }
+
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
+
         public string Controller { get; set; }
+
         public string Action { get; set; }
+
         public List<MenuElementModel> Child { get; set; }
     }
 }

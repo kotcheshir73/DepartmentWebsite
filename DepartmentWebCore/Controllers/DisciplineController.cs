@@ -17,7 +17,9 @@ namespace DepartmentWebCore.Controllers
     public class DisciplineController : Controller
     {
         private string Path => @"D:\Department\";
+
         private IWebProcessService _serviceWP;
+
         private IDisciplineService _serviceD;
 
         public DisciplineController(IWebProcessService serviceWP, IDisciplineService serviceD)

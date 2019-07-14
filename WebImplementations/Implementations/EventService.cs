@@ -113,7 +113,7 @@ namespace WebImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateEvent(model);
+                    var entity = WebModelFacotryFromBindingModel.CreateEvent(model);
                                         
                     context.Events.Add(entity);
                     context.SaveChanges();
@@ -144,7 +144,7 @@ namespace WebImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.UpdateEvent(model, entity);
+                    entity = WebModelFacotryFromBindingModel.UpdateEvent(model, entity);
 
                     context.SaveChanges();
 

@@ -5,7 +5,7 @@ using System;
 
 namespace WebImplementations
 {
-    public static class ModelFacotryFromBindingModel
+    public static class WebModelFacotryFromBindingModel
     {        
         public static Event CreateEvent(EventSetBindingModel model, Event entity = null)
         {

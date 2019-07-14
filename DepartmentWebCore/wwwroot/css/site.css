@@ -42,22 +42,148 @@ body {
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
 .dl-horizontal dt {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 1000px;
+}
+
+.menuMarginLeft {
+    margin: 5px 5px 0 5px;
+}
+
+.logo {
+    display: inline-block;
+    margin: 15px;
+}
+
+.menu {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.sub-menu-item {
+    padding: 5px 0px 0px 15px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.ulstu {
+    display: inline-block;
+    float: right;
+    margin: 15px;
+}
+
+.login {
+    display: inline-block;
+    float: right;
+    margin: 25px 10px 15px 10px;
+}
+
+    .login a {
+        display: block;
+        width: 100px;
+        padding: 5px;
+        background-color: whitesmoke;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+.logout {
+    display: block;
+    width: 100px;
+    padding: 5px;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+
+.lecturer-element {
+    cursor: pointer;
+}
+
+.lecturer-element-line:hover {
+    text-decoration: underline;
+}
+
+.text-lecturer {
+    color: #222222;
+    font-size: 20px;
+}
+
+    .text-lecturer label {
+        font-weight: bold;
+    }
+
+.text-lecturer-discipline {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.text-lecturer-items {
+    margin: 0 0 0 10px;
+}
+
+    .text-lecturer-items li {
+        margin-left: 15px;
+    }
+
+.education-wrapper {
+    width: 100%;
+}
+
+.education-panel-heading {
+    padding: 10px;
+    border: 0;
+    background: none;
+    color: #333333;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+}
+
+.education-panel-body {
+    padding: 15px;
+}
+
+.education-panel-title > a,
+.education-panel-title > a:active {
+    padding: 15px;
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.education-panel-heading a:before {
+    font-family: "Glyphicons Halflings";
+    content: "\e080";
+    float: right;
+    transition: all 0.5s;
+}
+
+.education-panel-heading.active a:before {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.education-title:hover{
+    display: inline-block;
+    text-decoration: underline;
+    cursor: pointer;
 }

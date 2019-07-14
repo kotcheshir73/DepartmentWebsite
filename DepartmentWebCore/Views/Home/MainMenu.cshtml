@@ -1,0 +1,16 @@
+﻿@using DepartmentWebCore.Helpers
+
+@model List<MenuElementModel>
+
+@{
+    Layout = null;
+}
+
+<ul class="navig">
+    @foreach (var item in Model)
+    {
+        @Html.MenuItem(item)
+    }
+</ul>
+
+
