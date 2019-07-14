@@ -75,6 +75,7 @@ namespace AcademicYearImplementations.Implementations
                 try
                 {
                     var academicPlan = context.AcademicPlans
+                        .Include(x => x.EducationDirection)
                         .FirstOrDefault(ap => ap.Id == model.Id && !ap.IsDeleted);
                     if (academicPlan == null)
                     {
@@ -92,7 +93,7 @@ namespace AcademicYearImplementations.Implementations
                     List<Semesters> semesters = new List<Semesters>();
                     foreach (var course in courses)
                     {
-                        int magistersCorrect = academicPlan.AcademicLevel == AcademicLevel.Магистратура ? 4 : 0;
+                        int magistersCorrect = academicPlan.EducationDirection.Qualification == EducationDirectionQualification.Магистратура ? 4 : 0;
                         int courseInt = (int)Math.Log((double)course, 2) + 1 - magistersCorrect;
                         semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2 - 1)));
                         semesters.Add((Semesters)Enum.ToObject(typeof(Semesters), Convert.ToInt32(courseInt * 2)));
@@ -177,9 +178,9 @@ namespace AcademicYearImplementations.Implementations
                         }
                         #endregion
                         if ((semesters.Contains(Semesters.Восьмой) &&
-                                    academicPlan.AcademicLevel == AcademicLevel.Бакалавриат) ||
+                                    academicPlan.EducationDirection.Qualification == EducationDirectionQualification.Бакалавриат) ||
                             (semesters.Contains(Semesters.Четвертый) &&
-                                    academicPlan.AcademicLevel == AcademicLevel.Магистратура))
+                                    academicPlan.EducationDirection.Qualification == EducationDirectionQualification.Магистратура))
                         {
                             #region ГЭК и ГАК
                             var settingDisciplineBlockGIA = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "ГИА");
@@ -196,13 +197,13 @@ namespace AcademicYearImplementations.Implementations
                             }
                             string textAcademicLevel = "";
                             int semNumber = 0;
-                            switch (academicPlan.AcademicLevel)
+                            switch (academicPlan.EducationDirection.Qualification)
                             {
-                                case AcademicLevel.Бакалавриат:
+                                case EducationDirectionQualification.Бакалавриат:
                                     textAcademicLevel = "бакалавра";
                                     semNumber = 8;
                                     break;
-                                case AcademicLevel.Магистратура:
+                                case EducationDirectionQualification.Магистратура:
                                     textAcademicLevel = "магистра";
                                     semNumber = 4;
                                     break;
@@ -980,7 +981,7 @@ namespace AcademicYearImplementations.Implementations
         {
             using (var context = DepartmentUserManager.GetContext)
             {
-                var academicPlan = context.AcademicPlans.FirstOrDefault(x => x.Id == model.AcademicPlanId);
+                var academicPlan = context.AcademicPlans.Include(x => x.EducationDirection).FirstOrDefault(x => x.Id == model.AcademicPlanId);
                 // помечаем как удаленные все записи плана, потом все найденные восстановим
                 var aprs = context.AcademicPlanRecords.Where(x => x.AcademicPlanId == model.AcademicPlanId).ToList();
                 foreach (var apr in aprs)
@@ -1040,7 +1041,7 @@ namespace AcademicYearImplementations.Implementations
                                         throw new Exception(string.Format("Не найдена нагрузка на практику с кодом {0}", discipline.DisciplineBlueAsteriskPracticCode));
                                     }
                                     timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == attribute.Value && x.DisciplineBlockId == disciplineBlock.Id &&
-                                                                                        (x.TimeNormAcademicLevel == null || x.TimeNormAcademicLevel == academicPlan.AcademicLevel) &&
+                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification) &&
                                                                                         x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode));
                                 }
                                 else
@@ -1051,7 +1052,7 @@ namespace AcademicYearImplementations.Implementations
                                         throw new Exception(string.Format("Не найдена атрибут КодВидаРаботы по дисциплине с кодом {0}", discipline.DisciplineBlueAsteriskCode));
                                     }
                                     timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == attribute.Value && x.DisciplineBlockId == disciplineBlock.Id &&
-                                                                                        (x.TimeNormAcademicLevel == null || x.TimeNormAcademicLevel == academicPlan.AcademicLevel)));
+                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification)));
                                 }
                                 foreach (var timeNorm in timeNorms)
                                 {

@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190714181511_SetQualificationToEducationDirection")]
+    partial class SetQualificationToEducationDirection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -728,8 +730,6 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("DisciplineBlueAsteriskName")
                         .HasMaxLength(200);
-
-                    b.Property<string>("DisciplineDescription");
 
                     b.Property<string>("DisciplineName")
                         .IsRequired()
@@ -2338,63 +2338,6 @@ namespace DatabaseContext.Migrations
                     b.ToTable("StreamingLessons");
                 });
 
-            modelBuilder.Entity("Models.Web.Comment", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("Content")
-                        .IsRequired();
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<string>("DepartmentUser");
-
-                    b.Property<Guid?>("DisciplineId");
-
-                    b.Property<Guid?>("EventId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid?>("ParentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DisciplineId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Models.Web.Event", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<string>("Content")
-                        .IsRequired();
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<string>("DepartmentUser");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Tag");
-
-                    b.Property<string>("Title")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Events");
-                });
-
             modelBuilder.Entity("Models.AcademicYearData.AcademicPlan", b =>
                 {
                     b.HasOne("Models.AcademicYearData.AcademicYear", "AcademicYear")
@@ -3192,21 +3135,6 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.Base.StudentGroup", "StudentGroup")
                         .WithMany()
                         .HasForeignKey("StudentGroupId");
-                });
-
-            modelBuilder.Entity("Models.Web.Comment", b =>
-                {
-                    b.HasOne("Models.Base.Discipline", "Discipline")
-                        .WithMany()
-                        .HasForeignKey("DisciplineId");
-
-                    b.HasOne("Models.Web.Event", "Event")
-                        .WithMany("Comments")
-                        .HasForeignKey("EventId");
-
-                    b.HasOne("Models.Web.Comment")
-                        .WithMany("ChildComments")
-                        .HasForeignKey("ParentId");
                 });
 #pragma warning restore 612, 618
         }

@@ -28,8 +28,9 @@ namespace BaseImplementations
                 Id = entity.Id,
                 Cipher = entity.Cipher,
                 ShortName = entity.ShortName,
-                Description = entity.Description,
-                Title = entity.Title
+                Title = entity.Title,
+                Qualification = entity.Qualification.ToString(),
+                Description = entity.Description
             };
         }
 

@@ -38,7 +38,7 @@ namespace Models.AcademicYearData
         public int TimeNormOrder { get; set; }
 
         [DataMember]
-        public AcademicLevel? TimeNormAcademicLevel { get; set; }
+        public EducationDirectionQualification? TimeNormEducationDirectionQualification { get; set; }
 
         /// <summary>
         /// Тип нагрузки, к которой относится норма времени

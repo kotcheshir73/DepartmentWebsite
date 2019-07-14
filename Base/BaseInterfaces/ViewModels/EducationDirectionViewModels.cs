@@ -11,6 +11,8 @@ namespace BaseInterfaces.ViewModels
         public string ShortName { get; set; }
 
         public string Title { get; set; }
+
+        public string Qualification { get; set; }
         
         public string Description { get; set; }
 
