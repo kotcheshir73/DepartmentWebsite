@@ -1,4 +1,6 @@
-﻿using Tools.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using Tools.ViewModels;
 
 namespace WebInterfaces.ViewModels
 {
@@ -13,6 +15,10 @@ namespace WebInterfaces.ViewModels
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public string Qualification { get; set; }
+
+        public List<Tuple<Guid, string>> Courses { get; set; }
 
         public override string ToString()
         {

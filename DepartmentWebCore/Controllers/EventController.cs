@@ -16,9 +16,9 @@ namespace DepartmentWebCore.Controllers
     public class EventController : Controller
     {
         private readonly IEventService _serviceE;
-        private readonly IWebProcessService _serviceWP;
+        private readonly IWebProcess _serviceWP;
 
-        public EventController(IEventService serviceE, IWebProcessService serviceWP)
+        public EventController(IEventService serviceE, IWebProcess serviceWP)
         {
             _serviceE = serviceE;
             _serviceWP = serviceWP;

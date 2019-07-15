@@ -1,21 +1,25 @@
 ﻿using Models.AcademicYearData;
 using Models.Base;
 using Models.Web;
+using System;
+using System.Linq;
 using WebInterfaces.ViewModels;
 
 namespace WebImplementations
 {
     public static class WebModelFactoryToViewModel
     {
-        public static WebEducationDirectionViewModel CreateWebEducationDirectionViewModel(EducationDirection entity)
+        public static WebEducationDirectionViewModel CreateWebEducationDirectionViewModel(IGrouping<EducationDirection, Contingent> entity)
         {
             return new WebEducationDirectionViewModel
             {
-                Id = entity.Id,
-                Cipher = entity.Cipher,
-                Title = entity.Title,
-                ShortName = entity.ShortName,
-                Description = entity.Description
+                Id = entity.Key.Id,
+                Cipher = entity.Key.Cipher,
+                Title = entity.Key.Title,
+                ShortName = entity.Key.ShortName,
+                Qualification = entity.Key.Qualification.ToString(),
+                Description = entity.Key.Description,
+                Courses = entity.Select(x => new Tuple<Guid, string>(x.Id, $"Курс {Math.Log((double)x.Course, 2) + 1}")).OrderBy(x => x.Item2).ToList()
             };
         }
 
@@ -35,16 +39,6 @@ namespace WebImplementations
                 Email = entity.Email,
                 Description = entity.Description,
                 Photo = entity.Photo
-            };
-        }
-
-        public static WebContingentViewModel CreateWebContingentViewModel(Contingent entity)
-        {
-            return new WebContingentViewModel
-            {
-                Id = entity.Id,
-                ContingentName = entity.ContingentName,
-                Course = (int)entity.Course
             };
         }
 

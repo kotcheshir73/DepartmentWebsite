@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using DepartmentWebCore.Helpers
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,7 +20,7 @@
                 <a href="~/Home/Index"> <img src="~/Images/logo_1_1.png" width="50" height="50" alt="Главная"></a>
             </div>
 
-            <div id="menu" class="menu"></div>
+            <div id="menu" class="menu">@Html.RenderAction("MainMenu", "Home")</div>
 
             <div class="ulstu">
                 <a href="http://www.ulstu.ru"> <img src="~/Images/Ulstu.png" width="80" height="50" alt="УлГТУ"></a>
@@ -38,16 +40,6 @@
             </div>
         </div>
     </div>
-
-
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – Кафедра "Информационные системы"</p>
-        </footer>
-    </div>
-
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -70,5 +62,13 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
     @RenderSection("Scripts", required: false)
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – Кафедра "Информационные системы"</p>
+        </footer>
+    </div>
 </body>
 </html>

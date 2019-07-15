@@ -15,7 +15,7 @@
             <div class="education-panel-heading active" id="@string.Format("heading{0}", ed.Id)">
                 <div class="education-panel-title">
                     <span class="education-title" data-id="@ed.Id">
-                        @string.Format("{0} {1}", ed.Cipher, ed.Title)
+                        @string.Format("Квалификация: {0}. Направление: {1} {2}", ed.Qualification, ed.Cipher, ed.Title)
                     </span>
                     <a role="button" data-toggle="collapse" href="#@string.Format("collapse{0}", ed.Id)" aria-expanded="true" aria-controls="@string.Format("collapse{0}", ed.Id)"></a>
                 </div>

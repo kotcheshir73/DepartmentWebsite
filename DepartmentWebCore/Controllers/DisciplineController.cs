@@ -18,11 +18,11 @@ namespace DepartmentWebCore.Controllers
     {
         private string Path => @"D:\Department\";
 
-        private IWebProcessService _serviceWP;
+        private IWebProcess _serviceWP;
 
         private IDisciplineService _serviceD;
 
-        public DisciplineController(IWebProcessService serviceWP, IDisciplineService serviceD)
+        public DisciplineController(IWebProcess serviceWP, IDisciplineService serviceD)
         {
             _serviceWP = serviceWP;
             _serviceD = serviceD;

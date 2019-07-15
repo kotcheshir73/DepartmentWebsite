@@ -8,23 +8,58 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Tools;
+using WebImplementations.Helpers;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
 using WebInterfaces.ViewModels;
 
 namespace WebImplementations.Implementations
 {
-    public class WebProcessService : IWebProcessService
+    public class WebProcess : IWebProcess
     {
         private readonly IDisciplineService _serviceD;
 
-        public WebProcessService(IDisciplineService serviceD)
-        {            
-            _serviceD = serviceD;
-        }
-
         //определить путь для папок
         private string Path => @"D:\Department\";
+
+        public WebProcess(/*IDisciplineService serviceD*/)
+        {            
+          //  _serviceD = serviceD;
+        }
+
+        public ResultService<List<WebProcessDisciplineForListViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var query = context.AcademicPlanRecordElements.Where(x => !x.IsDeleted)
+                        .Include(x => x.TimeNorm)
+                        .Include(x => x.AcademicPlanRecord.Discipline.DisciplineBlock)
+                        .Include(x => x.AcademicPlanRecord.Contingent.EducationDirection)
+                        // TODO практики и госы
+                        .Where(x => x.TimeNorm.TimeNormShortName == "Экз" || x.TimeNorm.TimeNormShortName == "ЗсО" || x.TimeNorm.TimeNormShortName == "Зач"
+                                    || x.TimeNorm.TimeNormShortName == "КР" || x.TimeNorm.TimeNormShortName == "КП")
+                        .Where(x => x.TimeNorm.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id && x.AcademicPlanRecord.ContingentId == model.CourseId);
+
+
+                    var result = query.Select(x => new WebProcessDisciplineForListViewModel
+                    {
+                        DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
+                        Semester = (int)x.AcademicPlanRecord.Semester.Value,
+                        TimeNormName = x.TimeNorm.KindOfLoadName
+                    }).Distinct()
+                       .OrderBy(x => x.Semester).ThenBy(x => x.DisciplineName)
+                       .ToList();
+
+                    return ResultService<List<WebProcessDisciplineForListViewModel>>.Success(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<WebProcessDisciplineForListViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
 
         public void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model)
         {            

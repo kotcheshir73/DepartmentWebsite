@@ -1,7 +1,7 @@
 ﻿@model WebInterfaces.ViewModels.WebLecturerViewModel
 
 @{
-    ViewBag.Title = Model.LastName + " " + Model.FirstName + " " + Model.Patronymic;
+    ViewBag.Title = string.Format("{0} {1} {2}",  Model.LastName, Model.FirstName, Model.Patronymic);
 }
 
 @if (Model != null)
@@ -33,6 +33,7 @@
                     <p class="text-lecturer">
                         @Model.Description
                     </p>
+
                     @await Html.PartialAsync("LecturerDisciplines", Model.Disiplines)
                 </td>
             </tr>

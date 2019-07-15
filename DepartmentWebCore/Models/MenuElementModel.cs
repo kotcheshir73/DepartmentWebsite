@@ -18,6 +18,8 @@ namespace DepartmentWebCore.Models
 
         public string Action { get; set; }
 
+        public Dictionary<string, string> AdditionalParameters { get; set; }
+
         public List<MenuElementModel> Child { get; set; }
     }
 }

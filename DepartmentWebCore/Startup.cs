@@ -96,11 +96,10 @@ namespace DepartmentWebCore
             container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebContingentService, WebContingentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebProcessService, WebProcessService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebProcess, WebProcess>(new HierarchicalLifetimeManager());
         }
     }
 }

@@ -40,7 +40,18 @@ namespace DepartmentWebCore.Helpers
                 sb.Append("</ul>");
             }
 
-            return $"<li class=\"sub-menu-item\" data-controller=\"{menuItem.Controller}\" data-action=\"{menuItem.Action}\" data-id=\"{menuItem.Id}\">{menuItem.Name}{sb.ToString()}</li>";
+            StringBuilder addParameters = new StringBuilder();
+            if(menuItem.AdditionalParameters != null)
+            {
+                foreach(var elem in menuItem.AdditionalParameters)
+                {
+                    addParameters.Append($"&{elem.Key}={elem.Value}");
+                }
+            }
+
+            string action = $"<a href=\"/{menuItem.Controller}/{menuItem.Action}?Id={menuItem.Id}{addParameters}\">{menuItem.Name}</a>";
+
+            return $"<li class=\"sub-menu-item\">{action}{sb.ToString()}</li>";
         }
     }
 }

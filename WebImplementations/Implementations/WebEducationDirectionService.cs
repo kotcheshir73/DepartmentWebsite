@@ -1,7 +1,9 @@
 ﻿using Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Tools;
+using WebImplementations.Helpers;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
 using WebInterfaces.ViewModels;
@@ -16,9 +18,12 @@ namespace WebImplementations.Implementations
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.EducationDirections.Where(x => !x.IsDeleted).AsQueryable();
+                    var query = context.Contingents
+                        .Include(x => x.EducationDirection)
+                        .Where(x => !x.EducationDirection.IsDeleted && x.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id)
+                        .GroupBy(x => x.EducationDirection);
 
-                    query = query.OrderBy(x => x.Cipher);
+                    query = query.OrderBy(x => x.Key.Qualification).ThenBy(x => x.Key.Cipher);
 
                     WebEducationDirectionPageViewModel result = new WebEducationDirectionPageViewModel
                     {
@@ -40,16 +45,21 @@ namespace WebImplementations.Implementations
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.EducationDirections
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.Contingents
+                        .Include(x => x.EducationDirection)
+                        .Where(x => !x.EducationDirection.IsDeleted && x.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id && x.EducationDirectionId == model.Id)
+                        .GroupBy(x => x.EducationDirection)
+                        .FirstOrDefault();
+
                     if (entity == null)
                     {
                         return ResultService<WebEducationDirectionViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    else if (entity.IsDeleted)
+                    else if (entity.Key.IsDeleted)
                     {
                         return ResultService<WebEducationDirectionViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
+
                     return ResultService<WebEducationDirectionViewModel>.Success(WebModelFactoryToViewModel.CreateWebEducationDirectionViewModel(entity));
                 }
             }

@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Tools;
 using WebInterfaces.BindingModels;
 using WebInterfaces.ViewModels;
 
 namespace WebInterfaces.Interfaces
 {
-    public interface IWebProcessService
+    public interface IWebProcess
     {
+        /// <summary>
+        /// Получение списка дисциплин на курсе
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<WebProcessDisciplineForListViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model);
+
         /// <summary>
 		/// Получение списка комментариев одного уровня
 		/// </summary>

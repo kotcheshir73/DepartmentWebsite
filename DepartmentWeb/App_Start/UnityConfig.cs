@@ -108,7 +108,7 @@ namespace DepartmentWeb
 
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebProcessService, WebProcessService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebProcess, WebProcess>(new HierarchicalLifetimeManager());
         }
     }
 }

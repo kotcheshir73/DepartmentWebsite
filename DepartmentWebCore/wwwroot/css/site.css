@@ -78,13 +78,11 @@ textarea {
 }
 
 .ulstu {
-    display: inline-block;
     float: right;
     margin: 15px;
 }
 
 .login {
-    display: inline-block;
     float: right;
     margin: 25px 10px 15px 10px;
 }
@@ -106,6 +104,10 @@ textarea {
     border-radius: 5px;
     text-align: center;
     color: rgb(0, 0, 0);
+}
+
+.page-header {
+    padding-top: 5px;
 }
 
 .lecturer-element {
@@ -182,8 +184,46 @@ textarea {
     transform: rotate(90deg);
 }
 
-.education-title:hover{
+.education-title:hover {
     display: inline-block;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.education-panel-table {
+    border-top: 1px solid #eeeeee;
+}
+
+.education-courses {
+    margin-top: 15px;
+    width: 100%;
+}
+
+    .education-courses th {
+        text-align: center;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .education-courses .selected {
+        background-color: #bfbfbf;
+    }
+
+.course-table {
+    margin-top: 15px;
+}
+
+    .course-table th {
+        text-align: center;
+    }
+
+    .course-table tr td{
+        font-weight: bold;
+    }
+
+.course-table-tab td a {
+    padding: 15px 15px 15px 35px;
+    font-size: 18px;
+    font-weight: normal;
 }

@@ -1,7 +1,49 @@
-﻿
+﻿@using WebInterfaces.ViewModels
+@using DepartmentWebCore.Helpers
+
+@model WebEducationDirectionViewModel
+
 @{
-    ViewData["Title"] = "EducationDirection";
+    ViewBag.Title = string.Format("{0} {1}", Model.Cipher, Model.Title);
 }
 
-<h2>EducationDirection</h2>
+@if (Model != null)
+{
+    <h2 class="page-header">@Model.Cipher @Model.Title</h2>
 
+    <div class="education-wrapper center-block">
+        <div class="panel panel-default">
+            <div class="education-panel-heading" id="heading">
+                <div class="education-panel-title">
+                    <a role="button" data-toggle="collapse" href="#collapse" aria-expanded="true" aria-controls="collapse">О направлении</a>
+                </div>
+            </div>
+            <div id="collapse" class="education-panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
+                <div class="education-panel-body">
+                    @(Model.Description)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Courses != null && Model.Courses.Count > 0)
+    {
+        <div class="education-panel-table">
+            <table class="education-courses">
+                <tr>
+                    @foreach (var course in Model.Courses)
+                    {
+                        <th data-id="@course.Item1" class="@(course.Item1 == ViewBag.CourseId ? "selected " : "") course-item">@course.Item2</th>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="@Model.Courses.Count">
+                        <div id="course">
+                            @Html.RenderAction("EducationDirectionCourse", "EducationDirection", new { Id = ViewBag.CourseId })
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+}

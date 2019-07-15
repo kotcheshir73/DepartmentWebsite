@@ -5,25 +5,6 @@
 
 
 $(function () {
-    $.ajax({
-        type: 'POST',
-        url: '/Home/MainMenu',
-        success: function (result) {
-            if (result) {
-                $('#menu').html(result);
-            }
-        }
-    });
-
-    $('body').on('click', '.sub-menu-item', function () {
-        var controller = $(this).data('controller');
-        var action = $(this).data('action');
-
-        if (controller && action) {
-            window.location.href = '/' + controller + '/' + action + '?Id=' + $(this).data('id');
-        }
-    });
-
     $('body').on('click', '.lecturer-element', function () {
         window.location.href = '/Lecturer/Lecturer?Id=' + $(this).data('id');
     });
@@ -38,5 +19,21 @@ $(function () {
 
     $('.education-panel-collapse').on('hide.bs.collapse', function () {
         $(this).siblings('.education-panel-heading').removeClass('active');
+    });
+
+    $('body').on('click', '.course-item', function () {
+        var seleted = $('.selected');
+        seleted.removeClass('selected');
+        $(this).addClass('selected');
+
+        $.ajax({
+            type: 'GET',
+            url: '/EducationDirection/EducationDirectionCourse?Id=' + $(this).data('id'),
+            success: function (result) {
+                if (result) {
+                    $('#course').html(result);
+                }
+            }
+        });
     });
 });
