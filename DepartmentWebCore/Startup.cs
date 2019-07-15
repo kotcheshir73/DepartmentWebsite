@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AcademicYearImplementations.Implementations;
-using AcademicYearInterfaces.Interfaces;
-using AuthenticationImplementations.Implementations;
+﻿using AuthenticationImplementations.Implementations;
 using AuthenticationInterfaces.Interfaces;
-using BaseImplementations.Implementations;
-using BaseInterfaces.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ScheduleImplementations.Services;
-using ScheduleInterfaces.Interfaces;
 using Unity;
 using Unity.Lifetime;
 using WebImplementations.Implementations;
@@ -83,13 +72,6 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
-            container.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
-
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
             container.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
@@ -97,6 +79,7 @@ namespace DepartmentWebCore
 
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebProcess, WebProcess>(new HierarchicalLifetimeManager());

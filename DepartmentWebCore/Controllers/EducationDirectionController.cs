@@ -23,6 +23,11 @@ namespace DepartmentWebCore.Controllers
         {
             var list = _serviceED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
 
+            if (!list.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
             return View(list.Result.List);
         }
 

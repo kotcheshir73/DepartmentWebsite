@@ -1,15 +1,12 @@
 ﻿using AcademicYearImplementations;
 using AcademicYearInterfaces.ViewModels;
-using BaseImplementations;
 using BaseInterfaces.BindingModels;
 using Enums;
-using LearningProgressInterfaces.BindingModels;
 using LearningProgressInterfaces.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Tools;
 using WebInterfaces.BindingModels;
 

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Tools;
 using WebImplementations.Helpers;
 using WebInterfaces.BindingModels;
@@ -14,58 +13,53 @@ namespace WebImplementations.Implementations
 {
     public class WebDisciplineService : IWebDisciplineService
     {
-        public ResultService<WebDisciplinePageViewModel> GetDisciplines(WebDisciplineGetBindingModel model)
+        public ResultService<WebDisciplineViewModel> GetDiscipline(WebDisciplineGetBindingModel model)
         {
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.AcademicPlanRecordElements
-                        .Where(x => !x.IsDeleted)
-                        .Where(x => x.TimeNorm.TimeNormShortName == "Экз" || x.TimeNorm.TimeNormShortName == "ЗсО" || x.TimeNorm.TimeNormShortName == "Зач" || 
-                                                            x.TimeNorm.TimeNormShortName == "КР" || x.TimeNorm.TimeNormShortName == "КП")
-                                                            // TODO - практики, ВКР, Госы
-                        .Where(x => x.TimeNorm.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id)
-                        .Where(x => x.AcademicPlanRecord.ContingentId == model.ContingentId)
-
-                        .Include(x => x.TimeNorm)
-                        .Include(x => x.AcademicPlanRecord.Discipline.DisciplineBlock)
-                        .Include(x => x.AcademicPlanRecord.Contingent.EducationDirection);
-
-
-                    var result = query.Select(x => new WebDisciplineViewModel
-                                                    {
-                                                        Id = x.AcademicPlanRecord.DisciplineId,
-                                                        DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
-                                                        DisciplineDescription = x.AcademicPlanRecord.Discipline.DisciplineDescription,
-                                                        Semester = (int)x.AcademicPlanRecord.Semester.Value,
-                                                    })
-                                    .Distinct()
-                                    .OrderBy(x => x.Semester).ThenBy(x => x.DisciplineName)
-                                    .ToList();
-
-                    var educDir = query.FirstOrDefault().AcademicPlanRecord.Contingent.EducationDirection;
-
-                    WebDisciplinePageViewModel resultModel = new WebDisciplinePageViewModel
+                    var entity = context.Disciplines
+                                .FirstOrDefault(x => x.Id == model.Id);
+                    if (entity == null)
                     {
-                        Course = query.FirstOrDefault().AcademicPlanRecord.Contingent.Course.ToString(),
-                        EducationDirectionName = educDir.Title + " "
-                            + (educDir.Description.Contains("бакалавр") ? "- Бакалавриат" : "- Магистратура"),
-                        List = result
-                    };
+                        return ResultService<WebDisciplineViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (entity.IsDeleted)
+                    {
+                        return ResultService<WebDisciplineViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                    }
 
-                    return ResultService<WebDisciplinePageViewModel>.Success(resultModel);
+                    var query = context.AcademicPlanRecordMissions
+                        .Include(x => x.AcademicPlanRecordElement)
+                        .Include(x => x.Lecturer)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                        .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id &&
+                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.Id)
+                        .Select(x => new
+                        {
+                            Id = x.LecturerId,
+                            LecturerFIO = x.Lecturer.ToString()
+                        })
+                        .Distinct()
+                        .ToList();
+
+                    var discipline = WebModelFactoryToViewModel.CreateWebDisciplineViewModel(entity);
+
+                    if (query != null)
+                    {
+                        discipline.DisciplineLecturers = query.Select(x => new Tuple<Guid, string>(x.Id, x.LecturerFIO)).ToList();
+                    }
+
+                    return ResultService<WebDisciplineViewModel>.Success(discipline);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<WebDisciplinePageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<WebDisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-        }
-
-        public ResultService<WebDisciplineViewModel> GetDiscipline(WebDisciplineGetBindingModel model)
-        {
-            throw new NotImplementedException();
         }
 
         public ResultService UpdateDiscipline(WebDisciplineSetBindingModel model)

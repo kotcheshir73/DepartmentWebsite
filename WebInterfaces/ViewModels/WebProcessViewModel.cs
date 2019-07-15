@@ -14,6 +14,8 @@ namespace WebInterfaces.ViewModels
 
     public class WebProcessDisciplineForListViewModel
     {
+        public Guid DisciplineId { get; set; }
+
         public string DisciplineName { get; set; }
 
         public string TimeNormName { get; set; }

@@ -7,13 +7,6 @@ namespace WebInterfaces.Interfaces
     public interface IWebDisciplineService
     {
         /// <summary>
-        /// Получение списка дисциплин на год по направлению
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<WebDisciplinePageViewModel> GetDisciplines(WebDisciplineGetBindingModel model);
-
-        /// <summary>
         /// Получение дисциплины
         /// </summary>
         /// <param name="model"></param>

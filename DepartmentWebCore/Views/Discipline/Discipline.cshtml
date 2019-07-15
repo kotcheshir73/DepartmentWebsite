@@ -1,0 +1,26 @@
+﻿@using WebInterfaces.ViewModels
+
+@model WebDisciplineViewModel
+
+@{
+    ViewBag.Title = Model.DisciplineName;
+}
+
+<h2 class="page-header">
+    @Model.DisciplineName
+</h2>
+
+<div class="discipline-wrapper center-block">
+    <div class="panel panel-default">
+        <div class="discipline-panel-heading active" id="heading">
+            <div class="discipline-panel-title">
+                <a role="button" data-toggle="collapse" href="#collapse" aria-expanded="true" aria-controls="collapse">О дисциплине</a>
+            </div>
+        </div>
+        <div id="collapse" class="discipline-panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+            <div class="discipline-panel-body">
+                @(Model.DisciplineDescription)
+            </div>
+        </div>
+    </div>
+</div>

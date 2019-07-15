@@ -37,8 +37,6 @@
     <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj" />
     <ProjectReference Include="..\Core\Enums\Enums.csproj" />
     <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj" />
-    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj" />
-    <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj" />
     <ProjectReference Include="..\WebImplementations\WebImplementations.csproj" />
     <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj" />
   </ItemGroup>

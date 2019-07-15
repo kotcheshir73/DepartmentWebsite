@@ -1,14 +1,12 @@
-﻿using BaseInterfaces.Interfaces;
-using DepartmentWebCore.Services;
+﻿using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
 using WebInterfaces.ViewModels;
 
@@ -18,25 +16,26 @@ namespace DepartmentWebCore.Controllers
     {
         private string Path => @"D:\Department\";
 
-        private IWebProcess _serviceWP;
+        private IWebProcess _process;
 
-        private IDisciplineService _serviceD;
+        private IWebDisciplineService _serviceWD;
 
-        public DisciplineController(IWebProcess serviceWP, IDisciplineService serviceD)
+        public DisciplineController(IWebProcess process, IWebDisciplineService serviceWD)
         {
-            _serviceWP = serviceWP;
-            _serviceD = serviceD;
+            _process = process;
+            _serviceWD = serviceWD;
         }
 
-        // GET: Discipline
-        public ActionResult Index(Guid id)
+        public ActionResult Discipline(Guid id)
         {
-            var list = DisciplineService.GetDisciplinesByCourses(new BaseInterfaces.BindingModels.DisciplineGetBindingModel
-            {
-                ContingentId = id
-            }).Result;
+            var model = _serviceWD.GetDiscipline(new WebDisciplineGetBindingModel { Id = id });
 
-            return View(list);
+            if (!model.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            return View(model.Result);
         }
 
         
@@ -46,13 +45,13 @@ namespace DepartmentWebCore.Controllers
             
             if(dis.Result.Count != 0)
             {
-                var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
+                var tmp = _process.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
                 { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
 
                 if (tmp.StatusCode == Enums.ResultServiceStatusCode.Error)
                 {
-                    _serviceWP.CreateFolderDis(dis.Result);
-                    tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
+                    _process.CreateFolderDis(dis.Result);
+                    tmp = _process.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
                     { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
                 }
 
@@ -73,7 +72,7 @@ namespace DepartmentWebCore.Controllers
         [Authorize(Roles = "Преподаватель")]
         public ActionResult LoadFile(string name)
         {
-            var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
+            var tmp = _process.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
             { DisciplineName = name }).Result;
 
             var listSelect = new List<WebProcessFileForDownloadViewModel>();

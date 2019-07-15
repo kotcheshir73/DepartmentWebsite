@@ -1,4 +1,6 @@
-﻿using Tools.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using Tools.ViewModels;
 
 namespace WebInterfaces.ViewModels
 {
@@ -15,6 +17,6 @@ namespace WebInterfaces.ViewModels
 
         public string DisciplineDescription { get; set; }
 
-        public int Semester { get; set; }
+        public List<Tuple<Guid, string>> DisciplineLecturers { get; set; }
     }
 }

@@ -45,6 +45,7 @@ namespace WebImplementations.Implementations
 
                     var result = query.Select(x => new WebProcessDisciplineForListViewModel
                     {
+                        DisciplineId = x.AcademicPlanRecord.DisciplineId,
                         DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
                         Semester = (int)x.AcademicPlanRecord.Semester.Value,
                         TimeNormName = x.TimeNorm.KindOfLoadName
