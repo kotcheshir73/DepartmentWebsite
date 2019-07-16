@@ -15,10 +15,10 @@ namespace DepartmentWebCore.Controllers
 {
     public class EventController : Controller
     {
-        private readonly IEventService _serviceE;
+        private readonly IWebEventService _serviceE;
         private readonly IWebProcess _serviceWP;
 
-        public EventController(IEventService serviceE, IWebProcess serviceWP)
+        public EventController(IWebEventService serviceE, IWebProcess serviceWP)
         {
             _serviceE = serviceE;
             _serviceWP = serviceWP;
@@ -26,7 +26,7 @@ namespace DepartmentWebCore.Controllers
 
         public IActionResult Index(int page = 0)
         {
-            var tmp = _serviceE.GetEvents(new WebInterfaces.BindingModels.EventGetBindingModel
+            var tmp = _serviceE.GetEvents(new EventGetBindingModel
             {
                 PageNumber=page,
                 PageSize=10

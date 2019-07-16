@@ -68,7 +68,7 @@ namespace DepartmentWebCore.Services
                         .Where(x => x.AcademicPlanRecord.ContingentId == model.ContingentId);
                         
                         
-                     var result = query.Select(x => new WebProcessDisciplineForListViewModel
+                     var result = query.Select(x => new WebProcessDisciplineByCoursesViewModel
                         {
                             DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
                             Semester = (int)x.AcademicPlanRecord.Semester.Value,

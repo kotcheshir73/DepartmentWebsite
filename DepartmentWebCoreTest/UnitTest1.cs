@@ -11,7 +11,7 @@ namespace Tests
 {
     public class WebTests
     {
-        private IEventService _serviceE;
+        private IWebEventService _serviceE;
         private ICommentService _serviceC;
         private IWebProcess _serviceWP;
 

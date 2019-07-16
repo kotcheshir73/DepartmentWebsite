@@ -21,6 +21,14 @@ $(function () {
         $(this).siblings('.education-panel-heading').removeClass('active');
     });
 
+    $('.discipline-panel-collapse').on('show.bs.collapse', function () {
+        $(this).siblings('.discipline-panel-heading').addClass('active');
+    });
+
+    $('.discipline-panel-collapse').on('hide.bs.collapse', function () {
+        $(this).siblings('.discipline-panel-heading').removeClass('active');
+    });
+
     $('body').on('click', '.course-item', function () {
         var seleted = $('.selected');
         seleted.removeClass('selected');

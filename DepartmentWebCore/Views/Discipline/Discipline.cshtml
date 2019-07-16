@@ -14,7 +14,7 @@
     <div class="panel panel-default">
         <div class="discipline-panel-heading active" id="heading">
             <div class="discipline-panel-title">
-                <a role="button" data-toggle="collapse" href="#collapse" aria-expanded="true" aria-controls="collapse">О дисциплине</a>
+                <a role="button" data-toggle="collapse" href="#collapse" aria-expanded="true" aria-controls="collapse">Описание</a>
             </div>
         </div>
         <div id="collapse" class="discipline-panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
@@ -24,3 +24,27 @@
         </div>
     </div>
 </div>
+
+<div class="discipline-lecturer">
+    <div class="discipline-lecturer-title">
+        Преподаватели:
+    </div>
+    @if (Model.DisciplineLecturers != null && Model.DisciplineLecturers.Count > 0)
+    {
+        <ul>
+            @foreach (var lecturer in Model.DisciplineLecturers)
+            {
+                <li><a href="/Lecturer/Lecturer?Id=@lecturer.Item1">@lecturer.Item2</a></li>
+            }
+        </ul>
+    }
+</div>
+
+
+@if (string.IsNullOrEmpty(User.Identity.Name))
+{
+    <label class="discipline-file-warning">Для получения доступа к материалам дисциплины необходимо авторизоваться.</label>
+}
+else
+{
+}

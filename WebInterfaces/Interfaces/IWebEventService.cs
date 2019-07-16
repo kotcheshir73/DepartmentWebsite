@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tools;
+﻿using Tools;
 using WebInterfaces.BindingModels;
 using WebInterfaces.ViewModels;
 
 namespace WebInterfaces.Interfaces
 {
-    public interface IEventService
+    public interface IWebEventService
     {
         /// <summary>
         /// Получение списка новостей

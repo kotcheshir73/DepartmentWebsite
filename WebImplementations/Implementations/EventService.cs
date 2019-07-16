@@ -12,7 +12,7 @@ using Enums;
 
 namespace WebImplementations.Implementations
 {
-    public class EventService : IEventService
+    public class EventService : IWebEventService
     {
         //private readonly AccessOperation _serviceOperation = AccessOperation.Студенты;
 

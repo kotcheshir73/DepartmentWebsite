@@ -1,43 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. 
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    min-width: 650px;
-}
-
-/* Wrapping element 
-/* Set some basic padding to keep content from hitting the edges 
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Carousel 
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers 
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
-
-/* QR code generator 
-#qrCode {
-    margin: 15px;
-}
-
-/* Hide/rearrange for smaller screens 
-@media screen and (max-width: 767px) {
-    /* Hide captions 
-    .carousel-caption {
-        display: none;
-    }
-}*/
-
-body {
+﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -153,6 +114,19 @@ textarea {
     border-color: #dddddd;
 }
 
+    .education-panel-heading a:before {
+        font-family: "Glyphicons Halflings";
+        content: "\e080";
+        float: right;
+        transition: all 0.5s;
+    }
+
+    .education-panel-heading.active a:before {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
 .education-panel-body {
     padding: 15px;
 }
@@ -169,19 +143,6 @@ textarea {
     text-decoration: none;
     margin-top: 0;
     margin-bottom: 0;
-}
-
-.education-panel-heading a:before {
-    font-family: "Glyphicons Halflings";
-    content: "\e080";
-    float: right;
-    transition: all 0.5s;
-}
-
-.education-panel-heading.active a:before {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    transform: rotate(90deg);
 }
 
 .education-title:hover {
@@ -218,7 +179,7 @@ textarea {
         text-align: center;
     }
 
-    .course-table tr td{
+    .course-table tr td {
         font-weight: bold;
     }
 
@@ -226,4 +187,69 @@ textarea {
     padding: 15px 15px 15px 35px;
     font-size: 18px;
     font-weight: normal;
+}
+
+.discipline-wrapper {
+    width: 100%;
+}
+
+.discipline-panel-heading {
+    padding: 10px;
+    border: 0;
+    background: none;
+    color: #333333;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+}
+
+    .discipline-panel-heading a:before {
+        font-family: "Glyphicons Halflings";
+        content: "\e080";
+        float: right;
+        transition: all 0.5s;
+    }
+
+    .discipline-panel-heading.active a:before {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+.discipline-panel-title > a,
+.discipline-panel-title > a:active {
+    padding: 15px;
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.discipline-panel-body {
+    padding: 15px;
+}
+
+.discipline-file-warning {
+    padding: 15px 5px 5px 15px;
+    color: red;
+}
+
+.discipline-lecturer {
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px;
+}
+
+    .discipline-lecturer ul {
+        padding-left: 40px;
+    }
+
+        .discipline-lecturer ul li {
+            font-size: 16px;
+        }
+
+.discipline-lecturer-title {
+    font-size: 16px;
 }

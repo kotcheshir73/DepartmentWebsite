@@ -12,7 +12,7 @@ namespace WebInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<List<WebProcessDisciplineForListViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model);
+        ResultService<List<WebProcessDisciplineByCoursesViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model);
 
         /// <summary>
 		/// Получение списка комментариев одного уровня

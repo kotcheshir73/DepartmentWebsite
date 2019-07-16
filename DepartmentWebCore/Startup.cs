@@ -81,7 +81,7 @@ namespace DepartmentWebCore
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IEventService, EventService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebEventService, EventService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebProcess, WebProcess>(new HierarchicalLifetimeManager());
         }
     }

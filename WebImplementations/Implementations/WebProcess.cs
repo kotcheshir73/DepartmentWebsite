@@ -27,7 +27,7 @@ namespace WebImplementations.Implementations
           //  _serviceD = serviceD;
         }
 
-        public ResultService<List<WebProcessDisciplineForListViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model)
+        public ResultService<List<WebProcessDisciplineByCoursesViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace WebImplementations.Implementations
                         .Where(x => x.TimeNorm.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id && x.AcademicPlanRecord.ContingentId == model.CourseId);
 
 
-                    var result = query.Select(x => new WebProcessDisciplineForListViewModel
+                    var result = query.Select(x => new WebProcessDisciplineByCoursesViewModel
                     {
                         DisciplineId = x.AcademicPlanRecord.DisciplineId,
                         DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
@@ -53,12 +53,12 @@ namespace WebImplementations.Implementations
                        .OrderBy(x => x.Semester).ThenBy(x => x.DisciplineName)
                        .ToList();
 
-                    return ResultService<List<WebProcessDisciplineForListViewModel>>.Success(result);
+                    return ResultService<List<WebProcessDisciplineByCoursesViewModel>>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<List<WebProcessDisciplineForListViewModel>>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<List<WebProcessDisciplineByCoursesViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 

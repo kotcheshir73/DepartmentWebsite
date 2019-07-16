@@ -9,18 +9,7 @@ namespace WebInterfaces.ViewModels
 
         public string Course { get; set; }
 
-        public List<WebProcessDisciplineForListViewModel> Discipline = new List<WebProcessDisciplineForListViewModel>();
-    }
-
-    public class WebProcessDisciplineForListViewModel
-    {
-        public Guid DisciplineId { get; set; }
-
-        public string DisciplineName { get; set; }
-
-        public string TimeNormName { get; set; }
-
-        public int Semester { get; set; }
+        public List<WebProcessDisciplineByCoursesViewModel> Discipline = new List<WebProcessDisciplineByCoursesViewModel>();
     }
 
     public class WebProcessEventWithCommentViewModel
@@ -99,6 +88,40 @@ namespace WebInterfaces.ViewModels
     }
 
     public class WebProcessFileForDownloadViewModel
+    {
+        public string Name { get; set; }
+
+        public string Path { get; set; }
+    }
+
+
+
+    public class WebProcessDisciplineByCoursesViewModel
+    {
+        public Guid DisciplineId { get; set; }
+
+        public string DisciplineName { get; set; }
+
+        public string TimeNormName { get; set; }
+
+        public int Semester { get; set; }
+    }
+
+    public class WebProcessDisciplineContext
+    {
+        public string Name { get; set; }
+
+        public List<WebProcessDisciplineTimeNormContext> TimeNormContents { get; set; }
+    }
+
+    public class WebProcessDisciplineTimeNormContext
+    {
+        public string Name { get; set; }
+
+        public List<WebProcessDisciplineFileContext> FileContents { get; set; }
+    }
+
+    public class WebProcessDisciplineFileContext
     {
         public string Name { get; set; }
 
