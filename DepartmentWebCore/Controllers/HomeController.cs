@@ -24,23 +24,9 @@ namespace DepartmentWebCore.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         public ActionResult NIR()
         {
             ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
@@ -51,7 +37,7 @@ namespace DepartmentWebCore.Controllers
             {
                 new MenuElementModel
                 {
-                    Controller = "Event",
+                    Controller = "News",
                     Action = "Index",
                     Name = "Новости"
                 }

@@ -3,6 +3,15 @@ using System.Collections.Generic;
 
 namespace WebInterfaces.ViewModels
 {
+    public class WebLoginViewModel
+    {
+        public string UserId { get; set; }
+
+        public string UserName { get; set; }
+
+        public List<string> UserRoles { get; set; }
+    }
+
     public class WebProcessDisciplineListInfoViewModel
     {
         public string EducationDirectionName { get; set; }

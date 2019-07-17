@@ -9,38 +9,29 @@ using WebInterfaces.ViewModels;
 
 namespace WebImplementations.Implementations
 {
-    public class CommentService : ICommentService
+    public class NewsService : INewsService
     {
-        public ResultService<CommentPageViewModel> GetComments(CommentGetBindingModel model)
+        public ResultService<NewsPageViewModel> GetNewses(NewsGetBindingModel model)
         {
             try
             {
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.Comments.Where(x => !x.IsDeleted).AsQueryable();
+                    var query = context.Newses.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.NewsId.HasValue)
+                    if (!string.IsNullOrEmpty(model.Tag))
                     {
-                        query = query.Where(x => x.NewsId == model.NewsId.Value);
+                        var tags = model.Tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        query = query.Where(x => tags.Any(y => y.Contains(model.Tag)));
                     }
 
-                    if (model.DepartmentUserId.HasValue)
+                    if(model.DepartmentUserId.HasValue)
                     {
-                        query = query.Where(x => x.DepartmentUserId == model.DepartmentUserId.Value);
+                        query = query.Where(x => x.DepartmentUserId == model.DepartmentUserId);
                     }
 
-                    if (model.DisciplineId.HasValue)
-                    {
-                        query = query.Where(x => x.DisciplineId == model.DisciplineId.Value);
-                    }
-
-                    if (model.ParentId.HasValue)
-                    {
-                        query = query.Where(x => x.ParentId == model.ParentId.Value);
-                    }
-
-                    query = query.OrderBy(x => x.DateCreate);
+                    query = query.OrderByDescending(x => x.DateCreate);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -52,60 +43,62 @@ namespace WebImplementations.Implementations
 
                     query = query.Include(x => x.DepartmentUser);
 
-                    var result = new CommentPageViewModel
+                    var result = new NewsPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(WebModelFactoryToViewModel.CreateCommentViewModel).ToList()
+                        CurrentPage = model.PageNumber ?? -1,
+                        List = query.Select(WebModelFactoryToViewModel.CreateNewsViewModel).ToList()
                     };
 
-                    return ResultService<CommentPageViewModel>.Success(result);
+                    return ResultService<NewsPageViewModel>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<CommentPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<NewsPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService<CommentViewModel> GetComment(CommentGetBindingModel model)
+        public ResultService<NewsViewModel> GetNews(NewsGetBindingModel model)
         {
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Comments
+                    var entity = context.Newses
                         .Include(x => x.DepartmentUser)
                         .FirstOrDefault(x => x.Id == model.Id);
 
                     if (entity == null)
                     {
-                        return ResultService<CommentViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<NewsViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<CommentViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<NewsViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<CommentViewModel>.Success(WebModelFactoryToViewModel.CreateCommentViewModel(entity));
+                    return ResultService<NewsViewModel>.Success(WebModelFactoryToViewModel.CreateNewsViewModel(entity));
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<CommentViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<NewsViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService CreateComment(CommentSetBindingModel model)
+        public ResultService CreateNews(NewsSetBindingModel model)
         {
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = WebModelFacotryFromBindingModel.CreateComment(model);
-
-                    context.Comments.Add(entity);
+                    var entity = WebModelFacotryFromBindingModel.CreateNews(model);
+                                        
+                    context.Newses.Add(entity);
                     context.SaveChanges();
                     return ResultService.Success(entity.Id);
+                    
                 }
             }
             catch (Exception ex)
@@ -114,13 +107,14 @@ namespace WebImplementations.Implementations
             }
         }
 
-        public ResultService UpdateComment(CommentSetBindingModel model)
+        public ResultService UpdateNews(NewsSetBindingModel model)
         {
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Comments.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.Newses.FirstOrDefault(x => x.Id == model.Id);
+
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -129,7 +123,8 @@ namespace WebImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = WebModelFacotryFromBindingModel.CreateComment(model, entity);
+
+                    entity = WebModelFacotryFromBindingModel.CreateNews(model, entity);
 
                     context.SaveChanges();
 
@@ -142,19 +137,14 @@ namespace WebImplementations.Implementations
             }
         }
 
-        public ResultService DeleteComment(CommentGetBindingModel model)
+        public ResultService DeleteNews(NewsGetBindingModel model)
         {
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    foreach (var com in context.Comments.Where(x => x.ParentId == model.Id))
-                    {
-                        DeleteComment(new CommentGetBindingModel{ Id = com.Id });
-                    }
-
-                    var entity = context.Comments.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.Newses.Include(x => x.Comments).FirstOrDefault(x => x.Id == model.Id);
 
                     if (entity == null)
                     {
@@ -168,6 +158,16 @@ namespace WebImplementations.Implementations
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
+
+                    if(entity.Comments != null)
+                    {
+                        foreach(var comment in entity.Comments)
+                        {
+                            comment.IsDeleted = true;
+                            comment.DateDelete = DateTime.Now;
+                            context.SaveChanges();
+                        }
+                    }
 
                     transaction.Commit();
 

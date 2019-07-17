@@ -8,6 +8,14 @@ namespace WebInterfaces.Interfaces
     public interface IWebProcess
     {
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="hash"></param>
+        /// <returns></returns>
+        WebLoginViewModel Login(string login, string hash);
+
+        /// <summary>
         /// Получение списка дисциплин на курсе
         /// </summary>
         /// <param name="model"></param>
@@ -33,7 +41,7 @@ namespace WebInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(EventGetBindingModel model);
+        ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(NewsGetBindingModel model);
 
         /// <summary>
         /// Получение 

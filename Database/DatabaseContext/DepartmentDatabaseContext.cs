@@ -12,8 +12,6 @@ using System;
 
 namespace DatabaseContext
 {
-    //https://docs.microsoft.com/ru-ru/aspnet/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity
-    //https://docs.microsoft.com/en-us/ef/core/get-started/uwp/getting-started
     public class DepartmentDatabaseContext : DbContext
     {
         public DepartmentDatabaseContext(DbContextOptions<DepartmentDatabaseContext> options) : base(options) { }
@@ -24,6 +22,7 @@ namespace DatabaseContext
         {
             if (optionsBuilder.IsConfigured == false)
             {
+                // TODO вынести в config
                // optionsBuilder.UseSqlServer(@"Data Source=HOME\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=True;MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
                 optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=true;MultipleActiveResultSets=True;");
@@ -142,7 +141,7 @@ namespace DatabaseContext
         #endregion
 
         #region Web
-        public virtual DbSet<Event> Events { set; get; }
+        public virtual DbSet<News> Newses { set; get; }
         public virtual DbSet<Comment> Comments { set; get; }
         #endregion
 
@@ -158,7 +157,7 @@ namespace DatabaseContext
             {
                 return base.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 foreach (var entry in ChangeTracker.Entries())
                 {

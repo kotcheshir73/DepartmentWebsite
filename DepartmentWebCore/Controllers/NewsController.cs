@@ -1,65 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DepartmentWebCore.Models;
+﻿using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
-using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Controllers
 {
-    public class EventController : Controller
+    public class NewsController : Controller
     {
-        private readonly IWebEventService _serviceE;
-        private readonly IWebProcess _serviceWP;
+        private readonly INewsService _serviceN;
 
-        public EventController(IWebEventService serviceE, IWebProcess serviceWP)
+        private readonly IWebProcess _process;
+
+        private readonly int pageSize = 10;
+
+        public NewsController(INewsService serviceN, IWebProcess process)
         {
-            _serviceE = serviceE;
-            _serviceWP = serviceWP;
+            _serviceN = serviceN;
+            _process = process;
         }
 
-        public IActionResult Index(int page = 0)
+        public IActionResult Index(int? page)
         {
-            var tmp = _serviceE.GetEvents(new EventGetBindingModel
+            var newses = _serviceN.GetNewses(new NewsGetBindingModel
             {
-                PageNumber=page,
-                PageSize=10
+                PageNumber = page ?? 0,
+                PageSize = pageSize
             });
-            
-            return View(tmp.Result);
+
+            if (!newses.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            return View(newses.Result);
         }
 
         [Authorize(Roles = "Преподаватель")]
-        public IActionResult CreateEvent()
+        [Authorize(Roles = "Администратор")]
+        public IActionResult CreateNews()
         {
-            return View();
+            return PartialView(new NewsWithFilesModel());
         }
 
         [HttpPost]
         [Authorize(Roles = "Преподаватель")]
-        public async Task<IActionResult> CreateEvent(EventWithFilesModel model)
+        [Authorize(Roles = "Администратор")]
+        public void CreateNews(NewsWithFilesModel model)
         {
-            var newEventId = _serviceE.CreateEvent(new WebInterfaces.BindingModels.EventSetBindingModel {
-                Content = model.Content,
-                DepartmentUser = User.Identity.Name,
-                Title = model.Title                
+            var newEventId = _serviceN.CreateNews(new NewsSetBindingModel
+            {
+                DepartmentUserId = new Guid(User.Identity.Name),
+                Title = model.Title,
+                Body = model.Body,
+                Tag = model.Tag
             });
-            if (model.fileForUpload != null) { 
+
+            if (model.FilesForUpload != null)
+            {
+               // await FileService.SaveFilesForEvent(model.fileForUpload, newEventId.Result.ToString());
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Преподаватель")]
+        public async Task<IActionResult> CreateNews(EventWithFilesModel model)
+        {
+            var newEventId = _serviceN.CreateNews(new NewsSetBindingModel
+            {
+                DepartmentUserId = new Guid(User.Identity.Name),
+                Title = model.Title,
+                Body = model.Content
+            });
+            if (model.fileForUpload != null)
+            {
                 await FileService.SaveFilesForEvent(model.fileForUpload, newEventId.Result.ToString());
             }
             return RedirectToAction("Index", "Event");
         }
 
         [Authorize(Roles = "Преподаватель")]
-        public IActionResult EditEvent(Guid id)
+        public IActionResult EditNews(Guid id)
         {
-            var element = _serviceE.GetEvent(new EventGetBindingModel
+            var element = _serviceN.GetNews(new NewsGetBindingModel
             {
                 Id = id
             }).Result;
@@ -67,7 +93,7 @@ namespace DepartmentWebCore.Controllers
             return View(new EventWithFilesModel
             {
                 Id = element.Id,
-                Content = element.Content,
+                Content = element.Body,
                 Tag = element.Tag,
                 Title = element.Title,
                 fileForDownload = files
@@ -78,10 +104,10 @@ namespace DepartmentWebCore.Controllers
         [Authorize(Roles = "Преподаватель")]
         public async Task<IActionResult> EditEvent(EventWithFilesModel model)
         {
-            _serviceE.UpdateEvent(new EventUpdateBindingModel
+            _serviceN.UpdateNews(new NewsSetBindingModel
             {
                 Id = model.Id,
-                Content = model.Content,
+                Body = model.Content,
                 Tag = model.Tag,
                 Title = model.Title
             });
@@ -102,18 +128,18 @@ namespace DepartmentWebCore.Controllers
         [Authorize(Roles = "Преподаватель")]
         public ActionResult DeleteEvent(Guid id, int page)
         {
-            _serviceE.DeleteEvent(new EventGetBindingModel
+            _serviceN.DeleteNews(new NewsGetBindingModel
             {
                 Id = id
             });
 
             FileService.DeleteDirectoryByPathForEvent(id.ToString());
-            return RedirectToAction("Index", "Event", new { page = page });
+            return RedirectToAction("Index", "Event", new { page });
         }
 
-        public IActionResult Event(Guid id)
+        public IActionResult News(Guid id)
         {
-            var element = _serviceWP.GetEventWithComment(new EventGetBindingModel
+            var element = _process.GetEventWithComment(new NewsGetBindingModel
             {
                 Id = id
             }).Result;
@@ -124,6 +150,7 @@ namespace DepartmentWebCore.Controllers
         {
             return File(FileService.GetFileByPathForEvent(path), "application/vnd.ms-powerpoint", fileName);
         }
+
         public FileResult PDF(string path, string fileName)
         {
             return File(FileService.GetFileByPathForEvent(path), "application/pdf");

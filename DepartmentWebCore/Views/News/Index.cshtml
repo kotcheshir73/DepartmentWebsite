@@ -1,0 +1,54 @@
+﻿@using WebInterfaces.ViewModels
+
+@model NewsPageViewModel
+
+@{
+    ViewData["Title"] = "Новости";
+}
+
+<h2 class="page-header">Новости</h2>
+
+@if (User.IsInRole("Преподаватель") || User.IsInRole("Администратор"))
+{
+    <div class="create-news">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewsModel">Добавить новость</button>
+        <div class="modal fade" id="createNewsModel" role="dialog">
+            @{await Html.RenderPartialAsync("CreateNews", new NewsWithFilesModel());}
+        </div>
+    </div>
+
+}
+@if (Model != null && Model.List.Count > 0)
+{
+    @foreach (var news in Model.List)
+    {
+        <p></p>
+        @:Автор: @news.DepartmentUser от @news.Date <br />
+        <h2>@Html.ActionLink(news.Title, "Event", new { id = news.Id })</h2><br />
+        <div style="margin:0 0 0 15px"> @news.Body</div><br />
+        @if (news.DepartmentUserId.ToString() == User.Identity.Name)
+        {
+            <div class="btn btn-default">
+                @Html.ActionLink("Изменить", "EditEvent", new { id = news.Id }, new { style = "text-decoration:none; color:#333333" })
+            </div>
+            <div class="btn btn-default">
+                @Html.ActionLink("Удалить", "DeleteEvent", new { id = news.Id@*, page = Model.CurrentPage*@ }, new { style = "text-decoration:none; color:#333333" })
+            </div>
+        }
+        <hr />
+    }
+
+    <p align="center" style="font-size:18px">
+        @for (int i = 1; i <= Model.List.Count; ++i)
+        {
+            if (i == Model.CurrentPage)
+            {
+                <b id="pag" style="color:#ff6a00;"> @(i + 1) </b>
+            }
+            else
+            {
+                @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
+            }
+        }
+    </p>
+}

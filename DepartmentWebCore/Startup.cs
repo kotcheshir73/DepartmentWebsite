@@ -72,16 +72,16 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
-            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
+            //container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            //container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
+            //container.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
+            //container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
+            container.RegisterType<INewsService, NewsService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebEventService, EventService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebProcess, WebProcess>(new HierarchicalLifetimeManager());
         }
     }

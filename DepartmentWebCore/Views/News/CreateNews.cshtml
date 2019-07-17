@@ -1,0 +1,44 @@
+﻿@using DepartmentWebCore.Models
+
+@model NewsWithFilesModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Создание новости</h4>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(m => m.Title)
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Title, "", new { style = "Width:100%" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(m => m.Body)
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Body, 2, 1, new { style = "Width:100%" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(m => m.Tag)
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Tag, "", new { style = "Width:100%" })
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary">Создать</button>
+        </div>
+    </div>
+</div>

@@ -27,6 +27,30 @@ namespace WebImplementations.Implementations
           //  _serviceD = serviceD;
         }
 
+        public WebLoginViewModel Login(string login, string hash)
+        {
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == hash);
+
+                if (user == null)
+                {
+                    throw new Exception("Введен неверный логин/пароль");
+                }
+                if (user.IsLocked)
+                {
+                    throw new Exception("Пользователь заблокирован");
+                }
+
+                user.DateLastVisit = DateTime.Now;
+                context.SaveChanges();
+
+                var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).ToList();
+
+                return WebModelFactoryToViewModel.CreateLoginViewModel(user, roles);
+            }
+        }
+
         public ResultService<List<WebProcessDisciplineByCoursesViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model)
         {
             try
@@ -68,9 +92,9 @@ namespace WebImplementations.Implementations
             var dis = model.FirstOrDefault().DisciplineName;
             DirectoryInfo dirInfo;
 
-            foreach (var sem in model.Select(x => new { Semestr = x.Semestr  }).GroupBy(x => x.Semestr))
+            foreach (var sem in model.Select(x => new { x.Semestr  }).GroupBy(x => x.Semestr))
             {
-                foreach (var tn in model.Select(x => new { TimeNorm = x.TimeNorm }).GroupBy(x => x.TimeNorm))
+                foreach (var tn in model.Select(x => new { x.TimeNorm }).GroupBy(x => x.TimeNorm))
                 {
                     tmp = tn.Key;
                     if (tn.Key.Contains("Руководство и прием курсовых"))
@@ -152,13 +176,13 @@ namespace WebImplementations.Implementations
             }
         }
 
-        public ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(EventGetBindingModel model)
+        public ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(NewsGetBindingModel model)
         {
             try
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Events.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.Newses.Include(x => x.DepartmentUser).FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<WebProcessEventWithCommentViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -171,12 +195,12 @@ namespace WebImplementations.Implementations
                     WebProcessEventWithCommentViewModel viewModel = new WebProcessEventWithCommentViewModel
                     {
                         EventId = entity.Id,
-                        Content = entity.Content,
+                        Content = entity.Body,
                         Date = entity.DateCreate,
-                        DepartmentUser = entity.DepartmentUser,
+                        DepartmentUser = entity.DepartmentUser.UserName,
                         Tag = entity.Tag,
                         Title = entity.Title,
-                        commentList = GetListLevelComment(new CommentGetBindingModel { EventId = model.Id, ParentId = null}).Result
+                        commentList = GetListLevelComment(new CommentGetBindingModel { NewsId = model.Id, ParentId = null}).Result
                     };
 
                     return ResultService<WebProcessEventWithCommentViewModel>.Success(viewModel);
@@ -198,9 +222,9 @@ namespace WebImplementations.Implementations
                 {
                     var query = context.Comments.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.EventId.HasValue)
+                    if (model.NewsId.HasValue)
                     {
-                        query = query.Where(x => x.EventId == model.EventId.Value);
+                        query = query.Where(x => x.NewsId == model.NewsId.Value);
                     }
                     if (model.DisciplineId.HasValue)
                     {
@@ -234,8 +258,8 @@ namespace WebImplementations.Implementations
                 Id = entity.Id,
                 Content = entity.Content,
                 Date = entity.DateCreate,
-                DepartmentUser = entity.DepartmentUser,
-                commentList = GetListLevelComment(new CommentGetBindingModel { EventId = entity.EventId, DisciplineId = entity.DisciplineId, ParentId = entity.Id }).Result
+                DepartmentUser = entity.DepartmentUser.UserName,
+                commentList = GetListLevelComment(new CommentGetBindingModel { NewsId = entity.NewsId, DisciplineId = entity.DisciplineId, ParentId = entity.Id }).Result
             };
         }
     }

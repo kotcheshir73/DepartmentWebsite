@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" asp-controller="Comment" method="post">
-            @Html.HiddenFor(x => x.EventId)
+            @Html.HiddenFor(x => x.NewsId)
             @Html.HiddenFor(x => x.DisciplineId)
             @Html.HiddenFor(x => x.ParentId)
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

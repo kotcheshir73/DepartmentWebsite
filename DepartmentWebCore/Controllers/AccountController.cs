@@ -1,26 +1,25 @@
-﻿using System;
+﻿using DepartmentWebCore.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AuthenticationImplementations.Implementations;
-using AuthenticationInterfaces.Interfaces;
-using AuthenticationInterfaces.ViewModels;
-using DepartmentWebCore.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
 using Tools;
+using WebInterfaces.Interfaces;
+using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAuthenticationProcess _serviceA;
+        private readonly IWebProcess _process;
 
-        public AccountController(IAuthenticationProcess serviceA )
+        public AccountController(IWebProcess process)
         {
-            _serviceA = serviceA;
+            _process = process;
         }
 
         [HttpGet]
@@ -37,7 +36,7 @@ namespace DepartmentWebCore.Controllers
             {
                 try
                 {
-                    var loginModel = _serviceA.Login(model.Login, DepartmentUserManager.GetPasswordHash(model.Password));
+                    var loginModel = _process.Login(model.Login, DepartmentUserManager.GetPasswordHash(model.Password));
                     await Authenticate(loginModel);
                     return RedirectToAction("Index", "Home");
                 }
@@ -49,28 +48,15 @@ namespace DepartmentWebCore.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(LoginViewModel user)
+        private async Task Authenticate(WebLoginViewModel user)
         {
-            string role = "";
-            if(user.UserRoles.FirstOrDefault(x => x == "Студент") != null)
-            {
-                role = "Студент";
-            }
-            else if(user.UserRoles.FirstOrDefault(x => x == "Преподаватель") != null)
-            {
-                role = "Преподаватель";
-            }
-            else
-            {
-                role = "Неопределенный";
-            }
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
-
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.UserRoles.FirstOrDefault())
             };
+
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки

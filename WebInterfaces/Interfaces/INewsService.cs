@@ -4,41 +4,41 @@ using WebInterfaces.ViewModels;
 
 namespace WebInterfaces.Interfaces
 {
-    public interface IWebEventService
+    public interface INewsService
     {
         /// <summary>
         /// Получение списка новостей
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<EventPageViewModel> GetEvents(EventGetBindingModel model);
+        ResultService<NewsPageViewModel> GetNewses(NewsGetBindingModel model);
 
         /// <summary>
         /// Получение новости
         /// </summary>
         /// <param name="model">Идентификатор новости</param>
         /// <returns></returns>
-        ResultService<EventViewModel> GetEvent(EventGetBindingModel model);
+        ResultService<NewsViewModel> GetNews(NewsGetBindingModel model);
 
         /// <summary>
         /// Создание новости
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateEvent(EventSetBindingModel model);
+        ResultService CreateNews(NewsSetBindingModel model);
 
         /// <summary>
         /// Изменение новости
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateEvent(EventUpdateBindingModel model);
+        ResultService UpdateNews(NewsSetBindingModel model);
 
         /// <summary>
         /// Удаление новости
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteEvent(EventGetBindingModel model);
+        ResultService DeleteNews(NewsGetBindingModel model);
     }
 }

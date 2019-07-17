@@ -1,4 +1,5 @@
 ﻿using Models.Base;
+using Models.Web;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -46,5 +47,11 @@ namespace Models.Authentication
 
         [ForeignKey("UserId")]
         public virtual List<DepartmentUserRole> UserRoles { get; set; }
+
+        [ForeignKey("DepartmentUserId")]
+        public virtual List<News> News { get; set; }
+
+        [ForeignKey("DepartmentUserId")]
+        public virtual List<Comment> Comments { get; set; }
     }
 }

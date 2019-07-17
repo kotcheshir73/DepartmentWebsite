@@ -70,7 +70,7 @@ namespace BaseImplementations.Implementations
 		{
 			try
             {
-                //DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {

@@ -1,40 +1,38 @@
-﻿using Enums;
-using Models.Attributes;
-using Models.Authentication;
-using Models.Examination;
-using Models.LearningProgress;
+﻿using Models.Authentication;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Models.Web
 {
     [DataContract]
-    public class Event : BaseEntity
+    public class News : BaseEntity
     {
+        [Required]
+        [DataMember]
+        public Guid DepartmentUserId { get; set; }
+
         [Required]
         [DataMember]
         public string Title { get; set; }
 
         [Required]
         [DataMember]
-        public string Content { get; set; }
+        public string Body { get; set; }
 
         [DataMember]
-        public string DepartmentUser { get; set; }
-        
-        [DataMember]
-        public string Tag { get; set; }        
+        public string Tag { get; set; }
 
         //-------------------------------------------------------------------------
 
+        public DepartmentUser DepartmentUser { get; set; }
+
 
         //-------------------------------------------------------------------------
 
-        [ForeignKey("EventId")]
+        [ForeignKey("NewsId")]
         public virtual List<Comment> Comments { get; set; }
 
         //-------------------------------------------------------------------------

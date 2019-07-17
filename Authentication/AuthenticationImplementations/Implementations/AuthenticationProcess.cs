@@ -521,28 +521,5 @@ namespace AuthenticationImplementations.Implementations
                 transaction.Commit();
             }
         }
-
-        public LoginViewModel Login(string login, string hash)
-        {
-            using (var context = DepartmentUserManager.GetContext)
-            {
-                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == hash);
-                if (user == null)
-                {
-                    throw new Exception("Введен неверный логин/пароль");
-                }
-                if (user.IsLocked)
-                {
-                    throw new Exception("Пользователь заблокирован");
-                }
-                user.DateLastVisit = DateTime.Now;
-                context.SaveChanges();
-
-                var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).ToList();
-
-                return AuthenticationModelFactoryToViewModel.CreateLoginViewModel(user, roles);
-            }
-            
-        }
     }
 }

@@ -29,31 +29,31 @@ namespace DepartmentWebCore.Controllers
         public IActionResult Create(CommentSetBindingModel model)
         {        
             
-            if (model.EventId != null)
-            {
-                _serviceC.CreateComment(new CommentSetBindingModel
-                {
-                    Content = model.Content,
-                    DepartmentUser = User.Identity.Name,
-                    EventId = model.EventId,
-                    ParentId = model.ParentId
-                });
-                return RedirectToAction("Event", "Event", new { id = model.EventId }, null);
-            }else if(model.DisciplineId!=null)
-            {
-                _serviceC.CreateComment(new CommentSetBindingModel
-                {
-                    Content = model.Content,
-                    DepartmentUser = User.Identity.Name,
-                    DisciplineId = model.DisciplineId,
-                    ParentId = model.ParentId
-                });
-                var tmp = _serviceD.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel
-                {
-                    Id = model.DisciplineId
-                });
-                return RedirectToAction("DisContent", "Discipline", new { id = tmp.Result.DisciplineName }, null);
-            }
+            //if (model.EventId != null)
+            //{
+            //    _serviceC.CreateComment(new CommentSetBindingModel
+            //    {
+            //        Content = model.Content,
+            //        DepartmentUser = User.Identity.Name,
+            //        EventId = model.EventId,
+            //        ParentId = model.ParentId
+            //    });
+            //    return RedirectToAction("Event", "Event", new { id = model.EventId }, null);
+            //}else if(model.DisciplineId!=null)
+            //{
+            //    _serviceC.CreateComment(new CommentSetBindingModel
+            //    {
+            //        Content = model.Content,
+            //        DepartmentUser = User.Identity.Name,
+            //        DisciplineId = model.DisciplineId,
+            //        ParentId = model.ParentId
+            //    });
+            //    var tmp = _serviceD.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel
+            //    {
+            //        Id = model.DisciplineId
+            //    });
+            //    return RedirectToAction("DisContent", "Discipline", new { id = tmp.Result.DisciplineName }, null);
+            //}
             return RedirectToAction("Index", "Home");
         }
 

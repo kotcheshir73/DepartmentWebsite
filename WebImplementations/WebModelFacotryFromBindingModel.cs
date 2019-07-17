@@ -1,35 +1,20 @@
-﻿using Enums;
+﻿using Models.Web;
 using WebInterfaces.BindingModels;
-using Models.Web;
-using System;
 
 namespace WebImplementations
 {
     public static class WebModelFacotryFromBindingModel
     {        
-        public static Event CreateEvent(EventSetBindingModel model, Event entity = null)
+        public static News CreateNews(NewsSetBindingModel model, News entity = null)
         {
             if (entity == null)
             {
-                entity = new Event();
+                entity = new News();
 
             }
-            entity.Content = model.Content;
-            entity.DepartmentUser = model.DepartmentUser;
+            entity.DepartmentUserId = model.DepartmentUserId;
             entity.Title = model.Title;
-            entity.Tag = model.Tag;
-
-            return entity;
-        }
-
-        public static Event UpdateEvent(EventUpdateBindingModel model, Event entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new Event();
-            }
-            entity.Content = model.Content;
-            entity.Title = model.Title;
+            entity.Body = model.Body;
             entity.Tag = model.Tag;
 
             return entity;
@@ -41,11 +26,12 @@ namespace WebImplementations
             {
                 entity = new Comment();
             }
-            entity.Content = model.Content;
-            entity.DepartmentUser = model.DepartmentUser;
+
+            entity.DepartmentUserId = model.DepartmentUserId;
             entity.DisciplineId = model.DisciplineId;
-            entity.EventId = model.EventId;
+            entity.NewsId = model.NewsId;
             entity.ParentId = model.ParentId;
+            entity.Content = model.Content;
 
             return entity;
         }
