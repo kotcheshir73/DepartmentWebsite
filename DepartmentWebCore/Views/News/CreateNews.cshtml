@@ -2,43 +2,51 @@
 
 @model NewsWithFilesModel
 
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Создание новости</h4>
+@{
+    ViewData["Title"] = "Создание новости";
+}
+
+<h2 class="page-header">Создание новости</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row create-news-row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Title)
         </div>
-        <div class="modal-body">
-            <form method="post">
-                <div class="row">
-                    <div class="col-sm-2">
-                        @Html.LabelFor(m => m.Title)
-                    </div>
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.Title, "", new { style = "Width:100%" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-2">
-                        @Html.LabelFor(m => m.Body)
-                    </div>
-                    <div class="col-sm-10">
-                        @Html.TextAreaFor(m => m.Body, 2, 1, new { style = "Width:100%" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-2">
-                        @Html.LabelFor(m => m.Tag)
-                    </div>
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.Tag, "", new { style = "Width:100%" })
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-            <button type="button" class="btn btn-primary">Создать</button>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title)
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Body)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.TextAreaFor(m => m.Body, 2, 1, new { })
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Tag)
+        </div>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Tag)
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-12">
+            <input id="FilesForUpload" name="FilesForUpload" multiple="multiple" type="file" />
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary">Создать новость</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    CKEDITOR.replace('Body');
+</script>

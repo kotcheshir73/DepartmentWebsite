@@ -11,44 +11,69 @@
 @if (User.IsInRole("Преподаватель") || User.IsInRole("Администратор"))
 {
     <div class="create-news">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewsModel">Добавить новость</button>
-        <div class="modal fade" id="createNewsModel" role="dialog">
-            @{await Html.RenderPartialAsync("CreateNews", new NewsWithFilesModel());}
-        </div>
+        <a href='@Url.Action("CreateNews", "News")' type="button" class="btn btn-primary">Добавить новость</a>
     </div>
-
 }
+
 @if (Model != null && Model.List.Count > 0)
 {
     @foreach (var news in Model.List)
     {
-        <p></p>
-        @:Автор: @news.DepartmentUser от @news.Date <br />
-        <h2>@Html.ActionLink(news.Title, "Event", new { id = news.Id })</h2><br />
-        <div style="margin:0 0 0 15px"> @news.Body</div><br />
-        @if (news.DepartmentUserId.ToString() == User.Identity.Name)
-        {
-            <div class="btn btn-default">
-                @Html.ActionLink("Изменить", "EditEvent", new { id = news.Id }, new { style = "text-decoration:none; color:#333333" })
+        <div class="news">
+            <div class="news-title">
+                <a href='@Url.Action("ShowNews", "News", new { id = news.Id })'>@news.Title</a>
             </div>
-            <div class="btn btn-default">
-                @Html.ActionLink("Удалить", "DeleteEvent", new { id = news.Id@*, page = Model.CurrentPage*@ }, new { style = "text-decoration:none; color:#333333" })
+            <div class="news-author-title">
+                Автор: @news.DepartmentUser от @news.Date.ToString("dd MMMM yyyy HH:mm")
+                @if (news.DepartmentUserId.ToString() == User.Identity.Name)
+                {
+                    <div class="news-author-action">
+                        <a href='@Url.Action("EditNews", "News", new { id = news.Id, page = Model.CurrentPage })' type="button" class="fas fa-pencil-alt btn"></a>
+                        <a href='@Url.Action("DeleteNews", "News", new { id = news.Id, page = Model.CurrentPage })' type="button" class="btn fas fa-trash-alt"></a>
+                    </div>
+                }
             </div>
-        }
-        <hr />
+        </div>
     }
 
-    <p align="center" style="font-size:18px">
-        @for (int i = 1; i <= Model.List.Count; ++i)
+    <div class="news-paging">
+        @if (Model.CurrentPage > 0)
+        {
+            <a href='@Url.Action("Index", "News", new { page = Model.CurrentPage - 1 })' class="news-paging-element fas fa-angle-double-left"></a>
+        }
+
+        @if (Model.CurrentPage > 5)
+        {
+            <a href='@Url.Action("Index", "News", new { page = 0 })' class="news-paging-element">1</a>
+            <a href='@Url.Action("Index", "News", new { page = 1 })' class="news-paging-element">2</a>
+            <a href='@Url.Action("Index", "News", new { page = 2 })' class="news-paging-element">3</a>
+            <span class="news-paging-element">...</span>
+        }
+
+        @for (int i = (Model.CurrentPage > 5 ? Model.CurrentPage - 2 : 0); i < (Model.CurrentPage < Model.MaxCount - 6 ? Model.CurrentPage + 3 : Model.MaxCount); ++i)
         {
             if (i == Model.CurrentPage)
             {
-                <b id="pag" style="color:#ff6a00;"> @(i + 1) </b>
+                <span class="news-paging-selected">@(i + 1)</span>
             }
             else
             {
-                @Html.ActionLink((i + 1).ToString(), "Index", new { page = i })
+                <a href='@Url.Action("Index", "News", new { page = i })' class="news-paging-element">@(i + 1)</a>
             }
         }
-    </p>
+
+        @if (Model.CurrentPage < Model.MaxCount - 6)
+        {
+            <span class="news-paging-element">...</span>
+            <a href='@Url.Action("Index", "News", new { page = Model.MaxCount - 3 })' class="news-paging-element">@(Model.MaxCount - 2)</a>
+            <a href='@Url.Action("Index", "News", new { page = Model.MaxCount - 2 })' class="news-paging-element">@(Model.MaxCount - 1)</a>
+            <a href='@Url.Action("Index", "News", new { page = Model.MaxCount - 1 })' class="news-paging-element">@(Model.MaxCount)</a>
+            <span class="news-paging-element">...</span>
+        }
+
+        @if (Model.CurrentPage < Model.MaxCount - 1)
+        {
+            <a href='@Url.Action("Index", "News", new { page = Model.CurrentPage + 1 })' class="news-paging-element fas fa-angle-double-right"></a>
+        }
+    </div>
 }

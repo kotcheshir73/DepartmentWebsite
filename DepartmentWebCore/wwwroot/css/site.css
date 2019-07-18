@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .body-content {
@@ -260,7 +261,93 @@ textarea {
 
 /*--------новости------------------------------------*/
 .create-news {
-    display:block;
-    padding-left: 30px;
+    display: block;
+    padding: 0px 0px 10px 30px;
+    border-bottom: 1px solid #eeeeee;
 }
+
+.create-news-row {
+    padding: 10px 0px 10px 0px;
+}
+
+    .create-news-row input {
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .create-news-row button {
+        float: right;
+    }
+
+.news {
+    border-radius: 10px;
+    padding: 15px;
+    margin: 5px;
+    background-color: #f9f9f9;
+}
+
+.news-title a {
+    font-size: 30px;
+}
+
+.news-author-action {
+    float: right;
+}
+
+.news-paging {
+    border-top: 1px solid #eeeeee;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.news-paging-element {
+    font-size: 18px;
+    padding: 5px;
+}
+
+.news-paging-selected {
+    font-size: 18px;
+    border-radius: 50%;
+    background: #f9f9f9;
+    padding: 5px 9px 5px 9px;
+}
+
+.news-author {
+    font-size: 12px;
+    text-align: right;
+}
+
+.news-body {
+    padding: 15px 5px 5px 5px;
+}
+
+.news-tags {
+    text-align: right;
+    font-size: 12px;
+}
+
+.news-file-title {
+    padding: 5px;
+    font-size: 18px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.news-file {
+    padding: 5px;
+    font-size: 16px;
+}
+
+    .news-file a label {
+        padding-left: 10px;
+        cursor: pointer;
+    }
+
+    .news-file span {
+        cursor: pointer;
+    }
+
+        .news-file span label {
+            padding-left: 10px;
+            cursor: pointer;
+        }
 /*---------------------------------------------------*/

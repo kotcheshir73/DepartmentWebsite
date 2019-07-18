@@ -2,6 +2,7 @@
 using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebInterfaces.BindingModels;
@@ -15,12 +16,18 @@ namespace DepartmentWebCore.Controllers
 
         private readonly IWebProcess _process;
 
-        private readonly int pageSize = 10;
+        private readonly FileService _fileService;
 
-        public NewsController(INewsService serviceN, IWebProcess process)
+        private readonly int _pageSize = 10;
+
+        private readonly string _filePath;
+
+        public NewsController(INewsService serviceN, IWebProcess process, FileService fileService, IOptions<CustonConfig> config)
         {
             _serviceN = serviceN;
             _process = process;
+            _fileService = fileService;
+            _filePath = $"{config.Value.DirectoryPath}\\Newses\\";
         }
 
         public IActionResult Index(int? page)
@@ -28,7 +35,7 @@ namespace DepartmentWebCore.Controllers
             var newses = _serviceN.GetNewses(new NewsGetBindingModel
             {
                 PageNumber = page ?? 0,
-                PageSize = pageSize
+                PageSize = _pageSize
             });
 
             if (!newses.Succeeded)
@@ -39,19 +46,17 @@ namespace DepartmentWebCore.Controllers
             return View(newses.Result);
         }
 
-        [Authorize(Roles = "Преподаватель")]
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Преподаватель, Администратор")]
         public IActionResult CreateNews()
         {
-            return PartialView(new NewsWithFilesModel());
+            return View(new NewsWithFilesModel());
         }
 
         [HttpPost]
-        [Authorize(Roles = "Преподаватель")]
-        [Authorize(Roles = "Администратор")]
-        public void CreateNews(NewsWithFilesModel model)
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public async Task<IActionResult> CreateNews(NewsWithFilesModel model)
         {
-            var newEventId = _serviceN.CreateNews(new NewsSetBindingModel
+            var newId = _serviceN.CreateNews(new NewsSetBindingModel
             {
                 DepartmentUserId = new Guid(User.Identity.Name),
                 Title = model.Title,
@@ -61,99 +66,125 @@ namespace DepartmentWebCore.Controllers
 
             if (model.FilesForUpload != null)
             {
-               // await FileService.SaveFilesForEvent(model.fileForUpload, newEventId.Result.ToString());
+                await _fileService.SaveFiles(model.FilesForUpload, $"{_filePath}\\{newId.Result}");
             }
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult ShowNews(Guid id)
+        {
+            var news = _serviceN.GetNews(new NewsGetBindingModel { Id = id });
+
+            if (!news.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            NewsWithFilesModel model = new NewsWithFilesModel
+            {
+                Id = news.Result.Id,
+                Title = news.Result.Title,
+                Body = news.Result.Body,
+                Tag = news.Result.Tag,
+                Author = news.Result.DepartmentUser,
+                Date = news.Result.Date,
+                FilesForDownload = _fileService.GetFiles($"{_filePath}\\{news.Result.Id}\\")
+            };
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public IActionResult EditNews(Guid id, int page)
+        {
+            var news = _serviceN.GetNews(new NewsGetBindingModel { Id = id });
+
+            if (!news.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            NewsWithFilesModel model = new NewsWithFilesModel
+            {
+                Id = news.Result.Id,
+                DepartmentUserId = news.Result.DepartmentUserId,
+                Title = news.Result.Title,
+                Body = news.Result.Body,
+                Tag = news.Result.Tag,
+                Author = news.Result.DepartmentUser,
+                Date = news.Result.Date,
+                FilesForDownload = _fileService.GetFiles($"{_filePath}\\{news.Result.Id}\\"),
+                CurrentPage = page
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Преподаватель")]
-        public async Task<IActionResult> CreateNews(EventWithFilesModel model)
-        {
-            var newEventId = _serviceN.CreateNews(new NewsSetBindingModel
-            {
-                DepartmentUserId = new Guid(User.Identity.Name),
-                Title = model.Title,
-                Body = model.Content
-            });
-            if (model.fileForUpload != null)
-            {
-                await FileService.SaveFilesForEvent(model.fileForUpload, newEventId.Result.ToString());
-            }
-            return RedirectToAction("Index", "Event");
-        }
-
-        [Authorize(Roles = "Преподаватель")]
-        public IActionResult EditNews(Guid id)
-        {
-            var element = _serviceN.GetNews(new NewsGetBindingModel
-            {
-                Id = id
-            }).Result;
-            var files = FileService.GetFilesForEvent(id.ToString());
-            return View(new EventWithFilesModel
-            {
-                Id = element.Id,
-                Content = element.Body,
-                Tag = element.Tag,
-                Title = element.Title,
-                fileForDownload = files
-            });
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Преподаватель")]
-        public async Task<IActionResult> EditEvent(EventWithFilesModel model)
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public async Task<IActionResult> EditNews(NewsWithFilesModel model)
         {
             _serviceN.UpdateNews(new NewsSetBindingModel
             {
                 Id = model.Id,
-                Body = model.Content,
-                Tag = model.Tag,
-                Title = model.Title
+                DepartmentUserId = model.DepartmentUserId,
+                Title = model.Title,
+                Body = model.Body,
+                Tag = model.Tag
             });
-            if (model.fileForUpload != null)
+
+            if (model.FilesForUpload != null)
             {
-                await FileService.SaveFilesForEvent(model.fileForUpload, model.Id.ToString());
+                await _fileService.SaveFiles(model.FilesForUpload, $"{_filePath}\\{model.Id}");
             }
-            return RedirectToAction("Index", "Event");
+
+            return RedirectToAction("Index", new { page = model.CurrentPage });
         }
 
-        [Authorize(Roles = "Преподаватель")]
-        public IActionResult DeleteFile(string path)
+        [HttpPost]
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public void DeleteFile(Guid id, string fileName)
         {
-            FileService.DeleteFileByPathForEvent(path);
-            return RedirectToAction("EditEvent", "Event", new { id = new Guid(path.Split('\\')[0]) }, null);
+            _fileService.DeleteFile($"{_filePath}\\{id}\\{fileName}");
         }
 
-        [Authorize(Roles = "Преподаватель")]
-        public ActionResult DeleteEvent(Guid id, int page)
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public IActionResult DeleteNews(Guid id, int page)
         {
-            _serviceN.DeleteNews(new NewsGetBindingModel
+            var news = _serviceN.GetNews(new NewsGetBindingModel { Id = id });
+
+            if (!news.Succeeded)
             {
-                Id = id
-            });
+                return new EmptyResult();
+            }
 
-            FileService.DeleteDirectoryByPathForEvent(id.ToString());
-            return RedirectToAction("Index", "Event", new { page });
-        }
-
-        public IActionResult News(Guid id)
-        {
-            var element = _process.GetEventWithComment(new NewsGetBindingModel
+            NewsWithFilesModel model = new NewsWithFilesModel
             {
-                Id = id
-            }).Result;
-            return View(element);
+                Id = news.Result.Id,
+                DepartmentUserId = news.Result.DepartmentUserId,
+                Title = news.Result.Title,
+                CurrentPage = page
+            };
+
+            return View(model);
         }
 
-        public FileResult Download(string path, string fileName)
+        [HttpPost]
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public void DeleteNewsConfirm(Guid id)
         {
-            return File(FileService.GetFileByPathForEvent(path), "application/vnd.ms-powerpoint", fileName);
+            var result = _serviceN.DeleteNews(new NewsGetBindingModel { Id = id });
+
+            if(result.Succeeded)
+            {
+                _fileService.DeleteDirection($"{_filePath}\\{id}");
+            }
         }
 
-        public FileResult PDF(string path, string fileName)
+        public FileResult Download(Guid id, string fileName)
         {
-            return File(FileService.GetFileByPathForEvent(path), "application/pdf");
+            return File(_fileService.GetFileForDowmload($"{_filePath}\\{id}\\{fileName}"), _fileService.GetContentType(fileName), fileName);
         }
     }
 }

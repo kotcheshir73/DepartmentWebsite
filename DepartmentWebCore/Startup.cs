@@ -1,5 +1,5 @@
-﻿using AuthenticationImplementations.Implementations;
-using AuthenticationInterfaces.Interfaces;
+﻿using DepartmentWebCore.Models;
+using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +21,7 @@ namespace DepartmentWebCore
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -37,15 +37,24 @@ namespace DepartmentWebCore
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.LoginPath = new PathString("/Account/Login");
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            services.Configure<CustonConfig>(Configuration.GetSection("CustonConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(env.ContentRootPath)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            Configuration = builder.Build();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,17 +81,13 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
-            //container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IAccessService, AccessService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
-
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
             container.RegisterType<INewsService, NewsService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebProcess, WebProcess>(new HierarchicalLifetimeManager());
+            container.RegisterType<FileService, FileService>(new HierarchicalLifetimeManager());
         }
     }
 }

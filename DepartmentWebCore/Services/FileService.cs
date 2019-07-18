@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Services
@@ -13,6 +12,66 @@ namespace DepartmentWebCore.Services
         private static string RootPath => @"D:\Department\";
 
         private static string EventPath => $@"{RootPath}Events\";
+
+        /// <summary>
+        /// Сохранение файлов на диск
+        /// </summary>
+        /// <param name="files">Файлы</param>
+        /// <param name="direction">Путь до папки</param>
+        /// <returns></returns>
+        public async Task SaveFiles(List<IFormFile> files, string direction)
+        {
+            if(!Directory.Exists(direction))
+            {
+                Directory.CreateDirectory(direction);
+            }
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream($"{direction}\\{formFile.FileName}", FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+            }
+        }
+
+        public List<string> GetFiles(string direction)
+        {
+            var dirInfo = new DirectoryInfo(direction);
+
+            if (!dirInfo.Exists)
+            {
+                return null;
+            }
+
+            return dirInfo.GetFiles().Select(x => x.Name).ToList();
+        }
+
+        public byte[] GetFileForDowmload(string path)
+        {
+            return File.ReadAllBytes(path);
+        }
+
+        public void DeleteFile(string path)
+        {
+            if(File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        public void DeleteDirection(string direction)
+        {
+            var dirInfo = new DirectoryInfo(direction);
+
+            if (dirInfo.Exists)
+            {
+                dirInfo.Delete(true);
+            }
+        }
 
         /// <summary>
         /// 
@@ -112,6 +171,31 @@ namespace DepartmentWebCore.Services
                 }
                 dir.Delete();
             }
+        }
+
+        public string GetContentType(string path)
+        {
+            var types = GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf"},
+                {".doc", "application/vnd.ms-word"},
+                {".docx", "application/vnd.ms-word"},
+                {".xls", "application/vnd.ms-excel"},
+                {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},
+                {".png", "image/png"},
+                {".jpg", "image/jpeg"},
+                {".jpeg", "image/jpeg"},
+                {".gif", "image/gif"},
+                {".csv", "text/csv"}
+            };
         }
     }
 }

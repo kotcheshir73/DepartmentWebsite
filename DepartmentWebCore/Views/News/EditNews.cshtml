@@ -1,0 +1,86 @@
+﻿@using DepartmentWebCore.Models
+
+@model NewsWithFilesModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h2 class="page-header">@Model.Title</h2>
+
+<form method="post" enctype="multipart/form-data">
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.DepartmentUserId)
+    @Html.HiddenFor(m => m.CurrentPage)
+    <div class="row create-news-row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Title)
+        </div>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Body)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.TextAreaFor(m => m.Body, 2, 1, new { })
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Tag)
+        </div>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Tag)
+        </div>
+    </div>
+    @if (Model.FilesForDownload != null && Model.FilesForDownload.Count > 0)
+    {
+        <div class="news-file-title">
+            Прикрепленные файлы:
+        </div>
+        foreach (var file in Model.FilesForDownload)
+        {
+            <div class="news-file">
+                <span class="fas fa-trash delete-file" data-id="@Model.Id" data-filename="@file"><label>@file</label></span>
+            </div>
+        }
+    }
+    <div class="row create-news-row">
+        <div class="col-sm-12">
+            <input id="FilesForUpload" name="FilesForUpload" multiple="multiple" type="file" />
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Сохранить новость</button>
+        </div>
+        <div class="col-sm-2">
+            <a href='@Url.Action("Index", "News", new { page = Model.CurrentPage})' type="button" class="btn btn-default">Отмена</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    CKEDITOR.replace('Body');
+
+    $(function () {
+        $('body').on('click', '.delete-file', function () {
+            if (confirm("Удалить файл?")) {
+                var span = $(this);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DeleteFile", "News")',
+                    data: { 'id': span.data('id'), 'fileName': span.data('filename')},
+                    success: function () {
+                        span.hide();
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,34 @@
+﻿@using DepartmentWebCore.Models
+
+@model NewsWithFilesModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h2 class="page-header">@Model.Title</h2>
+
+<div class="news-author">
+    Автор: @Model.Author от @Model.Date.ToString("dd MMMM yyyy HH:mm")
+</div>
+
+<div class="news-body">
+    @Html.Raw(Model.Body)
+</div>
+
+@if (Model.FilesForDownload != null && Model.FilesForDownload.Count > 0)
+{
+    <div class="news-file-title">
+        Прикрепленные файлы:
+    </div>
+    foreach (var file in Model.FilesForDownload)
+    {
+        <div class="news-file">
+            <a href="@Url.Action("Download", new { id = Model.Id, fileName = file })" class="fas fa-file-download"><label>@file</label></a>
+        </div>
+    }
+}
+
+<div class="news-tags">
+    Теги: @Model.Tag
+</div>

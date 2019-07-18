@@ -1,0 +1,41 @@
+﻿@using DepartmentWebCore.Models
+
+@model NewsWithFilesModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h2 class="page-header">@Model.Title</h2>
+
+<div class="news-delete row">
+    <div class="col-sm-10">
+        Удалить новость?
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-10">
+    </div>
+    <div class="col-sm-1">
+        <button id="deleteNews" type="button" class="btn btn-primary" data-id="@Model.Id">Удалить</button>
+    </div>
+    <div class="col-sm-1">
+        <a href='@Url.Action("Index", "News", new { page = Model.CurrentPage })' type="button" class="btn btn-default">Отмена</a>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#deleteNews').on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteNewsConfirm", "News")',
+                data: { 'id': $(this).data('id') },
+                success: function () {
+                    window.location = '@Url.Action("Index", "News", new { page = Model.CurrentPage })'
+                }
+            });
+        });
+    });
+</script>
