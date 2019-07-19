@@ -52,50 +52,6 @@ namespace DepartmentWebCore.Services
             }
         }
 
-        public static ResultService<WebProcessDisciplineListInfoViewModel> GetDisciplinesByCourses(DisciplineGetBindingModel model)
-        {
-            try
-            {
-                using (var context = DepartmentUserManager.GetContext)
-                {
-                    var query = context.AcademicPlanRecordElements.Where(x => !x.IsDeleted)
-                        .Include(x => x.TimeNorm)
-                        .Include(x => x.AcademicPlanRecord.Discipline.DisciplineBlock)
-                        .Include(x => x.AcademicPlanRecord.Contingent.EducationDirection)
-                                .Where(x => x.AcademicPlanRecord.Discipline.DisciplineBlock.Title.Contains("Дисциплины"))
-                        .Where(x => x.TimeNorm.TimeNormShortName == "Экз" || x.TimeNorm.TimeNormShortName == "ЗсО" || x.TimeNorm.TimeNormShortName == "Зач")
-                        .Where(x => x.TimeNorm.AcademicYearId == GetAcademicYear().Result.Id)
-                        .Where(x => x.AcademicPlanRecord.ContingentId == model.ContingentId);
-                        
-                        
-                     var result = query.Select(x => new WebProcessDisciplineByCoursesViewModel
-                        {
-                            DisciplineName = x.AcademicPlanRecord.Discipline.DisciplineName,
-                            Semester = (int)x.AcademicPlanRecord.Semester.Value,
-                            TimeNormName = x.TimeNorm.KindOfLoadName
-                        }).Distinct()
-                        .OrderBy(x => x.Semester).ThenBy(x=>x.DisciplineName)
-                        .ToList();
-
-                    var educDir = query.FirstOrDefault().AcademicPlanRecord.Contingent.EducationDirection;
-
-                    WebProcessDisciplineListInfoViewModel resultModel = new WebProcessDisciplineListInfoViewModel
-                    {
-                        Course = query.FirstOrDefault().AcademicPlanRecord.Contingent.Course.ToString(),
-                        EducationDirectionName = educDir.Title + " " 
-                            + (educDir.Description.Contains("бакалавр") ? "- Бакалавриат" : "- Магистратура"),
-                        Discipline = result
-                    };
-
-                    return ResultService<WebProcessDisciplineListInfoViewModel>.Success(resultModel);
-                }
-            }
-            catch (Exception ex)
-            {
-                return ResultService<WebProcessDisciplineListInfoViewModel>.Error(ex, ResultServiceStatusCode.Error);
-            }
-        }
-
         public static ResultService<AcademicYearViewModel> GetAcademicYear()
         {
             try

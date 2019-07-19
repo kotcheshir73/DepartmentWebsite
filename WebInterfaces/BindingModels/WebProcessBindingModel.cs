@@ -21,6 +21,18 @@ namespace WebInterfaces.BindingModels
 
     }
 
+    public class WebProcessFolderNamesForDisciplineBindingModel
+    {
+        public Guid DisciplineId { get; set; }
+    }
+
+    public class WebProcessDisciplineContentInfoBindingModel
+    {
+        public Guid DisciplineId { get; set; }
+    }
+
+    //--------------------------------
+
     public class WebProcessDisciplineForDownloadGetBindingModel
     {
         public string DisciplineName { get; set; }

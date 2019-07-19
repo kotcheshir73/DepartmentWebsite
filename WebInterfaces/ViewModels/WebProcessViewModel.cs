@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace WebInterfaces.ViewModels
 {
+    /// <summary>
+    /// ++
+    /// </summary>
     public class WebLoginViewModel
     {
         public string UserId { get; set; }
@@ -12,6 +15,9 @@ namespace WebInterfaces.ViewModels
         public List<string> UserRoles { get; set; }
     }
 
+    /// <summary>
+    /// ++
+    /// </summary>
     public class WebProcessDisciplineListInfoViewModel
     {
         public string EducationDirectionName { get; set; }
@@ -19,6 +25,26 @@ namespace WebInterfaces.ViewModels
         public string Course { get; set; }
 
         public List<WebProcessDisciplineByCoursesViewModel> Discipline = new List<WebProcessDisciplineByCoursesViewModel>();
+    }
+
+    /// <summary>
+    /// ++
+    /// </summary>
+    public class WebProcessFolderNamesForDiscipline
+    {
+        public string Semester { get; set; }
+
+        public List<string> FolderNames { get; set; }
+    }
+
+    /// <summary>
+    /// ++
+    /// </summary>
+    public class WebProcessDisciplineContentInfo
+    {
+        public string DisciplineName { get; set; }
+
+        public List<Guid> Lecturers { get; set; }
     }
 
     public class WebProcessEventWithCommentViewModel

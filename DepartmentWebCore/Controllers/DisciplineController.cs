@@ -1,7 +1,9 @@
-﻿using DepartmentWebCore.Services;
+﻿using DepartmentWebCore.Models;
+using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +16,21 @@ namespace DepartmentWebCore.Controllers
 {
     public class DisciplineController : Controller
     {
-        private string Path => @"D:\Department\";
-
         private IWebProcess _process;
 
         private IWebDisciplineService _serviceWD;
 
-        public DisciplineController(IWebProcess process, IWebDisciplineService serviceWD)
+        private readonly FileService _fileService;
+
+        private readonly string _filePath;
+
+        public DisciplineController(IWebProcess process, IWebDisciplineService serviceWD, FileService fileService, IOptions<CustonConfig> config)
         {
             _process = process;
             _serviceWD = serviceWD;
+            _fileService = fileService;
+
+            _filePath = $"{config.Value.DirectoryPath}\\Disciplines\\";
         }
 
         public ActionResult Discipline(Guid id)
@@ -38,88 +45,68 @@ namespace DepartmentWebCore.Controllers
             return View(model.Result);
         }
 
-        
-        public ActionResult DisContent(string id)
-        {            
-            var dis = Services.DisciplineService.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel() { DisciplineName = id });
-            
-            if(dis.Result.Count != 0)
-            {
-                var tmp = _process.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
-                { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
-
-                if (tmp.StatusCode == Enums.ResultServiceStatusCode.Error)
-                {
-                    _process.CreateFolderDis(dis.Result);
-                    tmp = _process.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
-                    { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
-                }
-
-                foreach (var item in dis.Result.Select(x => new { LecturerName = x.LecturerName }).GroupBy(x => x.LecturerName))
-                {
-                    tmp.Result.LecturerName += item.Key + " ";
-                }
-
-                return View(tmp.Result);
-            }
-            else
-            {
-                return RedirectToAction("Error", "Shared", new { message = "Дисциплина не назначена преподавателю" }, null);//Отобразить ошибку "дисциплина не назначена преподавателю"
-            }
-            
-        }
-
-        [Authorize(Roles = "Преподаватель")]
-        public ActionResult LoadFile(string name)
+        [Authorize]
+        public ActionResult DisciplineContent(Guid id)
         {
-            var tmp = _process.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
-            { DisciplineName = name }).Result;
+            var model = _process.GetDisciplineContentInfo(new WebProcessDisciplineContentInfoBindingModel { DisciplineId = id });
 
-            var listSelect = new List<WebProcessFileForDownloadViewModel>();
-
-            foreach (var semestr in tmp.Semestrs)
+            if(!model.Succeeded)
             {
-                foreach (var timenorm in semestr.TimeNorms)
-                {
-                    listSelect.Add(new WebProcessFileForDownloadViewModel
-                    {
-                        Name = $"{semestr.Name} - {timenorm.Name}",
-                        Path = $@"{tmp.Name}\{semestr.Name}\{timenorm.Name}"
-                    });
-                }
+                return PartialView();
             }
+            ViewBag.CanAction = model.Result.Lecturers.Contains(new Guid(User.Identity.Name));
+            ViewBag.Id = id;
 
-            return View(listSelect);
+            return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Result.DisciplineName}\\", _process));
         }
 
         [Authorize]
-        public FileResult Download(string path, string fileName)
+        public FileResult Download(Guid id, string fullName)
         {
-            return File(FileService.GetFileByPathForDiscipline(path), "application/vnd.ms-powerpoint", fileName);
+            var discipline = _serviceWD.GetDisciplineName(new WebDisciplineGetBindingModel { Id = id });
+
+            if (!discipline.Succeeded)
+            {
+                return null;
+            }
+
+            string fileName = _fileService.GetFileName($"{_filePath}\\{discipline.Result.DisciplineName}\\{fullName}");
+
+            return File(_fileService.GetFileForDowmload($"{_filePath}\\{discipline.Result.DisciplineName}\\{fullName}"), _fileService.GetContentType(fileName), fileName);
         }
 
-        [Authorize]
-        public FileResult PDF(string path, string fileName)
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public ActionResult LoadFile(Guid id, string fullName)
         {
-            return File(FileService.GetFileByPathForDiscipline(path), "application/pdf");
-        }
+            DisiplineLoadFileModel model = new DisiplineLoadFileModel
+            {
+                Id = id,
+                FullName = fullName
+            };
 
-        [Authorize(Roles = "Преподаватель")]
-        public IActionResult DeleteFile(string path)
-        {
-            FileService.DeleteFileByPathForDiscipline(path);
-            return RedirectToAction("DisContent", "Discipline", new { id = path.Split('\\')[0] }, null);
+            return PartialView(model);
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> LoadFile(IFormFileCollection files)
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public async Task<ActionResult> LoadFile(DisiplineLoadFileModel model)
         {
-            string path = Request.Form["direction"].ToString();
-            await FileService.SaveFilesForDiscipline(files, path);
-            return RedirectToAction("DisContent", "Discipline", new { id = path.Split('\\')[0] }, null);
-        }       
+            var discipline = _serviceWD.GetDisciplineName(new WebDisciplineGetBindingModel { Id = model.Id });
 
+            if (model.FilesForUpload != null)
+            {
+                await _fileService.SaveFiles(model.FilesForUpload, $"{_filePath}\\{discipline.Result.DisciplineName}\\{model.FullName}");
+            }
 
+            return RedirectToAction("Discipline", new { Id = model.Id });
+        }
+
+        [Authorize(Roles = "Преподаватель, Администратор")]
+        public void DeleteFile(Guid id, string fullName)
+        {
+            var discipline = _serviceWD.GetDisciplineName(new WebDisciplineGetBindingModel { Id = id });
+
+            _fileService.DeleteFile($"{_filePath}\\{discipline.Result.DisciplineName}\\{fullName}");
+        } 
     }
 }

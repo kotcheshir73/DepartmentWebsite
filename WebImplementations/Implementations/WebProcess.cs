@@ -86,6 +86,111 @@ namespace WebImplementations.Implementations
             }
         }
 
+        public ResultService<WebProcessDisciplineContentInfo> GetDisciplineContentInfo(WebProcessDisciplineContentInfoBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var entity = context.Disciplines
+                                .FirstOrDefault(x => x.Id == model.DisciplineId);
+                    if (entity == null)
+                    {
+                        return ResultService<WebProcessDisciplineContentInfo>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (entity.IsDeleted)
+                    {
+                        return ResultService<WebProcessDisciplineContentInfo>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                    }
+
+                    var query = context.AcademicPlanRecordMissions
+                        .Include(x => x.AcademicPlanRecordElement)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                        .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id &&
+                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId)
+                        .Select(x => x.LecturerId)
+                        .Distinct()
+                        .ToList();
+
+                    var users = context.DepartmentUsers.Where(x => x.LecturerId != null && query.Contains(x.LecturerId.Value)).Select(x => x.Id);
+
+                    return ResultService<WebProcessDisciplineContentInfo>.Success(new WebProcessDisciplineContentInfo
+                    {
+                        DisciplineName = entity.DisciplineName,
+                        Lecturers = users.ToList()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<WebProcessDisciplineContentInfo>.Error(ex, ResultServiceStatusCode.Error);
+            }
+            throw new NotImplementedException();
+        }
+
+        public ResultService<List<WebProcessFolderNamesForDiscipline>> GetFolderNamesForDiscipline(WebProcessFolderNamesForDisciplineBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var list = context.AcademicPlanRecordMissions
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
+                                .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId
+                                    && x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id)
+                                .Where(x => (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лекция")
+                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Практическое занятие")
+                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лабораторное занятие")
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormName.Contains("Руководство и прием курсовых"))
+                                .Select(x => new
+                                {
+                                    Semestr = x.AcademicPlanRecordElement.AcademicPlanRecord.Semester.ToString(),
+                                    TimeNorm = x.AcademicPlanRecordElement.TimeNorm.TimeNormName,
+                                })
+                                .GroupBy(x => x.Semestr);
+
+
+
+                    return ResultService<List<WebProcessFolderNamesForDiscipline>>.Success(list.Select(x => new WebProcessFolderNamesForDiscipline
+                    {
+                        Semester = x.Key,
+                        FolderNames = x.Select(y => GetFolderName(y.TimeNorm)).ToList()
+                    }).ToList());
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<WebProcessFolderNamesForDiscipline>>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        private string GetFolderName(string source)
+        {
+            if (source.Contains("Руководство и прием курсовых"))
+            {
+                return "Курсовая";
+            }
+            else if (source.Contains("Практическое занятие"))
+            {
+                return "Практики";
+            }
+            else if (source.Contains("Лабораторное занятие"))
+            {
+                return "Лабораторные";
+            }
+            else if (source.Contains("Лекция"))
+            {
+                return "Лекции";
+            }
+
+            return source;
+        }
+
+
+
         public void CreateFolderDis(List<WebProcessFolderLoadSetBindingModel> model)
         {            
             string tmp = "";

@@ -1,4 +1,5 @@
 ﻿@using WebInterfaces.ViewModels
+@using DepartmentWebCore.Helpers
 
 @model WebDisciplineViewModel
 
@@ -47,4 +48,5 @@
 }
 else
 {
+    @Html.RenderAction("DisciplineContent", "Discipline", new { Id = Model.Id })
 }

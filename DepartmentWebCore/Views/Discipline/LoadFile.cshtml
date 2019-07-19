@@ -1,18 +1,20 @@
-﻿@model List<WebInterfaces.ViewModels.WebProcessFileForDownloadViewModel>
-@{
-    /**/
+﻿@using DepartmentWebCore.Models
 
-    ViewBag.Title = "Загрузка файлов";
-}
+@model DisiplineLoadFileModel
 
-<h3 class="page-header">Загрузка файлов</h3>
-
-<p></p>
-@using (Html.BeginForm("LoadFile", "Discipline", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="label-upload">Выберете папку назначения: @Html.DropDownList("direction", new SelectList(Model, "Path", "Name"))</div>
-    <input id="File1" required multiple="multiple" name="files" type="file" />
-    <br>
-    <input id="btnUpload" class="btn btn-default" type="submit" value="Отправить" />
-}
-
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm("LoadFile", "Discipline", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.FullName)
+            <div class="modal-body">
+                <input id="FilesForUpload" name="FilesForUpload" multiple="multiple" type="file" />
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Загрузить</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+            </div>
+        }
+    </div>
+</div>

@@ -23,6 +23,20 @@ namespace WebInterfaces.Interfaces
         ResultService<List<WebProcessDisciplineByCoursesViewModel>> GetDisciplinesByCourses(WebProcessDisciplineListInfoBindingModel model);
 
         /// <summary>
+        /// Получить информацию по дисциплине и ее преподавателях
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<WebProcessDisciplineContentInfo> GetDisciplineContentInfo(WebProcessDisciplineContentInfoBindingModel model);
+
+        /// <summary>
+        /// Получение списка названий папок для дисциплины
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<WebProcessFolderNamesForDiscipline>> GetFolderNamesForDiscipline(WebProcessFolderNamesForDisciplineBindingModel model);
+
+        /// <summary>
 		/// Получение списка комментариев одного уровня
 		/// </summary>
 		/// <param name="model"></param>

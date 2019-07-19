@@ -62,6 +62,34 @@ namespace WebImplementations.Implementations
             }
         }
 
+        public ResultService<WebDisciplineViewModel> GetDisciplineName(WebDisciplineGetBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var entity = context.Disciplines
+                                .FirstOrDefault(x => x.Id == model.Id);
+                    if (entity == null)
+                    {
+                        return ResultService<WebDisciplineViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                    }
+                    else if (entity.IsDeleted)
+                    {
+                        return ResultService<WebDisciplineViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                    }
+
+                    var discipline = WebModelFactoryToViewModel.CreateWebDisciplineViewModel(entity);
+
+                    return ResultService<WebDisciplineViewModel>.Success(discipline);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<WebDisciplineViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         public ResultService UpdateDiscipline(WebDisciplineSetBindingModel model)
         {
             throw new NotImplementedException();

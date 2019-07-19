@@ -33,7 +33,7 @@
                 url: '@Url.Action("DeleteNewsConfirm", "News")',
                 data: { 'id': $(this).data('id') },
                 success: function () {
-                    window.location = '@Url.Action("Index", "News", new { page = Model.CurrentPage })'
+                    window.location = '@Url.Action("Index", "News", new { page = Model.CurrentPage })';
                 }
             });
         });

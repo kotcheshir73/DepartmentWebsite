@@ -25,7 +25,7 @@ namespace DepartmentWebCore.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
@@ -64,10 +64,9 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async Task Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
         }
     }
 }

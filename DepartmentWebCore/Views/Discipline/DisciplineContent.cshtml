@@ -1,0 +1,82 @@
+﻿@using DepartmentWebCore.Models
+@using DepartmentWebCore.Helpers
+
+@model DisciplineContextElementModel
+
+@if (Model != null)
+{
+    <div id="discipline-content">
+        @Html.DisciplineFolder(Model, new Guid(ViewBag.Id.ToString()), (bool)ViewBag.CanAction)
+    </div>
+    <div class="modal fade" id="discipline-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="no-discipline-content">
+        Не найдена папка с файлами для дисциплины
+    </div>
+}
+
+<script>
+    $(function () {
+        $('body').on('click', '.disciplne-folder-action', function () {
+            var ul = $(this).parent().children('.disciplne-folder-active');
+            if (ul.length > 0) {
+                ul.removeClass('disciplne-folder-active');
+                ul.addClass('disciplne-folder-nested');
+            } else {
+                ul = $(this).parent().children('.disciplne-folder-nested');
+                if (ul.length > 0) {
+                    ul.removeClass('disciplne-folder-nested');
+                    ul.addClass('disciplne-folder-active');
+                }
+            }
+
+            if ($(this).hasClass('fa-folder-open')) {
+                $(this).removeClass('fa-folder-open');
+                $(this).addClass('fa-folder');
+            } else if ($(this).hasClass('fa-folder')) {
+                $(this).removeClass('fa-folder');
+                $(this).addClass('fa-folder-open');
+            }
+        });
+
+        $('body').on('click', '.discipline-file-insert', function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("LoadFile", "Discipline")',
+                data: { 'id': $(this).data('id'), 'fullName': $(this).data('folder') },
+                success: function (result) {
+                    $('#discipline-modal').html(result);
+                    $('#discipline-modal').modal();
+                }
+            });
+        });
+
+        $('body').on('click', '.discipline-file-delete', function () {
+            if (confirm("Удалить файл?")) {
+                var li = $(this).parent('.disciplne-folder-element');
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("DeleteFile", "Discipline")',
+                    data: { 'id': $(this).data('id'), 'fullName': $(this).data('file') },
+                    success: function () {
+                        li.hide();
+                    }
+                });
+            }
+        });
+    });
+</script>

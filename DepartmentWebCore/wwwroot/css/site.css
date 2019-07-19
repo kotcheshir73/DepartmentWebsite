@@ -5,6 +5,19 @@
 }
 
 .body-content {
+    padding: 40px 15px 0px 15px;
+}
+
+.left-panel {
+    float: left;
+    width: 20%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.center-panel {
+    float: left;
+    width: 80%;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -44,32 +57,46 @@ textarea {
     margin: 15px;
 }
 
-.login {
-    float: right;
-    margin: 25px 10px 15px 10px;
+.login-panel {
+    padding: 5px;
+    text-align: center;
 }
 
-    .login a {
-        display: block;
-        width: 100px;
-        padding: 5px;
-        background-color: whitesmoke;
-        border-radius: 5px;
-        text-align: center;
-    }
+.login-row {
+    padding-bottom: 10px;
+}
 
-.logout {
-    display: block;
-    width: 100px;
-    padding: 5px;
+.login-row-input {
+    font-size: inherit;
+    margin-left: 0px;
+    width: 100%;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.login-row-submit {
     background-color: whitesmoke;
     border-radius: 5px;
     text-align: center;
     color: rgb(0, 0, 0);
+    margin: auto;
+    width: 80%;
+    height: 30px;
+}
+
+.logout {
+    background-color: whitesmoke;
+    border-radius: 5px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    margin: auto;
+    width: 80%;
+    height: 30px;
 }
 
 .page-header {
-    padding-top: 5px;
+    margin-top: 5px;
 }
 
 .lecturer-element {
@@ -257,8 +284,43 @@ textarea {
     font-size: 16px;
 }
 
-/*----------------------------------------------------*/
+.disciplne-content {
+    margin: 0;
+    padding: 0;
+}
 
+.disciplne-folder {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.disciplne-file {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.disciplne-folder-nested {
+    display: none;
+}
+
+.disciplne-folder-active {
+    display: block;
+    padding-left: 20px;
+}
+
+.disciplne-folder-element {
+    padding: 2px;
+}
+
+    .disciplne-folder-element i {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .disciplne-folder-element span a label {
+        cursor: pointer;
+    }
+/*----------------------------------------------------*/
 /*--------новости------------------------------------*/
 .create-news {
     display: block;

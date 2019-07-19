@@ -14,6 +14,13 @@ namespace WebInterfaces.Interfaces
         ResultService<WebDisciplineViewModel> GetDiscipline(WebDisciplineGetBindingModel model);
 
         /// <summary>
+        /// Получение дисциплины
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<WebDisciplineViewModel> GetDisciplineName(WebDisciplineGetBindingModel model);
+
+        /// <summary>
         /// Изменение дисциплины
         /// </summary>
         /// <param name="model"></param>
