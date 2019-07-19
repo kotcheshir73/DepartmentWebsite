@@ -10,12 +10,9 @@ namespace DepartmentWebCore.Controllers
     {
         IWebEducationDirectionService _serviceED;
 
-        IWebProcess _process;
-
-        public EducationDirectionController(IWebEducationDirectionService serviceED, IWebProcess process)
+        public EducationDirectionController(IWebEducationDirectionService serviceED)
         {
             _serviceED = serviceED;
-            _process = process;
         }
 
         [HttpGet]
@@ -54,7 +51,7 @@ namespace DepartmentWebCore.Controllers
         [HttpGet]
         public IActionResult EducationDirectionCourse(Guid id)
         {
-            var list = _process.GetDisciplinesByCourses(new WebProcessDisciplineListInfoBindingModel { CourseId = id });
+            var list = _serviceED.GetDisciplinesByCourses(new WebEducationDirectionDisciplineListInfoBindingModel { CourseId = id });
 
             if (!list.Succeeded)
             {

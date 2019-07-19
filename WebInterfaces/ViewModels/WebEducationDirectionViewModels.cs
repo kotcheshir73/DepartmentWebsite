@@ -25,4 +25,15 @@ namespace WebInterfaces.ViewModels
             return $"{Cipher} {ShortName}";
         }
     }
+
+    public class WebEducationDirectionDisciplineByCoursesViewModel
+    {
+        public Guid DisciplineId { get; set; }
+
+        public string DisciplineName { get; set; }
+
+        public string TimeNormName { get; set; }
+
+        public int Semester { get; set; }
+    }
 }

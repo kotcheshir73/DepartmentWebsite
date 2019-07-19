@@ -16,4 +16,14 @@ namespace WebInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public string DisciplinDescription { get; set; }
     }
+
+    public class WebDisciplineContentInfoBindingModel
+    {
+        public Guid DisciplineId { get; set; }
+    }
+
+    public class WebDisciplineFolderNamesBindingModel
+    {
+        public Guid DisciplineId { get; set; }
+    }
 }

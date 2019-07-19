@@ -1,32 +1,25 @@
 ﻿using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
-using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Controllers
 {
     public class DisciplineController : Controller
     {
-        private IWebProcess _process;
-
         private IWebDisciplineService _serviceWD;
 
         private readonly FileService _fileService;
 
         private readonly string _filePath;
 
-        public DisciplineController(IWebProcess process, IWebDisciplineService serviceWD, FileService fileService, IOptions<CustonConfig> config)
+        public DisciplineController(IWebDisciplineService serviceWD, FileService fileService, IOptions<CustonConfig> config)
         {
-            _process = process;
             _serviceWD = serviceWD;
             _fileService = fileService;
 
@@ -48,7 +41,7 @@ namespace DepartmentWebCore.Controllers
         [Authorize]
         public ActionResult DisciplineContent(Guid id)
         {
-            var model = _process.GetDisciplineContentInfo(new WebProcessDisciplineContentInfoBindingModel { DisciplineId = id });
+            var model = _serviceWD.GetDisciplineContentInfo(new WebDisciplineContentInfoBindingModel { DisciplineId = id });
 
             if(!model.Succeeded)
             {
@@ -57,7 +50,7 @@ namespace DepartmentWebCore.Controllers
             ViewBag.CanAction = model.Result.Lecturers.Contains(new Guid(User.Identity.Name));
             ViewBag.Id = id;
 
-            return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Result.DisciplineName}\\", _process));
+            return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Result.DisciplineName}\\", _serviceWD));
         }
 
         [Authorize]
@@ -98,7 +91,7 @@ namespace DepartmentWebCore.Controllers
                 await _fileService.SaveFiles(model.FilesForUpload, $"{_filePath}\\{discipline.Result.DisciplineName}\\{model.FullName}");
             }
 
-            return RedirectToAction("Discipline", new { Id = model.Id });
+            return RedirectToAction("Discipline", new { model.Id });
         }
 
         [Authorize(Roles = "Преподаватель, Администратор")]

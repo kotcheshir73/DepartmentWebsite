@@ -19,4 +19,18 @@ namespace WebInterfaces.ViewModels
 
         public List<Tuple<Guid, string>> DisciplineLecturers { get; set; }
     }
+
+    public class WebDisciplineContentInfo
+    {
+        public string DisciplineName { get; set; }
+
+        public List<Guid> Lecturers { get; set; }
+    }
+
+    public class WebDisciplineFolderNames
+    {
+        public string Semester { get; set; }
+
+        public List<string> FolderNames { get; set; }
+    }
 }

@@ -14,18 +14,15 @@ namespace DepartmentWebCore.Controllers
     {
         private readonly INewsService _serviceN;
 
-        private readonly IWebProcess _process;
-
         private readonly FileService _fileService;
 
         private readonly int _pageSize = 10;
 
         private readonly string _filePath;
 
-        public NewsController(INewsService serviceN, IWebProcess process, FileService fileService, IOptions<CustonConfig> config)
+        public NewsController(INewsService serviceN, FileService fileService, IOptions<CustonConfig> config)
         {
             _serviceN = serviceN;
-            _process = process;
             _fileService = fileService;
             _filePath = $"{config.Value.DirectoryPath}\\Newses\\";
         }

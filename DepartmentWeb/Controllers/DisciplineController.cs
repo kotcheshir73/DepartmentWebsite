@@ -27,36 +27,24 @@ namespace DepartmentWeb.Controllers
             return View();
         }
 
-        public ActionResult DisContent(string id)
-        {
-            ViewBag.DisId = id;
-            var dis = Services.DisciplineService.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel() { Id = new Guid(id)});
-            //var list = Services.DisciplineService.GetDisciplines(new BaseInterfaces.BindingModels.LecturerGetBindingModel() { Id = new Guid(id) });
-            
-
-            var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
-                { DisciplineName = dis.Result.FirstOrDefault().DisciplineName });
-            return View(tmp.Result);
-        }
-
         public ActionResult LoadFile(string name)
         {
-            var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
-                { DisciplineName = name }).Result;
+            //var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
+            //    { DisciplineName = name }).Result;
 
             var listSelect = new List<WebProcessFileForDownloadViewModel>();
 
-            foreach(var semestr in tmp.Semestrs)
-            {
-                foreach (var timenorm in semestr.TimeNorms)
-                {
-                    listSelect.Add(new WebProcessFileForDownloadViewModel
-                    {
-                        Name = $"{semestr.Name} - {timenorm.Name}",
-                        Path = $@"{tmp.Name}\{semestr.Name}\{timenorm.Name}"
-                    });
-                }
-            }
+            //foreach(var semestr in tmp.Semestrs)
+            //{
+            //    foreach (var timenorm in semestr.TimeNorms)
+            //    {
+            //        listSelect.Add(new WebProcessFileForDownloadViewModel
+            //        {
+            //            Name = $"{semestr.Name} - {timenorm.Name}",
+            //            Path = $@"{tmp.Name}\{semestr.Name}\{timenorm.Name}"
+            //        });
+            //    }
+            //}
 
             return View(listSelect);
         }

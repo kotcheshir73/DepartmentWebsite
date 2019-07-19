@@ -1,4 +1,5 @@
-﻿using Tools;
+﻿using System.Collections.Generic;
+using Tools;
 using WebInterfaces.BindingModels;
 using WebInterfaces.ViewModels;
 
@@ -14,6 +15,13 @@ namespace WebInterfaces.Interfaces
         ResultService<WebDisciplineViewModel> GetDiscipline(WebDisciplineGetBindingModel model);
 
         /// <summary>
+        /// Получить информацию по дисциплине и ее преподавателях
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<WebDisciplineContentInfo> GetDisciplineContentInfo(WebDisciplineContentInfoBindingModel model);
+
+        /// <summary>
         /// Получение дисциплины
         /// </summary>
         /// <param name="model"></param>
@@ -21,10 +29,10 @@ namespace WebInterfaces.Interfaces
         ResultService<WebDisciplineViewModel> GetDisciplineName(WebDisciplineGetBindingModel model);
 
         /// <summary>
-        /// Изменение дисциплины
+        /// Получение списка названий папок для дисциплины
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateDiscipline(WebDisciplineSetBindingModel model);
+        ResultService<List<WebDisciplineFolderNames>> GetDisciplineFolderNames(WebDisciplineFolderNamesBindingModel model);
     }
 }

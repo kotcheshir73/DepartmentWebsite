@@ -12,10 +12,6 @@ namespace DepartmentWebCore.Services
 {
     public class FileService
     {
-        private static string RootPath => @"D:\Department\";
-
-        private static string EventPath => $@"{RootPath}Events\";
-
         /// <summary>
         /// Сохранение файлов на диск
         /// </summary>
@@ -125,14 +121,14 @@ namespace DepartmentWebCore.Services
         /// <param name="direction"></param>
         /// <param name="folders">Список папок, если папки нет</param>
         /// <returns></returns>
-        public DisciplineContextElementModel GetDisciplineContext(Guid id, string direction, IWebProcess process)
+        public DisciplineContextElementModel GetDisciplineContext(Guid id, string direction, IWebDisciplineService serviceD)
         {
             var directoryInfo = new DirectoryInfo(direction);
 
             if (!directoryInfo.Exists)
             {
                 directoryInfo.Create();
-                var folders = process.GetFolderNamesForDiscipline(new WebProcessFolderNamesForDisciplineBindingModel { DisciplineId = id }).Result;
+                var folders = serviceD.GetDisciplineFolderNames(new WebDisciplineFolderNamesBindingModel { DisciplineId = id }).Result;
                 if(folders != null)
                 {
                     foreach(var folder in folders)
@@ -219,40 +215,6 @@ namespace DepartmentWebCore.Services
         public string GetFileName(string path)
         {
             return Path.GetFileName(path);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="files"></param>
-        /// <param name="direction">Discipline\\Semestr\\TimeNorm</param>
-        /// <returns></returns>
-        public async static Task SaveFilesForDiscipline(IFormFileCollection files, string direction)
-        {
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    using (var stream = new FileStream(RootPath + direction + "\\" + formFile.FileName, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-            }
-        }
-
-        public static byte[] GetFileByPathForDiscipline(string path)
-        {
-            return File.ReadAllBytes(RootPath + path);
-        }
-
-        /// <summary>
-        /// Удаление файла дисциплины
-        /// </summary>
-        /// <param name="path">"Discipline\\Semestr\\TimeNorm\\NameFile"</param>
-        public static void DeleteFileByPathForDiscipline(string path)
-        {
-            File.Delete(RootPath + path);
         }
     }
 }
