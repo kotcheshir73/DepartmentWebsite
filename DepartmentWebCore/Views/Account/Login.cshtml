@@ -3,6 +3,19 @@
 <div class="login-panel">
     @if (User.Identity.IsAuthenticated)
     {
+        {
+            var claims = User.Claims.ToList();
+            if (claims != null)
+            {
+                foreach(var claim in claims)
+                {
+                    if (claim.Type == "username")
+                    {
+                        <label class="login-username">@claim.Value</label>
+                    }
+                }
+            }
+        }
         <button type="button" id="logout-button" class="btn btn-default logout">Выход</button>
     }
     else
@@ -32,24 +45,24 @@
     $(function () {
         $('#logout-button').click(function () {
             $.ajax({
-                type: 'POST',
+                    type: 'POST',
                 url: '@Url.Action("Logout", "Account")',
                 success: function () {
-                    document.location.reload(true);
-                }
+                        document.location.reload(true);
+                    }
+                });
             });
-        });
 
-        
+
         $('#login-button').click(function () {
             $.ajax({
-                type: 'POST',
+                    type: 'POST',
                 url: '@Url.Action("Login", "Account")',
                 data: $('form').serialize(),
                 success: function () {
-                    document.location.reload(true);
-                }
+                        document.location.reload(true);
+                    }
+                });
             });
-        });
     })
 </script>

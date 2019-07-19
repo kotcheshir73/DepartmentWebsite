@@ -11,16 +11,6 @@ namespace WebImplementations
 {
     public static class WebModelFactoryToViewModel
     {
-        public static WebLoginViewModel CreateLoginViewModel(DepartmentUser entity, List<string> list)
-        {
-            return new WebLoginViewModel
-            {
-                UserId = entity.Id.ToString(),
-                UserName = entity.UserName,
-                UserRoles = list
-            };
-        }
-
         public static WebEducationDirectionViewModel CreateWebEducationDirectionViewModel(IGrouping<EducationDirection, Contingent> entity)
         {
             return new WebEducationDirectionViewModel

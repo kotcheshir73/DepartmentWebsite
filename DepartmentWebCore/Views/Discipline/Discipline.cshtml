@@ -29,16 +29,14 @@
 <div class="discipline-lecturer">
     <div class="discipline-lecturer-title">
         Преподаватели:
-    </div>
-    @if (Model.DisciplineLecturers != null && Model.DisciplineLecturers.Count > 0)
-    {
-        <ul>
+        @if (Model.DisciplineLecturers != null && Model.DisciplineLecturers.Count > 0)
+        {
             @foreach (var lecturer in Model.DisciplineLecturers)
             {
-                <li><a href="/Lecturer/Lecturer?Id=@lecturer.Item1">@lecturer.Item2</a></li>
+                <a href="/Lecturer/Lecturer?Id=@lecturer.Item1">@lecturer.Item2</a>
             }
-        </ul>
-    }
+        }
+    </div>
 </div>
 
 

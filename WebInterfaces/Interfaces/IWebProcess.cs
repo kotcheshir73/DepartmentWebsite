@@ -8,14 +8,6 @@ namespace WebInterfaces.Interfaces
     public interface IWebProcess
     {
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="hash"></param>
-        /// <returns></returns>
-        WebLoginViewModel Login(string login, string hash);
-
-        /// <summary>
 		/// Получение списка комментариев одного уровня
 		/// </summary>
 		/// <param name="model"></param>

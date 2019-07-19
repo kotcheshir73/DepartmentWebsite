@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Tools;
+using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
 using WebInterfaces.ViewModels;
 
@@ -15,11 +16,11 @@ namespace DepartmentWebCore.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IWebProcess _process;
+        private readonly IWebAuthenticationService _serviceWA;
 
-        public AccountController(IWebProcess process)
+        public AccountController(IWebAuthenticationService serviceWA)
         {
-            _process = process;
+            _serviceWA = serviceWA;
         }
 
         [HttpGet]
@@ -36,8 +37,19 @@ namespace DepartmentWebCore.Controllers
             {
                 try
                 {
-                    var loginModel = _process.Login(model.Login, DepartmentUserManager.GetPasswordHash(model.Password));
-                    await Authenticate(loginModel);
+                    var loginModel = _serviceWA.Authentication(new WebAuthenticationLoginBindingModel
+                    {
+                        Login = model.Login,
+                        Hash = DepartmentUserManager.GetPasswordHash(model.Password)
+                    });
+
+                    if(!loginModel.Succeeded)
+                    {
+
+                    }
+
+                    await Authenticate(loginModel.Result);
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)//TODO: если неверные данны выдавать ошибку
@@ -48,17 +60,19 @@ namespace DepartmentWebCore.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(WebLoginViewModel user)
+        private async Task Authenticate(WebAuthenticationLoginViewModel user)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId),
+                new Claim("username", user.UserName),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.UserRoles.FirstOrDefault())
             };
 
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }

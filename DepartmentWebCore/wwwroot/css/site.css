@@ -60,6 +60,8 @@ textarea {
 .login-panel {
     padding: 5px;
     text-align: center;
+    border: 1px solid #cecece;
+    border-radius: 5px;
 }
 
 .login-row {
@@ -69,7 +71,6 @@ textarea {
 .login-row-input {
     font-size: inherit;
     margin-left: 0px;
-    width: 100%;
     padding: 6px 0 4px 10px;
     border: 1px solid #cecece;
     border-radius: 5px;
@@ -85,10 +86,12 @@ textarea {
     height: 30px;
 }
 
+.login-username {
+    font-size: 18px;
+}
+
 .logout {
-    background-color: whitesmoke;
     border-radius: 5px;
-    text-align: center;
     color: rgb(0, 0, 0);
     margin: auto;
     width: 80%;
@@ -284,9 +287,13 @@ textarea {
     font-size: 16px;
 }
 
+    .discipline-lecturer-title a {
+        padding-right: 15px;
+    }
+
 .disciplne-content {
     margin: 0;
-    padding: 0;
+    padding-left: 50px;
 }
 
 .disciplne-folder {

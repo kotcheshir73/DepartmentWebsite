@@ -81,6 +81,7 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
+            container.RegisterType<IWebAuthenticationService, WebAuthenticationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());

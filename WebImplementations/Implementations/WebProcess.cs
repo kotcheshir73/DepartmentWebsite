@@ -1,14 +1,10 @@
-﻿using BaseInterfaces.Interfaces;
-using Enums;
+﻿using Enums;
 using Microsoft.EntityFrameworkCore;
 using Models.Web;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using Tools;
-using WebImplementations.Helpers;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
 using WebInterfaces.ViewModels;
@@ -17,40 +13,8 @@ namespace WebImplementations.Implementations
 {
     public class WebProcess : IWebProcess
     {
-        private readonly IDisciplineService _serviceD;
-
         //определить путь для папок
         private string Path => @"D:\Department\";
-
-        public WebProcess(/*IDisciplineService serviceD*/)
-        {            
-          //  _serviceD = serviceD;
-        }
-
-        public WebLoginViewModel Login(string login, string hash)
-        {
-            using (var context = DepartmentUserManager.GetContext)
-            {
-                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == hash);
-
-                if (user == null)
-                {
-                    throw new Exception("Введен неверный логин/пароль");
-                }
-                if (user.IsLocked)
-                {
-                    throw new Exception("Пользователь заблокирован");
-                }
-
-                user.DateLastVisit = DateTime.Now;
-                context.SaveChanges();
-
-                var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).ToList();
-
-                return WebModelFactoryToViewModel.CreateLoginViewModel(user, roles);
-            }
-        }
-
 
 
         public ResultService<WebProcessEventWithCommentViewModel> GetEventWithComment(NewsGetBindingModel model)

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj" />
     <ProjectReference Include="..\Core\Enums\Enums.csproj" />
     <ProjectReference Include="..\Core\Models\Models.csproj" />
     <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj" />
