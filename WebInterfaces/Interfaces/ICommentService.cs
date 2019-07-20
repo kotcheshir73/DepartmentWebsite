@@ -1,6 +1,7 @@
 ﻿using WebInterfaces.BindingModels;
 using WebInterfaces.ViewModels;
 using Tools;
+using System.Collections.Generic;
 
 namespace WebInterfaces.Interfaces
 {
@@ -13,12 +14,19 @@ namespace WebInterfaces.Interfaces
 		/// <returns></returns>
 		ResultService<CommentPageViewModel> GetComments(CommentGetBindingModel model);
 
-		/// <summary>
-		/// Получение комментария
-		/// </summary>
-		/// <param name="model">Идентификатор комментария</param>
-		/// <returns></returns>
-		ResultService<CommentViewModel> GetComment(CommentGetBindingModel model);
+        /// <summary>
+        /// Получение списка ответов к комментарию
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<CommentViewModel>> GetAnswers(CommentGetBindingModel model);
+
+        /// <summary>
+        /// Получение комментария
+        /// </summary>
+        /// <param name="model">Идентификатор комментария</param>
+        /// <returns></returns>
+        ResultService<CommentViewModel> GetComment(CommentGetBindingModel model);
 
 		/// <summary>
 		/// Создание комментария

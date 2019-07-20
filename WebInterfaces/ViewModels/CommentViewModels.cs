@@ -3,7 +3,12 @@ using Tools.ViewModels;
 
 namespace WebInterfaces.ViewModels
 {
-    public class CommentPageViewModel : PageSettingListViewModel<CommentViewModel> { }
+    public class CommentPageViewModel : PageSettingListViewModel<CommentViewModel>
+    {
+        public Guid? DisciplineId { get; set; }
+
+        public Guid? NewsId { get; set; }
+    }
 
     public class CommentViewModel : PageSettingElementViewModel
     {
@@ -19,6 +24,8 @@ namespace WebInterfaces.ViewModels
 
         public string Content { get; set; }
 
-        public DateTime Date { get; set; }       
+        public DateTime Date { get; set; }
+        
+        public int CountChilds { get; set; }
     }
 }

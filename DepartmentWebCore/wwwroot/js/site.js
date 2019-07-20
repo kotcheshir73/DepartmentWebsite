@@ -38,8 +38,4 @@
             }
         });
     });
-
-    $('#createNews').click(function () {
-        $('#myModal').modal('show');
-    });
 });

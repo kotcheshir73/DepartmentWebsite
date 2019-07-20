@@ -1,81 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseInterfaces.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
-using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Controllers
 {
     public class CommentController : Controller
     {
         private readonly ICommentService _serviceC;
-        private readonly IDisciplineService _serviceD;
 
-        public CommentController(ICommentService serviceC, IDisciplineService serviceD)
+        public CommentController(ICommentService serviceC)
         {
             _serviceC = serviceC;
-            _serviceD = serviceD;
         }
-        //public IActionResult AddComment(CommentSetBindingModel model)
-        //{
-        //    return PartialView(model);
-        //}
+
+        public IActionResult Index(Guid? disciplineId, Guid? newsId)
+        {
+            var list = _serviceC.GetComments(new CommentGetBindingModel
+            {
+                DisciplineId = disciplineId,
+                NewsId = newsId
+            });
+
+            if(!list.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            return PartialView(list.Result);
+        }
 
         [HttpPost]
-        public IActionResult Create(CommentSetBindingModel model)
+        [Authorize]
+        public void Create(CommentSetBindingModel model)
         {        
-            
-            //if (model.EventId != null)
-            //{
-            //    _serviceC.CreateComment(new CommentSetBindingModel
-            //    {
-            //        Content = model.Content,
-            //        DepartmentUser = User.Identity.Name,
-            //        EventId = model.EventId,
-            //        ParentId = model.ParentId
-            //    });
-            //    return RedirectToAction("Event", "Event", new { id = model.EventId }, null);
-            //}else if(model.DisciplineId!=null)
-            //{
-            //    _serviceC.CreateComment(new CommentSetBindingModel
-            //    {
-            //        Content = model.Content,
-            //        DepartmentUser = User.Identity.Name,
-            //        DisciplineId = model.DisciplineId,
-            //        ParentId = model.ParentId
-            //    });
-            //    var tmp = _serviceD.GetDiscipline(new BaseInterfaces.BindingModels.DisciplineGetBindingModel
-            //    {
-            //        Id = model.DisciplineId
-            //    });
-            //    return RedirectToAction("DisContent", "Discipline", new { id = tmp.Result.DisciplineName }, null);
-            //}
-            return RedirectToAction("Index", "Home");
+            if(model.DisciplineId.HasValue || model.NewsId.HasValue)
+            {
+                _serviceC.CreateComment(new CommentSetBindingModel
+                {
+                    Content = model.Content,
+                    DepartmentUserId = new Guid(User.Identity.Name),
+                    NewsId = model.NewsId,
+                    DisciplineId = model.DisciplineId
+                });
+            }
         }
 
-        public ActionResult DeleteCommentEvent(WebProcessLevelCommentViewModel comment, Guid eventId)
+        [HttpPost]
+        [Authorize]
+        public void Edit(CommentSetBindingModel model)
+        {
+            _serviceC.UpdateComment(new CommentSetBindingModel
+            {
+                Id = model.Id,
+                Content = model.Content
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public void Delete(Guid id)
         {
             _serviceC.DeleteComment(new CommentGetBindingModel
             {
-                Id = comment.Id
+                Id = id
             });
-            return RedirectToAction("Event", "Event", new { id = eventId }, null);
         }
 
-        public ActionResult DeleteCommentDiscipline(WebProcessLevelCommentViewModel comment, string disciplineName)
+        [HttpPost]
+        [Authorize]
+        public void Answer(CommentSetBindingModel model)
         {
-            _serviceC.DeleteComment(new CommentGetBindingModel
+            if (model.ParentId.HasValue)
             {
-                Id = comment.Id
-            });
-
-            return RedirectToAction("DisContent", "Discipline", new { id = disciplineName }, null);
-            //return RedirectToAction("Event", "Event", new { id = disciplineId }, null);
+                _serviceC.CreateComment(new CommentSetBindingModel
+                {
+                    Content = model.Content,
+                    DepartmentUserId = new Guid(User.Identity.Name),
+                    ParentId = model.ParentId
+                });
+            }
         }
 
+        [HttpGet]
+        public ActionResult Answers(Guid parentId)
+        {
+            var list = _serviceC.GetAnswers(new CommentGetBindingModel
+            {
+                ParentId = parentId
+            });
+
+            if (!list.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            return PartialView(list.Result);
+        }
     }
 }

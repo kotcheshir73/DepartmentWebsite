@@ -17,8 +17,7 @@ namespace WebInterfaces.BindingModels
 
     public class CommentSetBindingModel : PageSettingSetBinidingModel
     {
-        [Required(ErrorMessage = "required")]
-        public Guid DepartmentUserId { get; set; }
+        public Guid? DepartmentUserId { get; set; }
 
         public Guid? DisciplineId { get; set; }
 

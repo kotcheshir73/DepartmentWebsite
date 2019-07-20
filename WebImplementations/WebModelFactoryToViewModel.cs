@@ -1,9 +1,7 @@
 ﻿using Models.AcademicYearData;
-using Models.Authentication;
 using Models.Base;
 using Models.Web;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using WebInterfaces.ViewModels;
 
@@ -79,21 +77,9 @@ namespace WebImplementations
                 NewsId = entity.NewsId,
                 ParentId = entity.ParentId,
                 Content = entity.Content,
-                Date = entity.DateCreate               
-            };
-        }
-
-        public static WebProcessLevelCommentViewModel CreateWebProcessLevelCommentViewModel(Comment entity)
-        {
-            return new WebProcessLevelCommentViewModel
-            {
-                Id = entity.Id,
-                Content = entity.Content,
                 Date = entity.DateCreate,
-                DepartmentUser = entity.DepartmentUser.UserName
+                CountChilds = entity.Childs?.Where(x => !x.IsDeleted).Count() ?? 0
             };
         }
-        
-
     }
 }

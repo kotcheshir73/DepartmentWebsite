@@ -24,13 +24,15 @@ namespace WebImplementations
         {
             if (entity == null)
             {
-                entity = new Comment();
+                entity = new Comment
+                {
+                    DepartmentUserId = model.DepartmentUserId.Value,
+                    DisciplineId = model.DisciplineId,
+                    NewsId = model.NewsId,
+                    ParentId = model.ParentId
+                };
             }
 
-            entity.DepartmentUserId = model.DepartmentUserId;
-            entity.DisciplineId = model.DisciplineId;
-            entity.NewsId = model.NewsId;
-            entity.ParentId = model.ParentId;
             entity.Content = model.Content;
 
             return entity;

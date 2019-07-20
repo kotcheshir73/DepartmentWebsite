@@ -48,3 +48,5 @@ else
 {
     @Html.RenderAction("DisciplineContent", "Discipline", new { Id = Model.Id })
 }
+
+@Html.RenderAction("Index", "Comment", new { disciplineId = Model.Id })

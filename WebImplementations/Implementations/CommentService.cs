@@ -1,6 +1,7 @@
 ﻿using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tools;
 using WebInterfaces.BindingModels;
@@ -50,7 +51,7 @@ namespace WebImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.DepartmentUser);
+                    query = query.Include(x => x.DepartmentUser).Include(x => x.Childs);
 
                     var result = new CommentPageViewModel
                     {
@@ -64,6 +65,28 @@ namespace WebImplementations.Implementations
             catch (Exception ex)
             {
                 return ResultService<CommentPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<List<CommentViewModel>> GetAnswers(CommentGetBindingModel model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var query = context.Comments
+                        .Where(x => !x.IsDeleted && x.ParentId == model.ParentId)
+                        .Include(x => x.DepartmentUser)
+                        .OrderBy(x => x.DateCreate)
+                        .Select(WebModelFactoryToViewModel.CreateCommentViewModel)
+                        .ToList();
+
+                    return ResultService<List<CommentViewModel>>.Success(query);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<List<CommentViewModel>>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
@@ -149,12 +172,7 @@ namespace WebImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    foreach (var com in context.Comments.Where(x => x.ParentId == model.Id))
-                    {
-                        DeleteComment(new CommentGetBindingModel{ Id = com.Id });
-                    }
-
-                    var entity = context.Comments.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.Comments.Include(x => x.Childs).FirstOrDefault(x => x.Id == model.Id);
 
                     if (entity == null)
                     {
@@ -164,10 +182,21 @@ namespace WebImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
+
                     entity.IsDeleted = true;
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
+
+                    if (entity.Childs != null)
+                    {
+                        foreach(var child in entity.Childs)
+                        {
+                            child.IsDeleted = true;
+                            child.DateDelete = DateTime.Now;
+                            context.SaveChanges();
+                        }
+                    }
 
                     transaction.Commit();
 

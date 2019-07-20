@@ -13,14 +13,14 @@ namespace Tests
     {
         private INewsService _serviceE;
         private ICommentService _serviceC;
-        private IWebProcess _serviceWP;
+        //private IWebProcess _serviceWP;
 
         [SetUp]
         public void Setup()
         {
             _serviceE = UnityConfig.Container.Resolve<NewsService>();
             _serviceC = UnityConfig.Container.Resolve<CommentService>();
-            _serviceWP = UnityConfig.Container.Resolve<WebProcess>();
+            //_serviceWP = UnityConfig.Container.Resolve<WebProcess>();
         }
 
         [Test]

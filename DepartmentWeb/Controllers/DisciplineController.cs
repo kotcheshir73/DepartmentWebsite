@@ -12,12 +12,12 @@ namespace DepartmentWeb.Controllers
     public class DisciplineController : Controller
     {
         private string Path => @"D:\Department\";
-        private IWebProcess _serviceWP;
+        //private IWebProcess _serviceWP;
         private IDisciplineService _serviceD;
 
-        public DisciplineController(IWebProcess serviceWP, IDisciplineService serviceD)
+        public DisciplineController(/*IWebProcess serviceWP,*/ IDisciplineService serviceD)
         {
-            _serviceWP = serviceWP;
+        //    _serviceWP = serviceWP;
             _serviceD = serviceD;
         }
 
@@ -32,7 +32,7 @@ namespace DepartmentWeb.Controllers
             //var tmp = _serviceWP.GetDisciplineForDownload(new WebInterfaces.BindingModels.WebProcessDisciplineForDownloadGetBindingModel()
             //    { DisciplineName = name }).Result;
 
-            var listSelect = new List<WebProcessFileForDownloadViewModel>();
+            //var listSelect = new List<WebProcessFileForDownloadViewModel>();
 
             //foreach(var semestr in tmp.Semestrs)
             //{
@@ -46,7 +46,7 @@ namespace DepartmentWeb.Controllers
             //    }
             //}
 
-            return View(listSelect);
+            return View(/*listSelect*/);
         }
 
         public FileResult Download(string path, string fileName)
