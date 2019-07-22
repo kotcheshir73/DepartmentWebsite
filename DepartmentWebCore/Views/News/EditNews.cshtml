@@ -78,6 +78,9 @@
                     data: { 'id': span.data('id'), 'fileName': span.data('filename')},
                     success: function () {
                         span.hide();
+                    },
+                    error: function (result) {
+                        ShowError(result);
                     }
                 });
             }

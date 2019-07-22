@@ -1,4 +1,5 @@
 ﻿using DepartmentWebCore.Models;
+using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -35,27 +36,20 @@ namespace DepartmentWebCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var loginModel = _serviceWA.Authentication(new WebAuthenticationLoginBindingModel
                 {
-                    var loginModel = _serviceWA.Authentication(new WebAuthenticationLoginBindingModel
-                    {
-                        Login = model.Login,
-                        Hash = DepartmentUserManager.GetPasswordHash(model.Password)
-                    });
+                    Login = model.Login,
+                    Hash = DepartmentUserManager.GetPasswordHash(model.Password)
+                });
 
-                    if (!loginModel.Succeeded)
-                    {
-
-                    }
-
-                    await Authenticate(loginModel.Result);
-
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Exception ex)//TODO: если неверные данны выдавать ошибку
+                if (!loginModel.Succeeded)
                 {
-                    ModelState.AddModelError("fdhhfdhdfh", ex.Message);
+                    ErrorService.ThrowErrors(loginModel.Errors);
                 }
+
+                await Authenticate(loginModel.Result);
+
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
@@ -108,7 +102,7 @@ namespace DepartmentWebCore.Controllers
                 NewPassword = DepartmentUserManager.GetPasswordHash(model.NewPassword)
             });
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Value);
             }

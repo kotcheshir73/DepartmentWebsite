@@ -93,13 +93,16 @@
             data.NewsId = $('#NewsId').val();
             data.DisciplineId = $('#DisciplineId').val();
             data.Content = $('#Content').val();
-            debugger;
+
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("Create", "Comment")',
                 data: data,
                 success: function () {
                     window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });
@@ -121,6 +124,9 @@
                 data: data,
                 success: function () {
                     window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });
@@ -140,6 +146,9 @@
                     data: { 'parentId': commentId },
                     success: function (result) {
                         $('#show-answer-' + commentId).html(result);
+                    },
+                    error: function (result) {
+                        ShowError(result);
                     }
                 });
             } else {
@@ -165,6 +174,9 @@
                 data: data,
                 success: function () {
                     window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });
@@ -184,6 +196,9 @@
                     data: { 'id': $(this).data('commentid') },
                     success: function () {
                         window.location.reload();
+                    },
+                    error: function (result) {
+                        ShowError(result);
                     }
                 });
             }
@@ -210,6 +225,9 @@
                 data: data,
                 success: function () {
                     window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });
@@ -229,6 +247,9 @@
                     data: { 'id': $(this).data('answerid') },
                     success: function () {
                         window.location.reload();
+                    },
+                    error: function (result) {
+                        ShowError(result);
                     }
                 });
             }

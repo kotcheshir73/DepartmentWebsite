@@ -1,12 +1,6 @@
-﻿@model ErrorViewModel
-@{
-    ViewData["Title"] = "Error";
+﻿@model List<string>
+
+@foreach(var elem in Model)
+{
+    <p>@elem</p>
 }
-
-<h1 class="text-danger page-header">Ошибка.</h1>
-
-    <p>
-        <strong>Текст ошибки: </strong> @Model.Message
-    </p>
-
-

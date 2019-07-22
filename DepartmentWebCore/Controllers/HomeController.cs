@@ -1,6 +1,10 @@
 ﻿using DepartmentWebCore.Models;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
 
@@ -128,6 +132,22 @@ namespace DepartmentWebCore.Controllers
             }
 
             return PartialView(newses.Result);
+        }
+
+        public ActionResult Error()
+        {
+            var exceptionData = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            if(string.IsNullOrEmpty(exceptionData?.Error?.Message))
+            {
+                return new EmptyResult();
+            }
+
+            var errors = Regex.Split(exceptionData?.Error?.Message, "<br />").Where(s => !string.IsNullOrEmpty(s));
+
+            var list = errors.Select(x => x.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1]);
+
+            return PartialView(list.ToList());
         }
     }
 }

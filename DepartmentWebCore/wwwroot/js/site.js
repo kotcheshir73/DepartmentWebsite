@@ -35,7 +35,19 @@
                 if (result) {
                     $('#course').html(result);
                 }
+            },
+            error: function (result) {
+                ShowError(result);
             }
         });
     });
 });
+
+ShowError = function (result) {
+    $('<div></div>').html(result.responseText).dialog({
+        title: 'Ошибка',
+        resizable: false,
+        width: '700px',
+        modal: true
+    });
+};

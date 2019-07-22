@@ -71,6 +71,9 @@
                 data: data,
                 success: function () {
                     window.location.href = "/Home/Index";
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });

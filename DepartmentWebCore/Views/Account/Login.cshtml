@@ -36,6 +36,7 @@
                 <div class="row login-row">
                     <button type="button" id="login-button" class="btn btn-primary">Войти</button>
                 </div>
+                <div id="login-error"></div>
             </div>
         </form>
     }
@@ -49,6 +50,9 @@
                 url: '@Url.Action("Logout", "Account")',
                 success: function () {
                     document.location.reload(true);
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });
@@ -60,6 +64,9 @@
                 data: $('form').serialize(),
                 success: function () {
                     document.location.reload(true);
+                },
+                error: function (result) {
+                    ShowError(result);
                 }
             });
         });
