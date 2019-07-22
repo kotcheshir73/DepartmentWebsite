@@ -30,8 +30,11 @@
     }
 }
 
-<div class="news-tags">
-    Теги: @Model.Tag
-</div>
+@if (!string.IsNullOrEmpty(Model.Tag))
+{
+    <div class="news-tags">
+        Теги: @Model.Tag
+    </div>
+}
 
 @Html.RenderAction("Index", "Comment", new { newsId = Model.Id })

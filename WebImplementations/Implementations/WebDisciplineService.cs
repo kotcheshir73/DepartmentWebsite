@@ -116,14 +116,20 @@ namespace WebImplementations.Implementations
                                 .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
                                 .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId
                                     && x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id)
-                                .Where(x => (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лекция")
-                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Практическое занятие")
-                                    || (x.AcademicPlanRecordElement.TimeNorm.TimeNormName == "Лабораторное занятие")
-                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormName.Contains("Руководство и прием курсовых"))
+                                .Where(x => x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "Лек"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "Пр"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "Лаб"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "КП"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "КР"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "РГР"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "Реф"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "ЗсО"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "Зач"
+                                    || x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName == "Экз")
                                 .Select(x => new
                                 {
                                     Semestr = x.AcademicPlanRecordElement.AcademicPlanRecord.Semester.ToString(),
-                                    TimeNorm = x.AcademicPlanRecordElement.TimeNorm.TimeNormName,
+                                    TimeNorm = x.AcademicPlanRecordElement.TimeNorm.TimeNormShortName,
                                 })
                                 .GroupBy(x => x.Semestr);
 
@@ -177,21 +183,41 @@ namespace WebImplementations.Implementations
 
         private string GetFolderName(string source)
         {
-            if (source.Contains("Руководство и прием курсовых"))
+            if (source == "КР")
             {
-                return "Курсовая";
+                return "Курсовая работа";
             }
-            else if (source.Contains("Практическое занятие"))
+            else if (source == "КП")
+            {
+                return "Курсовой проект";
+            }
+            else if(source == "Пр")
             {
                 return "Практики";
             }
-            else if (source.Contains("Лабораторное занятие"))
+            else if (source == "Лаб")
             {
                 return "Лабораторные";
             }
-            else if (source.Contains("Лекция"))
+            else if (source == "Лек")
             {
                 return "Лекции";
+            }
+            else if (source == "РГР")
+            {
+                return "РГР";
+            }
+            else if (source == "Реф")
+            {
+                return "Реферат";
+            }
+            else if (source == "ЗсО" || source == "Зач")
+            {
+                return "Зачет";
+            }
+            else if (source == "Экз")
+            {
+                return "Экзамен";
             }
 
             return source;

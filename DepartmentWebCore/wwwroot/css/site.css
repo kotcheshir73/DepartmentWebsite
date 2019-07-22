@@ -33,7 +33,11 @@ textarea {
 }
 
 .menuMarginLeft {
-    margin: 5px 5px 0 5px;
+    margin: 0px 5px 0px 5px;
+}
+
+.menuMarginLeft a {
+    margin: 0px 0px 5px 0px;
 }
 
 .logo {

@@ -28,6 +28,9 @@ namespace DepartmentWebCore.Controllers
                 return new EmptyResult();
             }
 
+            list.Result.DisciplineId = disciplineId;
+            list.Result.NewsId = newsId;
+
             return PartialView(list.Result);
         }
 

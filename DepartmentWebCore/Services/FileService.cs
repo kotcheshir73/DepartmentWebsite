@@ -139,6 +139,7 @@ namespace DepartmentWebCore.Services
                         {
                             Directory.CreateDirectory($"{direction}\\{folder.Semester}\\{child}");
                         }
+                        Directory.CreateDirectory($"{direction}\\{folder.Semester}\\Дополнительно");
                     }
                 }
             }
