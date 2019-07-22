@@ -43,7 +43,7 @@ namespace DepartmentWebCore.Controllers
                         Hash = DepartmentUserManager.GetPasswordHash(model.Password)
                     });
 
-                    if(!loginModel.Succeeded)
+                    if (!loginModel.Succeeded)
                     {
 
                     }
@@ -53,7 +53,7 @@ namespace DepartmentWebCore.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)//TODO: если неверные данны выдавать ошибку
-                {                    
+                {
                     ModelState.AddModelError("fdhhfdhdfh", ex.Message);
                 }
             }
@@ -80,6 +80,39 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public async Task Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet]
+        public IActionResult UserPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task ChangePassword(ChangePasswordModel model)
+        {
+            if (model.NewPassword.Length < 6 || model.NewPassword.Length > 10)
+            {
+                throw new Exception("Длина пароля от 6 до 10 символов");
+            }
+            if (model.NewPassword != model.Confirmation)
+            {
+                throw new Exception("Новый пароль и подтверждение не совпадают");
+            }
+
+            var result = _serviceWA.ChangePassword(new WebAuthenticationChangePassword
+            {
+                Id = new Guid(User.Identity.Name),
+                OldPassword = DepartmentUserManager.GetPasswordHash(model.Password),
+                NewPassword = DepartmentUserManager.GetPasswordHash(model.NewPassword)
+            });
+
+            if(!result.Succeeded)
+            {
+                throw new Exception(result.Errors.First().Value);
+            }
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }

@@ -36,9 +36,9 @@ textarea {
     margin: 0px 5px 0px 5px;
 }
 
-.menuMarginLeft a {
-    margin: 0px 0px 5px 0px;
-}
+    .menuMarginLeft a {
+        margin: 0px 0px 5px 0px;
+    }
 
 .logo {
     display: inline-block;
@@ -61,6 +61,11 @@ textarea {
     margin: 15px;
 }
 
+.page-header {
+    margin-top: 5px;
+}
+
+/*----------------------------------------------------*/
 .login-panel {
     padding: 5px;
     text-align: center;
@@ -102,10 +107,24 @@ textarea {
     height: 30px;
 }
 
-.page-header {
-    margin-top: 5px;
+.user-change-password{
+    width: 50%;
 }
 
+.change-password-row {
+    padding: 5px;
+}
+
+.change-password-row-input {
+    border-radius: 5px;
+    padding: 5px 2px 5px 5px;
+    width: 100%;
+}
+
+.change-password-error {
+    color: red;
+}
+/*----------------------------------------------------*/
 .lecturer-element {
     cursor: pointer;
 }
@@ -135,6 +154,7 @@ textarea {
     .text-lecturer-items li {
         margin-left: 15px;
     }
+/*----------------------------------------------------*/
 
 .education-wrapper {
     width: 100%;

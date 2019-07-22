@@ -1,9 +1,20 @@
-﻿namespace WebInterfaces.BindingModels
+﻿using System;
+
+namespace WebInterfaces.BindingModels
 {
     public class WebAuthenticationLoginBindingModel
     {
-       public string Login { get; set; }
+        public string Login { get; set; }
 
         public string Hash { get; set; }
+    }
+
+    public class WebAuthenticationChangePassword
+    {
+        public Guid Id { get; set; }
+
+        public string OldPassword { get; set; }
+
+        public string NewPassword { get; set; }
     }
 }

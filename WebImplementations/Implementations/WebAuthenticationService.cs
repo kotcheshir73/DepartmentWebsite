@@ -45,5 +45,34 @@ namespace WebImplementations.Implementations
                 return ResultService<WebAuthenticationLoginViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
+
+        public ResultService ChangePassword(WebAuthenticationChangePassword model)
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var user = context.DepartmentUsers.FirstOrDefault(u => u.Id == model.Id && u.PasswordHash == model.OldPassword);
+
+                    if (user == null)
+                    {
+                        throw new Exception("Введен неверный логин/пароль");
+                    }
+                    if (user.IsLocked)
+                    {
+                        throw new Exception("Пользователь заблокирован");
+                    }
+
+                    user.PasswordHash = model.NewPassword;
+                    context.SaveChanges();
+
+                    return ResultService.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
     }
 }

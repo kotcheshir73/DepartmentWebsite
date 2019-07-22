@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Личная страница";
+}
+
+<h2>Личная страница</h2>
+
+<div class="user-change-password">
+    <div class="row change-password-row">
+        <div class="col-sm-4">
+            <label>Пароль </label>
+        </div>
+        <div class="col-sm-8">
+            <input class="change-password-row-input" type="password" required id="OldPassword" />
+        </div>
+    </div>
+    <div class="row change-password-row">
+        <div class="col-sm-4">
+            <label>Новый пароль </label>
+        </div>
+        <div class="col-sm-8">
+            <input class="change-password-row-input" type="password" required id="NewPassword" />
+        </div>
+    </div>
+    <div class="row change-password-row">
+        <div class="col-sm-4">
+            <label>Подтверждение </label>
+        </div>
+        <div class="col-sm-8">
+            <input class="change-password-row-input" type="password" required id="Confirmation" />
+        </div>
+    </div>
+    <div class="row change-password-row">
+        <button type="button" id="change-password-button" class="btn btn-primary">Изменить пароль</button>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#change-password-button').click(function () {
+            var data = {};
+            data.Password = $('#OldPassword').val();
+            data.NewPassword = $('#NewPassword').val();
+            data.Confirmation = $('#Confirmation').val();
+
+            $('.change-password-error').hide();
+
+            if (data.Password.length == 0) {
+                $('#OldPassword').after('<span class="change-password-error"> Введите пароль </span>');
+                return;
+            }
+
+            if (data.NewPassword.length == 0) {
+                $('#NewPassword').after('<span class="change-password-error"> Введите новый пароль </span>');
+                return;
+            }
+
+            if (data.NewPassword.length < 6 || data.NewPassword.length > 10) {
+                $('#NewPassword').after('<span class="change-password-error"> Длина пароля от 6 до 10 символов </span>');
+                return;
+            }
+
+            if (data.NewPassword != data.Confirmation) {
+                $('#Confirmation').after('<span class="change-password-error"> Подтверждение не совпадает с новым паролем </span>');
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ChangePassword", "Account")',
+                data: data,
+                success: function () {
+                    window.location.href = "/Home/Index";
+                }
+            });
+        });
+    })
+</script>
