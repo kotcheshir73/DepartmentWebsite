@@ -1,0 +1,74 @@
+﻿@model DepartmentWebCore.Models.LoginModel
+
+<div class="login-panel">
+    @if (User.Identity.IsAuthenticated)
+    {
+        {
+            var claims = User.Claims.ToList();
+            if (claims != null)
+            {
+                foreach (var claim in claims)
+                {
+                    if (claim.Type == "username")
+                    {
+                        <label class="login-username"><a href="@Url.Action("UserPage", "Account")">@claim.Value</a></label>
+                    }
+                }
+            }
+        }
+        <button type="button" id="logout-button" class="btn btn-default logout">Выход</button>
+    }
+    else
+    {
+        <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+            <div class="validation" asp-validation-summary="ModelOnly" />
+            <div>
+                <div class="row login-row">
+                    <label style="font-size:18px;" asp-for="Login">Логин &nbsp;&nbsp;</label>
+                    <input class="login-row-input" required type="text" asp-for="Login" />
+                    <span asp-validation-for="Login" />
+                </div>
+                <div class="row login-row">
+                    <label style="font-size:18px;" asp-for="Password">Пароль </label>
+                    <input class="login-row-input" required asp-for="Password" />
+                    <span asp-validation-for="Password" />
+                </div>
+                <div class="row login-row">
+                    <button type="button" id="login-button" class="btn btn-primary">Войти</button>
+                </div>
+                <div id="login-error"></div>
+            </div>
+        </form>
+    }
+</div>
+
+<script>
+    $(function () {
+        $('#logout-button').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Logout", "Account")',
+                success: function () {
+                    document.location.reload(true);
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+
+        $('#login-button').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Login", "Account")',
+                data: $('form').serialize(),
+                success: function () {
+                    document.location.reload(true);
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+    })
+</script>

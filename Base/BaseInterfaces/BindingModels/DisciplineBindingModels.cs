@@ -8,7 +8,11 @@ namespace BaseInterfaces.BindingModels
 	public class DisciplineGetBindingModel : PageSettingGetBinidingModel
 	{
 		public Guid? DisciplineBlockId { get; set; }
-	}
+
+        public string DisciplineName { get; set; }
+
+        public Guid? ContingentId { get; set; }
+    }
 
 	public class DisciplineSetBindingModel : PageSettingSetBinidingModel
 	{

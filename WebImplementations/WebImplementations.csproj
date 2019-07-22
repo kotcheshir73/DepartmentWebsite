@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Enums\Enums.csproj" />
+    <ProjectReference Include="..\Core\Models\Models.csproj" />
+    <ProjectReference Include="..\Database\DatabaseContext\DatabaseContext.csproj" />
+    <ProjectReference Include="..\Database\Tools\Tools.csproj" />
+    <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj" />
+  </ItemGroup>
+
+</Project>

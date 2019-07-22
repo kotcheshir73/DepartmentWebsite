@@ -262,9 +262,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\DisciplineController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndividualPlanController.cs" />
-    <Compile Include="Controllers\LecturerController.cs" />
+    <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\NIRController.cs" />
     <Compile Include="Controllers\GraficController.cs" />
@@ -275,7 +276,8 @@
     </Compile>
     <Compile Include="Models\MenuElementModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\DisciplineService.cs" />
+    <Compile Include="Services\LecturerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -284,7 +286,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\logoUlstu.png" />
+    <Content Include="Images\logo_1_1.png" />
+    <Content Include="Images\Ulstu.png" />
     <Content Include="Images\yng.jpg" />
+    <Content Include="Images\УлГТУ.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -344,7 +350,12 @@
     <Content Include="Views\NIR\ScientificArticleOfPublished.cshtml" />
     <Content Include="Views\NIR\UpdateScientificArticleOfPublished.cshtml" />
     <Content Include="Views\Shared\Menu.cshtml" />
-    <Content Include="Views\Lecturer\Index.cshtml" />
+    <Content Include="Views\Lecturers\Index.cshtml" />
+    <Content Include="Views\Lecturers\Lecturer.cshtml" />
+    <Content Include="Views\Lecturers\LecturerDis.cshtml" />
+    <Content Include="Views\Discipline\Index.cshtml" />
+    <Content Include="Views\Discipline\DisContent.cshtml" />
+    <Content Include="Views\Discipline\LoadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -403,6 +414,10 @@
       <Project>{F240EBFC-C309-4D05-BC87-5E7143B351D3}</Project>
       <Name>Tools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj">
+      <Project>{64072079-cadd-414a-baa5-49e604733d47}</Project>
+      <Name>LearningProgressInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScheduleServiceImplementations\ScheduleServiceImplementations.csproj">
       <Project>{f56cb889-1fdb-4439-8d88-b4fda764fc59}</Project>
       <Name>ScheduleServiceImplementations</Name>
@@ -418,6 +433,14 @@
     <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj">
       <Project>{58DE8AB4-B69F-499C-BCF6-B5720B88ECC4}</Project>
       <Name>ScheduleInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebImplementations\WebImplementations.csproj">
+      <Project>{CAC806D0-4DA3-4826-BE60-53E87CCB6956}</Project>
+      <Name>WebImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj">
+      <Project>{6640D462-30E3-4CCF-AE09-358FE1C24076}</Project>
+      <Name>WebInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

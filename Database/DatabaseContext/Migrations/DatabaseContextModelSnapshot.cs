@@ -729,6 +729,8 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("DisciplineBlueAsteriskName")
                         .HasMaxLength(200);
 
+                    b.Property<string>("DisciplineDescription");
+
                     b.Property<string>("DisciplineName")
                         .IsRequired()
                         .HasMaxLength(200);
@@ -2336,6 +2338,67 @@ namespace DatabaseContext.Migrations
                     b.ToTable("StreamingLessons");
                 });
 
+            modelBuilder.Entity("Models.Web.Comment", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<Guid>("DepartmentUserId");
+
+                    b.Property<Guid?>("DisciplineId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid?>("NewsId");
+
+                    b.Property<Guid?>("ParentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentUserId");
+
+                    b.HasIndex("DisciplineId");
+
+                    b.HasIndex("NewsId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Models.Web.News", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<string>("Body")
+                        .IsRequired();
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<Guid>("DepartmentUserId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Tag");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentUserId");
+
+                    b.ToTable("Newses");
+                });
+
             modelBuilder.Entity("Models.AcademicYearData.AcademicPlan", b =>
                 {
                     b.HasOne("Models.AcademicYearData.AcademicYear", "AcademicYear")
@@ -3133,6 +3196,34 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.Base.StudentGroup", "StudentGroup")
                         .WithMany()
                         .HasForeignKey("StudentGroupId");
+                });
+
+            modelBuilder.Entity("Models.Web.Comment", b =>
+                {
+                    b.HasOne("Models.Authentication.DepartmentUser", "DepartmentUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("DepartmentUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Models.Base.Discipline", "Discipline")
+                        .WithMany()
+                        .HasForeignKey("DisciplineId");
+
+                    b.HasOne("Models.Web.News", "News")
+                        .WithMany("Comments")
+                        .HasForeignKey("NewsId");
+
+                    b.HasOne("Models.Web.Comment")
+                        .WithMany("Childs")
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Models.Web.News", b =>
+                {
+                    b.HasOne("Models.Authentication.DepartmentUser", "DepartmentUser")
+                        .WithMany("News")
+                        .HasForeignKey("DepartmentUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

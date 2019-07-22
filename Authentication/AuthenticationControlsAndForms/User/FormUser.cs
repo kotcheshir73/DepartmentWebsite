@@ -39,7 +39,7 @@ namespace AuthenticationControlsAndForms.User
             comboBoxStudent.ValueMember = "Value";
             comboBoxStudent.DisplayMember = "Display";
             comboBoxStudent.DataSource = resultS.Result.List
-                .Select(d => new { Value = d.NumberOfBook, Display = d.FullName }).ToList();
+                .Select(d => new { Value = d.Id, Display = d.FullName }).ToList();
             comboBoxStudent.SelectedItem = null;
 
             var resultL = _service.GetLecturers(new LecturerGetBindingModel { });

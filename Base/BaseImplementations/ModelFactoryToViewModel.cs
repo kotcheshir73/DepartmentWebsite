@@ -65,7 +65,8 @@ namespace BaseImplementations
                 DisciplineName = entity.DisciplineName,
                 DisciplineShortName = string.IsNullOrEmpty(entity.DisciplineShortName) ? entity.ToString() : entity.DisciplineShortName,
                 DisciplineBlockTitle = entity.DisciplineBlock?.ToString() ?? string.Empty,
-                DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName
+                DisciplineBlueAsteriskName = entity.DisciplineBlueAsteriskName,
+                DisciplineDescription =entity.DisciplineDescription
             };
         }
 
@@ -90,6 +91,7 @@ namespace BaseImplementations
                 Address = entity.Address,
                 Description = entity.Description,
                 Photo = entity.Photo != null && entity.Photo.Length > 0 ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
+                PhotoByteArr = entity.Photo
             };
         }
 

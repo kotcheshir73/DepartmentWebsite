@@ -1,0 +1,609 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.body-content {
+    padding: 40px 15px 0px 15px;
+}
+
+.left-panel {
+    float: left;
+    width: 20%;
+    padding: 0px 5px 0px 0px;
+}
+
+.center-panel {
+    float: left;
+    width: 80%;
+    padding: 0px 0px 0px 5px;
+}
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+input,
+select,
+textarea {
+    max-width: 1000px;
+}
+
+.menuMarginLeft {
+    margin: 0px 5px 0px 5px;
+}
+
+    .menuMarginLeft a {
+        margin: 0px 0px 5px 0px;
+    }
+
+.logo {
+    display: inline-block;
+    margin: 15px;
+}
+
+.menu {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.sub-menu-item {
+    padding: 5px 0px 0px 15px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.ulstu {
+    float: right;
+    margin: 15px;
+}
+
+.page-header {
+    margin-top: 5px;
+}
+
+/*----------------------------------------------------*/
+.login-panel {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.login-row {
+    padding-bottom: 10px;
+}
+
+.login-row-input {
+    font-size: inherit;
+    margin-left: 0px;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.login-row-submit {
+    background-color: whitesmoke;
+    border-radius: 5px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    margin: auto;
+    width: 80%;
+    height: 30px;
+}
+
+.login-username {
+    font-size: 18px;
+}
+
+.logout {
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    margin: auto;
+    width: 80%;
+    height: 30px;
+}
+
+.first-news-panel {
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: #f3f3f3;
+}
+
+.first-news-element {
+    padding: 5px 5px 0px 10px;
+    text-align: left;
+}
+
+.first-news-title {
+    font-size: 18px;
+}
+
+.first-news-date {
+    text-align: right;
+    font-size: 14px;
+}
+
+.first-news-tail-element {
+    text-align: right;
+    padding: 5px 5px 0px 0px;
+}
+/*----------------------------------------------------*/
+.user-change-password {
+    width: 50%;
+}
+
+.change-password-row {
+    padding: 5px;
+}
+
+.change-password-row-input {
+    border-radius: 5px;
+    padding: 5px 2px 5px 5px;
+    width: 100%;
+}
+
+.change-password-error {
+    color: red;
+}
+/*----------------------------------------------------*/
+.lecturer-element {
+    cursor: pointer;
+}
+
+.lecturer-element-line:hover {
+    text-decoration: underline;
+}
+
+.text-lecturer {
+    color: #222222;
+    font-size: 20px;
+}
+
+    .text-lecturer label {
+        font-weight: bold;
+    }
+
+.text-lecturer-discipline {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.text-lecturer-items {
+    margin: 0 0 0 10px;
+}
+
+    .text-lecturer-items li {
+        margin-left: 15px;
+    }
+/*----------------------------------------------------*/
+
+.education-wrapper {
+    width: 100%;
+}
+
+.education-panel-heading {
+    padding: 10px;
+    border: 0;
+    background: none;
+    color: #333333;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+}
+
+    .education-panel-heading a:before {
+        font-family: "Glyphicons Halflings";
+        content: "\e080";
+        float: right;
+        transition: all 0.5s;
+    }
+
+    .education-panel-heading.active a:before {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+.education-panel-body {
+    padding: 15px;
+}
+
+.education-panel-title > a,
+.education-panel-title > a:active {
+    padding: 15px;
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.education-title:hover {
+    display: inline-block;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.education-panel-table {
+    border-top: 1px solid #eeeeee;
+}
+
+.education-courses {
+    margin-top: 15px;
+    width: 100%;
+}
+
+    .education-courses th {
+        text-align: center;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .education-courses .selected {
+        background-color: #bfbfbf;
+    }
+
+.course-table {
+    margin-top: 15px;
+}
+
+    .course-table th {
+        text-align: center;
+    }
+
+    .course-table tr td {
+        font-weight: bold;
+    }
+
+.course-table-tab td a {
+    padding: 15px 15px 15px 35px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+
+/*-----дисциплины-----------------------------------*/
+.discipline-wrapper {
+    width: 100%;
+}
+
+.discipline-panel-heading {
+    padding: 10px;
+    border: 0;
+    background: none;
+    color: #333333;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+}
+
+    .discipline-panel-heading a:before {
+        font-family: "Glyphicons Halflings";
+        content: "\e080";
+        float: right;
+        transition: all 0.5s;
+    }
+
+    .discipline-panel-heading.active a:before {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+.discipline-panel-title > a,
+.discipline-panel-title > a:active {
+    padding: 15px;
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.discipline-panel-body {
+    padding: 15px;
+}
+
+.discipline-file-warning {
+    padding: 15px 5px 5px 15px;
+    color: red;
+}
+
+.discipline-lecturer {
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px;
+}
+
+    .discipline-lecturer ul {
+        padding-left: 40px;
+    }
+
+        .discipline-lecturer ul li {
+            font-size: 16px;
+        }
+
+.discipline-lecturer-title {
+    font-size: 16px;
+}
+
+    .discipline-lecturer-title a {
+        padding-right: 15px;
+    }
+
+.disciplne-content {
+    margin: 0;
+    padding-left: 50px;
+}
+
+.disciplne-folder {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.disciplne-file {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.disciplne-folder-nested {
+    display: none;
+}
+
+.disciplne-folder-active {
+    display: block;
+    padding-left: 20px;
+}
+
+.disciplne-folder-element {
+    padding: 2px;
+}
+
+    .disciplne-folder-element i {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .disciplne-folder-element span a label {
+        cursor: pointer;
+    }
+/*----------------------------------------------------*/
+
+/*--------новости-------------------------------------*/
+.create-news {
+    display: block;
+    padding: 0px 0px 10px 30px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.create-news-row {
+    padding: 10px 0px 10px 0px;
+}
+
+    .create-news-row input {
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .create-news-row button {
+        float: right;
+    }
+
+.news {
+    border-radius: 10px;
+    padding: 15px;
+    margin: 5px;
+    background-color: #f9f9f9;
+}
+
+.news-title a {
+    font-size: 30px;
+}
+
+.news-author-action {
+    float: right;
+}
+
+.news-paging {
+    border-top: 1px solid #eeeeee;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.news-paging-element {
+    font-size: 18px;
+    padding: 5px;
+}
+
+.news-paging-selected {
+    font-size: 18px;
+    border-radius: 50%;
+    background: #f9f9f9;
+    padding: 5px 9px 5px 9px;
+}
+
+.news-author {
+    font-size: 12px;
+    text-align: right;
+}
+
+.news-body {
+    padding: 15px 5px 5px 5px;
+}
+
+.news-tags {
+    text-align: right;
+    font-size: 12px;
+}
+
+.news-file-title {
+    padding: 5px;
+    font-size: 18px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.news-file {
+    padding: 5px;
+    font-size: 16px;
+}
+
+    .news-file a label {
+        padding-left: 10px;
+        cursor: pointer;
+    }
+
+    .news-file span {
+        cursor: pointer;
+    }
+
+        .news-file span label {
+            padding-left: 10px;
+            cursor: pointer;
+        }
+/*---------------------------------------------------*/
+
+/*--------комментарии--------------------------------*/
+.comment {
+    border-top: 1px solid #eeeeee;
+    padding: 5px 5px 5px 20px;
+}
+
+.comment-element {
+    border-radius: 5px;
+    background-color: #fcfcfc;
+    margin-left: 10px;
+    padding: 5px 5px 5px 10px;
+    margin-bottom: 10px;
+}
+
+.comment-element-author {
+    font-size: 16px;
+}
+
+    .comment-element-author i {
+        float: right;
+    }
+
+.comment-element-content {
+    margin: 0px 0px 10px 20px;
+}
+
+.comment-element-actions a {
+    margin: auto;
+}
+
+.comment-new {
+    border-top: 1px solid #eeeeee;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #edebeb;
+    margin-top: 5px;
+}
+
+.comment-new-row {
+    padding: 5px 0px 0px 20px;
+}
+
+.comment-new-input {
+    width: 90%;
+    margin-left: 30px;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.comment-new-button {
+    float: right;
+    margin-right: 30px;
+}
+
+.comment-answer {
+    display: none;
+    margin: 5px 5px 5px 50px;
+    background-color: #faf7f7;
+    border-radius: 5px;
+}
+
+.comment-answer-row {
+    padding: 5px 0px 5px 20px;
+}
+
+.comment-answer-input {
+    width: 90%;
+    margin-left: 30px;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.comment-answer-button {
+    float: right;
+    margin-right: 30px;
+}
+
+.comment-answer-element {
+    margin: 5px 5px 5px 40px;
+    border-radius: 5px;
+    background-color: #faf7f7;
+}
+
+    .comment-answer-element i {
+        float: right;
+    }
+
+.comment-answer-author {
+    padding: 5px 0px 5px 10px;
+    font-size: 15px;
+}
+
+    .comment-answer-author a {
+        float: right;
+    }
+
+.comment-answer-content {
+    padding: 0px 0px 5px 20px;
+}
+
+.comment-edit-element {
+    display: none;
+    border-radius: 5px;
+    background-color: #fcfcfc;
+    margin-left: 10px;
+    padding: 5px 5px 5px 10px;
+    margin-bottom: 10px;
+}
+
+.comment-edit-input {
+    width: 95%;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.answer-edit-element {
+    display: none;
+    margin: 5px 5px 5px 40px;
+    border-radius: 5px;
+    background-color: #faf7f7;
+}
+
+.answer-edit-input {
+    width: 95%;
+    padding: 6px 0 4px 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+}
+
+.answer-element-actions {
+    padding: 5px;
+}
+/*---------------------------------------------------*/

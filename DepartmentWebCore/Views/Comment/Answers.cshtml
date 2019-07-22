@@ -1,0 +1,36 @@
+﻿@using WebInterfaces.ViewModels
+
+@model List<CommentViewModel>
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var answer in Model)
+    {
+        <div class="comment-answer-element" id="answer-element-@answer.Id">
+            <div class="comment-answer-author">
+                <label>От @answer.DepartmentUser @answer.Date.ToString("dd MMMM yyyy HH:mm")</label>
+                @if (answer.DepartmentUserId.ToString() == User.Identity.Name)
+                {
+                    <i data-answerid="@answer.Id" class="btn fas fa-trash-alt answer-delete-element-call"></i>
+                    <i data-answerid="@answer.Id" class="btn fas fa-pencil-alt answer-edit-element-call"></i>
+                }
+            </div>
+            <div class="comment-answer-content">
+                @Html.Raw(answer.Content)
+            </div>
+        </div>
+
+        <div class="answer-edit-element" id="answer-edit-element-@answer.Id">
+            <div class="comment-answer-author">
+                <label>От @answer.DepartmentUser @answer.Date.ToString("dd MMMM yyyy HH:mm")</label>
+            </div>
+            <div class="comment-element-content">
+                <input id="Content-@answer.Id" required="" maxlength="500" class="answer-edit-input" value="@Html.Raw(answer.Content)">
+            </div>
+            <div class="answer-element-actions">
+                <input type="button" value="Отправить" data-answerid="@answer.Id" class="btn btn-default answer-edit-send" />
+                <input type="button" value="Отмена" data-answerid="@answer.Id" class="btn btn-default answer-edit-cancel" />
+            </div>
+        </div>
+    }
+}

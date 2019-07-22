@@ -1,0 +1,30 @@
+﻿@using WebInterfaces.ViewModels
+
+@model List<WebEducationDirectionViewModel>
+
+@{
+    ViewBag.Title = "Направления обучения";
+}
+
+<h2 class="page-header">Направления обучения</h2>
+
+<div class="education-wrapper center-block">
+    @foreach (var ed in Model)
+    {
+        <div class="panel panel-default">
+            <div class="education-panel-heading active" id="@string.Format("heading{0}", ed.Id)">
+                <div class="education-panel-title">
+                    <span class="education-title" data-id="@ed.Id">
+                        @string.Format("Квалификация: {0}. Направление: {1} {2}", ed.Qualification, ed.Cipher, ed.Title)
+                    </span>
+                    <a role="button" data-toggle="collapse" href="#@string.Format("collapse{0}", ed.Id)" aria-expanded="true" aria-controls="@string.Format("collapse{0}", ed.Id)"></a>
+                </div>
+            </div>
+            <div id="@string.Format("collapse{0}", ed.Id)" class="education-panel-collapse collapse in" role="tabpanel" aria-labelledby="@string.Format("heading{0}", ed.Id)">
+                <div class="education-panel-body">
+                    @(ed.Description)
+                </div>
+            </div>
+        </div>
+    }
+</div>

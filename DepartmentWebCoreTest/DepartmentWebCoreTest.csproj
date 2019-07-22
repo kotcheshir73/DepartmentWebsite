@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="Unity" Version="5.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AcademicYear\AcademicYearImplementations\AcademicYearImplementations.csproj" />
+    <ProjectReference Include="..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj" />
+    <ProjectReference Include="..\Authentication\AuthenticationImplementations\AuthenticationImplementations.csproj" />
+    <ProjectReference Include="..\Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj" />
+    <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj" />
+    <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj" />
+    <ProjectReference Include="..\Database\Tools\Tools.csproj" />
+    <ProjectReference Include="..\DepartmentWebCore\DepartmentWebCore.csproj" />
+    <ProjectReference Include="..\LearningProgress\LearningProgressImplementations\LearningProgressImplementations.csproj" />
+    <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj" />
+    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj" />
+    <ProjectReference Include="..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj" />
+    <ProjectReference Include="..\WebImplementations\WebImplementations.csproj" />
+    <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj" />
+  </ItemGroup>
+
+</Project>

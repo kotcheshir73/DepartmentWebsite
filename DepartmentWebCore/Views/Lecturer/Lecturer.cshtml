@@ -1,0 +1,42 @@
+﻿@model WebInterfaces.ViewModels.WebLecturerViewModel
+
+@{
+    ViewBag.Title = string.Format("{0} {1} {2}",  Model.LastName, Model.FirstName, Model.Patronymic);
+}
+
+@if (Model != null)
+{
+    <text>
+        <h2 class="page-header">@Model.LastName @Model.FirstName @Model.Patronymic</h2>
+        <table class="table">
+            <tr id="list">
+                <td>
+                    @if (Model.Photo != null && Model.Photo.Length > 0)
+                    {
+                        <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Photo))" width="150" height="150" alt="@Model.FullName" />
+                    }
+                    else
+                    {
+                        <img src="~/Images/default-lecturer.png" width="150" height="150" alt="@Model.FullName">
+                    }
+                </td>
+                <td>
+                    <p class="text-lecturer">
+                        <label>Должность: </label>
+                        @Model.Post
+                        @Model.LecturerPost
+                    </p>
+                    <p class="text-lecturer">
+                        <label>Звание: </label>
+                        @Model.Rank2
+                    </p>
+                    <p class="text-lecturer">
+                        @Model.Description
+                    </p>
+
+                    @await Html.PartialAsync("LecturerDisciplines", Model.Disiplines)
+                </td>
+            </tr>
+        </table>
+    </text>
+}
