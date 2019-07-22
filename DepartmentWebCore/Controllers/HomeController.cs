@@ -12,10 +12,13 @@ namespace DepartmentWebCore.Controllers
 
         private static IWebEducationDirectionService _serviceWED;
 
-        public HomeController(IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED)
+        private static INewsService _serviceN;
+
+        public HomeController(IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, INewsService serviceN)
         {
             _serviceWL = serviceWL;
             _serviceWED = serviceWED;
+            _serviceN = serviceN;
         }
 
         [HttpGet]
@@ -109,6 +112,22 @@ namespace DepartmentWebCore.Controllers
             }
 
             return PartialView(mainMenu);
+        }
+
+        public ActionResult FirstNews()
+        {
+            var newses = _serviceN.GetNewses(new NewsGetBindingModel
+            {
+                PageNumber = 0,
+                PageSize = 5
+            });
+
+            if (!newses.Succeeded)
+            {
+                return new EmptyResult();
+            }
+
+            return PartialView(newses.Result);
         }
     }
 }

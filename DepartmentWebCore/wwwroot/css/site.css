@@ -11,15 +11,13 @@
 .left-panel {
     float: left;
     width: 20%;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0px 5px 0px 0px;
 }
 
 .center-panel {
     float: left;
     width: 80%;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0px 0px 0px 5px;
 }
 
 .dl-horizontal dt {
@@ -107,7 +105,34 @@ textarea {
     height: 30px;
 }
 
-.user-change-password{
+.first-news-panel {
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: #f3f3f3;
+}
+
+.first-news-element {
+    padding: 5px 5px 0px 10px;
+    text-align: left;
+}
+
+.first-news-title {
+    font-size: 18px;
+}
+
+.first-news-date {
+    text-align: right;
+    font-size: 14px;
+}
+
+.first-news-tail-element {
+    text-align: right;
+    padding: 5px 5px 0px 0px;
+}
+/*----------------------------------------------------*/
+.user-change-password {
     width: 50%;
 }
 
