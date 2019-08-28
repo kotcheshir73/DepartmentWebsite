@@ -33,19 +33,27 @@
             this.labelFieldValue = new System.Windows.Forms.Label();
             this.textBoxOrder = new System.Windows.Forms.TextBox();
             this.labelOrder = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(107, 148);
+            this.panelMain.Controls.Add(this.textBoxOrder);
+            this.panelMain.Controls.Add(this.labelOrder);
+            this.panelMain.Controls.Add(this.textBoxFieldValue);
+            this.panelMain.Controls.Add(this.labelFieldValue);
+            this.panelMain.Controls.Add(this.textBoxFieldName);
+            this.panelMain.Controls.Add(this.labelFieldName);
+            this.panelMain.Controls.Add(this.comboBoxMaterialTechnicalValueGroup);
+            this.panelMain.Controls.Add(this.labelMaterialTechnicalValueGroup);
+            this.panelMain.Controls.Add(this.comboBoxMaterialTechnicalValue);
+            this.panelMain.Controls.Add(this.labelMaterialTechnicalValue);
+            this.panelMain.Size = new System.Drawing.Size(364, 65);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(254, 148);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(26, 148);
+            this.panelTop.Size = new System.Drawing.Size(364, 36);
             // 
             // comboBoxMaterialTechnicalValue
             // 
@@ -137,31 +145,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(362, 183);
-            this.Controls.Add(this.textBoxOrder);
-            this.Controls.Add(this.labelOrder);
-            this.Controls.Add(this.textBoxFieldValue);
-            this.Controls.Add(this.labelFieldValue);
-            this.Controls.Add(this.textBoxFieldName);
-            this.Controls.Add(this.labelFieldName);
-            this.Controls.Add(this.comboBoxMaterialTechnicalValueGroup);
-            this.Controls.Add(this.labelMaterialTechnicalValueGroup);
-            this.Controls.Add(this.comboBoxMaterialTechnicalValue);
-            this.Controls.Add(this.labelMaterialTechnicalValue);
             this.Name = "MaterialTechnicalValueRecordForm";
             this.Text = "Запись описания МТЦ";
-            this.Controls.SetChildIndex(this.labelMaterialTechnicalValue, 0);
-            this.Controls.SetChildIndex(this.comboBoxMaterialTechnicalValue, 0);
-            this.Controls.SetChildIndex(this.labelMaterialTechnicalValueGroup, 0);
-            this.Controls.SetChildIndex(this.comboBoxMaterialTechnicalValueGroup, 0);
-            this.Controls.SetChildIndex(this.labelFieldName, 0);
-            this.Controls.SetChildIndex(this.textBoxFieldName, 0);
-            this.Controls.SetChildIndex(this.labelFieldValue, 0);
-            this.Controls.SetChildIndex(this.textBoxFieldValue, 0);
-            this.Controls.SetChildIndex(this.labelOrder, 0);
-            this.Controls.SetChildIndex(this.textBoxOrder, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
