@@ -150,7 +150,7 @@ namespace BaseImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Students.FirstOrDefault(x => x.NumberOfBook == model.NumberOfBook);
+                    var entity = context.Students.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

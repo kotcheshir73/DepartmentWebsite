@@ -1,4 +1,5 @@
-﻿using BaseInterfaces.BindingModels;
+﻿using BaseControlsAndForms.Services;
+using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
@@ -9,15 +10,16 @@ using System.Linq;
 using System.Windows.Forms;
 using Tools;
 using Unity;
+using Unity.Resolution;
 
 namespace BaseControlsAndForms.Student
 {
     public partial class FormStudent : StandartForm
-    {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+{
+    [Dependency]
+    public new IUnityContainer Container { get; set; }
 
-        private readonly IStudentService _service;
+    private readonly IStudentService _service;
 
         public FormStudent(IStudentService service, Guid? id = null) : base(id)
         {
@@ -54,7 +56,6 @@ namespace BaseControlsAndForms.Student
             var entity = result.Result;
 
             textBoxNumberOfBook.Text = entity.NumberOfBook;
-            textBoxNumberOfBook.Enabled = false;
             textBoxLastName.Text = entity.LastName;
             textBoxFirstName.Text = entity.FirstName;
             textBoxPatronymic.Text = entity.Patronymic;
@@ -147,6 +148,17 @@ namespace BaseControlsAndForms.Student
                     MessageBox.Show(ex.Message, "Ошибка при загрузке файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void buttonStudentOrdersShow_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStudentOrdersShow>(
+                new ParameterOverrides
+                {
+                    { "id", _id }
+                }
+                .OnType<FormStudentOrdersShow>());
+            form.ShowDialog();
         }
     }
 }

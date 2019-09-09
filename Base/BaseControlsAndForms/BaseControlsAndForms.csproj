@@ -156,6 +156,12 @@
     <Compile Include="Services\FormRecovery.Designer.cs">
       <DependentUpon>FormRecovery.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\FormStudentOrdersShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormStudentOrdersShow.Designer.cs">
+      <DependentUpon>FormStudentOrdersShow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\FormTransferGroup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormRecovery.resx">
       <DependentUpon>FormRecovery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormStudentOrdersShow.resx">
+      <DependentUpon>FormStudentOrdersShow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormTransferGroup.resx">
       <DependentUpon>FormTransferGroup.cs</DependentUpon>

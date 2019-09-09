@@ -1,5 +1,6 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.ViewModels;
+using System.Collections.Generic;
 using Tools;
 
 namespace BaseInterfaces.Interfaces
@@ -68,5 +69,12 @@ namespace BaseInterfaces.Interfaces
         /// <param name="model"></param>
         /// <returns></returns>
         ResultService FinishEducation(FinishEducationBindingModel model);
+
+        /// <summary>
+        /// Список приказов по студенту
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<StudentOrderShowViewModel>> StudentOrderShow(StudentOrdersShowBindingModel model);
     }
 }
