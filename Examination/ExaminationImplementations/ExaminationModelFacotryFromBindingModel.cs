@@ -241,8 +241,11 @@ namespace ExaminationImplementations
 
             if (model.TicketTemplateBodySetBindingModel != null)
             {
-                entity.TicketTemplateBody = CreateTicketTemplateBody(model.TicketTemplateBodySetBindingModel, entity.TicketTemplateBody);
-                entity.TicketTemplateBodyId = entity.TicketTemplateBody.Id;
+                if(entity.TicketTemplateBodies == null)
+                {
+                    entity.TicketTemplateBodies = new System.Collections.Generic.List<TicketTemplateBody>();
+                }
+                entity.TicketTemplateBodies.Add(CreateTicketTemplateBody(model.TicketTemplateBodySetBindingModel, entity.TicketTemplateBodies.FirstOrDefault()));
             }
 
             return entity;
@@ -349,12 +352,14 @@ namespace ExaminationImplementations
             }
 
             entity.TicketTemplateId = model.TicketTemplateId;
-            entity.TicketTemplateBodyPropertiesId = model.TicketTemplateBodyPropertiesId;
 
             if (model.TicketTemplateBodyPropertiesSetBindingModel != null)
             {
-                entity.TicketTemplateBodyProperties = CreateTicketTemplateBodyProperties(model.TicketTemplateBodyPropertiesSetBindingModel, entity.TicketTemplateBodyProperties);
-                entity.TicketTemplateBodyPropertiesId = entity.TicketTemplateBodyProperties.Id;
+                if(entity.TicketTemplateBodyProperties == null)
+                {
+                    entity.TicketTemplateBodyProperties = new System.Collections.Generic.List<TicketTemplateBodyProperties>();
+                }
+                entity.TicketTemplateBodyProperties.Add(CreateTicketTemplateBodyProperties(model.TicketTemplateBodyPropertiesSetBindingModel, entity.TicketTemplateBodyProperties.FirstOrDefault()));
             }
 
             if (model.TicketTemplateParagraphSetBindingModels != null && model.TicketTemplateParagraphSetBindingModels.Count > 0)
@@ -423,13 +428,15 @@ namespace ExaminationImplementations
             }
 
             entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
-            entity.TicketTemplateTablePropertiesId = model.TicketTemplateTablePropertiesId;
             entity.Order = model.Order;
 
             if (model.TicketTemplateTablePropertiesSetBindingModel != null)
             {
-                entity.TicketTemplateTableProperties = CreateTicketTemplateTableProperties(model.TicketTemplateTablePropertiesSetBindingModel, entity.TicketTemplateTableProperties);
-                entity.TicketTemplateTablePropertiesId = entity.TicketTemplateTableProperties.Id;
+                if(entity.TicketTemplateTableProperties == null)
+                {
+                    entity.TicketTemplateTableProperties = new System.Collections.Generic.List<TicketTemplateTableProperties>();
+                }
+                entity.TicketTemplateTableProperties.Add(CreateTicketTemplateTableProperties(model.TicketTemplateTablePropertiesSetBindingModel, entity.TicketTemplateTableProperties.FirstOrDefault()));
             }
             if (model.TicketTemplateTableGridColumnSetBindingModels != null && model.TicketTemplateTableGridColumnSetBindingModels.Count > 0)
             {
@@ -531,13 +538,15 @@ namespace ExaminationImplementations
             }
 
             entity.TicketTemplateTableId = model.TicketTemplateTableId;
-            entity.TicketTemplateTableRowPropertiesId = model.TicketTemplateTableRowPropertiesId;
             entity.Order = model.Order;
 
             if (model.TicketTemplateTableRowPropertiesSetBindingModel != null)
             {
-                entity.TicketTemplateTableRowProperties = CreateTicketTemplateTableRowProperties(model.TicketTemplateTableRowPropertiesSetBindingModel, entity.TicketTemplateTableRowProperties);
-                entity.TicketTemplateTableRowPropertiesId = entity.TicketTemplateTableRowProperties.Id;
+                if(entity.TicketTemplateTableRowProperties == null)
+                {
+                    entity.TicketTemplateTableRowProperties = new System.Collections.Generic.List<TicketTemplateTableRowProperties>();
+                }
+                entity.TicketTemplateTableRowProperties.Add(CreateTicketTemplateTableRowProperties(model.TicketTemplateTableRowPropertiesSetBindingModel, entity.TicketTemplateTableRowProperties.FirstOrDefault()));
             }
             if (model.TicketTemplateTableCellSetBindingModels != null && model.TicketTemplateTableCellSetBindingModels.Count > 0)
             {
@@ -584,13 +593,15 @@ namespace ExaminationImplementations
             }
 
             entity.TicketTemplateTableRowId = model.TicketTemplateTableRowId;
-            entity.TicketTemplateTableCellPropertiesId = model.TicketTemplateTableCellPropertiesId;
             entity.Order = model.Order;
 
             if (model.TicketTemplateTableCellPropertiesSetBindingModel != null)
-            {
-                entity.TicketTemplateTableCellProperties = CreateTicketTemplateTableCellProperties(model.TicketTemplateTableCellPropertiesSetBindingModel, entity.TicketTemplateTableCellProperties);
-                entity.TicketTemplateTableCellPropertiesId = entity.TicketTemplateTableCellProperties.Id;
+            { 
+                if(entity.TicketTemplateTableCellProperties == null)
+                {
+                    entity.TicketTemplateTableCellProperties = new System.Collections.Generic.List<TicketTemplateTableCellProperties>();
+                }
+                entity.TicketTemplateTableCellProperties.Add(CreateTicketTemplateTableCellProperties(model.TicketTemplateTableCellPropertiesSetBindingModel, entity.TicketTemplateTableCellProperties.FirstOrDefault()));
             }
             if (model.TicketTemplateParagraphSetBindingModels != null && model.TicketTemplateParagraphSetBindingModels.Count > 0)
             {
@@ -641,14 +652,16 @@ namespace ExaminationImplementations
             }
 
             entity.TicketTemplateBodyId = model.TicketTemplateBodyId;
-            entity.TicketTemplateParagraphPropertiesId = model.TicketTemplateParagraphPropertiesId;
             entity.TicketTemplateTableCellId = model.TicketTemplateTableCellId;
             entity.Order = model.Order;
 
             if (model.TicketTemplateParagraphPropertiesSetBindingModel != null)
             {
-                entity.TicketTemplateParagraphProperties = CreateTicketTemplateParagraphProperties(model.TicketTemplateParagraphPropertiesSetBindingModel, entity.TicketTemplateParagraphProperties);
-                entity.TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphProperties.Id;
+                if(entity.TicketTemplateParagraphProperties == null)
+                {
+                    entity.TicketTemplateParagraphProperties = new System.Collections.Generic.List<TicketTemplateParagraphProperties>();
+                }
+                entity.TicketTemplateParagraphProperties.Add(CreateTicketTemplateParagraphProperties(model.TicketTemplateParagraphPropertiesSetBindingModel, entity.TicketTemplateParagraphProperties.FirstOrDefault()));
             }
             if (model.TicketTemplateParagraphRunSetBindingModels != null && model.TicketTemplateParagraphRunSetBindingModels.Count > 0)
             {
@@ -709,7 +722,6 @@ namespace ExaminationImplementations
                 }
             }
             entity.TicketTemplateParagraphId = model.TicketTemplateParagraphId;
-            entity.TicketTemplateParagraphRunPropertiesId = model.TicketTemplateRunPropertiesId;
             entity.Order = model.Order;
             entity.Text = model.Text;
             entity.TabChar = model.TabChar;
@@ -717,8 +729,11 @@ namespace ExaminationImplementations
             entity.BreakType = model.BreakType;
             if (model.TicketTemplateParagraphRunPropertiesSetBindingModel != null)
             {
-                entity.TicketTemplateParagraphRunProperties = CreateTicketTemplateParagraphRunProperties(model.TicketTemplateParagraphRunPropertiesSetBindingModel, entity.TicketTemplateParagraphRunProperties);
-                entity.TicketTemplateParagraphRunPropertiesId = entity.TicketTemplateParagraphRunProperties.Id;
+                if(entity.TicketTemplateParagraphRunProperties == null)
+                {
+                    entity.TicketTemplateParagraphRunProperties = new System.Collections.Generic.List<TicketTemplateParagraphRunProperties>();
+                }
+                entity.TicketTemplateParagraphRunProperties.Add(CreateTicketTemplateParagraphRunProperties(model.TicketTemplateParagraphRunPropertiesSetBindingModel, entity.TicketTemplateParagraphRunProperties.FirstOrDefault()));
             }
 
             return entity;

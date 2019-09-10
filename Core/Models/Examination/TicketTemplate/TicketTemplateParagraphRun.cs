@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace Models.Examination
@@ -11,9 +13,6 @@ namespace Models.Examination
     {
         [DataMember]
         public Guid TicketTemplateParagraphId { get; set; }
-
-        [DataMember]
-        public Guid? TicketTemplateParagraphRunPropertiesId { get; set; }
 
         [DataMember]
         public string Text { get; set; }
@@ -34,8 +33,9 @@ namespace Models.Examination
 
         public virtual TicketTemplateParagraph TicketTemplateParagraph { get; set; }
 
-        public virtual TicketTemplateParagraphRunProperties TicketTemplateParagraphRunProperties { get; set; }
-
         //-------------------------------------------------------------------------
+
+        [ForeignKey("TicketTemplateParagraphRunId")]
+        public virtual List<TicketTemplateParagraphRunProperties> TicketTemplateParagraphRunProperties { get; set; }
     }
 }

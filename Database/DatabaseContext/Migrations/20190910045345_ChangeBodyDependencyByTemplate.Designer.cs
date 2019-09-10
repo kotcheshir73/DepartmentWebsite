@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190910045345_ChangeBodyDependencyByTemplate")]
+    partial class ChangeBodyDependencyByTemplate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1305,6 +1307,8 @@ namespace DatabaseContext.Migrations
                 {
                     b.Property<Guid>("Id");
 
+                    b.Property<Guid?>("TicketTemplateBodyPropertiesId");
+
                     b.Property<Guid>("TicketTemplateId");
 
                     b.HasKey("Id");
@@ -1340,7 +1344,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateBodyId");
+                    b.HasIndex("TicketTemplateBodyId")
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateBodyProperties");
                 });
@@ -1404,6 +1409,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid?>("TicketTemplateBodyId");
 
+                    b.Property<Guid?>("TicketTemplateParagraphPropertiesId");
+
                     b.Property<Guid?>("TicketTemplateTableCellId");
 
                     b.HasKey("Id");
@@ -1453,7 +1460,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateParagraphId");
+                    b.HasIndex("TicketTemplateParagraphId")
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateParagraphProperties");
                 });
@@ -1473,6 +1481,8 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("Text");
 
                     b.Property<Guid>("TicketTemplateParagraphId");
+
+                    b.Property<Guid?>("TicketTemplateParagraphRunPropertiesId");
 
                     b.HasKey("Id");
 
@@ -1497,7 +1507,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateParagraphRunId");
+                    b.HasIndex("TicketTemplateParagraphRunId")
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateParagraphRunProperties");
                 });
@@ -1527,6 +1538,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid>("TicketTemplateBodyId");
 
+                    b.Property<Guid?>("TicketTemplateTablePropertiesId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TicketTemplateBodyId");
@@ -1539,6 +1552,8 @@ namespace DatabaseContext.Migrations
                     b.Property<Guid>("Id");
 
                     b.Property<int>("Order");
+
+                    b.Property<Guid?>("TicketTemplateTableCellPropertiesId");
 
                     b.Property<Guid>("TicketTemplateTableRowId");
 
@@ -1569,7 +1584,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateTableCellId");
+                    b.HasIndex("TicketTemplateTableCellId")
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateTableCellProperties");
                 });
@@ -1649,7 +1665,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateTableId");
+                    b.HasIndex("TicketTemplateTableId")
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateTableProperties");
                 });
@@ -1661,6 +1678,8 @@ namespace DatabaseContext.Migrations
                     b.Property<int>("Order");
 
                     b.Property<Guid>("TicketTemplateTableId");
+
+                    b.Property<Guid?>("TicketTemplateTableRowPropertiesId");
 
                     b.HasKey("Id");
 
@@ -1681,7 +1700,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketTemplateTableRowId");
+                    b.HasIndex("TicketTemplateTableRowId")
+                        .IsUnique();
 
                     b.ToTable("TicketTemplateTableRowProperties");
                 });
@@ -2745,8 +2765,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateBodyProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateBody", "TicketTemplateBody")
-                        .WithMany("TicketTemplateBodyProperties")
-                        .HasForeignKey("TicketTemplateBodyId")
+                        .WithOne("TicketTemplateBodyProperties")
+                        .HasForeignKey("Models.Examination.TicketTemplateBodyProperties", "TicketTemplateBodyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2788,8 +2808,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateParagraph", "TicketTemplateParagraph")
-                        .WithMany("TicketTemplateParagraphProperties")
-                        .HasForeignKey("TicketTemplateParagraphId")
+                        .WithOne("TicketTemplateParagraphProperties")
+                        .HasForeignKey("Models.Examination.TicketTemplateParagraphProperties", "TicketTemplateParagraphId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2804,8 +2824,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateParagraphRunProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateParagraphRun", "TicketTemplateParagraphRun")
-                        .WithMany("TicketTemplateParagraphRunProperties")
-                        .HasForeignKey("TicketTemplateParagraphRunId")
+                        .WithOne("TicketTemplateParagraphRunProperties")
+                        .HasForeignKey("Models.Examination.TicketTemplateParagraphRunProperties", "TicketTemplateParagraphRunId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2836,8 +2856,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateTableCellProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateTableCell", "TicketTemplateTableCell")
-                        .WithMany("TicketTemplateTableCellProperties")
-                        .HasForeignKey("TicketTemplateTableCellId")
+                        .WithOne("TicketTemplateTableCellProperties")
+                        .HasForeignKey("Models.Examination.TicketTemplateTableCellProperties", "TicketTemplateTableCellId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2852,8 +2872,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateTableProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateTable", "TicketTemplateTable")
-                        .WithMany("TicketTemplateTableProperties")
-                        .HasForeignKey("TicketTemplateTableId")
+                        .WithOne("TicketTemplateTableProperties")
+                        .HasForeignKey("Models.Examination.TicketTemplateTableProperties", "TicketTemplateTableId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2868,8 +2888,8 @@ namespace DatabaseContext.Migrations
             modelBuilder.Entity("Models.Examination.TicketTemplateTableRowProperties", b =>
                 {
                     b.HasOne("Models.Examination.TicketTemplateTableRow", "TicketTemplateTableRow")
-                        .WithMany("TicketTemplateTableRowProperties")
-                        .HasForeignKey("TicketTemplateTableRowId")
+                        .WithOne("TicketTemplateTableRowProperties")
+                        .HasForeignKey("Models.Examination.TicketTemplateTableRowProperties", "TicketTemplateTableRowId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
