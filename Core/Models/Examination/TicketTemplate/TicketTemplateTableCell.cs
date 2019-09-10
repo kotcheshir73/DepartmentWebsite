@@ -15,18 +15,16 @@ namespace Models.Examination
         public Guid TicketTemplateTableRowId { get; set; }
 
         [DataMember]
-        public Guid? TicketTemplateTableCellPropertiesId { get; set; }
-
-        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual TicketTemplateTableRow TicketTemplateTableRow { get; set; }
 
-        public virtual TicketTemplateTableCellProperties TicketTemplateTableCellProperties { get; set; }
-
         //-------------------------------------------------------------------------
+
+        [ForeignKey("TicketTemplateTableCellId")]
+        public virtual List<TicketTemplateTableCellProperties> TicketTemplateTableCellProperties { get; set; }
 
         [ForeignKey("TicketTemplateTableCellId")]
         public virtual List<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }

@@ -18,9 +18,6 @@ namespace Models.Examination
         public Guid? TicketTemplateTableCellId { get; set; }
 
         [DataMember]
-        public Guid? TicketTemplateParagraphPropertiesId { get; set; }
-
-        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------
@@ -29,9 +26,10 @@ namespace Models.Examination
 
         public virtual TicketTemplateTableCell TicketTemplateTableCell { get; set; }
 
-        public virtual TicketTemplateParagraphProperties TicketTemplateParagraphProperties { get; set; }
-
         //-------------------------------------------------------------------------
+
+        [ForeignKey("TicketTemplateParagraphId")]
+        public virtual List<TicketTemplateParagraphProperties> TicketTemplateParagraphProperties { get; set; }
 
         [ForeignKey("TicketTemplateParagraphId")]
         public virtual List<TicketTemplateParagraphRun> TicketTemplateParagraphRuns { get; set; }

@@ -162,7 +162,7 @@ namespace ExaminationImplementations.Implementations
                     
                     if(entity.TicketTemplateParagraphRunProperties != null)
                     {
-                        context.TicketTemplateParagraphRunProperties.Remove(entity.TicketTemplateParagraphRunProperties);
+                        context.TicketTemplateParagraphRunProperties.Remove(entity.TicketTemplateParagraphRunProperties.FirstOrDefault());
                         context.SaveChanges();
                     }
                     context.TicketTemplateParagraphRuns.Remove(entity);

@@ -31,8 +31,9 @@ namespace ExaminationImplementations.Helpers
 
                 CreateParts(template, mainPart);
 
-                if (template.TicketTemplateBody != null)
+                if (template.TicketTemplateBodies != null)
                 {
+                    var body = template.TicketTemplateBodies.FirstOrDefault();
                     foreach (var ticket in tickets.OrderBy(x => x.TicketNumber))
                     {
                         _counterQuestions.Clear();
@@ -40,15 +41,15 @@ namespace ExaminationImplementations.Helpers
                         _examinationTemplateTicket = ticket;
                         _examinationTemplateTicketQuestions = ticket.ExaminationTemplateTicketQuestions.OrderBy(x => x.Order).Select(x => x).ToList();
 
-                        var steps = (template.TicketTemplateBody.TicketTemplateParagraphs?.Count ?? 0) + (template.TicketTemplateBody.TicketTemplateTables?.Count ?? 0);
+                        var steps = (body.TicketTemplateParagraphs?.Count ?? 0) + (body.TicketTemplateTables?.Count ?? 0);
                         for (int i = 0; i < steps; ++i)
                         {
-                            docBody.AppendChild(CreateParagraph(template.TicketTemplateBody.TicketTemplateParagraphs?.FirstOrDefault(x => x.Order == i)));
-                            docBody.AppendChild(CreateTable(template.TicketTemplateBody.TicketTemplateTables?.FirstOrDefault(x => x.Order == i)));
+                            docBody.AppendChild(CreateParagraph(body.TicketTemplateParagraphs?.FirstOrDefault(x => x.Order == i)));
+                            docBody.AppendChild(CreateTable(body.TicketTemplateTables?.FirstOrDefault(x => x.Order == i)));
                         }
                     }
 
-                    docBody.AppendChild(CreateSectionProperties(template.TicketTemplateBody));
+                    docBody.AppendChild(CreateSectionProperties(body));
                 }
 
                 wordDocument.MainDocumentPart.Document.Save();
@@ -148,48 +149,50 @@ namespace ExaminationImplementations.Helpers
         {
             if (body.TicketTemplateBodyProperties != null)
             {
+                var bodyPropertie = body.TicketTemplateBodyProperties.FirstOrDefault();
+
                 SectionProperties properties = new SectionProperties();
 
                 PageSize pageSize = new PageSize();
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageSizeHeight))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageSizeHeight))
                 {
-                    pageSize.Height = Convert.ToUInt32(body.TicketTemplateBodyProperties.PageSizeHeight);
+                    pageSize.Height = Convert.ToUInt32(bodyPropertie.PageSizeHeight);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageSizeWidth))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageSizeWidth))
                 {
-                    pageSize.Width = Convert.ToUInt32(body.TicketTemplateBodyProperties.PageSizeWidth);
+                    pageSize.Width = Convert.ToUInt32(bodyPropertie.PageSizeWidth);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageSizeOrient))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageSizeOrient))
                 {
-                    pageSize.Orient = (PageOrientationValues)Enum.Parse(typeof(PageOrientationValues), body.TicketTemplateBodyProperties.PageSizeOrient.WithBigLetter());
+                    pageSize.Orient = (PageOrientationValues)Enum.Parse(typeof(PageOrientationValues), bodyPropertie.PageSizeOrient.WithBigLetter());
                 }
 
                 properties.AppendChild(pageSize);
 
                 PageMargin pageMargin = new PageMargin();
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageMarginBottom))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageMarginBottom))
                 {
-                    pageMargin.Bottom = Convert.ToInt32(body.TicketTemplateBodyProperties.PageMarginBottom);
+                    pageMargin.Bottom = Convert.ToInt32(bodyPropertie.PageMarginBottom);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageMarginFooter))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageMarginFooter))
                 {
-                    pageMargin.Footer = Convert.ToUInt32(body.TicketTemplateBodyProperties.PageMarginFooter);
+                    pageMargin.Footer = Convert.ToUInt32(bodyPropertie.PageMarginFooter);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageMarginGutter))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageMarginGutter))
                 {
-                    pageMargin.Gutter = Convert.ToUInt32(body.TicketTemplateBodyProperties.PageMarginGutter);
+                    pageMargin.Gutter = Convert.ToUInt32(bodyPropertie.PageMarginGutter);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageMarginLeft))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageMarginLeft))
                 {
-                    pageMargin.Left = Convert.ToUInt32(body.TicketTemplateBodyProperties.PageMarginLeft);
+                    pageMargin.Left = Convert.ToUInt32(bodyPropertie.PageMarginLeft);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageMarginRight))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageMarginRight))
                 {
-                    pageMargin.Right = Convert.ToUInt32(body.TicketTemplateBodyProperties.PageMarginRight);
+                    pageMargin.Right = Convert.ToUInt32(bodyPropertie.PageMarginRight);
                 }
-                if (!string.IsNullOrEmpty(body.TicketTemplateBodyProperties.PageMarginTop))
+                if (!string.IsNullOrEmpty(bodyPropertie.PageMarginTop))
                 {
-                    pageMargin.Top = Convert.ToInt32(body.TicketTemplateBodyProperties.PageMarginTop);
+                    pageMargin.Top = Convert.ToInt32(bodyPropertie.PageMarginTop);
                 }
 
                 properties.AppendChild(pageMargin);
@@ -242,124 +245,126 @@ namespace ExaminationImplementations.Helpers
         {
             if (table.TicketTemplateTableProperties != null)
             {
+                var tableProperties = table.TicketTemplateTableProperties.FirstOrDefault();
+
                 TableProperties properties = new TableProperties();
 
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.Width))
+                if (!string.IsNullOrEmpty(tableProperties.Width))
                 {
-                    properties.AppendChild(new TableWidth() { Width = table.TicketTemplateTableProperties.Width });
+                    properties.AppendChild(new TableWidth() { Width = tableProperties.Width });
                 }
 
                 TableLook tableLook = new TableLook();
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookValue))
+                if (!string.IsNullOrEmpty(tableProperties.LookValue))
                 {
-                    tableLook.Val = table.TicketTemplateTableProperties.LookValue;
+                    tableLook.Val = tableProperties.LookValue;
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookFirstRow))
+                if (!string.IsNullOrEmpty(tableProperties.LookFirstRow))
                 {
-                    tableLook.FirstRow = new OnOffValue(table.TicketTemplateTableProperties.LookFirstRow != "0");
+                    tableLook.FirstRow = new OnOffValue(tableProperties.LookFirstRow != "0");
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookFirstColumn))
+                if (!string.IsNullOrEmpty(tableProperties.LookFirstColumn))
                 {
-                    tableLook.FirstColumn = new OnOffValue(table.TicketTemplateTableProperties.LookFirstColumn != "0");
+                    tableLook.FirstColumn = new OnOffValue(tableProperties.LookFirstColumn != "0");
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookLastRow))
+                if (!string.IsNullOrEmpty(tableProperties.LookLastRow))
                 {
-                    tableLook.LastRow = new OnOffValue(table.TicketTemplateTableProperties.LookLastRow != "0");
+                    tableLook.LastRow = new OnOffValue(tableProperties.LookLastRow != "0");
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookLastColumn))
+                if (!string.IsNullOrEmpty(tableProperties.LookLastColumn))
                 {
-                    tableLook.LastColumn = new OnOffValue(table.TicketTemplateTableProperties.LookLastColumn != "0");
+                    tableLook.LastColumn = new OnOffValue(tableProperties.LookLastColumn != "0");
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookNoHorizontalBand))
+                if (!string.IsNullOrEmpty(tableProperties.LookNoHorizontalBand))
                 {
-                    tableLook.NoHorizontalBand = new OnOffValue(table.TicketTemplateTableProperties.LookNoHorizontalBand != "0");
+                    tableLook.NoHorizontalBand = new OnOffValue(tableProperties.LookNoHorizontalBand != "0");
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LookNoVerticalBand))
+                if (!string.IsNullOrEmpty(tableProperties.LookNoVerticalBand))
                 {
-                    tableLook.NoVerticalBand = new OnOffValue(table.TicketTemplateTableProperties.LookNoVerticalBand != "0");
+                    tableLook.NoVerticalBand = new OnOffValue(tableProperties.LookNoVerticalBand != "0");
                 }
                 properties.AppendChild(tableLook);
 
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.LayoutType))
+                if (!string.IsNullOrEmpty(tableProperties.LayoutType))
                 {
-                    properties.AppendChild(new TableLayout() { Type = (TableLayoutValues)Enum.Parse(typeof(TableLayoutValues), table.TicketTemplateTableProperties.LayoutType.WithBigLetter()) });
+                    properties.AppendChild(new TableLayout() { Type = (TableLayoutValues)Enum.Parse(typeof(TableLayoutValues), tableProperties.LayoutType.WithBigLetter()) });
                 }
 
                 TableBorders tableBorders = new TableBorders();
 
                 TopBorder topBorder = new TopBorder();
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderTopValue))
+                if (!string.IsNullOrEmpty(tableProperties.BorderTopValue))
                 {
-                    topBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), table.TicketTemplateTableProperties.BorderTopValue.WithBigLetter());
+                    topBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), tableProperties.BorderTopValue.WithBigLetter());
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderTopColor))
+                if (!string.IsNullOrEmpty(tableProperties.BorderTopColor))
                 {
-                    topBorder.Color = table.TicketTemplateTableProperties.BorderTopColor;
+                    topBorder.Color = tableProperties.BorderTopColor;
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderTopSize))
+                if (!string.IsNullOrEmpty(tableProperties.BorderTopSize))
                 {
-                    topBorder.Size = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderTopSize);
+                    topBorder.Size = Convert.ToUInt32(tableProperties.BorderTopSize);
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderTopSpace))
+                if (!string.IsNullOrEmpty(tableProperties.BorderTopSpace))
                 {
-                    topBorder.Space = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderTopSpace);
+                    topBorder.Space = Convert.ToUInt32(tableProperties.BorderTopSpace);
                 }
                 tableBorders.AppendChild(topBorder);
 
                 BottomBorder bottomBorder = new BottomBorder();
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderBottomValue))
+                if (!string.IsNullOrEmpty(tableProperties.BorderBottomValue))
                 {
-                    bottomBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), table.TicketTemplateTableProperties.BorderBottomValue.WithBigLetter());
+                    bottomBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), tableProperties.BorderBottomValue.WithBigLetter());
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderBottomColor))
+                if (!string.IsNullOrEmpty(tableProperties.BorderBottomColor))
                 {
-                    bottomBorder.Color = table.TicketTemplateTableProperties.BorderBottomColor;
+                    bottomBorder.Color = tableProperties.BorderBottomColor;
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderBottomSize))
+                if (!string.IsNullOrEmpty(tableProperties.BorderBottomSize))
                 {
-                    bottomBorder.Size = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderBottomSize);
+                    bottomBorder.Size = Convert.ToUInt32(tableProperties.BorderBottomSize);
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderBottomSpace))
+                if (!string.IsNullOrEmpty(tableProperties.BorderBottomSpace))
                 {
-                    bottomBorder.Space = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderBottomSpace);
+                    bottomBorder.Space = Convert.ToUInt32(tableProperties.BorderBottomSpace);
                 }
                 tableBorders.AppendChild(bottomBorder);
 
                 LeftBorder leftBorder = new LeftBorder();
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderLeftValue))
+                if (!string.IsNullOrEmpty(tableProperties.BorderLeftValue))
                 {
-                    leftBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), table.TicketTemplateTableProperties.BorderLeftValue.WithBigLetter());
+                    leftBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), tableProperties.BorderLeftValue.WithBigLetter());
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderLeftColor))
+                if (!string.IsNullOrEmpty(tableProperties.BorderLeftColor))
                 {
-                    leftBorder.Color = table.TicketTemplateTableProperties.BorderLeftColor;
+                    leftBorder.Color = tableProperties.BorderLeftColor;
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderLeftSize))
+                if (!string.IsNullOrEmpty(tableProperties.BorderLeftSize))
                 {
-                    leftBorder.Size = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderLeftSize);
+                    leftBorder.Size = Convert.ToUInt32(tableProperties.BorderLeftSize);
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderLeftSpace))
+                if (!string.IsNullOrEmpty(tableProperties.BorderLeftSpace))
                 {
-                    leftBorder.Space = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderLeftSpace);
+                    leftBorder.Space = Convert.ToUInt32(tableProperties.BorderLeftSpace);
                 }
                 tableBorders.AppendChild(leftBorder);
 
                 RightBorder rightBorder = new RightBorder();
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderRightValue))
+                if (!string.IsNullOrEmpty(tableProperties.BorderRightValue))
                 {
-                    rightBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), table.TicketTemplateTableProperties.BorderRightValue.WithBigLetter());
+                    rightBorder.Val = (BorderValues)Enum.Parse(typeof(BorderValues), tableProperties.BorderRightValue.WithBigLetter());
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderRightColor))
+                if (!string.IsNullOrEmpty(tableProperties.BorderRightColor))
                 {
-                    rightBorder.Color = table.TicketTemplateTableProperties.BorderRightColor;
+                    rightBorder.Color = tableProperties.BorderRightColor;
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderRightSize))
+                if (!string.IsNullOrEmpty(tableProperties.BorderRightSize))
                 {
-                    rightBorder.Size = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderRightSize);
+                    rightBorder.Size = Convert.ToUInt32(tableProperties.BorderRightSize);
                 }
-                if (!string.IsNullOrEmpty(table.TicketTemplateTableProperties.BorderRightSpace))
+                if (!string.IsNullOrEmpty(tableProperties.BorderRightSpace))
                 {
-                    rightBorder.Space = Convert.ToUInt32(table.TicketTemplateTableProperties.BorderRightSpace);
+                    rightBorder.Space = Convert.ToUInt32(tableProperties.BorderRightSpace);
                 }
                 tableBorders.AppendChild(rightBorder);
 
@@ -394,18 +399,20 @@ namespace ExaminationImplementations.Helpers
         {
             if (row.TicketTemplateTableRowProperties != null)
             {
-                if (!string.IsNullOrEmpty(row.TicketTemplateTableRowProperties.CantSplit) || !string.IsNullOrEmpty(row.TicketTemplateTableRowProperties.TableRowHeight))
+                var tablerowProperties = row.TicketTemplateTableRowProperties.FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(tablerowProperties.CantSplit) || !string.IsNullOrEmpty(tablerowProperties.TableRowHeight))
                 {
                     TableRowProperties properties = new TableRowProperties();
 
-                    if (!string.IsNullOrEmpty(row.TicketTemplateTableRowProperties.CantSplit))
+                    if (!string.IsNullOrEmpty(tablerowProperties.CantSplit))
                     {
-                        properties.AppendChild(new CantSplit() { Val = (OnOffOnlyValues)Enum.Parse(typeof(OnOffOnlyValues), row.TicketTemplateTableRowProperties.CantSplit.WithBigLetter()) });
+                        properties.AppendChild(new CantSplit() { Val = (OnOffOnlyValues)Enum.Parse(typeof(OnOffOnlyValues), tablerowProperties.CantSplit.WithBigLetter()) });
                     }
 
-                    if (!string.IsNullOrEmpty(row.TicketTemplateTableRowProperties.TableRowHeight))
+                    if (!string.IsNullOrEmpty(tablerowProperties.TableRowHeight))
                     {
-                        properties.AppendChild(new TableRowHeight() { Val = Convert.ToUInt32(row.TicketTemplateTableRowProperties.TableRowHeight) });
+                        properties.AppendChild(new TableRowHeight() { Val = Convert.ToUInt32(tablerowProperties.TableRowHeight) });
                     }
 
                     return properties;
@@ -438,25 +445,27 @@ namespace ExaminationImplementations.Helpers
         {
             if (cell.TicketTemplateTableCellProperties != null)
             {
+                var tablecellPropertie = cell.TicketTemplateTableCellProperties.FirstOrDefault();
+
                 TableCellProperties properties = new TableCellProperties();
 
-                if (!string.IsNullOrEmpty(cell.TicketTemplateTableCellProperties.TableCellWidth))
+                if (!string.IsNullOrEmpty(tablecellPropertie.TableCellWidth))
                 {
-                    properties.AppendChild(new TableCellWidth() { Width = cell.TicketTemplateTableCellProperties.TableCellWidth });
+                    properties.AppendChild(new TableCellWidth() { Width = tablecellPropertie.TableCellWidth });
                 }
 
-                if (!string.IsNullOrEmpty(cell.TicketTemplateTableCellProperties.GridSpan))
+                if (!string.IsNullOrEmpty(tablecellPropertie.GridSpan))
                 {
-                    properties.AppendChild(new GridSpan() { Val = Convert.ToInt32(cell.TicketTemplateTableCellProperties.GridSpan) });
+                    properties.AppendChild(new GridSpan() { Val = Convert.ToInt32(tablecellPropertie.GridSpan) });
                 }
 
-                if (!string.IsNullOrEmpty(cell.TicketTemplateTableCellProperties.VerticalMerge))
+                if (!string.IsNullOrEmpty(tablecellPropertie.VerticalMerge))
                 {
-                    if (cell.TicketTemplateTableCellProperties.VerticalMerge != "continue")
+                    if (tablecellPropertie.VerticalMerge != "continue")
                     {
                         properties.AppendChild(new VerticalMerge()
                         {
-                            Val = (MergedCellValues)Enum.Parse(typeof(MergedCellValues), cell.TicketTemplateTableCellProperties.VerticalMerge.WithBigLetter())
+                            Val = (MergedCellValues)Enum.Parse(typeof(MergedCellValues), tablecellPropertie.VerticalMerge.WithBigLetter())
                         });
                     }
                     else
@@ -466,17 +475,17 @@ namespace ExaminationImplementations.Helpers
                 }
 
                 Shading shading = new Shading();
-                if (!string.IsNullOrEmpty(cell.TicketTemplateTableCellProperties.ShadingValue))
+                if (!string.IsNullOrEmpty(tablecellPropertie.ShadingValue))
                 {
-                    shading.Val = (ShadingPatternValues)Enum.Parse(typeof(ShadingPatternValues), cell.TicketTemplateTableCellProperties.ShadingValue.WithBigLetter());
+                    shading.Val = (ShadingPatternValues)Enum.Parse(typeof(ShadingPatternValues), tablecellPropertie.ShadingValue.WithBigLetter());
                 }
-                if (!string.IsNullOrEmpty(cell.TicketTemplateTableCellProperties.ShadingColor))
+                if (!string.IsNullOrEmpty(tablecellPropertie.ShadingColor))
                 {
-                    shading.Color = cell.TicketTemplateTableCellProperties.ShadingColor;
+                    shading.Color = tablecellPropertie.ShadingColor;
                 }
-                if (!string.IsNullOrEmpty(cell.TicketTemplateTableCellProperties.ShadingFill))
+                if (!string.IsNullOrEmpty(tablecellPropertie.ShadingFill))
                 {
-                    shading.Fill = cell.TicketTemplateTableCellProperties.ShadingFill;
+                    shading.Fill = tablecellPropertie.ShadingFill;
                 }
                 properties.AppendChild(shading);
 
@@ -509,24 +518,26 @@ namespace ExaminationImplementations.Helpers
         {
             if (paragraph.TicketTemplateParagraphProperties != null)
             {
+                var paragraphPropertie = paragraph.TicketTemplateParagraphProperties.FirstOrDefault();
+
                 ParagraphProperties properties = new ParagraphProperties();
 
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.NumberingLevelReference) || !string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.NumberingId))
+                if (!string.IsNullOrEmpty(paragraphPropertie.NumberingLevelReference) || !string.IsNullOrEmpty(paragraphPropertie.NumberingId))
                 {
                     NumberingProperties numberingProperties = new NumberingProperties();
-                    if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.NumberingLevelReference))
+                    if (!string.IsNullOrEmpty(paragraphPropertie.NumberingLevelReference))
                     {
                         NumberingLevelReference numberingLevelReference = new NumberingLevelReference
                         {
-                            Val = Convert.ToInt32(paragraph.TicketTemplateParagraphProperties.NumberingLevelReference)
+                            Val = Convert.ToInt32(paragraphPropertie.NumberingLevelReference)
                         };
                         numberingProperties.AppendChild(numberingLevelReference);
                     }
-                    if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.NumberingId))
+                    if (!string.IsNullOrEmpty(paragraphPropertie.NumberingId))
                     {
                         NumberingId numberingLevelReference = new NumberingId
                         {
-                            Val = Convert.ToInt32(paragraph.TicketTemplateParagraphProperties.NumberingId) * 100 + _examinationTemplateTicket.TicketNumber
+                            Val = Convert.ToInt32(paragraphPropertie.NumberingId) * 100 + _examinationTemplateTicket.TicketNumber
                         };
                         numberingProperties.AppendChild(numberingLevelReference);
                     }
@@ -534,68 +545,68 @@ namespace ExaminationImplementations.Helpers
                     properties.AppendChild(numberingProperties);
                 }
 
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.Justification))
+                if (!string.IsNullOrEmpty(paragraphPropertie.Justification))
                 {
                     Justification justification = new Justification()
                     {
-                        Val = (JustificationValues)Enum.Parse(typeof(JustificationValues), paragraph.TicketTemplateParagraphProperties.Justification.WithBigLetter())
+                        Val = (JustificationValues)Enum.Parse(typeof(JustificationValues), paragraphPropertie.Justification.WithBigLetter())
                     };
 
                     properties.AppendChild(justification);
                 }
 
                 SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines();
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesLine))
+                if (!string.IsNullOrEmpty(paragraphPropertie.SpacingBetweenLinesLine))
                 {
-                    spacingBetweenLines.Line = paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesLine;
+                    spacingBetweenLines.Line = paragraphPropertie.SpacingBetweenLinesLine;
                 }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesLineRule))
+                if (!string.IsNullOrEmpty(paragraphPropertie.SpacingBetweenLinesLineRule))
                 {
-                    spacingBetweenLines.LineRule = (LineSpacingRuleValues)Enum.Parse(typeof(LineSpacingRuleValues), paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesLineRule.WithBigLetter());
+                    spacingBetweenLines.LineRule = (LineSpacingRuleValues)Enum.Parse(typeof(LineSpacingRuleValues), paragraphPropertie.SpacingBetweenLinesLineRule.WithBigLetter());
                 }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesBefore))
+                if (!string.IsNullOrEmpty(paragraphPropertie.SpacingBetweenLinesBefore))
                 {
-                    spacingBetweenLines.Before = paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesBefore;
+                    spacingBetweenLines.Before = paragraphPropertie.SpacingBetweenLinesBefore;
                 }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesAfter))
+                if (!string.IsNullOrEmpty(paragraphPropertie.SpacingBetweenLinesAfter))
                 {
-                    spacingBetweenLines.After = paragraph.TicketTemplateParagraphProperties.SpacingBetweenLinesAfter;
+                    spacingBetweenLines.After = paragraphPropertie.SpacingBetweenLinesAfter;
                 }
                 properties.AppendChild(spacingBetweenLines);
 
                 Indentation indentation = new Indentation();
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.IndentationFirstLine))
+                if (!string.IsNullOrEmpty(paragraphPropertie.IndentationFirstLine))
                 {
-                    indentation.FirstLine = paragraph.TicketTemplateParagraphProperties.IndentationFirstLine;
+                    indentation.FirstLine = paragraphPropertie.IndentationFirstLine;
                 }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.IndentationHanging))
+                if (!string.IsNullOrEmpty(paragraphPropertie.IndentationHanging))
                 {
-                    indentation.Hanging = paragraph.TicketTemplateParagraphProperties.IndentationHanging;
+                    indentation.Hanging = paragraphPropertie.IndentationHanging;
                 }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.IndentationLeft))
+                if (!string.IsNullOrEmpty(paragraphPropertie.IndentationLeft))
                 {
-                    indentation.Left = paragraph.TicketTemplateParagraphProperties.IndentationLeft;
+                    indentation.Left = paragraphPropertie.IndentationLeft;
                 }
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.IndentationRight))
+                if (!string.IsNullOrEmpty(paragraphPropertie.IndentationRight))
                 {
-                    indentation.Right = paragraph.TicketTemplateParagraphProperties.IndentationRight;
+                    indentation.Right = paragraphPropertie.IndentationRight;
                 }
                 properties.AppendChild(indentation);
 
                 ParagraphMarkRunProperties paragraphMarkRunProperties = new ParagraphMarkRunProperties();
-                if (!string.IsNullOrEmpty(paragraph.TicketTemplateParagraphProperties.RunSize))
+                if (!string.IsNullOrEmpty(paragraphPropertie.RunSize))
                 {
-                    paragraphMarkRunProperties.AppendChild(new FontSize { Val = paragraph.TicketTemplateParagraphProperties.RunSize });
+                    paragraphMarkRunProperties.AppendChild(new FontSize { Val = paragraphPropertie.RunSize });
                 }
-                if (paragraph.TicketTemplateParagraphProperties.RunBold)
+                if (paragraphPropertie.RunBold)
                 {
                     paragraphMarkRunProperties.AppendChild(new Bold());
                 }
-                if (paragraph.TicketTemplateParagraphProperties.RunItalic)
+                if (paragraphPropertie.RunItalic)
                 {
                     paragraphMarkRunProperties.AppendChild(new Italic());
                 }
-                if (paragraph.TicketTemplateParagraphProperties.RunUnderline)
+                if (paragraphPropertie.RunUnderline)
                 {
                     paragraphMarkRunProperties.AppendChild(new Underline());
                 }
@@ -653,24 +664,25 @@ namespace ExaminationImplementations.Helpers
         {
             if (run.TicketTemplateParagraphRunProperties != null)
             {
-                if (!string.IsNullOrEmpty(run.TicketTemplateParagraphRunProperties.RunSize) || run.TicketTemplateParagraphRunProperties.RunBold ||
-                    run.TicketTemplateParagraphRunProperties.RunItalic || run.TicketTemplateParagraphRunProperties.RunUnderline)
+                var runPropertie = run.TicketTemplateParagraphRunProperties.FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(runPropertie.RunSize) || runPropertie.RunBold || runPropertie.RunItalic || runPropertie.RunUnderline)
                 {
                     RunProperties properties = new RunProperties();
 
-                    if (!string.IsNullOrEmpty(run.TicketTemplateParagraphRunProperties.RunSize))
+                    if (!string.IsNullOrEmpty(runPropertie.RunSize))
                     {
-                        properties.AppendChild(new FontSize { Val = run.TicketTemplateParagraphRunProperties.RunSize });
+                        properties.AppendChild(new FontSize { Val = runPropertie.RunSize });
                     }
-                    if (run.TicketTemplateParagraphRunProperties.RunBold)
+                    if (runPropertie.RunBold)
                     {
                         properties.AppendChild(new Bold());
                     }
-                    if (run.TicketTemplateParagraphRunProperties.RunItalic)
+                    if (runPropertie.RunItalic)
                     {
                         properties.AppendChild(new Italic());
                     }
-                    if (run.TicketTemplateParagraphRunProperties.RunUnderline)
+                    if (runPropertie.RunUnderline)
                     {
                         properties.AppendChild(new Underline());
                     }
