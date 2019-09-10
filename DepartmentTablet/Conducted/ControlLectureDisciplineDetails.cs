@@ -1,4 +1,5 @@
-﻿using DepartmentTablet.CustomControls;
+﻿using DatabaseContext;
+using DepartmentTablet.CustomControls;
 using LearningProgressInterfaces.BindingModels;
 using LearningProgressInterfaces.Interfaces;
 using System;

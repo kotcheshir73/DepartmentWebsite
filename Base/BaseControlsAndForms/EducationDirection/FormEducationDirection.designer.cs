@@ -33,12 +33,16 @@
             this.labelShortName = new System.Windows.Forms.Label();
             this.labelQualification = new System.Windows.Forms.Label();
             this.comboBoxQualification = new System.Windows.Forms.ComboBox();
+            this.textBoxProfile = new System.Windows.Forms.TextBox();
+            this.labelProfile = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.textBoxProfile);
+            this.panelMain.Controls.Add(this.labelProfile);
             this.panelMain.Controls.Add(this.comboBoxQualification);
             this.panelMain.Controls.Add(this.labelQualification);
             this.panelMain.Controls.Add(this.textBoxShortName);
@@ -49,7 +53,7 @@
             this.panelMain.Controls.Add(this.labelTitle);
             this.panelMain.Controls.Add(this.labelDescription);
             this.panelMain.Controls.Add(this.textBoxTitle);
-            this.panelMain.Size = new System.Drawing.Size(404, 185);
+            this.panelMain.Size = new System.Drawing.Size(404, 232);
             // 
             // panelTop
             // 
@@ -91,20 +95,20 @@
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(102, 85);
+            this.textBoxDescription.Location = new System.Drawing.Point(102, 129);
             this.textBoxDescription.MaxLength = 10000;
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(290, 91);
-            this.textBoxDescription.TabIndex = 9;
+            this.textBoxDescription.TabIndex = 11;
             // 
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(11, 88);
+            this.labelDescription.Location = new System.Drawing.Point(11, 134);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(60, 13);
-            this.labelDescription.TabIndex = 8;
+            this.labelDescription.TabIndex = 10;
             this.labelDescription.Text = "Описание:";
             // 
             // textBoxShortName
@@ -142,11 +146,29 @@
             this.comboBoxQualification.Size = new System.Drawing.Size(290, 21);
             this.comboBoxQualification.TabIndex = 7;
             // 
+            // textBoxProfile
+            // 
+            this.textBoxProfile.Location = new System.Drawing.Point(102, 85);
+            this.textBoxProfile.MaxLength = 10000;
+            this.textBoxProfile.Multiline = true;
+            this.textBoxProfile.Name = "textBoxProfile";
+            this.textBoxProfile.Size = new System.Drawing.Size(290, 40);
+            this.textBoxProfile.TabIndex = 9;
+            // 
+            // labelProfile
+            // 
+            this.labelProfile.AutoSize = true;
+            this.labelProfile.Location = new System.Drawing.Point(11, 88);
+            this.labelProfile.Name = "labelProfile";
+            this.labelProfile.Size = new System.Drawing.Size(56, 13);
+            this.labelProfile.TabIndex = 8;
+            this.labelProfile.Text = "Профиль:";
+            // 
             // FormEducationDirection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 221);
+            this.ClientSize = new System.Drawing.Size(404, 268);
             this.Name = "FormEducationDirection";
             this.Text = "Направление обучения";
             this.panelMain.ResumeLayout(false);
@@ -168,5 +190,7 @@
         private System.Windows.Forms.Label labelShortName;
         private System.Windows.Forms.ComboBox comboBoxQualification;
         private System.Windows.Forms.Label labelQualification;
+        private System.Windows.Forms.TextBox textBoxProfile;
+        private System.Windows.Forms.Label labelProfile;
     }
 }

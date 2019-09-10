@@ -1,4 +1,5 @@
-﻿using LearningProgressInterfaces.BindingModels;
+﻿using DatabaseContext;
+using LearningProgressInterfaces.BindingModels;
 using LearningProgressInterfaces.Interfaces;
 using System;
 using System.Collections;

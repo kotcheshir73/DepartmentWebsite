@@ -19,6 +19,7 @@ using LearningProgressInterfaces.BindingModels;
 using Tools;
 using BaseInterfaces.ViewModels;
 using LearningProgressInterfaces.ViewModels;
+using DatabaseContext;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 

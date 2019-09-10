@@ -30,7 +30,8 @@ namespace BaseImplementations
                 ShortName = entity.ShortName,
                 Title = entity.Title,
                 Qualification = entity.Qualification.ToString(),
-                Description = entity.Description
+                Description = entity.Description,
+                Profile = entity.Profile
             };
         }
 
