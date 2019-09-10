@@ -19,19 +19,20 @@ namespace ExaminationImplementations.Helpers
 
                 TicketTemplate template = new TicketTemplate
                 {
-                    TemplateName = model.TemplateName
+                    TemplateName = model.TemplateName,
+                    TicketTemplateBodies = new List<TicketTemplateBody>()
                 };
 
                 TicketTemplateBody body = new TicketTemplateBody
                 {
                     TicketTemplateId = template.Id,
+                    TicketTemplateBodyProperties = new List<TicketTemplateBodyProperties>(),
                     TicketTemplateParagraphs = new List<TicketTemplateParagraph>(),
                     TicketTemplateTables = new List<TicketTemplateTable>()
                 };
                 // находим свойства документа
-                body.TicketTemplateBodyProperties = GetBodyProperties(wordDocument.MainDocumentPart.Document.Body, body.Id);
-                body.TicketTemplateBodyPropertiesId = body.TicketTemplateBodyProperties.Id;
-                
+                body.TicketTemplateBodyProperties.Add(GetBodyProperties(wordDocument.MainDocumentPart.Document.Body, body.Id));
+
                 CreateFontTablePart(wordDocument.MainDocumentPart.FontTablePart, template);
                 CreateNumberingDefinitionsPart(wordDocument.MainDocumentPart.NumberingDefinitionsPart, template);
                 CreateDocumentSettingsPart(wordDocument.MainDocumentPart.DocumentSettingsPart, template);
@@ -52,8 +53,7 @@ namespace ExaminationImplementations.Helpers
                     }
                 }
 
-                template.TicketTemplateBody = body;
-                template.TicketTemplateBodyId = body.Id;
+                template.TicketTemplateBodies.Add(body);
 
                 return template;
             }
@@ -208,12 +208,12 @@ namespace ExaminationImplementations.Helpers
             {
                 TicketTemplateBodyId = BodyId,
                 Order = order,
+                TicketTemplateTableProperties = new List<TicketTemplateTableProperties>(),
                 TicketTemplateTableGridColumns = new List<TicketTemplateTableGridColumn>(),
                 TicketTemplateTableRows = new List<TicketTemplateTableRow>()
             };
             // свойства таблицы
-            table.TicketTemplateTableProperties = GetTableProperties(element as DocumentFormat.OpenXml.Wordprocessing.Table, table.Id);
-            table.TicketTemplateTablePropertiesId = table.TicketTemplateTableProperties.Id;
+            table.TicketTemplateTableProperties.Add(GetTableProperties(element as DocumentFormat.OpenXml.Wordprocessing.Table, table.Id));
             int rowOrder = 0;
             foreach (var elem in element.ChildElements)
             {
@@ -347,15 +347,15 @@ namespace ExaminationImplementations.Helpers
             {
                 TicketTemplateTableId = Id,
                 Order = order,
+                TicketTemplateTableRowProperties = new List<TicketTemplateTableRowProperties>(),
                 TicketTemplateTableCells = new List<TicketTemplateTableCell>()
             };
             // свойства стоки
-            row.TicketTemplateTableRowProperties = GetTableRowProperties(element as DocumentFormat.OpenXml.Wordprocessing.TableRow, row.Id);
-            row.TicketTemplateTableRowPropertiesId = row.TicketTemplateTableRowProperties.Id;
+            row.TicketTemplateTableRowProperties.Add(GetTableRowProperties(element as DocumentFormat.OpenXml.Wordprocessing.TableRow, row.Id));
             int orderCell = 0;
             foreach (var elem in element.ChildElements)
             {
-                if(elem is DocumentFormat.OpenXml.Wordprocessing.TableCell)
+                if (elem is DocumentFormat.OpenXml.Wordprocessing.TableCell)
                 {
                     row.TicketTemplateTableCells.Add(GetTableCell(orderCell++, elem as DocumentFormat.OpenXml.Wordprocessing.TableCell, row.Id));
                 }
@@ -407,11 +407,11 @@ namespace ExaminationImplementations.Helpers
             {
                 TicketTemplateTableRowId = Id,
                 Order = order,
+                TicketTemplateTableCellProperties = new List<TicketTemplateTableCellProperties>(),
                 TicketTemplateParagraphs = new List<TicketTemplateParagraph>()
             };
             // свойства стоки
-            cell.TicketTemplateTableCellProperties = GetTableCellProperties(element as DocumentFormat.OpenXml.Wordprocessing.TableCell, cell.Id);
-            cell.TicketTemplateTableCellPropertiesId = cell.TicketTemplateTableCellProperties.Id;
+            cell.TicketTemplateTableCellProperties.Add(GetTableCellProperties(element as DocumentFormat.OpenXml.Wordprocessing.TableCell, cell.Id));
             int orderParagraph = 0;
             foreach (var elem in element.ChildElements)
             {
@@ -475,12 +475,12 @@ namespace ExaminationImplementations.Helpers
             {
                 TicketTemplateBodyId = BodyId,
                 Order = order,
+                TicketTemplateParagraphProperties = new List<TicketTemplateParagraphProperties>(),
                 TicketTemplateParagraphRuns = new List<TicketTemplateParagraphRun>(),
                 TicketTemplateTableCellId = CellId
             };
             // свойства параграфа
-            paragraph.TicketTemplateParagraphProperties = GetParagraphProperties(element as DocumentFormat.OpenXml.Wordprocessing.Paragraph, paragraph.Id);
-            paragraph.TicketTemplateParagraphPropertiesId = paragraph.TicketTemplateParagraphProperties.Id;
+            paragraph.TicketTemplateParagraphProperties.Add(GetParagraphProperties(element as DocumentFormat.OpenXml.Wordprocessing.Paragraph, paragraph.Id));
             int orderRun = 0;
             // идем по его элементам
             foreach (var elem in element.ChildElements)
@@ -493,21 +493,21 @@ namespace ExaminationImplementations.Helpers
                     {
                         var last = paragraph.TicketTemplateParagraphRuns[paragraph.TicketTemplateParagraphRuns.Count - 1];
                         bool flag = false;
-                        if (run.TicketTemplateParagraphRunProperties != null && last.TicketTemplateParagraphRunProperties != null)
+                        if (run.TicketTemplateParagraphRunProperties.FirstOrDefault() != null && last.TicketTemplateParagraphRunProperties.FirstOrDefault() != null)
                         {
-                            if (run.TicketTemplateParagraphRunProperties.RunBold != last.TicketTemplateParagraphRunProperties.RunBold)
+                            if (run.TicketTemplateParagraphRunProperties.FirstOrDefault().RunBold != last.TicketTemplateParagraphRunProperties.FirstOrDefault().RunBold)
                             {
                                 flag = true;
                             }
-                            else if (run.TicketTemplateParagraphRunProperties.RunItalic != last.TicketTemplateParagraphRunProperties.RunItalic)
+                            else if (run.TicketTemplateParagraphRunProperties.FirstOrDefault().RunItalic != last.TicketTemplateParagraphRunProperties.FirstOrDefault().RunItalic)
                             {
                                 flag = true;
                             }
-                            else if (run.TicketTemplateParagraphRunProperties.RunUnderline != last.TicketTemplateParagraphRunProperties.RunUnderline)
+                            else if (run.TicketTemplateParagraphRunProperties.FirstOrDefault().RunUnderline != last.TicketTemplateParagraphRunProperties.FirstOrDefault().RunUnderline)
                             {
                                 flag = true;
                             }
-                            else if (run.TicketTemplateParagraphRunProperties.RunSize != last.TicketTemplateParagraphRunProperties.RunSize)
+                            else if (run.TicketTemplateParagraphRunProperties.FirstOrDefault().RunSize != last.TicketTemplateParagraphRunProperties.FirstOrDefault().RunSize)
                             {
                                 flag = true;
                             }
@@ -564,7 +564,7 @@ namespace ExaminationImplementations.Helpers
                     // нумирация
                     if (elem is DocumentFormat.OpenXml.Wordprocessing.NumberingProperties)
                     {
-                        foreach(var el in elem.ChildElements)
+                        foreach (var el in elem.ChildElements)
                         {
                             if (el is DocumentFormat.OpenXml.Wordprocessing.NumberingLevelReference)
                             {
@@ -633,9 +633,12 @@ namespace ExaminationImplementations.Helpers
         private static TicketTemplateParagraphRun GetRun(DocumentFormat.OpenXml.Wordprocessing.Run element, Guid Id)
         {
             if (element == null) { return null; }
-            TicketTemplateParagraphRun run = new TicketTemplateParagraphRun { TicketTemplateParagraphId = Id };
-            run.TicketTemplateParagraphRunProperties = GetRunProperties(element as DocumentFormat.OpenXml.Wordprocessing.Run, run.Id);
-            run.TicketTemplateParagraphRunPropertiesId = run.TicketTemplateParagraphRunProperties.Id;
+            TicketTemplateParagraphRun run = new TicketTemplateParagraphRun
+            {
+                TicketTemplateParagraphId = Id,
+                TicketTemplateParagraphRunProperties = new List<TicketTemplateParagraphRunProperties>()
+            };
+            run.TicketTemplateParagraphRunProperties.Add(GetRunProperties(element as DocumentFormat.OpenXml.Wordprocessing.Run, run.Id));
             foreach (var elem in element.ChildElements)
             {
                 if (elem is DocumentFormat.OpenXml.Wordprocessing.Text)
