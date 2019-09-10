@@ -1,4 +1,4 @@
-﻿namespace Models.HelperModels
+﻿namespace AcademicYearInterfaces.HelperModels
 {
     /// <summary>
     /// Вспомогательный класс для загрузки учебных планов по синей звездочке

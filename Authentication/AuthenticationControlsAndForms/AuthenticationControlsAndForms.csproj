@@ -181,10 +181,6 @@
       <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
       <Name>BaseInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
-      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
-      <Name>Enums</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\Models\Models.csproj">
       <Project>{448538b9-dd05-44e4-bb1a-e367414bda97}</Project>
       <Name>Models</Name>

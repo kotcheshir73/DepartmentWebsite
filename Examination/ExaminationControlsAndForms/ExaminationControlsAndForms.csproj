@@ -434,10 +434,6 @@
       <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
       <Name>BaseInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
-      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
-      <Name>Enums</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>

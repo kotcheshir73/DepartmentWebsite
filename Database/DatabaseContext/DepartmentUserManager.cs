@@ -1,5 +1,5 @@
-﻿using DatabaseContext;
-using Enums;
+﻿using Enums;
+using Microsoft.EntityFrameworkCore;
 using Models.AcademicYearData;
 using Models.Authentication;
 using System;
@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
-namespace Tools
+namespace DatabaseContext
 {
     public class DepartmentUserManager
     {

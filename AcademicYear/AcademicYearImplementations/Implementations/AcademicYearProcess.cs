@@ -1,15 +1,16 @@
 ﻿using AcademicYearImplementations.Helper;
 using AcademicYearInterfaces.BindingModels;
+using AcademicYearInterfaces.HelperModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
 using BaseImplementations;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using Models.AcademicYearData;
 using Models.Base;
-using Models.HelperModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -762,7 +763,7 @@ namespace AcademicYearImplementations.Implementations
         {
             try
             {
-                model.DisciplineBlocks = new List<DisciplineBlock>();
+                model.DisciplineBlocks = new List<DisciplineBlockSetBindingModel>();
 
                 // не работает XmlNodeList selectedNodes = mainRootElementNode.SelectNodes("СправочникТипОбъекта"), тоди условие не парвильно задано, толи из-за кириллицы
                 for (int i = 0; i < model.Node.ChildNodes.Count; ++i)
@@ -777,9 +778,16 @@ namespace AcademicYearImplementations.Implementations
                             if (disciplineBlock != null)
                             {
                                 attribute = node.Attributes.GetNamedItem("Код");
-                                disciplineBlock.DisciplineBlockBlueAsteriskCode = attribute.Value;
 
-                                model.DisciplineBlocks.Add(disciplineBlock);
+                                model.DisciplineBlocks.Add(new DisciplineBlockSetBindingModel
+                                {
+                                    Id = disciplineBlock.Id,
+                                    Title = disciplineBlock.Title,
+                                    DisciplineBlockOrder = disciplineBlock.DisciplineBlockOrder,
+                                    DisciplineBlockUseForGrouping = disciplineBlock.DisciplineBlockUseForGrouping,
+                                    DisciplineBlockBlueAsteriskName = disciplineBlock.DisciplineBlockBlueAsteriskName,
+                                    DisciplineBlockBlueAsteriskCode = attribute.Value
+                                });
                             }
                         }
                     }
@@ -807,7 +815,7 @@ namespace AcademicYearImplementations.Implementations
                         throw new Exception("CurrentSetting for Кафедра not found");
                     }
                     #endregion
-                    model.Disciplines = new List<Discipline>();
+                    model.Disciplines = new List<DisciplineSetBindingModel>();
 
                     // выбираем все строки по дисциплинам
                     // не работает XmlNodeList selectedNodes = mainRootElementNode.SelectNodes("ПланыСтроки"), тоди условие не парвильно задано, толи из-за кириллицы
@@ -845,7 +853,7 @@ namespace AcademicYearImplementations.Implementations
                                 attribute = node.Attributes.GetNamedItem("КодБлока");
                                 BlueAsteriskBlockType BlockType = model.BlockTypes.FirstOrDefault(x => x.Code == attribute.Value);
 
-                                Discipline parentDiscipline = null;
+                                DisciplineSetBindingModel parentDiscipline = null;
                                 // Для дисциплин по выбору есть родительская
                                 attribute = node.Attributes.GetNamedItem("КодРодителя");
                                 if (attribute != null && ObjectType.TypeName != "Базовая")
@@ -896,20 +904,21 @@ namespace AcademicYearImplementations.Implementations
                                 }
 
                                 attribute = node.Attributes.GetNamedItem("Код");
-                                discipline.DisciplineBlueAsteriskCode = attribute.Value;
-                                discipline.NotSelected = !ObjectType.IncludeInCalc;
-                                if (BlockType != null && BlockType.IsFacultative)
-                                {
-                                    discipline.NotSelected = true;
-                                }
+                                var attributePractic = node.Attributes.GetNamedItem("ВидПрактики");
 
-                                attribute = node.Attributes.GetNamedItem("ВидПрактики");
-                                if (attribute != null)
+                                model.Disciplines.Add(new DisciplineSetBindingModel
                                 {
-                                    discipline.DisciplineBlueAsteriskPracticCode = attribute.Value;
-                                }
-
-                                model.Disciplines.Add(discipline);
+                                    Id = discipline.Id,
+                                    IsParent = discipline.IsParent,
+                                    DisciplineBlockId = discipline.DisciplineBlockId,
+                                    DisciplineBlueAsteriskName = discipline.DisciplineBlueAsteriskName,
+                                    DisciplineName = discipline.DisciplineName,
+                                    DisciplineParentId = discipline.DisciplineParentId,
+                                    DisciplineShortName = discipline.DisciplineShortName,
+                                    DisciplineBlueAsteriskCode = attribute.Value,
+                                    DisciplineBlueAsteriskPracticCode = attributePractic?.Value,
+                                    NotSelected = (BlockType != null && BlockType.IsFacultative)? true : !ObjectType.IncludeInCalc
+                                });
                             }
                         }
                     }
@@ -929,7 +938,29 @@ namespace AcademicYearImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     Dictionary<string, string> practics = new Dictionary<string, string>();
-                    model.TimeNorms = context.TimeNorms.Where(x => x.AcademicYearId == model.AcademicYearId && !x.IsDeleted).ToList();
+                    model.TimeNorms = context.TimeNorms
+                        .Where(x => x.AcademicYearId == model.AcademicYearId && !x.IsDeleted)
+                        .Select(x => new TimeNormSetBindingModel
+                            {
+                                Id = x.Id,
+                                AcademicYearId = x.AcademicYearId,
+                                DisciplineBlockId = x.DisciplineBlockId,
+                                Hours = x.Hours,
+                                KindOfLoadAttributeName = x.KindOfLoadAttributeName,
+                                KindOfLoadBlueAsteriskAttributeName = x.KindOfLoadBlueAsteriskAttributeName,
+                                KindOfLoadBlueAsteriskName = x.KindOfLoadBlueAsteriskName,
+                                KindOfLoadBlueAsteriskPracticName = x.KindOfLoadBlueAsteriskPracticName,
+                                KindOfLoadName = x.KindOfLoadName,
+                                KindOfLoadType = x.KindOfLoadType.ToString(),
+                                NumKoef = x.NumKoef,
+                                TimeNormEducationDirectionQualification = x.TimeNormEducationDirectionQualification.ToString(),
+                                TimeNormKoef = x.TimeNormKoef.ToString(),
+                                TimeNormName = x.TimeNormName,
+                                TimeNormOrder = x.TimeNormOrder,
+                                TimeNormShortName = x.TimeNormShortName,
+                                UseInLearningProgress = x.UseInLearningProgress
+                            })
+                        .ToList();
                     // не работает XmlNodeList selectedNodes = mainRootElementNode.SelectNodes("СправочникВидыРабот"), тоди условие не парвильно задано, толи из-за кириллицы
                     for (int i = 0; i < model.Node.ChildNodes.Count; ++i)
                     {
@@ -1026,7 +1057,7 @@ namespace AcademicYearImplementations.Implementations
                             var apr = GetAPR(node, discipline, model);
                             if (apr != null)
                             {
-                                List<TimeNorm> timeNorms = new List<TimeNorm>();
+                                List<TimeNormSetBindingModel> timeNorms = new List<TimeNormSetBindingModel>();
                                 // если перед нами практика, то выбираем только один нужный тип нагрузки
                                 if (!string.IsNullOrEmpty(discipline.DisciplineBlueAsteriskPracticCode))
                                 {
@@ -1041,7 +1072,7 @@ namespace AcademicYearImplementations.Implementations
                                         throw new Exception(string.Format("Не найдена нагрузка на практику с кодом {0}", discipline.DisciplineBlueAsteriskPracticCode));
                                     }
                                     timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == attribute.Value && x.DisciplineBlockId == disciplineBlock.Id &&
-                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification) &&
+                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString()) &&
                                                                                         x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode));
                                 }
                                 else
@@ -1052,7 +1083,7 @@ namespace AcademicYearImplementations.Implementations
                                         throw new Exception(string.Format("Не найдена атрибут КодВидаРаботы по дисциплине с кодом {0}", discipline.DisciplineBlueAsteriskCode));
                                     }
                                     timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == attribute.Value && x.DisciplineBlockId == disciplineBlock.Id &&
-                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification)));
+                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString())));
                                 }
                                 foreach (var timeNorm in timeNorms)
                                 {
@@ -1101,7 +1132,7 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        private AcademicPlanRecord GetAPR(XmlNode node, Discipline discipline, ParseBlueAsterisk model)
+        private AcademicPlanRecord GetAPR(XmlNode node, DisciplineSetBindingModel discipline, ParseBlueAsterisk model)
         {
             XmlNode attribute = node.Attributes.GetNamedItem("Курс");
             int kurs = Convert.ToInt32(attribute.Value);

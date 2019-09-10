@@ -1,7 +1,6 @@
-﻿using Enums;
-using Models.AcademicYearData;
-using Models.Base;
-using Models.HelperModels;
+﻿using AcademicYearInterfaces.HelperModels;
+using BaseInterfaces.BindingModels;
+using Enums;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -85,11 +84,11 @@ namespace AcademicYearInterfaces.BindingModels
 
         public List<BlueAsteriskBlockType> BlockTypes { get; set; }
 
-        public List<DisciplineBlock> DisciplineBlocks { get; set; }
+        public List<DisciplineBlockSetBindingModel> DisciplineBlocks { get; set; }
 
-        public List<Discipline> Disciplines { get; set; }
+        public List<DisciplineSetBindingModel> Disciplines { get; set; }
 
-        public List<TimeNorm> TimeNorms { get; set; }
+        public List<TimeNormSetBindingModel> TimeNorms { get; set; }
     }
 
     public class AcademicPlanRecordsForDiciplineBindingModel : PageSettingGetBinidingModel

@@ -52,5 +52,15 @@ namespace AcademicYearInterfaces.BindingModels
         public string TimeNormKoef { get; set; }
 
         public bool UseInLearningProgress { get; set; }
+
+        /// <summary>
+        /// Код вида работ в справочнике видов работ в новой версии планов, чтобы потом искать работу в строках плана
+        /// </summary>
+        public string KindOfLoadBlueAsteriskCode { get; set; }
+
+        /// <summary>
+        /// Код вида практики в справочнике видов практик в новой версии планов, чтобы потом искать практику в строках плана
+        /// </summary>
+        public string KindOfLoadBlueAsteriskPracticCode { get; set; }
     }
 }

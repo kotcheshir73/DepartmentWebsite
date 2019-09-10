@@ -1,5 +1,5 @@
 ﻿using AuthenticationInterfaces.Interfaces;
-using AuthenticationInterfaces.ViewModels;
+using DatabaseContext;
 using Enums;
 using Models.Authentication;
 using System;
@@ -11,7 +11,6 @@ using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
 using Tools;
-using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationImplementations.Implementations
 {

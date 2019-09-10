@@ -373,10 +373,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
-      <Project>{11529938-F115-45FB-A7C1-34C2D661432A}</Project>
-      <Name>Enums</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
       <Project>{F240EBFC-C309-4D05-BC87-5E7143B351D3}</Project>
       <Name>Tools</Name>
