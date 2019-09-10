@@ -19,6 +19,8 @@ namespace BaseInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public string Qualification { get; set; }
 
+        public string Profile { get; set; }
+
         public string Description { get; set; }
     }
 }

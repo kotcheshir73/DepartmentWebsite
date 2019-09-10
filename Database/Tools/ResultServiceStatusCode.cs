@@ -1,4 +1,4 @@
-﻿namespace Enums
+﻿namespace Tools
 {
 	public enum ResultServiceStatusCode
 	{

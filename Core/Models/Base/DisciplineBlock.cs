@@ -27,9 +27,6 @@ namespace Models.Base
         [DataMember]
         public int DisciplineBlockOrder { get; set; }
 
-        [NotMapped]
-        public string DisciplineBlockBlueAsteriskCode { get; set; }
-
         //-------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------

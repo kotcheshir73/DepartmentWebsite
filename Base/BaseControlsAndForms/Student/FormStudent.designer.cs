@@ -40,6 +40,7 @@
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.labelEmail = new System.Windows.Forms.Label();
             this.checkBoxIsSteward = new System.Windows.Forms.CheckBox();
+            this.buttonStudentOrdersShow = new System.Windows.Forms.Button();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
@@ -47,6 +48,7 @@
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.buttonStudentOrdersShow);
             this.panelMain.Controls.Add(this.checkBoxIsSteward);
             this.panelMain.Controls.Add(this.labelStudentGroup);
             this.panelMain.Controls.Add(this.textBoxEmail);
@@ -212,12 +214,22 @@
             // checkBoxIsSteward
             // 
             this.checkBoxIsSteward.AutoSize = true;
-            this.checkBoxIsSteward.Location = new System.Drawing.Point(339, 231);
+            this.checkBoxIsSteward.Location = new System.Drawing.Point(339, 220);
             this.checkBoxIsSteward.Name = "checkBoxIsSteward";
             this.checkBoxIsSteward.Size = new System.Drawing.Size(73, 17);
             this.checkBoxIsSteward.TabIndex = 15;
             this.checkBoxIsSteward.Text = "Староста";
             this.checkBoxIsSteward.UseVisualStyleBackColor = true;
+            // 
+            // buttonStudentOrdersShow
+            // 
+            this.buttonStudentOrdersShow.Location = new System.Drawing.Point(353, 250);
+            this.buttonStudentOrdersShow.Name = "buttonStudentOrdersShow";
+            this.buttonStudentOrdersShow.Size = new System.Drawing.Size(100, 23);
+            this.buttonStudentOrdersShow.TabIndex = 16;
+            this.buttonStudentOrdersShow.Text = "Приказы";
+            this.buttonStudentOrdersShow.UseVisualStyleBackColor = true;
+            this.buttonStudentOrdersShow.Click += new System.EventHandler(this.buttonStudentOrdersShow_Click);
             // 
             // FormStudent
             // 
@@ -253,5 +265,6 @@
 		private System.Windows.Forms.TextBox textBoxEmail;
 		private System.Windows.Forms.Label labelEmail;
         private System.Windows.Forms.CheckBox checkBoxIsSteward;
+        private System.Windows.Forms.Button buttonStudentOrdersShow;
     }
 }

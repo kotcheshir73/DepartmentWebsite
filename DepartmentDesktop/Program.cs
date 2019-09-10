@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatabaseContext;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
@@ -15,8 +16,8 @@ namespace DepartmentDesktop
         {
             var container = BuildUnityContainer();
 
-            Tools.DepartmentUserManager.CheckExsistData();
-            Tools.DepartmentUserManager.Login("admin", "qwerty");
+            DepartmentUserManager.CheckExsistData();
+            DepartmentUserManager.Login("admin", "qwerty");
 
 
             Application.EnableVisualStyles();

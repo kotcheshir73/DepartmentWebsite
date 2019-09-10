@@ -4,6 +4,7 @@ using AuthenticationImplementations.Implementations;
 using AuthenticationInterfaces.Interfaces;
 using BaseImplementations.Implementations;
 using BaseInterfaces.Interfaces;
+using DatabaseContext;
 using DepartmentService.Services;
 using LaboratoryHeadInterfaces.Interfaces;
 using LearningProgressImplementations.Implementations;

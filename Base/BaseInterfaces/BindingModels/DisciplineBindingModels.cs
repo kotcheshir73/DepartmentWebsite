@@ -30,5 +30,11 @@ namespace BaseInterfaces.BindingModels
 
         [Required(ErrorMessage = "required")]
         public string DisciplineBlueAsteriskName { get; set; }
+
+        public string DisciplineBlueAsteriskCode { get; set; }
+
+        public string DisciplineBlueAsteriskPracticCode { get; set; }
+
+        public bool NotSelected { get; set; }
     }
 }

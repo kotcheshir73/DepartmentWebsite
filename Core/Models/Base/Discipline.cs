@@ -44,15 +44,6 @@ namespace Models.Base
         [DataMember]
         public string DisciplineBlueAsteriskName { get; set; }
 
-        [NotMapped]
-        public string DisciplineBlueAsteriskCode { get; set; }
-
-        [NotMapped]
-        public string DisciplineBlueAsteriskPracticCode { get; set; }
-
-        [NotMapped]
-        public bool NotSelected { get; set; }
-
         //-------------------------------------------------------------------------
 
         public virtual DisciplineBlock DisciplineBlock { get; set; }

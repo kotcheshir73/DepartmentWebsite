@@ -29,6 +29,7 @@ namespace BaseControlsAndForms.EducationDirection
                 new ColumnConfig { Name = "ShortName", Title = "Кратко", Width = 100, Visible = true },
                 new ColumnConfig { Name = "Title", Title = "Название", Width = 200, Visible = true },
                 new ColumnConfig { Name = "Qualification", Title = "Квалификация", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Profile", Title = "Профиль", Width = 200, Visible = true },
                 new ColumnConfig { Name = "Description", Title = "Описание", Visible = true }
 			};
 
@@ -80,6 +81,7 @@ namespace BaseControlsAndForms.EducationDirection
                     res.ShortName,
 					res.Title,
                     res.Qualification,
+                    res.Profile,
 					res.Description
 				});
 			}

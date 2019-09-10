@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Base\BaseImplementations\BaseImplementations.csproj" />
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj" />
     <ProjectReference Include="..\..\Core\Models\Models.csproj" />
     <ProjectReference Include="..\LearningProgressInterfaces\LearningProgressInterfaces.csproj" />
   </ItemGroup>

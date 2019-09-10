@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj" />
     <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj" />
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj" />
     <ProjectReference Include="..\..\Database\Tools\Tools.csproj" />
   </ItemGroup>
 
