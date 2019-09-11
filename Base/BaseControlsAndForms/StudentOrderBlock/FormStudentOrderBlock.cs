@@ -60,7 +60,7 @@ namespace BaseControlsAndForms.StudentOrderBlock
             comboBoxEducationDirection.ValueMember = "Value";
             comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = resultED.Result.List
-                .Select(d => new { Value = d.Id, Display = d.Cipher }).ToList();
+                .Select(d => new { Value = d.Id, Display = d.ToString() }).ToList();
             comboBoxEducationDirection.SelectedItem = null;
 
             return true;

@@ -20,7 +20,7 @@ namespace BaseInterfaces.ViewModels
 
         public override string ToString()
         {
-            return $"{Cipher} - {ShortName}";
+            return $"{Cipher} - {ShortName} ({Profile})";
         }
     }
 }

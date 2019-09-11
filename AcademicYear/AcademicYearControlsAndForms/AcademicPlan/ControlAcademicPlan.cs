@@ -30,7 +30,7 @@ namespace AcademicYearControlsAndForms.AcademicPlan
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 100, Visible = true },
+                new ColumnConfig { Name = "EducationDirection", Title = "Направление", Width = 300, Visible = true },
                 new ColumnConfig { Name = "AcademicCourses", Title = "Курсы", Width = 150, Visible = true }
             };
 
