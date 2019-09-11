@@ -4,12 +4,12 @@
 @model WebEducationDirectionViewModel
 
 @{
-    ViewBag.Title = string.Format("{0} {1}", Model.Cipher, Model.Title);
+    ViewBag.Title = string.Format("{0} {1} {2}", Model.Cipher, Model.Title, Model.Profile);
 }
 
 @if (Model != null)
 {
-    <h2 class="page-header">@Model.Cipher @Model.Title</h2>
+    <h2 class="page-header">@Model.Cipher @Model.Title<br/>"@Model.Profile"</h2>
 
     <div class="education-wrapper center-block">
         <div class="panel panel-default">
