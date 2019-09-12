@@ -10,7 +10,6 @@ using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using Models.AcademicYearData;
-using Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1072,7 +1071,7 @@ namespace AcademicYearImplementations.Implementations
                                         throw new Exception(string.Format("Не найдена нагрузка на практику с кодом {0}", discipline.DisciplineBlueAsteriskPracticCode));
                                     }
                                     timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == attribute.Value && x.DisciplineBlockId == disciplineBlock.Id &&
-                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString()) &&
+                                                                                        (string.IsNullOrEmpty(x.TimeNormEducationDirectionQualification) || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString()) &&
                                                                                         x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode));
                                 }
                                 else
@@ -1083,7 +1082,7 @@ namespace AcademicYearImplementations.Implementations
                                         throw new Exception(string.Format("Не найдена атрибут КодВидаРаботы по дисциплине с кодом {0}", discipline.DisciplineBlueAsteriskCode));
                                     }
                                     timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == attribute.Value && x.DisciplineBlockId == disciplineBlock.Id &&
-                                                                                        (x.TimeNormEducationDirectionQualification == null || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString())));
+                                                                                        (string.IsNullOrEmpty(x.TimeNormEducationDirectionQualification) || x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString())));
                                 }
                                 foreach (var timeNorm in timeNorms)
                                 {
