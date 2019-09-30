@@ -40,6 +40,9 @@ namespace DepartmentWebCore
                     options.LoginPath = new PathString("/Account/Login");
                 });
 
+            // добавление кэширования
+            services.AddMemoryCache();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 

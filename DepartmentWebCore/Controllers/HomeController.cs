@@ -1,6 +1,7 @@
 ﻿using DepartmentWebCore.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,14 @@ namespace DepartmentWebCore.Controllers
 
         private static INewsService _serviceN;
 
-        public HomeController(IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, INewsService serviceN)
+        private IMemoryCache cache;
+
+        public HomeController(IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, INewsService serviceN, IMemoryCache memoryCache)
         {
             _serviceWL = serviceWL;
             _serviceWED = serviceWED;
             _serviceN = serviceN;
+            cache = memoryCache;
         }
 
         [HttpGet]
@@ -40,79 +44,86 @@ namespace DepartmentWebCore.Controllers
 
         public ActionResult MainMenu()
         {
-            List<MenuElementModel> mainMenu = new List<MenuElementModel>
-            {
-                new MenuElementModel
-                {
-                    Controller = "News",
-                    Action = "Index",
-                    Name = "Новости"
-                }
-            };
+            List<MenuElementModel> mainMenu;
 
-            var lecturerList = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-            if (lecturerList.Succeeded)
+            if (!cache.TryGetValue("mainMenu", out mainMenu))
             {
-                MenuElementModel lecturer = new MenuElementModel()
+                mainMenu = new List<MenuElementModel>
                 {
-                    Name = "Преподаватели",
-                    Child = new List<MenuElementModel>(),
-                    Controller = "Lecturer",
-                    Action = "Index"
+                    new MenuElementModel
+                    {
+                        Controller = "News",
+                        Action = "Index",
+                        Name = "Новости"
+                    }
                 };
 
-                foreach (var tmp in lecturerList.Result.List)
+                var lecturerList = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
+                if (lecturerList.Succeeded)
                 {
-                    lecturer.Child.Add(new MenuElementModel()
+                    MenuElementModel lecturer = new MenuElementModel()
                     {
-                        Id = tmp.Id,
-                        Name = tmp.FullName,
-                        Controller = "Lecturer",
-                        Action = "Lecturer"
-                    });
-                }
-
-                mainMenu.Add(lecturer);
-            }
-
-            var educationDirectionList = _serviceWED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-            if (educationDirectionList.Succeeded)
-            {
-                MenuElementModel educationDirection = new MenuElementModel()
-                {
-                    Name = "Направления",
-                    Child = new List<MenuElementModel>(),
-                    Controller = "EducationDirection",
-                    Action = "Index"
-                };
-
-                foreach (var ed in educationDirectionList.Result.List)
-                {
-                    MenuElementModel contingent = new MenuElementModel()
-                    {
-                        Name = ed.ToString(),
+                        Name = "Преподаватели",
                         Child = new List<MenuElementModel>(),
-                        Controller = "EducationDirection",
-                        Action = "EducationDirection",
-                        Id = ed.Id
+                        Controller = "Lecturer",
+                        Action = "Index"
                     };
 
-                    foreach (var course in ed.Courses)
+                    foreach (var tmp in lecturerList.Result.List)
                     {
-                        contingent.Child.Add(new MenuElementModel
+                        lecturer.Child.Add(new MenuElementModel()
                         {
-                            Id = ed.Id,
-                            Name = course.Item2,
-                            Controller = "EducationDirection",
-                            Action = "EducationDirection",
-                            AdditionalParameters = new Dictionary<string, string> { { "courseId", course.Item1.ToString() } }
+                            Id = tmp.Id,
+                            Name = tmp.FullName,
+                            Controller = "Lecturer",
+                            Action = "Lecturer"
                         });
                     }
 
-                    educationDirection.Child.Add(contingent);
+                    mainMenu.Add(lecturer);
                 }
 
-                mainMenu.Add(educationDirection);
+                var educationDirectionList = _serviceWED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
+                if (educationDirectionList.Succeeded)
+                {
+                    MenuElementModel educationDirection = new MenuElementModel()
+                    {
+                        Name = "Направления",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "EducationDirection",
+                        Action = "Index"
+                    };
+
+                    foreach (var ed in educationDirectionList.Result.List)
+                    {
+                        MenuElementModel contingent = new MenuElementModel()
+                        {
+                            Name = ed.ToString(),
+                            Child = new List<MenuElementModel>(),
+                            Controller = "EducationDirection",
+                            Action = "EducationDirection",
+                            Id = ed.Id
+                        };
+
+                        foreach (var course in ed.Courses)
+                        {
+                            contingent.Child.Add(new MenuElementModel
+                            {
+                                Id = ed.Id,
+                                Name = course.Item2,
+                                Controller = "EducationDirection",
+                                Action = "EducationDirection",
+                                AdditionalParameters = new Dictionary<string, string> { { "courseId", course.Item1.ToString() } }
+                            });
+                        }
+
+                        educationDirection.Child.Add(contingent);
+                    }
+
+                    mainMenu.Add(educationDirection);
+
+                    cache.Set("mainMenu", mainMenu, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+                }
             }
 
             return PartialView(mainMenu);
