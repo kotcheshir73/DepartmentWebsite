@@ -20,5 +20,13 @@ namespace AcademicYearInterfaces.ViewModels
         public string ContingentGroup { get; set; }
 
         public int Zet { get; set; }
+
+        public Guid? AcademicPlanRecordParentId { get; set; }
+
+        public bool IsParent { get; set; }
+
+        public bool Selectable { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }

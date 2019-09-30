@@ -161,7 +161,7 @@ namespace AcademicYearControlsAndForms.AcademicPlan
                 }
                 else
                 {
-                    ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                    ErrorMessanger.PrintErrorMessage("При выполнении возникла ошибка: ", result.Errors);
                 }
                 standartControl.LoadPage();
             }

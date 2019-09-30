@@ -63,7 +63,7 @@ namespace AcademicYearControlsAndForms.Services
         private void LoadControls()
         {
             Guid id = new Guid(comboBoxAcademicYear.SelectedValue.ToString());
-            var lectDiscTD = _process.GetLecturerDisciplineTimeDistributions(new LecturerDisciplineTimeDistributions
+            var lectDiscTD = _process.GetLecturerDisciplineTimeDistributions(new LecturerDisciplineTimeDistributionsBindingModel
             {
                 AcademicYearId = id,
                 UserId = DepartmentUserManager.UserId.Value

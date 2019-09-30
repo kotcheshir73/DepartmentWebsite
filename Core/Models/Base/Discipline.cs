@@ -22,12 +22,6 @@ namespace Models.Base
         [DataMember]
         public Guid DisciplineBlockId { get; set; }
 
-        [DataMember]
-        public Guid? DisciplineParentId { get; set; }
-
-        [DataMember]
-        public bool IsParent { get; set; }
-
         [MaxLength(200)]
 		[Required]
         [DataMember]

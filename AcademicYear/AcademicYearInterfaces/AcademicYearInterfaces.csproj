@@ -9,8 +9,4 @@
     <ProjectReference Include="..\..\Database\Tools\Tools.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="HelperModels\" />
-  </ItemGroup>
-
 </Project>

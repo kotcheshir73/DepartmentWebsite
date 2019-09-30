@@ -33,9 +33,11 @@
             this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageConfig = new System.Windows.Forms.TabPage();
+            this.checkBoxIsSelected = new System.Windows.Forms.CheckBox();
             this.labelContingent = new System.Windows.Forms.Label();
             this.comboBoxContingent = new System.Windows.Forms.ComboBox();
             this.tabPageRecords = new System.Windows.Forms.TabPage();
+            this.checkBoxSelectable = new System.Windows.Forms.CheckBox();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -136,6 +138,8 @@
             // 
             // tabPageConfig
             // 
+            this.tabPageConfig.Controls.Add(this.checkBoxSelectable);
+            this.tabPageConfig.Controls.Add(this.checkBoxIsSelected);
             this.tabPageConfig.Controls.Add(this.labelContingent);
             this.tabPageConfig.Controls.Add(this.comboBoxContingent);
             this.tabPageConfig.Controls.Add(this.labelAcademicPlan);
@@ -153,6 +157,17 @@
             this.tabPageConfig.TabIndex = 0;
             this.tabPageConfig.Text = "Запись учебного плана";
             this.tabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxIsSelected
+            // 
+            this.checkBoxIsSelected.AutoSize = true;
+            this.checkBoxIsSelected.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxIsSelected.Location = new System.Drawing.Point(109, 188);
+            this.checkBoxIsSelected.Name = "checkBoxIsSelected";
+            this.checkBoxIsSelected.Size = new System.Drawing.Size(133, 17);
+            this.checkBoxIsSelected.TabIndex = 11;
+            this.checkBoxIsSelected.Text = "Участвует в расчете:";
+            this.checkBoxIsSelected.UseVisualStyleBackColor = true;
             // 
             // labelContingent
             // 
@@ -177,10 +192,22 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(683, 304);
+            this.tabPageRecords.Size = new System.Drawing.Size(311, 148);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Распределение часов";
             this.tabPageRecords.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSelectable
+            // 
+            this.checkBoxSelectable.AutoSize = true;
+            this.checkBoxSelectable.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxSelectable.Enabled = false;
+            this.checkBoxSelectable.Location = new System.Drawing.Point(109, 155);
+            this.checkBoxSelectable.Name = "checkBoxSelectable";
+            this.checkBoxSelectable.Size = new System.Drawing.Size(147, 17);
+            this.checkBoxSelectable.TabIndex = 10;
+            this.checkBoxSelectable.Text = "Дисциплина по выбору:";
+            this.checkBoxSelectable.UseVisualStyleBackColor = true;
             // 
             // FormAcademicPlanRecord
             // 
@@ -213,5 +240,7 @@
         private System.Windows.Forms.TabPage tabPageRecords;
         private System.Windows.Forms.Label labelContingent;
         private System.Windows.Forms.ComboBox comboBoxContingent;
+        private System.Windows.Forms.CheckBox checkBoxIsSelected;
+        private System.Windows.Forms.CheckBox checkBoxSelectable;
     }
 }

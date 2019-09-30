@@ -138,17 +138,17 @@ namespace AcademicYearControlsAndForms.Services
                 }
             }
 
-            LecturerDisciplineTimeDistributionSet model = new LecturerDisciplineTimeDistributionSet
+            LecturerDisciplineTimeDistributionSetBindingModel model = new LecturerDisciplineTimeDistributionSetBindingModel
             {
                 DisciplineTimeDistributionId = _model.DisciplineTimeDistributionId,
                 Comment = textBoxComment.Text,
                 CommentWishesOfTeacher = textBoxCommentWishesOfTeacher.Text,
-                LecturerDisciplineTimeDistributionElements = new List<LecturerDisciplineTimeDistributionElementSet>()
+                LecturerDisciplineTimeDistributionElements = new List<LecturerDisciplineTimeDistributionElementSetBindingModel>()
             };
 
             for (int i = 0; i < dataGridViewElements.Rows.Count; ++i)
             {
-                model.LecturerDisciplineTimeDistributionElements.Add(new LecturerDisciplineTimeDistributionElementSet
+                model.LecturerDisciplineTimeDistributionElements.Add(new LecturerDisciplineTimeDistributionElementSetBindingModel
                 {
                     DisciplineTimeDistributionClassroomId = new Guid(dataGridViewElements.Rows[i].Cells[0].Value.ToString()),
                     DisciplineTimeDistributionClassroom = dataGridViewElements.Rows[i].Cells[6].Value?.ToString(),

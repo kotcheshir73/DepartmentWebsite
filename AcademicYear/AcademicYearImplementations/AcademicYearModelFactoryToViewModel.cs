@@ -51,7 +51,11 @@ namespace AcademicYearImplementations
                 Disciplne = entity.Discipline.DisciplineName,
                 Semester = entity.Semester.HasValue ? entity.Semester.ToString() : string.Empty,
                 ContingentGroup = entity.ContingentId.HasValue ? entity.Contingent.ContingentName : string.Empty,
-                Zet = entity.Zet
+                Zet = entity.Zet,
+                AcademicPlanRecordParentId = entity.AcademicPlanRecordParentId,
+                IsParent = entity.IsParent,
+                IsSelected = entity.IsSelected,
+                Selectable = entity.Selectable
             };
         }
 

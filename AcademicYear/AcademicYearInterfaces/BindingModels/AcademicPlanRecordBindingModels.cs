@@ -19,5 +19,13 @@ namespace AcademicYearInterfaces.BindingModels
         public string Semester { get; set; }
 
         public int Zet { get; set; }
+
+        public Guid? AcademicPlanRecordParentId { get; set; }
+
+        public bool IsParent { get; set; }
+
+        public bool Selectable { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }
