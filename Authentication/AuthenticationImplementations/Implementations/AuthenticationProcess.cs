@@ -309,7 +309,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = lecturer.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.DateBirth.ToShortDateString()))),
                             LecturerId = lecturer.Id
                         };
                         context.DepartmentUsers.Add(user);
@@ -379,7 +379,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = student.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.NumberOfBook))),
                             StudentId = student.Id
                         };
                         context.DepartmentUsers.Add(user);
@@ -418,7 +418,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = student.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.NumberOfBook))),
                             StudentId = student.Id
                         };
                         context.DepartmentUsers.Add(user);
@@ -460,7 +460,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = student.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.NumberOfBook))),
                             StudentId = student.Id
                         };
                         context.DepartmentUsers.Add(user);
