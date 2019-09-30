@@ -18,10 +18,6 @@ namespace BaseInterfaces.BindingModels
 	{
 		public Guid DisciplineBlockId { get; set; }
 
-        public Guid? DisciplineParentId { get; set; }
-        
-        public bool IsParent { get; set; }
-
         [Required(ErrorMessage = "required")]
 		public string DisciplineName { get; set; }
 
@@ -34,7 +30,5 @@ namespace BaseInterfaces.BindingModels
         public string DisciplineBlueAsteriskCode { get; set; }
 
         public string DisciplineBlueAsteriskPracticCode { get; set; }
-
-        public bool NotSelected { get; set; }
     }
 }

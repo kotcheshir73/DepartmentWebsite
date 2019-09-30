@@ -55,7 +55,7 @@ namespace AcademicYearControlsAndForms.AcademicPlan
             comboBoxEducationDirection.ValueMember = "Value";
             comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = resultED.Result.List
-                .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+                .Select(ed => new { Value = ed.Id, Display = ed.ToString() }).ToList();
             comboBoxEducationDirection.SelectedItem = null;
 
             return true;

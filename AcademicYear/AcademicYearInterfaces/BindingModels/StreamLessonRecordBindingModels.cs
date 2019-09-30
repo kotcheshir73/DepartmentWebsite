@@ -6,7 +6,7 @@ namespace AcademicYearInterfaces.BindingModels
 {
     public class StreamLessonRecordGetBindingModel : PageSettingGetBinidingModel
     {
-        public Guid? SteamLessonId { get; set; }
+        public Guid? StreamLessonId { get; set; }
     }
 
     public class StreamLessonRecordSetBindingModel : PageSettingSetBinidingModel

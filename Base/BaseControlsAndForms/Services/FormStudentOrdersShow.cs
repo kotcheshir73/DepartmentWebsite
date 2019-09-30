@@ -35,7 +35,7 @@ namespace BaseControlsAndForms.Services
 
             foreach(var elem in result.Result)
             {
-
+                dataGridView.Rows.Add(new object[] { elem.Id, elem.OrderNumber, elem.OrderDate.ToLongDateString(), elem.StudentOrderType, elem.StudentOrderBlockType, elem.StudentGromFrom, elem.StudentGroupTo });
             }
         }
     }

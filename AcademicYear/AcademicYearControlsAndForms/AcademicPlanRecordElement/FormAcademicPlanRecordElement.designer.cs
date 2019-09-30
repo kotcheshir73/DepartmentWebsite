@@ -154,7 +154,7 @@
             this.tabPageRecords.Location = new System.Drawing.Point(4, 22);
             this.tabPageRecords.Name = "tabPageRecords";
             this.tabPageRecords.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRecords.Size = new System.Drawing.Size(697, 340);
+            this.tabPageRecords.Size = new System.Drawing.Size(311, 148);
             this.tabPageRecords.TabIndex = 1;
             this.tabPageRecords.Text = "Распределение нагрузки";
             this.tabPageRecords.UseVisualStyleBackColor = true;
@@ -164,7 +164,7 @@
             this.tabPageDisciplineTimeDistribution.Location = new System.Drawing.Point(4, 22);
             this.tabPageDisciplineTimeDistribution.Name = "tabPageDisciplineTimeDistribution";
             this.tabPageDisciplineTimeDistribution.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDisciplineTimeDistribution.Size = new System.Drawing.Size(697, 340);
+            this.tabPageDisciplineTimeDistribution.Size = new System.Drawing.Size(311, 148);
             this.tabPageDisciplineTimeDistribution.TabIndex = 2;
             this.tabPageDisciplineTimeDistribution.Text = "Расчасовки";
             this.tabPageDisciplineTimeDistribution.UseVisualStyleBackColor = true;

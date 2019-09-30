@@ -17,14 +17,17 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
 
         private readonly IStreamLessonRecordService _service;
 
+        private readonly IAcademicYearProcess _process;
+
         private Guid _sId;
 
         private Guid _ayId;
 
-        public ControlStreamLessonRecord(IStreamLessonRecordService service)
+        public ControlStreamLessonRecord(IStreamLessonRecordService service, IAcademicYearProcess process)
         {
             InitializeComponent();
             _service = service;
+            _process = process;
 
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
@@ -33,14 +36,20 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
                 new ColumnConfig { Name = "IsMain", Title = "Считать по этой записи часы", Width = 200, Visible = true }
             };
 
-            List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
+            List<string> hideToolStripButtons = new List<string> { };
 
-            standartControl.Configurate(columns, hideToolStripButtons);
+            Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
+                {
+                    { "UseRecordToolStripMenuItem", "Считать по этой записи"},
+                };
+
+            standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
 
             standartControl.GetPageAddEvent(LoadRecords);
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("UseRecordToolStripMenuItem", UseRecordToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) =>
             {
@@ -68,7 +77,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetStreamLessonRecords(new StreamLessonRecordGetBindingModel { SteamLessonId = _sId, PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetStreamLessonRecords(new StreamLessonRecordGetBindingModel { StreamLessonId = _sId, PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -138,6 +147,26 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
                         }
                     }
                     standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void UseRecordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                if (MessageBox.Show("Вы уверены, что хотите сменить?", "Портал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var result = _process.UseStreamRecord(new UseStreamRecordBindingModel { StreamLessonId = _sId, StreamLessonRecordId = id });
+                    if (result.Succeeded)
+                    {
+                        standartControl.LoadPage();
+                    }
+                    else
+                    {
+                        ErrorMessanger.PrintErrorMessage("При изменении возникла ошибка: ", result.Errors);
+                    }
                 }
             }
         }

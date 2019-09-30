@@ -32,9 +32,21 @@ namespace Models.AcademicYearData
         [DataMember]
         public Semesters? Semester { get; set; }
 
+        [DataMember]
+        public Guid? AcademicPlanRecordParentId { get; set; }
+
+        [DataMember]
+        public bool IsParent { get; set; }
+
         [Required]
         [DataMember]
         public int Zet { get; set; }
+
+        [DataMember]
+        public bool Selectable { get; set; }
+
+        [DataMember]
+        public bool IsSelected { get; set; }
 
         //-------------------------------------------------------------------------
 

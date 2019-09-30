@@ -88,7 +88,7 @@ namespace BaseImplementations.Implementations
                 {
                     var entity = ModelFacotryFromBindingModel.CreateEducationDirection(model);
 
-                    var exsistEntity = context.EducationDirections.FirstOrDefault(x => x.Title == entity.Title);
+                    var exsistEntity = context.EducationDirections.FirstOrDefault(x => x.Title == entity.Title && x.Profile == entity.Profile);
                     if (exsistEntity == null)
                     {
                         context.EducationDirections.Add(entity);
