@@ -62,6 +62,7 @@
             this.comboBoxEducationDirectionQualification = new System.Windows.Forms.ComboBox();
             this.labelEducationDirectionQualification = new System.Windows.Forms.Label();
             this.checkBoxUseInLearningProgress = new System.Windows.Forms.CheckBox();
+            this.checkBoxUseInSite = new System.Windows.Forms.CheckBox();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.groupBoxMult1.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.checkBoxUseInSite);
             this.panelMain.Controls.Add(this.checkBoxUseInLearningProgress);
             this.panelMain.Controls.Add(this.labelAcademicYear);
             this.panelMain.Controls.Add(this.comboBoxEducationDirectionQualification);
@@ -461,6 +463,17 @@
             this.checkBoxUseInLearningProgress.Text = "Выводить при настройки дисциплины";
             this.checkBoxUseInLearningProgress.UseVisualStyleBackColor = true;
             // 
+            // checkBoxUseInSite
+            // 
+            this.checkBoxUseInSite.AutoSize = true;
+            this.checkBoxUseInSite.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxUseInSite.Location = new System.Drawing.Point(422, 330);
+            this.checkBoxUseInSite.Name = "checkBoxUseInSite";
+            this.checkBoxUseInSite.Size = new System.Drawing.Size(123, 17);
+            this.checkBoxUseInSite.TabIndex = 15;
+            this.checkBoxUseInSite.Text = "Выводить на сайте";
+            this.checkBoxUseInSite.UseVisualStyleBackColor = true;
+            // 
             // FormTimeNorm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -524,5 +537,6 @@
         private System.Windows.Forms.ComboBox comboBoxEducationDirectionQualification;
         private System.Windows.Forms.Label labelEducationDirectionQualification;
         private System.Windows.Forms.CheckBox checkBoxUseInLearningProgress;
+        private System.Windows.Forms.CheckBox checkBoxUseInSite;
     }
 }

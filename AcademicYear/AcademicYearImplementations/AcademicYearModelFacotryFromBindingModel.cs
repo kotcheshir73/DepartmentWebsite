@@ -212,6 +212,7 @@ namespace AcademicYearImplementations
             entity.NumKoef = model.NumKoef;
             entity.TimeNormKoef = string.IsNullOrEmpty(model.TimeNormKoef) ? TimeNormKoef.Пусто : (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
             entity.UseInLearningProgress = model.UseInLearningProgress;
+            entity.UseInSite = model.UseInSite;
 
             return entity;
 		}

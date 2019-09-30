@@ -53,6 +53,7 @@
             this.labelRank2 = new System.Windows.Forms.Label();
             this.labelLecturerPost = new System.Windows.Forms.Label();
             this.comboBoxLecturerPost = new System.Windows.Forms.ComboBox();
+            this.checkBoxOnlyForPrivate = new System.Windows.Forms.CheckBox();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
@@ -60,6 +61,7 @@
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.checkBoxOnlyForPrivate);
             this.panelMain.Controls.Add(this.comboBoxLecturerPost);
             this.panelMain.Controls.Add(this.labelLastName);
             this.panelMain.Controls.Add(this.labelLecturerPost);
@@ -358,6 +360,16 @@
             this.comboBoxLecturerPost.Size = new System.Drawing.Size(200, 21);
             this.comboBoxLecturerPost.TabIndex = 19;
             // 
+            // checkBoxOnlyForPrivate
+            // 
+            this.checkBoxOnlyForPrivate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBoxOnlyForPrivate.Location = new System.Drawing.Point(340, 309);
+            this.checkBoxOnlyForPrivate.Name = "checkBoxOnlyForPrivate";
+            this.checkBoxOnlyForPrivate.Size = new System.Drawing.Size(104, 49);
+            this.checkBoxOnlyForPrivate.TabIndex = 29;
+            this.checkBoxOnlyForPrivate.Text = "Только для внутренного пользования";
+            this.checkBoxOnlyForPrivate.UseVisualStyleBackColor = true;
+            // 
             // LecturerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -405,5 +417,6 @@
         private System.Windows.Forms.Label labelRank2;
         private System.Windows.Forms.Label labelLecturerPost;
         private System.Windows.Forms.ComboBox comboBoxLecturerPost;
+        private System.Windows.Forms.CheckBox checkBoxOnlyForPrivate;
     }
 }

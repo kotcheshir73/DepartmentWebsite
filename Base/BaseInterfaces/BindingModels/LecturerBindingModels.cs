@@ -49,5 +49,7 @@ namespace BaseInterfaces.BindingModels
         public string Description { get; set; }
 
         public byte[] Photo { get; set; }
+
+        public bool OnlyForPrivate { get; set; }
     }
 }
