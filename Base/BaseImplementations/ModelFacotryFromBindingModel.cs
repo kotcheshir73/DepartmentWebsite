@@ -32,6 +32,7 @@ namespace BaseImplementations
             entity.Description = model.Description;
             entity.Qualification = (EducationDirectionQualification)Enum.Parse(typeof(EducationDirectionQualification), model.Qualification);
             entity.Title = model.Title;
+            entity.Profile = model.Profile;
 
             return entity;
         }
@@ -97,6 +98,7 @@ namespace BaseImplementations
             entity.Email = model.Email;
             entity.Description = model.Description;
             entity.Photo = model.Photo;
+            entity.OnlyForPrivate = model.OnlyForPrivate;
 
             return entity;
         }

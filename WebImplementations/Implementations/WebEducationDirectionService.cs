@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using DatabaseContext;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -81,8 +82,7 @@ namespace WebImplementations.Implementations
                         .Include(x => x.AcademicPlanRecord.Discipline.DisciplineBlock)
                         .Include(x => x.AcademicPlanRecord.Contingent.EducationDirection)
                         // TODO практики и госы
-                        .Where(x => x.TimeNorm.TimeNormShortName == "Экз" || x.TimeNorm.TimeNormShortName == "ЗсО" || x.TimeNorm.TimeNormShortName == "Зач"
-                                    || x.TimeNorm.TimeNormShortName == "КР" || x.TimeNorm.TimeNormShortName == "КП")
+                        .Where(x => x.TimeNorm.UseInSite && x.AcademicPlanRecord.IsSelected)
                         .Where(x => x.TimeNorm.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id && x.AcademicPlanRecord.ContingentId == model.CourseId);
 
 

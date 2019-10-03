@@ -84,7 +84,7 @@ namespace LearningProgressControlsAndForms.DisciplineLesson
             comboBoxEducationDirection.ValueMember = "Value";
             comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = resultED.Result.List
-                .Select(d => new { Value = d.Id, Display = d.Cipher }).ToList();
+                .Select(d => new { Value = d.Id, Display = d.ToString() }).ToList();
             comboBoxEducationDirection.SelectedValue = _edId;
 
             var resultTN = _service.GetTimeNorms(new TimeNormGetBindingModel { Id = _tnId });

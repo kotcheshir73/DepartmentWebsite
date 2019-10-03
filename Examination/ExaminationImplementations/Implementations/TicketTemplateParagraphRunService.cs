@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using DatabaseContext;
+using Enums;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
 using ExaminationInterfaces.ViewModels;
@@ -162,7 +163,7 @@ namespace ExaminationImplementations.Implementations
                     
                     if(entity.TicketTemplateParagraphRunProperties != null)
                     {
-                        context.TicketTemplateParagraphRunProperties.Remove(entity.TicketTemplateParagraphRunProperties);
+                        context.TicketTemplateParagraphRunProperties.Remove(entity.TicketTemplateParagraphRunProperties.FirstOrDefault());
                         context.SaveChanges();
                     }
                     context.TicketTemplateParagraphRuns.Remove(entity);

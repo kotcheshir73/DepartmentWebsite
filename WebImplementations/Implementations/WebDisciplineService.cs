@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using DatabaseContext;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace WebImplementations.Implementations
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan)
                         .Where(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.AcademicYearId == ServiceHelper.GetCurrentAcademicYear().Result.Id &&
-                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId)
+                                        x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId == model.DisciplineId && x.AcademicPlanRecordElement.AcademicPlanRecord.IsSelected)
                         .Select(x => x.LecturerId)
                         .Distinct()
                         .ToList();

@@ -105,6 +105,7 @@ namespace AcademicYearControlsAndForms.TimeNorm
             comboBoxTimeNormKoef.SelectedIndex = comboBoxTimeNormKoef.Items.IndexOf(entity.TimeNormKoef);
 
             checkBoxUseInLearningProgress.Checked = entity.UseInLearningProgress;
+            checkBoxUseInSite.Checked = entity.UseInSite;
         }
 
         protected override bool CheckFill()
@@ -170,7 +171,8 @@ namespace AcademicYearControlsAndForms.TimeNorm
                     Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?)null,
                     NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
                     TimeNormKoef = comboBoxTimeNormKoef.Text,
-                    UseInLearningProgress = checkBoxUseInLearningProgress.Checked
+                    UseInLearningProgress = checkBoxUseInLearningProgress.Checked,
+                    UseInSite = checkBoxUseInSite.Checked
                 });
             }
             else
@@ -193,7 +195,8 @@ namespace AcademicYearControlsAndForms.TimeNorm
                     Hours = !string.IsNullOrEmpty(textBoxHours.Text) ? Convert.ToDecimal(textBoxHours.Text) : (decimal?)null,
                     NumKoef = !string.IsNullOrEmpty(textBoxNumKoef.Text) ? Convert.ToDecimal(textBoxNumKoef.Text) : (decimal?)null,
                     TimeNormKoef = comboBoxTimeNormKoef.Text,
-                    UseInLearningProgress = checkBoxUseInLearningProgress.Checked
+                    UseInLearningProgress = checkBoxUseInLearningProgress.Checked,
+                    UseInSite = checkBoxUseInSite.Checked
                 });
             }
             if (result.Succeeded)

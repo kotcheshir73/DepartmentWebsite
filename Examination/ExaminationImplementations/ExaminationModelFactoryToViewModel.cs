@@ -142,7 +142,7 @@ namespace ExaminationImplementations
             {
                 Id = entity.Id,
                 TemplateName = entity.TemplateName,
-                Body = entity.TicketTemplateBody != null ? CreateTicketTemplateBodyViewModel(entity.TicketTemplateBody) : null,
+                Body = CreateTicketTemplateBodyViewModel(entity.TicketTemplateBodies?.FirstOrDefault()),
                 TicketTemplateDocumentSettingPageViewModel = entity.TicketTemplateDocumentSettings != null ?
                                                         new TicketTemplateDocumentSettingPageViewModel
                                                         {
@@ -246,13 +246,16 @@ namespace ExaminationImplementations
 
         public static TicketTemplateBodyViewModel CreateTicketTemplateBodyViewModel(TicketTemplateBody entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateBodyViewModel
             {
                 Id = entity.Id,
                 TicketTemplateId = entity.TicketTemplateId,
-                TicketTemplateBodyPropertiesId = entity.TicketTemplateBodyPropertiesId,
-                TicketTemplateBodyPropertiesViewModel = entity.TicketTemplateBodyProperties != null ?
-                                                        CreateTicketTemplateBodyPropertiesViewModel(entity.TicketTemplateBodyProperties) : null,
+                TicketTemplateBodyPropertiesViewModel = CreateTicketTemplateBodyPropertiesViewModel(entity.TicketTemplateBodyProperties?.FirstOrDefault()),
                 TicketTemplateTablePageViewModel = entity.TicketTemplateTables != null ?
                                                     new TicketTemplateTablePageViewModel
                                                     {
@@ -268,6 +271,11 @@ namespace ExaminationImplementations
 
         public static TicketTemplateBodyPropertiesViewModel CreateTicketTemplateBodyPropertiesViewModel(TicketTemplateBodyProperties entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateBodyPropertiesViewModel
             {
                 Id = entity.Id,
@@ -290,10 +298,8 @@ namespace ExaminationImplementations
             {
                 Id = entity.Id,
                 TicketTemplateBodyId = entity.TicketTemplateBodyId,
-                TicketTemplateTablePropertiesId = entity.TicketTemplateTablePropertiesId,
                 Order = entity.Order,
-                TicketTemplateTablePropertiesViewModel = entity.TicketTemplateTablePropertiesId != null ?
-                                                                CreateTicketTemplateTablePropertiesViewModel(entity.TicketTemplateTableProperties) : null,
+                TicketTemplateTablePropertiesViewModel = CreateTicketTemplateTablePropertiesViewModel(entity.TicketTemplateTableProperties?.FirstOrDefault()),
                 TicketTemplateTableGridColumnPageViewModel = entity.TicketTemplateTableGridColumns != null ?
                                                         new TicketTemplateTableGridColumnPageViewModel
                                                         {
@@ -309,6 +315,11 @@ namespace ExaminationImplementations
 
         public static TicketTemplateTablePropertiesViewModel CreateTicketTemplateTablePropertiesViewModel(TicketTemplateTableProperties entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateTablePropertiesViewModel
             {
                 Id = entity.Id,
@@ -358,10 +369,8 @@ namespace ExaminationImplementations
             {
                 Id = entity.Id,
                 TicketTemplateTableId = entity.TicketTemplateTableId,
-                TicketTemplateTableRowPropertiesId = entity.TicketTemplateTableRowPropertiesId,
                 Order = entity.Order,
-                TicketTemplateTableRowPropertiesViewModel = entity.TicketTemplateTableRowPropertiesId != null ?
-                                                                CreateTicketTemplateTableRowPropertiesViewModel(entity.TicketTemplateTableRowProperties) : null,
+                TicketTemplateTableRowPropertiesViewModel = CreateTicketTemplateTableRowPropertiesViewModel(entity.TicketTemplateTableRowProperties.FirstOrDefault()),
                 TicketTemplateTableCellPageViewModel = entity.TicketTemplateTableCells != null ?
                                                         new TicketTemplateTableCellPageViewModel
                                                         {
@@ -372,6 +381,11 @@ namespace ExaminationImplementations
 
         public static TicketTemplateTableRowPropertiesViewModel CreateTicketTemplateTableRowPropertiesViewModel(TicketTemplateTableRowProperties entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateTableRowPropertiesViewModel
             {
                 Id = entity.Id,
@@ -387,10 +401,8 @@ namespace ExaminationImplementations
             {
                 Id = entity.Id,
                 TicketTemplateTableRowId = entity.TicketTemplateTableRowId,
-                TicketTemplateTableCellPropertiesId = entity.TicketTemplateTableCellPropertiesId,
                 Order = entity.Order,
-                TicketTemplateTableCellPropertiesViewModel = entity.TicketTemplateTableCellPropertiesId != null ?
-                                                                CreateTicketTemplateTableCellPropertiesViewModel(entity.TicketTemplateTableCellProperties) : null,
+                TicketTemplateTableCellPropertiesViewModel = CreateTicketTemplateTableCellPropertiesViewModel(entity.TicketTemplateTableCellProperties?.FirstOrDefault()),
                 TicketTemplateParagraphPageViewModel = entity.TicketTemplateParagraphs != null ?
                                                         new TicketTemplateParagraphPageViewModel
                                                         {
@@ -401,6 +413,11 @@ namespace ExaminationImplementations
 
         public static TicketTemplateTableCellPropertiesViewModel CreateTicketTemplateTableCellPropertiesViewModel(TicketTemplateTableCellProperties entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateTableCellPropertiesViewModel
             {
                 Id = entity.Id,
@@ -421,9 +438,7 @@ namespace ExaminationImplementations
                 Id = entity.Id,
                 TicketTemplateBodyId = entity.TicketTemplateBodyId,
                 TicketTemplateTableCellId = entity.TicketTemplateTableCellId,
-                TicketTemplateParagraphPropertiesId = entity.TicketTemplateParagraphPropertiesId,
-                TicketTemplateParagraphPropertiesViewModel = entity.TicketTemplateParagraphProperties != null ?
-                                                            CreateTicketTemplateParagraphPropertiesViewModel(entity.TicketTemplateParagraphProperties) : null,
+                TicketTemplateParagraphPropertiesViewModel = CreateTicketTemplateParagraphPropertiesViewModel(entity.TicketTemplateParagraphProperties?.FirstOrDefault()),
                 Order = entity.Order,
                 TicketTemplateParagraphRunPageViewModel = entity.TicketTemplateParagraphRuns != null ?
                                                         new TicketTemplateParagraphRunPageViewModel
@@ -435,6 +450,11 @@ namespace ExaminationImplementations
 
         public static TicketTemplateParagraphPropertiesViewModel CreateTicketTemplateParagraphPropertiesViewModel(TicketTemplateParagraphProperties entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateParagraphPropertiesViewModel
             {
                 Id = entity.Id,
@@ -463,9 +483,7 @@ namespace ExaminationImplementations
             {
                 Id = entity.Id,
                 TicketTemplateParagraphId = entity.TicketTemplateParagraphId,
-                TicketTemplateRunPropertiesId = entity.TicketTemplateParagraphRunPropertiesId,
-                TicketTemplateParagraphRunPropertiesViewModel = entity.TicketTemplateParagraphRunProperties != null ?
-                                                                CreateTicketTemplateParagraphRunPropertiesViewModel(entity.TicketTemplateParagraphRunProperties) : null,
+                TicketTemplateParagraphRunPropertiesViewModel = CreateTicketTemplateParagraphRunPropertiesViewModel(entity.TicketTemplateParagraphRunProperties?.FirstOrDefault()),
                 Order = entity.Order,
                 Text = entity.Text,
                 TabChar = entity.TabChar,
@@ -476,6 +494,11 @@ namespace ExaminationImplementations
 
         public static TicketTemplateParagraphRunPropertiesViewModel CreateTicketTemplateParagraphRunPropertiesViewModel(TicketTemplateParagraphRunProperties entity)
         {
+            if(entity == null)
+            {
+                return null;
+            }
+
             return new TicketTemplateParagraphRunPropertiesViewModel
             {
                 Id = entity.Id,

@@ -42,5 +42,7 @@ namespace AcademicYearInterfaces.ViewModels
         public string TimeNormKoef { get; set; }
 
         public bool UseInLearningProgress { get; set; }
+
+        public bool UseInSite { get; set; }
     }
 }

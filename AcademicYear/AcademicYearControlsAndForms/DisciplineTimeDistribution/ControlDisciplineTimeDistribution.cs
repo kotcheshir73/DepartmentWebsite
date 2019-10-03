@@ -162,7 +162,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                var result = _process.ImportDisciplineTimeDistributionsLecturers(new ImportDisciplineTimeDistributions
+                var result = _process.ImportDisciplineTimeDistributionsLecturers(new ImportDisciplineTimeDistributionsBindingModel
                 {
                     AcademicYearId = _ayId.Value,
                     Path = fbd.SelectedPath

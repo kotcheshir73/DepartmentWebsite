@@ -46,6 +46,7 @@ namespace BaseControlsAndForms.EducationDirection
             textBoxShortName.Text = entity.ShortName;
             textBoxTitle.Text = entity.Title;
             comboBoxQualification.SelectedIndex = comboBoxQualification.Items.IndexOf(entity.Qualification);
+            textBoxProfile.Text = entity.Profile;
             textBoxDescription.Text = entity.Description;
         }
 
@@ -81,6 +82,7 @@ namespace BaseControlsAndForms.EducationDirection
                     ShortName = textBoxShortName.Text,
                     Title = textBoxTitle.Text,
                     Qualification = comboBoxQualification.Text,
+                    Profile = textBoxProfile.Text,
                     Description = textBoxDescription.Text
                 });
             }
@@ -93,6 +95,7 @@ namespace BaseControlsAndForms.EducationDirection
                     ShortName = textBoxShortName.Text,
                     Title = textBoxTitle.Text,
                     Qualification = comboBoxQualification.Text,
+                    Profile = textBoxProfile.Text,
                     Description = textBoxDescription.Text
                 });
             }

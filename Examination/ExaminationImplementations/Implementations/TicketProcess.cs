@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using DatabaseContext;
+using Enums;
 using ExaminationImplementations.Helpers;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
@@ -315,7 +316,7 @@ namespace ExaminationImplementations.Implementations
                         return ResultService.Error("Error:", "TicketTemplate not found", ResultServiceStatusCode.NotFound);
                     }
 
-                    var questions = TicketTemplateAnalyser.AnalysisBody(ticketTemplate.TicketTemplateBody);
+                    var questions = TicketTemplateAnalyser.AnalysisBody(ticketTemplate.TicketTemplateBodies.FirstOrDefault());
 
                     using (var transaction = context.Database.BeginTransaction())
                     {

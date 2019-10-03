@@ -9,16 +9,14 @@ namespace Models.Examination
     public class TicketTemplate : IdEntity
     {
         [DataMember]
-        public Guid? TicketTemplateBodyId { get; set; }
-
-        [DataMember]
         public string TemplateName { get; set; }
 
         //-------------------------------------------------------------------------
 
-        public virtual TicketTemplateBody TicketTemplateBody { get; set; }
-
         //-------------------------------------------------------------------------
+
+        [ForeignKey("TicketTemplateId")]
+        public virtual List<TicketTemplateBody> TicketTemplateBodies { get; set; }
 
         [ForeignKey("TicketTemplateId")]
         public virtual List<ExaminationTemplate> ExaminationTemplates { get; set; }

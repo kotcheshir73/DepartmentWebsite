@@ -13,12 +13,14 @@ namespace BaseInterfaces.ViewModels
         public string Title { get; set; }
 
         public string Qualification { get; set; }
-        
+
+        public string Profile { get; set; }
+
         public string Description { get; set; }
 
         public override string ToString()
         {
-            return $"{Cipher} - {ShortName}";
+            return $"{Cipher} - {ShortName} ({Profile})";
         }
     }
 }

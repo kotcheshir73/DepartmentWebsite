@@ -18,6 +18,8 @@ namespace WebInterfaces.ViewModels
 
         public string Qualification { get; set; }
 
+        public string Profile { get; set; }
+
         public List<Tuple<Guid, string>> Courses { get; set; }
 
         public override string ToString()

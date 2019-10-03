@@ -1,6 +1,7 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -67,9 +68,9 @@ namespace AcademicYearImplementations.Implementations
                 {
                     var query = context.StreamLessonRecords.Where(x => !x.IsDeleted).AsQueryable();
 
-                    if (model.SteamLessonId.HasValue)
+                    if (model.StreamLessonId.HasValue)
                     {
-                        query = query.Where(x => x.StreamLessonId == model.SteamLessonId);
+                        query = query.Where(x => x.StreamLessonId == model.StreamLessonId);
                     }
 
                     query = query.OrderBy(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher);

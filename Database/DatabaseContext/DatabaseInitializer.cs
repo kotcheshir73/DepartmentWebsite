@@ -1,12 +1,11 @@
-﻿using DatabaseContext;
-using Enums;
+﻿using Enums;
 using Models.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Tools
+namespace DatabaseContext
 {
     public class DatabaseInitializer
     {

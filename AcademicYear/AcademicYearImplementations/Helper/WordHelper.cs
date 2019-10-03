@@ -1,4 +1,5 @@
 ﻿using AcademicYearInterfaces.BindingModels;
+using DatabaseContext;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -32,7 +33,7 @@ namespace AcademicYearImplementations.Helper
             }
         }
 
-        public static ResultService ImportDisciplineTimeDistributionsLecturers(ImportDisciplineTimeDistributions model)
+        public static ResultService ImportDisciplineTimeDistributionsLecturers(ImportDisciplineTimeDistributionsBindingModel model)
         {
             try
             {
@@ -68,7 +69,7 @@ namespace AcademicYearImplementations.Helper
             }
         }
 
-        public static ResultService ImportDisciplineTimeDistributionsDisciplines(ImportDisciplineTimeDistributions model)
+        public static ResultService ImportDisciplineTimeDistributionsDisciplines(ImportDisciplineTimeDistributionsBindingModel model)
         {
             try
             {

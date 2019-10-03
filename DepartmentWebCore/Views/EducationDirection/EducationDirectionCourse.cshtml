@@ -2,7 +2,7 @@
 
 @model List<WebEducationDirectionDisciplineByCoursesViewModel>
 
-@if (Model != null)
+@if (Model != null && Model.Count > 0)
 {
     <table class="course-table table">
         <tr>
@@ -59,14 +59,35 @@
 
         <tr class="course-table-tab">
             <td width="50%" style="padding:15px;">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("экзамен")))
+                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
                 {
                     @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
                 }
             </td>
 
             <td width="50%" style="padding:15px;">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("экзамен")))
+                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
+                {
+                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <td>Практики</td>
+            <td>Практики</td>
+        </tr>
+
+        <tr class="course-table-tab">
+            <td width="50%" style="padding:15px;">
+                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("практик")))
+                {
+                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+                }
+            </td>
+
+            <td width="50%" style="padding:15px;">
+                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("практик")))
                 {
                     @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
                 }

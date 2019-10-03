@@ -115,11 +115,11 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
             {
                 return false;
             }
-            if (!int.TryParse(textBoxPlanHours.Text, out int hours))
+            if (!decimal.TryParse(textBoxPlanHours.Text, out decimal hours))
             {
                 return false;
             }
-            if (!int.TryParse(textBoxFactHours.Text, out hours))
+            if (!decimal.TryParse(textBoxFactHours.Text, out hours))
             {
                 return false;
             }
@@ -135,8 +135,8 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
                 {
                     AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
                     TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                    PlanHours = Convert.ToInt32(textBoxPlanHours.Text),
-                    FactHours = Convert.ToInt32(textBoxFactHours.Text)
+                    PlanHours = Convert.ToDecimal(textBoxPlanHours.Text),
+                    FactHours = Convert.ToDecimal(textBoxFactHours.Text)
                 });
             }
             else
@@ -146,8 +146,8 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
                     Id = _id.Value,
                     AcademicPlanRecordId = new Guid(comboBoxAcademicPlanRecord.SelectedValue.ToString()),
                     TimeNormId = new Guid(comboBoxTimeNorm.SelectedValue.ToString()),
-                    PlanHours = Convert.ToInt32(textBoxPlanHours.Text),
-                    FactHours = Convert.ToInt32(textBoxFactHours.Text)
+                    PlanHours = Convert.ToDecimal(textBoxPlanHours.Text),
+                    FactHours = Convert.ToDecimal(textBoxFactHours.Text)
                 });
             }
             if (result.Succeeded)

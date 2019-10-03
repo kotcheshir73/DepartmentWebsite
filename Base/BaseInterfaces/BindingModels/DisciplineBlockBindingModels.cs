@@ -16,5 +16,7 @@ namespace BaseInterfaces.BindingModels
 
         [Required(ErrorMessage = "required")]
         public int DisciplineBlockOrder { get; set; }
+
+        public string DisciplineBlockBlueAsteriskCode { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace WebImplementations
                 Title = entity.Key.Title,
                 ShortName = entity.Key.ShortName,
                 Qualification = entity.Key.Qualification.ToString(),
+                Profile = entity.Key.Profile,
                 Description = entity.Key.Description,
                 Courses = entity.Select(x => new Tuple<Guid, string>(x.Id, $"Курс {Math.Log((double)x.Course, 2) + 1}")).OrderBy(x => x.Item2).ToList()
             };

@@ -79,6 +79,8 @@ namespace DepartmentWebCore.Services
                 {".docx", "application/vnd.ms-word"},
                 {".xls", "application/vnd.ms-excel"},
                 {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},
+                {".ppt", "application/vnd.ms-powerpoint"},
+                {".pptx", "application/vnd.ms-powerpoint"},
                 {".png", "image/png"},
                 {".jpg", "image/jpeg"},
                 {".jpeg", "image/jpeg"},

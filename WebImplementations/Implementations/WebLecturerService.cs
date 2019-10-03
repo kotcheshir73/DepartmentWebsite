@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using DatabaseContext;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace WebImplementations.Implementations
             {
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.Lecturers.Where(x => !x.IsDeleted).AsQueryable();
+                    var query = context.Lecturers.Where(x => !x.IsDeleted && !x.OnlyForPrivate).AsQueryable();
 
                     query = query.OrderBy(x => x.LecturerPost.Hours).ThenBy(x => x.LastName);
 

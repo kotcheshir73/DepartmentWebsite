@@ -35,6 +35,9 @@ namespace Models.Base
         [DataMember]
         public EducationDirectionQualification Qualification { get; set; }
 
+        [DataMember]
+        public string Profile { get; set; }
+
         [Required]
         [DataMember]
         public string Description { get; set; }

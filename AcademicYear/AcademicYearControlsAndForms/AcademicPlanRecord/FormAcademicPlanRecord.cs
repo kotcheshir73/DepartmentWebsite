@@ -113,6 +113,8 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                 comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
             }
             textBoxZet.Text = entity.Zet.ToString();
+            checkBoxSelectable.Checked = entity.Selectable;
+            checkBoxIsSelected.Checked = entity.IsSelected;
         }
 
         protected override bool CheckFill()
@@ -147,7 +149,9 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                     ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
                     Semester = comboBoxSemester.Text,
-                    Zet = Convert.ToInt32(textBoxZet.Text)
+                    Zet = Convert.ToInt32(textBoxZet.Text),
+                    Selectable = checkBoxSelectable.Checked,
+                    IsSelected = checkBoxIsSelected.Checked
                 });
             }
             else
@@ -159,7 +163,9 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                     ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
                     Semester = comboBoxSemester.Text,
-                    Zet = Convert.ToInt32(textBoxZet.Text)
+                    Zet = Convert.ToInt32(textBoxZet.Text),
+                    Selectable = checkBoxSelectable.Checked,
+                    IsSelected = checkBoxIsSelected.Checked
                 });
             }
             if (result.Succeeded)

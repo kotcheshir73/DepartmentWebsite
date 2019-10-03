@@ -127,7 +127,7 @@ namespace AcademicYearControlsAndForms.Services
                 {
                     dataGridView.Rows.Add(elem);
                 }
-                Height = 95 + 22 * result.Result.Count;
+                Height = 95 + 24 * result.Result.Count;
             }
             else
             {
@@ -215,7 +215,7 @@ namespace AcademicYearControlsAndForms.Services
                 {
                     dataGridView.Rows.Add(elem);
                 }
-                Height = 95 + 22 * result.Result.Count;
+                Height = 95 + 24 * result.Result.Count;
             }
             else
             {
