@@ -16,11 +16,11 @@
             <td>
                 @if (lecturer.Photo != null && lecturer.Photo.Length > 0)
                 {
-                    <img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.Photo))" width="50" height="50" alt="@lecturer.FullName" />
+                    <img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.Photo))" width="50"  alt="@lecturer.FullName" />
                 }
                 else
                 {
-                    <img src="~/Images/default-lecturer.png" width="50" height="50" alt="@lecturer.FullName">
+                    <img src="~/Images/default-lecturer.png" width="50" alt="@lecturer.FullName">
                 }
             </td>
             <td class="lecturer-element-line">
