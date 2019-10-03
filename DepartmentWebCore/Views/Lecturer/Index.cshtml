@@ -13,14 +13,14 @@
    @foreach (var lecturer in Model)
     {        
         <tr id="list" class="lecturer-element" data-id="@lecturer.Id">    
-            <td>
+            <td class="lecturer-element-img">
                 @if (lecturer.Photo != null && lecturer.Photo.Length > 0)
                 {
-                    <img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.Photo))" width="50"  alt="@lecturer.FullName" />
+                    <img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.Photo))" alt="@lecturer.FullName" />
                 }
                 else
                 {
-                    <img src="~/Images/default-lecturer.png" width="50" alt="@lecturer.FullName">
+                    <img src="~/Images/default-lecturer.png" alt="@lecturer.FullName">
                 }
             </td>
             <td class="lecturer-element-line">

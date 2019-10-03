@@ -10,14 +10,14 @@
         <h2 class="page-header">@Model.LastName @Model.FirstName @Model.Patronymic</h2>
         <table class="table">
             <tr id="list">
-                <td width="150px">
+                <td width="150px" class="text-lecturer-img">
                     @if (Model.Photo != null && Model.Photo.Length > 0)
                     {
-                        <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Photo))" width="150"  alt="@Model.FullName" />
+                        <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Photo))" alt="@Model.FullName" />
                     }
                     else
                     {
-                        <img src="~/Images/default-lecturer.png" width="150" alt="@Model.FullName">
+                        <img src="~/Images/default-lecturer.png" alt="@Model.FullName">
                     }
                 </td>
                 <td>
