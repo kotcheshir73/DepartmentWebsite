@@ -37,6 +37,12 @@ namespace Models.Authentication
         [DataMember]
         public DateTime? DateBanned { get; set; }
 
+        [DataMember]
+        public int CountAttempt { get; set; }
+
+        [DataMember]
+        public DateTime? DateLocked { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual Lecturer Lecturer { get; set; }

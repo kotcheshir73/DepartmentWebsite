@@ -82,6 +82,12 @@
     <Compile Include="Role\FormRole.designer.cs">
       <DependentUpon>FormRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ChangeUserPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\ChangeUserPasswordForm.Designer.cs">
+      <DependentUpon>ChangeUserPasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ExportDataBaseControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Role\FormRole.resx">
       <DependentUpon>FormRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ChangeUserPasswordForm.resx">
+      <DependentUpon>ChangeUserPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\ExportDataBaseControl.resx">
       <DependentUpon>ExportDataBaseControl.cs</DependentUpon>

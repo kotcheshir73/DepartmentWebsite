@@ -182,6 +182,12 @@
     <Compile Include="FormError.Designer.cs">
       <DependentUpon>FormError.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ColumnConfig.cs" />
     <Compile Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.cs">
       <SubType>UserControl</SubType>
@@ -208,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormError.resx">
       <DependentUpon>FormError.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EducationalProcess\LecturerCabinet\LecturerCabinetControl.resx">
       <DependentUpon>LecturerCabinetControl.cs</DependentUpon>
@@ -289,6 +298,10 @@
     <ProjectReference Include="..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DesignTools\ControlsAndForms\ControlsAndForms.csproj">
+      <Project>{E6DDE9DC-2F92-46B0-8143-A6EF12F30DB0}</Project>
+      <Name>ControlsAndForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Examination\ExaminationControlsAndForms\ExaminationControlsAndForms.csproj">
       <Project>{db99b176-3158-4270-b530-670d7e3fcfd0}</Project>
