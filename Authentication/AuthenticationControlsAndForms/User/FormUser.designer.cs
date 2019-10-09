@@ -34,6 +34,7 @@
             this.labelLecturer = new System.Windows.Forms.Label();
             this.checkBoxBanned = new System.Windows.Forms.CheckBox();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
+            this.buttonChangePassword = new System.Windows.Forms.Button();
             this.panelMain.SuspendLayout();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).BeginInit();
@@ -41,6 +42,7 @@
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.buttonChangePassword);
             this.panelMain.Controls.Add(this.checkBoxBanned);
             this.panelMain.Controls.Add(this.labelLogin);
             this.panelMain.Controls.Add(this.comboBoxLecturer);
@@ -157,6 +159,17 @@
             this.pictureBoxAvatar.TabIndex = 13;
             this.pictureBoxAvatar.TabStop = false;
             // 
+            // buttonChangePassword
+            // 
+            this.buttonChangePassword.Location = new System.Drawing.Point(404, 213);
+            this.buttonChangePassword.Name = "buttonChangePassword";
+            this.buttonChangePassword.Size = new System.Drawing.Size(100, 25);
+            this.buttonChangePassword.TabIndex = 14;
+            this.buttonChangePassword.Text = "Сменить пароль";
+            this.buttonChangePassword.UseVisualStyleBackColor = true;
+            this.buttonChangePassword.Visible = false;
+            this.buttonChangePassword.Click += new System.EventHandler(this.ButtonChangePassword_Click);
+            // 
             // FormUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -185,5 +198,6 @@
 		private System.Windows.Forms.ComboBox comboBoxLecturer;
 		private System.Windows.Forms.Label labelLecturer;
 		private System.Windows.Forms.CheckBox checkBoxBanned;
-	}
+        private System.Windows.Forms.Button buttonChangePassword;
+    }
 }

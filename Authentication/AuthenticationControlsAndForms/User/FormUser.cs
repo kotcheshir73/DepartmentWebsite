@@ -1,4 +1,5 @@
-﻿using AuthenticationInterfaces.BindingModels;
+﻿using AuthenticationControlsAndForms.Services;
+using AuthenticationInterfaces.BindingModels;
 using AuthenticationInterfaces.Interfaces;
 using BaseInterfaces.BindingModels;
 using ControlsAndForms.Forms;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Tools;
 using Unity;
+using Unity.Resolution;
 
 namespace AuthenticationControlsAndForms.User
 {
@@ -61,6 +63,8 @@ namespace AuthenticationControlsAndForms.User
         protected override void LoadData()
         {
             textBoxPassword.Enabled = false;
+            buttonChangePassword.Visible = true;
+
             var result = _service.GetUser(new UserGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
@@ -165,6 +169,17 @@ namespace AuthenticationControlsAndForms.User
                     MessageBox.Show(ex.Message, "Ошибка при загрузке файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void ButtonChangePassword_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<ChangeUserPasswordForm>(
+                new ParameterOverrides
+                {
+                    { "id", _id.Value }
+                }
+                .OnType<ChangeUserPasswordForm>());
+            form.ShowDialog();
         }
     }
 }
