@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191009102924_UpdateUserForLockedInfo")]
+    partial class UpdateUserForLockedInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -594,8 +596,6 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("UseInLearningProgress");
 
-                    b.Property<bool>("UseInSite");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AcademicYearId");
@@ -861,8 +861,6 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("MobileNumber")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<bool>("OnlyForPrivate");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()

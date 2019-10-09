@@ -18,10 +18,11 @@ namespace DatabaseContext
 
         private static List<DepartmentRole> _roles;
 
-        public static Guid? UserId
-        {
-            get { return _user?.Id; }
-        }
+        private static readonly int CountMaxAttempt = 3;
+
+        public static Guid? UserId => _user?.Id;
+
+        public static bool IsAuth => _user != null;
 
         public static string LecturerName => $"{_user?.Lecturer?.LastName} {_user?.Lecturer?.FirstName[0]}.{_user?.Lecturer?.Patronymic?[0]}.";
         
@@ -96,12 +97,25 @@ namespace DatabaseContext
                 var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
                 if (user == null)
                 {
+                    var checkUser = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && !u.IsLocked);
+                    if(checkUser != null)
+                    {
+                        checkUser.CountAttempt++;
+                        if(checkUser.CountAttempt > CountMaxAttempt)
+                        {
+                            checkUser.IsLocked = true;
+                            checkUser.DateLocked = DateTime.Now;
+                        }
+                        context.SaveChanges();
+                    }
+
                     throw new Exception("Введен неверный логин/пароль");
                 }
                 if (user.IsLocked)
                 {
                     throw new Exception("Пользователь заблокирован");
                 }
+
                 user.DateLastVisit = DateTime.Now;
                 context.SaveChanges();
                 _user = user;
