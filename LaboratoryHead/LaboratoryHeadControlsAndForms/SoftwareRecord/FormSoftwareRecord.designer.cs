@@ -33,19 +33,27 @@
             this.labelSetupDescription = new System.Windows.Forms.Label();
             this.textBoxSetupDescription = new System.Windows.Forms.TextBox();
             this.comboBoxSoftware = new System.Windows.Forms.ComboBox();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(103, 167);
+            this.panelMain.Controls.Add(this.comboBoxSoftware);
+            this.panelMain.Controls.Add(this.textBoxSetupDescription);
+            this.panelMain.Controls.Add(this.labelSetupDescription);
+            this.panelMain.Controls.Add(this.dateTimePickerDateSetup);
+            this.panelMain.Controls.Add(this.labelDateSetup);
+            this.panelMain.Controls.Add(this.textBoxClaimNumber);
+            this.panelMain.Controls.Add(this.labelClaimNumber);
+            this.panelMain.Controls.Add(this.labelSoftware);
+            this.panelMain.Controls.Add(this.comboBoxMaterialTechnicalValue);
+            this.panelMain.Controls.Add(this.labelMaterialTechnicalValue);
+            this.panelMain.Size = new System.Drawing.Size(364, 65);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(250, 167);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(22, 167);
+            this.panelTop.Size = new System.Drawing.Size(364, 36);
             // 
             // labelSoftware
             // 
@@ -137,31 +145,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 202);
-            this.Controls.Add(this.comboBoxSoftware);
-            this.Controls.Add(this.textBoxSetupDescription);
-            this.Controls.Add(this.labelSetupDescription);
-            this.Controls.Add(this.dateTimePickerDateSetup);
-            this.Controls.Add(this.labelDateSetup);
-            this.Controls.Add(this.textBoxClaimNumber);
-            this.Controls.Add(this.labelClaimNumber);
-            this.Controls.Add(this.labelSoftware);
-            this.Controls.Add(this.comboBoxMaterialTechnicalValue);
-            this.Controls.Add(this.labelMaterialTechnicalValue);
             this.Name = "SoftwareRecordForm";
             this.Text = "ПО";
-            this.Controls.SetChildIndex(this.labelMaterialTechnicalValue, 0);
-            this.Controls.SetChildIndex(this.comboBoxMaterialTechnicalValue, 0);
-            this.Controls.SetChildIndex(this.labelSoftware, 0);
-            this.Controls.SetChildIndex(this.labelClaimNumber, 0);
-            this.Controls.SetChildIndex(this.textBoxClaimNumber, 0);
-            this.Controls.SetChildIndex(this.labelDateSetup, 0);
-            this.Controls.SetChildIndex(this.dateTimePickerDateSetup, 0);
-            this.Controls.SetChildIndex(this.labelSetupDescription, 0);
-            this.Controls.SetChildIndex(this.textBoxSetupDescription, 0);
-            this.Controls.SetChildIndex(this.comboBoxSoftware, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
