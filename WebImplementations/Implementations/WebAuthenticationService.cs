@@ -31,7 +31,7 @@ namespace WebImplementations.Implementations
                     user.DateLastVisit = DateTime.Now;
                     context.SaveChanges();
 
-                    var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).ToList();
+                    var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).OrderBy(x => x).ToList();
 
                     return ResultService<WebAuthenticationLoginViewModel>.Success(new WebAuthenticationLoginViewModel
                     {

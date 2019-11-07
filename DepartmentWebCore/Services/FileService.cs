@@ -85,7 +85,10 @@ namespace DepartmentWebCore.Services
                 {".jpg", "image/jpeg"},
                 {".jpeg", "image/jpeg"},
                 {".gif", "image/gif"},
-                {".csv", "text/csv"}
+                {".csv", "text/csv"},
+                {".7z", "application/zip"},
+                {".zip", "application/zip"},
+                {".rar", "application/zip"}
             }; ;
             var ext = Path.GetExtension(filename).ToLowerInvariant();
             return types[ext];
