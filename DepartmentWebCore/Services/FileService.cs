@@ -165,10 +165,9 @@ namespace DepartmentWebCore.Services
         private DisciplineContextElementModel GetDirectoriesFromContext(DirectoryInfo directoryInfo, DisciplineContextElementModel element, string direction)
         {
             var directories = directoryInfo.GetDirectories();
+            element.Childs = element.Childs ?? new List<DisciplineContextElementModel>();
             if(directories.Length > 0)
             {
-                element.Childs = element.Childs ?? new List<DisciplineContextElementModel>();
-
                 foreach (var directory in directories)
                 {
                     var child = new DisciplineContextElementModel
@@ -182,6 +181,16 @@ namespace DepartmentWebCore.Services
 
                     element.Childs.Add(child);
                 }
+            }
+            // для практик нет подпапок
+            else
+            {
+                element.Childs.Add(new DisciplineContextElementModel
+                {
+                    FullPath = directoryInfo.FullName.Substring(direction.Replace("\\\\", "\\").Length),
+                    Name = directoryInfo.Name,
+                    IsFile = false
+                });
             }
 
             GetFilesFromContent(directoryInfo, element, direction);

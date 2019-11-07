@@ -19,21 +19,6 @@ namespace DepartmentWebCore.Helpers
                     sb.Append(SubFolders(elem, disciplineId, action));
                 }
             }
-            else
-            {
-                string icon = $"fas fa-{(folderItem.IsFile ? "file-download" : $"folder{(folderItem.Childs == null || folderItem.Childs.Count == 0 ? "" : "-open")} disciplne-folder-action")}";
-
-                string mainClass = folderItem.IsFile ? "disciplne-file" : "disciplne-folder";
-
-                string name = folderItem.IsFile ? $"<a href=\"/Discipline/Download?id={disciplineId}&fullName={folderItem.FullPath}\"><label>{folderItem.Name}</label></a>" : folderItem.Name;
-
-                string actions = action ? folderItem.IsFile ?
-                    $"<i data-file=\"{folderItem.FullPath}\" data-id=\"{disciplineId}\" class=\"fas fa-trash-alt discipline-file-delete\"></i>" :
-                    $"<i data-folder=\"{folderItem.FullPath}\" data-id=\"{disciplineId}\" class=\"fas fa-plus-circle discipline-file-insert\"></i>" :
-                    "";
-
-                sb.Append($"<li class=\"disciplne-folder-element\"><i class=\"{icon}\"></i><span class=\"{mainClass}\">{name}</span>{actions}</li>");
-            }
 
             return new HtmlString($"<ul class=\"disciplne-content\">{sb.ToString()}</ul>");
         }
