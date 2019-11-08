@@ -40,7 +40,7 @@ namespace DepartmentWebCore.Helpers
 
             string mainClass = folderItem.IsFile ? "disciplne-file" : "disciplne-folder";
 
-            string name = folderItem.IsFile ? $"<a href=\"/Discipline/Download?id={disciplineId}&fullName={folderItem.FullPath}\"><label>{folderItem.Name}</label></a>" : folderItem.Name;
+            string name = folderItem.IsFile ? $"<a href=\"/Discipline/Download?id={disciplineId}&fullName={folderItem.FullPath}\"><label>{folderItem.Name} ({folderItem.DateUpdate.ToShortDateString()})</label></a>" : folderItem.Name;
 
             string actions = action ? folderItem.IsFile ?
                 $"<i data-file=\"{folderItem.FullPath}\" data-id=\"{disciplineId}\" class=\"fas fa-trash-alt discipline-file-delete\"></i>" :

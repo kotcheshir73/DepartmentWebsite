@@ -216,7 +216,8 @@ namespace DepartmentWebCore.Services
                     {
                         FullPath = file.FullName.Substring(direction.Replace("\\\\", "\\").Length),
                         Name = file.Name,
-                        IsFile = true
+                        IsFile = true,
+                        DateUpdate = file.LastWriteTime
                     });
                 }
             }
