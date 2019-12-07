@@ -1,7 +1,6 @@
-﻿using Enums;
-using Models.AcademicYearData;
-using Models.Base;
-using Models.HelperModels;
+﻿using AcademicYearInterfaces.HelperModels;
+using BaseInterfaces.BindingModels;
+using Enums;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -81,15 +80,17 @@ namespace AcademicYearInterfaces.BindingModels
 
         public List<Semesters> Semesters { get; set; }
 
-        public List<BlueAsteriskTypeObject> ObjectTypes { get; set; }
+        public List<BlueAsteriskDisicplineType> DisicplineTypes { get; set; }
 
         public List<BlueAsteriskBlockType> BlockTypes { get; set; }
 
-        public List<DisciplineBlock> DisciplineBlocks { get; set; }
+        public List<DisciplineBlockSetBindingModel> DisciplineBlocks { get; set; }
 
-        public List<Discipline> Disciplines { get; set; }
+        public List<DisciplineSetBindingModel> Disciplines { get; set; }
 
-        public List<TimeNorm> TimeNorms { get; set; }
+        public List<TimeNormSetBindingModel> TimeNorms { get; set; }
+
+        public List<BlueAsteriskNewHour> NewHours { get; set; }
     }
 
     public class AcademicPlanRecordsForDiciplineBindingModel : PageSettingGetBinidingModel
@@ -106,14 +107,14 @@ namespace AcademicYearInterfaces.BindingModels
         public string Path { get; set; }
     }
 
-    public class LecturerDisciplineTimeDistributions
+    public class LecturerDisciplineTimeDistributionsBindingModel
     {
         public Guid AcademicYearId { get; set; }
 
         public Guid UserId { get; set; }
     }
 
-    public class LecturerDisciplineTimeDistributionSet
+    public class LecturerDisciplineTimeDistributionSetBindingModel
     {
         public Guid DisciplineTimeDistributionId { get; set; }
 
@@ -121,10 +122,10 @@ namespace AcademicYearInterfaces.BindingModels
 
         public string CommentWishesOfTeacher { get; set; }
 
-        public List<LecturerDisciplineTimeDistributionElementSet> LecturerDisciplineTimeDistributionElements { get; set; }
+        public List<LecturerDisciplineTimeDistributionElementSetBindingModel> LecturerDisciplineTimeDistributionElements { get; set; }
     }
 
-    public class LecturerDisciplineTimeDistributionElementSet
+    public class LecturerDisciplineTimeDistributionElementSetBindingModel
     {
         public Guid? DisciplineTimeDistributionRecordFirstWeekFirstHalfId { get; set; }
 
@@ -147,12 +148,19 @@ namespace AcademicYearInterfaces.BindingModels
         public string DisciplineTimeDistributionClassroom { get; set; }
     }
 
-    public class ImportDisciplineTimeDistributions
+    public class ImportDisciplineTimeDistributionsBindingModel
     {
         public Guid AcademicYearId { get; set; }
 
         public string Path { get; set; }
 
         public int Semester { get; set; }
+    }
+
+    public class UseStreamRecordBindingModel
+    {
+        public Guid StreamLessonId { get; set; }
+
+        public Guid StreamLessonRecordId { get; set; }
     }
 }

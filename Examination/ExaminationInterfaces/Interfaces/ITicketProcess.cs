@@ -9,8 +9,6 @@ namespace ExaminationInterfaces.Interfaces
     {
         ResultService<TicketTemplateViewModel> LoadTemplate(TicketProcessLoadTemplateBindingModel model);
 
-        ResultService SaveTemplate(TicketProcessLoadTemplateBindingModel model);
-
         ResultService LoadQuestions(TicketProcessLoadQuestionsBindingModel model);
 
         ResultService MakeTickets(TicketProcessMakeTicketsBindingModel model);

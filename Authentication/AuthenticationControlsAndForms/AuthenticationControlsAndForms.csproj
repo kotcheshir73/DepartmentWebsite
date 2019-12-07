@@ -82,6 +82,12 @@
     <Compile Include="Role\FormRole.designer.cs">
       <DependentUpon>FormRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ChangeUserPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\ChangeUserPasswordForm.Designer.cs">
+      <DependentUpon>ChangeUserPasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ExportDataBaseControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     <EmbeddedResource Include="Role\FormRole.resx">
       <DependentUpon>FormRole.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Services\ChangeUserPasswordForm.resx">
+      <DependentUpon>ChangeUserPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Services\ExportDataBaseControl.resx">
       <DependentUpon>ExportDataBaseControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -180,10 +189,6 @@
     <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj">
       <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
       <Name>BaseInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
-      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
-      <Name>Enums</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Models\Models.csproj">
       <Project>{448538b9-dd05-44e4-bb1a-e367414bda97}</Project>

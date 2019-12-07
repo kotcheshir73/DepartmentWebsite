@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Enums\Enums.csproj" />
+    <ProjectReference Include="..\..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj" />
+    <ProjectReference Include="..\..\Authentication\AuthenticationInterfaces\AuthenticationInterfaces.csproj" />
+    <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj" />
+    <ProjectReference Include="..\..\Examination\ExaminationInterfaces\ExaminationInterfaces.csproj" />
+    <ProjectReference Include="..\..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj" />
+    <ProjectReference Include="..\..\Schedule\ScheduleInterfaces\ScheduleInterfaces.csproj" />
   </ItemGroup>
 
 </Project>

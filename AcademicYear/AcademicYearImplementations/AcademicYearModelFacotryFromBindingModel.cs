@@ -15,7 +15,6 @@ namespace AcademicYearImplementations
 			}
 			entity.EducationDirectionId = model.EducationDirectionId;
 			entity.AcademicYearId = model.AcademicYearId;
-			entity.AcademicLevel = (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.AcademicLevel);
 			entity.AcademicCourses = model.AcademicCourses.HasValue ? (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses) : (AcademicCourse?)null;
 
 			return entity;
@@ -32,6 +31,8 @@ namespace AcademicYearImplementations
             entity.ContingentId = model.ContingentId;
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
+            entity.Selectable = model.Selectable;
+            entity.IsSelected = model.IsSelected;
 
             return entity;
 		}
@@ -200,7 +201,7 @@ namespace AcademicYearImplementations
 			entity.TimeNormName = model.TimeNormName;
             entity.TimeNormShortName = model.TimeNormShortName;
             entity.TimeNormOrder = model.TimeNormOrder;
-            entity.TimeNormAcademicLevel = string.IsNullOrEmpty(model.TimeNormAcademicLevel) ? (AcademicLevel?)null : (AcademicLevel)Enum.Parse(typeof(AcademicLevel), model.TimeNormAcademicLevel);
+            entity.TimeNormEducationDirectionQualification = string.IsNullOrEmpty(model.TimeNormEducationDirectionQualification) ? (EducationDirectionQualification?)null : (EducationDirectionQualification)Enum.Parse(typeof(EducationDirectionQualification), model.TimeNormEducationDirectionQualification);
             entity.KindOfLoadName = model.KindOfLoadName;
             entity.KindOfLoadAttributeName = model.KindOfLoadAttributeName;
             entity.KindOfLoadBlueAsteriskName = model.KindOfLoadBlueAsteriskName;

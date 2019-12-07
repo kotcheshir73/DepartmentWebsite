@@ -21,7 +21,7 @@ namespace AcademicYearInterfaces.ViewModels
 
         public int TimeNormOrder { get; set; }
 
-        public string TimeNormAcademicLevel { get; set; }
+        public string TimeNormEducationDirectionQualification { get; set; }
 
         public string KindOfLoadName { get; set; }
 

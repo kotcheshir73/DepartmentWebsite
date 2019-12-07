@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Models.Examination
 {
-    public class TicketTemplateBody : BaseEntity
+    /// <summary>
+    /// Класс описывает тело документа
+    /// </summary>
+    [DataContract]
+    public class TicketTemplateBody : IdEntity
     {
-        public Guid? BodyFormatId { get; set; }
-
-        public Guid? TicketTemplateId { get; set; }
-
-        public string BodyName { get; set; }
-
-        public string SectName { get; set; }
+        [DataMember]
+        [ForeignKey("TicketTemplate")]
+        public Guid TicketTemplateId { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual TicketTemplate TicketTemplate { get; set; }
 
-        public virtual TicketTemplateElementaryUnit BodyFormat { get; set; }
-
         //-------------------------------------------------------------------------
+
+        [ForeignKey("TicketTemplateBodyId")]
+        public virtual List<TicketTemplateBodyProperties> TicketTemplateBodyProperties { get; set; }
 
         [ForeignKey("TicketTemplateBodyId")]
         public virtual List<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }

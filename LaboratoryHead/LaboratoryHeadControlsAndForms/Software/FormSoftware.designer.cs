@@ -31,19 +31,25 @@
             this.labelSoftwareKey = new System.Windows.Forms.Label();
             this.textBoxSoftwareName = new System.Windows.Forms.TextBox();
             this.labelSoftwareName = new System.Windows.Forms.Label();
+            this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonSaveAndClose
+            // panelMain
             // 
-            this.buttonSaveAndClose.Location = new System.Drawing.Point(103, 136);
+            this.panelMain.Controls.Add(this.textBoxSoftwareDescription);
+            this.panelMain.Controls.Add(this.labelSoftwareDescription);
+            this.panelMain.Controls.Add(this.textBoxSoftwareK);
+            this.panelMain.Controls.Add(this.labelSoftwareK);
+            this.panelMain.Controls.Add(this.textBoxSoftwareKey);
+            this.panelMain.Controls.Add(this.labelSoftwareKey);
+            this.panelMain.Controls.Add(this.textBoxSoftwareName);
+            this.panelMain.Controls.Add(this.labelSoftwareName);
+            this.panelMain.Size = new System.Drawing.Size(364, 65);
             // 
-            // buttonClose
+            // panelTop
             // 
-            this.buttonClose.Location = new System.Drawing.Point(250, 136);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(22, 136);
+            this.panelTop.Size = new System.Drawing.Size(364, 36);
             // 
             // textBoxSoftwareDescription
             // 
@@ -115,27 +121,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 171);
-            this.Controls.Add(this.textBoxSoftwareDescription);
-            this.Controls.Add(this.labelSoftwareDescription);
-            this.Controls.Add(this.textBoxSoftwareK);
-            this.Controls.Add(this.labelSoftwareK);
-            this.Controls.Add(this.textBoxSoftwareKey);
-            this.Controls.Add(this.labelSoftwareKey);
-            this.Controls.Add(this.textBoxSoftwareName);
-            this.Controls.Add(this.labelSoftwareName);
             this.Name = "SoftwareForm";
             this.Text = "ПО";
-            this.Controls.SetChildIndex(this.labelSoftwareName, 0);
-            this.Controls.SetChildIndex(this.textBoxSoftwareName, 0);
-            this.Controls.SetChildIndex(this.labelSoftwareKey, 0);
-            this.Controls.SetChildIndex(this.textBoxSoftwareKey, 0);
-            this.Controls.SetChildIndex(this.labelSoftwareK, 0);
-            this.Controls.SetChildIndex(this.textBoxSoftwareK, 0);
-            this.Controls.SetChildIndex(this.buttonSave, 0);
-            this.Controls.SetChildIndex(this.buttonClose, 0);
-            this.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
-            this.Controls.SetChildIndex(this.labelSoftwareDescription, 0);
-            this.Controls.SetChildIndex(this.textBoxSoftwareDescription, 0);
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

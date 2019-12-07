@@ -32,32 +32,36 @@
             // 
             // panelMain
             // 
-            this.panelMain.Controls.Add(this.buttonAutoComplete);
             this.panelMain.Controls.Add(this.dataGridView);
             this.panelMain.Size = new System.Drawing.Size(486, 539);
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.buttonAutoComplete);
             this.panelTop.Size = new System.Drawing.Size(486, 36);
+            this.panelTop.Controls.SetChildIndex(this.buttonClose, 0);
+            this.panelTop.Controls.SetChildIndex(this.buttonSave, 0);
+            this.panelTop.Controls.SetChildIndex(this.buttonSaveAndClose, 0);
+            this.panelTop.Controls.SetChildIndex(this.buttonAutoComplete, 0);
             // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(0, 0);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(486, 506);
+            this.dataGridView.Size = new System.Drawing.Size(486, 539);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.DataGridView_EditingControlShowing);
             this.dataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DataGridView_KeyPress);
             // 
             // buttonAutoComplete
             // 
-            this.buttonAutoComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonAutoComplete.Location = new System.Drawing.Point(375, 512);
+            this.buttonAutoComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAutoComplete.Location = new System.Drawing.Point(375, 7);
             this.buttonAutoComplete.Name = "buttonAutoComplete";
             this.buttonAutoComplete.Size = new System.Drawing.Size(99, 23);
             this.buttonAutoComplete.TabIndex = 10;

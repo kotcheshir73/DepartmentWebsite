@@ -59,7 +59,7 @@ namespace BaseInterfaces.BindingModels
     public class StudentDeductionBindingModel
     {
         public List<Tuple<Guid, string>> Studnets { get; set; }
-        
+
         public string DeductionOrderNumber { get; set; }
 
         public DateTime DeductionOrderDate { get; set; }
@@ -103,5 +103,13 @@ namespace BaseInterfaces.BindingModels
         public DateTime FinishEducationOrderDate { get; set; }
 
         public string FinishEducationOrderNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Список приказов по студенту
+    /// </summary>
+    public class StudentOrdersShowBindingModel
+    {
+        public Guid Id { get; set; }
     }
 }

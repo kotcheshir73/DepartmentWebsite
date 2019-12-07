@@ -1,7 +1,11 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
+using DatabaseContext;
 using Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tools;
 
@@ -39,7 +43,7 @@ namespace BaseImplementations.Implementations
                             // ищем приказ о зачислении
                             var enrollmentOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.EnrollmentOrderNumber && x.DateCreate == model.EnrollmentOrderDate.Date &&
                                     x.StudentOrderType == StudentOrderType.Зачисление);
-                            if(enrollmentOrder == null)
+                            if (enrollmentOrder == null)
                             {
                                 // если нет, то создаем
                                 enrollmentOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
@@ -51,7 +55,7 @@ namespace BaseImplementations.Implementations
                                 context.StudentOrders.Add(enrollmentOrder);
                                 context.SaveChanges();
                             }
-                            else if(enrollmentOrder.IsDeleted)
+                            else if (enrollmentOrder.IsDeleted)
                             {
                                 enrollmentOrder.IsDeleted = false;
                                 context.SaveChanges();
@@ -69,7 +73,7 @@ namespace BaseImplementations.Implementations
                                 context.StudentOrderBlocks.Add(enrollmentOrderBlock);
                                 context.SaveChanges();
                             }
-                            else if(enrollmentOrderBlock.IsDeleted)
+                            else if (enrollmentOrderBlock.IsDeleted)
                             {
                                 enrollmentOrderBlock.IsDeleted = false;
                                 context.SaveChanges();
@@ -96,7 +100,7 @@ namespace BaseImplementations.Implementations
 
                             var enrolleSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == enrollmentOrderBlock.Id && x.StudentId == entity.Id &&
                                 x.StudentGroupToId == studentGroup.Id);
-                            if(enrolleSOS == null)
+                            if (enrolleSOS == null)
                             {
                                 enrolleSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
                                 {
@@ -107,7 +111,7 @@ namespace BaseImplementations.Implementations
                                 context.StudentOrderBlockStudents.Add(enrolleSOS);
                                 context.SaveChanges();
                             }
-                            else if(enrolleSOS.IsDeleted)
+                            else if (enrolleSOS.IsDeleted)
                             {
                                 enrolleSOS.IsDeleted = false;
                                 context.SaveChanges();
@@ -155,7 +159,7 @@ namespace BaseImplementations.Implementations
                         {
                             #region приказы
                             // ищем приказ о зачислении
-                            var enrollmentOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.EnrollmentTransferOrderNumber && 
+                            var enrollmentOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.EnrollmentTransferOrderNumber &&
                                     x.DateCreate == model.EnrollmentTransferOrderDate.Date && x.StudentOrderType == StudentOrderType.Движение);
                             if (enrollmentOrder == null)
                             {
@@ -495,7 +499,7 @@ namespace BaseImplementations.Implementations
                             context.SaveChanges();
                         }
                         StudentOrderType type = StudentOrderType.ОтчислитьПоСобственному;
-                        if(model.DeductionReason.Contains("неуспеваем"))
+                        if (model.DeductionReason.Contains("неуспеваем"))
                         {
                             type = StudentOrderType.ОтчислитьЗаНеуспевамость;
                         }
@@ -923,6 +927,40 @@ namespace BaseImplementations.Implementations
                 catch (Exception ex)
                 {
                     return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                }
+            }
+        }
+
+        public ResultService<List<StudentOrderShowViewModel>> StudentOrderShow(StudentOrdersShowBindingModel model)
+        {
+            DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
+
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                try
+                {
+                    var orders = context.StudentOrderBlockStudents
+                        .Where(x => !x.IsDeleted && x.StudentId == model.Id)
+                        .Include(x => x.StudentOrderBlock)
+                        .Include(x => x.StudentOrderBlock.StudentOrder)
+                        .ToList()
+                        .Select(x => new StudentOrderShowViewModel
+                        {
+                            Id = x.StudentOrderBlock.StudentOrderId,
+                            OrderNumber = x.StudentOrderBlock.StudentOrder.OrderNumber,
+                            OrderDate = x.StudentOrderBlock.StudentOrder.DateCreate,
+                            StudentOrderType = x.StudentOrderBlock.StudentOrder.StudentOrderType.ToString(),
+                            StudentOrderBlockType = x.StudentOrderBlock.StudentOrderType.ToString(),
+                            StudentGromFrom = x.StudentGroupFromId.HasValue ? context.StudentGroups.FirstOrDefault(y => y.Id == x.StudentGroupFromId).GroupName : null,
+                            StudentGroupTo = x.StudentGroupToId.HasValue ? context.StudentGroups.FirstOrDefault(y => y.Id == x.StudentGroupToId).GroupName : null
+                        })
+                        .OrderBy(x => x.OrderDate);
+
+                    return ResultService<List<StudentOrderShowViewModel>>.Success(orders.ToList());
+                }
+                catch (Exception ex)
+                {
+                    return ResultService<List<StudentOrderShowViewModel>>.Error(ex, ResultServiceStatusCode.Error);
                 }
             }
         }

@@ -20,6 +20,9 @@ namespace Models.Examination
         public Guid? EducationDirectionId { get; set; }
 
         [DataMember]
+        public Guid? TicketTemplateId { get; set; }
+
+        [DataMember]
         public Semesters? Semester { get; set; }
 
         [DataMember]
@@ -31,6 +34,8 @@ namespace Models.Examination
 
         public virtual EducationDirection EducationDirection { get; set; }
 
+        public virtual TicketTemplate TicketTemplate { get; set; }
+
         //-------------------------------------------------------------------------
 
         [ForeignKey("ExaminationTemplateId")]
@@ -38,8 +43,5 @@ namespace Models.Examination
 
         [ForeignKey("ExaminationTemplateId")]
         public virtual List<ExaminationTemplateTicket> ExaminationTemplateTickets { get; set; }
-
-        [ForeignKey("ExaminationTemplateId")]
-        public virtual List<TicketTemplate> TicketTemplates { get; set; }
     }
 }

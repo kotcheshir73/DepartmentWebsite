@@ -38,4 +38,13 @@ namespace LearningProgressInterfaces.ViewModels
 
         public string Subgroup { get; set; }
     }
+
+    public class GetFinalResultsOfGroupViewModel
+    {
+        public string Student { get; set; }
+
+        public double ConductedBall { get; set; }
+
+        public double TaskBall { get; set; }
+    }
 }

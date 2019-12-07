@@ -1,0 +1,18 @@
+﻿@model BaseInterfaces.ViewModels.LecturerViewModel
+@{
+    ViewBag.Title = "Lecturer";
+}
+
+<h2 class="page-header">@Model.LastName @Model.FirstName @Model.Patronymic</h2>
+<table class="table">
+    <tr id="list">
+        <td><img src="data:image/png;base64,@(Convert.ToBase64String(Model.PhotoByteArr))" /></td>
+        <td >
+            <p class="text-lec">@Model.Description 
+            @Model.Post 
+            @Model.Rank2 
+            @Model.LecturerPost
+            @Html.Action("LecturerDis")</p>
+        </td></tr>
+</table>
+

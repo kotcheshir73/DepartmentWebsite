@@ -10,15 +10,22 @@
     
     <Page.Resources>
         <Style TargetType="Button" >
-            <Setter Property="Control.Margin" Value="20" />
+            <Setter Property="Control.Margin" Value="10" />
             <Setter Property="Control.HorizontalAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
 
     <ScrollViewer>
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="Выберите тип занятия:" TextWrapping="Wrap" Margin="10" />
-            <StackPanel x:Name="grid" />
+            <RelativePanel>
+                <Button x:Name="buttonResult" Content="Результаты группы" Click="button_OpenResult"
+                        RelativePanel.AlignTopWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"/>
+                <TextBlock Text="Выберите тип занятия:" TextWrapping="Wrap" Margin="10" 
+                           RelativePanel.LeftOf="buttonResult"
+                            RelativePanel.AlignLeftWithPanel="True"/>
+            </RelativePanel>
+            <StackPanel x:Name="grid" Margin="10"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

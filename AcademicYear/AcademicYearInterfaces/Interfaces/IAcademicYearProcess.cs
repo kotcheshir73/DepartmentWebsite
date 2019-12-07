@@ -93,21 +93,21 @@ namespace AcademicYearInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<List<LecturerDisciplineTimeDistribution>> GetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributions model);
+        ResultService<List<LecturerDisciplineTimeDistribution>> GetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributionsBindingModel model);
 
         /// <summary>
         /// Сохранение расчасовки преподавателя
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService SetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributionSet model);
+        ResultService SetLecturerDisciplineTimeDistributions(LecturerDisciplineTimeDistributionSetBindingModel model);
 
         /// <summary>
         /// Выгрузка расчасовок по преподавателям
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ImportDisciplineTimeDistributionsLecturers(ImportDisciplineTimeDistributions model);
+        ResultService ImportDisciplineTimeDistributionsLecturers(ImportDisciplineTimeDistributionsBindingModel model);
 
         /// <summary>
 		/// Создание нагрузок преподавателей
@@ -129,5 +129,26 @@ namespace AcademicYearInterfaces.Interfaces
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService CreateAllFindIndividualPlans(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка всех записей конкретного учбеного плана
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<AcademicPlanRecordPageViewModel> GetOtherAcademicPlanRecords(AcademicPlanRecordGetBindingModel model);
+
+        /// <summary>
+        /// Изменение привязки элемента записи учебного плана к другой записи учебного плана
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService ChangeAPRFromAPRE(AcademicPlanRecordElementGetBindingModel model);
+
+        /// <summary>
+        /// Смена записи, по которой считать нагрузку у поточных занятий
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService UseStreamRecord(UseStreamRecordBindingModel model);
     }
 }

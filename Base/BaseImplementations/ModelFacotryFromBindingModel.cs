@@ -30,7 +30,9 @@ namespace BaseImplementations
             entity.Cipher = model.Cipher;
             entity.ShortName = model.ShortName;
             entity.Description = model.Description;
+            entity.Qualification = (EducationDirectionQualification)Enum.Parse(typeof(EducationDirectionQualification), model.Qualification);
             entity.Title = model.Title;
+            entity.Profile = model.Profile;
 
             return entity;
         }

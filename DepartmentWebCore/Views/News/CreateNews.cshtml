@@ -1,0 +1,52 @@
+﻿@using DepartmentWebCore.Models
+
+@model NewsWithFilesModel
+
+@{
+    ViewData["Title"] = "Создание новости";
+}
+
+<h2 class="page-header">Создание новости</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row create-news-row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Title)
+        </div>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Body)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.TextAreaFor(m => m.Body, 2, 1, new { })
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-2">
+            @Html.LabelFor(m => m.Tag)
+        </div>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Tag)
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-12">
+            <input id="FilesForUpload" name="FilesForUpload" multiple="multiple" type="file" />
+        </div>
+    </div>
+    <div class="row create-news-row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary">Создать новость</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    CKEDITOR.replace('Body');
+</script>

@@ -11,10 +11,13 @@ namespace ConsoleMigrationApp
             {
                 db.Database.Migrate();
             }
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Done!");
+            Console.ReadKey();
         }
     }
 }
 
 
 //Migration: Add-Migration InitialCreate -StartupProject ConsoleMigrationApp
+//To undo this action, use Remove-Migration
+

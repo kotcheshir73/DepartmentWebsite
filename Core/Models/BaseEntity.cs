@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace Models
@@ -8,12 +7,8 @@ namespace Models
     /// Базовый набор для сущности
     /// </summary>
     [DataContract]
-    public class BaseEntity
+    public class BaseEntity : IdEntity
     {
-        [DataMember]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid Id { get; set; }
-
         [DataMember]
         public DateTime DateCreate { get; set; }
 
@@ -25,7 +20,6 @@ namespace Models
 
         public BaseEntity() : base()
         {
-            Id = Guid.NewGuid();
             DateCreate = DateTime.Now;
             DateDelete = null;
             IsDeleted = false;

@@ -23,10 +23,6 @@ namespace Models.AcademicYearData
 
         [DataMember]
         public Guid? EducationDirectionId { get; set; }
-
-        [Required]
-        [DataMember]
-        public AcademicLevel AcademicLevel { get; set; }
         
         [DataMember]
         public AcademicCourse? AcademicCourses { get; set; }

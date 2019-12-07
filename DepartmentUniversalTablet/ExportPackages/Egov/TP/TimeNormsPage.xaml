@@ -17,7 +17,14 @@
 
     <ScrollViewer>
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="Выберите тип занятия:" Margin="10" />
+            <RelativePanel>
+                <Button x:Name="buttonResult" Content="Результаты группы" Click="button_OpenResult" Margin="5"
+                        RelativePanel.AlignTopWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"/>
+                <TextBlock Text="Выберите тип занятия:" TextWrapping="Wrap" Margin="10" 
+                           RelativePanel.LeftOf="buttonResult"
+                            RelativePanel.AlignLeftWithPanel="True"/>
+            </RelativePanel>
             <StackPanel x:Name="grid" />
         </StackPanel>
     </ScrollViewer>

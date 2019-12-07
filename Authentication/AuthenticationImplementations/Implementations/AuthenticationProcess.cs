@@ -1,4 +1,6 @@
-﻿using AuthenticationInterfaces.Interfaces;
+﻿using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.Interfaces;
+using DatabaseContext;
 using Enums;
 using Models.Authentication;
 using System;
@@ -15,6 +17,10 @@ namespace AuthenticationImplementations.Implementations
 {
     public class AuthenticationProcess : IAuthenticationProcess
     {
+        private readonly AccessOperation _serviceOperation = AccessOperation.Пользователи;
+
+        private readonly string _entity = "Пользователи";
+
         public ResultService ImportDataToJson(string folderName)
         {
             try
@@ -199,6 +205,33 @@ namespace AuthenticationImplementations.Implementations
             return ResultService.Success();
         }
 
+        public ResultService ChangePassword(ChangePasswordBindingModels model)
+        {
+            try
+            {
+                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
+
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var user = context.DepartmentUsers.FirstOrDefault(x => x.Id == model.Id);
+
+                    if (user == null)
+                    {
+                        return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                    }
+
+                    user.PasswordHash = DepartmentUserManager.GetPasswordHash(model.NewPassword);
+                    context.SaveChanges();
+
+                    return ResultService.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         private void SaveToFile<T>(string folderName) where T : class, new()
         {
             using (var context = DepartmentUserManager.GetContext)
@@ -308,7 +341,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = lecturer.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(lecturer.DateBirth.ToShortDateString()))),
                             LecturerId = lecturer.Id
                         };
                         context.DepartmentUsers.Add(user);
@@ -378,7 +411,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = student.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.NumberOfBook))),
                             StudentId = student.Id
                         };
                         context.DepartmentUsers.Add(user);
@@ -417,7 +450,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = student.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.NumberOfBook))),
                             StudentId = student.Id
                         };
                         context.DepartmentUsers.Add(user);
@@ -459,7 +492,7 @@ namespace AuthenticationImplementations.Implementations
                         user = new DepartmentUser
                         {
                             UserName = student.ToString(),
-                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.ToString()))),
+                            PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(student.NumberOfBook))),
                             StudentId = student.Id
                         };
                         context.DepartmentUsers.Add(user);

@@ -1,8 +1,8 @@
 ﻿using AuthenticationInterfaces.BindingModels;
+using DatabaseContext;
 using Enums;
 using Models.Authentication;
 using System;
-using Tools;
 
 namespace AuthenticationImplementations
 {

@@ -1,0 +1,20 @@
+﻿@using DepartmentWebCore.Models
+
+@model DisiplineLoadFileModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm("LoadFile", "Discipline", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.FullName)
+            <div class="modal-body">
+                <input id="FilesForUpload" name="FilesForUpload" multiple="multiple" type="file" />
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Загрузить</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+            </div>
+        }
+    </div>
+</div>

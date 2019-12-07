@@ -1,36 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Models.Examination
 {
-    public class TicketTemplateParagraph : BaseEntity
+    /// <summary>
+    /// Класс отвечает за абзац в документе
+    /// </summary>
+    [DataContract]
+    public class TicketTemplateParagraph : IdEntity
     {
+        [DataMember]
         public Guid? TicketTemplateBodyId { get; set; }
 
+        [DataMember]
         public Guid? TicketTemplateTableCellId { get; set; }
 
-        public Guid? ParagraphFormatId { get; set; }
-
-        public string Name { get; set; }
-
+        [DataMember]
         public int Order { get; set; }
 
         //-------------------------------------------------------------------------
 
         public virtual TicketTemplateBody TicketTemplateBody { get; set; }
 
-        public virtual TicketTemplateElementaryUnit ParagraphFormat { get; set; }
-
         public virtual TicketTemplateTableCell TicketTemplateTableCell { get; set; }
 
         //-------------------------------------------------------------------------
 
         [ForeignKey("TicketTemplateParagraphId")]
-        public virtual List<TicketTemplateElementaryAttribute> TicketTemplateElementaryAttributes { get; set; }
+        public virtual List<TicketTemplateParagraphProperties> TicketTemplateParagraphProperties { get; set; }
 
         [ForeignKey("TicketTemplateParagraphId")]
-        public virtual List<TicketTemplateParagraphData> TicketTemplateParagraphDatas { get; set; }
+        public virtual List<TicketTemplateParagraphRun> TicketTemplateParagraphRuns { get; set; }
 
         //-------------------------------------------------------------------------
     }

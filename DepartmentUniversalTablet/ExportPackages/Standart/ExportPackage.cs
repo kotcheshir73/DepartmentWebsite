@@ -27,6 +27,6 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
 
         public string Lecturer => "Standart";
 
-        public Type GetUI => typeof(TimeNormsPage);
+        public Type GetUI => typeof(StudentGroupsPage);
     }
 }

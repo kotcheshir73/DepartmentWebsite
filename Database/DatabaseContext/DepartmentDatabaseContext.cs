@@ -7,12 +7,11 @@ using Models.Examination;
 using Models.LaboratoryHead;
 using Models.LearningProgress;
 using Models.Schedule;
+using Models.Web;
 using System;
 
 namespace DatabaseContext
 {
-    //https://docs.microsoft.com/ru-ru/aspnet/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity
-    //https://docs.microsoft.com/en-us/ef/core/get-started/uwp/getting-started
     public class DepartmentDatabaseContext : DbContext
     {
         public DepartmentDatabaseContext(DbContextOptions<DepartmentDatabaseContext> options) : base(options) { }
@@ -23,9 +22,12 @@ namespace DatabaseContext
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=true;MultipleActiveResultSets=True;");
+                // TODO вынести в config
+               // optionsBuilder.UseSqlServer(@"Data Source=HOME\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=True;MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
+               // optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=true;MultipleActiveResultSets=True;");
                 
-                //optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
                 //Persist Security Info=True;Trusted_Connection=True;MultipleActiveResultSets = True; Integrated Security=SSPI;
             }
             base.OnConfiguring(optionsBuilder);
@@ -80,13 +82,26 @@ namespace DatabaseContext
 
         public virtual DbSet<TicketTemplate> TicketTemplates { get; set; }
         public virtual DbSet<TicketTemplateBody> TicketTemplateBodies { get; set; }
+        public virtual DbSet<TicketTemplateBodyProperties> TicketTemplateBodyProperties { get; set; }
+
+        public virtual DbSet<TicketTemplateFontTable> TicketTemplateFontTables { get; set; }
+        public virtual DbSet<TicketTemplateNumbering> TicketTemplateNumberings { get; set; }
+        public virtual DbSet<TicketTemplateDocumentSetting> TicketTemplateDocumentSettings { get; set; }
+        public virtual DbSet<TicketTemplateStyleDefinition> TicketTemplateStyleDefinitions { get; set; }
+        public virtual DbSet<TicketTemplateWebSetting> TicketTemplateWebSettings { get; set; }
+        public virtual DbSet<TicketTemplateThemePart> TicketTemplateThemeParts { get; set; }
+
         public virtual DbSet<TicketTemplateTable> TicketTemplateTables { get; set; }
+        public virtual DbSet<TicketTemplateTableProperties> TicketTemplateTableProperties { get; set; }
+        public virtual DbSet<TicketTemplateTableGridColumn> TicketTemplateTableGridColumn { get; set; }
         public virtual DbSet<TicketTemplateTableRow> TicketTemplateTableRows { get; set; }
+        public virtual DbSet<TicketTemplateTableRowProperties> TicketTemplateTableRowProperties { get; set; }
         public virtual DbSet<TicketTemplateTableCell> TicketTemplateTableCells { get; set; }
+        public virtual DbSet<TicketTemplateTableCellProperties> TicketTemplateTableCellProperties { get; set; }
         public virtual DbSet<TicketTemplateParagraph> TicketTemplateParagraphs { get; set; }
-        public virtual DbSet<TicketTemplateParagraphData> TicketTemplateParagraphDatas { get; set; }
-        public virtual DbSet<TicketTemplateElementaryUnit> TicketTemplateElementaryUnits { get; set; }
-        public virtual DbSet<TicketTemplateElementaryAttribute> TicketTemplateElementaryAttributes { get; set; }
+        public virtual DbSet<TicketTemplateParagraphProperties> TicketTemplateParagraphProperties { get; set; }
+        public virtual DbSet<TicketTemplateParagraphRun> TicketTemplateParagraphRuns { get; set; }
+        public virtual DbSet<TicketTemplateParagraphRunProperties> TicketTemplateParagraphRunProperties { get; set; }
         #endregion
 
         #region LaboratoryHead
@@ -123,6 +138,11 @@ namespace DatabaseContext
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<ScheduleLessonTime> ScheduleLessonTimes { set; get; }
         public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
+        #endregion
+
+        #region Web
+        public virtual DbSet<News> Newses { set; get; }
+        public virtual DbSet<Comment> Comments { set; get; }
         #endregion
 
         public virtual DbSet<CurrentSettings> CurrentSettings { set; get; }

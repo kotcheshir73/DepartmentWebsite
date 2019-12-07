@@ -20,5 +20,7 @@ namespace BaseInterfaces.ViewModels
         public string DisciplineBlockTitle { get; set; }
 
         public string DisciplineBlueAsteriskName { get; set; }
+
+        public string DisciplineDescription { get; set; }
     }
 }

@@ -19,6 +19,7 @@ using LearningProgressInterfaces.BindingModels;
 using Tools;
 using BaseInterfaces.ViewModels;
 using LearningProgressInterfaces.ViewModels;
+using DatabaseContext;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -87,10 +88,15 @@ namespace DepartmentUniversalTablet.ExportPackages.Standart
             }
         }
 
+        private void button_OpenResult(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ResultGroupPage), bindingModel);
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
             bindingModel.TimeNormId = ((LearningProcessDisciplineDetailViewModel)((Button)sender).Content).Id;
-            Frame.Navigate(typeof(StudentGroupsPage), bindingModel);
+            Frame.Navigate(typeof(DisciplineLessonsPage), bindingModel);
         }
     }
 }

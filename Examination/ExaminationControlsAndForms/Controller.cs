@@ -36,12 +36,20 @@ namespace ExaminationControlsAndForms
             currentContainer.RegisterType<IExaminationListService, ExaminationListService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStatementService, StatementService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStatementRecordService, StatementRecordService>(new HierarchicalLifetimeManager());
+
             currentContainer.RegisterType<IExaminationTemplateService, ExaminationTemplateService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IExaminationTemplateBlockService, ExaminationTemplateBlockService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IExaminationTemplateBlockQuestionService, ExaminationTemplateBlockQuestionService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IExaminationTemplateTicketService, ExaminationTemplateTicketService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IExaminationTemplateTicketQuestionService, ExaminationTemplateTicketQuestionService>(new HierarchicalLifetimeManager());
+            
             currentContainer.RegisterType<ITicketTemplateService, TicketTemplateService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateParagraphRunService, TicketTemplateParagraphRunService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateParagraphService, TicketTemplateParagraphService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateTableCellService, TicketTemplateTableCellService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateTableRowService, TicketTemplateTableRowService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateTableService, TicketTemplateTableService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITicketTemplateBodyService, TicketTemplateBodyService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IExaminationProcess, ExaminationProcess>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ITicketProcess, TicketProcess>(new HierarchicalLifetimeManager());

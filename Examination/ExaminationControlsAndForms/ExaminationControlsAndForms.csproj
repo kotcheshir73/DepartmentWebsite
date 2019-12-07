@@ -168,6 +168,60 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TicketTemplateBody\ControlTicketTemplateViewerBody.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateBody\ControlTicketTemplateViewerBody.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerBody.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTableCell\ControlTicketTemplateViewerTableCell.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTableCell\ControlTicketTemplateViewerTableCell.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTableCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateParagraphRun\FormTicketTemplateParagraphRunProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateParagraphRun\FormTicketTemplateParagraphRunProperties.Designer.cs">
+      <DependentUpon>FormTicketTemplateParagraphRunProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateParagraph\ControlTicketTemplateViewerParagraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateParagraph\ControlTicketTemplateViewerParagraph.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerParagraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateParagraphRun\ControlTicketTemplateViewerParagraphRun.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateParagraphRun\ControlTicketTemplateViewerParagraphRun.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerParagraphRun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateHtmlView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\ControlTicketTemplateHtmlView.Designer.cs">
+      <DependentUpon>ControlTicketTemplateHtmlView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTable\ControlTicketTemplateViewerTableGridColumn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTable\ControlTicketTemplateViewerTableGridColumn.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTableGridColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTable\ControlTicketTemplateViewerTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTable\ControlTicketTemplateViewerTable.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTableRow\ControlTicketTemplateViewerTableRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTableRow\ControlTicketTemplateViewerTableRow.Designer.cs">
+      <DependentUpon>ControlTicketTemplateViewerTableRow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\FormExaminationTemplateUploadTickets.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +233,30 @@
     </Compile>
     <Compile Include="Services\FormExaminationTemplateTicketCreateTickets.designer.cs">
       <DependentUpon>FormExaminationTemplateTicketCreateTickets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateParagraph\FormTicketTemplateParagraphProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateParagraph\FormTicketTemplateParagraphProperties.Designer.cs">
+      <DependentUpon>FormTicketTemplateParagraphProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTableCell\FormTicketTemplateTableCellProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTableCell\FormTicketTemplateTableCellProperties.Designer.cs">
+      <DependentUpon>FormTicketTemplateTableCellProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTableRow\FormTicketTemplateTableRowProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTableRow\FormTicketTemplateTableRowProperties.Designer.cs">
+      <DependentUpon>FormTicketTemplateTableRowProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TicketTemplateTable\FormTicketTemplateTableProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketTemplateTable\FormTicketTemplateTableProperties.Designer.cs">
+      <DependentUpon>FormTicketTemplateTableProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="TicketTemplate\ControlTicketTemplateSearch.cs">
       <SubType>UserControl</SubType>
@@ -266,12 +344,52 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TicketTemplateBody\ControlTicketTemplateViewerBody.resx">
+      <DependentUpon>ControlTicketTemplateViewerBody.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTableCell\ControlTicketTemplateViewerTableCell.resx">
+      <DependentUpon>ControlTicketTemplateViewerTableCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateParagraphRun\FormTicketTemplateParagraphRunProperties.resx">
+      <DependentUpon>FormTicketTemplateParagraphRunProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateParagraph\ControlTicketTemplateViewerParagraph.resx">
+      <DependentUpon>ControlTicketTemplateViewerParagraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateParagraphRun\ControlTicketTemplateViewerParagraphRun.resx">
+      <DependentUpon>ControlTicketTemplateViewerParagraphRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\ControlTicketTemplateHtmlView.resx">
+      <DependentUpon>ControlTicketTemplateHtmlView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTable\ControlTicketTemplateViewerTableGridColumn.resx">
+      <DependentUpon>ControlTicketTemplateViewerTableGridColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTable\ControlTicketTemplateViewerTable.resx">
+      <DependentUpon>ControlTicketTemplateViewerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTableRow\ControlTicketTemplateViewerTableRow.resx">
+      <DependentUpon>ControlTicketTemplateViewerTableRow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Services\FormExaminationTemplateUploadTickets.resx">
       <DependentUpon>FormExaminationTemplateUploadTickets.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormExaminationTemplateTicketCreateTickets.resx">
       <DependentUpon>FormExaminationTemplateTicketCreateTickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateParagraph\FormTicketTemplateParagraphProperties.resx">
+      <DependentUpon>FormTicketTemplateParagraphProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTableCell\FormTicketTemplateTableCellProperties.resx">
+      <DependentUpon>FormTicketTemplateTableCellProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTableRow\FormTicketTemplateTableRowProperties.resx">
+      <DependentUpon>FormTicketTemplateTableRowProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketTemplateTable\FormTicketTemplateTableProperties.resx">
+      <DependentUpon>FormTicketTemplateTableProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TicketTemplate\ControlTicketTemplateSearch.resx">
       <DependentUpon>ControlTicketTemplateSearch.cs</DependentUpon>
@@ -316,10 +434,6 @@
       <Project>{DE1C3ED3-3D02-4894-A079-57775F53DD49}</Project>
       <Name>BaseInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\Enums\Enums.csproj">
-      <Project>{11529938-f115-45fb-a7c1-34c2d661432a}</Project>
-      <Name>Enums</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Database\Tools\Tools.csproj">
       <Project>{f240ebfc-c309-4d05-bc87-5e7143b351d3}</Project>
       <Name>Tools</Name>
@@ -337,6 +451,17 @@
       <Name>ExaminationInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Down.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Left.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Right.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

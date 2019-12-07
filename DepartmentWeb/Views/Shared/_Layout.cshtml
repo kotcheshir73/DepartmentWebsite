@@ -22,10 +22,10 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
-                <div id="menu">
+                <div id="menu">                    
                     @Html.Action("GetMenuList", "Menu")
-                    @*@RenderBody()*@
-                    @*<p></p>
+    @*@RenderBody()*@
+    @*<p></p>
         <ul>
             <li>@Html.ActionLink("Главная", "Index", "Home")</li>
             <li>
@@ -55,7 +55,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year – Кафедра ИС</p>
+            <p>&copy; @DateTime.Now.Year – Кафедра "Информационные системы"</p>
         </footer>
     </div>
 

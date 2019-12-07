@@ -38,7 +38,7 @@ namespace Models.AcademicYearData
         public int TimeNormOrder { get; set; }
 
         [DataMember]
-        public AcademicLevel? TimeNormAcademicLevel { get; set; }
+        public EducationDirectionQualification? TimeNormEducationDirectionQualification { get; set; }
 
         /// <summary>
         /// Тип нагрузки, к которой относится норма времени
@@ -75,18 +75,6 @@ namespace Models.AcademicYearData
         [MaxLength(100)]
         [DataMember]
         public string KindOfLoadBlueAsteriskPracticName { get; set; }
-
-        /// <summary>
-        /// Код вида работ в справочнике видов работ в новой версии планов, чтобы потом искать работу в строках плана
-        /// </summary>
-        [NotMapped]
-        public string KindOfLoadBlueAsteriskCode { get; set; }
-
-        /// <summary>
-        /// Код вида практики в справочнике видов практик в новой версии планов, чтобы потом искать практику в строках плана
-        /// </summary>
-        [NotMapped]
-        public string KindOfLoadBlueAsteriskPracticCode { get; set; }
 
         /// <summary>
         /// Значения множителя 1 для расчетов (количество объектов)

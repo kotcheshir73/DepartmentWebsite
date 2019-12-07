@@ -1,4 +1,5 @@
 ﻿using AcademicYearInterfaces.BindingModels;
+using DatabaseContext;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -191,7 +192,7 @@ namespace AcademicYearImplementations.Helper
                                 }
                                 #region строка
                                 InsertCell(row, counter++, (int)mission.AcademicPlanRecordElement.AcademicPlanRecord.Semester % 2 == 0 ? "весна" : "осень", CellValues.String, ExcelStyle.TNR10Borders);
-                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineParentId.HasValue ? "да" : "", CellValues.String, ExcelStyle.TNR10Borders);
+                                InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlanRecordParentId.HasValue ? "да" : "", CellValues.String, ExcelStyle.TNR10Borders);
                                 InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.Cipher, CellValues.String, ExcelStyle.TNR10Borders);
                                 InsertCell(row, counter++, mission.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName, CellValues.String, ExcelStyle.TNR10Borders);
                                 InsertCell(row, counter++, (Math.Log((double)mission.AcademicPlanRecordElement.AcademicPlanRecord.Contingent.Course, 2) + 1).ToString(), CellValues.String, ExcelStyle.TNR10Borders);

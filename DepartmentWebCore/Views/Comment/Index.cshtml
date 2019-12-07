@@ -1,0 +1,258 @@
+﻿@using WebInterfaces.ViewModels
+
+@model CommentPageViewModel
+
+@if (Model != null)
+{
+    @Html.HiddenFor(m => m.NewsId)
+    @Html.HiddenFor(m => m.DisciplineId)
+    @if (Model.List.Count > 0)
+    {<div class="comment">
+            <div class="comment-title">
+                <label>Комментарии:</label>
+            </div>
+            @foreach (var comment in Model.List)
+            {
+                <div class="comment-element" id="comment-element-@comment.Id">
+                    <div class="comment-element-author">
+                        <label>От @comment.DepartmentUser @comment.Date.ToString("dd MMMM yyyy HH:mm")</label>
+                        @if (comment.DepartmentUserId.ToString() == User.Identity.Name)
+                        {
+                            <i data-commentid="@comment.Id" class="btn fas fa-trash-alt comment-delete-element-call"></i>
+                            <i data-commentid="@comment.Id" class="btn fas fa-pencil-alt comment-edit-element-call"></i>
+                        }
+                    </div>
+                    <div class="comment-element-content">
+                        @Html.Raw(comment.Content)
+                    </div>
+                    <div class="comment-element-actions">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <input type="button" value="Ответить" data-commentId="@comment.Id" class="btn btn-default answer-comment" />
+                        }
+                        @if (comment.CountChilds > 0)
+                        {
+                            <input type="button" value="Показать/Скрыть ответы (@comment.CountChilds)" data-commentId="@comment.Id" class="btn btn-default show-answer-comment" />
+                        }
+                    </div>
+                </div>
+
+                <div class="comment-edit-element" id="comment-edit-element-@comment.Id">
+                    <div class="comment-element-author">
+                        <label>От @comment.DepartmentUser @comment.Date.ToString("dd MMMM yyyy HH:mm")</label>
+                    </div>
+                    <div class="comment-element-content">
+                        <input id="Content-@comment.Id" required="" maxlength="500" class="comment-edit-input" value="@Html.Raw(comment.Content)">
+                    </div>
+                    <div class="comment-element-actions">
+                        <input type="button" value="Отправить" data-commentid="@comment.Id" class="btn btn-default comment-edit-send" />
+                        <input type="button" value="Отмена" data-commentid="@comment.Id" class="btn btn-default comment-edit-cancel" />
+                    </div>
+                </div>
+
+                <div class="comment-answer" id="comment-answer-@comment.Id">
+                    <div class="row comment-answer-row">
+                        <label>Ответ:</label>
+                    </div>
+                    <div class="row comment-answer-row">
+                        <input id="answer-content-@comment.Id" required maxlength="500" class="comment-answer-input" />
+                    </div>
+                    <div class="row comment-answer-row">
+                        <input type="button" value="Отправить" data-parent="@comment.Id" class="btn btn-default comment-answer-send" />
+                        <input type="button" value="Отмена" data-parent="@comment.Id" class="btn btn-default comment-answer-send-cancel" />
+                    </div>
+                </div>
+
+                <div class="show-answer" id="show-answer-@comment.Id">
+                </div>
+            }
+        </div>
+    }
+}
+
+@if (Model != null && User.Identity.IsAuthenticated)
+{
+    <div class="comment-new">
+        <div class="row comment-new-row">
+            <label>Новый комментарий:</label>
+        </div>
+        <div class="row comment-new-row">
+            <input id="Content" required maxlength="500" class="comment-new-input" />
+        </div>
+        <div class="row comment-new-row">
+            <input type="button" title="Сохранить комментарий" value="Отправить" class="btn btn-default comment-new-button" id="create-comment" />
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        // отправка нового комментария на сохранение
+        $('#create-comment').click(function () {
+            var data = {};
+            data.NewsId = $('#NewsId').val();
+            data.DisciplineId = $('#DisciplineId').val();
+            data.Content = $('#Content').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Create", "Comment")',
+                data: data,
+                success: function () {
+                    window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+
+        // вывод блока для ответа на комментарий
+        $('body').on('click', '.answer-comment', function () {
+            var commentId = $(this).data('commentid');
+            $('#comment-answer-' + commentId).show();
+        });
+
+        // отправка нового ответа на сохранение
+        $('body').on('click', '.comment-answer-send', function () {
+            var data = {};
+            data.ParentId = $(this).data('parent');
+            data.Content = $('#answer-content-' + $(this).data('parent')).val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Answer", "Comment")',
+                data: data,
+                success: function () {
+                    window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+
+        // отмена ввода ответа
+        $('body').on('click', '.comment-answer-send-cancel', function () {
+            $('#comment-answer-' + $(this).data('parent')).hide();
+        });
+
+        // показать ответы
+        $('body').on('click', '.show-answer-comment', function () {
+            var commentId = $(this).data('commentid');
+            if ($.trim($('#show-answer-' + commentId).html()) == '') {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("Answers", "Comment")',
+                    data: { 'parentId': commentId },
+                    success: function (result) {
+                        $('#show-answer-' + commentId).html(result);
+                    },
+                    error: function (result) {
+                        ShowError(result);
+                    }
+                });
+            } else {
+                $('#show-answer-' + commentId).empty();
+            }
+        });
+
+        // переключение на редактирование комментария
+        $('body').on('click', '.comment-edit-element-call', function () {
+            $('#comment-element-' + $(this).data('commentid')).hide();
+            $('#comment-edit-element-' + $(this).data('commentid')).show();
+        });
+
+        // отправка изменнного комментария на сохранение
+        $('body').on('click', '.comment-edit-send', function () {
+            var data = {};
+            data.Id = $(this).data('commentid');
+            data.Content = $('#Content-' + $(this).data('commentid')).val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Edit", "Comment")',
+                data: data,
+                success: function () {
+                    window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+
+        // возврат с отмены комментария
+        $('body').on('click', '.comment-edit-cancel', function () {
+            $('#comment-edit-element-' + $(this).data('commentid')).hide();
+            $('#comment-element-' + $(this).data('commentid')).show();
+        });
+
+        // удаление комментария
+        $('body').on('click', '.comment-delete-element-call', function () {
+            if (confirm("Удалить комментарий?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Delete", "Comment")',
+                    data: { 'id': $(this).data('commentid') },
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (result) {
+                        ShowError(result);
+                    }
+                });
+            }
+        });
+
+
+
+
+        // переключение на редактирование ответа
+        $('body').on('click', '.answer-edit-element-call', function () {
+            $('#answer-element-' + $(this).data('answerid')).hide();
+            $('#answer-edit-element-' + $(this).data('answerid')).show();
+        });
+
+        // отправка изменнного ответа на сохранение
+        $('body').on('click', '.answer-edit-send', function () {
+            var data = {};
+            data.Id = $(this).data('answerid');
+            data.Content = $('#Content-' + $(this).data('answerid')).val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Edit", "Comment")',
+                data: data,
+                success: function () {
+                    window.location.reload();
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+
+        // возврат с отмены ответа
+        $('body').on('click', '.answer-edit-cancel', function () {
+            $('#answer-edit-element-' + $(this).data('answerid')).hide();
+            $('#answer-element-' + $(this).data('answerid')).show();
+        });
+
+        // удаление комментария
+        $('body').on('click', '.answer-delete-element-call', function () {
+            if (confirm("Удалить ответ?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Delete", "Comment")',
+                    data: { 'id': $(this).data('answerid') },
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (result) {
+                        ShowError(result);
+                    }
+                });
+            }
+        });
+    })
+</script>

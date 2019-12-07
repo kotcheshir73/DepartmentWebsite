@@ -1,0 +1,52 @@
+﻿@using WebInterfaces.ViewModels
+@using DepartmentWebCore.Helpers
+
+@model WebDisciplineViewModel
+
+@{
+    ViewBag.Title = Model.DisciplineName;
+}
+
+<h2 class="page-header">
+    @Model.DisciplineName
+</h2>
+
+<div class="discipline-wrapper center-block">
+    <div class="panel panel-default">
+        <div class="discipline-panel-heading active" id="heading">
+            <div class="discipline-panel-title">
+                <a role="button" data-toggle="collapse" href="#collapse" aria-expanded="true" aria-controls="collapse">Описание</a>
+            </div>
+        </div>
+        <div id="collapse" class="discipline-panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+            <div class="discipline-panel-body">
+                @(Model.DisciplineDescription)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="discipline-lecturer">
+    <div class="discipline-lecturer-title">
+        Преподаватели:
+        @if (Model.DisciplineLecturers != null && Model.DisciplineLecturers.Count > 0)
+        {
+            @foreach (var lecturer in Model.DisciplineLecturers)
+            {
+                <a href="/Lecturer/Lecturer?Id=@lecturer.Item1">@lecturer.Item2</a>
+            }
+        }
+    </div>
+</div>
+
+
+@if (string.IsNullOrEmpty(User.Identity.Name))
+{
+    <label class="discipline-file-warning">Для получения доступа к материалам дисциплины необходимо авторизоваться.</label>
+}
+else
+{
+    @Html.RenderAction("DisciplineContent", "Discipline", new { Id = Model.Id })
+}
+
+@Html.RenderAction("Index", "Comment", new { disciplineId = Model.Id })

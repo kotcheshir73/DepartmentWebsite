@@ -1,6 +1,5 @@
 ﻿using ExaminationInterfaces.ViewModels;
 using Models.Examination;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -74,7 +73,9 @@ namespace ExaminationImplementations
                 DisciplineId = entity.DisciplineId,
                 DisciplneName = entity.Discipline.DisciplineName,
                 EducationDirectionId = entity.EducationDirectionId,
+                TicketTemplateId = entity.TicketTemplateId,
                 EducationDirectionName = entity.EducationDirection?.ShortName,
+                TicketTemplateName = entity.TicketTemplate?.TemplateName ?? string.Empty,
                 Semester = entity.Semester.ToString(),
                 ExaminationTemplateName = entity.ExaminationTemplateName
             };
@@ -134,229 +135,378 @@ namespace ExaminationImplementations
             };
         }
 
-        public static TicketTemplateViewModel CreateTicketTemplate(TicketTemplate entity)
+
+        public static TicketTemplateViewModel CreateTicketTemplateViewModel(TicketTemplate entity)
         {
             return new TicketTemplateViewModel
             {
                 Id = entity.Id,
                 TemplateName = entity.TemplateName,
-                Body = CreateTicketProcessBody(entity.TicketTemplateBodies?.FirstOrDefault())
+                Body = CreateTicketTemplateBodyViewModel(entity.TicketTemplateBodies?.FirstOrDefault()),
+                TicketTemplateDocumentSettingPageViewModel = entity.TicketTemplateDocumentSettings != null ?
+                                                        new TicketTemplateDocumentSettingPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateDocumentSettings.Select(CreateTicketTemplateDocumentSettingViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null,
+                TicketTemplateFontTablePageViewModel = entity.TicketTemplateFontTables != null ?
+                                                        new TicketTemplateFontTablePageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateFontTables.Select(CreateTicketTemplateFontTableViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null,
+                TicketTemplateNumberingPageViewModel = entity.TicketTemplateNumberings != null ?
+                                                        new TicketTemplateNumberingPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateNumberings.Select(CreateTicketTemplateNumberingViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null,
+                TicketTemplateStyleDefinitionPageViewModel = entity.TicketTemplateStyleDefinitions != null ?
+                                                        new TicketTemplateStyleDefinitionPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateStyleDefinitions.Select(CreateTicketTemplateStyleDefinitionViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null,
+                TicketTemplateThemePartPageViewModel = entity.TicketTemplateThemeParts != null ?
+                                                        new TicketTemplateThemePartPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateThemeParts.Select(CreateTicketTemplateThemePartViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null,
+                TicketTemplateWebSettingPageViewModel = entity.TicketTemplateWebSettings != null ?
+                                                        new TicketTemplateWebSettingPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateWebSettings.Select(CreateTicketTemplateWebSettingViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null
             };
         }
 
-        public static TicketProcessBodyViewModel CreateTicketProcessBody(TicketTemplateBody entity)
+
+        public static TicketTemplateDocumentSettingViewModel CreateTicketTemplateDocumentSettingViewModel(TicketTemplateDocumentSetting entity)
         {
-            if (entity == null)
+            return new TicketTemplateDocumentSettingViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateId = entity.TicketTemplateId,
+                InnerXml = entity.InnerXml,
+                Order = entity.Order
+            };
+        }
+
+        public static TicketTemplateFontTableViewModel CreateTicketTemplateFontTableViewModel(TicketTemplateFontTable entity)
+        {
+            return new TicketTemplateFontTableViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateId = entity.TicketTemplateId,
+                InnerXml = entity.InnerXml,
+                Order = entity.Order
+            };
+        }
+
+        public static TicketTemplateNumberingViewModel CreateTicketTemplateNumberingViewModel(TicketTemplateNumbering entity)
+        {
+            return new TicketTemplateNumberingViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateId = entity.TicketTemplateId,
+                InnerXml = entity.InnerXml,
+                Order = entity.Order
+            };
+        }
+
+        public static TicketTemplateStyleDefinitionViewModel CreateTicketTemplateStyleDefinitionViewModel(TicketTemplateStyleDefinition entity)
+        {
+            return new TicketTemplateStyleDefinitionViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateId = entity.TicketTemplateId,
+                InnerXml = entity.InnerXml,
+                Order = entity.Order
+            };
+        }
+
+        public static TicketTemplateThemePartViewModel CreateTicketTemplateThemePartViewModel(TicketTemplateThemePart entity)
+        {
+            return new TicketTemplateThemePartViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateId = entity.TicketTemplateId,
+                InnerXml = entity.InnerXml,
+                Order = entity.Order
+            };
+        }
+
+        public static TicketTemplateWebSettingViewModel CreateTicketTemplateWebSettingViewModel(TicketTemplateWebSetting entity)
+        {
+            return new TicketTemplateWebSettingViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateId = entity.TicketTemplateId,
+                InnerXml = entity.InnerXml,
+                Order = entity.Order
+            };
+        }
+
+
+        public static TicketTemplateBodyViewModel CreateTicketTemplateBodyViewModel(TicketTemplateBody entity)
+        {
+            if(entity == null)
             {
                 return null;
             }
-            TicketProcessBodyViewModel model = new TicketProcessBodyViewModel
+
+            return new TicketTemplateBodyViewModel
             {
                 Id = entity.Id,
-                BodyName = entity.BodyName,
-                SectName = entity.SectName,
-                BodyFormat = entity.BodyFormat != null ? CreateTicketProcessElementaryUnit(entity.BodyFormat) : null
+                TicketTemplateId = entity.TicketTemplateId,
+                TicketTemplateBodyPropertiesViewModel = CreateTicketTemplateBodyPropertiesViewModel(entity.TicketTemplateBodyProperties?.FirstOrDefault()),
+                TicketTemplateTablePageViewModel = entity.TicketTemplateTables != null ?
+                                                    new TicketTemplateTablePageViewModel
+                                                    {
+                                                        List = entity.TicketTemplateTables.Select(CreateTicketTemplateTableViewModel).OrderBy(x => x.Order).ToList()
+                                                    } : null,
+                TicketTemplateParagraphPageViewModel = entity.TicketTemplateParagraphs != null ?
+                                                        new TicketTemplateParagraphPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateParagraphs.Select(CreateTicketTemplateParagraphViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null
             };
-
-            if (entity.TicketTemplateParagraphs != null && entity.TicketTemplateParagraphs.Count > 0)
-            {
-                model.Paragraphs = new List<TicketProcessParagraphViewModel>();
-                foreach (var elem in entity.TicketTemplateParagraphs)
-                {
-                    model.Paragraphs.Add(CreateTicketProcessParagraph(elem));
-                }
-            }
-
-            if (entity.TicketTemplateTables != null && entity.TicketTemplateTables.Count > 0)
-            {
-                model.Tables = new List<TicketProcessTableViewModel>();
-                foreach (var elem in entity.TicketTemplateTables)
-                {
-                    model.Tables.Add(CreateTicketProcessTable(elem));
-                }
-            }
-
-            return model;
         }
 
-        public static TicketProcessTableViewModel CreateTicketProcessTable(TicketTemplateTable entity)
+        public static TicketTemplateBodyPropertiesViewModel CreateTicketTemplateBodyPropertiesViewModel(TicketTemplateBodyProperties entity)
         {
-            TicketProcessTableViewModel model = new TicketProcessTableViewModel
+            if(entity == null)
+            {
+                return null;
+            }
+
+            return new TicketTemplateBodyPropertiesViewModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                TicketTemplateBodyId = entity.TicketTemplateBodyId,
+                PageMarginBottom = entity.PageMarginBottom,
+                PageMarginFooter = entity.PageMarginFooter,
+                PageMarginGutter = entity.PageMarginGutter,
+                PageMarginLeft = entity.PageMarginLeft,
+                PageMarginRight = entity.PageMarginRight,
+                PageMarginTop = entity.PageMarginTop,
+                PageSizeHeight = entity.PageSizeHeight,
+                PageSizeOrient = entity.PageSizeOrient,
+                PageSizeWidth = entity.PageSizeWidth
+            };
+        }
+
+        public static TicketTemplateTableViewModel CreateTicketTemplateTableViewModel(TicketTemplateTable entity)
+        {
+            return new TicketTemplateTableViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateBodyId = entity.TicketTemplateBodyId,
                 Order = entity.Order,
-                Properties = entity.Properties != null ? CreateTicketProcessElementaryUnit(entity.Properties) : null,
-                Columns = entity.Columns != null ? CreateTicketProcessElementaryUnit(entity.Columns) : null
+                TicketTemplateTablePropertiesViewModel = CreateTicketTemplateTablePropertiesViewModel(entity.TicketTemplateTableProperties?.FirstOrDefault()),
+                TicketTemplateTableGridColumnPageViewModel = entity.TicketTemplateTableGridColumns != null ?
+                                                        new TicketTemplateTableGridColumnPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateTableGridColumns.Select(CreateTicketTemplateTableGridColumnViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null,
+                TicketTemplateTableRowPageViewModel = entity.TicketTemplateTableRows != null ?
+                                                        new TicketTemplateTableRowPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateTableRows.Select(CreateTicketTemplateTableRowViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null
             };
-
-            if (entity.TicketTemplateTableRows != null && entity.TicketTemplateTableRows.Count > 0)
-            {
-                model.TableRows = new List<TicketProcessTableRowViewModel>();
-                foreach (var elem in entity.TicketTemplateTableRows)
-                {
-                    model.TableRows.Add(CreateTicketProcessTableRow(elem));
-                }
-            }
-
-            return model;
         }
 
-        public static TicketProcessTableRowViewModel CreateTicketProcessTableRow(TicketTemplateTableRow entity)
+        public static TicketTemplateTablePropertiesViewModel CreateTicketTemplateTablePropertiesViewModel(TicketTemplateTableProperties entity)
         {
-            TicketProcessTableRowViewModel model = new TicketProcessTableRowViewModel
+            if(entity == null)
+            {
+                return null;
+            }
+
+            return new TicketTemplateTablePropertiesViewModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                TicketTemplateTableId = entity.TicketTemplateTableId,
+                BorderBottomColor = entity.BorderBottomColor,
+                BorderBottomSize = entity.BorderBottomSize,
+                BorderBottomSpace = entity.BorderBottomSpace,
+                BorderBottomValue = entity.BorderBottomValue,
+                BorderLeftColor = entity.BorderLeftColor,
+                BorderLeftSize = entity.BorderLeftSize,
+                BorderLeftSpace = entity.BorderLeftSpace,
+                BorderLeftValue = entity.BorderLeftValue,
+                BorderRightColor = entity.BorderRightColor,
+                BorderRightSize = entity.BorderRightSize,
+                BorderRightSpace = entity.BorderRightSpace,
+                BorderRightValue = entity.BorderRightValue,
+                BorderTopColor = entity.BorderTopColor,
+                BorderTopSize = entity.BorderTopSize,
+                BorderTopSpace = entity.BorderTopSpace,
+                BorderTopValue = entity.BorderTopValue,
+                LayoutType = entity.LayoutType,
+                LookFirstColumn = entity.LookFirstColumn,
+                LookFirstRow = entity.LookFirstRow,
+                LookLastColumn = entity.LookLastColumn,
+                LookLastRow = entity.LookLastRow,
+                LookNoHorizontalBand = entity.LookNoHorizontalBand,
+                LookNoVerticalBand = entity.LookNoVerticalBand,
+                LookValue = entity.LookValue,
+                Width = entity.Width
+            };
+        }
+
+        public static TicketTemplateTableGridColumnViewModel CreateTicketTemplateTableGridColumnViewModel(TicketTemplateTableGridColumn entity)
+        {
+            return new TicketTemplateTableGridColumnViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateTableId = entity.TicketTemplateTableId,
                 Order = entity.Order,
-                Properties = entity.Properties != null ? CreateTicketProcessElementaryUnit(entity.Properties) : null
+                Width = entity.Width
             };
-
-            if (entity.TicketTemplateElementaryAttributes != null && entity.TicketTemplateElementaryAttributes.Count > 0)
-            {
-                model.ElementaryAttributes = new List<TicketProcessElementaryAttributeViewModels>();
-                foreach (var attr in entity.TicketTemplateElementaryAttributes)
-                {
-                    model.ElementaryAttributes.Add(CreateTicketProcessElementaryAttribute(attr));
-                }
-            }
-
-            if (entity.TicketTemplateTableCells != null && entity.TicketTemplateTableCells.Count > 0)
-            {
-                model.TableCells = new List<TicketProcessTableCellViewModel>();
-                foreach (var elem in entity.TicketTemplateTableCells)
-                {
-                    model.TableCells.Add(CreateTicketProcessTableCell(elem));
-                }
-            }
-
-            return model;
         }
 
-        public static TicketProcessTableCellViewModel CreateTicketProcessTableCell(TicketTemplateTableCell entity)
+        public static TicketTemplateTableRowViewModel CreateTicketTemplateTableRowViewModel(TicketTemplateTableRow entity)
         {
-            TicketProcessTableCellViewModel model = new TicketProcessTableCellViewModel
+            return new TicketTemplateTableRowViewModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                TicketTemplateTableId = entity.TicketTemplateTableId,
                 Order = entity.Order,
-                Properties = entity.Properties != null ? CreateTicketProcessElementaryUnit(entity.Properties) : null
+                TicketTemplateTableRowPropertiesViewModel = CreateTicketTemplateTableRowPropertiesViewModel(entity.TicketTemplateTableRowProperties.FirstOrDefault()),
+                TicketTemplateTableCellPageViewModel = entity.TicketTemplateTableCells != null ?
+                                                        new TicketTemplateTableCellPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateTableCells.Select(CreateTicketTemplateTableCellViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null
             };
-
-            if (entity.TicketTemplateParagraphs != null && entity.TicketTemplateParagraphs.Count > 0)
-            {
-                model.Paragraphs = new List<TicketProcessParagraphViewModel>();
-                foreach (var elem in entity.TicketTemplateParagraphs)
-                {
-                    model.Paragraphs.Add(CreateTicketProcessParagraph(elem));
-                }
-            }
-
-            return model;
         }
 
-        public static TicketProcessParagraphViewModel CreateTicketProcessParagraph(TicketTemplateParagraph entity)
+        public static TicketTemplateTableRowPropertiesViewModel CreateTicketTemplateTableRowPropertiesViewModel(TicketTemplateTableRowProperties entity)
         {
-            TicketProcessParagraphViewModel model = new TicketProcessParagraphViewModel
+            if(entity == null)
+            {
+                return null;
+            }
+
+            return new TicketTemplateTableRowPropertiesViewModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                TicketTemplateTableRowId = entity.TicketTemplateTableRowId,
+                CantSplit = entity.CantSplit,
+                TableRowHeight = entity.TableRowHeight
+            };
+        }
+
+        public static TicketTemplateTableCellViewModel CreateTicketTemplateTableCellViewModel(TicketTemplateTableCell entity)
+        {
+            return new TicketTemplateTableCellViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateTableRowId = entity.TicketTemplateTableRowId,
                 Order = entity.Order,
-                ParagraphFormat = entity.ParagraphFormat != null ? CreateTicketProcessElementaryUnit(entity.ParagraphFormat) : null
+                TicketTemplateTableCellPropertiesViewModel = CreateTicketTemplateTableCellPropertiesViewModel(entity.TicketTemplateTableCellProperties?.FirstOrDefault()),
+                TicketTemplateParagraphPageViewModel = entity.TicketTemplateParagraphs != null ?
+                                                        new TicketTemplateParagraphPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateParagraphs.Select(CreateTicketTemplateParagraphViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null
             };
-
-            if (entity.TicketTemplateElementaryAttributes != null && entity.TicketTemplateElementaryAttributes.Count > 0)
-            {
-                model.ElementaryAttributes = new List<TicketProcessElementaryAttributeViewModels>();
-                foreach (var attr in entity.TicketTemplateElementaryAttributes)
-                {
-                    model.ElementaryAttributes.Add(CreateTicketProcessElementaryAttribute(attr));
-                }
-            }
-
-            if (entity.TicketTemplateParagraphDatas != null && entity.TicketTemplateParagraphDatas.Count > 0)
-            {
-                model.ParagraphDatas = new List<TicketProcessParagraphDataViewModel>();
-                foreach (var elem in entity.TicketTemplateParagraphDatas.OrderBy(x => x.Order))
-                {
-                    model.ParagraphDatas.Add(CreateTicketProcessParagraphData(elem));
-                }
-            }
-
-            return model;
         }
 
-        public static TicketProcessParagraphDataViewModel CreateTicketProcessParagraphData(TicketTemplateParagraphData entity)
+        public static TicketTemplateTableCellPropertiesViewModel CreateTicketTemplateTableCellPropertiesViewModel(TicketTemplateTableCellProperties entity)
         {
-            TicketProcessParagraphDataViewModel model = new TicketProcessParagraphDataViewModel
+            if(entity == null)
+            {
+                return null;
+            }
+
+            return new TicketTemplateTableCellPropertiesViewModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                TicketTemplateTableCellId = entity.TicketTemplateTableCellId,
+                TableCellWidth = entity.TableCellWidth,
+                GridSpan = entity.GridSpan,
+                VerticalMerge = entity.VerticalMerge,
+                ShadingColor = entity.ShadingColor,
+                ShadingFill = entity.ShadingFill,
+                ShadingValue = entity.ShadingValue
+            };
+        }
+
+        public static TicketTemplateParagraphViewModel CreateTicketTemplateParagraphViewModel(TicketTemplateParagraph entity)
+        {
+            return new TicketTemplateParagraphViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateBodyId = entity.TicketTemplateBodyId,
+                TicketTemplateTableCellId = entity.TicketTemplateTableCellId,
+                TicketTemplateParagraphPropertiesViewModel = CreateTicketTemplateParagraphPropertiesViewModel(entity.TicketTemplateParagraphProperties?.FirstOrDefault()),
+                Order = entity.Order,
+                TicketTemplateParagraphRunPageViewModel = entity.TicketTemplateParagraphRuns != null ?
+                                                        new TicketTemplateParagraphRunPageViewModel
+                                                        {
+                                                            List = entity.TicketTemplateParagraphRuns.Select(CreateTicketTemplateParagraphRunViewModel).OrderBy(x => x.Order).ToList()
+                                                        } : null
+            };
+        }
+
+        public static TicketTemplateParagraphPropertiesViewModel CreateTicketTemplateParagraphPropertiesViewModel(TicketTemplateParagraphProperties entity)
+        {
+            if(entity == null)
+            {
+                return null;
+            }
+
+            return new TicketTemplateParagraphPropertiesViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateParagraphId = entity.TicketTemplateParagraphId,
+                NumberingLevelReference = entity.NumberingLevelReference,
+                NumberingId = entity.NumberingId,
+                IndentationFirstLine = entity.IndentationFirstLine,
+                IndentationHanging = entity.IndentationHanging,
+                IndentationLeft = entity.IndentationLeft,
+                IndentationRight = entity.IndentationRight,
+                Justification = entity.Justification,
+                RunBold = entity.RunBold,
+                RunItalic = entity.RunItalic,
+                RunSize = entity.RunSize,
+                RunUnderline = entity.RunUnderline,
+                SpacingBetweenLinesAfter = entity.SpacingBetweenLinesAfter,
+                SpacingBetweenLinesBefore = entity.SpacingBetweenLinesBefore,
+                SpacingBetweenLinesLine = entity.SpacingBetweenLinesLine,
+                SpacingBetweenLinesLineRule = entity.SpacingBetweenLinesLineRule
+            };
+        }
+
+        public static TicketTemplateParagraphRunViewModel CreateTicketTemplateParagraphRunViewModel(TicketTemplateParagraphRun entity)
+        {
+            return new TicketTemplateParagraphRunViewModel
+            {
+                Id = entity.Id,
+                TicketTemplateParagraphId = entity.TicketTemplateParagraphId,
+                TicketTemplateParagraphRunPropertiesViewModel = CreateTicketTemplateParagraphRunPropertiesViewModel(entity.TicketTemplateParagraphRunProperties?.FirstOrDefault()),
                 Order = entity.Order,
                 Text = entity.Text,
-                TextName = entity.TextName,
-                Font = entity.Font != null ? CreateTicketProcessElementaryUnit(entity.Font) : null
+                TabChar = entity.TabChar,
+                Break = entity.Break,
+                BreakType = entity.BreakType
             };
-
-            if (entity.TicketTemplateElementaryAttributes != null && entity.TicketTemplateElementaryAttributes.Count > 0)
-            {
-                model.ElementaryAttributes = new List<TicketProcessElementaryAttributeViewModels>();
-                foreach (var attr in entity.TicketTemplateElementaryAttributes)
-                {
-                    model.ElementaryAttributes.Add(CreateTicketProcessElementaryAttribute(attr));
-                }
-            }
-
-            if (entity.TicketTemplateElementaryUnits != null && entity.TicketTemplateElementaryUnits.Count > 0)
-            {
-                model.ElementaryUnits = new List<TicketProcessElementaryUnitViewModel>();
-                foreach (var elem in entity.TicketTemplateElementaryUnits.OrderBy(x => x.Order))
-                {
-                    model.ElementaryUnits.Add(CreateTicketProcessElementaryUnit(elem));
-                }
-            }
-
-            return model;
         }
 
-        public static TicketProcessElementaryUnitViewModel CreateTicketProcessElementaryUnit(TicketTemplateElementaryUnit entity)
+        public static TicketTemplateParagraphRunPropertiesViewModel CreateTicketTemplateParagraphRunPropertiesViewModel(TicketTemplateParagraphRunProperties entity)
         {
-            TicketProcessElementaryUnitViewModel model = new TicketProcessElementaryUnitViewModel
+            if(entity == null)
             {
-                Id = entity.Id,
-                Name = entity.Name,
-                Value = entity.Value,
-                Order = entity.Order
-            };
-
-            if (entity.TicketTemplateElementaryAttributes != null && entity.TicketTemplateElementaryAttributes.Count > 0)
-            {
-                model.ElementaryAttributes = new List<TicketProcessElementaryAttributeViewModels>();
-                foreach (var attr in entity.TicketTemplateElementaryAttributes)
-                {
-                    model.ElementaryAttributes.Add(CreateTicketProcessElementaryAttribute(attr));
-                }
+                return null;
             }
 
-            if (entity.ChildElementaryUnits != null && entity.ChildElementaryUnits.Count > 0)
-            {
-                model.ChildElementaryUnits = new List<TicketProcessElementaryUnitViewModel>();
-                foreach (var elem in entity.ChildElementaryUnits.OrderBy(x => x.Order))
-                {
-                    model.ChildElementaryUnits.Add(CreateTicketProcessElementaryUnit(elem));
-                }
-            }
-
-            return model;
-        }
-
-        public static TicketProcessElementaryAttributeViewModels CreateTicketProcessElementaryAttribute(TicketTemplateElementaryAttribute entity)
-        {
-            return new TicketProcessElementaryAttributeViewModels
+            return new TicketTemplateParagraphRunPropertiesViewModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
-                Value = entity.Value
+                TicketTemplateParagraphRunId = entity.TicketTemplateParagraphRunId,
+                RunBold = entity.RunBold,
+                RunItalic = entity.RunItalic,
+                RunSize = entity.RunSize,
+                RunUnderline = entity.RunUnderline
             };
         }
     }

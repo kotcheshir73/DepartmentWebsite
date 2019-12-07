@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatabaseContext;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
@@ -13,16 +14,19 @@ namespace DepartmentDesktop
         [STAThread]
         static void Main()
         {
-            var container = BuildUnityContainer();
-
-            Tools.DepartmentUserManager.CheckExsistData();
-            Tools.DepartmentUserManager.Login("admin", "qwerty");
-
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(container.Resolve<FormMain>());
+            DepartmentUserManager.CheckExsistData();
+
+            var form = new FormLogin();
+
+            if (form.ShowDialog() == DialogResult.OK && DepartmentUserManager.IsAuth)
+            {
+                var container = BuildUnityContainer();
+
+                Application.Run(container.Resolve<FormMain>());
+            }
         }
 
         public static IUnityContainer BuildUnityContainer()
@@ -35,10 +39,10 @@ namespace DepartmentDesktop
             return currentContainer;
         }
 
-		public static void PrintErrorMessage(string text, List<KeyValuePair<string, string>> result)
-		{
-			FormError form = new FormError();
-			form.LoadData(text, result);
-		}
+        public static void PrintErrorMessage(string text, List<KeyValuePair<string, string>> result)
+        {
+            FormError form = new FormError();
+            form.LoadData(text, result);
+        }
     }
 }

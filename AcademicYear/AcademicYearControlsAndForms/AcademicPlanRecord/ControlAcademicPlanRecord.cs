@@ -33,8 +33,11 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
 				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
 				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
                 new ColumnConfig { Name = "Contingent", Title = "Контингент", Width = 150, Visible = true },
-                new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true }
-			};
+                new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true },
+                new ColumnConfig { Name = "IsParent", Title = "Родительская", Width = 100, Visible = true },
+                new ColumnConfig { Name = "Selectable", Title = "Дисц. по выб", Width = 100, Visible = true },
+                new ColumnConfig { Name = "", Title = "Участвует в расчете", Width = 150, Visible = true }
+            };
 
             List<string> hideToolStripButtons = new List<string> { };
 
@@ -91,8 +94,11 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
 					res.Disciplne,
 					res.Semester,
                     res.ContingentGroup,
-                    res.Zet
-				);
+                    res.Zet,
+                    res.IsParent ? "да" : "нет",
+                    res.Selectable ? "да" : "нет",
+                    res.IsSelected ? "да" : "нет"
+                );
             }
             return result.Result.MaxCount;
         }

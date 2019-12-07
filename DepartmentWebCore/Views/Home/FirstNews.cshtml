@@ -1,0 +1,23 @@
+﻿@using WebInterfaces.ViewModels
+
+@model NewsPageViewModel
+
+@if (Model != null && Model.List.Count > 0)
+{
+    <div class="first-news-panel">
+        @foreach (var news in Model.List)
+        {
+            <div class="first-news-element">
+                <div class="first-news-title">
+                    <a href='@Url.Action("ShowNews", "News", new { id = news.Id })'>@news.Title</a>
+                </div>
+                <div class="first-news-date">
+                    @news.Date.ToString("dd.MM.yyyy HH:mm")
+                </div>
+            </div>
+        }
+        <div class="first-news-tail-element">
+            <a href='@Url.Action("Index", "News")'>Все новости</a>
+        </div>
+    </div>
+}

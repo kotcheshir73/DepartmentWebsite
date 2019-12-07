@@ -4,6 +4,7 @@ using AcademicYearInterfaces.ViewModels;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
+using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -129,7 +130,7 @@ namespace AcademicYearImplementations.Implementations
                     var entity = AcademicYearModelFacotryFromBindingModel.CreateAcademicPlan(model);
 
                     var exsistEntity = context.AcademicPlans.FirstOrDefault(x => x.AcademicYearId == entity.AcademicYearId && x.EducationDirectionId == entity.EducationDirectionId && 
-                                x.AcademicLevel == entity.AcademicLevel && x.AcademicCourses == entity.AcademicCourses);
+                                x.AcademicCourses == entity.AcademicCourses);
                     if (exsistEntity == null)
                     {
                         context.AcademicPlans.Add(entity);

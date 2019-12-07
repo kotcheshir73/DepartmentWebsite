@@ -46,11 +46,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
                 return false;
             }
 
-            foreach (var elem in Enum.GetValues(typeof(AcademicLevel)))
-            {
-                comboBoxAcademicLevel.Items.Add(elem.ToString());
-            }
-
             comboBoxAcademicYear.ValueMember = "Value";
             comboBoxAcademicYear.DisplayMember = "Display";
             comboBoxAcademicYear.DataSource = resultAY.Result.List
@@ -60,7 +55,7 @@ namespace AcademicYearControlsAndForms.AcademicPlan
             comboBoxEducationDirection.ValueMember = "Value";
             comboBoxEducationDirection.DisplayMember = "Display";
             comboBoxEducationDirection.DataSource = resultED.Result.List
-                .Select(ed => new { Value = ed.Id, Display = ed.Cipher + " " + ed.Title }).ToList();
+                .Select(ed => new { Value = ed.Id, Display = ed.ToString() }).ToList();
             comboBoxEducationDirection.SelectedItem = null;
 
             return true;
@@ -89,7 +84,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
                 comboBoxEducationDirection.SelectedValue = entity.EducationDirectionId;
             }
             comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
-            comboBoxAcademicLevel.SelectedIndex = comboBoxAcademicLevel.Items.IndexOf(entity.AcademicLevel);
             if (entity.AcademicCourses.HasValue)
             {
                 var courses = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), entity.AcademicCourses);
@@ -103,10 +97,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
         protected override bool CheckFill()
         {
             if (comboBoxAcademicYear.SelectedValue == null)
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(comboBoxAcademicLevel.Text))
             {
                 return false;
             }
@@ -143,7 +133,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
                 {
                     EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
                     AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                    AcademicLevel = comboBoxAcademicLevel.Text,
                     AcademicCourses = courses.HasValue ? Convert.ToInt32(courses) : (int?)null
                 });
             }
@@ -154,7 +143,6 @@ namespace AcademicYearControlsAndForms.AcademicPlan
                     Id = _id.Value,
                     EducationDirectionId = comboBoxEducationDirection.SelectedValue != null ? new Guid(comboBoxEducationDirection.SelectedValue.ToString()) : (Guid?)null,
                     AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
-                    AcademicLevel = comboBoxAcademicLevel.Text,
                     AcademicCourses = courses.HasValue ? Convert.ToInt32(courses) : (int?)null
                 });
             }

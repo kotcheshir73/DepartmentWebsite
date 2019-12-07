@@ -1,4 +1,5 @@
-﻿using Models.AcademicYearData;
+﻿using Enums;
+using Models.AcademicYearData;
 using Models.Examination;
 using Models.LearningProgress;
 using System.Collections.Generic;
@@ -29,7 +30,14 @@ namespace Models.Base
         [Required]
         [DataMember]
         public string Title { get; set; }
-        
+
+        [Required]
+        [DataMember]
+        public EducationDirectionQualification Qualification { get; set; }
+
+        [DataMember]
+        public string Profile { get; set; }
+
         [Required]
         [DataMember]
         public string Description { get; set; }

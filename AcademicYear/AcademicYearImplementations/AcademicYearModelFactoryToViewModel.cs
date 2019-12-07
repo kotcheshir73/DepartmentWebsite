@@ -33,9 +33,8 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 EducationDirectionId = entity.EducationDirectionId,
-                EducationDirection = entity.EducationDirectionId.HasValue ? string.Format("{0} {1}", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName) : string.Empty,
+                EducationDirection = entity.EducationDirectionId.HasValue ? string.Format("{0} {1} ({2})", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName, entity.EducationDirection.Profile) : string.Empty,
                 AcademicYear = entity.AcademicYear.Title,
-                AcademicLevel = entity.AcademicLevel.ToString(),
                 AcademicCoursesStrings = courses,
                 AcademicCourses = entity.AcademicCourses.HasValue ? (int)entity.AcademicCourses : (int?)null
             };
@@ -52,7 +51,11 @@ namespace AcademicYearImplementations
                 Disciplne = entity.Discipline.DisciplineName,
                 Semester = entity.Semester.HasValue ? entity.Semester.ToString() : string.Empty,
                 ContingentGroup = entity.ContingentId.HasValue ? entity.Contingent.ContingentName : string.Empty,
-                Zet = entity.Zet
+                Zet = entity.Zet,
+                AcademicPlanRecordParentId = entity.AcademicPlanRecordParentId,
+                IsParent = entity.IsParent,
+                IsSelected = entity.IsSelected,
+                Selectable = entity.Selectable
             };
         }
 
@@ -227,7 +230,7 @@ namespace AcademicYearImplementations
                 TimeNormName = entity.TimeNormName,
                 TimeNormShortName = entity.TimeNormShortName,
                 TimeNormOrder = entity.TimeNormOrder,
-                TimeNormAcademicLevel = entity.TimeNormAcademicLevel.HasValue ? entity.TimeNormAcademicLevel.ToString() : null,
+                TimeNormEducationDirectionQualification = entity.TimeNormEducationDirectionQualification.HasValue ? entity.TimeNormEducationDirectionQualification.ToString() : null,
                 KindOfLoadName = entity.KindOfLoadName,
                 KindOfLoadAttributeName = entity.KindOfLoadAttributeName,
                 KindOfLoadBlueAsteriskName = entity.KindOfLoadBlueAsteriskName,

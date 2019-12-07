@@ -90,7 +90,10 @@ namespace DepartmentUniversalTablet.ExportPackages.Egov.TP
 
         private void Calendar_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            dataContext.DateAccept = calendar.Date.Value.DateTime;
+            if (calendar.Date != null)
+            {
+                dataContext.DateAccept = calendar.Date.Value.DateTime;
+            }
         }
 
         private void TextBoxComment_TextChanged(object sender, TextChangedEventArgs e)

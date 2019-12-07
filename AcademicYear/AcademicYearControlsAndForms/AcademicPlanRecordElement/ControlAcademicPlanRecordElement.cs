@@ -1,4 +1,5 @@
-﻿using AcademicYearInterfaces.BindingModels;
+﻿using AcademicYearControlsAndForms.Services;
+using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using ControlsAndForms.Models;
@@ -37,7 +38,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
 
             Dictionary<string, string> buttonsToMoveButton = new Dictionary<string, string>
                 {
-                    { "LoadFromXMLToolStripMenuItem", "Загрузить из xml"}
+                    { "MoveToOtherAPRToolStripMenuItem", "Перенести в другую нагрузку"}
                 };
 
             standartControl.Configurate(columns, hideToolStripButtons, controlOnMoveElem: buttonsToMoveButton);
@@ -46,6 +47,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
             standartControl.ToolStripButtonAddEventClickAddEvent((object sender, EventArgs e) => { AddRecord(); });
             standartControl.ToolStripButtonUpdEventClickAddEvent((object sender, EventArgs e) => { UpdRecord(); });
             standartControl.ToolStripButtonDelEventClickAddEvent((object sender, EventArgs e) => { DelRecord(); });
+            standartControl.ToolStripButtonMoveEventClickAddEvent("MoveToOtherAPRToolStripMenuItem", MoveToOtherAPRToolStripMenuItem_Click);
             standartControl.DataGridViewListEventCellDoubleClickAddEvent((object sender, DataGridViewCellEventArgs e) => { UpdRecord(); });
             standartControl.DataGridViewListEventKeyDownAddEvent((object sender, KeyEventArgs e) => {
                 switch (e.KeyCode)
@@ -142,6 +144,22 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
                     }
                     standartControl.LoadPage();
                 }
+            }
+        }
+
+        private void MoveToOtherAPRToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (standartControl.GetDataGridViewSelectedRows.Count == 1)
+            {
+                Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
+                var form = Container.Resolve<FormChangeAPRcs>(new ParameterOverrides
+                {
+                    { "aprId", _aprId },
+                    { "id", id }
+                }
+                .OnType<FormChangeAPRcs>());
+                form.Show();
             }
         }
     }

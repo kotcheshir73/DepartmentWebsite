@@ -1,6 +1,7 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
+using DatabaseContext;
 using Enums;
 using ExaminationInterfaces.BindingModels;
 using ExaminationInterfaces.Interfaces;
@@ -69,7 +70,7 @@ namespace ExaminationImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.Discipline).Include(x => x.EducationDirection);
+                    query = query.Include(x => x.Discipline).Include(x => x.EducationDirection).Include(x => x.TicketTemplate);
 
                     var result = new ExaminationTemplatePageViewModel
                     {
@@ -97,6 +98,7 @@ namespace ExaminationImplementations.Implementations
                     var entity = context.ExaminationTemplates
                                 .Include(x => x.Discipline)
                                 .Include(x => x.EducationDirection)
+                                .Include(x => x.TicketTemplate)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
