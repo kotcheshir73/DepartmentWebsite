@@ -7,12 +7,6 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class ConsultationRecordShortViewModel : ScheduleRecordShortViewModel
     {
-		public int Week { get; set; }
-
-		public int Day { get; set; }
-
-		public int Lesson { get; set; }
-
 		public DateTime DateConsultation { get; set; }
 
 		public string Text

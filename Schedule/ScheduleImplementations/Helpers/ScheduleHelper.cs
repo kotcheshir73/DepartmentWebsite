@@ -15,7 +15,7 @@ namespace ScheduleImplementations.Helpers
     // TODO разбить на несколько классов по логике
     public class ScheduleHelper
     {
-        public static bool CheckCreateConsultation(ConsultationRecordRecordBindingModel model, SeasonDates seasonDate)
+        public static bool CheckCreateConsultation(ConsultationRecordSetBindingModel model, SeasonDates seasonDate)
         {
             DateTime[] lessons;
             using (var context = DepartmentUserManager.GetContext)
@@ -76,9 +76,9 @@ namespace ScheduleImplementations.Helpers
                         throw new Exception("Exsist SemesterRecord");
                     }
 
-                    model.Week = week;
-                    model.Day = day;
-                    model.Lesson = lesson;
+                    //model.Week = week;
+                    //model.Day = day;
+                    //model.Lesson = lesson;
                 }
                 #endregion
 
@@ -126,9 +126,9 @@ namespace ScheduleImplementations.Helpers
                         throw new Exception("Exsist OffsetRecord");
                     }
 
-                    model.Week = week;
-                    model.Day = day;
-                    model.Lesson = lesson;
+                    //model.Week = week;
+                    //model.Day = day;
+                    //model.Lesson = lesson;
                 }
                 #endregion
 
@@ -188,9 +188,9 @@ namespace ScheduleImplementations.Helpers
                         throw new Exception("Exsist ExaminationRecord");
                     }
 
-                    model.Week = 0;
-                    model.Day = day;
-                    model.Lesson = lesson;
+                    //model.Week = 0;
+                    //model.Day = day;
+                    //model.Lesson = lesson;
                 }
                 #endregion
                 return true;
@@ -202,24 +202,24 @@ namespace ScheduleImplementations.Helpers
             string str = entity.LecturerId.HasValue ? entity.Lecturer.ToString() : entity.LessonLecturer;
             if (!entity.LecturerId.HasValue)
             {
-                if (string.IsNullOrEmpty(str))
+                if (str == null)
                 {
-                    str = "";
+                    str = string.Empty;
                 }
                 else
                 {
                     var strs = str.Split(' ');
-                    if (strs.Length == 1)
+                    switch(strs.Length)
                     {
-                        str = string.Format("{0}{1}", strs[0][0], strs[0].Substring(1).ToLower());
-                    }
-                    else if (strs.Length == 2)
-                    {
-                        str = string.Format("{0}{1} {2}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1]);
-                    }
-                    else if (strs.Length == 3)
-                    {
-                        str = string.Format("{0}{1} {2} {3}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1], strs[2]);
+                        case 1:
+                            str = string.Format("{0}{1}", strs[0][0], strs[0].Substring(1).ToLower());
+                            break;
+                        case 2:
+                            str = string.Format("{0}{1} {2}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1]);
+                            break;
+                        case 3:
+                            str = string.Format("{0}{1} {2} {3}", strs[0][0], strs[0].Substring(1).ToLower(), strs[1], strs[2]);
+                            break;
                     }
                 }
             }

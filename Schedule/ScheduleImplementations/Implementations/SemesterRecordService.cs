@@ -1,7 +1,6 @@
 ﻿using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
-using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -76,25 +75,9 @@ namespace ScheduleImplementations.Services
                                             .Include(x => x.Lecturer)
                                             .Include(x => x.StudentGroup);
 
-                    var records = selectedRecords.OrderBy(s => s.Week).ThenBy(s => s.Day).ThenBy(s => s.Lesson).ToList();
+                    selectedRecords = selectedRecords.OrderBy(s => s.Week).ThenBy(s => s.Day).ThenBy(s => s.Lesson);
 
-                    List<SemesterRecordShortViewModel> result = new List<SemesterRecordShortViewModel>();
-                    for (int i = 0; i < records.Count; ++i)
-                    {
-                        if (records[i].LessonType == LessonTypes.удл)
-                        {//не выводим занятие, если оно удаленное и в эту пару поставили пару
-                            var recordExists = records.Exists(r => r.Week == records[i].Week && r.Day == records[i].Day && r.Lesson == records[i].Lesson &&
-                                                            r.LessonType != LessonTypes.удл);
-                            if (recordExists)
-                            {
-                                continue;
-                            }
-                        }
-
-                        result.Add(ScheduleModelFactoryToViewModel.CreateSemesterRecordShortViewModel(records[i]));
-                    }
-
-                    return ResultService<List<SemesterRecordShortViewModel>>.Success(result.OrderBy(x => x.Id).ToList());
+                    return ResultService<List<SemesterRecordShortViewModel>>.Success(selectedRecords.Select(x => x.CreateRecordShortViewModel()).ToList());
                 }
             }
             catch (Exception ex)
@@ -113,14 +96,17 @@ namespace ScheduleImplementations.Services
                 {
                     var entity = context.SemesterRecords
                                 .Where(x => x.Id == model.Id)
-                                .Include(x => x.Classroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
+                                .Include(x => x.Classroom)
+                                .Include(x => x.Discipline)
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<SemesterRecordViewModel>.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                     }
 
-                    return ResultService<SemesterRecordViewModel>.Success(ScheduleModelFactoryToViewModel.CreateSemesterRecordViewModel(entity));
+                    return ResultService<SemesterRecordViewModel>.Success(entity.CreateRecordViewModel());
                 }
             }
             catch (Exception ex)
@@ -129,7 +115,7 @@ namespace ScheduleImplementations.Services
             }
         }
 
-        public ResultService CreateSemesterRecord(SemesterRecordRecordBindingModel model)
+        public ResultService CreateSemesterRecord(SemesterRecordSetBindingModel model)
         {
             try
             {
@@ -139,18 +125,8 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entry = context.SemesterRecords.FirstOrDefault(x => x.Week == model.Week && x.Day == model.Day && x.Lesson == model.Lesson &&
-                                                                                (x.ClassroomId == model.ClassroomId && model.ClassroomId != null) &&
-                                                                                (x.StudentGroupId == model.StudentGroupId && model.StudentGroupId != null) &&
-                                                                                x.LessonType != LessonTypes.удл &&
-                                                                                x.SeasonDatesId == seasonDate.Id);
-
-                    if (entry != null)
-                    {
-                        return ResultService.Error("Error:", "Exsist SemesterRecord", ResultServiceStatusCode.ExsistItem);
-                    }
-
-                    var entity = ScheduleModelFacotryFromBindingModel.CreateSemesterRecord(model, seasonDate: seasonDate);
+                    model.SeasonDatesId = seasonDate.Id;
+                    var entity = model.CreateRecord();
 
                     context.SemesterRecords.Add(entity);
                     context.SaveChanges();
@@ -164,7 +140,7 @@ namespace ScheduleImplementations.Services
             }
         }
 
-        public ResultService UpdateSemesterRecord(SemesterRecordRecordBindingModel model)
+        public ResultService UpdateSemesterRecord(SemesterRecordSetBindingModel model)
         {
             try
             {
@@ -172,14 +148,13 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.SemesterRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.SemesterRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                     }
 
-                    entity = ScheduleModelFacotryFromBindingModel.CreateSemesterRecord(model, entity);
+                    entity = model.CreateRecord(entity);
                     context.SaveChanges();
 
                     return ResultService.Success();
@@ -199,13 +174,20 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.SemesterRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.SemesterRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                     }
-                    entity.LessonType = LessonTypes.удл;
+
+                    if(entity.LessonType == LessonTypes.удл)
+                    {
+                        context.SemesterRecords.Remove(entity);
+                    }
+                    else
+                    {
+                        entity.LessonType = LessonTypes.удл;
+                    }
                     context.SaveChanges();
 
                     return ResultService.Success();

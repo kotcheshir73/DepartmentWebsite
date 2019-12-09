@@ -292,7 +292,7 @@ namespace ScheduleControlsAndForms.Semester
             {
                 if (Convert.ToBoolean(dataGridViewRecords.Rows[i].Cells[1].Value))
                 {
-                    var model = new SemesterRecordRecordBindingModel
+                    var model = new SemesterRecordSetBindingModel
                     {
                         Id = new Guid(dataGridViewRecords.Rows[i].Cells[0].Value.ToString()),
                         LessonType = comboBoxLessonType.Text,
@@ -380,7 +380,7 @@ namespace ScheduleControlsAndForms.Semester
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateSemesterRecord(new SemesterRecordRecordBindingModel
+                    result = _service.CreateSemesterRecord(new SemesterRecordSetBindingModel
                     {
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
@@ -447,7 +447,7 @@ namespace ScheduleControlsAndForms.Semester
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateSemesterRecord(new SemesterRecordRecordBindingModel
+                    result = _service.CreateSemesterRecord(new SemesterRecordSetBindingModel
                     {
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
@@ -469,7 +469,7 @@ namespace ScheduleControlsAndForms.Semester
                 }
                 else
                 {
-                    result = _service.UpdateSemesterRecord(new SemesterRecordRecordBindingModel
+                    result = _service.UpdateSemesterRecord(new SemesterRecordSetBindingModel
                     {
                         Id = _id.Value,
                         Week = comboBoxWeek.SelectedIndex,

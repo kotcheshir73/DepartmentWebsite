@@ -1,6 +1,5 @@
 ﻿using DatabaseContext;
 using Enums;
-using ScheduleImplementations;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -45,7 +44,7 @@ namespace ScheduleImplementations.Services
                     var result = new ScheduleLessonTimePageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ScheduleModelFactoryToViewModel.CreateScheduleLessonTimeViewModel).ToList()
+                        List = query.Select(x => x.CreateViewModel()).ToList()
                     };
 
                     return ResultService<ScheduleLessonTimePageViewModel>.Success(result);
@@ -76,7 +75,7 @@ namespace ScheduleImplementations.Services
                         return ResultService<ScheduleLessonTimeViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    return ResultService<ScheduleLessonTimeViewModel>.Success(ScheduleModelFactoryToViewModel.CreateScheduleLessonTimeViewModel(entity));
+                    return ResultService<ScheduleLessonTimeViewModel>.Success(entity.CreateViewModel());
                 }
             }
             catch (Exception ex)
@@ -93,7 +92,7 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ScheduleModelFacotryFromBindingModel.CreateScheduleLessonTime(model);
+                    var entity = model.CreateEntity();
 
                     var exsistEntity = context.ScheduleLessonTimes.FirstOrDefault(x => x.Title == entity.Title);
                     if (exsistEntity == null)
@@ -141,7 +140,7 @@ namespace ScheduleImplementations.Services
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
 
-                    entity = ScheduleModelFacotryFromBindingModel.CreateScheduleLessonTime(model, entity);
+                    entity = model.CreateEntity(entity);
 
                     context.SaveChanges();
 

@@ -32,18 +32,6 @@ namespace Models.Schedule
         public LessonTypes LessonType { get; set; }
 
         /// <summary>
-        /// Является ли пара потоковой
-        /// </summary>
-        [DataMember]
-        public bool IsStreaming { get; set; }
-
-        /// <summary>
-        /// Является ли пара подгрупповой
-        /// </summary>
-        [DataMember]
-        public bool IsSubgroup { get; set; }
-
-        /// <summary>
         /// При загрузке расписания отметка, проверена пара или нет
         /// </summary>
         [NotMapped]

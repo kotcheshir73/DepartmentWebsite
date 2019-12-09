@@ -9,28 +9,7 @@ namespace ScheduleImplementations
 {
     public static class ScheduleModelFactoryToViewModel
     {
-        public static ScheduleRecordViewModel CreateScheduleRecordViewModel(ScheduleRecord entity)
-        {
-            return new ScheduleRecordViewModel
-            {
-                Id = entity.Id,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
-        }
-
-        public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
+        public static SemesterRecordViewModel CreateRecordViewModel(this SemesterRecord entity)
         {
             return new SemesterRecordViewModel
             {
@@ -40,25 +19,23 @@ namespace ScheduleImplementations
                 Lesson = entity.Lesson,
                 NotParseRecord = entity.NotParseRecord,
                 IsFirstHalfSemester = entity.IsFirstHalfSemester,
-                IsStreaming = entity.IsStreaming,
-                IsSubgroup = entity.IsSubgroup,
                 LessonClassroom = entity.LessonClassroom,
                 LessonGroup = entity.LessonGroup,
                 LessonDiscipline = entity.LessonDiscipline,
                 LessonLecturer = entity.LessonLecturer,
-                LessonType = entity.LessonType.ToString(),
+                LessonType = entity.LessonType,
                 ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
+                Classroom = entity.Classroom?.ToString(),
                 DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
+                Discipline = entity.Discipline?.ToString(),
                 LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                Lecturer = entity.Lecturer?.ToString(),
                 StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+                StudentGroup = entity.StudentGroup?.ToString()
             };
         }
 
-        public static SemesterRecordShortViewModel CreateSemesterRecordShortViewModel(SemesterRecord entity)
+        public static SemesterRecordShortViewModel CreateRecordShortViewModel(this SemesterRecord entity)
         {
             return new SemesterRecordShortViewModel
             {
@@ -66,9 +43,7 @@ namespace ScheduleImplementations
                 Week = entity.Week,
                 Day = entity.Day,
                 Lesson = entity.Lesson,
-                LessonType = entity.LessonType.ToString(),
-                IsStreaming = entity.IsStreaming,
-                IsSubgroup = entity.IsSubgroup,
+                LessonType = entity.LessonType,
                 LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
                 LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
                 LessonGroup = ScheduleHelper.GetLessonGroup(entity),
@@ -76,7 +51,7 @@ namespace ScheduleImplementations
             };
         }
 
-        public static OffsetRecordViewModel CreateOffsetRecordViewModel(OffsetRecord entity)
+        public static OffsetRecordViewModel CreateRecordViewModel(this OffsetRecord entity)
         {
             return new OffsetRecordViewModel
             {
@@ -90,17 +65,17 @@ namespace ScheduleImplementations
                 LessonDiscipline = entity.LessonDiscipline,
                 LessonLecturer = entity.LessonLecturer,
                 ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
+                Classroom = entity.Classroom?.ToString(),
                 DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
+                Discipline = entity.Discipline?.ToString(),
                 LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                Lecturer = entity.Lecturer?.ToString(),
                 StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+                StudentGroup = entity.StudentGroup?.ToString()
             };
         }
 
-        public static OffsetRecordShortViewModel CreateOffsetRecordShortViewModel(OffsetRecord entity)
+        public static OffsetRecordShortViewModel CreateRecordShortViewModel(this OffsetRecord entity)
         {
             return new OffsetRecordShortViewModel
             {
@@ -115,7 +90,7 @@ namespace ScheduleImplementations
             };
         }
 
-        public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
+        public static ExaminationRecordViewModel CreateRecordViewModel(this ExaminationRecord entity)
         {
             return new ExaminationRecordViewModel
             {
@@ -129,19 +104,19 @@ namespace ScheduleImplementations
                 LessonDiscipline = entity.LessonDiscipline,
                 LessonLecturer = entity.LessonLecturer,
                 ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
+                Classroom = entity.Classroom?.ToString(),
                 ConsultationClassroomId = entity.ConsultationClassroomId,
-                ConsultationClassroom = entity.ConsultationClassroomId != null ? entity.ConsultationClassroom.Number : "",
+                ConsultationClassroom = entity.ConsultationClassroomId?.ToString(),
                 DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
+                Discipline = entity.Discipline?.ToString(),
                 LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                Lecturer = entity.Lecturer?.ToString(),
                 StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+                StudentGroup = entity.StudentGroup?.ToString()
             };
         }
 
-        public static ExaminationRecordShortViewModel CreateExaminationRecordShortViewModel(ExaminationRecord entity)
+        public static ExaminationRecordShortViewModel CreateRecordShortViewModel(this ExaminationRecord entity)
         {
             return new ExaminationRecordShortViewModel
             {
@@ -156,7 +131,7 @@ namespace ScheduleImplementations
             };
         }
 
-        public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
+        public static ConsultationRecordViewModel CreateRecordViewModel(this ConsultationRecord entity)
         {
             return new ConsultationRecordViewModel
             {
@@ -168,24 +143,21 @@ namespace ScheduleImplementations
                 LessonDiscipline = entity.LessonDiscipline,
                 LessonLecturer = entity.LessonLecturer,
                 ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
+                Classroom = entity.Classroom?.ToString(),
                 DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
+                Discipline = entity.Discipline?.ToString(),
                 LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
+                Lecturer = entity.Lecturer?.ToString(),
                 StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
+                StudentGroup = entity.StudentGroup?.ToString()
             };
         }
 
-        public static ConsultationRecordShortViewModel CreateConsultationRecordShortViewModel(ConsultationRecord entity, ConsultationRecordRecordBindingModel model)
+        public static ConsultationRecordShortViewModel CreateRecordShortViewModel(this ConsultationRecord entity)
         {
             return new ConsultationRecordShortViewModel
             {
                 Id = entity.Id,
-                Week = model.Week.Value,
-                Day = model.Day.Value,
-                Lesson = model.Lesson.Value,
                 DateConsultation = entity.DateConsultation,
                 LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
                 LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
@@ -194,30 +166,19 @@ namespace ScheduleImplementations
             };
         }
 
-        public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
+        public static ScheduleLessonTimeViewModel CreateViewModel(this ScheduleLessonTime entity)
         {
-            string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
-                entity.DateEndLesson.ToShortTimeString());
             return new ScheduleLessonTimeViewModel
             {
                 Id = entity.Id,
-                Text = text,
+                Text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
+                entity.DateEndLesson.ToShortTimeString()),
                 Title = entity.Title,
                 Order = entity.Order,
                 TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
                 TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
                 DateBeginLesson = entity.DateBeginLesson,
                 DateEndLesson = entity.DateEndLesson
-            };
-        }
-
-        public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
-        {
-            return new StreamingLessonViewModel
-            {
-                Id = entity.Id,
-                IncomingGroups = entity.IncomingGroups,
-                StreamName = entity.StreamName
             };
         }
     }

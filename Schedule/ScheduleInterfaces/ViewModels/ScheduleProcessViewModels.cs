@@ -9,7 +9,7 @@ namespace ScheduleInterfaces.ViewModels
     {
         public ScheduleRecordTypeForDiscipline Type { get; set; }
 
-        public string LessonType { get; set; }
+        public LessonTypes LessonType { get; set; }
 
         public string Date { get; set; }
     }

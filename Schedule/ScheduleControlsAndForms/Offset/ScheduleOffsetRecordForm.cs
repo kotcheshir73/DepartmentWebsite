@@ -226,7 +226,7 @@ namespace ScheduleControlsAndForms.Offset
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateOffsetRecord(new OffsetRecordRecordBindingModel
+                    result = _service.CreateOffsetRecord(new OffsetRecordSetBindingModel
                     {
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
@@ -245,7 +245,7 @@ namespace ScheduleControlsAndForms.Offset
                 }
                 else
                 {
-                    result = _service.UpdateOffsetRecord(new OffsetRecordRecordBindingModel
+                    result = _service.UpdateOffsetRecord(new OffsetRecordSetBindingModel
                     {
                         Id = _id.Value,
                         Week = comboBoxWeek.SelectedIndex,

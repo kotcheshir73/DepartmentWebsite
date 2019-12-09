@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Enums;
+using System;
 
 namespace ScheduleInterfaces.ViewModels
 {
@@ -13,11 +14,7 @@ namespace ScheduleInterfaces.ViewModels
 
 		public int Lesson { get; set; }
 
-		public string LessonType { get; set; }
-
-		public bool IsStreaming { get; set; }
-
-        public bool IsSubgroup { get; set; }
+		public LessonTypes LessonType { get; set; }
 
         public string Text
 		{
@@ -39,12 +36,8 @@ namespace ScheduleInterfaces.ViewModels
 
 		public int Lesson { get; set; }
 
-		public string LessonType { get; set; }
+		public LessonTypes LessonType { get; set; }
 
         public bool IsFirstHalfSemester { get; set; }
-
-        public bool IsStreaming { get; set; }
-
-        public bool IsSubgroup { get; set; }
     }
 }

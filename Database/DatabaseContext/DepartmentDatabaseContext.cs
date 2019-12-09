@@ -137,7 +137,6 @@ namespace DatabaseContext
         public virtual DbSet<OffsetRecord> OffsetRecords { set; get; }
         public virtual DbSet<SemesterRecord> SemesterRecords { set; get; }
         public virtual DbSet<ScheduleLessonTime> ScheduleLessonTimes { set; get; }
-        public virtual DbSet<StreamingLesson> StreamingLessons { set; get; }
         #endregion
 
         #region Web

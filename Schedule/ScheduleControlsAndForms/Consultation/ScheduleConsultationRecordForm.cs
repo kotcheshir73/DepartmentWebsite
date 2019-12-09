@@ -227,7 +227,7 @@ namespace ScheduleControlsAndForms.Consultation
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateConsultationRecord(new ConsultationRecordRecordBindingModel
+                    result = _service.CreateConsultationRecord(new ConsultationRecordSetBindingModel
                     {
                         DateConsultation = dateTimePickerDateConsultation.Value,
 
@@ -244,7 +244,7 @@ namespace ScheduleControlsAndForms.Consultation
                 }
                 else
                 {
-                    result = _service.UpdateConsultationRecord(new ConsultationRecordRecordBindingModel
+                    result = _service.UpdateConsultationRecord(new ConsultationRecordSetBindingModel
                     {
                         Id = _id.Value,
                         DateConsultation = dateTimePickerDateConsultation.Value,

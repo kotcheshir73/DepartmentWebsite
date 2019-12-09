@@ -1,7 +1,6 @@
 ﻿using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
-using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -62,14 +61,9 @@ namespace ScheduleImplementations.Services
                                             .Include(x => x.Lecturer)
                                             .Include(x => x.StudentGroup);
 
-                    var records = selectedRecords.ToList();
-                    List<OffsetRecordShortViewModel> result = new List<OffsetRecordShortViewModel>();
-                    for (int i = 0; i < records.Count; ++i)
-                    {
-                        result.Add(ScheduleModelFactoryToViewModel.CreateOffsetRecordShortViewModel(records[i]));
-                    }
+                    selectedRecords = selectedRecords.OrderBy(s => s.Week).ThenBy(s => s.Day).ThenBy(s => s.Lesson);
 
-                    return ResultService<List<OffsetRecordShortViewModel>>.Success(result.OrderBy(x => x.Id).ToList());
+                    return ResultService<List<OffsetRecordShortViewModel>>.Success(selectedRecords.Select(x => x.CreateRecordShortViewModel()).ToList());
                 }
             }
             catch (Exception ex)
@@ -88,13 +82,16 @@ namespace ScheduleImplementations.Services
                 {
                     var entity = context.OffsetRecords
                                 .Where(x => x.Id == model.Id)
-                                .Include(x => x.Classroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
+                                .Include(x => x.Classroom)
+                                .Include(x => x.Discipline)
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<OffsetRecordViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    return ResultService<OffsetRecordViewModel>.Success(ScheduleModelFactoryToViewModel.CreateOffsetRecordViewModel(entity));
+                    return ResultService<OffsetRecordViewModel>.Success(entity.CreateRecordViewModel());
                 }
             }
             catch (Exception ex)
@@ -103,7 +100,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService CreateOffsetRecord(OffsetRecordRecordBindingModel model)
+		public ResultService CreateOffsetRecord(OffsetRecordSetBindingModel model)
 		{
             try
             {
@@ -113,16 +110,8 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entry = context.OffsetRecords.FirstOrDefault(x => x.Week == model.Week && x.Day == model.Day && x.Lesson == model.Lesson &&
-                                                                                x.ClassroomId == model.ClassroomId &&
-                                                                                x.SeasonDatesId == seasonDate.Id);
-
-                    if (entry != null)
-                    {
-                        return ResultService.Error("Error:", "Запись уже существует", ResultServiceStatusCode.ExsistItem);
-                    }
-
-                    var entity = ScheduleModelFacotryFromBindingModel.CreateOffsetRecord(model, seasonDate: seasonDate);
+                    model.SeasonDatesId = seasonDate.Id;
+                    var entity = model.CreateRecord();
 
                     context.OffsetRecords.Add(entity);
                     context.SaveChanges();
@@ -136,7 +125,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService UpdateOffsetRecord(OffsetRecordRecordBindingModel model)
+		public ResultService UpdateOffsetRecord(OffsetRecordSetBindingModel model)
 		{
             try
             {
@@ -144,13 +133,13 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.OffsetRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.OffsetRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    entity = ScheduleModelFacotryFromBindingModel.CreateOffsetRecord(model, entity);
+
+                    entity = model.CreateRecord(entity);
                     context.SaveChanges();
 
                     return ResultService.Success();
@@ -170,8 +159,7 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.OffsetRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.OffsetRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

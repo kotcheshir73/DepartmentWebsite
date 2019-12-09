@@ -32,8 +32,6 @@ namespace ScheduleImplementations.Services
 
         private readonly IScheduleLessonTimeService _serviceSLT;
 
-        private readonly IStreamingLessonService _serviceSL;
-
         private readonly ISemesterRecordService _serviceSR;
 
         private readonly IOffsetRecordService _serviceOR;
@@ -43,7 +41,7 @@ namespace ScheduleImplementations.Services
         private readonly IConsultationRecordService _serviceCR;
 
         public ScheduleProcess(IClassroomService serviceC, IDisciplineService serviceD, ILecturerService serviceL, IStudentGroupService serviceG,
-            ISeasonDatesService serviceSD, IScheduleLessonTimeService serviceSLT, IStreamingLessonService serviceSL,
+            ISeasonDatesService serviceSD, IScheduleLessonTimeService serviceSLT, 
             ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
             IConsultationRecordService serviceCR)
         {
@@ -53,7 +51,6 @@ namespace ScheduleImplementations.Services
             _serviceG = serviceG;
             _serviceSD = serviceSD;
             _serviceSLT = serviceSLT;
-            _serviceSL = serviceSL;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
             _serviceER = serviceER;
@@ -180,7 +177,7 @@ namespace ScheduleImplementations.Services
                         Id = rec.Id,
                         Type = ScheduleRecordTypeForDiscipline.Semester,
                         Date = string.Format("{0} нед., {1} {2} пара", rec.Week + 1, days[rec.Day], rec.Lesson + 1),
-                        LessonType = "зачет",
+                        LessonType = LessonTypes.зачет,
                         LessonClassroom = rec.LessonClassroom,
                         LessonDiscipline = rec.LessonDiscipline,
                         LessonLecturer = rec.LessonLecturer,
@@ -200,7 +197,7 @@ namespace ScheduleImplementations.Services
                         Id = rec.Id,
                         Type = ScheduleRecordTypeForDiscipline.Semester,
                         Date = string.Format("Конс:{0}, Экз:{1}", rec.DateConsultation.ToShortDateString(), rec.DateExamination.ToShortDateString()),
-                        LessonType = "экзамен",
+                        LessonType = LessonTypes.экзамен,
                         LessonClassroom = rec.LessonClassroom,
                         LessonDiscipline = rec.LessonDiscipline,
                         LessonLecturer = rec.LessonLecturer,
@@ -220,7 +217,7 @@ namespace ScheduleImplementations.Services
                         Id = rec.Id,
                         Type = ScheduleRecordTypeForDiscipline.Semester,
                         Date = string.Format("Дата:{0}, Время:{1}", rec.DateConsultation.ToShortDateString(), rec.DateConsultation.ToShortTimeString()),
-                        LessonType = "консультация",
+                        LessonType = LessonTypes.конс,
                         LessonClassroom = rec.LessonClassroom,
                         LessonDiscipline = rec.LessonDiscipline,
                         LessonLecturer = rec.LessonLecturer,
@@ -281,8 +278,7 @@ namespace ScheduleImplementations.Services
                                 var searchMatches = context.SemesterRecords.FirstOrDefault(sr =>
             (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
             (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) &&
-            (sr.LessonClassroom == record.LessonClassroom || (sr.ClassroomId == record.ClassroomId && sr.ClassroomId.HasValue)) &&
-            !sr.IsStreaming && sr.Id != record.Id);
+            (sr.LessonClassroom == record.LessonClassroom || (sr.ClassroomId == record.ClassroomId && sr.ClassroomId.HasValue)) && sr.Id != record.Id);
                                 if (searchMatches != null)
                                 {
                                     record.LessonDiscipline = searchMatches.LessonDiscipline;
@@ -296,8 +292,7 @@ namespace ScheduleImplementations.Services
                                 {//если в этой аудитории нет такой пары, то ищем по другим аудиториям
                                     searchMatches = context.SemesterRecords.FirstOrDefault(sr =>
             (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
-            (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) &&
-            !sr.IsStreaming && sr.Id != record.Id);
+            (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) && sr.Id != record.Id);
                                     if (searchMatches != null)
                                     {
                                         record.LessonDiscipline = searchMatches.LessonDiscipline;
@@ -316,8 +311,7 @@ namespace ScheduleImplementations.Services
                                                         (sr.LessonLecturer == record.LessonLecturer || sr.LecturerId == record.LecturerId) &&
                                                         (sr.LessonClassroom == record.LessonClassroom || sr.ClassroomId == record.ClassroomId) &&
                                                         (sr.LessonDiscipline == record.LessonDiscipline) &&
-                                                        (sr.LessonType != record.LessonType) &&
-                                                        !sr.IsStreaming && sr.Id != record.Id);
+                                                        (sr.LessonType != record.LessonType) && sr.Id != record.Id);
                                 if (searchMatches != null)
                                 {
                                     record.LessonType = searchMatches.LessonType;
@@ -332,8 +326,7 @@ namespace ScheduleImplementations.Services
                                                         (sr.LessonLecturer == record.LessonLecturer || sr.LecturerId == record.LecturerId) &&
                                                         (sr.ClassroomId == record.ClassroomId && sr.Classroom.ClassroomType == record.Classroom.ClassroomType) &&
                                                         (sr.LessonDiscipline == record.LessonDiscipline) &&
-                                                        (sr.LessonType != record.LessonType) &&
-                                                        !sr.IsStreaming && sr.Id != record.Id);
+                                                        (sr.LessonType != record.LessonType) && sr.Id != record.Id);
                                         if (searchMatches != null)
                                         {
                                             record.LessonType = searchMatches.LessonType;
@@ -400,7 +393,7 @@ namespace ScheduleImplementations.Services
                     {
                         for (int lesson = 0; lesson < 8; lesson++)
                         {
-                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл.ToString() &&
+                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл &&
                                                         x.LessonClassroom == model.Classrooms[classroom]).OrderBy(x => x.LessonGroup);
                             if (elems != null && elems.Count() > 0)
                             {
@@ -414,8 +407,6 @@ namespace ScheduleImplementations.Services
                                             Week = week,
                                             Day = day,
                                             Lesson = lesson,
-                                            IsStreaming = false,
-                                            IsSubgroup = false,
                                             LessonType = elems.First().LessonType,
                                             LessonClassroom = elems.First().LessonClassroom,
                                             LessonDiscipline = elems.First().LessonDiscipline,
@@ -443,8 +434,6 @@ namespace ScheduleImplementations.Services
                                                     Week = week,
                                                     Day = day,
                                                     Lesson = lesson,
-                                                    IsStreaming = false,
-                                                    IsSubgroup = true,
                                                     LessonType = elem.LessonType,
                                                     LessonClassroom = elem.LessonClassroom,
                                                     LessonDiscipline = elem.LessonDiscipline,
@@ -462,14 +451,6 @@ namespace ScheduleImplementations.Services
                                     else
                                     {
                                         string groups = string.Join(",", elems.Select(x => x.LessonGroup));
-                                        var stream = _serviceSL.GetStreamingLesson(new StreamingLessonGetBindingModel
-                                        {
-                                            IncomingGroups = groups
-                                        });
-                                        if (stream.Succeeded)
-                                        {
-                                            groups = stream.Result.StreamName;
-                                        }
                                         var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
                                         if (exs == null)
                                         {
@@ -478,8 +459,6 @@ namespace ScheduleImplementations.Services
                                                 Week = week,
                                                 Day = day,
                                                 Lesson = lesson,
-                                                IsStreaming = true,
-                                                IsSubgroup = false,
                                                 LessonType = elems.First().LessonType,
                                                 LessonClassroom = elems.First().LessonClassroom,
                                                 LessonDiscipline = elems.First().LessonDiscipline,
@@ -585,7 +564,7 @@ namespace ScheduleImplementations.Services
                     {
                         for (int lesson = 0; lesson < 8; lesson++)
                         {
-                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл.ToString() &&
+                            var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonType != LessonTypes.удл &&
                                                         x.LessonClassroom == model.Classrooms[classroom]).OrderBy(x => x.LessonGroup);
                             if (elems != null && elems.Count() > 0)
                             {
@@ -599,8 +578,6 @@ namespace ScheduleImplementations.Services
                                             Week = week,
                                             Day = day,
                                             Lesson = lesson,
-                                            IsStreaming = false,
-                                            IsSubgroup = false,
                                             LessonType = elems.First().LessonType,
                                             LessonClassroom = elems.First().LessonClassroom,
                                             LessonDiscipline = elems.First().LessonDiscipline,
@@ -628,8 +605,6 @@ namespace ScheduleImplementations.Services
                                                     Week = week,
                                                     Day = day,
                                                     Lesson = lesson,
-                                                    IsStreaming = false,
-                                                    IsSubgroup = true,
                                                     LessonType = elem.LessonType,
                                                     LessonClassroom = elem.LessonClassroom,
                                                     LessonDiscipline = elem.LessonDiscipline,
@@ -647,14 +622,6 @@ namespace ScheduleImplementations.Services
                                     else
                                     {
                                         string groups = string.Join(",", elems.Select(x => x.LessonGroup));
-                                        var stream = _serviceSL.GetStreamingLesson(new StreamingLessonGetBindingModel
-                                        {
-                                            IncomingGroups = groups
-                                        });
-                                        if (stream.Succeeded)
-                                        {
-                                            groups = stream.Result.StreamName;
-                                        }
                                         var exs = records.FirstOrDefault(x => x.Week == week && x.Day == day && x.Lesson == lesson && x.LessonClassroom == elems.First().LessonClassroom);
                                         if (exs == null)
                                         {
@@ -663,8 +630,6 @@ namespace ScheduleImplementations.Services
                                                 Week = week,
                                                 Day = day,
                                                 Lesson = lesson,
-                                                IsStreaming = true,
-                                                IsSubgroup = false,
                                                 LessonType = elems.First().LessonType,
                                                 LessonClassroom = elems.First().LessonClassroom,
                                                 LessonDiscipline = elems.First().LessonDiscipline,

@@ -26,14 +26,14 @@ namespace ScheduleInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateConsultationRecord(ConsultationRecordRecordBindingModel model);
+        ResultService CreateConsultationRecord(ConsultationRecordSetBindingModel model);
 
         /// <summary>
         /// Изменение записи о консультации
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateConsultationRecord(ConsultationRecordRecordBindingModel model);
+        ResultService UpdateConsultationRecord(ConsultationRecordSetBindingModel model);
 
         /// <summary>
         /// Удаление записи о консультации

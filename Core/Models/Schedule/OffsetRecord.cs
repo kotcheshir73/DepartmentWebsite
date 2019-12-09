@@ -23,12 +23,6 @@ namespace Models.Schedule
         public int Lesson { get; set; }
 
         /// <summary>
-        /// Является ли пара потоковой
-        /// </summary>
-        [DataMember]
-        public bool IsStreaming { get; set; }
-
-        /// <summary>
         /// При загрузке расписания отметка, проверен зачет или нет
         /// </summary>
         [NotMapped]

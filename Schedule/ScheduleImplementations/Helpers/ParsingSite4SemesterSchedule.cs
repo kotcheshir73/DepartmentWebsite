@@ -19,7 +19,7 @@ namespace ScheduleServiceImplementations.Helpers
     {
         private static SeasonDates _seasonDate;
 
-        private static List<SemesterRecordRecordBindingModel> _findRecords;
+        private static List<SemesterRecordSetBindingModel> _findRecords;
 
         public static ResultService ImportHtml(ImportToSemesterFromHTMLBindingModel model)
         {
@@ -182,7 +182,7 @@ namespace ScheduleServiceImplementations.Helpers
         /// <param name="text"></param>
         /// <param name="recordFirst"></param>
         /// <param name="recordSecond"></param>
-        private static void AnalisString(string text, SemesterRecordRecordBindingModel recordFirst, SemesterRecordRecordBindingModel recordSecond)
+        private static void AnalisString(string text, SemesterRecordSetBindingModel recordFirst, SemesterRecordSetBindingModel recordSecond)
         {
             recordFirst.NotParseRecord = recordSecond.NotParseRecord = text;
             text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").Replace("\r\n", "").TrimStart();
@@ -196,7 +196,7 @@ namespace ScheduleServiceImplementations.Helpers
                     if (text.StartsWith("Физкультура"))
                     {
                         recordFirst.LessonDiscipline = "Физкультура";
-                        recordFirst.LessonType = LessonTypes.нд.ToString();
+                        recordFirst.LessonType = LessonTypes.нд;
                         if (!string.IsNullOrEmpty(recordFirst.LessonGroup))
                         {
                             var group = context.StudentGroups.FirstOrDefault(sg => sg.GroupName == recordFirst.LessonGroup && !sg.IsDeleted);
@@ -249,20 +249,20 @@ namespace ScheduleServiceImplementations.Helpers
                     currentRecord.LessonDiscipline = lessonText.Substring(0, lessonText.IndexOf(currentRecord.LessonLecturer)).TrimEnd();
 
                     // оперделяем тип занятия
-                    currentRecord.LessonType = LessonTypes.нд.ToString();
+                    currentRecord.LessonType = LessonTypes.нд;
                     if (currentRecord.LessonDiscipline.StartsWith("лек."))
                     {
-                        currentRecord.LessonType = LessonTypes.лек.ToString();
+                        currentRecord.LessonType = LessonTypes.лек;
                         currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
                     }
                     if (currentRecord.LessonDiscipline.StartsWith("пр."))
                     {
-                        currentRecord.LessonType = LessonTypes.пр.ToString();
+                        currentRecord.LessonType = LessonTypes.пр;
                         currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 3);
                     }
                     if (currentRecord.LessonDiscipline.StartsWith("лаб."))
                     {
-                        currentRecord.LessonType = LessonTypes.лаб.ToString();
+                        currentRecord.LessonType = LessonTypes.лаб;
                         currentRecord.LessonDiscipline = currentRecord.LessonDiscipline.Remove(0, 4);
                     }
 
@@ -295,7 +295,7 @@ namespace ScheduleServiceImplementations.Helpers
         /// Проверяем добавляемую пару на конфликты
         /// </summary>
         /// <param name="record"></param>
-        private static ResultService CheckNewSemesterRecordForConflict(SemesterRecordRecordBindingModel record)
+        private static ResultService CheckNewSemesterRecordForConflict(SemesterRecordSetBindingModel record)
         {
             try
             {
@@ -315,8 +315,6 @@ namespace ScheduleServiceImplementations.Helpers
                         exsistRecord.LessonLecturer == record.LessonLecturer &&
                         exsistRecord.LessonType == record.LessonType)
                     {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковое занятие
-                        record.IsStreaming = true;
-                        exsistRecord.IsStreaming = true;
                     }
                     else
                     {
@@ -332,10 +330,9 @@ namespace ScheduleServiceImplementations.Helpers
                 if (exsistRecord != null)
                 {//если на этой неделе в этот день этой парой у этой группы уже есть занятие
                     if (exsistRecord.LessonType == record.LessonType ||
-                                        exsistRecord.LessonType == LessonTypes.нд.ToString() || record.LessonType == LessonTypes.нд.ToString())
+                                        exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд)
                     {//если совпадает тип занятия (или у одного из занятий неизвестен тип), но аудитории разные, то это лабораторные по подгруппам
-                        exsistRecord.IsSubgroup = true;
-                        record.IsSubgroup = true;
+                       
                     }
                     else
                     {
@@ -400,21 +397,21 @@ namespace ScheduleServiceImplementations.Helpers
                         // если пар несколько (проверяем, что потоковые)
                         else if (searchRecords.Count > 1)
                         {
-                            var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
-                            if (notStreamRecrods != null)
-                            {
-                                return ResultService.Error("Конфликт (аудитории) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                                    notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
-                                    record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                            }
-                            // ищем потоковую пару по группе
-                            var streamRecord = searchRecords.Where(rec =>
-                                                            (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
-                            if (streamRecord != null)
-                            {
-                                streamRecord.Id = record.Id;
-                                record.Checked = true;
-                            }
+                            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
+                            //if (notStreamRecrods != null)
+                            //{
+                            //    return ResultService.Error("Конфликт (аудитории) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
+                            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                            //}
+                            //// ищем потоковую пару по группе
+                            //var streamRecord = searchRecords.Where(rec =>
+                            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
+                            //if (streamRecord != null)
+                            //{
+                            //    streamRecord.Id = record.Id;
+                            //    record.Checked = true;
+                            //}
                         }
                     }
                 }
@@ -477,21 +474,21 @@ namespace ScheduleServiceImplementations.Helpers
                         // если пар несколько (проверяем, что потоковые)
                         else if (searchRecords.Count > 1)
                         {
-                            var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
-                            if (notStreamRecrods != null)
-                            {
-                                return ResultService.Error("Конфликт (преподаватель) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                                    notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
-                                    record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                            }
-                            // ищем потоковую пару по группе
-                            var streamRecrod = searchRecords.Where(rec =>
-                                                            (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
-                            if (streamRecrod != null)
-                            {
-                                streamRecrod.Id = record.Id;
-                                record.Checked = true;
-                            }
+                            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
+                            //if (notStreamRecrods != null)
+                            //{
+                            //    return ResultService.Error("Конфликт (преподаватель) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
+                            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                            //}
+                            //// ищем потоковую пару по группе
+                            //var streamRecrod = searchRecords.Where(rec =>
+                            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
+                            //if (streamRecrod != null)
+                            //{
+                            //    streamRecrod.Id = record.Id;
+                            //    record.Checked = true;
+                            //}
                         }
                     }
                 }
@@ -519,21 +516,21 @@ namespace ScheduleServiceImplementations.Helpers
                         // если пар несколько (проверяем, что потоковые)
                         else if (searchRecords.Count > 1)
                         {
-                            var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
-                            if (notStreamRecrods != null)
-                            {
-                                return ResultService.Error("Конфликт (дисциплина) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                                    notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
-                                    record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                            }
-                            // ищем потоковую пару по группе
-                            var streamRecrod = searchRecords.Where(rec =>
-                                                            (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
-                            if (streamRecrod != null)
-                            {
-                                streamRecrod.Id = record.Id;
-                                record.Checked = true;
-                            }
+                            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
+                            //if (notStreamRecrods != null)
+                            //{
+                            //    return ResultService.Error("Конфликт (дисциплина) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
+                            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                            //}
+                            //// ищем потоковую пару по группе
+                            //var streamRecrod = searchRecords.Where(rec =>
+                            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
+                            //if (streamRecrod != null)
+                            //{
+                            //    streamRecrod.Id = record.Id;
+                            //    record.Checked = true;
+                            //}
                         }
                     }
                 }
@@ -559,7 +556,7 @@ namespace ScheduleServiceImplementations.Helpers
                                 return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                             }
 
-                            entity = ScheduleModelFacotryFromBindingModel.CreateSemesterRecord(record, entity);
+                            entity = ScheduleModelFacotryFromBindingModel.CreateRecord(record, entity);
                             context.SaveChanges();
                         }
 
@@ -567,7 +564,8 @@ namespace ScheduleServiceImplementations.Helpers
                         var unknowRecords = _findRecords.Where(sr => sr.Id == Guid.Empty).ToList();
                         foreach (var record in unknowRecords)
                         {
-                            var entity = ScheduleModelFacotryFromBindingModel.CreateSemesterRecord(record, seasonDate: _seasonDate);
+                            record.SeasonDatesId = _seasonDate.Id;
+                            var entity = record.CreateRecord();
 
                             context.SemesterRecords.Add(entity);
                             context.SaveChanges();

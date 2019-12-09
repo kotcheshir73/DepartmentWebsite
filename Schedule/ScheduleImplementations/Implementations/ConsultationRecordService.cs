@@ -1,7 +1,6 @@
 ﻿using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
-using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -121,28 +120,9 @@ namespace ScheduleImplementations.Services
                                             .Include(x => x.Lecturer)
                                             .Include(x => x.StudentGroup);
 
-                    var records = selectedRecords.ToList();
+                    selectedRecords = selectedRecords.OrderBy(s => s.DateConsultation);
 
-                    ConsultationRecordRecordBindingModel record;
-                    List<ConsultationRecordShortViewModel> result = new List<ConsultationRecordShortViewModel>();
-                    for (int i = 0; i < records.Count; ++i)
-                    {
-                        record = new ConsultationRecordRecordBindingModel
-                        {
-                            ClassroomId = model.ClassroomId,
-                            LecturerId = model.LecturerId,
-                            StudentGroupId = model.StudentGroupId,
-                            DateConsultation = records[i].DateConsultation
-                        };
-                        var seasonDate = model.SeasonDateId.HasValue ?
-                                                context.SeasonDates.FirstOrDefault(x => x.Id == model.SeasonDateId.Value) :
-                                                DepartmentUserManager.GetCurrentDates();
-                        ScheduleHelper.CheckCreateConsultation(record, seasonDate);
-
-                        result.Add(ScheduleModelFactoryToViewModel.CreateConsultationRecordShortViewModel(records[i], record));
-                    }
-
-                    return ResultService<List<ConsultationRecordShortViewModel>>.Success(result.OrderBy(x => x.Id).ToList());
+                    return ResultService<List<ConsultationRecordShortViewModel>>.Success(selectedRecords.Select(x => x.CreateRecordShortViewModel()).ToList());
                 }
             }
             catch (Exception ex)
@@ -161,13 +141,16 @@ namespace ScheduleImplementations.Services
                 {
                     var entity = context.ConsultationRecords
                                 .Where(x => x.Id == model.Id)
-                                .Include(x => x.Classroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
+                                .Include(x => x.Classroom)
+                                .Include(x => x.Discipline)
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<ConsultationRecordViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    return ResultService<ConsultationRecordViewModel>.Success(ScheduleModelFactoryToViewModel.CreateConsultationRecordViewModel(entity));
+                    return ResultService<ConsultationRecordViewModel>.Success(entity.CreateRecordViewModel());
                 }
             }
             catch (Exception ex)
@@ -176,7 +159,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService CreateConsultationRecord(ConsultationRecordRecordBindingModel model)
+		public ResultService CreateConsultationRecord(ConsultationRecordSetBindingModel model)
 		{
             try
             {
@@ -186,9 +169,8 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    ScheduleHelper.CheckCreateConsultation(model, seasonDate);
-
-                    var entity = ScheduleModelFacotryFromBindingModel.CreateConsultationRecord(model, seasonDate: seasonDate);
+                    model.SeasonDatesId = seasonDate.Id;
+                    var entity = model.CreateRecord();
 
                     context.ConsultationRecords.Add(entity);
                     context.SaveChanges();
@@ -202,7 +184,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService UpdateConsultationRecord(ConsultationRecordRecordBindingModel model)
+		public ResultService UpdateConsultationRecord(ConsultationRecordSetBindingModel model)
 		{
             try
             {
@@ -210,13 +192,13 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.ConsultationRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.ConsultationRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    entity = ScheduleModelFacotryFromBindingModel.CreateConsultationRecord(model, entity);
+
+                    entity = model.CreateRecord(entity);
                     context.SaveChanges();
 
                     return ResultService.Success();
@@ -236,8 +218,7 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.ConsultationRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.ConsultationRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

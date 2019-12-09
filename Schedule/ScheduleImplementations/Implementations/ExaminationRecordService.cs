@@ -1,7 +1,6 @@
 ﻿using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
-using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -63,14 +62,9 @@ namespace ScheduleImplementations.Services
                                             .Include(x => x.Lecturer)
                                             .Include(x => x.StudentGroup);
 
-                    var records = selectedRecords.ToList();
-                    List<ExaminationRecordShortViewModel> result = new List<ExaminationRecordShortViewModel>();
-                    for (int i = 0; i < records.Count; ++i)
-                    {
-                        result.Add(ScheduleModelFactoryToViewModel.CreateExaminationRecordShortViewModel(records[i]));
-                    }
+                    selectedRecords = selectedRecords.OrderBy(s => s.DateExamination);
 
-                    return ResultService<List<ExaminationRecordShortViewModel>>.Success(result.OrderBy(x => x.Id).ToList());
+                    return ResultService<List<ExaminationRecordShortViewModel>>.Success(selectedRecords.Select(x => x.CreateRecordShortViewModel()).ToList());
                 }
             }
             catch (Exception ex)
@@ -89,13 +83,17 @@ namespace ScheduleImplementations.Services
                 {
                     var entity = context.ExaminationRecords
                                 .Where(x => x.Id == model.Id)
-                                .Include(x => x.Classroom).Include(x => x.ConsultationClassroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
+                                .Include(x => x.Classroom)
+                                .Include(x => x.ConsultationClassroom)
+                                .Include(x => x.Discipline)
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<ExaminationRecordViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    return ResultService<ExaminationRecordViewModel>.Success(ScheduleModelFactoryToViewModel.CreateExaminationRecordViewModel(entity));
+                    return ResultService<ExaminationRecordViewModel>.Success(entity.CreateRecordViewModel());
                 }
             }
             catch (Exception ex)
@@ -104,7 +102,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService CreateExaminationRecord(ExaminationRecordRecordBindingModel model)
+		public ResultService CreateExaminationRecord(ExaminationRecordSetBindingModel model)
 		{
             try
             {
@@ -114,14 +112,8 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entry = context.ExaminationRecords.FirstOrDefault(x => x.DateConsultation == model.DateConsultation && x.DateExamination == model.DateExamination &&
-                                                                                x.ClassroomId == model.ClassroomId && x.SeasonDatesId == seasonDate.Id);
-
-                    if (entry != null)
-                    {
-                        return ResultService.Error("Error:", "Запись уже существует", ResultServiceStatusCode.ExsistItem);
-                    }
-                    var entity = ScheduleModelFacotryFromBindingModel.CreateExaminationRecord(model, seasonDate: seasonDate);
+                    model.SeasonDatesId = seasonDate.Id;
+                    var entity = model.CreateRecord();
 
                     context.ExaminationRecords.Add(entity);
                     context.SaveChanges();
@@ -135,7 +127,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService UpdateExaminationRecord(ExaminationRecordRecordBindingModel model)
+		public ResultService UpdateExaminationRecord(ExaminationRecordSetBindingModel model)
 		{
             try
             {
@@ -143,13 +135,13 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.ExaminationRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.ExaminationRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    entity = ScheduleModelFacotryFromBindingModel.CreateExaminationRecord(model, entity);
+
+                    entity = model.CreateRecord(entity);
                     context.SaveChanges();
 
                     return ResultService.Success();
@@ -169,8 +161,7 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.ExaminationRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.ExaminationRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

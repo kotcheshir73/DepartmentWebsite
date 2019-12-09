@@ -26,14 +26,14 @@ namespace ScheduleInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateSemesterRecord(SemesterRecordRecordBindingModel model);
+        ResultService CreateSemesterRecord(SemesterRecordSetBindingModel model);
 
         /// <summary>
         /// Изменение записи о паре
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateSemesterRecord(SemesterRecordRecordBindingModel model);
+        ResultService UpdateSemesterRecord(SemesterRecordSetBindingModel model);
 
         /// <summary>
         /// Удаление записи о паре

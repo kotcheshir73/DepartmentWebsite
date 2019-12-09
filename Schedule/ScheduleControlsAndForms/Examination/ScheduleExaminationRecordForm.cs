@@ -226,7 +226,7 @@ namespace ScheduleControlsAndForms.Examination
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateExaminationRecord(new ExaminationRecordRecordBindingModel
+                    result = _service.CreateExaminationRecord(new ExaminationRecordSetBindingModel
                     {
                         DateConsultation = dateTimePickerDateConsultation.Value,
                         DateExamination = dateTimePickerDateExamination.Value,
@@ -246,7 +246,7 @@ namespace ScheduleControlsAndForms.Examination
                 }
                 else
                 {
-                    result = _service.UpdateExaminationRecord(new ExaminationRecordRecordBindingModel
+                    result = _service.UpdateExaminationRecord(new ExaminationRecordSetBindingModel
                     {
                         Id = _id.Value,
                         DateConsultation = dateTimePickerDateConsultation.Value,

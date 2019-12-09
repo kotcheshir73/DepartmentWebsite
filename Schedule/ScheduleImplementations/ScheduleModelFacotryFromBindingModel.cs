@@ -1,9 +1,7 @@
-﻿using Enums;
-using Models;
+﻿using Models;
 using Models.AcademicYearData;
 using Models.Schedule;
 using ScheduleInterfaces.BindingModels;
-using System;
 
 namespace ScheduleImplementations
 {
@@ -45,7 +43,7 @@ namespace ScheduleImplementations
             }
         }
 
-        public static SemesterRecord CreateSemesterRecord(SemesterRecordRecordBindingModel model, SemesterRecord entity = null, SeasonDates seasonDate = null)
+        public static SemesterRecord CreateRecord(this SemesterRecordSetBindingModel model, SemesterRecord entity = null)
         {
             if (entity == null)
             {
@@ -54,23 +52,18 @@ namespace ScheduleImplementations
                     Week = model.Week,
                     Day = model.Day,
                     Lesson = model.Lesson,
-                    SeasonDatesId = seasonDate.Id
+                    SeasonDatesId = model.SeasonDatesId.Value
                 };
             }
-            if (model.LessonType != LessonTypes.нд.ToString())
-            {
-                entity.LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), model.LessonType);
-            }
+            entity.LessonType = model.LessonType;
             entity.IsFirstHalfSemester = model.IsFirstHalfSemester;
-            entity.IsStreaming = model.IsStreaming;
-            entity.IsSubgroup = model.IsSubgroup;
             entity.NotParseRecord = model.NotParseRecord;
             CreateScheduleRecord(model, entity);
 
             return entity;
         }
 
-        public static OffsetRecord CreateOffsetRecord(OffsetRecordRecordBindingModel model, OffsetRecord entity = null, SeasonDates seasonDate = null)
+        public static OffsetRecord CreateRecord(this OffsetRecordSetBindingModel model, OffsetRecord entity = null)
         {
             if (entity == null)
             {
@@ -80,7 +73,7 @@ namespace ScheduleImplementations
                     Day = model.Day,
                     Lesson = model.Lesson,
                     NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = seasonDate.Id
+                    SeasonDatesId = model.SeasonDatesId.Value
                 };
             }
             CreateScheduleRecord(model, entity);
@@ -88,14 +81,14 @@ namespace ScheduleImplementations
             return entity;
         }
 
-        public static ExaminationRecord CreateExaminationRecord(ExaminationRecordRecordBindingModel model, ExaminationRecord entity = null, SeasonDates seasonDate = null)
+        public static ExaminationRecord CreateRecord(this ExaminationRecordSetBindingModel model, ExaminationRecord entity = null)
         {
             if (entity == null)
             {
                 entity = new ExaminationRecord()
                 {
                     NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = seasonDate.Id
+                    SeasonDatesId = model.SeasonDatesId.Value
                 };
             }
             entity.DateExamination = model.DateExamination;
@@ -107,14 +100,14 @@ namespace ScheduleImplementations
             return entity;
         }
 
-        public static ConsultationRecord CreateConsultationRecord(ConsultationRecordRecordBindingModel model, ConsultationRecord entity = null, SeasonDates seasonDate = null)
+        public static ConsultationRecord CreateRecord(this ConsultationRecordSetBindingModel model, ConsultationRecord entity = null)
         {
             if (entity == null)
             {
                 entity = new ConsultationRecord()
                 {
                     NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = seasonDate.Id
+                    SeasonDatesId = model.SeasonDatesId.Value
                 };
             }
             entity.DateConsultation = model.DateConsultation;
@@ -123,7 +116,7 @@ namespace ScheduleImplementations
             return entity;
         }
 
-        public static ScheduleLessonTime CreateScheduleLessonTime(ScheduleLessonTimeSetBindingModel model, ScheduleLessonTime entity = null)
+        public static ScheduleLessonTime CreateEntity(this ScheduleLessonTimeSetBindingModel model, ScheduleLessonTime entity = null)
         {
             if (entity == null)
             {
@@ -133,18 +126,6 @@ namespace ScheduleImplementations
             entity.Order = model.Order;
             entity.DateBeginLesson = model.DateBeginLesson;
             entity.DateEndLesson = model.DateEndLesson;
-
-            return entity;
-        }
-
-        public static StreamingLesson CreateStreamingLesson(StreamingLessonSetBindingModel model, StreamingLesson entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new StreamingLesson();
-            }
-            entity.IncomingGroups = model.IncomingGroups;
-            entity.StreamName = model.StreamName;
 
             return entity;
         }
