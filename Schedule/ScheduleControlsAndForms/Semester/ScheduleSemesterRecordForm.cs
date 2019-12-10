@@ -295,7 +295,7 @@ namespace ScheduleControlsAndForms.Semester
                     var model = new SemesterRecordSetBindingModel
                     {
                         Id = new Guid(dataGridViewRecords.Rows[i].Cells[0].Value.ToString()),
-                        LessonType = comboBoxLessonType.Text,
+                        LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
                         IsFirstHalfSemester = _isFirstHalfSemester
                     };
                     if (checkBoxClassroom.Checked)
@@ -385,7 +385,7 @@ namespace ScheduleControlsAndForms.Semester
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
-                        LessonType = comboBoxLessonType.Text,
+                        LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
                         NotParseRecord = textBoxNotParseRecord.Text,
                         IsFirstHalfSemester = _isFirstHalfSemester,
 
@@ -452,7 +452,7 @@ namespace ScheduleControlsAndForms.Semester
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
-                        LessonType = comboBoxLessonType.Text,
+                        LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
                         NotParseRecord = textBoxNotParseRecord.Text,
                         IsFirstHalfSemester = _isFirstHalfSemester,
 
@@ -475,7 +475,7 @@ namespace ScheduleControlsAndForms.Semester
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
-                        LessonType = comboBoxLessonType.Text,
+                        LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
                         NotParseRecord = textBoxNotParseRecord.Text,
                         IsFirstHalfSemester = _isFirstHalfSemester,
 

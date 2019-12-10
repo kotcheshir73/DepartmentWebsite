@@ -165,18 +165,6 @@
     <Compile Include="Semester\ScheduleSemesterTabControl.designer.cs">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="StreamingLesson\ControlStreamingLesson.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StreamingLesson\ControlStreamingLesson.designer.cs">
-      <DependentUpon>ControlStreamingLesson.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StreamingLesson\FormStreamingLesson.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StreamingLesson\FormStreamingLesson.designer.cs">
-      <DependentUpon>FormStreamingLesson.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -241,12 +229,7 @@
     <EmbeddedResource Include="Semester\ScheduleSemesterTabControl.resx">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StreamingLesson\ControlStreamingLesson.resx">
-      <DependentUpon>ControlStreamingLesson.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StreamingLesson\FormStreamingLesson.resx">
-      <DependentUpon>FormStreamingLesson.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include=".editorconfig" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

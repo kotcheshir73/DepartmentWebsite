@@ -1,12 +1,10 @@
 ﻿using AcademicYearInterfaces.ViewModels;
 using ControlsAndForms.Messangers;
-using ScheduleControlsAndForms.Consultation;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Tools;
 
 namespace ScheduleControlsAndForms.Offset
 {
@@ -16,22 +14,17 @@ namespace ScheduleControlsAndForms.Offset
 
         private readonly IOffsetRecordService _serviceOR;
 
-        private readonly IConsultationRecordService _serviceCR;
-
         private ScheduleGetBindingModel _model;
 
         private DateTime _selectDate;
 
         private SeasonDatesViewModel _dates;
 
-        private Color _consultationColor = Color.Green;
-
-        public ScheduleOffsetControl(IScheduleProcess process, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
+        public ScheduleOffsetControl(IScheduleProcess process, IOffsetRecordService serviceOR)
         {
             InitializeComponent();
             _process = process;
             _serviceOR = serviceOR;
-            _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
 
             var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
@@ -129,27 +122,7 @@ namespace ScheduleControlsAndForms.Offset
                 }
                 _model.DateBegin = _selectDate;
                 _model.DateEnd = dateEndOffset;
-                var resultConsults = _serviceCR.GetConsultationSchedule(_model);
-                if (!resultConsults.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("Невозможно получить список консультаций в семестре: ", resultConsults.Errors);
-                }
-                var consults = resultConsults.Result;
-                foreach (var record in consults)
-                {
-                    if (record.Week == 0)
-                    {
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
-                    }
-                    if (record.Week == 1)
-                    {
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
-                        dataGridViewSecondWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
-                    }
-                }
+
                 for (int i = 0; i < dataGridViewFirstWeek.Rows.Count; i++)
                 {
                     dataGridViewFirstWeek.Rows[i].Height = (dataGridViewFirstWeek.Height - 35) / dataGridViewFirstWeek.Rows.Count;
@@ -183,23 +156,11 @@ namespace ScheduleControlsAndForms.Offset
                     {
                         if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            ResultService result;
-                            if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
-                            {
-                                result = _serviceOR.DeleteOffsetRecord(
+                            var result = _serviceOR.DeleteOffsetRecord(
                                     new ScheduleGetBindingModel
                                     {
                                         Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                     });
-                            }
-                            else
-                            {
-                                result = _serviceCR.DeleteConsultationRecord(
-                                    new ScheduleGetBindingModel
-                                    {
-                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
-                                    });
-                            }
                             if (!result.Succeeded)
                             {
                                 ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
@@ -275,18 +236,9 @@ namespace ScheduleControlsAndForms.Offset
             {
                 if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
                 {//если в Tag есть данные, то это id записи
-                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
-                    {
-                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
-                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
-                    }
-                    else
-                    {
-                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
-                           new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
-                    }
+                    ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
+                        new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
+                    form.ShowDialog();
                     LoadRecords();
                 }
             }
@@ -294,18 +246,9 @@ namespace ScheduleControlsAndForms.Offset
             {
                 if (dataGridViewSecondWeek.SelectedCells[0].Tag != null)
                 {//если в Tag есть dataGridViewSecondWeek, то это id записи
-                    if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
-                    {
-                        ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
-                            new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
-                    }
-                    else
-                    {
-                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
-                           new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
-                    }
+                    ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_serviceOR, _process,
+                        new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString()));
+                    form.ShowDialog();
                     LoadRecords();
                 }
             }
@@ -317,28 +260,13 @@ namespace ScheduleControlsAndForms.Offset
             {
                 if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
                 {//если в Tag есть данные, то это id записи
-                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
+                        var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
+                        if (!result.Succeeded)
                         {
-                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
+                            ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
                         }
                     }
                 }
@@ -347,28 +275,13 @@ namespace ScheduleControlsAndForms.Offset
             {
                 if (dataGridViewSecondWeek.SelectedCells[0].Tag != null)
                 {//если в Tag есть dataGridViewSecondWeek, то это id записи
-                    if (dataGridViewSecondWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
+                        var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
+                        if (!result.Succeeded)
                         {
-                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceOR.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            Guid id = new Guid(dataGridViewSecondWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
+                            ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
                         }
                     }
                 }
@@ -379,39 +292,6 @@ namespace ScheduleControlsAndForms.Offset
         private void ToolStripButtonRef_Click(object sender, EventArgs e)
         {
             LoadRecords();
-        }
-
-        private void ToolStripButtonConsultation_Click(object sender, EventArgs e)
-        {
-            DateTime? datetime = null;
-            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
-            {
-                datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
-                var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-                if (!result.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-                }
-                var lessons = result.Result.List;
-                datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
-                                .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
-                form.ShowDialog();
-            }
-            if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
-            {
-                datetime = _selectDate.Date.AddDays(dataGridViewSecondWeek.SelectedCells[0].RowIndex + 7);
-                var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-                if (!result.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-                }
-                var lessons = result.Result.List;
-                datetime = datetime.Value.AddHours(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
-                                .AddMinutes(lessons[dataGridViewSecondWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
-                form.ShowDialog();
-            }
         }
     }
 }

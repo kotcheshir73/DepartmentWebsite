@@ -8,7 +8,6 @@ using ScheduleControlsAndForms.Examination;
 using ScheduleControlsAndForms.Offset;
 using ScheduleControlsAndForms.ScheduleLessonTime;
 using ScheduleControlsAndForms.Semester;
-using ScheduleControlsAndForms.StreamingLesson;
 using ScheduleImplementations.Services;
 using ScheduleInterfaces.Interfaces;
 using Unity;
@@ -40,7 +39,6 @@ namespace ScheduleControlsAndForms
             currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
 
@@ -48,8 +46,6 @@ namespace ScheduleControlsAndForms
         }
 
         public static ControlScheduleLessonTime GetControlScheduleLessonTime { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlScheduleLessonTime>(); } }
-
-        public static ControlStreamingLesson GetControlStreamingLesson { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlStreamingLesson>(); } }
 
         public static ControlScheduleConfig GetControlScheduleConfig { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlScheduleConfig>(); } }
 

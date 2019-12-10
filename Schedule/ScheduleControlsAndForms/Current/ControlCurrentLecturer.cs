@@ -23,10 +23,8 @@ namespace ScheduleControlsAndForms.Current
 
         private readonly IConsultationRecordService _serviceCR;
 
-        private readonly IStreamingLessonService _serviceSL;
-
         public ControlCurrentLecturer(IScheduleProcess process, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR, IStreamingLessonService serviceSL)
+            IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _process = process;
@@ -34,7 +32,6 @@ namespace ScheduleControlsAndForms.Current
             _serviceOR = serviceOR;
             _serviceER = serviceER;
             _serviceCR = serviceCR;
-            _serviceSL = serviceSL;
         }
 
         public void LoadData()
@@ -75,7 +72,7 @@ namespace ScheduleControlsAndForms.Current
                             Text = lecturers[i].FullName
                         };
                         tabControlLecturer.TabPages.Add(tabpage);
-                        var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR, _serviceSL)
+                        var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR)
                         {
                             Dock = DockStyle.Fill
                         };

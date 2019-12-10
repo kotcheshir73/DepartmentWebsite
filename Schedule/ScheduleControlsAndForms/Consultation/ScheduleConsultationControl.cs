@@ -24,6 +24,8 @@ namespace ScheduleControlsAndForms.Consultation
         public void LoadData(string title, ScheduleGetBindingModel model)
         {
             _model = model;
+
+            labelTop.Text = title;
         }
 
         private void LoadRecords()

@@ -1,6 +1,5 @@
 ﻿using AcademicYearInterfaces.ViewModels;
 using ControlsAndForms.Messangers;
-using ScheduleControlsAndForms.Consultation;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
@@ -8,7 +7,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using Tools;
 
 namespace ScheduleControlsAndForms.Examination
 {
@@ -18,15 +16,11 @@ namespace ScheduleControlsAndForms.Examination
 
         private readonly IExaminationRecordService _serviceER;
 
-        private readonly IConsultationRecordService _serviceCR;
-
         private ScheduleGetBindingModel _model;
 
         private DateTime _selectDate;
 
         private SeasonDatesViewModel _dates;
-
-        private Color _consultationColor = Color.Green;
 
         private KeyValuePair<DateTime, int> _consultFirstIndex;
 
@@ -36,12 +30,11 @@ namespace ScheduleControlsAndForms.Examination
 
         private KeyValuePair<DateTime, int> _examSecondIndex;
 
-        public ScheduleExaminationControl(IScheduleProcess service, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
+        public ScheduleExaminationControl(IScheduleProcess service, IExaminationRecordService serviceER)
         {
             InitializeComponent();
             _process = service;
             _serviceER = serviceER;
-            _serviceCR = serviceCR;
             _selectDate = DateTime.Now;
 
             var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
@@ -227,21 +220,6 @@ namespace ScheduleControlsAndForms.Examination
 
                 _model.DateBegin = dateBeginExamination;
                 _model.DateEnd = dateEndExamination;
-                var resultConsults = _serviceCR.GetConsultationSchedule(_model);
-                if (!resultConsults.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("Невозможно получить список консультаций в семестре: ", resultConsults.Errors);
-                }
-                var consults = resultConsults.Result;
-                foreach (var record in consults)
-                {
-                    if (record.Day <= days)
-                    {
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Value = record.Text;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Tag = record.Id;
-                        dataGridViewFirstWeek.Rows[record.Day].Cells[record.Lesson + 1].Style.BackColor = _consultationColor;
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -266,27 +244,11 @@ namespace ScheduleControlsAndForms.Examination
                     if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0 && ((DataGridView)sender).SelectedCells[0].Tag != null)
                         if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            ResultService result;
-                            if (((DataGridView)sender).SelectedCells[0].ColumnIndex != 3 || ((DataGridView)sender).SelectedCells[0].ColumnIndex != 4)
-                            {
-                                result = _serviceER.DeleteExaminationRecord(
+                            var result = _serviceER.DeleteExaminationRecord(
                                     new ScheduleGetBindingModel
                                     {
                                         Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
                                     });
-                            }
-                            else
-                            {
-                                result = _serviceCR.DeleteConsultationRecord(
-                                    new ScheduleGetBindingModel
-                                    {
-                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
-                                    });
-                            }
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
                             LoadRecords();
                         }
                 }
@@ -305,18 +267,9 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     if (((DataGridView)sender).SelectedCells[0].Tag != null)
                     {//если в Tag есть данные, то это id записи
-                        if (((DataGridView)sender).SelectedCells[0].Style.BackColor != _consultationColor)
-                        {
-                            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process,
-                                new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
-                            form.ShowDialog();
-                        }
-                        else
-                        {
-                            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
-                                  new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
-                            form.ShowDialog();
-                        }
+                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process,
+                            new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
+                        form.ShowDialog();
                     }
                     else
                     {//иначе пустая ячейка
@@ -335,15 +288,13 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ToolStripButtonAdd_Click(object sender, EventArgs e)
         {
-            //TODO
-            int? lesson = null;
-            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
-            {
-                lesson =
-                              Convert.ToInt32(dataGridViewFirstWeek.Tag) * 100 +
-                              dataGridViewFirstWeek.SelectedCells[0].RowIndex * 10 +
-                              dataGridViewFirstWeek.SelectedCells[0].ColumnIndex;
-            }
+            //if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
+            //{
+            //    //TODO
+            //    int? lesson = Convert.ToInt32(dataGridViewFirstWeek.Tag) * 100 +
+            //      dataGridViewFirstWeek.SelectedCells[0].RowIndex * 10 +
+            //      dataGridViewFirstWeek.SelectedCells[0].ColumnIndex;
+            //}
             ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process);
             form.ShowDialog();
         }
@@ -355,18 +306,9 @@ namespace ScheduleControlsAndForms.Examination
             {
                 if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
                 {//если в Tag есть данные, то это id записи
-                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
-                    {
-                        ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process,
-                            new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
-                    }
-                    else
-                    {
-                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
-                           new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
-                        form.ShowDialog();
-                    }
+                    ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_serviceER, _process,
+                        new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString()));
+                    form.ShowDialog();
                     LoadRecords();
                 }
             }
@@ -379,28 +321,13 @@ namespace ScheduleControlsAndForms.Examination
             {
                 if (dataGridViewFirstWeek.SelectedCells[0].Tag != null)
                 {//если в Tag есть данные, то это id записи
-                    if (dataGridViewFirstWeek.SelectedCells[0].Style.BackColor != _consultationColor)
+                    if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
+                        var result = _serviceER.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = id });
+                        if (!result.Succeeded)
                         {
-                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceER.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            Guid id = new Guid(dataGridViewFirstWeek.SelectedCells[0].Tag.ToString());
-                            var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
-                            if (!result.Succeeded)
-                            {
-                                ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                            }
+                            ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
                         }
                     }
                 }
@@ -411,31 +338,6 @@ namespace ScheduleControlsAndForms.Examination
         private void ToolStripButtonRef_Click(object sender, EventArgs e)
         {
             LoadRecords();
-        }
-
-        private void ToolStripButtonConsultation_Click(object sender, EventArgs e)
-        {
-            DateTime? datetime = null;
-            if (dataGridViewFirstWeek.SelectedCells.Count > 0 && dataGridViewFirstWeek.SelectedCells[0].ColumnIndex > 0)
-            {
-                datetime = _selectDate.Date.AddDays(dataGridViewFirstWeek.SelectedCells[0].RowIndex);
-                var result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-                if (!result.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-                }
-                var lessons = result.Result.List;
-                result = _process.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
-                if (!result.Succeeded)
-                {
-                    ErrorMessanger.PrintErrorMessage("При загрузке столбцов ошибка: ", result.Errors);
-                }
-                lessons.AddRange(result.Result.List);
-                datetime = datetime.Value.AddHours(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Hour)
-                                .AddMinutes(lessons[dataGridViewFirstWeek.SelectedCells[0].ColumnIndex - 1].DateBeginLesson.Minute);
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process, datetime: datetime, model: _model);
-                form.ShowDialog();
-            }
         }
     }
 }

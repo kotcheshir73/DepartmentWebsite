@@ -75,7 +75,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonConsultation = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSecondWeek)).BeginInit();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -408,8 +407,7 @@
             this.toolStripButtonDel,
             this.toolStripSeparator3,
             this.toolStripButtonRef,
-            this.toolStripSeparator4,
-            this.toolStripButtonConsultation});
+            this.toolStripSeparator4});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -472,15 +470,6 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButtonConsultation
-            // 
-            this.toolStripButtonConsultation.Image = global::ScheduleControlsAndForms.Properties.Resources.Add;
-            this.toolStripButtonConsultation.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonConsultation.Name = "toolStripButtonConsultation";
-            this.toolStripButtonConsultation.Size = new System.Drawing.Size(104, 22);
-            this.toolStripButtonConsultation.Text = "Консультация";
-            this.toolStripButtonConsultation.Click += new System.EventHandler(this.ToolStripButtonConsultation_Click);
-            // 
             // ScheduleOffsetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -539,6 +528,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButtonConsultation;
     }
 }

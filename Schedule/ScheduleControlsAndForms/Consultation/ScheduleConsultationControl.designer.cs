@@ -37,6 +37,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.dataGridViewList = new System.Windows.Forms.DataGridView();
+            this.labelTop = new System.Windows.Forms.Label();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
             this.SuspendLayout();
@@ -115,21 +116,33 @@
             this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewList.Location = new System.Drawing.Point(0, 25);
+            this.dataGridViewList.Location = new System.Drawing.Point(0, 55);
             this.dataGridViewList.Name = "dataGridViewList";
             this.dataGridViewList.ReadOnly = true;
             this.dataGridViewList.RowHeadersVisible = false;
             this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewList.Size = new System.Drawing.Size(800, 475);
+            this.dataGridViewList.Size = new System.Drawing.Size(800, 445);
             this.dataGridViewList.TabIndex = 1;
             // 
-            // ScheduleConsultationClassroomControl
+            // labelTop
+            // 
+            this.labelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelTop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTop.Location = new System.Drawing.Point(0, 25);
+            this.labelTop.Name = "labelTop";
+            this.labelTop.Size = new System.Drawing.Size(800, 30);
+            this.labelTop.TabIndex = 2;
+            this.labelTop.Text = "Text";
+            this.labelTop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ScheduleConsultationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridViewList);
+            this.Controls.Add(this.labelTop);
             this.Controls.Add(this.toolStripMenu);
-            this.Name = "ScheduleConsultationClassroomControl";
+            this.Name = "ScheduleConsultationControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
@@ -150,5 +163,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.DataGridView dataGridViewList;
+        private System.Windows.Forms.Label labelTop;
     }
 }

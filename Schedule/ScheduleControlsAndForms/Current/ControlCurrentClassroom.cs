@@ -23,10 +23,8 @@ namespace ScheduleControlsAndForms.Current
 
         private readonly IConsultationRecordService _serviceCR;
 
-        private readonly IStreamingLessonService _serviceSL;
-
         public ControlCurrentClassroom(IScheduleProcess process, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER, 
-            IConsultationRecordService serviceCR, IStreamingLessonService serviceSL)
+            IConsultationRecordService serviceCR)
         {
             InitializeComponent();
             _process = process;
@@ -34,7 +32,6 @@ namespace ScheduleControlsAndForms.Current
             _serviceOR = serviceOR;
             _serviceER = serviceER;
             _serviceCR = serviceCR;
-            _serviceSL = serviceSL;
         }
 
         public void LoadData()
@@ -75,7 +72,7 @@ namespace ScheduleControlsAndForms.Current
                             Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
-                        var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR, _serviceSL)
+                        var control = new ScheduleSemesterControl(_process, _serviceSR)
                         {
                             Dock = DockStyle.Fill
                         };
@@ -98,7 +95,7 @@ namespace ScheduleControlsAndForms.Current
                             Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
-                        var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
+                        var control = new ScheduleOffsetControl(_process, _serviceOR)
                         {
                             Dock = DockStyle.Fill
                         };
@@ -121,7 +118,7 @@ namespace ScheduleControlsAndForms.Current
                             Text = "Аудитория " + classrooms[i].Number
                         };
                         tabControlClassroom.TabPages.Add(tabpage);
-                        var control = new ScheduleExaminationControl(_process, _serviceER, _serviceCR)
+                        var control = new ScheduleExaminationControl(_process, _serviceER)
                         {
                             Dock = DockStyle.Fill
                         };
