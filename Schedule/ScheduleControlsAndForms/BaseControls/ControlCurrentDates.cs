@@ -1,20 +1,12 @@
 ﻿using ControlsAndForms.Messangers;
-using Enums;
-using ScheduleControlsAndForms.Consultation;
-using ScheduleControlsAndForms.Examination;
-using ScheduleControlsAndForms.Offset;
-using ScheduleControlsAndForms.Semester;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
-using ScheduleInterfaces.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using Tools;
 
 namespace ScheduleControlsAndForms.BaseControls
 {
@@ -26,26 +18,10 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private DateTime _selectDate;
 
-        private readonly int step = 10;
-
-        private readonly DateTime startDate = DateTime.Now.Date.AddHours(8);
-
-        private readonly DateTime finishDate = DateTime.Now.Date.AddHours(21).AddMinutes(30);
-
-        private readonly List<DateTime> times;
-
-        private readonly Color ConsultColor = Color.LightGreen;
-
-        private readonly Color ExamColor = Color.DarkCyan;
-
-        private readonly Color OffsetColor = Color.SandyBrown;
-
         public ControlCurrentDates(IScheduleProcess process)
         {
             InitializeComponent();
             _process = process;
-
-            times = _process.GetScheduleLessonTimes().Result;
 
             _selectDate = DateTime.Now.Date;
             while (_selectDate.DayOfWeek != DayOfWeek.Monday)
@@ -53,7 +29,9 @@ namespace ScheduleControlsAndForms.BaseControls
                 _selectDate = _selectDate.AddDays(-1);
             }
 
-            ConfigColumns();
+            controlCurrentTableView.SetIScheduleProcess(_process);
+            controlCurrentTableView.ConfigColumns();
+            controlCurrentTableView.EventLoadRecords += LoadRecords;
         }
 
         public void LoadData(string title, LoadScheduleBindingModel model)
@@ -72,56 +50,10 @@ namespace ScheduleControlsAndForms.BaseControls
             }
         }
 
-        private void ConfigColumns()
-        {
-            var columns = (finishDate - startDate).TotalMinutes / step;
-
-            tableLayoutPanel.ColumnCount = (int)columns + 1;
-            tableLayoutPanel.ColumnStyles.Clear();
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
-            for (int i = 1; i < (int)columns + 1; i++)
-            {
-                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
-            }
-        }
-
-        private void AddTimeRow(int row)
-        {
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
-
-            int counter = 0;
-            for (int i = 0; i < times.Count; ++i)
-            {
-                while (startDate.AddMinutes(counter * step) < times[i])
-                {
-                    counter++;
-                }
-
-                int colspan = 0;
-                while (startDate.AddMinutes(counter * step) < times[i].AddMinutes(90))
-                {
-                    counter++;
-                    colspan++;
-                }
-                var buttonWeek = new Button
-                {
-                    Location = new Point(0, 0),
-                    Dock = DockStyle.Fill,
-                    Margin = new Padding(0),
-                    Text = $"{times[i].ToString("HH:mm")}-{times[i].AddMinutes(90).ToString("HH:mm")}"
-                };
-                tableLayoutPanel.Controls.Add(buttonWeek, counter - colspan + 1, row);
-                if (colspan > 1)
-                {
-                    tableLayoutPanel.SetColumnSpan(buttonWeek, colspan);
-                }
-            }
-        }
-
         private void LoadRecords()
         {
-            ClearTable();
-            AddTimeRow(0);
+            controlCurrentTableView.ClearTable();
+            controlCurrentTableView.AddTimeRow(0);
             _model.BeginDate = _selectDate;
             _model.EndDate = _selectDate.AddDays(13);
 
@@ -138,8 +70,6 @@ namespace ScheduleControlsAndForms.BaseControls
             int row = 1;
             for (DateTime currentdate = _selectDate; currentdate < _selectDate.AddDays(14); currentdate = currentdate.AddDays(1), row++)
             {
-                tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 1));
-
                 var label = new Label
                 {
                     Location = new Point(0, 0),
@@ -148,103 +78,20 @@ namespace ScheduleControlsAndForms.BaseControls
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = $"{CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek)}\r\n{currentdate.ToShortDateString()}"
                 };
-                tableLayoutPanel.Controls.Add(label, 0, row);
+                controlCurrentTableView.AddRow(label, 0, row);
 
 
                 var selectedRecords = records.Result.Where(x => x.ScheduleDate.Date == currentdate.Date).ToList();
 
                 if (selectedRecords.Count > 0)
                 {
-                    LoadDay(selectedRecords, row);
+                    controlCurrentTableView.LoadDay(selectedRecords, row);
                 }
 
                 if (currentdate == _selectDate.AddDays(6))
                 {
-                    AddTimeRow(++row);
+                    controlCurrentTableView.AddTimeRow(++row);
                 }
-            }
-        }
-
-        private void ClearTable()
-        {
-            for (int i = 0; i < tableLayoutPanel.ColumnCount; i++)
-            {
-                for (int j = 0; j < tableLayoutPanel.RowStyles.Count; j++)
-                {
-                    Control Control = tableLayoutPanel.GetControlFromPosition(i, j);
-                    tableLayoutPanel.Controls.Remove(Control);
-                }
-            }
-
-            tableLayoutPanel.RowStyles.Clear();
-            tableLayoutPanel.RowCount = 0;
-        }
-
-        private void LoadDay(List<ScheduleRecordViewModel> list, int row)
-        {
-            var group = list.GroupBy(x => new { x.ScheduleDate, x.TimeSpanMinutes }).OrderBy(x => x.Key.ScheduleDate).ToList();
-            for (int i = 0; i < group.Count; i++)
-            {
-                if (group[i].Count() > 1)
-                {// потоки
-
-                }
-                else
-                {
-                    SetRecord(group[i].First(), row);
-                }
-
-                if (i + 1 < group.Count && group[i].Key.ScheduleDate.AddMinutes(group[i].Key.TimeSpanMinutes) > group[i + 1].Key.ScheduleDate)
-                {
-                    MessageBox.Show("Накладка!");
-                    i++;
-                }
-            }
-        }
-
-        private void SetRecord(ScheduleRecordViewModel record, int row)
-        {
-            int counter = 0;
-            var date = record.ScheduleDate.Date.AddHours(8);
-
-            while (date.AddMinutes(counter * step) <= record.ScheduleDate)
-            {
-                counter++;
-            }
-
-            int colspan = record.TimeSpanMinutes / step;
-            string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", record.LessonType, record.LessonDiscipline, record.LessonClassroom,
-                Environment.NewLine, record.LessonLecturer, record.LessonStudentGroup);
-
-            var buttonRecord = new Button
-            {
-                Location = new Point(0, 0),
-                Dock = DockStyle.Fill,
-                Margin = new Padding(0),
-                Text = text,
-                Tag = record.Id,
-                ContextMenuStrip = contextMenuStripDel
-            };
-
-            switch (record.ScheduleRecordType)
-            {
-                case ScheduleRecordType.Consultation:
-                    buttonRecord.BackColor = ConsultColor;
-                    break;
-                case ScheduleRecordType.Examination:
-                    buttonRecord.BackColor = ExamColor;
-                    break;
-                case ScheduleRecordType.Offset:
-                    buttonRecord.BackColor = OffsetColor;
-                    break;
-                case ScheduleRecordType.Semester:
-                    break;
-            }
-
-            tableLayoutPanel.Controls.Add(buttonRecord, counter, row);
-            if (colspan > 1)
-            {
-                tableLayoutPanel.SetColumnSpan(buttonRecord, colspan);
             }
         }
 
@@ -258,74 +105,6 @@ namespace ScheduleControlsAndForms.BaseControls
         {
             _selectDate = _selectDate.AddDays(7);
             LoadRecords();
-        }
-
-        private void AddSemesterRecordToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_process.GetSemesterRecordService(), _process);
-            form.ShowDialog();
-            LoadRecords();
-        }
-
-        private void AddOffsetRecordToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process);
-            form.ShowDialog();
-            LoadRecords();
-        }
-
-        private void AddExaminationRecordToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process);
-            form.ShowDialog();
-            LoadRecords();
-        }
-
-        private void AddConsultationRecordToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process);
-            form.ShowDialog();
-            LoadRecords();
-        }
-
-        private void DelRecordToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                var menu = (sender as ToolStripMenuItem).GetCurrentParent() as ContextMenuStrip;
-                var control = menu.SourceControl as Button;
-
-                ResultService result;
-                if (control.BackColor == ConsultColor)
-                {
-                    var service = _process.GetConsultationRecordService();
-                    result = service.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-                else if (control.BackColor == ExamColor)
-                {
-                    var service = _process.GetExaminationRecordService();
-                    result = service.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-                else if (control.BackColor == OffsetColor)
-                {
-                    var service = _process.GetOffsetRecordService();
-                    result = service.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-                else
-                {
-                    var service = _process.GetSemesterRecordService();
-                    result = service.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-
-                if (result.Succeeded)
-                {
-                    LoadRecords();
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                }
-            }
         }
     }
 }

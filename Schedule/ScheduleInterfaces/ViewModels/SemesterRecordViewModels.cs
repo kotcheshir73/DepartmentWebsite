@@ -13,6 +13,10 @@ namespace ScheduleInterfaces.ViewModels
 
 		public int Lesson { get; set; }
 
+        public bool IsFirstSemester { get; set; }
+
+        public bool IsFirstHalfSemester { get; set; }
+
         public string Text
 		{
 			get
@@ -32,5 +36,9 @@ namespace ScheduleInterfaces.ViewModels
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
+
+        public bool IsFirstSemester { get; set; }
+
+        public bool IsFirstHalfSemester { get; set; }
     }
 }

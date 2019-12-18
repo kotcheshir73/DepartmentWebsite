@@ -101,14 +101,18 @@ namespace ScheduleControlsAndForms.Semester
                 }
                 var entity = result.Result;
 
-                textBoxNotParseRecord.Text = entity.NotParseRecord;
 
-                textBoxLessonDiscipline.Text = entity.LessonDiscipline;
-                textBoxLessonStudentGroup.Text = entity.LessonStudentGroup;
-                textBoxLessonLecturer.Text = entity.LessonLecturer;
                 textBoxLessonClassroom.Text = entity.LessonClassroom;
-                comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType);
+                textBoxLessonDiscipline.Text = entity.LessonDiscipline;
+                textBoxLessonLecturer.Text = entity.LessonLecturer;
+                textBoxLessonStudentGroup.Text = entity.LessonStudentGroup;
 
+                textBoxNotParseRecord.Text = entity.NotParseRecord;
+                comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType);
+                radioButtonAutumn.Checked = entity.IsFirstSemester;
+                radioButtonSpring.Checked = !entity.IsFirstSemester;
+                radioButtonFirstPeriod.Checked = entity.IsFirstHalfSemester;
+                radioButtonSecondPeriod.Checked = !entity.IsFirstHalfSemester;
                 comboBoxWeek.SelectedIndex = entity.Week;
                 comboBoxDay.SelectedIndex = entity.Day;
                 comboBoxLesson.SelectedIndex = entity.Lesson;
@@ -129,12 +133,6 @@ namespace ScheduleControlsAndForms.Semester
                 {
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
                 }
-
-                panelDateTime.Enabled = false;
-            }
-            else
-            {
-
             }
         }
 
@@ -207,210 +205,15 @@ namespace ScheduleControlsAndForms.Semester
             return true;
         }
 
-        private void ButtonSearch_Click(object sender, EventArgs e)
-        {
-            var model = new ScheduleGetBindingModel();
-            if (checkBoxClassroom.Checked)
-            {
-                if (comboBoxClassroom.SelectedValue != null)
-                {
-                    model.ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
-                }
-                if (!string.IsNullOrEmpty(textBoxLessonClassroom.Text))
-                {
-                    model.ClassroomNumber = textBoxLessonClassroom.Text;
-                }
-            }
-            if (checkBoxDiscipline.Checked)
-            {
-                if (comboBoxDiscipline.SelectedValue != null)
-                {
-                    model.DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
-                }
-                if (!string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
-                {
-                    model.DisciplineName = textBoxLessonDiscipline.Text;
-                }
-            }
-            if (checkBoxLecturer.Checked)
-            {
-                if (comboBoxLecturer.SelectedValue != null)
-                {
-                    model.LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
-                }
-                if (!string.IsNullOrEmpty(textBoxLessonLecturer.Text))
-                {
-                    model.LecturerName = textBoxLessonLecturer.Text;
-                }
-            }
-            if (checkBoxGroupName.Checked)
-            {
-                if (comboBoxStudentGroup.SelectedValue != null)
-                {
-                    model.StudentGroupId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
-                }
-                if (!string.IsNullOrEmpty(textBoxLessonStudentGroup.Text))
-                {
-                    model.StudentGroupName = textBoxLessonStudentGroup.Text;
-                }
-            }
-
-            var result = _service.GetSemesterSchedule(model);
-
-            dataGridViewRecords.Rows.Clear();
-
-            if (result.Succeeded)
-            {
-                var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };//дни недели
-                for (int i = 0; i < result.Result.Count; ++i)
-                {
-                    dataGridViewRecords.Rows.Add(result.Result[i].Id, false, string.Format("{0} {1} {2} {3} {4} {5} {6}", result.Result[i].Week + 1, days[result.Result[i].Day],
-                        result.Result[i].Lesson + 1, result.Result[i].LessonDiscipline, result.Result[i].LessonGroup, result.Result[i].LessonLecturer,
-                        result.Result[i].LessonClassroom));
-                }
-            }
-        }
-
-        private void ButtonSaveOther_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < dataGridViewRecords.Rows.Count; ++i)
-            {
-                if (Convert.ToBoolean(dataGridViewRecords.Rows[i].Cells[1].Value))
-                {
-                    var model = new SemesterRecordSetBindingModel
-                    {
-                        Id = new Guid(dataGridViewRecords.Rows[i].Cells[0].Value.ToString()),
-                        LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
-                        IsFirstSemester = radioButtonAutumn.Checked,
-                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
-                    };
-                    if (checkBoxClassroom.Checked)
-                    {
-                        if (comboBoxClassroom.SelectedValue != null)
-                        {
-                            model.ClassroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
-                        }
-                        if (!string.IsNullOrEmpty(textBoxLessonClassroom.Text))
-                        {
-                            model.LessonClassroom = textBoxLessonClassroom.Text;
-                        }
-                    }
-                    if (checkBoxDiscipline.Checked)
-                    {
-                        if (comboBoxDiscipline.SelectedValue != null)
-                        {
-                            model.DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
-                        }
-                        if (!string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
-                        {
-                            model.LessonDiscipline = textBoxLessonDiscipline.Text;
-                        }
-                    }
-                    if (checkBoxGroupName.Checked)
-                    {
-                        if (comboBoxStudentGroup.SelectedValue != null)
-                        {
-                            model.StudentGroupId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
-                        }
-                        if (!string.IsNullOrEmpty(textBoxLessonStudentGroup.Text))
-                        {
-                            model.LessonStudentGroup = textBoxLessonStudentGroup.Text;
-                        }
-                    }
-                    if (checkBoxLecturer.Checked)
-                    {
-                        if (comboBoxLecturer.SelectedValue != null)
-                        {
-                            model.LecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
-                        }
-                        if (!string.IsNullOrEmpty(textBoxLessonLecturer.Text))
-                        {
-                            model.LessonLecturer = textBoxLessonLecturer.Text;
-                        }
-                    }
-                    var result = _service.UpdateSemesterRecord(model);
-                    if (!result.Succeeded)
-                    {
-                        ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                        return;
-                    }
-                }
-            }
-            MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void ButtonAdd_Click(object sender, EventArgs e)
-        {
-            if (CheckFill())
-            {
-                Guid? classroomId = null;
-                if (comboBoxClassroom.SelectedValue != null)
-                {
-                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
-                }
-                Guid? disciplineId = null;
-                if (comboBoxDiscipline.SelectedValue != null)
-                {
-                    disciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString());
-                }
-                Guid? lecturerId = null;
-                if (comboBoxLecturer.SelectedValue != null)
-                {
-                    lecturerId = new Guid(comboBoxLecturer.SelectedValue.ToString());
-                }
-                Guid? studentGroupId = null;
-                if (comboBoxStudentGroup.SelectedValue != null)
-                {
-                    studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
-                }
-                ResultService result;
-                if (!_id.HasValue)
-                {
-                    result = _service.CreateSemesterRecord(new SemesterRecordSetBindingModel
-                    {
-                        LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
-                        Week = comboBoxWeek.SelectedIndex,
-                        Day = comboBoxDay.SelectedIndex,
-                        Lesson = comboBoxLesson.SelectedIndex,
-                        NotParseRecord = textBoxNotParseRecord.Text,
-                        IsFirstSemester = radioButtonAutumn.Checked,
-                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
-
-                        LessonClassroom = textBoxLessonClassroom.Text,
-                        LessonDiscipline = textBoxLessonDiscipline.Text,
-                        LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
-
-                        ClassroomId = classroomId,
-                        DisciplineId = disciplineId,
-                        LecturerId = lecturerId,
-                        StudentGroupId = studentGroupId
-                    });
-                }
-                else
-                {
-                    MessageBox.Show("Запись имеет идентификатор", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Сохранение прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Заполните все обязательные поля", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (CheckFill())
             {
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
+                }
                 Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
@@ -426,23 +229,18 @@ namespace ScheduleControlsAndForms.Semester
                 {
                     studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
                 }
-                Guid? classroomId = null;
-                if (comboBoxClassroom.SelectedValue != null)
-                {
-                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
-                }
                 ResultService result;
                 if (!_id.HasValue)
                 {
                     result = _service.CreateSemesterRecord(new SemesterRecordSetBindingModel
                     {
+                        NotParseRecord = textBoxNotParseRecord.Text,
                         LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
+                        IsFirstSemester = radioButtonAutumn.Checked,
+                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
-                        NotParseRecord = textBoxNotParseRecord.Text,
-                        IsFirstSemester = radioButtonAutumn.Checked,
-                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
 
                         LessonClassroom = textBoxLessonClassroom.Text,
                         LessonDiscipline = textBoxLessonDiscipline.Text,
@@ -460,13 +258,13 @@ namespace ScheduleControlsAndForms.Semester
                     result = _service.UpdateSemesterRecord(new SemesterRecordSetBindingModel
                     {
                         Id = _id.Value,
+                        NotParseRecord = textBoxNotParseRecord.Text,
                         LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
+                        IsFirstSemester = radioButtonAutumn.Checked,
+                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
-                        NotParseRecord = textBoxNotParseRecord.Text,
-                        IsFirstSemester = radioButtonAutumn.Checked,
-                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
 
                         LessonClassroom = textBoxLessonClassroom.Text,
                         LessonDiscipline = textBoxLessonDiscipline.Text,

@@ -54,6 +54,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseControls\ControlCurrentTableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\ControlCurrentTableView.Designer.cs">
+      <DependentUpon>ControlCurrentTableView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Consultation\ScheduleConsultationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,6 +177,9 @@
     <Compile Include="Semester\ScheduleSemesterTabControl.designer.cs">
       <DependentUpon>ScheduleSemesterTabControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BaseControls\ControlCurrentTableView.resx">
+      <DependentUpon>ControlCurrentTableView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Consultation\ScheduleConsultationControl.resx">
       <DependentUpon>ScheduleConsultationControl.cs</DependentUpon>
     </EmbeddedResource>
