@@ -57,7 +57,6 @@ namespace ScheduleControlsAndForms.BaseControls
         private void LoadRecords()
         {
             controlCurrentTableView.ClearTable();
-            controlCurrentTableView.AddTimeRow(0);
             _model.BeginDate = dateTimePicker.Value.Date;
             _model.EndDate = dateTimePicker.Value.Date.AddDays(1).AddSeconds(-1);
 
@@ -68,7 +67,7 @@ namespace ScheduleControlsAndForms.BaseControls
                 return;
             }
 
-            switch(_scheduleObjectLoad)
+            switch (_scheduleObjectLoad)
             {
                 case ScheduleObjectLoad.Classrooms:
                     LoadClassrooms(records.Result);
@@ -97,9 +96,14 @@ namespace ScheduleControlsAndForms.BaseControls
             }
             var classrooms = resultClassrooms.Result.List;
 
-            for(int i = 0; i < classrooms.Count; ++i)
+            for (int i = 0, row = 0; i < classrooms.Count; ++i, row++)
             {
-                var label = new Label
+                if (i % 10 == 0)
+                {
+                    controlCurrentTableView.AddTimeRow(row++);
+                }
+
+                var labelTitle = new Label
                 {
                     Location = new Point(0, 0),
                     Dock = DockStyle.Fill,
@@ -107,13 +111,13 @@ namespace ScheduleControlsAndForms.BaseControls
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = classrooms[i].Number
                 };
-                controlCurrentTableView.AddRow(label, 0, i + 1);
+                controlCurrentTableView.AddRow(labelTitle, 0, row);
 
                 var selectedRecords = records.Where(x => x.ClassroomId == classrooms[i].Id).ToList();
 
                 if (selectedRecords.Count > 0)
                 {
-                    controlCurrentTableView.LoadDay(selectedRecords, i + 1);
+                    controlCurrentTableView.LoadDay(selectedRecords, row);
                 }
             }
         }
@@ -128,9 +132,14 @@ namespace ScheduleControlsAndForms.BaseControls
             }
             var disciplines = resultDisciplines.Result.List;
 
-            for (int i = 0; i < disciplines.Count; ++i)
+            for (int i = 0, row = 0; i < disciplines.Count; ++i, row++)
             {
-                var label = new Label
+                if (i % 10 == 0)
+                {
+                    controlCurrentTableView.AddTimeRow(row++);
+                }
+
+                var labelTitle = new Label
                 {
                     Location = new Point(0, 0),
                     Dock = DockStyle.Fill,
@@ -138,13 +147,13 @@ namespace ScheduleControlsAndForms.BaseControls
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = disciplines[i].DisciplineShortName
                 };
-                controlCurrentTableView.AddRow(label, 0, i + 1);
+                controlCurrentTableView.AddRow(labelTitle, 0, row);
 
                 var selectedRecords = records.Where(x => x.DisciplineId == disciplines[i].Id).ToList();
 
                 if (selectedRecords.Count > 0)
                 {
-                    controlCurrentTableView.LoadDay(selectedRecords, i + 1);
+                    controlCurrentTableView.LoadDay(selectedRecords, row);
                 }
             }
         }
@@ -159,8 +168,13 @@ namespace ScheduleControlsAndForms.BaseControls
             }
             var lecturers = resultLecturers.Result.List;
 
-            for (int i = 0; i < lecturers.Count; ++i)
+            for (int i = 0, row = 0; i < lecturers.Count; ++i, row++)
             {
+                if (i % 10 == 0)
+                {
+                    controlCurrentTableView.AddTimeRow(row++);
+                }
+
                 var label = new Label
                 {
                     Location = new Point(0, 0),
@@ -169,13 +183,13 @@ namespace ScheduleControlsAndForms.BaseControls
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = lecturers[i].FullName
                 };
-                controlCurrentTableView.AddRow(label, 0, i + 1);
+                controlCurrentTableView.AddRow(label, 0, row);
 
                 var selectedRecords = records.Where(x => x.LecturerId == lecturers[i].Id).ToList();
 
                 if (selectedRecords.Count > 0)
                 {
-                    controlCurrentTableView.LoadDay(selectedRecords, i + 1);
+                    controlCurrentTableView.LoadDay(selectedRecords, row);
                 }
             }
         }
@@ -190,8 +204,13 @@ namespace ScheduleControlsAndForms.BaseControls
             }
             var studentGroups = resultStudentGroups.Result.List;
 
-            for (int i = 0; i < studentGroups.Count; ++i)
+            for (int i = 0, row = 0; i < studentGroups.Count; ++i, row++)
             {
+                if (i % 10 == 0)
+                {
+                    controlCurrentTableView.AddTimeRow(row++);
+                }
+
                 var label = new Label
                 {
                     Location = new Point(0, 0),
@@ -200,13 +219,13 @@ namespace ScheduleControlsAndForms.BaseControls
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = studentGroups[i].GroupName
                 };
-                controlCurrentTableView.AddRow(label, 0, i + 1);
+                controlCurrentTableView.AddRow(label, 0, row);
 
-                var selectedRecords = records.Where(x => x.LecturerId == studentGroups[i].Id).ToList();
+                var selectedRecords = records.Where(x => x.StudentGroupId == studentGroups[i].Id).ToList();
 
                 if (selectedRecords.Count > 0)
                 {
-                    controlCurrentTableView.LoadDay(selectedRecords, i + 1);
+                    controlCurrentTableView.LoadDay(selectedRecords, row);
                 }
             }
         }

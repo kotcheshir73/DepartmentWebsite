@@ -30,20 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.contextMenuStripButton = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.DelRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddSemesterRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddOffsetRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddExaminationRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddConsultationRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripButton = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.UpdRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripButton.SuspendLayout();
+            this.DelRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
+            this.contextMenuStripButton.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
             // 
+            this.tableLayoutPanel.AutoScroll = true;
             this.tableLayoutPanel.ColumnCount = 1;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel.ContextMenuStrip = this.contextMenuStrip;
@@ -55,20 +56,15 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(800, 500);
             this.tableLayoutPanel.TabIndex = 0;
             // 
-            // contextMenuStripButton
+            // contextMenuStrip
             // 
-            this.contextMenuStripButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.UpdRecordToolStripMenuItem,
-            this.DelRecordToolStripMenuItem});
-            this.contextMenuStripButton.Name = "contextMenuStripDel";
-            this.contextMenuStripButton.Size = new System.Drawing.Size(181, 70);
-            // 
-            // DelRecordToolStripMenuItem
-            // 
-            this.DelRecordToolStripMenuItem.Name = "DelRecordToolStripMenuItem";
-            this.DelRecordToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.DelRecordToolStripMenuItem.Text = "Удалить";
-            this.DelRecordToolStripMenuItem.Click += new System.EventHandler(this.DelRecordToolStripMenuItem_Click);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddSemesterRecordToolStripMenuItem,
+            this.AddOffsetRecordToolStripMenuItem,
+            this.AddExaminationRecordToolStripMenuItem,
+            this.AddConsultationRecordToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(210, 92);
             // 
             // AddSemesterRecordToolStripMenuItem
             // 
@@ -98,22 +94,27 @@
             this.AddConsultationRecordToolStripMenuItem.Text = "Добавить консультацию";
             this.AddConsultationRecordToolStripMenuItem.Click += new System.EventHandler(this.AddConsultationRecordToolStripMenuItem_Click);
             // 
-            // contextMenuStrip
+            // contextMenuStripButton
             // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddSemesterRecordToolStripMenuItem,
-            this.AddOffsetRecordToolStripMenuItem,
-            this.AddExaminationRecordToolStripMenuItem,
-            this.AddConsultationRecordToolStripMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(210, 92);
+            this.contextMenuStripButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UpdRecordToolStripMenuItem,
+            this.DelRecordToolStripMenuItem});
+            this.contextMenuStripButton.Name = "contextMenuStripDel";
+            this.contextMenuStripButton.Size = new System.Drawing.Size(129, 48);
             // 
             // UpdRecordToolStripMenuItem
             // 
             this.UpdRecordToolStripMenuItem.Name = "UpdRecordToolStripMenuItem";
-            this.UpdRecordToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.UpdRecordToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.UpdRecordToolStripMenuItem.Text = "Изменить";
             this.UpdRecordToolStripMenuItem.Click += new System.EventHandler(this.UpdRecordToolStripMenuItem_Click);
+            // 
+            // DelRecordToolStripMenuItem
+            // 
+            this.DelRecordToolStripMenuItem.Name = "DelRecordToolStripMenuItem";
+            this.DelRecordToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.DelRecordToolStripMenuItem.Text = "Удалить";
+            this.DelRecordToolStripMenuItem.Click += new System.EventHandler(this.DelRecordToolStripMenuItem_Click);
             // 
             // ControlCurrentTableView
             // 
@@ -122,8 +123,8 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "ControlCurrentTableView";
             this.Size = new System.Drawing.Size(800, 500);
-            this.contextMenuStripButton.ResumeLayout(false);
             this.contextMenuStrip.ResumeLayout(false);
+            this.contextMenuStripButton.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

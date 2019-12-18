@@ -94,6 +94,7 @@ namespace ScheduleControlsAndForms.BaseControls
         public void AddTimeRow(int row)
         {
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
+
             List<DateTime> times = _process.GetScheduleLessonTimes().Result;
             for (int i = 0; i < times.Count; ++i)
             {
@@ -106,10 +107,7 @@ namespace ScheduleControlsAndForms.BaseControls
                     Text = $"{times[i].ToString("HH:mm")}-{times[i].AddMinutes(90).ToString("HH:mm")}"
                 };
                 tableLayoutPanel.Controls.Add(buttonWeek, (int)((times[i] - startDate).TotalMinutes / step + 1), row);
-                if (colspan > 1)
-                {
-                    tableLayoutPanel.SetColumnSpan(buttonWeek, colspan);
-                }
+                tableLayoutPanel.SetColumnSpan(buttonWeek, colspan);
             }
         }
 
