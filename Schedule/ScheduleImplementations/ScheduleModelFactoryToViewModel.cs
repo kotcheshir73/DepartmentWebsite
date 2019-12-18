@@ -38,9 +38,9 @@ namespace ScheduleImplementations
         {
             var record = entity.CreateScheduleRecordViewModel(new SemesterRecordViewModel()) as SemesterRecordViewModel;
 
-            //record.Week = entity.Week;
-            //record.Day = entity.Day;
-            //record.Lesson = entity.Lesson;
+            record.Week = ScheduleHelper.GetWeek(entity.ScheduleDate);
+            record.Day = ScheduleHelper.GetDay(entity.ScheduleDate);
+            record.Lesson = ScheduleHelper.GetLesson(entity.ScheduleDate);
             record.LessonType = entity.LessonType;
             record.ScheduleRecordType = ScheduleRecordType.Semester;
 
@@ -105,8 +105,8 @@ namespace ScheduleImplementations
         {
             var record = entity.CreateScheduleRecordShortViewModel(new SemesterRecordShortViewModel()) as SemesterRecordShortViewModel;
 
-            //record.Week = entity.Week;
-            //record.Day = entity.Day;
+            record.Week = ScheduleHelper.GetWeek(entity.ScheduleDate);
+            record.Day = ScheduleHelper.GetDay(entity.ScheduleDate);
             record.Lesson = ScheduleHelper.GetLesson(entity.ScheduleDate);
             record.LessonType = entity.LessonType;
             record.ScheduleRecordType = ScheduleRecordType.Semester;

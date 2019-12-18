@@ -1,5 +1,4 @@
 ﻿using DatabaseContext;
-using Enums;
 using Models;
 using Models.AcademicYearData;
 using Models.Schedule;
@@ -8,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tools;
 
 namespace ScheduleImplementations.Helpers
 {
@@ -344,16 +342,95 @@ namespace ScheduleImplementations.Helpers
             };
         }
 
+        public static List<DateTime> GetSemesterDates()
+        {
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                //вытаскиваем учебный год
+                var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Учебный год");
+                if (currentSetting == null)
+                {
+                    var ay = context.AcademicYears.Last();
+                    if (ay != null)
+                    {
+                        currentSetting = new CurrentSettings { Key = "Учебный год", Value = ay.Title };
+                        context.CurrentSettings.Add(currentSetting);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception("CurrentSetting not found");
+                    }
+                }
+
+                var academicYear = context.AcademicYears.FirstOrDefault(x => x.Title == currentSetting.Value);
+                if (academicYear == null)
+                {
+                    throw new Exception("AcademicYears not found");
+                }
+
+                //вытаскиваем все сезонные даты для выбранного года (для 4 курса есть различия)
+                var dates = context.SeasonDates.Where(x => x.AcademicYearId == academicYear.Id && !x.IsDeleted).ToList();
+                List<DateTime> dateTimes = new List<DateTime>();
+                foreach (var date in dates)
+                {
+                    dateTimes.Add(date.DateBeginFirstHalfSemester);
+                    dateTimes.Add(date.DateBeginSecondHalfSemester);
+                }
+
+                return dateTimes.Distinct().OrderBy(x => x.Date).ToList();
+            }
+        }
+
         public static DateTime GetDateWithTime(DateTime date, int lesson)
         {
             return date.Date.AddHours(ScheduleLessonTimes()[lesson].Hour).AddMinutes(ScheduleLessonTimes()[lesson].Minute);
+        }
+
+        public static DateTime GetDateWithTime(DateTime date, int week, int day, int lesson)
+        {
+            return date.Date.AddDays(week * 7 + day).AddHours(ScheduleLessonTimes()[lesson].Hour).AddMinutes(ScheduleLessonTimes()[lesson].Minute);
+        }
+
+        public static int GetWeek(DateTime date)
+        {
+            var semesterDates = GetSemesterDates();
+            foreach(var semdate in semesterDates)
+            {
+                var days = (int)(date - semdate).TotalDays;
+                if (days < 14)
+                {
+                    return days / 7;
+                }
+            }
+
+            return -1;
+        }
+
+        public static int GetDay(DateTime date)
+        {
+            var semesterDates = GetSemesterDates();
+            foreach (var semdate in semesterDates)
+            {
+                var days = (int)(date - semdate).TotalDays;
+                if (days < 7)
+                {
+                    return days;
+                }
+                else if (days < 14)
+                {
+                    return days - 7;
+                }
+            }
+
+            return -1;
         }
 
         public static int GetLesson(DateTime date)
         {
             for (int i = 0; i < ScheduleLessonTimes().Count; i++)
             {
-                if(ScheduleLessonTimes()[i].Hour == date.Hour && ScheduleLessonTimes()[i].Minute == date.Minute)
+                if (ScheduleLessonTimes()[i].Hour == date.Hour && ScheduleLessonTimes()[i].Minute == date.Minute)
                 {
                     return i;
                 }

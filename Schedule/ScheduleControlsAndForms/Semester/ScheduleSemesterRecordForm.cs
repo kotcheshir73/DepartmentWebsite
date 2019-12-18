@@ -1,6 +1,7 @@
 ﻿using BaseInterfaces.BindingModels;
 using ControlsAndForms.Messangers;
 using Enums;
+using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
@@ -29,12 +30,6 @@ namespace ScheduleControlsAndForms.Semester
 
         private void ScheduleSemesterRecordForm_Load(object sender, EventArgs e)
         {
-            foreach (var elem in Enum.GetValues(typeof(LessonTypes)))
-            {
-                comboBoxLessonType.Items.Add(elem.ToString());
-            }
-            comboBoxLessonType.SelectedIndex = -1;
-
             var resultC = _process.GetClassrooms(new ClassroomGetBindingModel { });
             if (!resultC.Succeeded)
             {
@@ -91,6 +86,19 @@ namespace ScheduleControlsAndForms.Semester
             comboBoxStudentGroup.SelectedItem = null;
             textBoxLessonStudentGroup.Text = string.Empty;
 
+
+            foreach (var elem in Enum.GetValues(typeof(LessonTypes)))
+            {
+                comboBoxLessonType.Items.Add(elem.ToString());
+            }
+            comboBoxLessonType.SelectedIndex = -1;
+
+            foreach(var date in ScheduleHelper.GetSemesterDates())
+            {
+                comboBoxStartPeriodDate.Items.Add(date.ToLongDateString());
+            }
+            comboBoxStartPeriodDate.SelectedIndex = -1;
+
             if (_id.HasValue)
             {
                 var result = _service.GetSemesterRecord(new ScheduleGetBindingModel { Id = _id.Value });
@@ -108,11 +116,8 @@ namespace ScheduleControlsAndForms.Semester
                 textBoxLessonStudentGroup.Text = entity.LessonStudentGroup;
 
                 textBoxNotParseRecord.Text = entity.NotParseRecord;
-                comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType);
-                radioButtonAutumn.Checked = entity.IsFirstSemester;
-                radioButtonSpring.Checked = !entity.IsFirstSemester;
-                radioButtonFirstPeriod.Checked = entity.IsFirstHalfSemester;
-                radioButtonSecondPeriod.Checked = !entity.IsFirstHalfSemester;
+                comboBoxLessonType.SelectedIndex = comboBoxLessonType.Items.IndexOf(entity.LessonType.ToString());
+                comboBoxStartPeriodDate.SelectedIndex = comboBoxStartPeriodDate.Items.IndexOf(entity.ScheduleDate.AddDays((entity.Week * 7 + entity.Day) * -1).ToLongDateString());
                 comboBoxWeek.SelectedIndex = entity.Week;
                 comboBoxDay.SelectedIndex = entity.Day;
                 comboBoxLesson.SelectedIndex = entity.Lesson;
@@ -236,8 +241,7 @@ namespace ScheduleControlsAndForms.Semester
                     {
                         NotParseRecord = textBoxNotParseRecord.Text,
                         LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
-                        IsFirstSemester = radioButtonAutumn.Checked,
-                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
+                        ScheduleDate = Convert.ToDateTime(comboBoxStartPeriodDate.Text),
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,
@@ -260,8 +264,7 @@ namespace ScheduleControlsAndForms.Semester
                         Id = _id.Value,
                         NotParseRecord = textBoxNotParseRecord.Text,
                         LessonType = (LessonTypes)Enum.Parse(typeof(LessonTypes), comboBoxLessonType.Text),
-                        IsFirstSemester = radioButtonAutumn.Checked,
-                        IsFirstHalfSemester = radioButtonFirstPeriod.Checked,
+                        ScheduleDate = Convert.ToDateTime(comboBoxStartPeriodDate.Text),
                         Week = comboBoxWeek.SelectedIndex,
                         Day = comboBoxDay.SelectedIndex,
                         Lesson = comboBoxLesson.SelectedIndex,

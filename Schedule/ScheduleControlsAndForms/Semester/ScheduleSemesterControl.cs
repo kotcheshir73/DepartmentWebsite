@@ -37,7 +37,7 @@ namespace ScheduleControlsAndForms.Semester
 
                 labelTop.Text = title;
 
-                LoadRecrods();
+                LoadRecords();
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace ScheduleControlsAndForms.Semester
             }
         }
 
-        private void LoadRecrods()
+        private void LoadRecords()
         {
             try
             {
@@ -193,7 +193,7 @@ namespace ScheduleControlsAndForms.Semester
             //var dateBeginSemester = Convert.ToDateTime(_dates.DateBeginFirstHalfSemester);
             //if (date.AddDays(-14) >= dateBeginSemester.Date)
             //    _selectDate = date.AddDays(-14);
-            LoadRecrods();
+            LoadRecords();
         }
 
         private void ButtonNextWeek_Click(object sender, EventArgs e)
@@ -202,7 +202,7 @@ namespace ScheduleControlsAndForms.Semester
             //var dateEndSemester = Convert.ToDateTime(_dates.DateEndSecondHalfSemester);
             //if (date.AddDays(14) <= dateEndSemester.Date)
             //    _selectDate = date.AddDays(14);
-            LoadRecrods();
+            LoadRecords();
         }
 
         private void DataGridView_Resize(object sender, EventArgs e)
@@ -234,7 +234,7 @@ namespace ScheduleControlsAndForms.Semester
                                     {
                                         ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
                                     }
-                                    LoadRecrods();
+                                    LoadRecords();
                                 }
                 }
                 catch (Exception ex)
@@ -264,7 +264,7 @@ namespace ScheduleControlsAndForms.Semester
                         ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process);
                         form.ShowDialog();
                     }
-                    LoadRecrods();
+                    LoadRecords();
                 }
             }
             catch (Exception ex)
@@ -291,7 +291,7 @@ namespace ScheduleControlsAndForms.Semester
                         ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, new Guid(tag));
                         form.Show();
                     }
-                    LoadRecrods();
+                    LoadRecords();
                 }
             }
             if (dataGridViewSecondWeek.SelectedCells.Count > 0 && dataGridViewSecondWeek.SelectedCells[0].ColumnIndex > 0)
@@ -304,7 +304,7 @@ namespace ScheduleControlsAndForms.Semester
                         ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_serviceSR, _process, new Guid(tag));
                         form.Show();
                     }
-                    LoadRecrods();
+                    LoadRecords();
                 }
             }
         }
@@ -349,12 +349,12 @@ namespace ScheduleControlsAndForms.Semester
                     }
                 }
             }
-            LoadRecrods();
+            LoadRecords();
         }
 
         private void ToolStripButtonRef_Click(object sender, EventArgs e)
         {
-            LoadRecrods();
+            LoadRecords();
         }
     }
 }

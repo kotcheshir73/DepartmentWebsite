@@ -56,6 +56,7 @@ namespace ScheduleImplementations
             CreateScheduleRecord(model, entity);
 
             entity.LessonType = model.LessonType;
+            entity.ScheduleDate = ScheduleHelper.GetDateWithTime(model.ScheduleDate, model.Week, model.Day, model.Lesson);
 
             return entity;
         }

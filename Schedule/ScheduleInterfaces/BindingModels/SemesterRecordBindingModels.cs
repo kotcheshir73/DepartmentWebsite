@@ -13,9 +13,5 @@ namespace ScheduleInterfaces.BindingModels
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-        public bool IsFirstSemester { get; set; }
-
-        public bool IsFirstHalfSemester { get; set; }
     }
 }
