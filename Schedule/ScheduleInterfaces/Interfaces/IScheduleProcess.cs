@@ -1,9 +1,9 @@
-﻿using AcademicYearInterfaces.BindingModels;
-using AcademicYearInterfaces.ViewModels;
-using BaseInterfaces.BindingModels;
+﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.ViewModels;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.ViewModels;
+using System;
+using System.Collections.Generic;
 using Tools;
 
 namespace ScheduleInterfaces.Interfaces
@@ -37,32 +37,27 @@ namespace ScheduleInterfaces.Interfaces
         /// <returns></returns>
         ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
 
-        /// <summary>
-        /// Получение списка временных интервалов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
+        ISemesterRecordService GetSemesterRecordService();
 
-        /// <summary>
-        /// Получить даты по текущему семестру
-        /// </summary>
-        /// <returns></returns>
-        ResultService<SeasonDatesViewModel> GetCurrentDates();
+        IExaminationRecordService GetExaminationRecordService();
 
-        /// <summary>
-        /// Измненение текущих настроек
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
+        IOffsetRecordService GetOffsetRecordService();
+
+        IConsultationRecordService GetConsultationRecordService();
 
         /// <summary>
         /// Получение списка временных интервалов
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+        ResultService<List<DateTime>> GetScheduleLessonTimes();
+
+        /// <summary>
+        /// Загрузка расписания в виде html-страницы
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService<List<ScheduleRecordViewModel>> LoadSchedule(LoadScheduleBindingModel model);
 
         /// <summary>
         /// Получение записей расписания семестра, зачетов и экзаменов по дисциплине

@@ -1,6 +1,4 @@
-﻿using AcademicYearInterfaces.ViewModels;
-using ScheduleInterfaces.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Tools.BindingModels;
 
@@ -14,12 +12,6 @@ namespace ScheduleInterfaces.BindingModels
         public string FileName { get; set; }
 
         public List<string> Classrooms { get; set; }
-
-        public Guid SeasonDatesId { get; set; }
-
-        public List<ScheduleLessonTimeViewModel> Times { get; set; }
-
-        public SeasonDatesViewModel Dates { get; set; }
     }
 
     /// <summary>
@@ -30,12 +22,6 @@ namespace ScheduleInterfaces.BindingModels
         public string FilePath { get; set; }
 
         public List<string> Classrooms { get; set; }
-
-        public Guid SeasonDatesId { get; set; }
-
-        public List<ScheduleLessonTimeViewModel> Times { get; set; }
-
-        public SeasonDatesViewModel Dates { get; set; }
     }
 
     /// <summary>
@@ -44,8 +30,6 @@ namespace ScheduleInterfaces.BindingModels
     public class ImportToSemesterFromHTMLBindingModel
     {
         public string ScheduleUrl { get; set; }
-
-        public bool IsFirstHalfSemester { get; set; }
     }
 
     /// <summary>
@@ -69,8 +53,29 @@ namespace ScheduleInterfaces.BindingModels
     /// </summary>
     public class ScheduleRecordsForDiciplineBindingModel : PageSettingGetBinidingModel
     {
-        public Guid SeasonDateId { get; set; }
-
         public Guid DisciplineId { get; set; }
+    }
+
+    public class LoadScheduleBindingModel
+    {
+        public DateTime BeginDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public string ClassroomNumber { get; set; }
+
+        public Guid? ClassroomId { get; set; }
+
+        public string StudentGroupName { get; set; }
+
+        public Guid? StudentGroupId { get; set; }
+
+        public string DisciplineName { get; set; }
+
+        public Guid? DisciplineId { get; set; }
+
+        public string LecturerName { get; set; }
+
+        public Guid? LecturerId { get; set; }
     }
 }

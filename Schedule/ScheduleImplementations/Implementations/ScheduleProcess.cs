@@ -1,12 +1,11 @@
-﻿using AcademicYearInterfaces.BindingModels;
-using AcademicYearInterfaces.Interfaces;
-using AcademicYearInterfaces.ViewModels;
-using BaseInterfaces.BindingModels;
+﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
+using Models.Schedule;
+using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -28,10 +27,6 @@ namespace ScheduleImplementations.Services
 
         private readonly IStudentGroupService _serviceG;
 
-        private readonly ISeasonDatesService _serviceSD;
-
-        private readonly IScheduleLessonTimeService _serviceSLT;
-
         private readonly ISemesterRecordService _serviceSR;
 
         private readonly IOffsetRecordService _serviceOR;
@@ -41,16 +36,12 @@ namespace ScheduleImplementations.Services
         private readonly IConsultationRecordService _serviceCR;
 
         public ScheduleProcess(IClassroomService serviceC, IDisciplineService serviceD, ILecturerService serviceL, IStudentGroupService serviceG,
-            ISeasonDatesService serviceSD, IScheduleLessonTimeService serviceSLT, 
-            ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR)
+            ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
         {
             _serviceC = serviceC;
             _serviceD = serviceD;
             _serviceL = serviceL;
             _serviceG = serviceG;
-            _serviceSD = serviceSD;
-            _serviceSLT = serviceSLT;
             _serviceSR = serviceSR;
             _serviceOR = serviceOR;
             _serviceER = serviceER;
@@ -78,74 +69,577 @@ namespace ScheduleImplementations.Services
             return _serviceG.GetStudentGroups(model);
         }
 
-        public ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model)
+        public ResultService<List<DateTime>> GetScheduleLessonTimes()
         {
-            return _serviceSD.GetSeasonDaties(model);
+            return ResultService<List<DateTime>>.Success(ScheduleHelper.ScheduleLessonTimes());
         }
 
-        public ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model)
+        public ISemesterRecordService GetSemesterRecordService()
         {
-            return _serviceSLT.GetScheduleLessonTimes(model);
+            return _serviceSR;
         }
 
-        public ResultService<SeasonDatesViewModel> GetCurrentDates()
+        public IExaminationRecordService GetExaminationRecordService()
         {
-            try
+            return _serviceER;
+        }
+
+        public IOffsetRecordService GetOffsetRecordService()
+        {
+            return _serviceOR;
+        }
+
+        public IConsultationRecordService GetConsultationRecordService()
+        {
+            return _serviceCR;
+        }
+
+        public ResultService<List<ScheduleRecordViewModel>> LoadSchedule(LoadScheduleBindingModel model)
+        {
+            // здесь будем хранить все найденные занятия
+            List<ScheduleRecordViewModel> records = new List<ScheduleRecordViewModel>();
+
+            #region вытаскиваем записи
+            using (var context = DepartmentUserManager.GetContext)
             {
-                using (var context = DepartmentUserManager.GetContext)
+                // время пар
+                List<DateTime> times = GetScheduleLessonTimes().Result;
+
+                //вытаскиваем учебный год
+                var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Учебный год");
+                if (currentSetting == null)
                 {
-                    var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
-                    if (currentSetting == null)
+                    var ay = context.AcademicYears.Last();
+                    if (ay != null)
                     {
-                        var seasonDates = _serviceSD.GetSeasonDaties(new SeasonDatesGetBindingModel());
-                        if (seasonDates.Succeeded)
+                        currentSetting = new Models.CurrentSettings { Key = "Учебный год", Value = ay.Title };
+                        context.CurrentSettings.Add(currentSetting);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return ResultService<List<ScheduleRecordViewModel>>.Error("Error:", "CurrentSetting not found", ResultServiceStatusCode.NotFound);
+                    }
+                }
+
+                var academicYear = context.AcademicYears.FirstOrDefault(x => x.Title == currentSetting.Value);
+                if (academicYear == null)
+                {
+                    return ResultService<List<ScheduleRecordViewModel>>.Error("Error:", "CurrentSetting not found", ResultServiceStatusCode.NotFound);
+                }
+
+                //вытаскиваем все сезонные даты для выбранного года (для 4 курса есть различия)
+                var dates = context.SeasonDates.Where(x => x.AcademicYearId == academicYear.Id && !x.IsDeleted).ToList();
+
+                if (dates == null || dates.Count == 0)
+                {
+                    return ResultService<List<ScheduleRecordViewModel>>.Error("Error:", "SeasonDates not found", ResultServiceStatusCode.NotFound);
+                }
+
+                foreach (var date in dates)
+                {
+                    // Смотрим первую половину семестра
+                    // Если дата начала входит в нее или дата конца входит, то получаем записи
+                    // Для семестра дата занятия по первым двум неделям начала периода!!!
+                    if ((date.DateBeginFirstHalfSemester <= model.BeginDate && date.DateEndFirstHalfSemester >= model.BeginDate) ||
+                        (date.DateBeginFirstHalfSemester <= model.EndDate && date.DateEndFirstHalfSemester >= model.EndDate))
+                    {
+                        var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
                         {
-                            currentSetting = new Models.CurrentSettings { Key = "Даты семестра", Value = seasonDates.Result.List[0].Title };
-                            context.CurrentSettings.Add(currentSetting);
-                            context.SaveChanges();
-                        }
-                        else
+                            ClassroomId = model.ClassroomId,
+                            ClassroomNumber = model.ClassroomNumber,
+                            DisciplineId = model.DisciplineId,
+                            DisciplineName = model.DisciplineName,
+                            LecturerId = model.LecturerId,
+                            LecturerName = model.LecturerName,
+                            StudentGroupId = model.StudentGroupId,
+                            StudentGroupName = model.StudentGroupName,
+                            DateBegin = date.DateBeginFirstHalfSemester.Date,
+                            DateEnd = date.DateBeginFirstHalfSemester.Date.AddDays(14)
+                        });
+
+                        // week == 0 - первая неделя
+                        var week = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays / 7 % 2 : 0;
+
+                        var startDate = date.DateBeginFirstHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginFirstHalfSemester;
+
+                        while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date)
                         {
-                            return ResultService<SeasonDatesViewModel>.Error("Error:", "CurrentSetting not found", ResultServiceStatusCode.NotFound);
+                            for (int day = 0; day < 7; day++)
+                            {
+                                for (int lesson = 0; lesson < 8; lesson++)
+                                {
+                                    //var search = semRecords.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson);
+                                    //foreach (var find in search)
+                                    //{
+                                    //    records.Add(new ScheduleRecordViewModel
+                                    //    {
+                                    //        Id = find.Id,
+                                    //        ClassroomId = find.ClassroomId,
+                                    //        Classroom = find.Classroom?.ToString(),
+                                    //        DisciplineId = find.DisciplineId,
+                                    //        Discipline = find.Discipline?.ToString(),
+                                    //        LecturerId = find.LecturerId,
+                                    //        Lecturer = find.Lecturer?.ToString(),
+                                    //        StudentGroupId = find.StudentGroupId,
+                                    //        StudentGroup = find.StudentGroup?.ToString(),
+                                    //        LessonClassroom = find.LessonClassroom,
+                                    //        LessonDiscipline = find.LessonDiscipline,
+                                    //        LessonLecturer = find.LessonLecturer,
+                                    //        LessonStudentGroup = find.LessonStudentGroup,
+                                    //        LessonType = find.LessonType,
+                                    //        ScheduleRecordType = ScheduleRecordType.Semester,
+                                    //        ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
+                                    //        TimeSpanMinutes = 90
+                                    //    });
+                                    //}
+                                }
+
+                                startDate = startDate.AddDays(1);
+                            }
+
+                            week = ++week % 2;
                         }
                     }
-                    return _serviceSD.GetSeasonDates(new SeasonDatesGetBindingModel { Title = currentSetting.Value });
+
+                    // Смотрим вторую половину семестра
+                    // Если дата начала входит в нее или дата конца входит, то получаем записи
+                    // Для семестра дата занятия по первым двум неделям начала периода!!!
+                    if ((date.DateBeginSecondHalfSemester <= model.BeginDate && date.DateEndSecondHalfSemester >= model.BeginDate) ||
+                        (date.DateBeginSecondHalfSemester <= model.EndDate && date.DateEndSecondHalfSemester >= model.EndDate))
+                    {
+                        var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
+                        {
+                            ClassroomId = model.ClassroomId,
+                            ClassroomNumber = model.ClassroomNumber,
+                            DisciplineId = model.DisciplineId,
+                            DisciplineName = model.DisciplineName,
+                            LecturerId = model.LecturerId,
+                            LecturerName = model.LecturerName,
+                            StudentGroupId = model.StudentGroupId,
+                            StudentGroupName = model.StudentGroupName,
+                            DateBegin = date.DateBeginSecondHalfSemester.Date,
+                            DateEnd = date.DateBeginSecondHalfSemester.Date.AddDays(14)
+                        });
+
+                        // week == 0 - первая неделя
+                        var week = date.DateBeginSecondHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginSecondHalfSemester).TotalDays / 7 % 2 : 0;
+
+                        var startDate = date.DateBeginSecondHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginSecondHalfSemester;
+
+                        while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date)
+                        {
+                            for (int day = 0; day < 7; day++)
+                            {
+                                for (int lesson = 0; lesson < 8; lesson++)
+                                {
+                                    //var search = semRecords.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson);
+                                    //foreach (var find in search)
+                                    //{
+                                    //    records.Add(new ScheduleRecordViewModel
+                                    //    {
+                                    //        Id = find.Id,
+                                    //        ClassroomId = find.ClassroomId,
+                                    //        Classroom = find.Classroom?.ToString(),
+                                    //        DisciplineId = find.DisciplineId,
+                                    //        Discipline = find.Discipline?.ToString(),
+                                    //        LecturerId = find.LecturerId,
+                                    //        Lecturer = find.Lecturer?.ToString(),
+                                    //        StudentGroupId = find.StudentGroupId,
+                                    //        StudentGroup = find.StudentGroup?.ToString(),
+                                    //        LessonClassroom = find.LessonClassroom,
+                                    //        LessonDiscipline = find.LessonDiscipline,
+                                    //        LessonLecturer = find.LessonLecturer,
+                                    //        LessonStudentGroup = find.LessonStudentGroup,
+                                    //        LessonType = find.LessonType,
+                                    //        ScheduleRecordType = ScheduleRecordType.Semester,
+                                    //        ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
+                                    //        TimeSpanMinutes = 90
+                                    //    });
+                                    //}
+                                }
+
+                                startDate = startDate.AddDays(1);
+                            }
+
+                            week = ++week % 2;
+                        }
+                    }
+                }
+
+                // Смотрим зачеты
+                var offRecords = GetOffsetRecords(new ScheduleGetBindingModel
+                {
+                    ClassroomId = model.ClassroomId,
+                    ClassroomNumber = model.ClassroomNumber,
+                    DisciplineId = model.DisciplineId,
+                    DisciplineName = model.DisciplineName,
+                    LecturerId = model.LecturerId,
+                    LecturerName = model.LecturerName,
+                    StudentGroupId = model.StudentGroupId,
+                    StudentGroupName = model.StudentGroupName,
+                    DateBegin = model.BeginDate.Date,
+                    DateEnd = model.EndDate.Date.AddDays(1)
+                });
+                foreach (var find in offRecords)
+                {
+                    records.Add(new ScheduleRecordViewModel
+                    {
+                        Id = find.Id,
+                        ClassroomId = find.ClassroomId,
+                        Classroom = find.Classroom?.ToString(),
+                        DisciplineId = find.DisciplineId,
+                        Discipline = find.Discipline?.ToString(),
+                        LecturerId = find.LecturerId,
+                        Lecturer = find.Lecturer?.ToString(),
+                        StudentGroupId = find.StudentGroupId,
+                        StudentGroup = find.StudentGroup?.ToString(),
+                        LessonClassroom = find.LessonClassroom,
+                        LessonDiscipline = find.LessonDiscipline,
+                        LessonLecturer = find.LessonLecturer,
+                        LessonStudentGroup = find.LessonStudentGroup,
+                        LessonType = LessonTypes.зачет,
+                        ScheduleRecordType = ScheduleRecordType.Offset,
+                        ScheduleDate = find.ScheduleDate,
+                        TimeSpanMinutes = 90
+                    });
+                }
+
+                // Смотрим экзамены
+                var examRecords = GetExaminationRecords(new ScheduleGetBindingModel
+                {
+                    ClassroomId = model.ClassroomId,
+                    ClassroomNumber = model.ClassroomNumber,
+                    DisciplineId = model.DisciplineId,
+                    DisciplineName = model.DisciplineName,
+                    LecturerId = model.LecturerId,
+                    LecturerName = model.LecturerName,
+                    StudentGroupId = model.StudentGroupId,
+                    StudentGroupName = model.StudentGroupName,
+                    DateBegin = model.BeginDate,
+                    DateEnd = model.EndDate
+                });
+                foreach (var find in examRecords)
+                {
+                    if (find.DateConsultation.Date >= model.BeginDate && find.DateConsultation <= model.EndDate)
+                    {
+                        records.Add(new ScheduleRecordViewModel
+                        {
+                            Id = find.Id,
+                            ClassroomId = find.ClassroomId,
+                            Classroom = find.Classroom?.ToString(),
+                            DisciplineId = find.DisciplineId,
+                            Discipline = find.Discipline?.ToString(),
+                            LecturerId = find.LecturerId,
+                            Lecturer = find.Lecturer?.ToString(),
+                            StudentGroupId = find.StudentGroupId,
+                            StudentGroup = find.StudentGroup?.ToString(),
+                            LessonClassroom = find.LessonClassroom,
+                            LessonDiscipline = find.LessonDiscipline,
+                            LessonLecturer = find.LessonLecturer,
+                            LessonStudentGroup = find.LessonStudentGroup,
+                            LessonType = LessonTypes.экзконс,
+                            ScheduleRecordType = ScheduleRecordType.Examination,
+                            ScheduleDate = find.DateConsultation,
+                            TimeSpanMinutes = 90
+                        });
+                    }
+                    if (find.ScheduleDate.Date >= model.BeginDate && find.ScheduleDate <= model.EndDate)
+                    {
+                        records.Add(new ScheduleRecordViewModel
+                        {
+                            Id = find.Id,
+                            ClassroomId = find.ClassroomId,
+                            Classroom = find.Classroom?.ToString(),
+                            DisciplineId = find.DisciplineId,
+                            Discipline = find.Discipline?.ToString(),
+                            LecturerId = find.LecturerId,
+                            Lecturer = find.Lecturer?.ToString(),
+                            StudentGroupId = find.StudentGroupId,
+                            StudentGroup = find.StudentGroup?.ToString(),
+                            LessonClassroom = find.LessonClassroom,
+                            LessonDiscipline = find.LessonDiscipline,
+                            LessonLecturer = find.LessonLecturer,
+                            LessonStudentGroup = find.LessonStudentGroup,
+                            LessonType = LessonTypes.экзамен,
+                            ScheduleRecordType = ScheduleRecordType.Examination,
+                            ScheduleDate = find.ScheduleDate,
+                            TimeSpanMinutes = 180
+                        });
+                    }
+                }
+
+                // Смотрим консультации
+                var consRecords = GetConsultationRecords(new ScheduleGetBindingModel
+                {
+                    ClassroomId = model.ClassroomId,
+                    ClassroomNumber = model.ClassroomNumber,
+                    DisciplineId = model.DisciplineId,
+                    DisciplineName = model.DisciplineName,
+                    LecturerId = model.LecturerId,
+                    LecturerName = model.LecturerName,
+                    StudentGroupId = model.StudentGroupId,
+                    StudentGroupName = model.StudentGroupName,
+                    DateBegin = model.BeginDate,
+                    DateEnd = model.EndDate
+                });
+                foreach (var find in consRecords)
+                {
+                    records.Add(new ScheduleRecordViewModel
+                    {
+                        Id = find.Id,
+                        ClassroomId = find.ClassroomId,
+                        Classroom = find.Classroom?.ToString(),
+                        DisciplineId = find.DisciplineId,
+                        Discipline = find.Discipline?.ToString(),
+                        LecturerId = find.LecturerId,
+                        Lecturer = find.Lecturer?.ToString(),
+                        StudentGroupId = find.StudentGroupId,
+                        StudentGroup = find.StudentGroup?.ToString(),
+                        LessonClassroom = find.LessonClassroom,
+                        LessonDiscipline = find.LessonDiscipline,
+                        LessonLecturer = find.LessonLecturer,
+                        LessonStudentGroup = find.LessonStudentGroup,
+                        LessonType = LessonTypes.конс,
+                        ScheduleRecordType = ScheduleRecordType.Consultation,
+                        ScheduleDate = find.ScheduleDate,
+                        TimeSpanMinutes = find.ConsultationTime
+                    });
                 }
             }
-            catch (Exception ex)
+            #endregion
+
+            // сортируем все найденные записи
+            records = records.OrderBy(x => x.ScheduleDate).ToList();
+
+            return ResultService<List<ScheduleRecordViewModel>>.Success(records);
+        }
+
+        private List<SemesterRecord> GetSemesterRecords(ScheduleGetBindingModel model)
+        {
+            using (var context = DepartmentUserManager.GetContext)
             {
-                return ResultService<SeasonDatesViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                var selectedRecords = context.SemesterRecords.Where(x => x.ScheduleDate >= model.DateBegin.Value &&
+                                                                    x.ScheduleDate <= model.DateEnd.Value);
+
+                if (!string.IsNullOrEmpty(model.ClassroomNumber))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
+                }
+                if (!string.IsNullOrEmpty(model.DisciplineName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.LessonDiscipline == model.DisciplineName);
+                }
+                if (!string.IsNullOrEmpty(model.StudentGroupName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.LessonStudentGroup == model.StudentGroupName);
+                }
+                if (model.ClassroomId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
+                }
+                if (model.StudentGroupId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
+                }
+                if (model.LecturerId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
+                    selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
+                }
+                if (model.DisciplineId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
+                }
+
+                selectedRecords = selectedRecords
+                                        .Include(x => x.Classroom)
+                                        .Include(x => x.Discipline)
+                                        .Include(x => x.Lecturer)
+                                        .Include(x => x.StudentGroup);
+
+                selectedRecords = selectedRecords.OrderBy(s => s.ScheduleDate);
+
+                return selectedRecords.ToList();
             }
         }
 
-        public ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model)
+        private List<OffsetRecord> GetOffsetRecords(ScheduleGetBindingModel model)
         {
-            try
+            using (var context = DepartmentUserManager.GetContext)
             {
-                using (var context = DepartmentUserManager.GetContext)
+                var selectedRecords = context.OffsetRecords.Where(x => x.ScheduleDate >= model.DateBegin.Value &&
+                                                                    x.ScheduleDate <= model.DateEnd.Value);
+
+                if (!string.IsNullOrEmpty(model.ClassroomNumber))
                 {
-                    var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
-                    if (currentSetting == null)
-                    {
-                        return null;
-                    }
-
-                    currentSetting.Value = model.Title;
-                    context.SaveChanges();
-
-                    return ResultService.Success();
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
                 }
+                if (!string.IsNullOrEmpty(model.DisciplineName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.LessonDiscipline == model.DisciplineName);
+                }
+                if (!string.IsNullOrEmpty(model.StudentGroupName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.LessonStudentGroup == model.StudentGroupName);
+                }
+                if (model.ClassroomId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
+                }
+                if (model.StudentGroupId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
+                }
+                if (model.LecturerId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
+                    selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
+                }
+                if (model.DisciplineId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
+                }
+
+                selectedRecords = selectedRecords
+                                        .Include(x => x.Classroom)
+                                        .Include(x => x.Discipline)
+                                        .Include(x => x.Lecturer)
+                                        .Include(x => x.StudentGroup);
+
+                selectedRecords = selectedRecords.OrderBy(s => s.ScheduleDate).ThenBy(s => s.ScheduleDate);
+
+                return selectedRecords.ToList();
             }
-            catch (Exception ex)
+        }
+
+        private List<ExaminationRecord> GetExaminationRecords(ScheduleGetBindingModel model)
+        {
+            using (var context = DepartmentUserManager.GetContext)
             {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                var selectedRecords = context.ExaminationRecords.Where(x =>
+                                (x.ScheduleDate >= model.DateBegin.Value && x.ScheduleDate <= model.DateEnd.Value) ||
+                                (x.DateConsultation >= model.DateBegin.Value && x.DateConsultation <= model.DateEnd.Value));
+
+                if (!string.IsNullOrEmpty(model.ClassroomNumber))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
+                }
+                if (!string.IsNullOrEmpty(model.DisciplineName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.LessonDiscipline == model.DisciplineName);
+                }
+                if (!string.IsNullOrEmpty(model.StudentGroupName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.LessonStudentGroup == model.StudentGroupName);
+                }
+                if (model.ClassroomId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
+                }
+                if (model.StudentGroupId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
+                }
+                if (model.LecturerId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
+                    selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
+                }
+                if (model.DisciplineId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
+                }
+
+                selectedRecords = selectedRecords
+                                        .Include(x => x.Classroom)
+                                        .Include(x => x.Discipline)
+                                        .Include(x => x.Lecturer)
+                                        .Include(x => x.StudentGroup);
+
+                selectedRecords = selectedRecords.OrderBy(s => s.ScheduleDate);
+
+                return selectedRecords.ToList();
+            }
+        }
+
+        private List<ConsultationRecord> GetConsultationRecords(ScheduleGetBindingModel model)
+        {
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                var selectedRecords = context.ConsultationRecords.Where(x => x.ScheduleDate >= model.DateBegin.Value &&
+                                                                    x.ScheduleDate <= model.DateEnd.Value);
+
+                if (!string.IsNullOrEmpty(model.ClassroomNumber))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
+                }
+                if (!string.IsNullOrEmpty(model.DisciplineName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.LessonDiscipline == model.DisciplineName);
+                }
+                if (!string.IsNullOrEmpty(model.StudentGroupName))
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.LessonStudentGroup == model.StudentGroupName);
+                }
+                if (model.ClassroomId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                    selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
+                }
+                if (model.StudentGroupId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                    selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
+                }
+                if (model.LecturerId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
+                    selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
+                }
+                if (model.DisciplineId.HasValue)
+                {
+                    DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                    selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
+                }
+
+                selectedRecords = selectedRecords
+                                        .Include(x => x.Classroom)
+                                        .Include(x => x.Discipline)
+                                        .Include(x => x.Lecturer)
+                                        .Include(x => x.StudentGroup);
+
+                selectedRecords = selectedRecords.OrderBy(s => s.ScheduleDate);
+
+                return selectedRecords.ToList();
             }
         }
 
         public ResultService<ScheduleRecordsForDisciplinePageViewModel> GetScheduleRecordsForDiciplinePageViewModel(ScheduleRecordsForDiciplineBindingModel model)
         {
             List<ScheduleRecordsForDisciplineViewModel> list = new List<ScheduleRecordsForDisciplineViewModel>();
-            var modelGet = new ScheduleGetBindingModel { DisciplineId = model.DisciplineId, SeasonDateId = model.SeasonDateId };
+            var modelGet = new ScheduleGetBindingModel { DisciplineId = model.DisciplineId };
             var semesters = _serviceSR.GetSemesterSchedule(modelGet);
             var days = new[] { "Пн.", "Вт.", "Ср.", "Чт.", "Пт.", "Сб." };//дни недели
             if (semesters.Succeeded)
@@ -155,7 +649,7 @@ namespace ScheduleImplementations.Services
                     list.Add(new ScheduleRecordsForDisciplineViewModel
                     {
                         Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
+                        ScheduleRecordType = ScheduleRecordType.Semester,
                         Date = string.Format("{0} нед., {1} {2} пара", rec.Week + 1, days[rec.Day], rec.Lesson + 1),
                         LessonType = rec.LessonType,
                         LessonClassroom = rec.LessonClassroom,
@@ -175,8 +669,8 @@ namespace ScheduleImplementations.Services
                     list.Add(new ScheduleRecordsForDisciplineViewModel
                     {
                         Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("{0} нед., {1} {2} пара", rec.Week + 1, days[rec.Day], rec.Lesson + 1),
+                        ScheduleRecordType = ScheduleRecordType.Offset,
+                        // Date = string.Format("{0} нед., {1} {2} пара", rec.Week + 1, days[rec.Day], rec.Lesson + 1),
                         LessonType = LessonTypes.зачет,
                         LessonClassroom = rec.LessonClassroom,
                         LessonDiscipline = rec.LessonDiscipline,
@@ -195,8 +689,8 @@ namespace ScheduleImplementations.Services
                     list.Add(new ScheduleRecordsForDisciplineViewModel
                     {
                         Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("Конс:{0}, Экз:{1}", rec.DateConsultation.ToShortDateString(), rec.DateExamination.ToShortDateString()),
+                        ScheduleRecordType = ScheduleRecordType.Examination,
+                        Date = string.Format("Конс:{0}, Экз:{1}", rec.DateConsultation.ToShortDateString(), rec.ScheduleDate.ToShortDateString()),
                         LessonType = LessonTypes.экзамен,
                         LessonClassroom = rec.LessonClassroom,
                         LessonDiscipline = rec.LessonDiscipline,
@@ -215,8 +709,8 @@ namespace ScheduleImplementations.Services
                     list.Add(new ScheduleRecordsForDisciplineViewModel
                     {
                         Id = rec.Id,
-                        Type = ScheduleRecordTypeForDiscipline.Semester,
-                        Date = string.Format("Дата:{0}, Время:{1}", rec.DateConsultation.ToShortDateString(), rec.DateConsultation.ToShortTimeString()),
+                        ScheduleRecordType = ScheduleRecordType.Consultation,
+                        Date = string.Format("Дата:{0}, Время:{1}", rec.ScheduleDate.ToShortDateString(), rec.ScheduleDate.ToShortTimeString()),
                         LessonType = LessonTypes.конс,
                         LessonClassroom = rec.LessonClassroom,
                         LessonDiscipline = rec.LessonDiscipline,
@@ -276,7 +770,7 @@ namespace ScheduleImplementations.Services
                             if (string.IsNullOrEmpty(record.LessonDiscipline))
                             {//если нет названия дисциплины
                                 var searchMatches = context.SemesterRecords.FirstOrDefault(sr =>
-            (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
+            (sr.LessonStudentGroup == record.LessonStudentGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
             (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) &&
             (sr.LessonClassroom == record.LessonClassroom || (sr.ClassroomId == record.ClassroomId && sr.ClassroomId.HasValue)) && sr.Id != record.Id);
                                 if (searchMatches != null)
@@ -291,7 +785,7 @@ namespace ScheduleImplementations.Services
                                 else
                                 {//если в этой аудитории нет такой пары, то ищем по другим аудиториям
                                     searchMatches = context.SemesterRecords.FirstOrDefault(sr =>
-            (sr.LessonGroup == record.LessonGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
+            (sr.LessonStudentGroup == record.LessonStudentGroup || (sr.StudentGroupId == record.StudentGroupId && sr.StudentGroupId != null)) &&
             (sr.LessonLecturer == record.LessonLecturer || (sr.LecturerId == record.LecturerId && sr.LecturerId != null)) && sr.Id != record.Id);
                                     if (searchMatches != null)
                                     {
@@ -307,7 +801,7 @@ namespace ScheduleImplementations.Services
                             if (record.LessonType == LessonTypes.нд)
                             {//если нет типа занятия
                                 var searchMatches = context.SemesterRecords.FirstOrDefault(sr =>
-                                                        (sr.LessonGroup == record.LessonGroup || sr.StudentGroupId == record.StudentGroupId) &&
+                                                        (sr.LessonStudentGroup == record.LessonStudentGroup || sr.StudentGroupId == record.StudentGroupId) &&
                                                         (sr.LessonLecturer == record.LessonLecturer || sr.LecturerId == record.LecturerId) &&
                                                         (sr.LessonClassroom == record.LessonClassroom || sr.ClassroomId == record.ClassroomId) &&
                                                         (sr.LessonDiscipline == record.LessonDiscipline) &&
@@ -322,7 +816,7 @@ namespace ScheduleImplementations.Services
                                     if (record.Classroom != null)
                                     {
                                         searchMatches = context.SemesterRecords.FirstOrDefault(sr =>
-                                                        (sr.LessonGroup == record.LessonGroup || sr.StudentGroupId == record.StudentGroupId) &&
+                                                        (sr.LessonStudentGroup == record.LessonStudentGroup || sr.StudentGroupId == record.StudentGroupId) &&
                                                         (sr.LessonLecturer == record.LessonLecturer || sr.LecturerId == record.LecturerId) &&
                                                         (sr.ClassroomId == record.ClassroomId && sr.Classroom.ClassroomType == record.Classroom.ClassroomType) &&
                                                         (sr.LessonDiscipline == record.LessonDiscipline) &&
@@ -370,13 +864,6 @@ namespace ScheduleImplementations.Services
         #region Export
         public ResultService ExportSemesterRecordExcel(ExportToExcelClassroomsBindingModel model)
         {
-            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            model.Times = result.Result.List;
-
             var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel());
             if (!resultSemester.Succeeded)
             {
@@ -482,12 +969,6 @@ namespace ScheduleImplementations.Services
 
         public ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model)
         {
-            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            var times = result.Result.List;
 
             var resultOffset = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel());
             if (!resultOffset.Succeeded)
@@ -496,32 +977,11 @@ namespace ScheduleImplementations.Services
             }
             var list = resultOffset.Result;
 
-            var resultDates = GetCurrentDates();
-            if (!resultDates.Succeeded)
-            {
-                return ResultService.Error("Error:", "CurrentDates not found", ResultServiceStatusCode.NotFound);
-            }
-            model.Times = times;
-            model.Dates = resultDates.Result;
-
             return ExportScheduleToExcel.ExportOffsetRecordExcel(list, model);
         }
 
         public ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model)
         {
-            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            var times = result.Result.List;
-            result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            times.AddRange(result.Result.List);
-
             var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel());
             if (!resultExamination.Succeeded)
             {
@@ -529,27 +989,13 @@ namespace ScheduleImplementations.Services
             }
             var list = resultExamination.Result;
 
-            var resultDates = GetCurrentDates();
-            if (!resultDates.Succeeded)
-            {
-                return ResultService.Error("Error:", "CurrentDates not found", ResultServiceStatusCode.NotFound);
-            }
-            model.Times = times;
-            model.Dates = resultDates.Result;
-
             return ExportScheduleToExcel.ExportExaminationRecordExcel(list, model);
         }
 
         public ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
-            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            model.Times = result.Result.List;
             // TODO определить период
-            var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel { IsFirstHalfSemester = false });
+            var resultSemester = _serviceSR.GetSemesterSchedule(new ScheduleGetBindingModel());
             if (!resultSemester.Succeeded)
             {
                 return ResultService.Error("Error:", "ScheduleSemester not found", ResultServiceStatusCode.NotFound);
@@ -653,13 +1099,6 @@ namespace ScheduleImplementations.Services
 
         public ResultService ExportOffsetRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
-            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "пара" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            var times = result.Result.List;
-
             var resultOffset = _serviceOR.GetOffsetSchedule(new ScheduleGetBindingModel());
             if (!resultOffset.Succeeded)
             {
@@ -667,24 +1106,11 @@ namespace ScheduleImplementations.Services
             }
             var list = resultOffset.Result;
 
-            return ExportScheduleToHTML.ExportOffsetRecordHTML(times, list, model);
+            return ExportScheduleToHTML.ExportOffsetRecordHTML(list, model);
         }
 
         public ResultService ExportExaminationRecordHTML(ExportToHTMLClassroomsBindingModel model)
         {
-            var result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "экзамен" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            var times = result.Result.List;
-            result = _serviceSLT.GetScheduleLessonTimes(new ScheduleLessonTimeGetBindingModel { Title = "консультация" });
-            if (!result.Succeeded)
-            {
-                return ResultService.Error("Error:", "LessonTime not found", ResultServiceStatusCode.NotFound);
-            }
-            times.AddRange(result.Result.List);
-
             var resultExamination = _serviceER.GetExaminationSchedule(new ScheduleGetBindingModel());
             if (!resultExamination.Succeeded)
             {
@@ -692,7 +1118,7 @@ namespace ScheduleImplementations.Services
             }
             var list = resultExamination.Result;
 
-            return ExportScheduleToHTML.ExportExaminationRecordHTML(times, list, model);
+            return ExportScheduleToHTML.ExportExaminationRecordHTML(list, model);
         }
         #endregion
 

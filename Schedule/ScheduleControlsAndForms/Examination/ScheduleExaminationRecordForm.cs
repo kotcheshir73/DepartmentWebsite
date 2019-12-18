@@ -61,14 +61,7 @@ namespace ScheduleControlsAndForms.Examination
             comboBoxClassroom.DataSource = resultS.Result.List
                 .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
             comboBoxClassroom.SelectedItem = null;
-            textBoxClassroom.Text = string.Empty;
-
-            comboBoxConsultationClassroom.ValueMember = "Value";
-            comboBoxConsultationClassroom.DisplayMember = "Display";
-            comboBoxConsultationClassroom.DataSource = resultS.Result.List
-                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
-            comboBoxConsultationClassroom.SelectedItem = null;
-            textBoxConsultationClassroom.Text = string.Empty;
+            textBoxLessonClassroom.Text = string.Empty;
 
             comboBoxDiscipline.ValueMember = "Value";
             comboBoxDiscipline.DisplayMember = "Display";
@@ -89,7 +82,14 @@ namespace ScheduleControlsAndForms.Examination
             comboBoxStudentGroup.DataSource = resultSG.Result.List
                 .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
             comboBoxStudentGroup.SelectedItem = null;
-            textBoxLessonGroup.Text = string.Empty;
+            textBoxLessonStudentGroup.Text = string.Empty;
+
+            comboBoxConsultationClassroom.ValueMember = "Value";
+            comboBoxConsultationClassroom.DisplayMember = "Display";
+            comboBoxConsultationClassroom.DataSource = resultS.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
+            comboBoxConsultationClassroom.SelectedItem = null;
+            textBoxConsultationClassroom.Text = string.Empty;
 
             if (_id.HasValue)
             {
@@ -101,14 +101,15 @@ namespace ScheduleControlsAndForms.Examination
                 }
                 var entity = result.Result;
 
+                textBoxLessonClassroom.Text = entity.LessonClassroom;
                 textBoxLessonDiscipline.Text = entity.LessonDiscipline;
-                textBoxLessonGroup.Text = entity.LessonGroup;
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
-                textBoxClassroom.Text = entity.LessonClassroom;
-                textBoxConsultationClassroom.Text = entity.LessonConsultationClassroom;
+                textBoxLessonStudentGroup.Text = entity.LessonStudentGroup;
+
 
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
-                dateTimePickerDateExamination.Value = entity.DateExamination;
+                textBoxConsultationClassroom.Text = entity.LessonConsultationClassroom;
+                dateTimePickerDateExamination.Value = entity.ScheduleDate;
 
                 if (entity.ClassroomId.HasValue)
                 {
@@ -133,6 +134,14 @@ namespace ScheduleControlsAndForms.Examination
             }
         }
 
+        private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxClassroom.SelectedIndex > -1)
+            {
+                textBoxLessonClassroom.Text = comboBoxClassroom.Text;
+            }
+        }
+
         private void ComboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxDiscipline.SelectedIndex > -1)
@@ -153,15 +162,7 @@ namespace ScheduleControlsAndForms.Examination
         {
             if (comboBoxStudentGroup.SelectedIndex > -1)
             {
-                textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
-            }
-        }
-
-        private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxClassroom.SelectedIndex > -1)
-            {
-                textBoxClassroom.Text = comboBoxClassroom.Text;
+                textBoxLessonStudentGroup.Text = comboBoxStudentGroup.Text;
             }
         }
 
@@ -175,11 +176,11 @@ namespace ScheduleControlsAndForms.Examination
 
         private bool CheckFill()
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
+            if (string.IsNullOrEmpty(textBoxLessonClassroom.Text))
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text))
+            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
             {
                 return false;
             }
@@ -187,7 +188,11 @@ namespace ScheduleControlsAndForms.Examination
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxClassroom.Text))
+            if (string.IsNullOrEmpty(textBoxLessonStudentGroup.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxConsultationClassroom.Text))
             {
                 return false;
             }
@@ -198,6 +203,11 @@ namespace ScheduleControlsAndForms.Examination
         {
             if (CheckFill())
             {
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
+                }
                 Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
@@ -213,11 +223,6 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
                 }
-                Guid? classroomId = null;
-                if (comboBoxClassroom.SelectedValue != null)
-                {
-                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
-                }
                 Guid? consultaionClassroomId = null;
                 if (comboBoxConsultationClassroom.SelectedValue != null)
                 {
@@ -229,12 +234,12 @@ namespace ScheduleControlsAndForms.Examination
                     result = _service.CreateExaminationRecord(new ExaminationRecordSetBindingModel
                     {
                         DateConsultation = dateTimePickerDateConsultation.Value,
-                        DateExamination = dateTimePickerDateExamination.Value,
+                        ScheduleDate = dateTimePickerDateExamination.Value,
 
+                        LessonClassroom = textBoxLessonClassroom.Text,
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonGroup = textBoxLessonGroup.Text,
-                        LessonClassroom = textBoxClassroom.Text,
+                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
                         LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,
@@ -250,12 +255,12 @@ namespace ScheduleControlsAndForms.Examination
                     {
                         Id = _id.Value,
                         DateConsultation = dateTimePickerDateConsultation.Value,
-                        DateExamination = dateTimePickerDateExamination.Value,
+                        ScheduleDate = dateTimePickerDateExamination.Value,
 
+                        LessonClassroom = textBoxLessonClassroom.Text,
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonGroup = textBoxLessonGroup.Text,
-                        LessonClassroom = textBoxClassroom.Text,
+                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
                         LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,

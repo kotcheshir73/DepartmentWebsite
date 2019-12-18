@@ -6,7 +6,6 @@ using ScheduleControlsAndForms.Consultation;
 using ScheduleControlsAndForms.Current;
 using ScheduleControlsAndForms.Examination;
 using ScheduleControlsAndForms.Offset;
-using ScheduleControlsAndForms.ScheduleLessonTime;
 using ScheduleControlsAndForms.Semester;
 using ScheduleImplementations.Services;
 using ScheduleInterfaces.Interfaces;
@@ -38,18 +37,17 @@ namespace ScheduleControlsAndForms
             currentContainer.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
 
             return currentContainer;
         }
 
-        public static ControlScheduleLessonTime GetControlScheduleLessonTime { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlScheduleLessonTime>(); } }
-
         public static ControlScheduleConfig GetControlScheduleConfig { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlScheduleConfig>(); } }
 
         public static ControlCurrentClassroom GetControlCurrentClassroom { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlCurrentClassroom>(); } }
+
+        public static ControlCurrentDiscipline GetControlCurrentDiscipline { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlCurrentDiscipline>(); } }
 
         public static ControlCurrentLecturer GetControlCurrentLecturer { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlCurrentLecturer>(); } }
 

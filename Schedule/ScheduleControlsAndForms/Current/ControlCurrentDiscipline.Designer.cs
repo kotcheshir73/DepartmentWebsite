@@ -1,6 +1,6 @@
-﻿namespace ScheduleControlsAndForms.ScheduleLessonTime
+﻿namespace ScheduleControlsAndForms.Current
 {
-    partial class ControlScheduleLessonTime
+    partial class ControlCurrentDiscipline
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -28,30 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.standartControl = new ControlsAndForms.Controls.StandartControl();
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.buttonSwitch = new System.Windows.Forms.Button();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // standartControl
+            // panelTop
             // 
-            this.standartControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.standartControl.Location = new System.Drawing.Point(0, 0);
-            this.standartControl.Name = "standartControl";
-            this.standartControl.Size = new System.Drawing.Size(800, 500);
-            this.standartControl.TabIndex = 0;
+            this.panelTop.Controls.Add(this.buttonSwitch);
+            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Size = new System.Drawing.Size(800, 33);
+            this.panelTop.TabIndex = 0;
             // 
-            // ScheduleLessonTimeControl
+            // buttonSwitch
+            // 
+            this.buttonSwitch.Location = new System.Drawing.Point(3, 3);
+            this.buttonSwitch.Name = "buttonSwitch";
+            this.buttonSwitch.Size = new System.Drawing.Size(210, 25);
+            this.buttonSwitch.TabIndex = 0;
+            this.buttonSwitch.Text = "Переключиться на день/период";
+            this.buttonSwitch.UseVisualStyleBackColor = true;
+            this.buttonSwitch.Click += new System.EventHandler(this.ButtonSwitch_Click);
+            // 
+            // ControlCurrentDiscipline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.standartControl);
-            this.Name = "ScheduleLessonTimeControl";
+            this.Controls.Add(this.panelTop);
+            this.Name = "ControlCurrentDiscipline";
             this.Size = new System.Drawing.Size(800, 500);
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ControlsAndForms.Controls.StandartControl standartControl;
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Button buttonSwitch;
     }
 }

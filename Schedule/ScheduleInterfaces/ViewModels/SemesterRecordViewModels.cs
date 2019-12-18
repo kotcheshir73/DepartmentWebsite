@@ -1,20 +1,17 @@
-﻿using Enums;
-using System;
+﻿using System;
 
 namespace ScheduleInterfaces.ViewModels
 {
-	/// <summary>
-	/// Краткая запись для вывода в расписании
-	/// </summary>
-	public class SemesterRecordShortViewModel : ScheduleRecordShortViewModel
+    /// <summary>
+    /// Краткая запись для вывода в расписании
+    /// </summary>
+    public class SemesterRecordShortViewModel : ScheduleRecordShortViewModel
     {
 		public int Week { get; set; }
 
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-		public LessonTypes LessonType { get; set; }
 
         public string Text
 		{
@@ -35,9 +32,5 @@ namespace ScheduleInterfaces.ViewModels
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-		public LessonTypes LessonType { get; set; }
-
-        public bool IsFirstHalfSemester { get; set; }
     }
 }

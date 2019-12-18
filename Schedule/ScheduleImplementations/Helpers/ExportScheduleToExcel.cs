@@ -60,11 +60,11 @@ namespace ScheduleServiceImplementations.Helpers
                             InsertCell(rows, 2 + i, 1, days[i], CellValues.String, 1);
                             InsertCell(rows, 4 + days.Length + i, 1, days[i], CellValues.String, 1);
                         }
-                        for (int j = 0; j < model.Times.Count; j++)
-                        {
-                            InsertCell(rows, 1, j + 1, model.Times[j].Text, CellValues.String, 1);
-                            InsertCell(rows, 3 + days.Length, j + 1, model.Times[j].Text, CellValues.String, 1);
-                        }
+                        //for (int j = 0; j < model.Times.Count; j++)
+                        //{
+                        //    InsertCell(rows, 1, j + 1, model.Times[j].Text, CellValues.String, 1);
+                        //    InsertCell(rows, 3 + days.Length, j + 1, model.Times[j].Text, CellValues.String, 1);
+                        //}
                         #endregion
 
                         #region тело
@@ -107,8 +107,8 @@ namespace ScheduleServiceImplementations.Helpers
                         worksheetPart.Worksheet.AppendChild(sheetData);
 
                         MergeCells mergeCells = new MergeCells();
-                        MergeCell mergeCell = new MergeCell() { Reference = new StringValue("A1" + ":" + simbols[model.Times.Count] + "1") };
-                        mergeCells.Append(mergeCell);
+                        //MergeCell mergeCell = new MergeCell() { Reference = new StringValue("A1" + ":" + simbols[model.Times.Count] + "1") };
+                        //mergeCells.Append(mergeCell);
                         worksheetPart.Worksheet.AppendChild(mergeCells);
 
                         // Add Sheets to the Workbook.
@@ -153,118 +153,118 @@ namespace ScheduleServiceImplementations.Helpers
                     var days = new[] { "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ" };
                     var simbols = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 
-                    for (int r = 1; r <= model.Classrooms.Count; r++)
-                    {
-                        SheetData sheetData = new SheetData();
-                        List<Row> rows = new List<Row>();
-                        DateTime currentdate = Convert.ToDateTime(model.Dates.DateBeginOffset);
+                    //for (int r = 1; r <= model.Classrooms.Count; r++)
+                    //{
+                    //    SheetData sheetData = new SheetData();
+                    //    List<Row> rows = new List<Row>();
+                    //    DateTime currentdate = Convert.ToDateTime(model.Dates.DateBeginOffset);
 
-                        #region шапка
-                        for (uint i = 0; i < days.Length * 2 + 4; ++i)
-                        {
-                            Row row = new Row()
-                            {
-                                RowIndex = i + 1,
-                                Height = (i == 0 /*шапка*/ ? 25 : i == days.Length + 2 /*между таблицами*/ ? 15 : i == 1 || i == days.Length + 3 /*шапки таблиц*/ ? 30 : 40),
-                                CustomHeight = true
-                            };
-                            rows.Add(row);
-                            sheetData.Append(row);
-                        }
+                    //    #region шапка
+                    //    for (uint i = 0; i < days.Length * 2 + 4; ++i)
+                    //    {
+                    //        Row row = new Row()
+                    //        {
+                    //            RowIndex = i + 1,
+                    //            Height = (i == 0 /*шапка*/ ? 25 : i == days.Length + 2 /*между таблицами*/ ? 15 : i == 1 || i == days.Length + 3 /*шапки таблиц*/ ? 30 : 40),
+                    //            CustomHeight = true
+                    //        };
+                    //        rows.Add(row);
+                    //        sheetData.Append(row);
+                    //    }
 
-                        InsertCell(rows, 0, 1, model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0], CellValues.String, 2);
-                        InsertCell(rows, 1, 1, "", CellValues.String, 1);
-                        InsertCell(rows, 3 + days.Length, 1, "", CellValues.String, 1);
-                        for (int i = 0; i < days.Length; i++)
-                        {
-                            InsertCell(rows, 2 + i, 1, string.Format("{0}\r\n{1}", days[i], currentdate.ToShortDateString()), CellValues.String, 1);
-                            InsertCell(rows, 4 + days.Length + i, 1, string.Format("{0}\r\n{1}", days[i], currentdate.AddDays(7).ToShortDateString()), CellValues.String, 1);
-                            currentdate = currentdate.AddDays(1);
-                        }
-                        for (int j = 0; j < model.Times.Count; j++)
-                        {
-                            InsertCell(rows, 1, j + 1, model.Times[j].Text, CellValues.String, 1);
-                            InsertCell(rows, 3 + days.Length, j + 1, model.Times[j].Text, CellValues.String, 1);
-                        }
-                        #endregion
+                    //    InsertCell(rows, 0, 1, model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0], CellValues.String, 2);
+                    //    InsertCell(rows, 1, 1, "", CellValues.String, 1);
+                    //    InsertCell(rows, 3 + days.Length, 1, "", CellValues.String, 1);
+                    //    for (int i = 0; i < days.Length; i++)
+                    //    {
+                    //        InsertCell(rows, 2 + i, 1, string.Format("{0}\r\n{1}", days[i], currentdate.ToShortDateString()), CellValues.String, 1);
+                    //        InsertCell(rows, 4 + days.Length + i, 1, string.Format("{0}\r\n{1}", days[i], currentdate.AddDays(7).ToShortDateString()), CellValues.String, 1);
+                    //        currentdate = currentdate.AddDays(1);
+                    //    }
+                    //    //for (int j = 0; j < model.Times.Count; j++)
+                    //    //{
+                    //    //    InsertCell(rows, 1, j + 1, model.Times[j].Text, CellValues.String, 1);
+                    //    //    InsertCell(rows, 3 + days.Length, j + 1, model.Times[j].Text, CellValues.String, 1);
+                    //    //}
+                    //    #endregion
 
-                        #region тело
-                        var list = records.Where(rec => rec.LessonClassroom == model.Classrooms[r - 1]).ToList();
-                        for (int week = 0; week < 2; week++)
-                        {
-                            for (int day = 0; day < 6; day++)
-                            {
-                                for (int lesson = 0; lesson < 8; lesson++)
-                                {
-                                    var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson).OrderBy(x => x.LessonGroup);
-                                    if (elems != null && elems.Count() > 0)
-                                    {
-                                        // одна пара
-                                        if (elems.Count() == 1)
-                                        {
-                                            string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", "зач", elems.First().LessonDiscipline, elems.First().LessonClassroom,
-                                                Environment.NewLine, elems.First().LessonLecturer, elems.First().LessonGroup);
-                                            InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
-                                        }
-                                        else
-                                        {
-                                            // подгруппы
-                                            if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
-                                            {
-                                                string text = string.Format("{0} {1} {2} {3}{2}  {4}", "зач",
-                                                    string.Join("/", elems.Select(x => string.Format("{0} {1}", x.LessonDiscipline, x.LessonClassroom))),
-                                                    Environment.NewLine, string.Join("/", elems.Select(x => x.LessonLecturer)), elems.First().LessonGroup);
-                                                InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
-                                            }
-                                            // поток
-                                            else
-                                            {
-                                                string groups = string.Join(",", elems.Select(x => x.LessonGroup));
-                                                string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", "зач", elems.First().LessonDiscipline, elems.First().LessonClassroom,
-                                                    Environment.NewLine, elems.First().LessonLecturer, groups);
-                                                InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        InsertCell(rows, day + 2 + week * 8, lesson + 2, "", CellValues.String, 1);
-                                    }
-                                }
-                            }
-                        }
-                        #endregion
+                    //    #region тело
+                    //    var list = records.Where(rec => rec.LessonClassroom == model.Classrooms[r - 1]).ToList();
+                    //    for (int week = 0; week < 2; week++)
+                    //    {
+                    //        for (int day = 0; day < 6; day++)
+                    //        {
+                    //            for (int lesson = 0; lesson < 8; lesson++)
+                    //            {
+                    //                var elems = list.Where(x => x.Week == week && x.Day == day && x.Lesson == lesson).OrderBy(x => x.LessonGroup);
+                    //                if (elems != null && elems.Count() > 0)
+                    //                {
+                    //                    // одна пара
+                    //                    if (elems.Count() == 1)
+                    //                    {
+                    //                        string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", "зач", elems.First().LessonDiscipline, elems.First().LessonClassroom,
+                    //                            Environment.NewLine, elems.First().LessonLecturer, elems.First().LessonGroup);
+                    //                        InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        // подгруппы
+                    //                        if (elems.Select(x => x.LessonGroup).Distinct().Count() == 1)
+                    //                        {
+                    //                            string text = string.Format("{0} {1} {2} {3}{2}  {4}", "зач",
+                    //                                string.Join("/", elems.Select(x => string.Format("{0} {1}", x.LessonDiscipline, x.LessonClassroom))),
+                    //                                Environment.NewLine, string.Join("/", elems.Select(x => x.LessonLecturer)), elems.First().LessonGroup);
+                    //                            InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
+                    //                        }
+                    //                        // поток
+                    //                        else
+                    //                        {
+                    //                            string groups = string.Join(",", elems.Select(x => x.LessonGroup));
+                    //                            string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", "зач", elems.First().LessonDiscipline, elems.First().LessonClassroom,
+                    //                                Environment.NewLine, elems.First().LessonLecturer, groups);
+                    //                            InsertCell(rows, day + 2 + week * 8, lesson + 2, text, CellValues.String, 1);
+                    //                        }
+                    //                    }
+                    //                }
+                    //                else
+                    //                {
+                    //                    InsertCell(rows, day + 2 + week * 8, lesson + 2, "", CellValues.String, 1);
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //    #endregion
 
-                        WorksheetPart worksheetPart = document.WorkbookPart.AddNewPart<WorksheetPart>();
-                        worksheetPart.Worksheet = new Worksheet();
+                    //    WorksheetPart worksheetPart = document.WorkbookPart.AddNewPart<WorksheetPart>();
+                    //    worksheetPart.Worksheet = new Worksheet();
 
-                        SheetProperties sheetProperties = new SheetProperties(new PageSetupProperties());
-                        worksheetPart.Worksheet.SheetProperties = sheetProperties;
-                        worksheetPart.Worksheet.SheetProperties.PageSetupProperties.FitToPage = BooleanValue.FromBoolean(true);
-                        // Задаем колонки и их ширину
-                        Columns listColumns = new Columns();
-                        listColumns.Append(new Column() { Min = 1, Max = 1, Width = 9.90, CustomWidth = true });
-                        listColumns.Append(new Column() { Min = 2, Max = 9, Width = 15.90, CustomWidth = true });
-                        worksheetPart.Worksheet.Append(listColumns);
+                    //    SheetProperties sheetProperties = new SheetProperties(new PageSetupProperties());
+                    //    worksheetPart.Worksheet.SheetProperties = sheetProperties;
+                    //    worksheetPart.Worksheet.SheetProperties.PageSetupProperties.FitToPage = BooleanValue.FromBoolean(true);
+                    //    // Задаем колонки и их ширину
+                    //    Columns listColumns = new Columns();
+                    //    listColumns.Append(new Column() { Min = 1, Max = 1, Width = 9.90, CustomWidth = true });
+                    //    listColumns.Append(new Column() { Min = 2, Max = 9, Width = 15.90, CustomWidth = true });
+                    //    worksheetPart.Worksheet.Append(listColumns);
 
-                        // Add a WorksheetPart to the WorkbookPart.
-                        worksheetPart.Worksheet.AppendChild(sheetData);
+                    //    // Add a WorksheetPart to the WorkbookPart.
+                    //    worksheetPart.Worksheet.AppendChild(sheetData);
 
-                        MergeCells mergeCells = new MergeCells();
-                        MergeCell mergeCell = new MergeCell() { Reference = new StringValue("A1" + ":" + simbols[model.Times.Count] + "1") };
-                        mergeCells.Append(mergeCell);
-                        worksheetPart.Worksheet.AppendChild(mergeCells);
+                    //    MergeCells mergeCells = new MergeCells();
+                    //    //MergeCell mergeCell = new MergeCell() { Reference = new StringValue("A1" + ":" + simbols[model.Times.Count] + "1") };
+                    //    //mergeCells.Append(mergeCell);
+                    //    worksheetPart.Worksheet.AppendChild(mergeCells);
 
-                        // Add Sheets to the Workbook.
-                        Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)r, Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0] };
-                        sheets.Append(sheet);
+                    //    // Add Sheets to the Workbook.
+                    //    Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)r, Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0] };
+                    //    sheets.Append(sheet);
 
-                        PageSetup pageSetup = new PageSetup
-                        {
-                            Orientation = OrientationValues.Landscape
-                        };
-                        worksheetPart.Worksheet.AppendChild(pageSetup);
-                    }
+                    //    PageSetup pageSetup = new PageSetup
+                    //    {
+                    //        Orientation = OrientationValues.Landscape
+                    //    };
+                    //    worksheetPart.Worksheet.AppendChild(pageSetup);
+                    //}
 
                     workbookPart.Workbook.Save();
                     document.Close();
@@ -296,129 +296,129 @@ namespace ScheduleServiceImplementations.Helpers
 
                     var simbols = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 
-                    var currentdate = Convert.ToDateTime(model.Dates.DateBeginExamination);
-                    var days = (Convert.ToDateTime(model.Dates.DateEndExamination) - currentdate).Days + 1;
+                    //var currentdate = Convert.ToDateTime(model.Dates.DateBeginExamination);
+                    //var days = (Convert.ToDateTime(model.Dates.DateEndExamination) - currentdate).Days + 1;
 
-                    for (int r = 1; r <= model.Classrooms.Count; r++)
-                    {
-                        SheetData sheetData = new SheetData();
-                        List<Row> rows = new List<Row>();
+                    //for (int r = 1; r <= model.Classrooms.Count; r++)
+                    //{
+                    //    SheetData sheetData = new SheetData();
+                    //    List<Row> rows = new List<Row>();
 
-                        #region шапка
-                        for (uint i = 0; i < days + 2; ++i)
-                        {
-                            Row row = new Row()
-                            {
-                                RowIndex = i + 1,
-                                Height = (i == 0 /*шапка*/ ? 25 : i == 1 /*шапки таблиц*/ ? 30 : 40),
-                                CustomHeight = true
-                            };
-                            rows.Add(row);
-                            sheetData.Append(row);
-                        }
+                    //    #region шапка
+                    //    for (uint i = 0; i < days + 2; ++i)
+                    //    {
+                    //        Row row = new Row()
+                    //        {
+                    //            RowIndex = i + 1,
+                    //            Height = (i == 0 /*шапка*/ ? 25 : i == 1 /*шапки таблиц*/ ? 30 : 40),
+                    //            CustomHeight = true
+                    //        };
+                    //        rows.Add(row);
+                    //        sheetData.Append(row);
+                    //    }
 
-                        InsertCell(rows, 0, 1, model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0], CellValues.String, 2);
-                        InsertCell(rows, 1, 1, "", CellValues.String, 1);
-                        for (int i = 0; i < days; i++)
-                        {
-                            InsertCell(rows, 2 + i, 1, string.Format("{0}{1}{2}", currentdate.ToShortDateString(), Environment.NewLine,
-                               CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek)), CellValues.String, 1);
-                            currentdate = currentdate.AddDays(1);
-                        }
-                        for (int j = 0; j < model.Times.Count; j++)
-                        {
-                            InsertCell(rows, 1, j + 1, model.Times[j].Text, CellValues.String, 1);
-                        }
-                        #endregion
+                    //    InsertCell(rows, 0, 1, model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0], CellValues.String, 2);
+                    //    InsertCell(rows, 1, 1, "", CellValues.String, 1);
+                    //    for (int i = 0; i < days; i++)
+                    //    {
+                    //        InsertCell(rows, 2 + i, 1, string.Format("{0}{1}{2}", currentdate.ToShortDateString(), Environment.NewLine,
+                    //           CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek)), CellValues.String, 1);
+                    //        currentdate = currentdate.AddDays(1);
+                    //    }
+                    //    //for (int j = 0; j < model.Times.Count; j++)
+                    //    //{
+                    //    //    InsertCell(rows, 1, j + 1, model.Times[j].Text, CellValues.String, 1);
+                    //    //}
+                    //    #endregion
 
-                        #region тело
-                        var list = records.Where(rec => rec.LessonClassroom == model.Classrooms[r - 1]).ToList();
-                        currentdate = Convert.ToDateTime(model.Dates.DateBeginExamination);
-                        for (int i = 0; i < days; ++i)
-                        {
-                            InsertCell(rows, i + 2, 2, "", CellValues.String, 1);
-                            InsertCell(rows, i + 2, 3, "", CellValues.String, 1);
-                            InsertCell(rows, i + 2, 4, "", CellValues.String, 1);
-                            InsertCell(rows, i + 2, 5, "", CellValues.String, 1);
-                            var elems = list.Where(x => x.DateExamination == currentdate.AddDays(i)).OrderBy(x => x.LessonGroup).GroupBy(x => x.DateExamination);
-                            if (elems != null && elems.Count() > 0)
-                            {
-                                foreach(var elem in elems)
-                                {
+                    //    #region тело
+                    //    var list = records.Where(rec => rec.LessonClassroom == model.Classrooms[r - 1]).ToList();
+                    //    currentdate = Convert.ToDateTime(model.Dates.DateBeginExamination);
+                    //    for (int i = 0; i < days; ++i)
+                    //    {
+                    //        InsertCell(rows, i + 2, 2, "", CellValues.String, 1);
+                    //        InsertCell(rows, i + 2, 3, "", CellValues.String, 1);
+                    //        InsertCell(rows, i + 2, 4, "", CellValues.String, 1);
+                    //        InsertCell(rows, i + 2, 5, "", CellValues.String, 1);
+                    //        var elems = list.Where(x => x.DateExamination == currentdate.AddDays(i)).OrderBy(x => x.LessonGroup).GroupBy(x => x.DateExamination);
+                    //        if (elems != null && elems.Count() > 0)
+                    //        {
+                    //            foreach(var elem in elems)
+                    //            {
 
-                                    string text = string.Format("{0} {1}{2}{3}{2}{4}",
-                                        elem.Key.ToShortTimeString(),
-                                        string.Join(" ", elem.Select(x => x.LessonDiscipline).Distinct()),
-                                        Environment.NewLine,
-                                        string.Join(" ", elem.Select(x => x.LessonLecturer).Distinct()),
-                                        string.Join(" ", elem.Select(x => x.LessonGroup).Distinct()));
+                    //                string text = string.Format("{0} {1}{2}{3}{2}{4}",
+                    //                    elem.Key.ToShortTimeString(),
+                    //                    string.Join(" ", elem.Select(x => x.LessonDiscipline).Distinct()),
+                    //                    Environment.NewLine,
+                    //                    string.Join(" ", elem.Select(x => x.LessonLecturer).Distinct()),
+                    //                    string.Join(" ", elem.Select(x => x.LessonGroup).Distinct()));
 
-                                    if(elem.Key.Hour < 10)
-                                    {
-                                        InsertCell(rows, i + 2 , 2, text, CellValues.String, 1);
-                                    }
-                                    else
-                                    {
-                                        InsertCell(rows, i + 2, 3, text, CellValues.String, 1);
-                                    }
-                                }
-                            }
-                            elems = list.Where(x => x.DateConsultation == currentdate.AddDays(i)).OrderBy(x => x.LessonGroup).GroupBy(x => x.DateExamination);
-                            if (elems != null && elems.Count() > 0)
-                            {
-                                foreach (var elem in elems)
-                                {
+                    //                if(elem.Key.Hour < 10)
+                    //                {
+                    //                    InsertCell(rows, i + 2 , 2, text, CellValues.String, 1);
+                    //                }
+                    //                else
+                    //                {
+                    //                    InsertCell(rows, i + 2, 3, text, CellValues.String, 1);
+                    //                }
+                    //            }
+                    //        }
+                    //        elems = list.Where(x => x.DateConsultation == currentdate.AddDays(i)).OrderBy(x => x.LessonGroup).GroupBy(x => x.DateExamination);
+                    //        if (elems != null && elems.Count() > 0)
+                    //        {
+                    //            foreach (var elem in elems)
+                    //            {
 
-                                    string text = string.Format("{0} {1}{2}{3}{2}{4}",
-                                        elem.Key.ToShortTimeString(),
-                                        string.Join(" ", elem.Select(x => x.LessonDiscipline).Distinct()),
-                                        Environment.NewLine,
-                                        string.Join(" ", elem.Select(x => x.LessonLecturer).Distinct()),
-                                        string.Join(" ", elem.Select(x => x.LessonGroup).Distinct()));
+                    //                string text = string.Format("{0} {1}{2}{3}{2}{4}",
+                    //                    elem.Key.ToShortTimeString(),
+                    //                    string.Join(" ", elem.Select(x => x.LessonDiscipline).Distinct()),
+                    //                    Environment.NewLine,
+                    //                    string.Join(" ", elem.Select(x => x.LessonLecturer).Distinct()),
+                    //                    string.Join(" ", elem.Select(x => x.LessonGroup).Distinct()));
 
-                                    if (elem.Key.Hour < 17)
-                                    {
-                                        InsertCell(rows, i + 2, 4, text, CellValues.String, 1);
-                                    }
-                                    else
-                                    {
-                                        InsertCell(rows, i + 2, 5, text, CellValues.String, 1);
-                                    }
-                                }
-                            }
-                        }
-                        #endregion
+                    //                if (elem.Key.Hour < 17)
+                    //                {
+                    //                    InsertCell(rows, i + 2, 4, text, CellValues.String, 1);
+                    //                }
+                    //                else
+                    //                {
+                    //                    InsertCell(rows, i + 2, 5, text, CellValues.String, 1);
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //    #endregion
 
-                        WorksheetPart worksheetPart = document.WorkbookPart.AddNewPart<WorksheetPart>();
-                        worksheetPart.Worksheet = new Worksheet();
+                    //    WorksheetPart worksheetPart = document.WorkbookPart.AddNewPart<WorksheetPart>();
+                    //    worksheetPart.Worksheet = new Worksheet();
 
-                        SheetProperties sheetProperties = new SheetProperties(new PageSetupProperties());
-                        worksheetPart.Worksheet.SheetProperties = sheetProperties;
-                        worksheetPart.Worksheet.SheetProperties.PageSetupProperties.FitToPage = BooleanValue.FromBoolean(true);
-                        // Задаем колонки и их ширину
-                        Columns listColumns = new Columns();
-                        listColumns.Append(new Column() { Min = 1, Max = 1, Width = 11.90, CustomWidth = true });
-                        listColumns.Append(new Column() { Min = 2, Max = 5, Width = 40.90, CustomWidth = true });
-                        worksheetPart.Worksheet.Append(listColumns);
+                    //    SheetProperties sheetProperties = new SheetProperties(new PageSetupProperties());
+                    //    worksheetPart.Worksheet.SheetProperties = sheetProperties;
+                    //    worksheetPart.Worksheet.SheetProperties.PageSetupProperties.FitToPage = BooleanValue.FromBoolean(true);
+                    //    // Задаем колонки и их ширину
+                    //    Columns listColumns = new Columns();
+                    //    listColumns.Append(new Column() { Min = 1, Max = 1, Width = 11.90, CustomWidth = true });
+                    //    listColumns.Append(new Column() { Min = 2, Max = 5, Width = 40.90, CustomWidth = true });
+                    //    worksheetPart.Worksheet.Append(listColumns);
 
-                        // Add a WorksheetPart to the WorkbookPart.
-                        worksheetPart.Worksheet.AppendChild(sheetData);
+                    //    // Add a WorksheetPart to the WorkbookPart.
+                    //    worksheetPart.Worksheet.AppendChild(sheetData);
 
-                        MergeCells mergeCells = new MergeCells();
-                        MergeCell mergeCell = new MergeCell() { Reference = new StringValue("A1" + ":" + simbols[model.Times.Count] + "1") };
-                        mergeCells.Append(mergeCell);
-                        worksheetPart.Worksheet.AppendChild(mergeCells);
+                    //    MergeCells mergeCells = new MergeCells();
+                    //    //MergeCell mergeCell = new MergeCell() { Reference = new StringValue("A1" + ":" + simbols[model.Times.Count] + "1") };
+                    //    //mergeCells.Append(mergeCell);
+                    //    worksheetPart.Worksheet.AppendChild(mergeCells);
 
-                        // Add Sheets to the Workbook.
-                        Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)r, Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0] };
-                        sheets.Append(sheet);
+                    //    // Add Sheets to the Workbook.
+                    //    Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)r, Name = model.Classrooms[r - 1].Split(new char[] { '\\', '/' })[0] };
+                    //    sheets.Append(sheet);
 
-                        PageSetup pageSetup = new PageSetup
-                        {
-                            Orientation = OrientationValues.Landscape
-                        };
-                        worksheetPart.Worksheet.AppendChild(pageSetup);
-                    }
+                    //    PageSetup pageSetup = new PageSetup
+                    //    {
+                    //        Orientation = OrientationValues.Landscape
+                    //    };
+                    //    worksheetPart.Worksheet.AppendChild(pageSetup);
+                    //}
 
                     workbookPart.Workbook.Save();
                     document.Close();

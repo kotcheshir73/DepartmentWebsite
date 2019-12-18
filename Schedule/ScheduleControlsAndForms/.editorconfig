@@ -2,3 +2,6 @@
 
 # IDE0067: Ликвидировать объекты перед потерей области
 dotnet_diagnostic.IDE0067.severity = none
+
+# IDE0068: Использовать рекомендуемый шаблон Dispose
+dotnet_diagnostic.IDE0068.severity = none

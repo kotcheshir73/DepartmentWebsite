@@ -56,28 +56,28 @@ namespace ScheduleControlsAndForms
                 checkedListBoxLecturers.Items.Add(elem.FullName, true);
             }
 
-            var resultSD = _process.GetSeasonDaties(new SeasonDatesGetBindingModel { });
-            if (!resultSD.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
-                return;
-            }
-            comboBoxSeasonDates.ValueMember = "Value";
-            comboBoxSeasonDates.DisplayMember = "Display";
-            comboBoxSeasonDates.DataSource = resultSD.Result.List
-                .Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
+            //var resultSD = _process.GetSeasonDaties(new SeasonDatesGetBindingModel { });
+            //if (!resultSD.Succeeded)
+            //{
+            //    ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
+            //    return;
+            //}
+            //comboBoxSeasonDates.ValueMember = "Value";
+            //comboBoxSeasonDates.DisplayMember = "Display";
+            //comboBoxSeasonDates.DataSource = resultSD.Result.List
+            //    .Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
 
-            var resultCD = _process.GetCurrentDates();
-            if (!resultCD.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
-                return;
-            }
-            var _dates = resultCD.Result;
-            if (_dates != null)
-            {
-                comboBoxSeasonDates.SelectedValue = _dates.Id;
-            }
+            //var resultCD = _process.GetCurrentDates();
+            //if (!resultCD.Succeeded)
+            //{
+            //    ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
+            //    return;
+            //}
+            //var _dates = resultCD.Result;
+            //if (_dates != null)
+            //{
+            //    comboBoxSeasonDates.SelectedValue = _dates.Id;
+            //}
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace ScheduleControlsAndForms
             var result = _process.ImportHtml(new ImportToSemesterFromHTMLBindingModel
             {
                 ScheduleUrl = textBoxLinkToHtml.Text,
-                IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
             });
 
             if (result.Succeeded)
@@ -177,7 +177,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -198,7 +198,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -219,7 +219,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -243,7 +243,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -264,7 +264,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -285,7 +285,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -309,7 +309,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -330,7 +330,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -351,7 +351,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -376,7 +376,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
                         {
                             ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -397,7 +397,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
                         {
                             StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -418,7 +418,7 @@ namespace ScheduleControlsAndForms
                         var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
                         {
                             LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                            //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
                         });
 
                         if (!result.Succeeded)
@@ -441,26 +441,26 @@ namespace ScheduleControlsAndForms
             {
                 if (MessageBox.Show("Сохранить изменения?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var result = _process.UpdateCurrentDates(new SeasonDatesGetBindingModel
-                    {
-                        Id = new Guid(comboBoxSeasonDates.SelectedValue.ToString()),
-                        Title = comboBoxSeasonDates.Text
-                    });
+                    //var result = _process.UpdateCurrentDates(new SeasonDatesGetBindingModel
+                    //{
+                    //    Id = new Guid(comboBoxSeasonDates.SelectedValue.ToString()),
+                    //    Title = comboBoxSeasonDates.Text
+                    //});
 
-                    if (result.Succeeded)
-                    {
-                        MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось обновить: {0}", strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    //if (result.Succeeded)
+                    //{
+                    //    MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //}
+                    //else
+                    //{
+                    //    StringBuilder strRes = new StringBuilder();
+                    //    foreach (var err in result.Errors)
+                    //    {
+                    //        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
+                    //    }
+                    //    MessageBox.Show(string.Format("Не удалось обновить: {0}", strRes), "",
+                    //        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //}
                 }
             }
         }

@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191213102917_UpdateSchedule")]
+    partial class UpdateSchedule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2097,29 +2099,25 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid?>("ClassroomId");
 
-                    b.Property<int>("ConsultationTime");
+                    b.Property<DateTime>("DateBeginConsultation");
+
+                    b.Property<DateTime>("DateEndConsultation");
 
                     b.Property<Guid?>("DisciplineId");
 
                     b.Property<Guid?>("LecturerId");
 
-                    b.Property<string>("LessonClassroom")
-                        .IsRequired();
+                    b.Property<string>("LessonClassroom");
 
-                    b.Property<string>("LessonDiscipline")
-                        .IsRequired();
+                    b.Property<string>("LessonDiscipline");
 
-                    b.Property<string>("LessonLecturer")
-                        .IsRequired();
+                    b.Property<string>("LessonGroup");
 
-                    b.Property<string>("LessonStudentGroup")
-                        .IsRequired();
-
-                    b.Property<int>("LessonType");
+                    b.Property<string>("LessonLecturer");
 
                     b.Property<string>("NotParseRecord");
 
-                    b.Property<DateTime>("ScheduleDate");
+                    b.Property<Guid>("SeasonDatesId");
 
                     b.Property<Guid?>("StudentGroupId");
 
@@ -2130,6 +2128,8 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("DisciplineId");
 
                     b.HasIndex("LecturerId");
+
+                    b.HasIndex("SeasonDatesId");
 
                     b.HasIndex("StudentGroupId");
 
@@ -2146,29 +2146,25 @@ namespace DatabaseContext.Migrations
 
                     b.Property<DateTime>("DateConsultation");
 
+                    b.Property<DateTime>("DateExamination");
+
                     b.Property<Guid?>("DisciplineId");
 
                     b.Property<Guid?>("LecturerId");
 
-                    b.Property<string>("LessonClassroom")
-                        .IsRequired();
+                    b.Property<string>("LessonClassroom");
 
                     b.Property<string>("LessonConsultationClassroom");
 
-                    b.Property<string>("LessonDiscipline")
-                        .IsRequired();
+                    b.Property<string>("LessonDiscipline");
 
-                    b.Property<string>("LessonLecturer")
-                        .IsRequired();
+                    b.Property<string>("LessonGroup");
 
-                    b.Property<string>("LessonStudentGroup")
-                        .IsRequired();
-
-                    b.Property<int>("LessonType");
+                    b.Property<string>("LessonLecturer");
 
                     b.Property<string>("NotParseRecord");
 
-                    b.Property<DateTime>("ScheduleDate");
+                    b.Property<Guid>("SeasonDatesId");
 
                     b.Property<Guid?>("StudentGroupId");
 
@@ -2182,6 +2178,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasIndex("LecturerId");
 
+                    b.HasIndex("SeasonDatesId");
+
                     b.HasIndex("StudentGroupId");
 
                     b.ToTable("ExaminationRecords");
@@ -2193,29 +2191,29 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid?>("ClassroomId");
 
+                    b.Property<int>("Day");
+
                     b.Property<Guid?>("DisciplineId");
 
                     b.Property<Guid?>("LecturerId");
 
-                    b.Property<string>("LessonClassroom")
-                        .IsRequired();
+                    b.Property<int>("Lesson");
 
-                    b.Property<string>("LessonDiscipline")
-                        .IsRequired();
+                    b.Property<string>("LessonClassroom");
 
-                    b.Property<string>("LessonLecturer")
-                        .IsRequired();
+                    b.Property<string>("LessonDiscipline");
 
-                    b.Property<string>("LessonStudentGroup")
-                        .IsRequired();
+                    b.Property<string>("LessonGroup");
 
-                    b.Property<int>("LessonType");
+                    b.Property<string>("LessonLecturer");
 
                     b.Property<string>("NotParseRecord");
 
-                    b.Property<DateTime>("ScheduleDate");
+                    b.Property<Guid>("SeasonDatesId");
 
                     b.Property<Guid?>("StudentGroupId");
+
+                    b.Property<int>("Week");
 
                     b.HasKey("Id");
 
@@ -2224,6 +2222,8 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("DisciplineId");
 
                     b.HasIndex("LecturerId");
+
+                    b.HasIndex("SeasonDatesId");
 
                     b.HasIndex("StudentGroupId");
 
@@ -2236,29 +2236,33 @@ namespace DatabaseContext.Migrations
 
                     b.Property<Guid?>("ClassroomId");
 
+                    b.Property<int>("Day");
+
                     b.Property<Guid?>("DisciplineId");
+
+                    b.Property<bool>("IsFirstHalfSemester");
 
                     b.Property<Guid?>("LecturerId");
 
-                    b.Property<string>("LessonClassroom")
-                        .IsRequired();
+                    b.Property<int>("Lesson");
 
-                    b.Property<string>("LessonDiscipline")
-                        .IsRequired();
+                    b.Property<string>("LessonClassroom");
 
-                    b.Property<string>("LessonLecturer")
-                        .IsRequired();
+                    b.Property<string>("LessonDiscipline");
 
-                    b.Property<string>("LessonStudentGroup")
-                        .IsRequired();
+                    b.Property<string>("LessonGroup");
+
+                    b.Property<string>("LessonLecturer");
 
                     b.Property<int>("LessonType");
 
                     b.Property<string>("NotParseRecord");
 
-                    b.Property<DateTime>("ScheduleDate");
+                    b.Property<Guid>("SeasonDatesId");
 
                     b.Property<Guid?>("StudentGroupId");
+
+                    b.Property<int>("Week");
 
                     b.HasKey("Id");
 
@@ -2267,6 +2271,8 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("DisciplineId");
 
                     b.HasIndex("LecturerId");
+
+                    b.HasIndex("SeasonDatesId");
 
                     b.HasIndex("StudentGroupId");
 
@@ -3047,6 +3053,11 @@ namespace DatabaseContext.Migrations
                         .WithMany()
                         .HasForeignKey("LecturerId");
 
+                    b.HasOne("Models.AcademicYearData.SeasonDates", "SeasonDates")
+                        .WithMany()
+                        .HasForeignKey("SeasonDatesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Models.Base.StudentGroup", "StudentGroup")
                         .WithMany()
                         .HasForeignKey("StudentGroupId");
@@ -3070,6 +3081,11 @@ namespace DatabaseContext.Migrations
                         .WithMany()
                         .HasForeignKey("LecturerId");
 
+                    b.HasOne("Models.AcademicYearData.SeasonDates", "SeasonDates")
+                        .WithMany()
+                        .HasForeignKey("SeasonDatesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Models.Base.StudentGroup", "StudentGroup")
                         .WithMany()
                         .HasForeignKey("StudentGroupId");
@@ -3089,6 +3105,11 @@ namespace DatabaseContext.Migrations
                         .WithMany()
                         .HasForeignKey("LecturerId");
 
+                    b.HasOne("Models.AcademicYearData.SeasonDates", "SeasonDates")
+                        .WithMany()
+                        .HasForeignKey("SeasonDatesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Models.Base.StudentGroup", "StudentGroup")
                         .WithMany()
                         .HasForeignKey("StudentGroupId");
@@ -3107,6 +3128,11 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.Base.Lecturer", "Lecturer")
                         .WithMany()
                         .HasForeignKey("LecturerId");
+
+                    b.HasOne("Models.AcademicYearData.SeasonDates", "SeasonDates")
+                        .WithMany()
+                        .HasForeignKey("SeasonDatesId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Models.Base.StudentGroup", "StudentGroup")
                         .WithMany()

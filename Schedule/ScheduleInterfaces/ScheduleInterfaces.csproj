@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AcademicYear\AcademicYearInterfaces\AcademicYearInterfaces.csproj" />
     <ProjectReference Include="..\..\Base\BaseInterfaces\BaseInterfaces.csproj" />
   </ItemGroup>
 

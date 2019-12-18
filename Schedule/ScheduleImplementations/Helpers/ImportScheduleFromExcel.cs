@@ -231,44 +231,44 @@ namespace ScheduleServiceImplementations.Helpers
                     return ResultService.Success();
                 }
 
-                var exsistRecord = _findOffsetRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
-                                        r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой в этой аудитории уже есть зачет
-                    if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
-                        exsistRecord.LessonLecturer == record.LessonLecturer)
-                    {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковый зачет
-                    }
-                    else
-                    {
-                        return ResultService.Error("Конфликт (аудитории " + record.LessonClassroom + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
-                            record.Week + 1, record.Day + 1, record.Lesson + 1,
-                            exsistRecord.LessonGroup, exsistRecord.LessonDiscipline, exsistRecord.LessonLecturer,
-                            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer), ResultServiceStatusCode.Error);
-                    }
-                }
+                //var exsistRecord = _findOffsetRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
+                //                        r.LessonClassroom == record.LessonClassroom && r.LessonGroup != record.LessonGroup);
+                //if (exsistRecord != null)
+                //{//если на этой неделе в этот день этой парой в этой аудитории уже есть зачет
+                //    if (exsistRecord.LessonDiscipline == record.LessonDiscipline &&
+                //        exsistRecord.LessonLecturer == record.LessonLecturer)
+                //    {//если совпадает дисицпилна, преподаватель и тип занятия, то это потоковый зачет
+                //    }
+                //    else
+                //    {
+                //        return ResultService.Error("Конфликт (аудитории " + record.LessonClassroom + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
+                //            record.Week + 1, record.Day + 1, record.Lesson + 1,
+                //            exsistRecord.LessonGroup, exsistRecord.LessonDiscipline, exsistRecord.LessonLecturer,
+                //            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer), ResultServiceStatusCode.Error);
+                //    }
+                //}
 
-                //ищем зачет этой группы в другой аудитории
-                exsistRecord = _findOffsetRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
-                                              r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
-                    return ResultService.Error("Конфликт (группы " + record.LessonGroup + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
-                        record.Week + 1, record.Day + 1, record.Lesson + 1,
-                        exsistRecord.LessonDiscipline, exsistRecord.LessonLecturer, exsistRecord.LessonClassroom,
-                        record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                }
+                ////ищем зачет этой группы в другой аудитории
+                //exsistRecord = _findOffsetRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
+                //                              r.LessonGroup == record.LessonGroup && r.LessonClassroom != record.LessonClassroom);
+                //if (exsistRecord != null)
+                //{//если на этой неделе в этот день этой парой у этой группы уже есть зачет
+                //    return ResultService.Error("Конфликт (группы " + record.LessonGroup + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
+                //        record.Week + 1, record.Day + 1, record.Lesson + 1,
+                //        exsistRecord.LessonDiscipline, exsistRecord.LessonLecturer, exsistRecord.LessonClassroom,
+                //        record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //}
 
-                //ищем зачет этого преподавателя в другой аудитории
-                exsistRecord = _findOffsetRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
-                                              r.LessonLecturer == record.LessonLecturer && r.LessonClassroom != record.LessonClassroom);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
-                    return ResultService.Error("Конфликт (преподаватель " + record.LessonLecturer + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
-                        record.Week + 1, record.Day + 1, record.Lesson + 1,
-                        exsistRecord.LessonDiscipline, exsistRecord.LessonGroup, exsistRecord.LessonClassroom,
-                        record.LessonDiscipline, record.LessonGroup, record.LessonClassroom), ResultServiceStatusCode.Error);
-                }
+                ////ищем зачет этого преподавателя в другой аудитории
+                //exsistRecord = _findOffsetRecords.FirstOrDefault(r => r.Week == record.Week && r.Day == record.Day && r.Lesson == record.Lesson &&
+                //                              r.LessonLecturer == record.LessonLecturer && r.LessonClassroom != record.LessonClassroom);
+                //if (exsistRecord != null)
+                //{//если на этой неделе в этот день этой парой у этой группы уже есть зачет
+                //    return ResultService.Error("Конфликт (преподаватель " + record.LessonLecturer + "):", string.Format("дата {0} {1} {2}\r\n{3} {4} {5} - {6} {7} {8}\r\n",
+                //        record.Week + 1, record.Day + 1, record.Lesson + 1,
+                //        exsistRecord.LessonDiscipline, exsistRecord.LessonGroup, exsistRecord.LessonClassroom,
+                //        record.LessonDiscipline, record.LessonGroup, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //}
 
                 _findOffsetRecords.Add(record);
 
@@ -290,211 +290,211 @@ namespace ScheduleServiceImplementations.Helpers
             using (var context = DepartmentUserManager.GetContext)
             {
                 // получаем сущестующие записи
-                var exsistRecords = context.OffsetRecords.Where(sr => sr.SeasonDatesId == _seasonDate.Id).ToList();
+                //var exsistRecords = context.OffsetRecords.Where(sr => sr.SeasonDatesId == _seasonDate.Id).ToList();
 
-                #region для начала проходим по аудиториям
-                var classrooms = context.Classrooms.Where(c => !c.IsDeleted && !c.NotUseInSchedule).ToList();
-                foreach (var classroom in classrooms)
-                {
-                    var selectedRecords = exsistRecords.Where(sr => sr.ClassroomId == classroom.Id).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день в этой аудитории
-                        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
-                                                                rec.Id == Guid.Empty &&
-                                                                (rec.ClassroomId == record.ClassroomId || rec.LessonClassroom == record.LessonClassroom))
-                                                        .ToList();
-                        // если пара одна
-                        //if (searchRecords.Count == 1)
-                        //{
-                        //    searchRecords[0].Id = record.Id;
-                        //    record.Checked = true;
-                        //}
-                        //// если пар несколько (проверяем, что потоковые)
-                        //else if (searchRecords.Count > 1)
-                        //{
-                        //    var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
-                        //    if (notStreamRecrods != null)
-                        //    {
-                        //        return ResultService.Error("Конфликт (аудитории) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                        //            notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
-                        //            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                        //    }
-                        //    // ищем потоковую пару по группе
-                        //    var streamRecord = searchRecords.Where(rec =>
-                        //                                    (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
-                        //    if (streamRecord != null)
-                        //    {
-                        //        streamRecord.Id = record.Id;
-                        //        record.Checked = true;
-                        //    }
-                        //}
-                    }
-                }
-                #endregion
+                //#region для начала проходим по аудиториям
+                //var classrooms = context.Classrooms.Where(c => !c.IsDeleted && !c.NotUseInSchedule).ToList();
+                //foreach (var classroom in classrooms)
+                //{
+                //    var selectedRecords = exsistRecords.Where(sr => sr.ClassroomId == classroom.Id).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день в этой аудитории
+                //        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
+                //                                                rec.Id == Guid.Empty &&
+                //                                                (rec.ClassroomId == record.ClassroomId || rec.LessonClassroom == record.LessonClassroom))
+                //                                        .ToList();
+                //        // если пара одна
+                //        //if (searchRecords.Count == 1)
+                //        //{
+                //        //    searchRecords[0].Id = record.Id;
+                //        //    record.Checked = true;
+                //        //}
+                //        //// если пар несколько (проверяем, что потоковые)
+                //        //else if (searchRecords.Count > 1)
+                //        //{
+                //        //    var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
+                //        //    if (notStreamRecrods != null)
+                //        //    {
+                //        //        return ResultService.Error("Конфликт (аудитории) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                //        //            notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
+                //        //            record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //        //    }
+                //        //    // ищем потоковую пару по группе
+                //        //    var streamRecord = searchRecords.Where(rec =>
+                //        //                                    (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
+                //        //    if (streamRecord != null)
+                //        //    {
+                //        //        streamRecord.Id = record.Id;
+                //        //        record.Checked = true;
+                //        //    }
+                //        //}
+                //    }
+                //}
+                //#endregion
 
-                #region проход по группам
-                var groups = context.StudentGroups.Where(sg => !sg.IsDeleted).ToList();
-                foreach (var group in groups)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(sr => sr.StudentGroupId == group.Id && !sr.Checked).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день в этой группе
-                        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
-                                                                rec.Id == Guid.Empty &&
-                                                                (rec.StudentGroupId == record.StudentGroupId || rec.LessonGroup == record.LessonGroup))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что лабораторные)
-                        else if (searchRecords.Count > 1)
-                        {
-                            // ищем пару группы в аудитории
-                            var labRecrod = searchRecords.Where(rec =>
-                                                            (rec.LessonClassroom == record.LessonClassroom || rec.ClassroomId == record.ClassroomId)).FirstOrDefault();
-                            if (labRecrod != null)
-                            {
-                                labRecrod.Id = record.Id;
-                                record.Checked = true;
-                            }
-                        }
-                    }
-                }
-                #endregion
+                //#region проход по группам
+                //var groups = context.StudentGroups.Where(sg => !sg.IsDeleted).ToList();
+                //foreach (var group in groups)
+                //{
+                //    //отбираем еще не проверенные записи
+                //    var selectedRecords = exsistRecords.Where(sr => sr.StudentGroupId == group.Id && !sr.Checked).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день в этой группе
+                //        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
+                //                                                rec.Id == Guid.Empty &&
+                //                                                (rec.StudentGroupId == record.StudentGroupId || rec.LessonGroup == record.LessonGroup))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что лабораторные)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            // ищем пару группы в аудитории
+                //            var labRecrod = searchRecords.Where(rec =>
+                //                                            (rec.LessonClassroom == record.LessonClassroom || rec.ClassroomId == record.ClassroomId)).FirstOrDefault();
+                //            if (labRecrod != null)
+                //            {
+                //                labRecrod.Id = record.Id;
+                //                record.Checked = true;
+                //            }
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                #region проход по преподавателям
-                var lecturers = context.Lecturers.Where(l => !l.IsDeleted).ToList();
-                foreach (var lecturer in lecturers)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(sr => sr.LecturerId == lecturer.Id && !sr.Checked).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день этого преподавателя
-                        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
-                                                                rec.Id == Guid.Empty &&
-                                                                (rec.LecturerId == record.LecturerId || rec.LessonLecturer == record.LessonLecturer))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что потоковые)
-                        else if (searchRecords.Count > 1)
-                        {
-                            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
-                            //if (notStreamRecrods != null)
-                            //{
-                            //    return ResultService.Error("Конфликт (преподаватель) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
-                            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                            //}
-                            //// ищем потоковую пару по группе
-                            //var streamRecrod = searchRecords.Where(rec =>
-                            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
-                            //if (streamRecrod != null)
-                            //{
-                            //    streamRecrod.Id = record.Id;
-                            //    record.Checked = true;
-                            //}
-                        }
-                    }
-                }
-                #endregion
+                //#region проход по преподавателям
+                //var lecturers = context.Lecturers.Where(l => !l.IsDeleted).ToList();
+                //foreach (var lecturer in lecturers)
+                //{
+                //    //отбираем еще не проверенные записи
+                //    var selectedRecords = exsistRecords.Where(sr => sr.LecturerId == lecturer.Id && !sr.Checked).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день этого преподавателя
+                //        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
+                //                                                rec.Id == Guid.Empty &&
+                //                                                (rec.LecturerId == record.LecturerId || rec.LessonLecturer == record.LessonLecturer))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что потоковые)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
+                //            //if (notStreamRecrods != null)
+                //            //{
+                //            //    return ResultService.Error("Конфликт (преподаватель) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                //            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
+                //            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //            //}
+                //            //// ищем потоковую пару по группе
+                //            //var streamRecrod = searchRecords.Where(rec =>
+                //            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
+                //            //if (streamRecrod != null)
+                //            //{
+                //            //    streamRecrod.Id = record.Id;
+                //            //    record.Checked = true;
+                //            //}
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                #region проход по дисциплинам
-                var disciplines = context.Disciplines.Where(d => !d.IsDeleted).ToList();
-                foreach (var discipline in disciplines)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(sr => sr.DisciplineId == discipline.Id && !sr.Checked).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день в этой группе
-                        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
-                                                                rec.Id == Guid.Empty &&
-                                                                (rec.DisciplineId == record.DisciplineId || rec.LessonDiscipline == record.LessonDiscipline))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что потоковые)
-                        else if (searchRecords.Count > 1)
-                        {
-                            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
-                            //if (notStreamRecrods != null)
-                            //{
-                            //    return ResultService.Error("Конфликт (дисциплина) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
-                            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                            //}
-                            //// ищем потоковую пару по группе
-                            //var streamRecrod = searchRecords.Where(rec =>
-                            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
-                            //if (streamRecrod != null)
-                            //{
-                            //    streamRecrod.Id = record.Id;
-                            //    record.Checked = true;
-                            //}
-                        }
-                    }
-                }
-                #endregion
+                //#region проход по дисциплинам
+                //var disciplines = context.Disciplines.Where(d => !d.IsDeleted).ToList();
+                //foreach (var discipline in disciplines)
+                //{
+                //    //отбираем еще не проверенные записи
+                //    var selectedRecords = exsistRecords.Where(sr => sr.DisciplineId == discipline.Id && !sr.Checked).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день в этой группе
+                //        var searchRecords = _findOffsetRecords.Where(rec => rec.Week == record.Week && rec.Day == record.Day && rec.Lesson == record.Lesson &&
+                //                                                rec.Id == Guid.Empty &&
+                //                                                (rec.DisciplineId == record.DisciplineId || rec.LessonDiscipline == record.LessonDiscipline))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что потоковые)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            //var notStreamRecrods = searchRecords.Where(rec => !rec.IsStreaming).FirstOrDefault();
+                //            //if (notStreamRecrods != null)
+                //            //{
+                //            //    return ResultService.Error("Конфликт (дисциплина) не потоковая:", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                //            //        notStreamRecrods.Week, notStreamRecrods.Day, notStreamRecrods.Lesson, notStreamRecrods.LessonGroup,
+                //            //        record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //            //}
+                //            //// ищем потоковую пару по группе
+                //            //var streamRecrod = searchRecords.Where(rec =>
+                //            //                                (rec.LessonGroup == record.LessonGroup || rec.StudentGroupId == record.StudentGroupId)).FirstOrDefault();
+                //            //if (streamRecrod != null)
+                //            //{
+                //            //    streamRecrod.Id = record.Id;
+                //            //    record.Checked = true;
+                //            //}
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                var deletedRecords = exsistRecords.Where(sr => !sr.Checked).ToList();
+                //var deletedRecords = exsistRecords.Where(sr => !sr.Checked).ToList();
 
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        // удаляем неопознанные
-                        context.OffsetRecords.RemoveRange(deletedRecords);
-                        context.SaveChanges();
+                //using (var transaction = context.Database.BeginTransaction())
+                //{
+                //    try
+                //    {
+                //        // удаляем неопознанные
+                //        context.OffsetRecords.RemoveRange(deletedRecords);
+                //        context.SaveChanges();
 
-                        // получаем опознанные
-                        var knowRecords = _findOffsetRecords.Where(sr => sr.Id != Guid.Empty).ToList();
-                        foreach (var record in knowRecords)
-                        {
-                            var entity = context.OffsetRecords.FirstOrDefault(e => e.Id == record.Id);
-                            if (entity == null)
-                            {
-                                return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-                            }
+                //        // получаем опознанные
+                //        var knowRecords = _findOffsetRecords.Where(sr => sr.Id != Guid.Empty).ToList();
+                //        foreach (var record in knowRecords)
+                //        {
+                //            var entity = context.OffsetRecords.FirstOrDefault(e => e.Id == record.Id);
+                //            if (entity == null)
+                //            {
+                //                return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+                //            }
 
-                            entity = record.CreateRecord(entity);
-                            context.SaveChanges();
-                        }
+                //            entity = record.CreateRecord(entity);
+                //            context.SaveChanges();
+                //        }
 
-                        // получаем новые
-                        var unknowRecords = _findOffsetRecords.Where(sr => sr.Id == Guid.Empty).ToList();
-                        foreach (var record in unknowRecords)
-                        {
-                            record.SeasonDatesId = _seasonDate.Id;
-                            var entity = record.CreateRecord();
+                //        // получаем новые
+                //        var unknowRecords = _findOffsetRecords.Where(sr => sr.Id == Guid.Empty).ToList();
+                //        foreach (var record in unknowRecords)
+                //        {
+                //            record.SeasonDatesId = _seasonDate.Id;
+                //            var entity = record.CreateRecord();
 
-                            context.OffsetRecords.Add(entity);
-                            context.SaveChanges();
-                        }
+                //            context.OffsetRecords.Add(entity);
+                //            context.SaveChanges();
+                //        }
 
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        return ResultService.Error("Конфликт при сохранении:", ex.Message, ResultServiceStatusCode.Error);
-                    }
-                }
+                //        transaction.Commit();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        transaction.Rollback();
+                //        return ResultService.Error("Конфликт при сохранении:", ex.Message, ResultServiceStatusCode.Error);
+                //    }
+                //}
 
                 return ResultService.Success();
             }
@@ -509,7 +509,7 @@ namespace ScheduleServiceImplementations.Helpers
                     _seasonDate = DepartmentUserManager.GetCurrentDates();
                     _findExamRecords = new List<ExaminationRecordSetBindingModel>();
                     var dateBeginExamination = Convert.ToDateTime(_seasonDate.DateBeginExamination);
-                    var lessons = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен") || slt.Title.Contains("консультация")).ToList();
+                    //var lessons = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен") || slt.Title.Contains("консультация")).ToList();
 
                     //var excel = new Application();
                     var resError = new ResultService();
@@ -751,46 +751,46 @@ namespace ScheduleServiceImplementations.Helpers
 
 
                 //ищем консультацию/экзамен другой группы в этой аудитории
-                var exsistRecord = _findExamRecords.FirstOrDefault(r =>
-                                        ((r.DateConsultation == record.DateConsultation &&
-                                        ((r.ConsultationClassroomId == record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
-                                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
-                                        (r.DateExamination == record.DateExamination && r.LessonClassroom == record.LessonClassroom))
-                                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup != record.LessonGroup);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой в этой аудитории уже есть зачет
-                    return ResultService.Error("Конфликт (аудитории):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                        record.DateConsultation, record.DateExamination,
-                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                }
+                //var exsistRecord = _findExamRecords.FirstOrDefault(r =>
+                //                        ((r.DateConsultation == record.DateConsultation &&
+                //                        ((r.ConsultationClassroomId == record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
+                //                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
+                //                        (r.DateExamination == record.DateExamination && r.LessonClassroom == record.LessonClassroom))
+                //                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup != record.LessonGroup);
+                //if (exsistRecord != null)
+                //{//если на этой неделе в этот день этой парой в этой аудитории уже есть зачет
+                //    return ResultService.Error("Конфликт (аудитории):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //        record.DateConsultation, record.DateExamination,
+                //        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //}
 
-                //ищем консультацию/экзамен этой группы в другой аудитории
-                exsistRecord = _findExamRecords.FirstOrDefault(r =>
-                                        ((r.DateConsultation == record.DateConsultation &&
-                                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
-                                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
-                                        (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
-                                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup == record.LessonGroup);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
-                    return ResultService.Error("Конфликт (группы):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                        record.DateConsultation, record.DateExamination,
-                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                }
+                ////ищем консультацию/экзамен этой группы в другой аудитории
+                //exsistRecord = _findExamRecords.FirstOrDefault(r =>
+                //                        ((r.DateConsultation == record.DateConsultation &&
+                //                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
+                //                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
+                //                        (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
+                //                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonGroup == record.LessonGroup);
+                //if (exsistRecord != null)
+                //{//если на этой неделе в этот день этой парой у этой группы уже есть зачет
+                //    return ResultService.Error("Конфликт (группы):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //        record.DateConsultation, record.DateExamination,
+                //        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //}
 
-                //ищем консультацию/экзамен этого преподавателя в другой аудитории
-                exsistRecord = _findExamRecords.FirstOrDefault(r =>
-                                        ((r.DateConsultation == record.DateConsultation &&
-                                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
-                                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
-                                        (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
-                                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonLecturer == record.LessonLecturer);
-                if (exsistRecord != null)
-                {//если на этой неделе в этот день этой парой у этой группы уже есть зачет
-                    return ResultService.Error("Конфликт (преподаватель):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                        record.DateConsultation, record.DateExamination,
-                        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                }
+                ////ищем консультацию/экзамен этого преподавателя в другой аудитории
+                //exsistRecord = _findExamRecords.FirstOrDefault(r =>
+                //                        ((r.DateConsultation == record.DateConsultation &&
+                //                        ((r.ConsultationClassroomId != record.ConsultationClassroomId && record.ConsultationClassroomId.HasValue) ||
+                //                        (r.LessonClassroom == record.LessonClassroom && !record.ConsultationClassroomId.HasValue))) ||
+                //                        (r.DateExamination == record.DateExamination && r.LessonClassroom != record.LessonClassroom))
+                //                        && r.SeasonDatesId == record.SeasonDatesId && r.LessonLecturer == record.LessonLecturer);
+                //if (exsistRecord != null)
+                //{//если на этой неделе в этот день этой парой у этой группы уже есть зачет
+                //    return ResultService.Error("Конфликт (преподаватель):", string.Format("конс {0} экз {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //        record.DateConsultation, record.DateExamination,
+                //        exsistRecord.LessonGroup, record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //}
 
                 _findExamRecords.Add(record);
 
@@ -812,170 +812,170 @@ namespace ScheduleServiceImplementations.Helpers
             using (var context = DepartmentUserManager.GetContext)
             {
                 // получаем сущестующие записи
-                var exsistRecords = context.ExaminationRecords.Where(sr => sr.SeasonDatesId == _seasonDate.Id).ToList();
+                //var exsistRecords = context.ExaminationRecords.Where(sr => sr.SeasonDatesId == _seasonDate.Id).ToList();
 
-                #region для начала проходим по аудиториям
-                var classrooms = context.Classrooms.Where(c => !c.IsDeleted && !c.NotUseInSchedule).ToList();
-                foreach (var classroom in classrooms)
-                {
-                    var selectedRecords = exsistRecords.Where(sr => sr.ClassroomId == classroom.Id).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день в этой аудитории
-                        var searchRecords = _findExamRecords.Where(rec =>
-                                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
-                                            rec.Id == Guid.Empty && (rec.ClassroomId == record.ClassroomId || rec.LessonClassroom == record.LessonClassroom))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что потоковые)
-                        else if (searchRecords.Count > 1)
-                        {
-                            return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
-                                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                        }
-                    }
-                }
-                #endregion
+                //#region для начала проходим по аудиториям
+                //var classrooms = context.Classrooms.Where(c => !c.IsDeleted && !c.NotUseInSchedule).ToList();
+                //foreach (var classroom in classrooms)
+                //{
+                //    var selectedRecords = exsistRecords.Where(sr => sr.ClassroomId == classroom.Id).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день в этой аудитории
+                //        var searchRecords = _findExamRecords.Where(rec =>
+                //                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                //                            rec.Id == Guid.Empty && (rec.ClassroomId == record.ClassroomId || rec.LessonClassroom == record.LessonClassroom))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что потоковые)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                //                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                #region проход по группам
-                var groups = context.StudentGroups.Where(sg => !sg.IsDeleted).ToList();
-                foreach (var group in groups)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(sr => sr.StudentGroupId == group.Id && !sr.Checked).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день в этой группе
-                        var searchRecords = _findExamRecords.Where(rec =>
-                                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
-                                            rec.Id == Guid.Empty && (rec.StudentGroupId == record.StudentGroupId || rec.LessonGroup == record.LessonGroup))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что лабораторные)
-                        else if (searchRecords.Count > 1)
-                        {
-                            return ResultService.Error("Конфликт (группа):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
-                                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                        }
-                    }
-                }
-                #endregion
+                //#region проход по группам
+                //var groups = context.StudentGroups.Where(sg => !sg.IsDeleted).ToList();
+                //foreach (var group in groups)
+                //{
+                //    //отбираем еще не проверенные записи
+                //    var selectedRecords = exsistRecords.Where(sr => sr.StudentGroupId == group.Id && !sr.Checked).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день в этой группе
+                //        var searchRecords = _findExamRecords.Where(rec =>
+                //                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                //                            rec.Id == Guid.Empty && (rec.StudentGroupId == record.StudentGroupId || rec.LessonGroup == record.LessonGroup))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что лабораторные)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            return ResultService.Error("Конфликт (группа):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                //                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                #region проход по преподавателям
-                var lecturers = context.Lecturers.Where(l => !l.IsDeleted).ToList();
-                foreach (var lecturer in lecturers)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(sr => sr.LecturerId == lecturer.Id && !sr.Checked).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день этого преподавателя
-                        var searchRecords = _findExamRecords.Where(rec =>
-                                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
-                                            rec.Id == Guid.Empty && (rec.LecturerId == record.LecturerId || rec.LessonLecturer == record.LessonLecturer))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что потоковые)
-                        else if (searchRecords.Count > 1)
-                        {
-                            return ResultService.Error("Конфликт (преподаватель):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
-                                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                        }
-                    }
-                }
-                #endregion
+                //#region проход по преподавателям
+                //var lecturers = context.Lecturers.Where(l => !l.IsDeleted).ToList();
+                //foreach (var lecturer in lecturers)
+                //{
+                //    //отбираем еще не проверенные записи
+                //    var selectedRecords = exsistRecords.Where(sr => sr.LecturerId == lecturer.Id && !sr.Checked).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день этого преподавателя
+                //        var searchRecords = _findExamRecords.Where(rec =>
+                //                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                //                            rec.Id == Guid.Empty && (rec.LecturerId == record.LecturerId || rec.LessonLecturer == record.LessonLecturer))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что потоковые)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            return ResultService.Error("Конфликт (преподаватель):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                //                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                #region проход по дисциплинам
-                var disciplines = context.Disciplines.Where(d => !d.IsDeleted).ToList();
-                foreach (var discipline in disciplines)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(sr => sr.DisciplineId == discipline.Id && !sr.Checked).ToList();
-                    foreach (var record in selectedRecords)
-                    {
-                        // ищем пары (которые еще не опознаны) в этот день в этой группе
-                        var searchRecords = _findExamRecords.Where(rec =>
-                                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
-                                            rec.Id == Guid.Empty && (rec.DisciplineId == record.DisciplineId || rec.LessonDiscipline == record.LessonDiscipline))
-                                                        .ToList();
-                        // если пара одна
-                        if (searchRecords.Count == 1)
-                        {
-                            searchRecords[0].Id = record.Id;
-                            record.Checked = true;
-                        }
-                        // если пар несколько (проверяем, что потоковые)
-                        else if (searchRecords.Count > 1)
-                        {
-                            return ResultService.Error("Конфликт (дисциплина):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
-                                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
-                                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-                        }
-                    }
-                }
-                #endregion
+                //#region проход по дисциплинам
+                //var disciplines = context.Disciplines.Where(d => !d.IsDeleted).ToList();
+                //foreach (var discipline in disciplines)
+                //{
+                //    //отбираем еще не проверенные записи
+                //    var selectedRecords = exsistRecords.Where(sr => sr.DisciplineId == discipline.Id && !sr.Checked).ToList();
+                //    foreach (var record in selectedRecords)
+                //    {
+                //        // ищем пары (которые еще не опознаны) в этот день в этой группе
+                //        var searchRecords = _findExamRecords.Where(rec =>
+                //                            (rec.DateConsultation == record.DateConsultation && rec.DateExamination == record.DateExamination) &&
+                //                            rec.Id == Guid.Empty && (rec.DisciplineId == record.DisciplineId || rec.LessonDiscipline == record.LessonDiscipline))
+                //                                        .ToList();
+                //        // если пара одна
+                //        if (searchRecords.Count == 1)
+                //        {
+                //            searchRecords[0].Id = record.Id;
+                //            record.Checked = true;
+                //        }
+                //        // если пар несколько (проверяем, что потоковые)
+                //        else if (searchRecords.Count > 1)
+                //        {
+                //            return ResultService.Error("Конфликт (дисциплина):", string.Format("дата {0} {1}\r\n{2} - {3}\r\n{4} {5} {6}\r\n",
+                //                record.DateConsultation.ToShortDateString(), record.DateExamination.ToShortDateString(), record.LessonGroup,
+                //                record.LessonGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                //        }
+                //    }
+                //}
+                //#endregion
 
-                var deletedRecords = exsistRecords.Where(sr => !sr.Checked).ToList();
+                //var deletedRecords = exsistRecords.Where(sr => !sr.Checked).ToList();
 
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        // удаляем неопознанные
-                        context.ExaminationRecords.RemoveRange(deletedRecords);
-                        context.SaveChanges();
+                //using (var transaction = context.Database.BeginTransaction())
+                //{
+                //    try
+                //    {
+                //        // удаляем неопознанные
+                //        context.ExaminationRecords.RemoveRange(deletedRecords);
+                //        context.SaveChanges();
 
-                        // получаем опознанные
-                        var knowRecords = _findExamRecords.Where(sr => sr.Id != Guid.Empty).ToList();
-                        foreach (var record in knowRecords)
-                        {
-                            var entity = context.ExaminationRecords.FirstOrDefault(e => e.Id == record.Id);
-                            if (entity == null)
-                            {
-                                return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
-                            }
+                //        // получаем опознанные
+                //        var knowRecords = _findExamRecords.Where(sr => sr.Id != Guid.Empty).ToList();
+                //        foreach (var record in knowRecords)
+                //        {
+                //            var entity = context.ExaminationRecords.FirstOrDefault(e => e.Id == record.Id);
+                //            if (entity == null)
+                //            {
+                //                return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
+                //            }
 
-                            entity = record.CreateRecord(entity);
-                            context.SaveChanges();
-                        }
+                //            entity = record.CreateRecord(entity);
+                //            context.SaveChanges();
+                //        }
 
-                        // получаем новые
-                        var unknowRecords = _findExamRecords.Where(sr => sr.Id == Guid.Empty).ToList();
-                        foreach (var record in unknowRecords)
-                        {
-                            record.SeasonDatesId = _seasonDate.Id;
-                            var entity = record.CreateRecord();
+                //        // получаем новые
+                //        var unknowRecords = _findExamRecords.Where(sr => sr.Id == Guid.Empty).ToList();
+                //        foreach (var record in unknowRecords)
+                //        {
+                //            record.SeasonDatesId = _seasonDate.Id;
+                //            var entity = record.CreateRecord();
 
-                            context.ExaminationRecords.Add(entity);
-                            context.SaveChanges();
-                        }
+                //            context.ExaminationRecords.Add(entity);
+                //            context.SaveChanges();
+                //        }
 
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        return ResultService.Error("Конфликт при сохранении:", ex.Message, ResultServiceStatusCode.Error);
-                    }
-                }
+                //        transaction.Commit();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        transaction.Rollback();
+                //        return ResultService.Error("Конфликт при сохранении:", ex.Message, ResultServiceStatusCode.Error);
+                //    }
+                //}
 
                 return ResultService.Success();
             }

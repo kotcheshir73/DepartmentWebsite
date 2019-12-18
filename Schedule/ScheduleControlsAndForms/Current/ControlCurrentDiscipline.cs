@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace ScheduleControlsAndForms.Current
 {
-    public partial class ControlCurrentStudentGroup : UserControl
+    public partial class ControlCurrentDiscipline : UserControl
     {
         private readonly IScheduleProcess _process;
 
         private bool switchFlag;
 
-        public ControlCurrentStudentGroup(IScheduleProcess process)
+        public ControlCurrentDiscipline(IScheduleProcess process)
         {
             InitializeComponent();
             _process = process;
@@ -30,7 +30,7 @@ namespace ScheduleControlsAndForms.Current
                 {
                     Dock = DockStyle.Fill
                 };
-                control.LoadData(ScheduleObjectLoad.StudentGroups);
+                control.LoadData(ScheduleObjectLoad.Disciplines);
 
                 Controls.Clear();
                 Controls.Add(control);
@@ -38,7 +38,7 @@ namespace ScheduleControlsAndForms.Current
             }
             else
             {
-                TabControl tabControlStudentGroup = new TabControl
+                TabControl tabControlDiscipline = new TabControl
                 {
                     Alignment = TabAlignment.Left,
                     Dock = DockStyle.Fill,
@@ -52,42 +52,42 @@ namespace ScheduleControlsAndForms.Current
                     TabIndex = 1
                 };
 
-                tabControlStudentGroup.TabPages.Clear();
+                tabControlDiscipline.TabPages.Clear();
 
-                var resultStudentGroups = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
-                if (!resultStudentGroups.Succeeded)
+                var resultDisciplines = _process.GetDisciplines(new DisciplineGetBindingModel { });
+                if (!resultDisciplines.Succeeded)
                 {
-                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
+                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", resultDisciplines.Errors);
                     return;
                 }
-                var studentGroups = resultStudentGroups.Result.List;
+                var disciplines = resultDisciplines.Result.List;
 
-                if (studentGroups != null)
+                if (disciplines != null)
                 {
-                    for (int i = 0; i < studentGroups.Count; i++)
+                    for (int i = 0; i < disciplines.Count; i++)
                     {
                         TabPage tabpage = new TabPage
                         {
                             AutoScroll = true,
                             Location = new Point(23, 4),
-                            Name = "tabPage" + studentGroups[i].Id,
+                            Name = "tabPage" + disciplines[i].Id,
                             Padding = new Padding(3),
                             Size = new Size(1140, 611),
                             Tag = i.ToString(),
-                            Text = studentGroups[i].GroupName
+                            Text = "Дисциплина " + disciplines[i].DisciplineShortName
                         };
-                        tabControlStudentGroup.TabPages.Add(tabpage);
+                        tabControlDiscipline.TabPages.Add(tabpage);
                         var control = new ControlCurrentDates(_process)
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new LoadScheduleBindingModel { StudentGroupId = studentGroups[i].Id });
-                        tabControlStudentGroup.TabPages[i].Controls.Add(control);
+                        control.LoadData(string.Format("{0}.", disciplines[i].DisciplineName), new LoadScheduleBindingModel { DisciplineId = disciplines[i].Id });
+                        tabControlDiscipline.TabPages[i].Controls.Add(control);
                     }
                 }
 
                 Controls.Clear();
-                Controls.Add(tabControlStudentGroup);
+                Controls.Add(tabControlDiscipline);
                 Controls.Add(panelTop);
             }
         }

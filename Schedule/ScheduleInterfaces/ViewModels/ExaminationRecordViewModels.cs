@@ -9,8 +9,6 @@ namespace ScheduleInterfaces.ViewModels
     {
 		public DateTime DateConsultation { get; set; }
 
-		public DateTime DateExamination { get; set; }
-
         public string LessonConsultationClassroom { get; set; }
 
         public string Text
@@ -28,8 +26,6 @@ namespace ScheduleInterfaces.ViewModels
 	public class ExaminationRecordViewModel : ScheduleRecordViewModel
     {
 		public DateTime DateConsultation { get; set; }
-
-		public DateTime DateExamination { get; set; }
 
         public string LessonConsultationClassroom { get; set; }
 

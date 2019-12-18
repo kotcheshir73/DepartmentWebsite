@@ -7,9 +7,9 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class ConsultationRecordShortViewModel : ScheduleRecordShortViewModel
     {
-		public DateTime DateConsultation { get; set; }
+        public int ConsultationTime { get; set; }
 
-		public string Text
+        public string Text
 		{
 			get
 			{
@@ -23,6 +23,6 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class ConsultationRecordViewModel : ScheduleRecordViewModel
     {
-		public DateTime DateConsultation { get; set; }
-	}
+        public int ConsultationTime { get; set; }
+    }
 }

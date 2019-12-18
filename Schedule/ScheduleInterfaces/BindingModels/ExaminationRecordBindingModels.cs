@@ -7,9 +7,6 @@ namespace ScheduleInterfaces.BindingModels
     {
 		[Required(ErrorMessage = "required")]
 		public DateTime DateConsultation { get; set; }
-
-		[Required(ErrorMessage = "required")]
-		public DateTime DateExamination { get; set; }
         
         public string LessonConsultationClassroom { get; set; }
 

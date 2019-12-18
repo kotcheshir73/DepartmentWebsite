@@ -1,6 +1,7 @@
-﻿using Models;
-using Models.AcademicYearData;
+﻿using Enums;
+using Models;
 using Models.Schedule;
+using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 
 namespace ScheduleImplementations
@@ -9,6 +10,9 @@ namespace ScheduleImplementations
     {
         private static void CreateScheduleRecord(ScheduleSetBindingModel model, ScheduleRecord entity = null)
         {
+            entity.NotParseRecord = model.NotParseRecord;
+            entity.ScheduleDate = model.ScheduleDate;
+
             if (!string.IsNullOrEmpty(model.LessonClassroom))
             {
                 entity.LessonClassroom = model.LessonClassroom;
@@ -21,9 +25,9 @@ namespace ScheduleImplementations
             {
                 entity.LessonLecturer = model.LessonLecturer;
             }
-            if (!string.IsNullOrEmpty(model.LessonGroup))
+            if (!string.IsNullOrEmpty(model.LessonStudentGroup))
             {
-                entity.LessonGroup = model.LessonGroup;
+                entity.LessonStudentGroup = model.LessonStudentGroup;
             }
             if (model.ClassroomId.HasValue)
             {
@@ -47,18 +51,11 @@ namespace ScheduleImplementations
         {
             if (entity == null)
             {
-                entity = new SemesterRecord()
-                {
-                    Week = model.Week,
-                    Day = model.Day,
-                    Lesson = model.Lesson,
-                    SeasonDatesId = model.SeasonDatesId.Value
-                };
+                entity = new SemesterRecord();
             }
-            entity.LessonType = model.LessonType;
-            entity.IsFirstHalfSemester = model.IsFirstHalfSemester;
-            entity.NotParseRecord = model.NotParseRecord;
             CreateScheduleRecord(model, entity);
+
+            entity.LessonType = model.LessonType;
 
             return entity;
         }
@@ -67,16 +64,12 @@ namespace ScheduleImplementations
         {
             if (entity == null)
             {
-                entity = new OffsetRecord()
-                {
-                    Week = model.Week,
-                    Day = model.Day,
-                    Lesson = model.Lesson,
-                    NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = model.SeasonDatesId.Value
-                };
+                entity = new OffsetRecord();
             }
             CreateScheduleRecord(model, entity);
+
+            entity.LessonType = LessonTypes.зачет;
+            entity.ScheduleDate = ScheduleHelper.GetDateWithTime(model.ScheduleDate, model.Lesson);
 
             return entity;
         }
@@ -85,17 +78,14 @@ namespace ScheduleImplementations
         {
             if (entity == null)
             {
-                entity = new ExaminationRecord()
-                {
-                    NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = model.SeasonDatesId.Value
-                };
+                entity = new ExaminationRecord();
             }
-            entity.DateExamination = model.DateExamination;
+            CreateScheduleRecord(model, entity);
+
+            entity.LessonType = LessonTypes.экзамен;
             entity.DateConsultation = model.DateConsultation;
             entity.ConsultationClassroomId = model.ConsultationClassroomId;
             entity.LessonConsultationClassroom = model.LessonConsultationClassroom;
-            CreateScheduleRecord(model, entity);
 
             return entity;
         }
@@ -104,28 +94,12 @@ namespace ScheduleImplementations
         {
             if (entity == null)
             {
-                entity = new ConsultationRecord()
-                {
-                    NotParseRecord = model.NotParseRecord,
-                    SeasonDatesId = model.SeasonDatesId.Value
-                };
+                entity = new ConsultationRecord();
             }
-            entity.DateConsultation = model.DateConsultation;
             CreateScheduleRecord(model, entity);
 
-            return entity;
-        }
-
-        public static ScheduleLessonTime CreateEntity(this ScheduleLessonTimeSetBindingModel model, ScheduleLessonTime entity = null)
-        {
-            if (entity == null)
-            {
-                entity = new ScheduleLessonTime();
-            }
-            entity.Title = model.Title;
-            entity.Order = model.Order;
-            entity.DateBeginLesson = model.DateBeginLesson;
-            entity.DateEndLesson = model.DateEndLesson;
+            entity.LessonType = LessonTypes.конс;
+            entity.ConsultationTime = model.ConsultationTime;
 
             return entity;
         }

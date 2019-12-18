@@ -7,10 +7,6 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class OffsetRecordShortViewModel : ScheduleRecordShortViewModel
     {
-		public int Week { get; set; }
-
-		public int Day { get; set; }
-
 		public int Lesson { get; set; }
 
 		public string Text
@@ -27,10 +23,6 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class OffsetRecordViewModel : ScheduleRecordViewModel
     {
-		public int Week { get; set; }
-
-		public int Day { get; set; }
-
 		public int Lesson { get; set; }
 	}
 }

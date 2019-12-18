@@ -84,8 +84,6 @@ namespace DepartmentWeb
             container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
             //container.RegisterType<IStatementService, StatementService>(new HierarchicalLifetimeManager());
             //container.RegisterType<IStatementRecordService, StatementRecordService>(new HierarchicalLifetimeManager());

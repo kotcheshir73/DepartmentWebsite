@@ -28,35 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControlStudentGroup = new System.Windows.Forms.TabControl();
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.buttonSwitch = new System.Windows.Forms.Button();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControlStudentGroup
+            // panelTop
             // 
-            this.tabControlStudentGroup.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.tabControlStudentGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlStudentGroup.Location = new System.Drawing.Point(0, 0);
-            this.tabControlStudentGroup.Margin = new System.Windows.Forms.Padding(0);
-            this.tabControlStudentGroup.Multiline = true;
-            this.tabControlStudentGroup.Name = "tabControlStudentGroup";
-            this.tabControlStudentGroup.Padding = new System.Drawing.Point(0, 0);
-            this.tabControlStudentGroup.SelectedIndex = 0;
-            this.tabControlStudentGroup.Size = new System.Drawing.Size(800, 500);
-            this.tabControlStudentGroup.TabIndex = 0;
+            this.panelTop.Controls.Add(this.buttonSwitch);
+            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Size = new System.Drawing.Size(800, 33);
+            this.panelTop.TabIndex = 0;
             // 
-            // CurrentStudentGroupControl
+            // buttonSwitch
+            // 
+            this.buttonSwitch.Location = new System.Drawing.Point(3, 3);
+            this.buttonSwitch.Name = "buttonSwitch";
+            this.buttonSwitch.Size = new System.Drawing.Size(210, 25);
+            this.buttonSwitch.TabIndex = 0;
+            this.buttonSwitch.Text = "Переключиться на день/период";
+            this.buttonSwitch.UseVisualStyleBackColor = true;
+            this.buttonSwitch.Click += new System.EventHandler(this.ButtonSwitch_Click);
+            // 
+            // ControlCurrentStudentGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tabControlStudentGroup);
-            this.Name = "CurrentStudentGroupControl";
+            this.Controls.Add(this.panelTop);
+            this.Name = "ControlCurrentStudentGroup";
             this.Size = new System.Drawing.Size(800, 500);
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControlStudentGroup;
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Button buttonSwitch;
     }
 }

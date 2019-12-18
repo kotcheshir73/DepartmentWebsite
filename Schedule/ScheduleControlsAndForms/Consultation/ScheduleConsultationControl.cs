@@ -2,6 +2,9 @@
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ScheduleControlsAndForms.Consultation
@@ -36,26 +39,121 @@ namespace ScheduleControlsAndForms.Consultation
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 return;
             }
-            dataGridViewList.DataSource = result.Result;
-            if (dataGridViewList.Columns.Count > 0)
+            var list = result.Result;
+
+            if (list.Count == 0)
             {
-                dataGridViewList.Columns[0].Visible = false;
-                dataGridViewList.Columns[1].HeaderText = "Неделя";
-                dataGridViewList.Columns[1].Width = 50;
-                dataGridViewList.Columns[2].HeaderText = "День";
-                dataGridViewList.Columns[2].Width = 50;
-                dataGridViewList.Columns[3].HeaderText = "Пара";
-                dataGridViewList.Columns[3].Width = 50;
-                dataGridViewList.Columns[4].HeaderText = "Дата";
-                dataGridViewList.Columns[4].Width = 100;
-                dataGridViewList.Columns[5].HeaderText = "Дисциплина";
-                dataGridViewList.Columns[5].Width = 150;
-                dataGridViewList.Columns[6].HeaderText = "Преподаватель";
-                dataGridViewList.Columns[6].Width = 150;
-                dataGridViewList.Columns[7].HeaderText = "Группа";
-                dataGridViewList.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridViewList.Columns[8].HeaderText = "Аудитория";
-                dataGridViewList.Columns[8].Width = 150;
+                return;
+            }
+
+            var dateBeginConsultation = list.First().ScheduleDate;
+            while (dateBeginConsultation.DayOfWeek != DayOfWeek.Monday)
+            {
+                dateBeginConsultation = dateBeginConsultation.AddDays(-1);
+            }
+
+            var dateEndConsultation = list.Last().ScheduleDate;
+            while (dateEndConsultation.DayOfWeek != DayOfWeek.Sunday)
+            {
+                dateEndConsultation = dateEndConsultation.AddDays(1);
+            }
+
+            var days = (dateEndConsultation - dateBeginConsultation).Days;
+            dataGridView.Rows.Clear();
+            var currentdate = dateBeginConsultation;
+            for (int j = 0; j <= days; j++, currentdate = currentdate.AddDays(1))
+            {
+                dataGridView.Rows.Add();//добавляем строки
+                dataGridView.Rows[j].Height = 45;
+                dataGridView.Rows[j].Cells[0].Value = string.Format("{0}{1}{2}", currentdate.ToShortDateString(), Environment.NewLine,
+                   CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek));
+                if (currentdate.Date == DateTime.Now.Date)
+                {
+                    for (int i = 0; i < dataGridView.Columns.Count; i++)
+                    {
+                        dataGridView.Rows[j].Cells[i].Style.BackColor = Color.Aqua;
+                    }
+                }
+                if (currentdate.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    for (int i = 0; i < dataGridView.Columns.Count; i++)
+                    {
+                        dataGridView.Rows[j].Cells[i].Style.BackColor = Color.Gray;
+                    }
+                }
+            }
+
+            foreach (var record in list)
+            {
+                int daysCons = (record.ScheduleDate - dateBeginConsultation).Days;
+                if (daysCons > -1 && daysCons <= days)
+                {
+                    dataGridView.Rows[daysCons].Cells[0].Value = record.Text;
+                    dataGridView.Rows[daysCons].Cells[0].Tag = record.Id;
+                }
+            }
+
+            for (int i = 0; i < dataGridView.Rows.Count; i++)
+            {
+                dataGridView.Rows[i].Height = (dataGridView.Height - 35) / dataGridView.Rows.Count;
+            }
+        }
+
+        private void DataGridView_Resize(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ((DataGridView)sender).Rows.Count; i++)
+            {
+                ((DataGridView)sender).Rows[i].Height = 45;
+            }
+        }
+
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == "Delete")
+            {
+                try
+                {
+                    if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0 && ((DataGridView)sender).SelectedCells[0].Tag != null)
+                        if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            var result = _serviceCR.DeleteConsultationRecord(
+                                    new ScheduleGetBindingModel
+                                    {
+                                        Id = new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString())
+                                    });
+                            LoadRecords();
+                        }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                if (((DataGridView)sender).SelectedCells.Count > 0 && ((DataGridView)sender).SelectedCells[0].ColumnIndex > 0)
+                {
+                    if (((DataGridView)sender).SelectedCells[0].Tag != null)
+                    {//если в Tag есть данные, то это id записи
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process,
+                            new Guid(((DataGridView)sender).SelectedCells[0].Tag.ToString()));
+                        form.ShowDialog();
+                    }
+                    else
+                    {//иначе пустая ячейка
+                        ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_serviceCR, _process);
+                        form.ShowDialog();
+                    }
+                    LoadRecords();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -70,10 +168,9 @@ namespace ScheduleControlsAndForms.Consultation
 
         private void ToolStripButtonUpd_Click(object sender, EventArgs e)
         {
-            if (dataGridViewList.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count == 1)
             {
-                Guid id = new Guid(dataGridViewList.SelectedRows[0].Cells[0].Value.ToString());
-                var form = new ScheduleConsultationRecordForm(_serviceCR, _process, id);
+                var form = new ScheduleConsultationRecordForm(_serviceCR, _process, new Guid(dataGridView.SelectedRows[0].Cells[0].Tag.ToString()));
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadRecords();
@@ -83,13 +180,13 @@ namespace ScheduleControlsAndForms.Consultation
 
         private void ToolStripButtonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewList.SelectedRows.Count > 0)
+            if (dataGridView.SelectedRows.Count > 0)
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    for (int i = 0; i < dataGridViewList.SelectedRows.Count; ++i)
+                    for (int i = 0; i < dataGridView.SelectedRows.Count; ++i)
                     {
-                        Guid id = new Guid(dataGridViewList.SelectedRows[i].Cells[0].Value.ToString());
+                        Guid id = new Guid(dataGridView.SelectedRows[i].Cells[0].Value.ToString());
                         var result = _serviceCR.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                         if (result.Succeeded)
                         {

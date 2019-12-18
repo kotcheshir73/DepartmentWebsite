@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace Models.Schedule
@@ -12,7 +11,7 @@ namespace Models.Schedule
     {
         [Required]
         [DataMember]
-        public DateTime DateConsultation { get; set; }
+        public int ConsultationTime { get; set; }
 
         //-------------------------------------------------------------------------
 

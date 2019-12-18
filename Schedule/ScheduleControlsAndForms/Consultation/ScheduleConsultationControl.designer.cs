@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -36,10 +37,11 @@
             this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
-            this.dataGridViewList = new System.Windows.Forms.DataGridView();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.labelTop = new System.Windows.Forms.Label();
+            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -109,20 +111,33 @@
             this.toolStripButtonRef.Text = "Обновить";
             this.toolStripButtonRef.Click += new System.EventHandler(this.ToolStripButtonRef_Click);
             // 
-            // dataGridViewList
+            // dataGridView
             // 
-            this.dataGridViewList.AllowUserToAddRows = false;
-            this.dataGridViewList.AllowUserToDeleteRows = false;
-            this.dataGridViewList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridViewList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewList.Location = new System.Drawing.Point(0, 55);
-            this.dataGridViewList.Name = "dataGridViewList";
-            this.dataGridViewList.ReadOnly = true;
-            this.dataGridViewList.RowHeadersVisible = false;
-            this.dataGridViewList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewList.Size = new System.Drawing.Size(800, 445);
-            this.dataGridViewList.TabIndex = 1;
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnDate});
+            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView.Location = new System.Drawing.Point(0, 55);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
+            this.dataGridView.RowHeadersVisible = false;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView.Size = new System.Drawing.Size(800, 445);
+            this.dataGridView.TabIndex = 1;
+            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
+            this.dataGridView.Resize += new System.EventHandler(this.DataGridView_Resize);
             // 
             // labelTop
             // 
@@ -135,18 +150,25 @@
             this.labelTop.Text = "Text";
             this.labelTop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // ColumnDate
+            // 
+            this.ColumnDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnDate.HeaderText = "Дата";
+            this.ColumnDate.Name = "ColumnDate";
+            this.ColumnDate.ReadOnly = true;
+            // 
             // ScheduleConsultationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridViewList);
+            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.labelTop);
             this.Controls.Add(this.toolStripMenu);
             this.Name = "ScheduleConsultationControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,7 +184,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonDel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
-        private System.Windows.Forms.DataGridView dataGridViewList;
+        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label labelTop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
     }
 }

@@ -79,11 +79,29 @@
     <Compile Include="Current\ControlCurrentClassroom.designer.cs">
       <DependentUpon>ControlCurrentClassroom.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseControls\ControlCurrentDates.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\ControlCurrentDates.Designer.cs">
+      <DependentUpon>ControlCurrentDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Current\ControlCurrentDiscipline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Current\ControlCurrentDiscipline.Designer.cs">
+      <DependentUpon>ControlCurrentDiscipline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Current\ControlCurrentLecturer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Current\ControlCurrentLecturer.designer.cs">
       <DependentUpon>ControlCurrentLecturer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseControls\ControlCurrentObjects.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\ControlCurrentObjects.Designer.cs">
+      <DependentUpon>ControlCurrentObjects.cs</DependentUpon>
     </Compile>
     <Compile Include="Current\ControlCurrentStudentGroup.cs">
       <SubType>UserControl</SubType>
@@ -135,18 +153,6 @@
     <Compile Include="ControlScheduleConfig.designer.cs">
       <DependentUpon>ControlScheduleConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScheduleLessonTime\ControlScheduleLessonTime.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ScheduleLessonTime\ControlScheduleLessonTime.designer.cs">
-      <DependentUpon>ControlScheduleLessonTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ScheduleLessonTime\FormScheduleLessonTime.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ScheduleLessonTime\FormScheduleLessonTime.designer.cs">
-      <DependentUpon>FormScheduleLessonTime.cs</DependentUpon>
-    </Compile>
     <Compile Include="Semester\ScheduleSemesterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,8 +183,17 @@
     <EmbeddedResource Include="Current\ControlCurrentClassroom.resx">
       <DependentUpon>ControlCurrentClassroom.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BaseControls\ControlCurrentDates.resx">
+      <DependentUpon>ControlCurrentDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Current\ControlCurrentDiscipline.resx">
+      <DependentUpon>ControlCurrentDiscipline.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Current\ControlCurrentLecturer.resx">
       <DependentUpon>ControlCurrentLecturer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseControls\ControlCurrentObjects.resx">
+      <DependentUpon>ControlCurrentObjects.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Current\ControlCurrentStudentGroup.resx">
       <DependentUpon>ControlCurrentStudentGroup.cs</DependentUpon>
@@ -213,12 +228,6 @@
     </Compile>
     <EmbeddedResource Include="ControlScheduleConfig.resx">
       <DependentUpon>ControlScheduleConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ScheduleLessonTime\ControlScheduleLessonTime.resx">
-      <DependentUpon>ControlScheduleLessonTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ScheduleLessonTime\FormScheduleLessonTime.resx">
-      <DependentUpon>FormScheduleLessonTime.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Semester\ScheduleSemesterControl.resx">
       <DependentUpon>ScheduleSemesterControl.cs</DependentUpon>
@@ -295,6 +304,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Up.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Left.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Right.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

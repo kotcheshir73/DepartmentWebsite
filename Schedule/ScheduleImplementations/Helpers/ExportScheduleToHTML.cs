@@ -45,12 +45,12 @@ namespace ScheduleServiceImplementations.Helpers
                         {
                             writer.WriteLine("\t\t\t<span style='color:#ffffff;'>II</span><span style='color:#ffffff;'> неделя</span></td>");
                         }
-                        for (int t = 0; t < model.Times.Count; ++t)
-                        {
-                            writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", model.Times[t].Title));
-                            writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", model.Times[t].TimeBeginLesson, model.Times[t].TimeEndLesson));
-                        }
+                        //for (int t = 0; t < model.Times.Count; ++t)
+                        //{
+                        //    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                        //    writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", model.Times[t].Title));
+                        //    writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", model.Times[t].TimeBeginLesson, model.Times[t].TimeEndLesson));
+                        //}
                         for (int day = 0; day < 6; day++)
                         {
                             writer.WriteLine("\t\t<tr style='height: 40px'>");
@@ -94,7 +94,7 @@ namespace ScheduleServiceImplementations.Helpers
             }
         }
 
-        public static ResultService ExportOffsetRecordHTML(List<ScheduleLessonTimeViewModel> times, List<OffsetRecordShortViewModel> records, ExportToHTMLClassroomsBindingModel model)
+        public static ResultService ExportOffsetRecordHTML(List<OffsetRecordShortViewModel> records, ExportToHTMLClassroomsBindingModel model)
         {
             try
             {
@@ -126,12 +126,12 @@ namespace ScheduleServiceImplementations.Helpers
                         {
                             writer.WriteLine("\t\t\t<span style='color:#ffffff;'>II</span><span style='color:#ffffff;'> неделя</span></td>");
                         }
-                        for (int t = 0; t < times.Count; ++t)
-                        {
-                            writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                            writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
-                            writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
-                        }
+                        //for (int t = 0; t < times.Count; ++t)
+                        //{
+                        //    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                        //    writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
+                        //    writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
+                        //}
                         for (int k = 0; k < 6; k++)
                         {
                             writer.WriteLine("\t\t<tr style='height: 40px'>");
@@ -147,16 +147,16 @@ namespace ScheduleServiceImplementations.Helpers
                                 {
                                     writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
                                 }
-                                if (list.Exists(rec => rec.Week == j && rec.Day == k && rec.Lesson == r))
-                                {
-                                    var record = list.Find(rec => rec.Week == j && rec.Day == k && rec.Lesson == r);
-                                    writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>зач. {0}<br />{1}<br />{2}</span></td>",
-                                        record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
-                                }
-                                else
-                                {
-                                    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                }
+                                //if (list.Exists(rec => rec.Week == j && rec.Day == k && rec.Lesson == r))
+                                //{
+                                //    var record = list.Find(rec => rec.Week == j && rec.Day == k && rec.Lesson == r);
+                                //    writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>зач. {0}<br />{1}<br />{2}</span></td>",
+                                //        record.LessonDiscipline, record.LessonLecturer, record.LessonGroup));
+                                //}
+                                //else
+                                //{
+                                //    writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                                //}
                             }
                             writer.WriteLine("\t\t</tr>");
                         }
@@ -173,7 +173,7 @@ namespace ScheduleServiceImplementations.Helpers
             }
         }
 
-        public static ResultService ExportExaminationRecordHTML(List<ScheduleLessonTimeViewModel> times, List<ExaminationRecordShortViewModel> records, ExportToHTMLClassroomsBindingModel model)
+        public static ResultService ExportExaminationRecordHTML(List<ExaminationRecordShortViewModel> records, ExportToHTMLClassroomsBindingModel model)
         {
             try
             {
@@ -195,12 +195,12 @@ namespace ScheduleServiceImplementations.Helpers
                     writer.WriteLine("\t\t<tr>");
                     writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 40px; background-color: rgb(0, 153, 51)'>");
                     writer.WriteLine("\t\t\t<span style='color:#ffffff;'>Сессия</span></td>");
-                    for (int t = 0; t < times.Count; ++t)
-                    {
-                        writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
-                        writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
-                        writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
-                    }
+                    //for (int t = 0; t < times.Count; ++t)
+                    //{
+                    //    writer.WriteLine("\t\t\t<td class='rtecenter' style='width: 70px; background-color: rgb(0, 153, 51)'>");
+                    //    writer.WriteLine(string.Format("\t\t\t\t<span style='color:#ffffff;font-size:10px;'>{0}<br />", times[t].Title));
+                    //    writer.WriteLine(string.Format("\t\t\t\t{0} - {1}</span></td>", times[t].TimeBeginLesson, times[t].TimeEndLesson));
+                    //}
 
 
                     var currentdate = Convert.ToDateTime(currentDates.DateBeginExamination);
@@ -214,72 +214,72 @@ namespace ScheduleServiceImplementations.Helpers
                         writer.WriteLine("\t\t<tr style='height: 40px'>");
                         writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(153, 0, 0)'>");
                         writer.WriteLine("\t\t\t\t<span style='color:#ffffff;'>" + currentdate.ToShortDateString() + "</span></td>");
-                        for (int r = 0; r < times.Count; r++)
-                        {
-                            if (r % 2 != 0)
-                            {
-                                writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
-                            }
-                            else
-                            {
-                                writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
-                            }
-                            switch (r)
-                            {
-                                case 0:
-                                    var recordFirstExam = list.FirstOrDefault(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour == times[0].DateBeginLesson.Hour &&
-                                                                                rec.LessonClassroom == model.Classrooms[i]);
-                                    if (recordFirstExam != null)
-                                    {
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            recordFirstExam.LessonDiscipline, recordFirstExam.LessonLecturer, recordFirstExam.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                                case 1:
-                                    var recordSecondExam = list.FirstOrDefault(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour == times[1].DateBeginLesson.Hour &&
-                                                                                rec.LessonClassroom == model.Classrooms[i]);
-                                    if (recordSecondExam != null)
-                                    {
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            recordSecondExam.LessonDiscipline, recordSecondExam.LessonLecturer, recordSecondExam.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                                case 2:
-                                    var recordFirstConsult = list.FirstOrDefault(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour == times[2].DateBeginLesson.Hour &&
-                            ((rec.LessonClassroom == model.Classrooms[i] && string.IsNullOrEmpty(rec.LessonConsultationClassroom)) || rec.LessonConsultationClassroom == model.Classrooms[i]));
-                                    if (recordFirstConsult != null)
-                                    {
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            recordFirstConsult.LessonDiscipline, recordFirstConsult.LessonLecturer, recordFirstConsult.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                                case 3:
-                                    var recordSecondConsult = list.FirstOrDefault(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour == times[3].DateBeginLesson.Hour &&
-                            ((rec.LessonClassroom == model.Classrooms[i] && string.IsNullOrEmpty(rec.LessonConsultationClassroom)) || rec.LessonConsultationClassroom == model.Classrooms[i]));
-                                    if (recordSecondConsult != null)
-                                    {
-                                        writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
-                                            recordSecondConsult.LessonDiscipline, recordSecondConsult.LessonLecturer, recordSecondConsult.LessonGroup));
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
-                                    }
-                                    break;
-                            }
-                        }
+                        //for (int r = 0; r < times.Count; r++)
+                        //{
+                        //    if (r % 2 != 0)
+                        //    {
+                        //        writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(255, 255, 255)'>");
+                        //    }
+                        //    else
+                        //    {
+                        //        writer.WriteLine("\t\t\t<td class='rtecenter' style='background-color: rgb(204, 204, 204)'>");
+                        //    }
+                        //    switch (r)
+                        //    {
+                        //        case 0:
+                        //            var recordFirstExam = list.FirstOrDefault(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour == times[0].DateBeginLesson.Hour &&
+                        //                                                        rec.LessonClassroom == model.Classrooms[i]);
+                        //            if (recordFirstExam != null)
+                        //            {
+                        //                writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
+                        //                    recordFirstExam.LessonDiscipline, recordFirstExam.LessonLecturer, recordFirstExam.LessonGroup));
+                        //            }
+                        //            else
+                        //            {
+                        //                writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                        //            }
+                        //            break;
+                        //        case 1:
+                        //            var recordSecondExam = list.FirstOrDefault(rec => rec.DateExamination.Date == currentdate.Date && rec.DateExamination.Hour == times[1].DateBeginLesson.Hour &&
+                        //                                                        rec.LessonClassroom == model.Classrooms[i]);
+                        //            if (recordSecondExam != null)
+                        //            {
+                        //                writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
+                        //                    recordSecondExam.LessonDiscipline, recordSecondExam.LessonLecturer, recordSecondExam.LessonGroup));
+                        //            }
+                        //            else
+                        //            {
+                        //                writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                        //            }
+                        //            break;
+                        //        case 2:
+                        //            var recordFirstConsult = list.FirstOrDefault(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour == times[2].DateBeginLesson.Hour &&
+                        //    ((rec.LessonClassroom == model.Classrooms[i] && string.IsNullOrEmpty(rec.LessonConsultationClassroom)) || rec.LessonConsultationClassroom == model.Classrooms[i]));
+                        //            if (recordFirstConsult != null)
+                        //            {
+                        //                writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
+                        //                    recordFirstConsult.LessonDiscipline, recordFirstConsult.LessonLecturer, recordFirstConsult.LessonGroup));
+                        //            }
+                        //            else
+                        //            {
+                        //                writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                        //            }
+                        //            break;
+                        //        case 3:
+                        //            var recordSecondConsult = list.FirstOrDefault(rec => rec.DateConsultation.Date == currentdate.Date && rec.DateConsultation.Hour == times[3].DateBeginLesson.Hour &&
+                        //    ((rec.LessonClassroom == model.Classrooms[i] && string.IsNullOrEmpty(rec.LessonConsultationClassroom)) || rec.LessonConsultationClassroom == model.Classrooms[i]));
+                        //            if (recordSecondConsult != null)
+                        //            {
+                        //                writer.WriteLine(string.Format("\t\t\t\t<span style='font-size:8px;'>{0}<br />{1}<br />{2}</span></td>",
+                        //                    recordSecondConsult.LessonDiscipline, recordSecondConsult.LessonLecturer, recordSecondConsult.LessonGroup));
+                        //            }
+                        //            else
+                        //            {
+                        //                writer.WriteLine("\t\t\t\t<span style='font-size:8px;'>-</span></td>");
+                        //            }
+                        //            break;
+                        //    }
+                        //}
                         writer.WriteLine("\t\t</tr>");
                         currentdate = currentdate.AddDays(1);
                     }

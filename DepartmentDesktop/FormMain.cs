@@ -300,14 +300,10 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
-        /// <summary>
-        /// Расписание групп по текущей дате
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ScheduleCurrentStudentGroupToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void scheduleCurrentDisciplineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = ScheduleControlsAndForms.Controller.GetControlCurrentStudentGroup;
+            var control = ScheduleControlsAndForms.Controller.GetControlCurrentDiscipline;
             ApplyControl(control);
             control.LoadData();
         }
@@ -322,8 +318,19 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
+        /// <summary>
+        /// Расписание групп по текущей дате
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduleCurrentStudentGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = ScheduleControlsAndForms.Controller.GetControlCurrentStudentGroup;
+            ApplyControl(control);
+            control.LoadData();
+        }
         #endregion
-
+        
         #region Расписание - аудитории
         /// <summary>
         /// Расписание аудиторий на семестр
@@ -484,9 +491,9 @@ namespace DepartmentDesktop
         /// <param name="e"></param>
 		private void StreamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = ScheduleControlsAndForms.Controller.GetControlStreamingLesson;
-            ApplyControl(control);
-			control.LoadData();
+			//var control = ScheduleControlsAndForms.Controller.GetControlStreamingLesson;
+   //         ApplyControl(control);
+			//control.LoadData();
 		}
 
 		/// <summary>
@@ -496,9 +503,9 @@ namespace DepartmentDesktop
 		/// <param name="e"></param>
 		private void ScheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var control = ScheduleControlsAndForms.Controller.GetControlScheduleLessonTime;
-            ApplyControl(control);
-			control.LoadData();
+			//var control = ScheduleControlsAndForms.Controller.GetControlScheduleLessonTime;
+   //         ApplyControl(control);
+			//control.LoadData();
 		}
         #endregion
 
