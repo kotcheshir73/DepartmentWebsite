@@ -56,6 +56,7 @@ namespace ScheduleControlsAndForms.BaseControls
         /// </summary>
         private void LoadRecords()
         {
+            controlCurrentTableView.ScheduleDate = dateTimePicker.Value;
             controlCurrentTableView.ClearTable();
             _model.BeginDate = dateTimePicker.Value.Date;
             _model.EndDate = dateTimePicker.Value.Date.AddDays(1).AddSeconds(-1);

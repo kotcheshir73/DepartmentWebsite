@@ -34,44 +34,27 @@
             this.textBoxLinkToHtml = new System.Windows.Forms.TextBox();
             this.labelLinkToHtml = new System.Windows.Forms.Label();
             this.buttonMakeLoadHTMLScheduleForClassrooms = new System.Windows.Forms.Button();
-            this.checkedListBoxClassrooms = new System.Windows.Forms.CheckedListBox();
-            this.groupBoxClassrooms = new System.Windows.Forms.GroupBox();
             this.groupBoxClearClassrooms = new System.Windows.Forms.GroupBox();
             this.buttonClearConsultationRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearExaminationRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearOffsetRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearSemesterRecordClassrooms = new System.Windows.Forms.Button();
             this.groupBoxExport = new System.Windows.Forms.GroupBox();
-            this.buttonExportExaminationRecordHTML = new System.Windows.Forms.Button();
             this.buttonExportExaminationRecordExcel = new System.Windows.Forms.Button();
-            this.buttonExportOffsetRecordHTML = new System.Windows.Forms.Button();
             this.buttonExportOffsetRecordExcel = new System.Windows.Forms.Button();
             this.buttonExportSemesterRecordExcel = new System.Windows.Forms.Button();
-            this.buttonExportSemesterRecordHTML = new System.Windows.Forms.Button();
-            this.groupBoxSettings = new System.Windows.Forms.GroupBox();
-            this.buttonSeasonDatesSave = new System.Windows.Forms.Button();
-            this.comboBoxSeasonDates = new System.Windows.Forms.ComboBox();
-            this.labelSeasonDates = new System.Windows.Forms.Label();
             this.groupBoxCheckRecordsIfNotComplite = new System.Windows.Forms.GroupBox();
             this.buttonCheckRecordsIfNotComplite = new System.Windows.Forms.Button();
             this.groupBoxImport = new System.Windows.Forms.GroupBox();
             this.buttonImportExaminationFromExcel = new System.Windows.Forms.Button();
             this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
-            this.groupBoxStudentGroups = new System.Windows.Forms.GroupBox();
-            this.checkedListBoxStudentGroups = new System.Windows.Forms.CheckedListBox();
-            this.groupBoxLecturers = new System.Windows.Forms.GroupBox();
-            this.checkedListBoxLecturers = new System.Windows.Forms.CheckedListBox();
             this.groupBoxExportInfo = new System.Windows.Forms.GroupBox();
             this.labelOffsetExport = new System.Windows.Forms.Label();
             this.groupBoxLoadHTMLScheduleForClassrooms.SuspendLayout();
-            this.groupBoxClassrooms.SuspendLayout();
             this.groupBoxClearClassrooms.SuspendLayout();
             this.groupBoxExport.SuspendLayout();
-            this.groupBoxSettings.SuspendLayout();
             this.groupBoxCheckRecordsIfNotComplite.SuspendLayout();
             this.groupBoxImport.SuspendLayout();
-            this.groupBoxStudentGroups.SuspendLayout();
-            this.groupBoxLecturers.SuspendLayout();
             this.groupBoxExportInfo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +64,7 @@
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.textBoxLinkToHtml);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.labelLinkToHtml);
             this.groupBoxLoadHTMLScheduleForClassrooms.Controls.Add(this.buttonMakeLoadHTMLScheduleForClassrooms);
-            this.groupBoxLoadHTMLScheduleForClassrooms.Location = new System.Drawing.Point(359, 0);
+            this.groupBoxLoadHTMLScheduleForClassrooms.Location = new System.Drawing.Point(0, 0);
             this.groupBoxLoadHTMLScheduleForClassrooms.Name = "groupBoxLoadHTMLScheduleForClassrooms";
             this.groupBoxLoadHTMLScheduleForClassrooms.Size = new System.Drawing.Size(360, 100);
             this.groupBoxLoadHTMLScheduleForClassrooms.TabIndex = 1;
@@ -124,25 +107,6 @@
             this.buttonMakeLoadHTMLScheduleForClassrooms.Text = "Обновить";
             this.buttonMakeLoadHTMLScheduleForClassrooms.UseVisualStyleBackColor = true;
             this.buttonMakeLoadHTMLScheduleForClassrooms.Click += new System.EventHandler(this.ButtonMakeLoadHTMLScheduleForClassrooms_Click);
-            // 
-            // checkedListBoxClassrooms
-            // 
-            this.checkedListBoxClassrooms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBoxClassrooms.FormattingEnabled = true;
-            this.checkedListBoxClassrooms.Location = new System.Drawing.Point(3, 16);
-            this.checkedListBoxClassrooms.Name = "checkedListBoxClassrooms";
-            this.checkedListBoxClassrooms.Size = new System.Drawing.Size(104, 131);
-            this.checkedListBoxClassrooms.TabIndex = 0;
-            // 
-            // groupBoxClassrooms
-            // 
-            this.groupBoxClassrooms.Controls.Add(this.checkedListBoxClassrooms);
-            this.groupBoxClassrooms.Location = new System.Drawing.Point(0, 0);
-            this.groupBoxClassrooms.Name = "groupBoxClassrooms";
-            this.groupBoxClassrooms.Size = new System.Drawing.Size(110, 150);
-            this.groupBoxClassrooms.TabIndex = 0;
-            this.groupBoxClassrooms.TabStop = false;
-            this.groupBoxClassrooms.Text = "Аудитории";
             // 
             // groupBoxClearClassrooms
             // 
@@ -199,28 +163,15 @@
             // 
             // groupBoxExport
             // 
-            this.groupBoxExport.Controls.Add(this.buttonExportExaminationRecordHTML);
             this.groupBoxExport.Controls.Add(this.buttonExportExaminationRecordExcel);
-            this.groupBoxExport.Controls.Add(this.buttonExportOffsetRecordHTML);
             this.groupBoxExport.Controls.Add(this.buttonExportOffsetRecordExcel);
             this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordExcel);
-            this.groupBoxExport.Controls.Add(this.buttonExportSemesterRecordHTML);
-            this.groupBoxExport.Location = new System.Drawing.Point(725, 126);
+            this.groupBoxExport.Location = new System.Drawing.Point(100, 246);
             this.groupBoxExport.Name = "groupBoxExport";
-            this.groupBoxExport.Size = new System.Drawing.Size(200, 280);
+            this.groupBoxExport.Size = new System.Drawing.Size(200, 160);
             this.groupBoxExport.TabIndex = 3;
             this.groupBoxExport.TabStop = false;
             this.groupBoxExport.Text = "Экспорт";
-            // 
-            // buttonExportExaminationRecordHTML
-            // 
-            this.buttonExportExaminationRecordHTML.Location = new System.Drawing.Point(25, 230);
-            this.buttonExportExaminationRecordHTML.Name = "buttonExportExaminationRecordHTML";
-            this.buttonExportExaminationRecordHTML.Size = new System.Drawing.Size(150, 30);
-            this.buttonExportExaminationRecordHTML.TabIndex = 5;
-            this.buttonExportExaminationRecordHTML.Text = "Экзамены в HTML";
-            this.buttonExportExaminationRecordHTML.UseVisualStyleBackColor = true;
-            this.buttonExportExaminationRecordHTML.Click += new System.EventHandler(this.ButtonExportExaminationRecordHTML_Click);
             // 
             // buttonExportExaminationRecordExcel
             // 
@@ -231,16 +182,6 @@
             this.buttonExportExaminationRecordExcel.Text = "Экзамены в Excel";
             this.buttonExportExaminationRecordExcel.UseVisualStyleBackColor = true;
             this.buttonExportExaminationRecordExcel.Click += new System.EventHandler(this.ButtonExportExaminationRecordExcel_Click);
-            // 
-            // buttonExportOffsetRecordHTML
-            // 
-            this.buttonExportOffsetRecordHTML.Location = new System.Drawing.Point(25, 190);
-            this.buttonExportOffsetRecordHTML.Name = "buttonExportOffsetRecordHTML";
-            this.buttonExportOffsetRecordHTML.Size = new System.Drawing.Size(150, 30);
-            this.buttonExportOffsetRecordHTML.TabIndex = 4;
-            this.buttonExportOffsetRecordHTML.Text = "Зачеты в HTML";
-            this.buttonExportOffsetRecordHTML.UseVisualStyleBackColor = true;
-            this.buttonExportOffsetRecordHTML.Click += new System.EventHandler(this.ButtonExportOffsetRecordHTML_Click);
             // 
             // buttonExportOffsetRecordExcel
             // 
@@ -261,56 +202,6 @@
             this.buttonExportSemesterRecordExcel.Text = "Семестр в Excel";
             this.buttonExportSemesterRecordExcel.UseVisualStyleBackColor = true;
             this.buttonExportSemesterRecordExcel.Click += new System.EventHandler(this.ButtonExportSemesterRecordExcel_Click);
-            // 
-            // buttonExportSemesterRecordHTML
-            // 
-            this.buttonExportSemesterRecordHTML.Location = new System.Drawing.Point(25, 150);
-            this.buttonExportSemesterRecordHTML.Name = "buttonExportSemesterRecordHTML";
-            this.buttonExportSemesterRecordHTML.Size = new System.Drawing.Size(150, 30);
-            this.buttonExportSemesterRecordHTML.TabIndex = 3;
-            this.buttonExportSemesterRecordHTML.Text = "Семестр в HTML";
-            this.buttonExportSemesterRecordHTML.UseVisualStyleBackColor = true;
-            this.buttonExportSemesterRecordHTML.Click += new System.EventHandler(this.ButtonExportSemesterRecordHTML_Click);
-            // 
-            // groupBoxSettings
-            // 
-            this.groupBoxSettings.Controls.Add(this.buttonSeasonDatesSave);
-            this.groupBoxSettings.Controls.Add(this.comboBoxSeasonDates);
-            this.groupBoxSettings.Controls.Add(this.labelSeasonDates);
-            this.groupBoxSettings.Location = new System.Drawing.Point(3, 253);
-            this.groupBoxSettings.Name = "groupBoxSettings";
-            this.groupBoxSettings.Size = new System.Drawing.Size(350, 93);
-            this.groupBoxSettings.TabIndex = 4;
-            this.groupBoxSettings.TabStop = false;
-            this.groupBoxSettings.Text = "Общие настройки";
-            // 
-            // buttonSeasonDatesSave
-            // 
-            this.buttonSeasonDatesSave.Location = new System.Drawing.Point(269, 55);
-            this.buttonSeasonDatesSave.Name = "buttonSeasonDatesSave";
-            this.buttonSeasonDatesSave.Size = new System.Drawing.Size(75, 30);
-            this.buttonSeasonDatesSave.TabIndex = 2;
-            this.buttonSeasonDatesSave.Text = "Сохранить";
-            this.buttonSeasonDatesSave.UseVisualStyleBackColor = true;
-            this.buttonSeasonDatesSave.Click += new System.EventHandler(this.ButtonSeasonDatesSave_Click);
-            // 
-            // comboBoxSeasonDates
-            // 
-            this.comboBoxSeasonDates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSeasonDates.FormattingEnabled = true;
-            this.comboBoxSeasonDates.Location = new System.Drawing.Point(111, 28);
-            this.comboBoxSeasonDates.Name = "comboBoxSeasonDates";
-            this.comboBoxSeasonDates.Size = new System.Drawing.Size(233, 21);
-            this.comboBoxSeasonDates.TabIndex = 1;
-            // 
-            // labelSeasonDates
-            // 
-            this.labelSeasonDates.AutoSize = true;
-            this.labelSeasonDates.Location = new System.Drawing.Point(15, 31);
-            this.labelSeasonDates.Name = "labelSeasonDates";
-            this.labelSeasonDates.Size = new System.Drawing.Size(90, 13);
-            this.labelSeasonDates.TabIndex = 0;
-            this.labelSeasonDates.Text = "Даты семестра:";
             // 
             // groupBoxCheckRecordsIfNotComplite
             // 
@@ -338,14 +229,14 @@
             this.groupBoxImport.Controls.Add(this.buttonImportOffsetFromExcel);
             this.groupBoxImport.Location = new System.Drawing.Point(725, 0);
             this.groupBoxImport.Name = "groupBoxImport";
-            this.groupBoxImport.Size = new System.Drawing.Size(200, 120);
+            this.groupBoxImport.Size = new System.Drawing.Size(200, 166);
             this.groupBoxImport.TabIndex = 6;
             this.groupBoxImport.TabStop = false;
             this.groupBoxImport.Text = "Импорт";
             // 
             // buttonImportExaminationFromExcel
             // 
-            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(25, 70);
+            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(29, 110);
             this.buttonImportExaminationFromExcel.Name = "buttonImportExaminationFromExcel";
             this.buttonImportExaminationFromExcel.Size = new System.Drawing.Size(150, 30);
             this.buttonImportExaminationFromExcel.TabIndex = 1;
@@ -355,51 +246,13 @@
             // 
             // buttonImportOffsetFromExcel
             // 
-            this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(25, 30);
+            this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(29, 70);
             this.buttonImportOffsetFromExcel.Name = "buttonImportOffsetFromExcel";
             this.buttonImportOffsetFromExcel.Size = new System.Drawing.Size(150, 30);
             this.buttonImportOffsetFromExcel.TabIndex = 0;
             this.buttonImportOffsetFromExcel.Text = "Зачеты из Excel";
             this.buttonImportOffsetFromExcel.UseVisualStyleBackColor = true;
             this.buttonImportOffsetFromExcel.Click += new System.EventHandler(this.ButtonImportOffsetFromExcel_Click);
-            // 
-            // groupBoxStudentGroups
-            // 
-            this.groupBoxStudentGroups.Controls.Add(this.checkedListBoxStudentGroups);
-            this.groupBoxStudentGroups.Location = new System.Drawing.Point(111, 0);
-            this.groupBoxStudentGroups.Name = "groupBoxStudentGroups";
-            this.groupBoxStudentGroups.Size = new System.Drawing.Size(110, 250);
-            this.groupBoxStudentGroups.TabIndex = 0;
-            this.groupBoxStudentGroups.TabStop = false;
-            this.groupBoxStudentGroups.Text = "Группы";
-            // 
-            // checkedListBoxStudentGroups
-            // 
-            this.checkedListBoxStudentGroups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBoxStudentGroups.FormattingEnabled = true;
-            this.checkedListBoxStudentGroups.Location = new System.Drawing.Point(3, 16);
-            this.checkedListBoxStudentGroups.Name = "checkedListBoxStudentGroups";
-            this.checkedListBoxStudentGroups.Size = new System.Drawing.Size(104, 231);
-            this.checkedListBoxStudentGroups.TabIndex = 0;
-            // 
-            // groupBoxLecturers
-            // 
-            this.groupBoxLecturers.Controls.Add(this.checkedListBoxLecturers);
-            this.groupBoxLecturers.Location = new System.Drawing.Point(227, 0);
-            this.groupBoxLecturers.Name = "groupBoxLecturers";
-            this.groupBoxLecturers.Size = new System.Drawing.Size(126, 250);
-            this.groupBoxLecturers.TabIndex = 0;
-            this.groupBoxLecturers.TabStop = false;
-            this.groupBoxLecturers.Text = "Преподаватели";
-            // 
-            // checkedListBoxLecturers
-            // 
-            this.checkedListBoxLecturers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBoxLecturers.FormattingEnabled = true;
-            this.checkedListBoxLecturers.Location = new System.Drawing.Point(3, 16);
-            this.checkedListBoxLecturers.Name = "checkedListBoxLecturers";
-            this.checkedListBoxLecturers.Size = new System.Drawing.Size(120, 231);
-            this.checkedListBoxLecturers.TabIndex = 0;
             // 
             // groupBoxExportInfo
             // 
@@ -421,33 +274,24 @@
             this.labelOffsetExport.TabIndex = 0;
             this.labelOffsetExport.Text = resources.GetString("labelOffsetExport.Text");
             // 
-            // ScheduleConfigControl
+            // ControlScheduleConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBoxExportInfo);
-            this.Controls.Add(this.groupBoxLecturers);
-            this.Controls.Add(this.groupBoxStudentGroups);
             this.Controls.Add(this.groupBoxImport);
             this.Controls.Add(this.groupBoxCheckRecordsIfNotComplite);
-            this.Controls.Add(this.groupBoxSettings);
             this.Controls.Add(this.groupBoxExport);
             this.Controls.Add(this.groupBoxClearClassrooms);
-            this.Controls.Add(this.groupBoxClassrooms);
             this.Controls.Add(this.groupBoxLoadHTMLScheduleForClassrooms);
-            this.Name = "ScheduleConfigControl";
+            this.Name = "ControlScheduleConfig";
             this.Size = new System.Drawing.Size(1386, 500);
             this.groupBoxLoadHTMLScheduleForClassrooms.ResumeLayout(false);
             this.groupBoxLoadHTMLScheduleForClassrooms.PerformLayout();
-            this.groupBoxClassrooms.ResumeLayout(false);
             this.groupBoxClearClassrooms.ResumeLayout(false);
             this.groupBoxExport.ResumeLayout(false);
-            this.groupBoxSettings.ResumeLayout(false);
-            this.groupBoxSettings.PerformLayout();
             this.groupBoxCheckRecordsIfNotComplite.ResumeLayout(false);
             this.groupBoxImport.ResumeLayout(false);
-            this.groupBoxStudentGroups.ResumeLayout(false);
-            this.groupBoxLecturers.ResumeLayout(false);
             this.groupBoxExportInfo.ResumeLayout(false);
             this.groupBoxExportInfo.PerformLayout();
             this.ResumeLayout(false);
@@ -457,20 +301,13 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBoxLoadHTMLScheduleForClassrooms;
-        private System.Windows.Forms.CheckedListBox checkedListBoxClassrooms;
         private System.Windows.Forms.Button buttonMakeLoadHTMLScheduleForClassrooms;
-        private System.Windows.Forms.GroupBox groupBoxClassrooms;
         private System.Windows.Forms.GroupBox groupBoxClearClassrooms;
         private System.Windows.Forms.Button buttonClearSemesterRecordClassrooms;
         private System.Windows.Forms.GroupBox groupBoxExport;
         private System.Windows.Forms.Button buttonExportSemesterRecordExcel;
-        private System.Windows.Forms.Button buttonExportSemesterRecordHTML;
         private System.Windows.Forms.Label labelLinkToHtml;
         private System.Windows.Forms.TextBox textBoxLinkToHtml;
-        private System.Windows.Forms.GroupBox groupBoxSettings;
-        private System.Windows.Forms.Label labelSeasonDates;
-        private System.Windows.Forms.Button buttonSeasonDatesSave;
-        private System.Windows.Forms.ComboBox comboBoxSeasonDates;
         private System.Windows.Forms.GroupBox groupBoxCheckRecordsIfNotComplite;
         private System.Windows.Forms.Button buttonCheckRecordsIfNotComplite;
         private System.Windows.Forms.GroupBox groupBoxImport;
@@ -480,13 +317,7 @@
         private System.Windows.Forms.Button buttonClearConsultationRecordClassrooms;
         private System.Windows.Forms.Button buttonImportExaminationFromExcel;
         private System.Windows.Forms.Button buttonExportOffsetRecordExcel;
-        private System.Windows.Forms.Button buttonExportOffsetRecordHTML;
         private System.Windows.Forms.Button buttonExportExaminationRecordExcel;
-        private System.Windows.Forms.Button buttonExportExaminationRecordHTML;
-        private System.Windows.Forms.GroupBox groupBoxStudentGroups;
-        private System.Windows.Forms.CheckedListBox checkedListBoxStudentGroups;
-        private System.Windows.Forms.GroupBox groupBoxLecturers;
-        private System.Windows.Forms.CheckedListBox checkedListBoxLecturers;
         private System.Windows.Forms.CheckBox checkBoxIsFirstHalfSemester;
         private System.Windows.Forms.GroupBox groupBoxExportInfo;
         private System.Windows.Forms.Label labelOffsetExport;

@@ -18,12 +18,17 @@ namespace ScheduleControlsAndForms.Offset
 
         private Guid? _id;
 
-        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleProcess process, Guid? id = null)
+        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleProcess process, Guid? id = null, DateTime? scheduleDate = null)
         {
             InitializeComponent();
             _service = service;
             _process = process;
             _id = id;
+
+            if (scheduleDate.HasValue)
+            {
+                dateTimePickerDateOffset.Value = scheduleDate.Value;
+            }
         }
 
         private void ScheduleOffsetRecordForm_Load(object sender, EventArgs e)

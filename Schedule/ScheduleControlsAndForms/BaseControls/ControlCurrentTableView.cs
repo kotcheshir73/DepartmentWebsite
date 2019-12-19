@@ -27,6 +27,8 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private readonly DateTime finishDate = DateTime.Now.Date.AddHours(21).AddMinutes(30);
 
+        private readonly Color TimeColor = Color.LightGray;
+
         private readonly Color ConsultColor = Color.LightGreen;
 
         private readonly Color ExamColor = Color.DarkCyan;
@@ -35,9 +37,12 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private event Action LoadRecords;
 
+        private List<int> rowsTime;
+
         public ControlCurrentTableView()
         {
             InitializeComponent();
+            rowsTime = new List<int>();
         }
 
         public void SetIScheduleProcess(IScheduleProcess process)
@@ -50,6 +55,11 @@ namespace ScheduleControlsAndForms.BaseControls
             add { LoadRecords += value; }
             remove { LoadRecords -= value; }
         }
+
+        /// <summary>
+        /// Дата для консультации/зачета/экзамена
+        /// </summary>
+        public DateTime? ScheduleDate { get; set; }
 
         /// <summary>
         /// Формирование столбцов
@@ -93,6 +103,7 @@ namespace ScheduleControlsAndForms.BaseControls
         /// <param name="row"></param>
         public void AddTimeRow(int row)
         {
+            rowsTime.Add(row);
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
 
             List<DateTime> times = _process.GetScheduleLessonTimes().Result;
@@ -104,8 +115,18 @@ namespace ScheduleControlsAndForms.BaseControls
                     Location = new Point(0, 0),
                     Dock = DockStyle.Fill,
                     Margin = new Padding(0),
-                    Text = $"{times[i].ToString("HH:mm")}-{times[i].AddMinutes(90).ToString("HH:mm")}"
+                    Text = $"{i + 1} пара\r\n{times[i].ToString("HH:mm")}-{times[i].AddMinutes(90).ToString("HH:mm")}",
+                    Tag = times[i].ToString("HH:mm"),
+                    BackColor = TimeColor
                 };
+
+                if (DateTime.Now >= times[i] && DateTime.Now <= times[i].AddMinutes(90))
+                {
+                    buttonWeek.BackColor = Color.AliceBlue;
+                }
+
+                buttonWeek.Click += ButtonTime_DoubleClick;
+
                 tableLayoutPanel.Controls.Add(buttonWeek, (int)((times[i] - startDate).TotalMinutes / step + 1), row);
                 tableLayoutPanel.SetColumnSpan(buttonWeek, colspan);
             }
@@ -222,21 +243,21 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private void AddOffsetRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process);
+            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process, scheduleDate: ScheduleDate);
             form.ShowDialog();
             LoadRecords?.Invoke();
         }
 
         private void AddExaminationRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process);
+            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process, scheduleDate: ScheduleDate);
             form.ShowDialog();
             LoadRecords?.Invoke();
         }
 
         private void AddConsultationRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process);
+            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process, scheduleDate: ScheduleDate);
             form.ShowDialog();
             LoadRecords?.Invoke();
         }
@@ -264,6 +285,39 @@ namespace ScheduleControlsAndForms.BaseControls
             {
                 ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_process.GetSemesterRecordService(), _process, id: id);
                 form.ShowDialog();
+            }
+        }
+
+        private void ButtonTime_DoubleClick(object sender, EventArgs e)
+        {
+            if (ScheduleDate.HasValue)
+            {
+                var control = sender as Button;
+                var hour = Convert.ToInt32(control.Tag.ToString().Split(':')[0]);
+                var minute = Convert.ToInt32(control.Tag.ToString().Split(':')[1]);
+
+                ScheduleDate = ScheduleDate.Value.Date.AddHours(hour).AddMinutes(minute);
+
+                List<DateTime> times = _process.GetScheduleLessonTimes().Result;
+                foreach (var rowTime in rowsTime)
+                {
+                    for (int i = 0; i < times.Count; ++i)
+                    {
+                        var contrl = tableLayoutPanel.GetControlFromPosition((int)((times[i] - startDate).TotalMinutes / step + 1), rowTime);
+                        if (contrl != null && (contrl as Button)?.Text == control.Text)
+                        {
+                            (contrl as Button).BackColor = Color.Gold;
+                        }
+                        else if (DateTime.Now >= times[i] && DateTime.Now <= times[i].AddMinutes(90))
+                        {
+                            (contrl as Button).BackColor = Color.AliceBlue;
+                        }
+                        else
+                        {
+                            (contrl as Button).BackColor = TimeColor;
+                        }
+                    }
+                }
             }
         }
 

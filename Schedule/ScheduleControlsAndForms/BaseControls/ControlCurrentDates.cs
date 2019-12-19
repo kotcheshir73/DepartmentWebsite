@@ -70,15 +70,15 @@ namespace ScheduleControlsAndForms.BaseControls
             int row = 1;
             for (DateTime currentdate = _selectDate; currentdate < _selectDate.AddDays(14); currentdate = currentdate.AddDays(1), row++)
             {
-                var label = new Label
+                var control = new Label
                 {
                     Location = new Point(0, 0),
                     Dock = DockStyle.Fill,
-                    Margin = new Padding(0),
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Text = $"{CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek)}\r\n{currentdate.ToShortDateString()}"
+                    Text = $"{CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(currentdate.DayOfWeek)}\r\n{currentdate.ToShortDateString()}",
+                    BackColor = currentdate.Date == DateTime.Now.Date ? Color.AliceBlue : currentdate.DayOfWeek == DayOfWeek.Sunday ? Color.LightGray : Color.Transparent
                 };
-                controlCurrentTableView.AddRow(label, 0, row);
+                controlCurrentTableView.AddRow(control, 0, row);
 
 
                 var selectedRecords = records.Result.Where(x => x.ScheduleDate.Date == currentdate.Date).ToList();

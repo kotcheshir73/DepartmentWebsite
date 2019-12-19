@@ -18,12 +18,17 @@ namespace ScheduleControlsAndForms.Consultation
 
         private Guid? _id;
 
-        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleProcess process, Guid? id = null)
+        public ScheduleConsultationRecordForm(IConsultationRecordService service, IScheduleProcess process, Guid? id = null, DateTime? scheduleDate = null)
         {
             InitializeComponent();
             _service = service;
             _process = process;
             _id = id;
+
+            if (scheduleDate.HasValue)
+            {
+                dateTimePickerDateConsultation.Value = scheduleDate.Value;
+            }
         }
 
         private void ScheduleConsultationRecordForm_Load(object sender, EventArgs e)

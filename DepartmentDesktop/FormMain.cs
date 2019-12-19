@@ -483,30 +483,6 @@ namespace DepartmentDesktop
             ApplyControl(control);
 			control.LoadData();
 		}
-
-        /// <summary>
-        /// Потоки
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-		private void StreamingLessonsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//var control = ScheduleControlsAndForms.Controller.GetControlStreamingLesson;
-   //         ApplyControl(control);
-			//control.LoadData();
-		}
-
-		/// <summary>
-		/// Интервалы пар
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ScheduleLessonTimeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//var control = ScheduleControlsAndForms.Controller.GetControlScheduleLessonTime;
-   //         ApplyControl(control);
-			//control.LoadData();
-		}
         #endregion
 
         #region Зав. лабораторией

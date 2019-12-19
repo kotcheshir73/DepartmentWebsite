@@ -85,8 +85,6 @@
             this.scheduleLecturerConsultationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.scheduleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.streamingLessonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scheduleLessonTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.laboratoryHeadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.materialTechnicalValueGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -384,9 +382,7 @@
             this.scheduleStudentGroupToolStripMenuItem,
             this.scheduleLecturerToolStripMenuItem,
             this.toolStripSeparator1,
-            this.scheduleConfigToolStripMenuItem,
-            this.streamingLessonsToolStripMenuItem,
-            this.scheduleLessonTimeToolStripMenuItem});
+            this.scheduleConfigToolStripMenuItem});
             this.scheduleToolStripMenuItem.Name = "scheduleToolStripMenuItem";
             this.scheduleToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.scheduleToolStripMenuItem.Text = "Расписание";
@@ -438,28 +434,28 @@
             // scheduleClassroomSemesterToolStripMenuItem
             // 
             this.scheduleClassroomSemesterToolStripMenuItem.Name = "scheduleClassroomSemesterToolStripMenuItem";
-            this.scheduleClassroomSemesterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scheduleClassroomSemesterToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleClassroomSemesterToolStripMenuItem.Text = "Семестр";
             this.scheduleClassroomSemesterToolStripMenuItem.Click += new System.EventHandler(this.ScheduleClassroomSemesterToolStripMenuItem_Click);
             // 
             // scheduleClassroomOffsetToolStripMenuItem
             // 
             this.scheduleClassroomOffsetToolStripMenuItem.Name = "scheduleClassroomOffsetToolStripMenuItem";
-            this.scheduleClassroomOffsetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scheduleClassroomOffsetToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleClassroomOffsetToolStripMenuItem.Text = "Зачетная неделя";
             this.scheduleClassroomOffsetToolStripMenuItem.Click += new System.EventHandler(this.ScheduleClassroomOffsetToolStripMenuItem_Click);
             // 
             // scheduleClassroomExaminationToolStripMenuItem
             // 
             this.scheduleClassroomExaminationToolStripMenuItem.Name = "scheduleClassroomExaminationToolStripMenuItem";
-            this.scheduleClassroomExaminationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scheduleClassroomExaminationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleClassroomExaminationToolStripMenuItem.Text = "Экзамены";
             this.scheduleClassroomExaminationToolStripMenuItem.Click += new System.EventHandler(this.ScheduleClassroomExaminationToolStripMenuItem_Click);
             // 
             // scheduleClassroomConsultationToolStripMenuItem
             // 
             this.scheduleClassroomConsultationToolStripMenuItem.Name = "scheduleClassroomConsultationToolStripMenuItem";
-            this.scheduleClassroomConsultationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scheduleClassroomConsultationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.scheduleClassroomConsultationToolStripMenuItem.Text = "Консультации";
             this.scheduleClassroomConsultationToolStripMenuItem.Click += new System.EventHandler(this.ScheduleClassroomConsultationToolStripMenuItem_Click);
             // 
@@ -552,20 +548,6 @@
             this.scheduleConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.scheduleConfigToolStripMenuItem.Text = "Настройки";
             this.scheduleConfigToolStripMenuItem.Click += new System.EventHandler(this.ScheduleConfigToolStripMenuItem_Click);
-            // 
-            // streamingLessonsToolStripMenuItem
-            // 
-            this.streamingLessonsToolStripMenuItem.Name = "streamingLessonsToolStripMenuItem";
-            this.streamingLessonsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.streamingLessonsToolStripMenuItem.Text = "Потоки";
-            this.streamingLessonsToolStripMenuItem.Click += new System.EventHandler(this.StreamingLessonsToolStripMenuItem_Click);
-            // 
-            // scheduleLessonTimeToolStripMenuItem
-            // 
-            this.scheduleLessonTimeToolStripMenuItem.Name = "scheduleLessonTimeToolStripMenuItem";
-            this.scheduleLessonTimeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.scheduleLessonTimeToolStripMenuItem.Text = "Интервалы пар";
-            this.scheduleLessonTimeToolStripMenuItem.Click += new System.EventHandler(this.ScheduleLessonTimeToolStripMenuItem_Click);
             // 
             // laboratoryHeadToolStripMenuItem
             // 
@@ -713,11 +695,9 @@
         private System.Windows.Forms.ToolStripMenuItem classroomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleClassroomSemesterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleConfigToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem streamingLessonsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleClassroomConsultationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleClassroomOffsetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleClassroomExaminationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scheduleLessonTimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem scheduleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scheduleClassroomToolStripMenuItem;

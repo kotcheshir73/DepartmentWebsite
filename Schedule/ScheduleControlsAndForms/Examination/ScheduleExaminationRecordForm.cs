@@ -18,12 +18,17 @@ namespace ScheduleControlsAndForms.Examination
 
         private Guid? _id;
 
-        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleProcess process, Guid? id = null)
+        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleProcess process, Guid? id = null, DateTime? scheduleDate = null)
         {
             InitializeComponent();
             _service = service;
             _process = process;
             _id = id;
+
+            if (scheduleDate.HasValue)
+            {
+                dateTimePickerDateExamination.Value = scheduleDate.Value;
+            }
         }
 
         private void ScheduleExaminationRecordForm_Load(object sender, EventArgs e)
