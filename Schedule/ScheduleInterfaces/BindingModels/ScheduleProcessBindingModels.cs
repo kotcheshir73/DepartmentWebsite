@@ -1,35 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tools.BindingModels;
 
 namespace ScheduleInterfaces.BindingModels
 {
     /// <summary>
-    /// Выгружаем расписание по аудиториям в excel-файл
-    /// </summary>
-    public class ExportToExcelClassroomsBindingModel
-    {
-        public string FileName { get; set; }
-
-        public List<string> Classrooms { get; set; }
-    }
-
-    /// <summary>
-    /// Выгружаем расписание по аудиториям в html-файлы для текущей версии сайта
-    /// </summary>
-    public class ExportToHTMLClassroomsBindingModel
-    {
-        public string FilePath { get; set; }
-
-        public List<string> Classrooms { get; set; }
-    }
-
-    /// <summary>
     /// Импорт данных с общего сайта
     /// </summary>
-    public class ImportToSemesterFromHTMLBindingModel
+    public class ImportToSemesterRecordsBindingModel
     {
-        public string ScheduleUrl { get; set; }
+        public DateTime ScheduleDate { get; set; }
+
+        public List<string> ScheduleUrls { get; set; }
     }
 
     /// <summary>
@@ -46,14 +27,6 @@ namespace ScheduleInterfaces.BindingModels
     public class ImportToExaminationFromExcel
     {
         public string FileName { get; set; }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ScheduleRecordsForDiciplineBindingModel : PageSettingGetBinidingModel
-    {
-        public Guid DisciplineId { get; set; }
     }
 
     public class LoadScheduleBindingModel

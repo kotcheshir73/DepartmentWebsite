@@ -1,10 +1,12 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using BaseInterfaces.BindingModels;
 using ControlsAndForms.Messangers;
+using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -23,6 +25,11 @@ namespace ScheduleControlsAndForms
 
         public void LoadData()
         {
+            foreach (var date in ScheduleHelper.GetSemesterDates())
+            {
+                comboBoxStartPeriodDate.Items.Add(date.ToLongDateString());
+            }
+            comboBoxStartPeriodDate.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -30,12 +37,31 @@ namespace ScheduleControlsAndForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonMakeLoadHTMLScheduleForClassrooms_Click(object sender, EventArgs e)
+        private void ButtonImportSemesterFromSite_Click(object sender, EventArgs e)
         {
-            var result = _process.ImportHtml(new ImportToSemesterFromHTMLBindingModel
+            if (comboBoxStartPeriodDate.SelectedIndex == -1)
             {
-                ScheduleUrl = textBoxLinkToHtml.Text,
-                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                MessageBox.Show("Выберите дату начала периода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var list = new List<string>();
+
+            int counter = 1;
+            string url;
+            do
+            {
+                url = ConfigurationManager.AppSettings[$"ScheduleUrl{counter++}"];
+                if(string.IsNullOrEmpty(url))
+                {
+                    break;
+                }
+                list.Add(url);
+            } while (true);
+
+            var result = _process.Import(new ImportToSemesterRecordsBindingModel
+            {
+                ScheduleDate = Convert.ToDateTime(comboBoxStartPeriodDate.Text),
+                ScheduleUrls = list
             });
 
             if (result.Succeeded)
@@ -318,25 +344,6 @@ namespace ScheduleControlsAndForms
             //}
         }
 
-        private void ButtonCheckRecordsIfNotComplite_Click(object sender, EventArgs e)
-        {
-            var result = _process.CheckSemesterRecordsIfNotComplite();
-            if (result.Succeeded)
-            {
-                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                StringBuilder strRes = new StringBuilder();
-                foreach (var err in result.Errors)
-                {
-                    strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                }
-                MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", strRes), "",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void ButtonImportOffsetFromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
@@ -345,7 +352,7 @@ namespace ScheduleControlsAndForms
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _process.ImportExcel(new ImportToOffsetFromExcel { FileName = dialog.FileName });
+                var result = _process.Import(new ImportToOffsetFromExcel { FileName = dialog.FileName });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -371,7 +378,7 @@ namespace ScheduleControlsAndForms
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _process.ImportExcel(new ImportToExaminationFromExcel { FileName = dialog.FileName });
+                var result = _process.Import(new ImportToExaminationFromExcel { FileName = dialog.FileName });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -387,107 +394,6 @@ namespace ScheduleControlsAndForms
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        /// <summary>
-        /// Экспорт в Excel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonExportSemesterRecordExcel_Click(object sender, EventArgs e)
-        {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms == null)
-            //{
-            //    return;
-            //}
-
-            //SaveFileDialog dialog = new SaveFileDialog()
-            //{
-            //    Filter = "Excel|*.xlsx"
-            //};
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    var result = _process.ExportSemesterRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
-            //    if (result.Succeeded)
-            //    {
-            //        MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //    else
-            //    {
-            //        StringBuilder strRes = new StringBuilder();
-            //        foreach (var err in result.Errors)
-            //        {
-            //            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-            //        }
-            //        MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-            //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //}
-        }
-
-        private void ButtonExportOffsetRecordExcel_Click(object sender, EventArgs e)
-        {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms == null)
-            //{
-            //    return;
-            //}
-
-            //SaveFileDialog dialog = new SaveFileDialog()
-            //{
-            //    Filter = "Excel|*.xlsx"
-            //};
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    var result = _process.ExportOffsetRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
-            //    if (result.Succeeded)
-            //    {
-            //        MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //    else
-            //    {
-            //        StringBuilder strRes = new StringBuilder();
-            //        foreach (var err in result.Errors)
-            //        {
-            //            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-            //        }
-            //        MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-            //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //}
-        }
-
-        private void ButtonExportExaminationRecordExcel_Click(object sender, EventArgs e)
-        {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms == null)
-            //{
-            //    return;
-            //}
-
-            //SaveFileDialog dialog = new SaveFileDialog()
-            //{
-            //    Filter = "Excel|*.xlsx"
-            //};
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    var result = _process.ExportExaminationRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
-            //    if (result.Succeeded)
-            //    {
-            //        MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //    else
-            //    {
-            //        StringBuilder strRes = new StringBuilder();
-            //        foreach (var err in result.Errors)
-            //        {
-            //            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-            //        }
-            //        MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-            //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //}
         }
     }
 }
