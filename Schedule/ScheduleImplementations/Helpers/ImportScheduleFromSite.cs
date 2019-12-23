@@ -1,14 +1,12 @@
-﻿using DatabaseContext;
+﻿using CsQuery;
+using CsQuery.Implementation;
+using DatabaseContext;
 using Enums;
-using HtmlAgilityPack;
 using ScheduleInterfaces.BindingModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Tools;
 
 namespace ScheduleImplementations.Helpers
@@ -17,69 +15,54 @@ namespace ScheduleImplementations.Helpers
     {
         private static List<SemesterRecordSetBindingModel> _findRecords;
 
-        private static readonly string[] days = new string[] { "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт", "Вск" };
-
         public static ResultService ImportHtml(ImportToSemesterRecordsBindingModel model)
         {
-            using (var context = DepartmentUserManager.GetContext)
+            var resError = new ResultService();
+
+            _findRecords = new List<SemesterRecordSetBindingModel>();
+
+            foreach (var url in model.ScheduleUrls)
             {
-                WebClient web = new WebClient
+                try
                 {
-                    Encoding = Encoding.Default
-                };
+                    var web = CQ.CreateFromUrl(url);
 
-                var resError = new ResultService();
+                    var cells = web.Select("table tr td a");
 
-                _findRecords = new List<SemesterRecordSetBindingModel>();
-
-                foreach (var url in model.ScheduleUrls)
-                {
-                    // загружаем страницу с группами и вытасикваем из него таблицу
-                    string strHTML = web.DownloadString(url);
-                    HtmlDocument document = new HtmlDocument();
-                    document.LoadHtml(strHTML);
-                    var nodes = document.DocumentNode.SelectNodes("//table/tr/td");
-
-                    foreach (var node in nodes)
+                    foreach (var cell in cells)
                     {
-                        if (node.InnerText != "\r\n")
+                        var groupName = cell.Cq().Text();
+                        if (!string.IsNullOrEmpty(groupName))
                         {
-                            var elem = node.ChildNodes.FirstOrDefault(e => e.Name.ToLower() == "a");
-                            if (elem != null)
+                            var res = ParsingPage(url.Replace("raspisan.htm", (cell as HtmlAnchorElement).Href), groupName, model.ScheduleDate);
+
+                            if (!res.Succeeded)
                             {
-                                try
+                                foreach (var err in res.Errors)
                                 {
-                                    var res = ParsingPage(url.Replace("raspisan.htm", elem.Attributes.First().Value),
-                                                                (node.InnerText.Replace("\r\n", "").Replace(" ", "")), model.ScheduleDate);
-                                    if (!res.Succeeded)
-                                    {
-                                        foreach (var err in res.Errors)
-                                        {
-                                            resError.AddError(err.Key, err.Value);
-                                        }
-                                    }
-                                    Thread.Sleep(100);
-                                }
-                                catch (Exception ex)
-                                {
-                                    resError.AddError(ex);
+                                    resError.AddError(err.Key, err.Value);
                                 }
                             }
                         }
                     }
                 }
-
-                var result = SaveRecords(model);
-                if (!result.Succeeded)
+                catch (Exception ex)
                 {
-                    foreach (var err in result.Errors)
-                    {
-                        resError.AddError(err.Key, err.Value);
-                    }
+                    resError.AddError(ex);
                 }
-
-                return resError;
             }
+
+            _findRecords = _findRecords.Distinct().ToList();
+            var result = SaveRecords(model);
+            if (!result.Succeeded)
+            {
+                foreach (var err in result.Errors)
+                {
+                    resError.AddError(err.Key, err.Value);
+                }
+            }
+
+            return resError;
         }
 
         /// <summary>
@@ -93,67 +76,63 @@ namespace ScheduleImplementations.Helpers
         private static ResultService ParsingPage(string schedulrUrl, string groupName, DateTime date)
         {
             // загружаем страницу расписания группы
-            WebClient web = new WebClient
-            {
-                Encoding = Encoding.Default
-            };
-            string pageHTML = web.DownloadString(schedulrUrl);
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(pageHTML);
-            var pageNodes = document.DocumentNode.SelectNodes("//table/tr/td");
+            var web = CQ.CreateFromUrl(schedulrUrl);
+
+            var tables = web.Select("table");
 
             int week = -1; // 0 - первая неделя, 1 - вторая неделя
-            int day = -1;
-            int lesson = -1;
             var resError = new ResultService();
-            foreach (var pageNode in pageNodes)
+
+            foreach (var table in tables)
             {
-                string text = pageNode.InnerText.Replace("\r\n", "").Replace(" ", "");
-                if (days.Contains(text))
+                week++;
+                int day = -3;
+
+                foreach (var row in table.Cq().Find("tr"))
                 {
-                    if (days[0].Contains(text))
-                    {
-                        week++;
-                        day = -1;
-                    }
                     day++;
-                    lesson = -1;
-                }
-                if (week > -1)
-                {
-                    var elem = pageNode.ChildNodes.First().NextSibling;
-                    if (elem.Name.ToLower() == "font")
+                    if (day < 0)
+                    { // пропускаем 2 первые строки, там идут пары и время
+                        continue;
+                    }
+
+                    int lesson = -2;
+                    foreach (var cell in row.Cq().Find("td"))
                     {
                         lesson++;
-                        var info = pageNode.InnerText.Replace("\r\n", "").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (string.IsNullOrEmpty(info[0]))
-                        {
-                            // пустая пара, переходим к следующей
+                        if (lesson < 0)
+                        { // пропускаем первую строку, там идет день недели
                             continue;
                         }
-                        var entity = new SemesterRecordSetBindingModel
+
+                        var text = cell.Cq().Text().Trim();
+
+                        if (!string.IsNullOrEmpty(text) && text.Length > 2)
                         {
-                            Id = Guid.Empty,
-                            ScheduleDate = ScheduleHelper.GetDateWithTime(date, week, day, lesson),
-                            Week = week,
-                            Day = day,
-                            Lesson = lesson,
-                            LessonStudentGroup = groupName,
-                            NotParseRecord = pageNode.InnerText
-                        };
-
-                        var list = new List<SemesterRecordSetBindingModel> { entity };
-
-                        AnalisString(pageNode.InnerText, list);
-
-                        foreach (var record in list)
-                        {
-                            var result = CheckNewSemesterRecordForConflict(record);
-                            if (!result.Succeeded)
+                            var entity = new SemesterRecordSetBindingModel
                             {
-                                foreach (var err in result.Errors)
+                                Id = Guid.Empty,
+                                ScheduleDate = ScheduleHelper.GetDateWithTime(date, week, day, lesson),
+                                Week = week,
+                                Day = day,
+                                Lesson = lesson,
+                                LessonStudentGroup = groupName,
+                                NotParseRecord = text
+                            };
+
+                            var list = new List<SemesterRecordSetBindingModel> { entity };
+
+                            AnalisString(text, list);
+
+                            foreach (var record in list)
+                            {
+                                var result = CheckNewSemesterRecordForConflict(record);
+                                if (!result.Succeeded)
                                 {
-                                    resError.AddError(err.Key, err.Value);
+                                    foreach (var err in result.Errors)
+                                    {
+                                        resError.AddError(err.Key, err.Value);
+                                    }
                                 }
                             }
                         }
@@ -175,7 +154,7 @@ namespace ScheduleImplementations.Helpers
                 return;
             }
 
-            text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").Replace("\r\n", "").TrimStart();
+            text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").TrimStart();
 
             using (var context = DepartmentUserManager.GetContext)
             {
@@ -193,6 +172,8 @@ namespace ScheduleImplementations.Helpers
                 if (text.Contains("Элективные курсы по физичeской культуре и спорту"))
                 {
                     records[0].LessonDiscipline = "Физкультура";
+                    records[0].LessonClassroom = "Спортзал";
+                    records[0].LessonLecturer = "Преподаватель";
                     records[0].LessonType = LessonTypes.пр;
                     var discipline = context.Disciplines.FirstOrDefault(d => d.DisciplineName == records[0].LessonDiscipline);
                     if (discipline != null)
@@ -203,7 +184,7 @@ namespace ScheduleImplementations.Helpers
                 }
 
                 // ищем в записе наличие аудиторий
-                var classroomMatches = Regex.Matches(text, @"\d(_|-)[\d]+(/[\d]+)*([\w]+)*");
+                var classroomMatches = Regex.Matches(text, @"\d(_|-)([\d]+(/[\d]+)*([\w]+)*|[\w. ]+)");
 
                 for (int clM = 0; clM < classroomMatches.Count; ++clM)
                 {
@@ -224,6 +205,8 @@ namespace ScheduleImplementations.Helpers
                     }
 
                     records[clM].LessonClassroom = classroomMatches[clM].Value;
+                    records[clM].LessonDiscipline = text;
+
                     var classroom = context.Classrooms.FirstOrDefault(c => records[clM].LessonClassroom.Contains(c.Number) && !c.IsDeleted);
                     if (classroom != null)
                     {
@@ -249,10 +232,14 @@ namespace ScheduleImplementations.Helpers
                         {
                             records[clM].LecturerId = lecturer.Id;
                         }
-                    }
 
-                    // оставляем только название предмета
-                    records[clM].LessonDiscipline = lessonText.Substring(0, lessonText.IndexOf(records[clM].LessonLecturer)).TrimEnd();
+                        // оставляем только название предмета
+                        records[clM].LessonDiscipline = lessonText.Substring(0, lessonText.IndexOf(records[clM].LessonLecturer)).TrimEnd();
+                    }
+                    else
+                    {
+                        records[clM].LessonLecturer = "нет данных";
+                    }
 
                     // оперделяем тип занятия
                     records[clM].LessonType = LessonTypes.нд;
@@ -281,6 +268,15 @@ namespace ScheduleImplementations.Helpers
                             records[clM].DisciplineId = discipline.Id;
                         }
                     }
+                    else if (clM > 0) // иностранный для второй подгруппы не пишут название дисциплины
+                    {
+                        records[clM].LessonDiscipline = records[0].LessonDiscipline;
+                        records[clM].DisciplineId = records[0].DisciplineId;
+                    }
+                    else
+                    {
+                        records[clM].LessonDiscipline = "нет данных";
+                    }
 
                     // обрезаем начальный текст, если разбивка на подгруппы идет
                     text = text.Substring(text.IndexOf(records[clM].LessonClassroom) + records[clM].LessonClassroom.Length).TrimStart();
@@ -296,9 +292,9 @@ namespace ScheduleImplementations.Helpers
         {
             try
             {
-                // если у пары не удалось определить ни номер аудитории, ни группы, ни преподавателя, ни дисциплины из имеющихся в БД записях
+                // если у пары не удалось определить ни номер аудитории, ни группы, ни преподавателя из имеющихся в БД записях
                 // то такая пара нас не интересует
-                if (record.ClassroomId == null && record.StudentGroupId == null && record.LecturerId == null && record.DisciplineId == null)
+                if (record.ClassroomId == null && record.StudentGroupId == null && record.LecturerId == null)
                 {
                     return ResultService.Success();
                 }
@@ -352,6 +348,7 @@ namespace ScheduleImplementations.Helpers
         /// <returns></returns>
         private static ResultService SaveRecords(ImportToSemesterRecordsBindingModel model)
         {
+            SemesterRecordSetBindingModel rec = null;
             using (var context = DepartmentUserManager.GetContext)
             {
                 // получаем записи на требуемый период
@@ -455,7 +452,7 @@ namespace ScheduleImplementations.Helpers
 
                 var deletedRecords = exsistRecords.Where(x => !x.Checked).ToList();
 
-                using (var transaction = context.Database.BeginTransaction())
+                // using (var transaction = context.Database.BeginTransaction())
                 {
                     try
                     {
@@ -484,6 +481,8 @@ namespace ScheduleImplementations.Helpers
                         var unknowRecords = _findRecords.Where(x => x.Id == Guid.Empty).ToList();
                         foreach (var record in unknowRecords)
                         {
+                            rec = record;
+                            record.Id = Guid.NewGuid();
                             record.ScheduleDate = model.ScheduleDate;
                             var entity = record.CreateRecord();
 
@@ -491,11 +490,11 @@ namespace ScheduleImplementations.Helpers
                             context.SaveChanges();
                         }
 
-                        transaction.Commit();
+                        //   transaction.Commit();
                     }
                     catch (Exception ex)
                     {
-                        transaction.Rollback();
+                        //  transaction.Rollback();
                         return ResultService.Error("Конфликт при сохранении:", ex.Message, ResultServiceStatusCode.Error);
                     }
                 }
