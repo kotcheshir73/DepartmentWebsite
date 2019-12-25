@@ -43,6 +43,13 @@ namespace BaseInterfaces.Interfaces
         ResultService ToAcademStudents(StudentAcademBindingModel model);
 
         /// <summary>
+        /// Продление академа
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResultService LongAcademStudents(StudentAcademBindingModel model);
+
+        /// <summary>
         /// Приход студентов из академа
         /// </summary>
         /// <param name="model"></param>
