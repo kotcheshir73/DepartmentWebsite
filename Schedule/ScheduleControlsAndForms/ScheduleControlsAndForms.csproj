@@ -55,6 +55,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseControls\ButtonShare.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="BaseControls\ControlCurrentTableView.cs">
       <SubType>UserControl</SubType>
     </Compile>

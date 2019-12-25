@@ -29,15 +29,9 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private readonly Color TimeColor = Color.LightGray;
 
-        private readonly Color ConsultColor = Color.LightGreen;
-
-        private readonly Color ExamColor = Color.DarkCyan;
-
-        private readonly Color OffsetColor = Color.SandyBrown;
-
         private event Action LoadRecords;
 
-        private List<int> rowsTime;
+        private readonly List<int> rowsTime;
 
         public ControlCurrentTableView()
         {
@@ -76,8 +70,6 @@ namespace ScheduleControlsAndForms.BaseControls
                 tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
             }
         }
-
-
 
         /// <summary>
         /// Отчистка строк
@@ -166,19 +158,45 @@ namespace ScheduleControlsAndForms.BaseControls
         /// <param name="row"></param>
         public void LoadDay(List<ScheduleRecordViewModel> list, int row)
         {
-            var group = list.GroupBy(x => new { x.ScheduleDate, x.TimeSpanMinutes }).OrderBy(x => x.Key.ScheduleDate).ToList();
-            for (int i = 0; i < group.Count; i++)
+            var groups = list.GroupBy(x => new { x.ScheduleDate, x.TimeSpanMinutes }).OrderBy(x => x.Key.ScheduleDate).ToList();
+            for (int i = 0; i < groups.Count; i++)
             {
-                if (group[i].Count() > 1)
+                if (groups[i].Count() > 1)
                 {// потоки
+                    var records = groups[i].ToList();
+                    var control = new Panel
+                    {
+                        Location = new Point(0, 0),
+                        Dock = DockStyle.Fill,
+                        Margin = new Padding(0),
+                    };
+                    // группируем все занятия этой пары по типу занятий и кидаем все на панель (скорее всего, будет 1 кнопка для потокового занятия, 
+                    // но может стоять пара и консультация, так как пары по факту нету)
+                    var localgroup = records.GroupBy(x => new { x.ScheduleRecordType, x.LessonType });
+                    int count = 0;
+                    foreach (var local in localgroup)
+                    {
+                        count++;
+                        var button = MakeButton(local.ToList());
+                        button.Dock = count == localgroup.Count() ? DockStyle.Fill : DockStyle.Top;
+                        control.Controls.Add(button);
+                    }
 
+                    var counter = (records[0].ScheduleDate - records[0].ScheduleDate.Date.AddHours(8)).TotalMinutes / step + 1;
+                    int colspan = records[0].TimeSpanMinutes / step;
+
+                    tableLayoutPanel.Controls.Add(control, (int)counter, row);
+                    if (colspan > 1)
+                    {
+                        tableLayoutPanel.SetColumnSpan(control, colspan);
+                    }
                 }
                 else
                 {
-                    SetRecord(group[i].First(), row);
+                    SetRecord(groups[i].First(), row);
                 }
 
-                if (i + 1 < group.Count && group[i].Key.ScheduleDate.AddMinutes(group[i].Key.TimeSpanMinutes) > group[i + 1].Key.ScheduleDate)
+                if (i + 1 < groups.Count && groups[i].Key.ScheduleDate.AddMinutes(groups[i].Key.TimeSpanMinutes) > groups[i + 1].Key.ScheduleDate)
                 {
                     MessageBox.Show("Накладка!");
                     i++;
@@ -201,37 +219,40 @@ namespace ScheduleControlsAndForms.BaseControls
             string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", record.LessonType, record.LessonDiscipline, record.LessonClassroom,
                 Environment.NewLine, record.LessonLecturer, record.LessonStudentGroup);
 
-            var buttonRecord = new Button
+            var buttonRecord = new ButtonShare
             {
-                Location = new Point(0, 0),
-                Dock = DockStyle.Fill,
-                Margin = new Padding(0),
                 Text = text,
-                Tag = record.Id,
+                Id = record.Id,
+                ScheduleRecordType = record.ScheduleRecordType,
                 ContextMenuStrip = contextMenuStripButton
             };
             buttonRecord.DoubleClick += Button_DoubleClick;
-
-            switch (record.ScheduleRecordType)
-            {
-                case ScheduleRecordType.Consultation:
-                    buttonRecord.BackColor = ConsultColor;
-                    break;
-                case ScheduleRecordType.Examination:
-                    buttonRecord.BackColor = ExamColor;
-                    break;
-                case ScheduleRecordType.Offset:
-                    buttonRecord.BackColor = OffsetColor;
-                    break;
-                case ScheduleRecordType.Semester:
-                    break;
-            }
 
             tableLayoutPanel.Controls.Add(buttonRecord, (int)counter, row);
             if (colspan > 1)
             {
                 tableLayoutPanel.SetColumnSpan(buttonRecord, colspan);
             }
+        }
+
+        private Control MakeButton(List<ScheduleRecordViewModel> list)
+        {
+            var classroom = string.Join(",", list.Select(x => x.LessonClassroom).Distinct());
+            var disciplione = string.Join(",", list.Select(x => x.LessonDiscipline).Distinct());
+            var lecturer = string.Join(",", list.Select(x => x.LessonLecturer).Distinct());
+            var studentgroup = string.Join(",", list.Select(x => x.LessonStudentGroup).Distinct());
+            var ids = string.Join(",", list.Select(x => x.Id).Distinct());
+
+            var buttonRecord = new ButtonShare
+            {
+                Text = $"{disciplione} {lecturer} {classroom} {studentgroup}",
+                Ids = list.Select(x => x.Id).Distinct().ToList(),
+                ScheduleRecordType = list[0].ScheduleRecordType,
+                ContextMenuStrip = contextMenuStripButton
+            };
+            buttonRecord.DoubleClick += Button_DoubleClick;
+
+            return buttonRecord;
         }
 
         private void AddSemesterRecordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -264,27 +285,42 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private void Button_DoubleClick(object sender, EventArgs e)
         {
-            var control = sender as Button;
-            var id = new Guid(control.Tag.ToString());
-            if (control.BackColor == ConsultColor)
+            var control = sender as ButtonShare;
+            List<Guid> ids = control.Ids;
+            if ((ids == null || ids.Count == 0) && control.Id.HasValue)
             {
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process, id: id);
-                form.ShowDialog();
+                ids = new List<Guid> { control.Id.Value };
             }
-            else if (control.BackColor == ExamColor)
+
+            foreach (var id in ids)
             {
-                ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process, id: id);
-                form.ShowDialog();
-            }
-            else if (control.BackColor == OffsetColor)
-            {
-                ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process, id: id);
-                form.ShowDialog();
-            }
-            else
-            {
-                ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_process.GetSemesterRecordService(), _process, id: id);
-                form.ShowDialog();
+                switch (control.ScheduleRecordType)
+                {
+                    case ScheduleRecordType.Consultation:
+                        {
+                            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                    case ScheduleRecordType.Examination:
+                        {
+                            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                    case ScheduleRecordType.Offset:
+                        {
+                            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                    case ScheduleRecordType.Semester:
+                        {
+                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_process.GetSemesterRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                }
             }
         }
 
@@ -324,28 +360,43 @@ namespace ScheduleControlsAndForms.BaseControls
         private void UpdRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var menu = (sender as ToolStripMenuItem).GetCurrentParent() as ContextMenuStrip;
-            var control = menu.SourceControl as Button;
+            var control = menu.SourceControl as ButtonShare;
 
-            var id = new Guid(control.Tag.ToString());
-            if (control.BackColor == ConsultColor)
+            List<Guid> ids = control.Ids;
+            if ((ids == null || ids.Count == 0) && control.Id.HasValue)
             {
-                ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process, id: id);
-                form.ShowDialog();
+                ids = new List<Guid> { control.Id.Value };
             }
-            else if (control.BackColor == ExamColor)
+
+            foreach (var id in ids)
             {
-                ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process, id: id);
-                form.ShowDialog();
-            }
-            else if (control.BackColor == OffsetColor)
-            {
-                ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process, id: id);
-                form.ShowDialog();
-            }
-            else
-            {
-                ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_process.GetSemesterRecordService(), _process, id: id);
-                form.ShowDialog();
+                switch (control.ScheduleRecordType)
+                {
+                    case ScheduleRecordType.Consultation:
+                        {
+                            ScheduleConsultationRecordForm form = new ScheduleConsultationRecordForm(_process.GetConsultationRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                    case ScheduleRecordType.Examination:
+                        {
+                            ScheduleExaminationRecordForm form = new ScheduleExaminationRecordForm(_process.GetExaminationRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                    case ScheduleRecordType.Offset:
+                        {
+                            ScheduleOffsetRecordForm form = new ScheduleOffsetRecordForm(_process.GetOffsetRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                    case ScheduleRecordType.Semester:
+                        {
+                            ScheduleSemesterRecordForm form = new ScheduleSemesterRecordForm(_process.GetSemesterRecordService(), _process, id: id);
+                            form.ShowDialog();
+                        }
+                        break;
+                }
             }
         }
 
@@ -354,38 +405,55 @@ namespace ScheduleControlsAndForms.BaseControls
             if (MessageBox.Show("Вы уверены, что хотите удалить?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 var menu = (sender as ToolStripMenuItem).GetCurrentParent() as ContextMenuStrip;
-                var control = menu.SourceControl as Button;
+                var control = menu.SourceControl as ButtonShare;
 
-                ResultService result;
-                if (control.BackColor == ConsultColor)
+                List<Guid> ids = control.Ids;
+                if ((ids == null || ids.Count == 0) && control.Id.HasValue)
                 {
-                    var service = _process.GetConsultationRecordService();
-                    result = service.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-                else if (control.BackColor == ExamColor)
-                {
-                    var service = _process.GetExaminationRecordService();
-                    result = service.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-                else if (control.BackColor == OffsetColor)
-                {
-                    var service = _process.GetOffsetRecordService();
-                    result = service.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
-                }
-                else
-                {
-                    var service = _process.GetSemesterRecordService();
-                    result = service.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                    ids = new List<Guid> { control.Id.Value };
                 }
 
-                if (result.Succeeded)
+                foreach (var id in ids)
                 {
-                    LoadRecords?.Invoke();
+                    ResultService result = new ResultService();
+                    switch (control.ScheduleRecordType)
+                    {
+                        case ScheduleRecordType.Consultation:
+                            {
+                                var service = _process.GetConsultationRecordService();
+                                result = service.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                                break;
+                            }
+                        case ScheduleRecordType.Examination:
+                            {
+                                var service = _process.GetExaminationRecordService();
+                                result = service.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                            }
+                            break;
+                        case ScheduleRecordType.Offset:
+                            {
+                                var service = _process.GetOffsetRecordService();
+                                result = service.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                            }
+                            break;
+                        case ScheduleRecordType.Semester:
+                            {
+                                var service = _process.GetSemesterRecordService();
+                                result = service.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                            }
+                            break;
+                    }
+
+                    if (result.Succeeded)
+                    {
+                        LoadRecords?.Invoke();
+                    }
+                    else
+                    {
+                        ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
+                    }
                 }
-                else
-                {
-                    ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);
-                }
+                LoadRecords?.Invoke();
             }
         }
     }

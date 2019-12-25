@@ -161,11 +161,13 @@ namespace ScheduleImplementations.Services
                         // week == 0 - первая неделя
                         var week = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays / 7 % 2 : 0;
 
+                        var startDay = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays % 7 : 0;
+
                         var startDate = date.DateBeginFirstHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginFirstHalfSemester;
 
                         while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date)
                         {
-                            for (int day = 0; day < 7; day++)
+                            for (int day = (int)startDay; day < 7 && startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date; day++)
                             {
                                 for (int lesson = 0; lesson < 8; lesson++)
                                 {
@@ -225,11 +227,13 @@ namespace ScheduleImplementations.Services
                         // week == 0 - первая неделя
                         var week = date.DateBeginSecondHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginSecondHalfSemester).TotalDays / 7 % 2 : 0;
 
+                        var startDay = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays % 7 : 0;
+
                         var startDate = date.DateBeginSecondHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginSecondHalfSemester;
 
                         while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date)
                         {
-                            for (int day = 0; day < 7; day++)
+                            for (int day = (int)startDay; day < 7 && startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date; day++)
                             {
                                 for (int lesson = 0; lesson < 8; lesson++)
                                 {
