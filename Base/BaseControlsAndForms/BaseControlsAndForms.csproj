@@ -150,6 +150,12 @@
     <Compile Include="Services\FormFromAcadem.Designer.cs">
       <DependentUpon>FormFromAcadem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\FormLongAcadem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\FormLongAcadem.Designer.cs">
+      <DependentUpon>FormLongAcadem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\FormRecovery.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -306,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormFromAcadem.resx">
       <DependentUpon>FormFromAcadem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\FormLongAcadem.resx">
+      <DependentUpon>FormLongAcadem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\FormRecovery.resx">
       <DependentUpon>FormRecovery.cs</DependentUpon>

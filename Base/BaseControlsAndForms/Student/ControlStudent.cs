@@ -50,6 +50,7 @@ namespace BaseControlsAndForms.Student
                 { "TransferCourseToolStripMenuItem", "Перевод на следующий курс"},
                 { "TransferGroupToolStripMenuItem", "Перевод на другую специальность"},
                 { "ToAcademToolStripMenuItem", "Уход в академический отпуск"},
+                { "LongAcademToolStripMenuItem", "Продление академического отпуска"},
                 { "FromAcademToolStripMenuItem", "Выход из академического отпуска"},
                 { "RecoveryToolStripMenuItem", "Восстановление"},
                 { "FinishEducationToolStripMenuItem", "Завершение обучения"}
@@ -65,6 +66,7 @@ namespace BaseControlsAndForms.Student
             standartControl.ToolStripButtonMoveEventClickAddEvent("DeductionToolStripMenuItem", DeductionToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("TransferCourseToolStripMenuItem", TransferCourseToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("ToAcademToolStripMenuItem", ToAcademToolStripMenuItem_Click);
+            standartControl.ToolStripButtonMoveEventClickAddEvent("LongAcademToolStripMenuItem", LongAcademToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("FromAcademToolStripMenuItem", FromAcademToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("RecoveryToolStripMenuItem", RecoveryToolStripMenuItem_Click);
             standartControl.ToolStripButtonMoveEventClickAddEvent("TransferGroupToolStripMenuItem", TransferGroupToolStripMenuItem_Click);
@@ -215,6 +217,28 @@ namespace BaseControlsAndForms.Student
                             { "ids", ids }
                         }
                         .OnType<FormToAcadem>());
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    standartControl.LoadPage();
+                }
+            }
+        }
+
+        private void LongAcademToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (standartControl.GetDataGridViewSelectedRows.Count > 0)
+            {
+                List<Guid> ids = new List<Guid>();
+                for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
+                {
+                    ids.Add(new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString()));
+                }
+                var form = Container.Resolve<FormLongAcadem>(
+                        new ParameterOverrides
+                        {
+                            { "ids", ids }
+                        }
+                        .OnType<FormLongAcadem>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();

@@ -650,6 +650,98 @@ namespace BaseImplementations.Implementations
             }
         }
 
+        public ResultService LongAcademStudents(StudentAcademBindingModel model)
+        {
+            DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
+
+            using (var context = DepartmentUserManager.GetContext)
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (model.StudnetIds.Count <= 0)
+                    {
+                        return ResultService.Error("Error:", "Студенты не найдены", ResultServiceStatusCode.NotFound);
+                    }
+
+                    for (int i = 0; i < model.StudnetIds.Count; ++i)
+                    {
+                        Guid id = model.StudnetIds[i];
+
+                        var entity = context.Students.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
+                        if (entity == null)
+                        {
+                            return ResultService.Error("Error:", "Студент не найден", ResultServiceStatusCode.NotFound);
+                        }
+                        entity.StudentState = StudentState.Академ;
+                        context.SaveChanges();
+
+                        // ищем приказ о движении контингента
+                        var academOrder = context.StudentOrders.FirstOrDefault(x => x.OrderNumber == model.AcademOrderNumber && x.DateCreate == model.AcademOrderDate.Date &&
+                                x.StudentOrderType == StudentOrderType.Движение);
+                        if (academOrder == null)
+                        {
+                            // если нет, то создаем
+                            academOrder = ModelFacotryFromBindingModel.CreateStudentOrder(new StudentOrderSetBindingModel
+                            {
+                                OrderNumber = model.AcademOrderNumber,
+                                OrderDate = model.AcademOrderDate.Date,
+                                StudentOrderType = StudentOrderType.Движение.ToString()
+                            });
+                            context.StudentOrders.Add(academOrder);
+                            context.SaveChanges();
+                        }
+                        else if (academOrder.IsDeleted)
+                        {
+                            academOrder.IsDeleted = false;
+                            context.SaveChanges();
+                        }
+                        // ищем блок приказа для направления
+                        var academOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == academOrder.Id && x.StudentOrderType == StudentOrderType.ВАкадем);
+                        if (academOrderBlock == null)
+                        {
+                            academOrderBlock = ModelFacotryFromBindingModel.CreateStudentOrderBlock(new StudentOrderBlockSetBindingModel
+                            {
+                                StudentOrderId = academOrder.Id,
+                                StudentOrderType = StudentOrderType.ПродлАкадем.ToString()
+                            });
+                            context.StudentOrderBlocks.Add(academOrderBlock);
+                            context.SaveChanges();
+                        }
+                        else if (academOrderBlock.IsDeleted)
+                        {
+                            academOrderBlock.IsDeleted = false;
+                            context.SaveChanges();
+                        }
+                        var academSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == academOrderBlock.Id && x.StudentId == entity.Id);
+                        if (academSOS == null)
+                        {
+                            academSOS = ModelFacotryFromBindingModel.CreateStudentOrderBlockStudent(new StudentOrderBlockStudentSetBindingModel
+                            {
+                                StudentOrderBlockId = academOrderBlock.Id,
+                                StudentId = entity.Id,
+                                StudentGroupFromId = entity.StudentGroupId
+                            });
+                            context.StudentOrderBlockStudents.Add(academSOS);
+                            context.SaveChanges();
+                        }
+                        else if (academSOS.IsDeleted)
+                        {
+                            academSOS.IsDeleted = false;
+                            context.SaveChanges();
+                        }
+                    }
+                    transaction.Commit();
+
+                    return ResultService.Success();
+                }
+                catch (Exception ex)
+                {
+                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                }
+            }
+        }
+
         public ResultService FromAcademStudents(StudentAcademBindingModel model)
         {
             DepartmentUserManager.CheckAccess(AccessOperation.Студенты_учащиеся, AccessType.Change, "Студенты");
