@@ -18,6 +18,8 @@ namespace ScheduleInterfaces.BindingModels
     /// </summary>
     public class ImportToOffsetFromExcel
     {
+        public DateTime ScheduleDate { get; set; }
+
         public string FileName { get; set; }
     }
 

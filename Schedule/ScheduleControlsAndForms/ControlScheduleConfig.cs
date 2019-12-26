@@ -51,7 +51,7 @@ namespace ScheduleControlsAndForms
             do
             {
                 url = ConfigurationManager.AppSettings[$"ScheduleUrl{counter++}"];
-                if(string.IsNullOrEmpty(url))
+                if (string.IsNullOrEmpty(url))
                 {
                     break;
                 }
@@ -71,6 +71,35 @@ namespace ScheduleControlsAndForms
             else
             {
                 ErrorMessanger.PrintErrorMessage("Не удалось обновить расписание", result.Errors);
+            }
+        }
+
+        /// <summary>
+        /// Загрузка расписания зачетов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonImportOffsetFromExcel_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "Excel|*.xlsx"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _process.Import(new ImportToOffsetFromExcel
+                {
+                    ScheduleDate = dateTimePickerOffsetStart.Value,
+                    FileName = dialog.FileName
+                });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                }
             }
         }
 
@@ -342,32 +371,6 @@ namespace ScheduleControlsAndForms
             //        }
             //    }
             //}
-        }
-
-        private void ButtonImportOffsetFromExcel_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog
-            {
-                Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.Import(new ImportToOffsetFromExcel { FileName = dialog.FileName });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
 
         private void ButtonImportExaminationFromExcel_Click(object sender, EventArgs e)

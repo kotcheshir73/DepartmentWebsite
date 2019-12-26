@@ -438,5 +438,75 @@ namespace ScheduleImplementations.Helpers
 
             return -1;
         }
+
+        public static void GetClassroom(DepartmentDatabaseContext context, ScheduleSetBindingModel record)
+        {
+            if (!string.IsNullOrEmpty(record.LessonClassroom))
+            {
+                var classroom = context.Classrooms.FirstOrDefault(c => record.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
+                if (classroom != null)
+                {
+                    record.ClassroomId = classroom.Id;
+                }
+            }
+            else
+            {
+                record.LessonClassroom = "нет данных";
+            }
+        }
+
+        public static void GetDiscipline(DepartmentDatabaseContext context, ScheduleSetBindingModel record)
+        {
+            if (!string.IsNullOrEmpty(record.LessonDiscipline))
+            {
+                var discipline = context.Disciplines.FirstOrDefault(d => d.DisciplineName == record.LessonDiscipline);
+                if (discipline != null)
+                {
+                    record.DisciplineId = discipline.Id;
+                }
+            }
+            else
+            {
+                record.LessonDiscipline = "нет данных";
+            }
+        }
+
+        public static void GetLecturer(DepartmentDatabaseContext context, ScheduleSetBindingModel record)
+        {
+            if (!string.IsNullOrEmpty(record.LessonLecturer))
+            {
+                var spliters = record.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
+                string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
+                string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
+                var lecturer = context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
+                                        ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
+                                        ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+                if (lecturer != null)
+                {
+                    record.LecturerId = lecturer.Id;
+                }
+            }
+            else
+            {
+                record.LessonLecturer = "нет данных";
+            }
+        }
+
+        public static void GetStudentGroup(DepartmentDatabaseContext context, ScheduleSetBindingModel record)
+        {
+            if (!string.IsNullOrEmpty(record.LessonStudentGroup))
+            {
+                var group = context.StudentGroups.FirstOrDefault(x => x.GroupName == record.LessonStudentGroup && !x.IsDeleted);
+                if (group != null)
+                {
+                    record.StudentGroupId = group.Id;
+                }
+            }
+            else
+            {
+                record.LessonStudentGroup = "нет данных";
+            }
+        }
     }
 }

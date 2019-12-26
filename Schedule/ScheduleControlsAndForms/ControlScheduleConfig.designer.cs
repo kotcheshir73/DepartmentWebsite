@@ -37,11 +37,13 @@
             this.groupBoxImport = new System.Windows.Forms.GroupBox();
             this.buttonImportSemesterFromSite = new System.Windows.Forms.Button();
             this.comboBoxStartPeriodDate = new System.Windows.Forms.ComboBox();
-            this.labelStartPeriodDate = new System.Windows.Forms.Label();
+            this.labelStartSemesterPeriodDate = new System.Windows.Forms.Label();
             this.buttonImportExaminationFromExcel = new System.Windows.Forms.Button();
             this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
             this.groupBoxExportInfo = new System.Windows.Forms.GroupBox();
             this.labelOffsetExport = new System.Windows.Forms.Label();
+            this.labelStartOffsetsDate = new System.Windows.Forms.Label();
+            this.dateTimePickerOffsetStart = new System.Windows.Forms.DateTimePicker();
             this.groupBoxClearClassrooms.SuspendLayout();
             this.groupBoxImport.SuspendLayout();
             this.groupBoxExportInfo.SuspendLayout();
@@ -102,14 +104,16 @@
             // 
             // groupBoxImport
             // 
+            this.groupBoxImport.Controls.Add(this.dateTimePickerOffsetStart);
+            this.groupBoxImport.Controls.Add(this.labelStartOffsetsDate);
             this.groupBoxImport.Controls.Add(this.buttonImportSemesterFromSite);
             this.groupBoxImport.Controls.Add(this.comboBoxStartPeriodDate);
-            this.groupBoxImport.Controls.Add(this.labelStartPeriodDate);
+            this.groupBoxImport.Controls.Add(this.labelStartSemesterPeriodDate);
             this.groupBoxImport.Controls.Add(this.buttonImportExaminationFromExcel);
             this.groupBoxImport.Controls.Add(this.buttonImportOffsetFromExcel);
             this.groupBoxImport.Location = new System.Drawing.Point(3, 3);
             this.groupBoxImport.Name = "groupBoxImport";
-            this.groupBoxImport.Size = new System.Drawing.Size(200, 206);
+            this.groupBoxImport.Size = new System.Drawing.Size(200, 282);
             this.groupBoxImport.TabIndex = 6;
             this.groupBoxImport.TabStop = false;
             this.groupBoxImport.Text = "Импорт";
@@ -133,18 +137,18 @@
             this.comboBoxStartPeriodDate.Size = new System.Drawing.Size(150, 21);
             this.comboBoxStartPeriodDate.TabIndex = 1;
             // 
-            // labelStartPeriodDate
+            // labelStartSemesterPeriodDate
             // 
-            this.labelStartPeriodDate.AutoSize = true;
-            this.labelStartPeriodDate.Location = new System.Drawing.Point(18, 28);
-            this.labelStartPeriodDate.Name = "labelStartPeriodDate";
-            this.labelStartPeriodDate.Size = new System.Drawing.Size(119, 13);
-            this.labelStartPeriodDate.TabIndex = 0;
-            this.labelStartPeriodDate.Text = "Дата начала периода:";
+            this.labelStartSemesterPeriodDate.AutoSize = true;
+            this.labelStartSemesterPeriodDate.Location = new System.Drawing.Point(18, 28);
+            this.labelStartSemesterPeriodDate.Name = "labelStartSemesterPeriodDate";
+            this.labelStartSemesterPeriodDate.Size = new System.Drawing.Size(119, 13);
+            this.labelStartSemesterPeriodDate.TabIndex = 0;
+            this.labelStartSemesterPeriodDate.Text = "Дата начала периода:";
             // 
             // buttonImportExaminationFromExcel
             // 
-            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(35, 160);
+            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(35, 206);
             this.buttonImportExaminationFromExcel.Name = "buttonImportExaminationFromExcel";
             this.buttonImportExaminationFromExcel.Size = new System.Drawing.Size(150, 30);
             this.buttonImportExaminationFromExcel.TabIndex = 4;
@@ -154,10 +158,10 @@
             // 
             // buttonImportOffsetFromExcel
             // 
-            this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(35, 120);
+            this.buttonImportOffsetFromExcel.Location = new System.Drawing.Point(35, 154);
             this.buttonImportOffsetFromExcel.Name = "buttonImportOffsetFromExcel";
             this.buttonImportOffsetFromExcel.Size = new System.Drawing.Size(150, 30);
-            this.buttonImportOffsetFromExcel.TabIndex = 3;
+            this.buttonImportOffsetFromExcel.TabIndex = 5;
             this.buttonImportOffsetFromExcel.Text = "Зачеты из Excel";
             this.buttonImportOffsetFromExcel.UseVisualStyleBackColor = true;
             this.buttonImportOffsetFromExcel.Click += new System.EventHandler(this.ButtonImportOffsetFromExcel_Click);
@@ -181,6 +185,22 @@
             this.labelOffsetExport.Size = new System.Drawing.Size(430, 80);
             this.labelOffsetExport.TabIndex = 0;
             this.labelOffsetExport.Text = resources.GetString("labelOffsetExport.Text");
+            // 
+            // labelStartOffsetsDate
+            // 
+            this.labelStartOffsetsDate.AutoSize = true;
+            this.labelStartOffsetsDate.Location = new System.Drawing.Point(18, 112);
+            this.labelStartOffsetsDate.Name = "labelStartOffsetsDate";
+            this.labelStartOffsetsDate.Size = new System.Drawing.Size(117, 13);
+            this.labelStartOffsetsDate.TabIndex = 3;
+            this.labelStartOffsetsDate.Text = "Дата начала зачетов:";
+            // 
+            // dateTimePickerOffsetStart
+            // 
+            this.dateTimePickerOffsetStart.Location = new System.Drawing.Point(35, 128);
+            this.dateTimePickerOffsetStart.Name = "dateTimePickerOffsetStart";
+            this.dateTimePickerOffsetStart.Size = new System.Drawing.Size(150, 20);
+            this.dateTimePickerOffsetStart.TabIndex = 4;
             // 
             // ControlScheduleConfig
             // 
@@ -213,6 +233,8 @@
         private System.Windows.Forms.Label labelOffsetExport;
         private System.Windows.Forms.Button buttonImportSemesterFromSite;
         private System.Windows.Forms.ComboBox comboBoxStartPeriodDate;
-        private System.Windows.Forms.Label labelStartPeriodDate;
+        private System.Windows.Forms.Label labelStartSemesterPeriodDate;
+        private System.Windows.Forms.Label labelStartOffsetsDate;
+        private System.Windows.Forms.DateTimePicker dateTimePickerOffsetStart;
     }
 }
