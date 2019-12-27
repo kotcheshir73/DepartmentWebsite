@@ -216,12 +216,10 @@ namespace ScheduleControlsAndForms.BaseControls
             var counter = (record.ScheduleDate - date).TotalMinutes / step + 1;
 
             int colspan = record.TimeSpanMinutes / step;
-            string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", record.LessonType, record.LessonDiscipline, record.LessonClassroom,
-                Environment.NewLine, record.LessonLecturer, record.LessonStudentGroup);
 
             var buttonRecord = new ButtonShare
             {
-                Text = text,
+                Text = record.ToString(),
                 Id = record.Id,
                 ScheduleRecordType = record.ScheduleRecordType,
                 ContextMenuStrip = contextMenuStripButton

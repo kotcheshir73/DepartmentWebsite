@@ -16,8 +16,6 @@ namespace ScheduleServiceImplementations.Helpers
 {
     class ImportScheduleFromExcel
     {
-        private static SeasonDates _seasonDate;
-
         private static List<OffsetRecordSetBindingModel> _findOffsetRecords;
 
         private static List<ExaminationRecordSetBindingModel> _findExamRecords;
@@ -28,7 +26,11 @@ namespace ScheduleServiceImplementations.Helpers
 
         private readonly static int _countOffsetsInDay = 2;
 
-        private readonly static int _countDays = 6;
+        private readonly static int _countOffsetDays = 6;
+
+        private readonly static int _firstExamStartHour = 9;
+
+        private readonly static int _firstConsExamStartHour = 16;
 
         public static ResultService ImportOffsets(ImportToOffsetFromExcel model)
         {
@@ -73,7 +75,7 @@ namespace ScheduleServiceImplementations.Helpers
                                 }
                                 rowindex--;
                                 var res = LoadRows(model, workbookPart, sheetData, rowindex);
-                                rowindex += _countRowsInOffset * _countOffsetsInDay * _countDays - 1;
+                                rowindex += _countRowsInOffset * _countOffsetsInDay * _countOffsetDays - 1;
                                 if (!res.Succeeded)
                                 {
                                     foreach (var err in res.Errors)
@@ -107,6 +109,90 @@ namespace ScheduleServiceImplementations.Helpers
                         {
                             resError.AddError(err.Key, err.Value);
                         }
+                    }
+                }
+
+                return resError;
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public static ResultService ImportExaminations(ImportToExaminationFromExcel model)
+        {
+            try
+            {
+                _findOffsetRecords = new List<OffsetRecordSetBindingModel>();
+                _findExamRecords = new List<ExaminationRecordSetBindingModel>();
+
+
+                var resError = new ResultService();
+                using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(model.FileName, false))
+                {
+                    // получаем книгу
+                    WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                    // идем по листам книги
+                    foreach (WorksheetPart worksheetPart in spreadsheetDocument.WorkbookPart.WorksheetParts)
+                    {
+                        foreach (SheetData sheetData in worksheetPart.Worksheet.Elements<SheetData>())
+                        {
+                            int rowindex = 1;
+                            int colindex = 0;
+
+                            // заведем прерываетль, чтобы прекратить обход, если лист пустой
+                            int counter = 0;
+                            var value = string.Empty;
+
+                            while (value.ToLower() != "дни недели")
+                            {
+                                value = GetValue(workbookPart, sheetData, Symbols[colindex], rowindex);
+                                rowindex++;
+                                counter++;
+
+                                if (counter > 10)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (value.ToLower() != "дни недели")
+                            {
+                                continue;
+                            }
+                            rowindex--;
+                            var res = LoadRows(model, workbookPart, sheetData, rowindex);
+
+                            if (!res.Succeeded)
+                            {
+                                foreach (var err in res.Errors)
+                                {
+                                    resError.AddError(err.Key, err.Value);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (_findOffsetRecords.Count > 0)
+                {
+                    var result = SaveOffsetRecords();
+                    if (!result.Succeeded)
+                    {
+                        foreach (var err in result.Errors)
+                        {
+                            resError.AddError(err.Key, err.Value);
+                        }
+                    }
+                }
+
+                var resultExams = SaveExamRecords();
+                if (!resultExams.Succeeded)
+                {
+                    foreach (var err in resultExams.Errors)
+                    {
+                        resError.AddError(err.Key, err.Value);
                     }
                 }
 
@@ -215,7 +301,7 @@ namespace ScheduleServiceImplementations.Helpers
                 foreach (var gr in groups)
                 {
                     // идем по дням зачетов
-                    for (int days = 0; days < _countDays; ++days)
+                    for (int days = 0; days < _countOffsetDays; ++days)
                     {
                         // сколько зачетов может быть в день
                         for (int cur = 0; cur < _countOffsetsInDay; ++cur)
@@ -229,7 +315,7 @@ namespace ScheduleServiceImplementations.Helpers
                                 disicplinename = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 1);
 
                                 // коснультация переж экхаменом, пропускаем
-                                if(disicplinename.ToUpper() == "К")
+                                if (disicplinename.ToUpper() == "К")
                                 {
                                     continue;
                                 }
@@ -361,6 +447,191 @@ namespace ScheduleServiceImplementations.Helpers
                                 record.ScheduleDate = ScheduleHelper.GetDateWithTime(model.ScheduleDate.Date.AddDays(days), record.Lesson);
 
                                 var res = CheckNewOffsetRecordForConflict(record);
+                                if (!res.Succeeded)
+                                {
+                                    foreach (var err in res.Errors)
+                                    {
+                                        resError.AddError(err.Key, err.Value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resError;
+        }
+
+        /// <summary>
+        /// Загрузка таблицы с группами и днями экзаменов
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="workbookPart"></param>
+        /// <param name="sheetData"></param>
+        /// <param name="rowIndex"></param>
+        /// <returns></returns>
+        private static ResultService LoadRows(ImportToExaminationFromExcel model, WorkbookPart workbookPart, SheetData sheetData, int rowIndex)
+        {
+            var resError = new ResultService();
+            Dictionary<int, Tuple<string, Guid?>> groups = new Dictionary<int, Tuple<string, Guid?>>();
+
+            int colindex = 0;
+
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                //считываем группы в словарь. потом, когда надо будет в добавляемую запись зачета по номеру колонки проставим группу
+                while (true)
+                {
+                    colindex++;
+                    var groupname = GetValue(workbookPart, sheetData, Symbols[colindex], rowIndex);
+
+                    if (string.IsNullOrEmpty(groupname))
+                    {
+                        break;
+                    }
+
+                    var groupId = context.StudentGroups.FirstOrDefault(x => x.GroupName.ToLower() == groupname.ToLower() && !x.IsDeleted)?.Id;
+
+                    groups.Add(colindex, new Tuple<string, Guid?>(groupname, groupId));
+                }
+                rowIndex++;
+
+                // идем по группам
+                foreach (var gr in groups)
+                {
+                    // идем по дням экзаменов
+                    for (int days = 0; !string.IsNullOrEmpty(GetValue(workbookPart, sheetData, Symbols[0], rowIndex + days * _countRowsInOffset)); ++days)
+                    {
+                        int curIndex = rowIndex + days * _countRowsInOffset;
+                        var disicplinename = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex);
+
+                        // нашли зачет или экзамен
+                        if (!string.IsNullOrEmpty(disicplinename) && disicplinename.ToUpper() != "К")
+                        {
+                            // вытаскивам время и место
+                            var timeandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 2)?.Trim();
+                            // может попасться зачет
+                            if (Regex.IsMatch(timeandclassroom, @"\dп"))
+                            {
+                                var record = new OffsetRecordSetBindingModel
+                                {
+                                    Id = Guid.Empty,
+                                    LessonDiscipline = disicplinename,
+                                    LessonLecturer = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 1),
+                                    LessonStudentGroup = gr.Value.Item1,
+                                    StudentGroupId = gr.Value.Item2
+                                };
+
+                                ScheduleHelper.GetLecturer(context, record);
+
+                                ScheduleHelper.GetDiscipline(context, record);
+
+
+                                var timeandclassroomSplit = timeandclassroom.Split(new char[] { '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                if (timeandclassroom.Length < 1)
+                                {
+                                    record.LessonClassroom = timeandclassroomSplit[timeandclassroomSplit.Length - 1];
+                                    ScheduleHelper.GetClassroom(context, record);
+                                }
+
+                                record.Lesson = Convert.ToInt32(Convert.ToInt32(timeandclassroomSplit[0].Trim()[0].ToString())) - 1;
+                                record.ScheduleDate = ScheduleHelper.GetDateWithTime(model.ScheduleDate.Date.AddDays(days), record.Lesson);
+
+                                var res = CheckNewOffsetRecordForConflict(record);
+                                if (!res.Succeeded)
+                                {
+                                    foreach (var err in res.Errors)
+                                    {
+                                        resError.AddError(err.Key, err.Value);
+                                    }
+                                }
+                            }
+                            // иначе экзамен
+                            else
+                            {
+                                var record = new ExaminationRecordSetBindingModel
+                                {
+                                    Id = Guid.Empty,
+                                    LessonDiscipline = disicplinename,
+                                    LessonLecturer = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 1),
+                                    LessonStudentGroup = gr.Value.Item1,
+                                    StudentGroupId = gr.Value.Item2,
+                                    ScheduleDate = model.ScheduleDate.Date.AddDays(days).AddHours(_firstExamStartHour)
+                                };
+
+                                ScheduleHelper.GetLecturer(context, record);
+
+                                ScheduleHelper.GetDiscipline(context, record);
+
+                                var timeandclassroomSplit = timeandclassroom.Split(new char[] { ',', '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                // вытаскиваем аудиторию
+                                var classroomMatch = Regex.Match(timeandclassroom, @"(^| )\d(_|-)([\d]+(/[\d]+)*([\w]+)*|[\w. ]+)");
+                                if (classroomMatch.Success)
+                                {
+                                    record.LessonClassroom = classroomMatch.Value.Trim();
+                                    ScheduleHelper.GetClassroom(context, record);
+                                    // по умолчанию выставляем консультацию в той же аудитории
+                                    record.LessonConsultationClassroom = record.LessonClassroom;
+                                    record.ConsultationClassroomId = record.ClassroomId;
+                                }
+                                //инфа по времени
+                                var timeMatch = Regex.Match(timeandclassroom, @"(\d\d.\d\d)|(\d\d-\d\d)|(\d\d:\d\d)");
+                                if (timeMatch.Success)
+                                {
+                                    var time = timeMatch.Value.Split(new char[] { '.', '-', ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    record.ScheduleDate = record.ScheduleDate.Date.AddHours(Convert.ToInt32(time[0])).AddMinutes(Convert.ToInt32(time[1]));
+                                }
+
+                                // ищем консультацию, она должна быть за 1-3 дня до экзамена
+                                int startIndex = curIndex - _countRowsInOffset;
+                                while (true)
+                                {
+                                    var curConsIndex = startIndex;
+                                    // символ К модет быть или в первой или второй строке
+                                    var cons = GetValue(workbookPart, sheetData, Symbols[gr.Key], curConsIndex);
+                                    if (string.IsNullOrEmpty(cons))
+                                    {
+                                        curConsIndex++;
+                                        cons = GetValue(workbookPart, sheetData, Symbols[gr.Key], curConsIndex);
+                                    }
+
+                                    if (cons.ToUpper() == "К")
+                                    {
+                                        record.DateConsultation = model.ScheduleDate.Date.AddDays(days - (curIndex - startIndex) / _countRowsInOffset).AddHours(_firstConsExamStartHour);
+                                        // под К может стоять время и место консультации
+                                        timeandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], curConsIndex + 1);
+                                        if (!string.IsNullOrEmpty(timeandclassroom))
+                                        {
+                                            // вытаскиваем аудиторию
+                                            classroomMatch = Regex.Match(timeandclassroom, @"(^| )\d(_|-)([\d]+(/[\d]+)*([\w]+)*|[\w. ]+)");
+                                            if(classroomMatch.Success)
+                                            {
+                                                record.LessonConsultationClassroom = classroomMatch.Value.Trim();
+                                                ScheduleHelper.GetConsultationClassroom(context, record);
+                                            }
+                                            //инфа по времени
+                                            timeMatch = Regex.Match(timeandclassroom, @"(\d\d.\d\d)|(\d\d-\d\d)|(\d\d:\d\d)");
+                                            if (timeMatch.Success)
+                                            {
+                                                var time = timeMatch.Value.Split(new char[] { '.', '-', ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                                record.DateConsultation = record.DateConsultation.Date.AddHours(Convert.ToInt32(time[0])).AddMinutes(Convert.ToInt32(time[1]));
+                                            }
+                                        }
+                                        break;
+                                    }
+
+                                    startIndex -= _countRowsInOffset;
+
+                                    // не нашли консультацию
+                                    if (startIndex < curIndex - 3 * _countRowsInOffset)
+                                    {
+                                        record.DateConsultation = model.ScheduleDate;
+                                        break;
+                                    }
+                                }
+
+                                var res = CheckNewExaminationRecordForConflict(record);
                                 if (!res.Succeeded)
                                 {
                                     foreach (var err in res.Errors)
@@ -579,240 +850,6 @@ namespace ScheduleServiceImplementations.Helpers
                 }
 
                 return ResultService.Success();
-            }
-        }
-
-        public static ResultService ImportExaminations(ImportToExaminationFromExcel model)
-        {
-            try
-            {
-                using (var context = DepartmentUserManager.GetContext)
-                {
-                    _seasonDate = DepartmentUserManager.GetCurrentDates();
-                    _findExamRecords = new List<ExaminationRecordSetBindingModel>();
-                    var dateBeginExamination = Convert.ToDateTime(_seasonDate.DateBeginExamination);
-                    //var lessons = context.ScheduleLessonTimes.Where(slt => slt.Title.Contains("экзамен") || slt.Title.Contains("консультация")).ToList();
-
-                    //var excel = new Application();
-                    var resError = new ResultService();
-
-                    try
-                    {
-                        //var workbook = excel.Workbooks.Open(model.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        //    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-
-                        //for (int w = 0; w < workbook.Worksheets.Count; ++w)
-                        //{
-                        //    var excelworksheet = (Worksheet)workbook.Worksheets.get_Item(w + 1);//Получаем ссылку на лист
-                        //    var excelcell = excelworksheet.get_Range("A2", "A2");
-
-                        //    // заведем прерываетль, чтобы прекратить обход, если лист пустой
-                        //    int counter = 0;
-                        //    // идем вниз по первой колонки, пока не встретим текст
-                        //    while (excelcell.Value2 == null || excelcell.Value2.ToString().ToLower() != "дни недели")
-                        //    {
-                        //        excelcell = excelcell.get_Offset(1, 0);
-                        //        counter++;
-                        //        if (counter > 10)
-                        //            break;
-                        //    }
-                        //    counter = 0;
-                        //    while (excelcell.Value2 != null && excelcell.Value2.ToString().ToLower() == "дни недели")
-                        //    {
-                        //        counter++;
-                        //        if (counter > 10)
-                        //            break;
-                        //        // идем по первой строке с группами
-                        //        // берем имя группы
-                        //        var excelGroupNameCell = excelcell.get_Offset(0, 1);
-                        //        while (excelGroupNameCell.Value2 != null)
-                        //        {
-                        //            DateTime? dayConsult = null;
-                        //            string LessonConsultationClassroom = string.Empty;
-                        //            Guid? ConsultationClassroomId = null;
-                        //            // 3 недели экзаменов = 21 день, по 3 ячейки на день
-                        //            for (int i = 0; i < 21; ++i)
-                        //            {
-                        //                // в первой строке - название экзамена
-                        //                var excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 1, 0);
-                        //                if (excelDiscNameCell.Value2 != null)
-                        //                {
-                        //                    if (!Regex.IsMatch(excelDiscNameCell.Value2.ToString(), @"\w+"))
-                        //                    {
-                        //                        continue;
-                        //                    }
-                        //                    var excelLecturerName = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
-                        //                    var excelTimeAndClassroomsName = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
-                        //                    if (!dayConsult.HasValue)
-                        //                    {
-                        //                        resError.AddError("Не найдена дата консультации", string.Format("{0} {1} {2}", dateBeginExamination.AddDays(i).ToShortDateString(),
-                        //                            excelLecturerName.Value2, excelDiscNameCell.Value2));
-                        //                    }
-                        //                    var currentRecord = new ExaminationRecordRecordBindingModel
-                        //                    {
-                        //                        DateConsultation = dayConsult.Value,
-                        //                        DateExamination = dateBeginExamination.AddDays(i),
-                        //                        LessonDiscipline = excelDiscNameCell.Value2,
-                        //                        LessonGroup = excelGroupNameCell.Value2,
-                        //                        LessonLecturer = excelLecturerName.Value2
-                        //                    };
-
-                        //                    if (!string.IsNullOrEmpty(LessonConsultationClassroom))
-                        //                    {
-                        //                        currentRecord.LessonConsultationClassroom = LessonConsultationClassroom;
-                        //                    }
-                        //                    if (ConsultationClassroomId.HasValue)
-                        //                    {
-                        //                        currentRecord.ConsultationClassroomId = ConsultationClassroomId;
-                        //                    }
-
-                        //                    // определяем группу
-                        //                    var group = _context.StudentGroups.FirstOrDefault(sg => sg.GroupName == currentRecord.LessonGroup && !sg.IsDeleted);
-                        //                    if (group != null)
-                        //                    {
-                        //                        currentRecord.StudentGroupId = group.Id;
-                        //                    }
-
-                        //                    // определяем дисциплину
-                        //                    var shortName = ScheduleHelper.CalcShortDisciplineName(currentRecord.LessonDiscipline);
-                        //                    var discipline = _context.Disciplines.FirstOrDefault(d => d.DisciplineShortName == shortName);
-                        //                    if (discipline != null)
-                        //                    {
-                        //                        currentRecord.DisciplineId = discipline.Id;
-                        //                    }
-
-                        //                    // определяем преподавателя
-                        //                    var spliters = currentRecord.LessonLecturer.Split(new char[] { '.', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        //                    string lastName = spliters[0][0] + spliters[0].Substring(1).ToLower();
-                        //                    string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
-                        //                    string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
-                        //                    var lecturer = _context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
-                        //                                            ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-                        //                                            ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
-                        //                    if (lecturer != null)
-                        //                    {
-                        //                        currentRecord.LecturerId = lecturer.Id;
-                        //                    }
-
-                        //                    // определяем время и аудиторию
-                        //                    string timeAndClassroom = excelTimeAndClassroomsName.Value2.ToLower();
-                        //                    var timeMatch = Regex.Match(timeAndClassroom, @"\d{1,2}[(\:)*(\.)*(\-)*]+\d{2}"); if (timeMatch.Success)
-                        //                    {
-                        //                        timeAndClassroom = timeAndClassroom.Replace(timeMatch.Value, "");
-                        //                        currentRecord.DateExamination = currentRecord.DateExamination.AddHours(Convert.ToInt32(Regex.Match(timeMatch.Value, @"^\d{1,2}").Value))
-                        //                                                            .AddMinutes(Convert.ToInt32(Regex.Match(timeMatch.Value, @"\d{2}$").Value));
-                        //                        if (currentRecord.DateExamination.ToShortTimeString() !=
-                        //                            lessons.FirstOrDefault(l => l.Title.Contains("Дневной")).DateBeginLesson.ToShortTimeString())
-                        //                        {
-                        //                            resError.AddError("Неверное время дневного экзамена", string.Format("{0} {1} {2} {3}", currentRecord.DateExamination.ToShortDateString(),
-                        //                                currentRecord.DateExamination.ToShortTimeString(), excelLecturerName.Value2, excelDiscNameCell.Value2));
-                        //                        }
-                        //                    }
-                        //                    else
-                        //                    {
-                        //                        var time = lessons.FirstOrDefault(l => l.Title.Contains("Утренний")).DateBeginLesson;
-                        //                        currentRecord.DateExamination = currentRecord.DateExamination.AddHours(time.Hour).AddMinutes(time.Minute);
-                        //                    }
-                        //                    var classroomMatch = Regex.Match(timeAndClassroom, @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
-                        //                    if (classroomMatch.Success)
-                        //                    {
-                        //                        currentRecord.LessonClassroom = classroomMatch.Value;
-                        //                        var classroom = _context.Classrooms.FirstOrDefault(c => currentRecord.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
-                        //                        if (classroom != null)
-                        //                        {
-                        //                            currentRecord.ClassroomId = classroom.Id;
-                        //                        }
-                        //                    }
-                        //                    var res = CheckNewExaminationRecordForConflictAndSave(currentRecord);
-                        //                    if (!res.Succeeded)
-                        //                    {
-                        //                        foreach (var err in res.Errors)
-                        //                        {
-                        //                            resError.AddError(err.Key, err.Value);
-                        //                        }
-                        //                    }
-
-                        //                    LessonConsultationClassroom = string.Empty;
-                        //                    ConsultationClassroomId = null;
-                        //                    dayConsult = null;
-                        //                }
-                        //                else
-                        //                {
-                        //                    excelDiscNameCell = excelGroupNameCell.get_Offset(i * 3 + 2, 0);
-                        //                    if (excelDiscNameCell.Value2 != null && excelDiscNameCell.Value2 == "К")
-                        //                    {
-                        //                        dayConsult = dateBeginExamination.AddDays(i);
-                        //                        var excelTimeAndClassroom = excelGroupNameCell.get_Offset(i * 3 + 3, 0);
-                        //                        if (excelTimeAndClassroom.Value2 != null)
-                        //                        {
-                        //                            string timeAndClassroom = excelTimeAndClassroom.Value2;
-                        //                            var timeMatch = Regex.Match(timeAndClassroom, @"\d{1,2}[(\:)*(\.)*(\-)*]+\d{2}");
-                        //                            if (timeMatch.Success)
-                        //                            {
-                        //                                timeAndClassroom = timeAndClassroom.Replace(timeMatch.Value, "");
-                        //                                dayConsult = dayConsult.Value.AddHours(Convert.ToInt32(Regex.Match(timeMatch.Value, @"^\d{1,2}").Value))
-                        //                                                                    .AddMinutes(Convert.ToInt32(Regex.Match(timeMatch.Value, @"\d{2}$").Value));
-                        //                                if (dayConsult.Value.ToShortTimeString() !=
-                        //                                    lessons.FirstOrDefault(l => l.Title.Contains("Вторая")).DateBeginLesson.ToShortTimeString())
-                        //                                {
-                        //                                    resError.AddError("Неверное время консультации", string.Format("{0} {1} {2}", dateBeginExamination.AddDays(i).ToShortDateString(),
-                        //                                        dayConsult.Value.ToShortTimeString(), excelDiscNameCell.Value2));
-                        //                                }
-                        //                            }
-                        //                            else
-                        //                            {
-                        //                                var time = lessons.FirstOrDefault(l => l.Title.Contains("Первая")).DateBeginLesson;
-                        //                                dayConsult = dayConsult.Value.AddHours(time.Hour).AddMinutes(time.Minute);
-                        //                            }
-                        //                            var classroomMatch = Regex.Match(timeAndClassroom, @"(\w{0,2})[\d]+(\-\d)*(\/\d)*");
-                        //                            if (classroomMatch.Success)
-                        //                            {
-                        //                                LessonConsultationClassroom = classroomMatch.Value;
-                        //                                var classroom = _context.Classrooms.FirstOrDefault(c => LessonConsultationClassroom.Contains(c.Number) && !c.IsDeleted);
-                        //                                if (classroom != null)
-                        //                                {
-                        //                                    ConsultationClassroomId = classroom.Id;
-                        //                                }
-                        //                            }
-                        //                        }
-                        //                        else
-                        //                        {
-                        //                            var time = lessons.FirstOrDefault(l => l.Title.Contains("Первая")).DateBeginLesson;
-                        //                            dayConsult = dayConsult.Value.AddHours(time.Hour).AddMinutes(time.Minute);
-                        //                        }
-                        //                    }
-                        //                }
-                        //            }
-                        //            // переходим к следующей группе
-                        //            excelGroupNameCell = excelGroupNameCell.get_Offset(0, 1);
-                        //        }
-                        //        excelcell = excelcell.get_Offset(64, 0);
-                        //    }
-                        //}
-
-                        var result = SaveExamRecords();
-                        if (!result.Succeeded)
-                        {
-                            foreach (var err in result.Errors)
-                            {
-                                resError.AddError(err.Key, err.Value);
-                            }
-                        }
-                        return resError;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        //excel.Quit();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 

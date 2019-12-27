@@ -455,6 +455,22 @@ namespace ScheduleImplementations.Helpers
             }
         }
 
+        public static void GetConsultationClassroom(DepartmentDatabaseContext context, ExaminationRecordSetBindingModel record)
+        {
+            if (!string.IsNullOrEmpty(record.LessonConsultationClassroom))
+            {
+                var classroom = context.Classrooms.FirstOrDefault(c => record.LessonConsultationClassroom.Contains(c.Number) && !c.IsDeleted);
+                if (classroom != null)
+                {
+                    record.ConsultationClassroomId = classroom.Id;
+                }
+            }
+            else
+            {
+                record.LessonConsultationClassroom = "нет данных";
+            }
+        }
+
         public static void GetDiscipline(DepartmentDatabaseContext context, ScheduleSetBindingModel record)
         {
             if (!string.IsNullOrEmpty(record.LessonDiscipline))

@@ -32,5 +32,10 @@ namespace ScheduleInterfaces.ViewModels
         public Guid? ConsultationClassroomId { get; set; }
 
         public string ConsultationClassroom { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}({3}){4}{5}{4}{6}", LessonType, LessonDiscipline, LessonClassroom, LessonConsultationClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
+        }
     }
 }

@@ -28,6 +28,8 @@ namespace ScheduleInterfaces.BindingModels
     /// </summary>
     public class ImportToExaminationFromExcel
     {
+        public DateTime ScheduleDate { get; set; }
+
         public string FileName { get; set; }
     }
 

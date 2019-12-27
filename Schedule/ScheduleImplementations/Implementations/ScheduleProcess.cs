@@ -174,7 +174,7 @@ namespace ScheduleImplementations.Services
                                     var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(date.DateBeginFirstHalfSemester, (int)week, day, lesson));
                                     foreach (var find in search)
                                     {
-                                        records.Add(new ScheduleRecordViewModel
+                                        records.Add(new SemesterRecordViewModel
                                         {
                                             Id = find.Id,
                                             ClassroomId = find.ClassroomId,
@@ -240,7 +240,7 @@ namespace ScheduleImplementations.Services
                                     var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(date.DateBeginSecondHalfSemester, (int)week, day, lesson));
                                     foreach (var find in search)
                                     {
-                                        records.Add(new ScheduleRecordViewModel
+                                        records.Add(new SemesterRecordViewModel
                                         {
                                             Id = find.Id,
                                             ClassroomId = find.ClassroomId,
@@ -287,7 +287,7 @@ namespace ScheduleImplementations.Services
                 });
                 foreach (var find in offRecords)
                 {
-                    records.Add(new ScheduleRecordViewModel
+                    records.Add(new OffsetRecordViewModel
                     {
                         Id = find.Id,
                         ClassroomId = find.ClassroomId,
@@ -305,7 +305,7 @@ namespace ScheduleImplementations.Services
                         LessonType = LessonTypes.зачет,
                         ScheduleRecordType = ScheduleRecordType.Offset,
                         ScheduleDate = find.ScheduleDate,
-                        TimeSpanMinutes = 90
+                        TimeSpanMinutes = 90                        
                     });
                 }
 
@@ -327,7 +327,7 @@ namespace ScheduleImplementations.Services
                 {
                     if (find.DateConsultation.Date >= model.BeginDate && find.DateConsultation <= model.EndDate)
                     {
-                        records.Add(new ScheduleRecordViewModel
+                        records.Add(new ExaminationRecordViewModel
                         {
                             Id = find.Id,
                             ClassroomId = find.ClassroomId,
@@ -345,12 +345,15 @@ namespace ScheduleImplementations.Services
                             LessonType = LessonTypes.экзконс,
                             ScheduleRecordType = ScheduleRecordType.Examination,
                             ScheduleDate = find.DateConsultation,
-                            TimeSpanMinutes = 90
+                            TimeSpanMinutes = 90,
+
+                            LessonConsultationClassroom = find.LessonConsultationClassroom,
+                            DateConsultation = find.DateConsultation
                         });
                     }
                     if (find.ScheduleDate.Date >= model.BeginDate && find.ScheduleDate <= model.EndDate)
                     {
-                        records.Add(new ScheduleRecordViewModel
+                        records.Add(new ExaminationRecordViewModel
                         {
                             Id = find.Id,
                             ClassroomId = find.ClassroomId,
@@ -368,7 +371,10 @@ namespace ScheduleImplementations.Services
                             LessonType = LessonTypes.экзамен,
                             ScheduleRecordType = ScheduleRecordType.Examination,
                             ScheduleDate = find.ScheduleDate,
-                            TimeSpanMinutes = 180
+                            TimeSpanMinutes = 180,
+
+                            LessonConsultationClassroom = find.LessonConsultationClassroom,
+                            DateConsultation = find.DateConsultation
                         });
                     }
                 }
@@ -389,7 +395,7 @@ namespace ScheduleImplementations.Services
                 });
                 foreach (var find in consRecords)
                 {
-                    records.Add(new ScheduleRecordViewModel
+                    records.Add(new ConsultationRecordViewModel
                     {
                         Id = find.Id,
                         ClassroomId = find.ClassroomId,

@@ -32,5 +32,10 @@ namespace ScheduleInterfaces.ViewModels
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}{3}{4}{3}{5}", LessonType, LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
+        }
     }
 }

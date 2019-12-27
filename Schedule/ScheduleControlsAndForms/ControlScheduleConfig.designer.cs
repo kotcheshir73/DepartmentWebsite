@@ -35,6 +35,8 @@
             this.buttonClearOffsetRecordClassrooms = new System.Windows.Forms.Button();
             this.buttonClearSemesterRecordClassrooms = new System.Windows.Forms.Button();
             this.groupBoxImport = new System.Windows.Forms.GroupBox();
+            this.dateTimePickerOffsetStart = new System.Windows.Forms.DateTimePicker();
+            this.labelStartOffsetsDate = new System.Windows.Forms.Label();
             this.buttonImportSemesterFromSite = new System.Windows.Forms.Button();
             this.comboBoxStartPeriodDate = new System.Windows.Forms.ComboBox();
             this.labelStartSemesterPeriodDate = new System.Windows.Forms.Label();
@@ -42,8 +44,8 @@
             this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
             this.groupBoxExportInfo = new System.Windows.Forms.GroupBox();
             this.labelOffsetExport = new System.Windows.Forms.Label();
-            this.labelStartOffsetsDate = new System.Windows.Forms.Label();
-            this.dateTimePickerOffsetStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerExamStart = new System.Windows.Forms.DateTimePicker();
+            this.labelStartExamsDate = new System.Windows.Forms.Label();
             this.groupBoxClearClassrooms.SuspendLayout();
             this.groupBoxImport.SuspendLayout();
             this.groupBoxExportInfo.SuspendLayout();
@@ -104,6 +106,8 @@
             // 
             // groupBoxImport
             // 
+            this.groupBoxImport.Controls.Add(this.dateTimePickerExamStart);
+            this.groupBoxImport.Controls.Add(this.labelStartExamsDate);
             this.groupBoxImport.Controls.Add(this.dateTimePickerOffsetStart);
             this.groupBoxImport.Controls.Add(this.labelStartOffsetsDate);
             this.groupBoxImport.Controls.Add(this.buttonImportSemesterFromSite);
@@ -117,6 +121,22 @@
             this.groupBoxImport.TabIndex = 6;
             this.groupBoxImport.TabStop = false;
             this.groupBoxImport.Text = "Импорт";
+            // 
+            // dateTimePickerOffsetStart
+            // 
+            this.dateTimePickerOffsetStart.Location = new System.Drawing.Point(35, 128);
+            this.dateTimePickerOffsetStart.Name = "dateTimePickerOffsetStart";
+            this.dateTimePickerOffsetStart.Size = new System.Drawing.Size(150, 20);
+            this.dateTimePickerOffsetStart.TabIndex = 4;
+            // 
+            // labelStartOffsetsDate
+            // 
+            this.labelStartOffsetsDate.AutoSize = true;
+            this.labelStartOffsetsDate.Location = new System.Drawing.Point(18, 112);
+            this.labelStartOffsetsDate.Name = "labelStartOffsetsDate";
+            this.labelStartOffsetsDate.Size = new System.Drawing.Size(117, 13);
+            this.labelStartOffsetsDate.TabIndex = 3;
+            this.labelStartOffsetsDate.Text = "Дата начала зачетов:";
             // 
             // buttonImportSemesterFromSite
             // 
@@ -148,7 +168,7 @@
             // 
             // buttonImportExaminationFromExcel
             // 
-            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(35, 206);
+            this.buttonImportExaminationFromExcel.Location = new System.Drawing.Point(35, 235);
             this.buttonImportExaminationFromExcel.Name = "buttonImportExaminationFromExcel";
             this.buttonImportExaminationFromExcel.Size = new System.Drawing.Size(150, 30);
             this.buttonImportExaminationFromExcel.TabIndex = 4;
@@ -186,21 +206,21 @@
             this.labelOffsetExport.TabIndex = 0;
             this.labelOffsetExport.Text = resources.GetString("labelOffsetExport.Text");
             // 
-            // labelStartOffsetsDate
+            // dateTimePickerExamStart
             // 
-            this.labelStartOffsetsDate.AutoSize = true;
-            this.labelStartOffsetsDate.Location = new System.Drawing.Point(18, 112);
-            this.labelStartOffsetsDate.Name = "labelStartOffsetsDate";
-            this.labelStartOffsetsDate.Size = new System.Drawing.Size(117, 13);
-            this.labelStartOffsetsDate.TabIndex = 3;
-            this.labelStartOffsetsDate.Text = "Дата начала зачетов:";
+            this.dateTimePickerExamStart.Location = new System.Drawing.Point(35, 209);
+            this.dateTimePickerExamStart.Name = "dateTimePickerExamStart";
+            this.dateTimePickerExamStart.Size = new System.Drawing.Size(150, 20);
+            this.dateTimePickerExamStart.TabIndex = 7;
             // 
-            // dateTimePickerOffsetStart
+            // labelStartExamsDate
             // 
-            this.dateTimePickerOffsetStart.Location = new System.Drawing.Point(35, 128);
-            this.dateTimePickerOffsetStart.Name = "dateTimePickerOffsetStart";
-            this.dateTimePickerOffsetStart.Size = new System.Drawing.Size(150, 20);
-            this.dateTimePickerOffsetStart.TabIndex = 4;
+            this.labelStartExamsDate.AutoSize = true;
+            this.labelStartExamsDate.Location = new System.Drawing.Point(18, 193);
+            this.labelStartExamsDate.Name = "labelStartExamsDate";
+            this.labelStartExamsDate.Size = new System.Drawing.Size(117, 13);
+            this.labelStartExamsDate.TabIndex = 6;
+            this.labelStartExamsDate.Text = "Дата начала зачетов:";
             // 
             // ControlScheduleConfig
             // 
@@ -236,5 +256,7 @@
         private System.Windows.Forms.Label labelStartSemesterPeriodDate;
         private System.Windows.Forms.Label labelStartOffsetsDate;
         private System.Windows.Forms.DateTimePicker dateTimePickerOffsetStart;
+        private System.Windows.Forms.DateTimePicker dateTimePickerExamStart;
+        private System.Windows.Forms.Label labelStartExamsDate;
     }
 }

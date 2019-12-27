@@ -103,6 +103,30 @@ namespace ScheduleControlsAndForms
             }
         }
 
+        private void ButtonImportExaminationFromExcel_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "Excel-2007|*.xlsx"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var result = _process.Import(new ImportToExaminationFromExcel
+                {
+                    ScheduleDate = dateTimePickerExamStart.Value,
+                    FileName = dialog.FileName
+                });
+                if (result.Succeeded)
+                {
+                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
+                }
+            }
+        }
+
         /// <summary>
         /// Отчистка расписания
         /// </summary>
@@ -371,32 +395,6 @@ namespace ScheduleControlsAndForms
             //        }
             //    }
             //}
-        }
-
-        private void ButtonImportExaminationFromExcel_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog
-            {
-                Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.Import(new ImportToExaminationFromExcel { FileName = dialog.FileName });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
     }
 }
