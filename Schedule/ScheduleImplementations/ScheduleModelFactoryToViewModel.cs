@@ -1,224 +1,151 @@
-﻿using Models;
+﻿using Enums;
+using Models;
 using Models.Schedule;
 using ScheduleImplementations.Helpers;
-using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.ViewModels;
-using System;
 
 namespace ScheduleImplementations
 {
     public static class ScheduleModelFactoryToViewModel
     {
-        public static ScheduleRecordViewModel CreateScheduleRecordViewModel(ScheduleRecord entity)
+        public static ScheduleRecordViewModel CreateScheduleRecordViewModel(this ScheduleRecord entity, ScheduleRecordViewModel record = null)
         {
-            return new ScheduleRecordViewModel
+            if(record == null)
             {
-                Id = entity.Id,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
+                record = new ScheduleRecordViewModel();
+            }
+
+            record.Id = entity.Id;
+            record.ClassroomId = entity.ClassroomId;
+            record.Classroom = entity.Classroom?.ToString();
+            record.DisciplineId = entity.DisciplineId;
+            record.Discipline = entity.Discipline?.ToString();
+            record.LecturerId = entity.LecturerId;
+            record.Lecturer = entity.Lecturer?.ToString();
+            record.StudentGroupId = entity.StudentGroupId;
+            record.StudentGroup = entity.StudentGroup?.ToString();
+            record.ScheduleDate = entity.ScheduleDate;
+            record.NotParseRecord = entity.NotParseRecord;
+            record.LessonClassroom = entity.LessonClassroom;
+            record.LessonStudentGroup = entity.LessonStudentGroup;
+            record.LessonDiscipline = entity.LessonDiscipline;
+            record.LessonLecturer = entity.LessonLecturer;
+
+            return record;
         }
 
-        public static SemesterRecordViewModel CreateSemesterRecordViewModel(SemesterRecord entity)
+        public static SemesterRecordViewModel CreateRecordViewModel(this SemesterRecord entity)
         {
-            return new SemesterRecordViewModel
-            {
-                Id = entity.Id,
-                Day = entity.Day,
-                Week = entity.Week,
-                Lesson = entity.Lesson,
-                NotParseRecord = entity.NotParseRecord,
-                IsFirstHalfSemester = entity.IsFirstHalfSemester,
-                IsStreaming = entity.IsStreaming,
-                IsSubgroup = entity.IsSubgroup,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                LessonType = entity.LessonType.ToString(),
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
+            var record = entity.CreateScheduleRecordViewModel(new SemesterRecordViewModel()) as SemesterRecordViewModel;
+
+            record.Week = ScheduleHelper.GetWeek(entity.ScheduleDate);
+            record.Day = ScheduleHelper.GetDay(entity.ScheduleDate);
+            record.Lesson = ScheduleHelper.GetLesson(entity.ScheduleDate);
+            record.LessonType = entity.LessonType;
+            record.ScheduleRecordType = ScheduleRecordType.Semester;
+
+            return record;
         }
 
-        public static SemesterRecordShortViewModel CreateSemesterRecordShortViewModel(SemesterRecord entity)
+        public static OffsetRecordViewModel CreateRecordViewModel(this OffsetRecord entity)
         {
-            return new SemesterRecordShortViewModel
-            {
-                Id = entity.Id,
-                Week = entity.Week,
-                Day = entity.Day,
-                Lesson = entity.Lesson,
-                LessonType = entity.LessonType.ToString(),
-                IsStreaming = entity.IsStreaming,
-                IsSubgroup = entity.IsSubgroup,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-            };
+            var record = entity.CreateScheduleRecordViewModel(new OffsetRecordViewModel()) as OffsetRecordViewModel;
+
+            record.Lesson = ScheduleHelper.GetLesson(entity.ScheduleDate);
+            record.LessonType = LessonTypes.зачет;
+            record.ScheduleRecordType = ScheduleRecordType.Offset;
+
+            return record;
         }
 
-        public static OffsetRecordViewModel CreateOffsetRecordViewModel(OffsetRecord entity)
+        public static ExaminationRecordViewModel CreateRecordViewModel(this ExaminationRecord entity)
         {
-            return new OffsetRecordViewModel
-            {
-                Id = entity.Id,
-                Day = entity.Day,
-                Week = entity.Week,
-                Lesson = entity.Lesson,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
+            var record = entity.CreateScheduleRecordViewModel(new ExaminationRecordViewModel()) as ExaminationRecordViewModel;
+
+            record.DateConsultation = entity.DateConsultation;
+            record.ConsultationClassroomId = entity.ConsultationClassroomId;
+            record.ConsultationClassroom = entity.ConsultationClassroom?.ToString();
+            record.LessonConsultationClassroom = entity.LessonConsultationClassroom;
+            record.LessonType = LessonTypes.экзамен;
+            record.ScheduleRecordType = ScheduleRecordType.Examination;
+
+            return record;
         }
 
-        public static OffsetRecordShortViewModel CreateOffsetRecordShortViewModel(OffsetRecord entity)
+        public static ConsultationRecordViewModel CreateRecordViewModel(this ConsultationRecord entity)
         {
-            return new OffsetRecordShortViewModel
-            {
-                Id = entity.Id,
-                Week = entity.Week,
-                Day = entity.Day,
-                Lesson = entity.Lesson,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-            };
+            var record = entity.CreateScheduleRecordViewModel(new ConsultationRecordViewModel()) as ConsultationRecordViewModel;
+
+            record.ConsultationTime = entity.ConsultationTime;
+            record.LessonType = LessonTypes.конс;
+            record.ScheduleRecordType = ScheduleRecordType.Consultation;
+
+            return record;
         }
 
-        public static ExaminationRecordViewModel CreateExaminationRecordViewModel(ExaminationRecord entity)
+        public static ScheduleRecordShortViewModel CreateScheduleRecordShortViewModel(this ScheduleRecord entity, ScheduleRecordShortViewModel record = null)
         {
-            return new ExaminationRecordViewModel
+            if (record == null)
             {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                DateExamination = entity.DateExamination,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonConsultationClassroom = entity.LessonConsultationClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                ConsultationClassroomId = entity.ConsultationClassroomId,
-                ConsultationClassroom = entity.ConsultationClassroomId != null ? entity.ConsultationClassroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
+                record = new ScheduleRecordShortViewModel();
+            }
+
+            record.Id = entity.Id;
+            record.ScheduleDate = entity.ScheduleDate;
+            record.NotParseRecord = entity.NotParseRecord;
+            record.LessonLecturer = ScheduleHelper.GetLessonLecturer(entity);
+            record.LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity);
+            record.LessonGroup = ScheduleHelper.GetLessonGroup(entity);
+            record.LessonClassroom = ScheduleHelper.GetLessonClassroom(entity);
+
+            return record;
         }
 
-        public static ExaminationRecordShortViewModel CreateExaminationRecordShortViewModel(ExaminationRecord entity)
+        public static SemesterRecordShortViewModel CreateRecordShortViewModel(this SemesterRecord entity)
         {
-            return new ExaminationRecordShortViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                DateExamination = entity.DateExamination,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity),
-                LessonConsultationClassroom = ScheduleHelper.GetLessonConsultationClassroom(entity)
-            };
+            var record = entity.CreateScheduleRecordShortViewModel(new SemesterRecordShortViewModel()) as SemesterRecordShortViewModel;
+
+            record.Week = ScheduleHelper.GetWeek(entity.ScheduleDate);
+            record.Day = ScheduleHelper.GetDay(entity.ScheduleDate);
+            record.Lesson = ScheduleHelper.GetLesson(entity.ScheduleDate);
+            record.LessonType = entity.LessonType;
+            record.ScheduleRecordType = ScheduleRecordType.Semester;
+
+            return record;
         }
 
-        public static ConsultationRecordViewModel CreateConsultationRecordViewModel(ConsultationRecord entity)
+        public static OffsetRecordShortViewModel CreateRecordShortViewModel(this OffsetRecord entity)
         {
-            return new ConsultationRecordViewModel
-            {
-                Id = entity.Id,
-                DateConsultation = entity.DateConsultation,
-                NotParseRecord = entity.NotParseRecord,
-                LessonClassroom = entity.LessonClassroom,
-                LessonGroup = entity.LessonGroup,
-                LessonDiscipline = entity.LessonDiscipline,
-                LessonLecturer = entity.LessonLecturer,
-                ClassroomId = entity.ClassroomId,
-                Classroom = entity.Classroom != null ? entity.Classroom.Number : "",
-                DisciplineId = entity.DisciplineId,
-                Discipline = entity.Discipline != null ? entity.Discipline.DisciplineName : "",
-                LecturerId = entity.LecturerId,
-                Lecturer = entity.Lecturer != null ? entity.Lecturer.ToString() : "",
-                StudentGroupId = entity.StudentGroupId,
-                StudentGroup = entity.StudentGroup != null ? entity.StudentGroup.GroupName : ""
-            };
+            var record = entity.CreateScheduleRecordShortViewModel(new OffsetRecordShortViewModel()) as OffsetRecordShortViewModel;
+
+            record.Lesson = ScheduleHelper.GetLesson(entity.ScheduleDate);
+            record.LessonType = LessonTypes.зачет;
+            record.ScheduleRecordType = ScheduleRecordType.Offset;
+
+            return record;
         }
 
-        public static ConsultationRecordShortViewModel CreateConsultationRecordShortViewModel(ConsultationRecord entity, ConsultationRecordRecordBindingModel model)
+        public static ExaminationRecordShortViewModel CreateRecordShortViewModel(this ExaminationRecord entity)
         {
-            return new ConsultationRecordShortViewModel
-            {
-                Id = entity.Id,
-                Week = model.Week.Value,
-                Day = model.Day.Value,
-                Lesson = model.Lesson.Value,
-                DateConsultation = entity.DateConsultation,
-                LessonLecturer = ScheduleHelper.GetLessonLecturer(entity),
-                LessonDiscipline = ScheduleHelper.GetLessonDiscipline(entity),
-                LessonGroup = ScheduleHelper.GetLessonGroup(entity),
-                LessonClassroom = ScheduleHelper.GetLessonClassroom(entity)
-            };
+            var record = entity.CreateScheduleRecordShortViewModel(new ExaminationRecordShortViewModel()) as ExaminationRecordShortViewModel;
+
+            record.DateConsultation = entity.DateConsultation;
+            record.LessonConsultationClassroom = entity.LessonConsultationClassroom;
+            record.LessonType = LessonTypes.экзамен;
+            record.ScheduleRecordType = ScheduleRecordType.Examination;
+
+            return record;
         }
 
-        public static ScheduleLessonTimeViewModel CreateScheduleLessonTimeViewModel(ScheduleLessonTime entity)
+        public static ConsultationRecordShortViewModel CreateRecordShortViewModel(this ConsultationRecord entity)
         {
-            string text = string.Format("{0}{1}{2} - {3}", entity.Title, Environment.NewLine, entity.DateBeginLesson.ToShortTimeString(),
-                entity.DateEndLesson.ToShortTimeString());
-            return new ScheduleLessonTimeViewModel
-            {
-                Id = entity.Id,
-                Text = text,
-                Title = entity.Title,
-                Order = entity.Order,
-                TimeBeginLesson = entity.DateBeginLesson.ToShortTimeString(),
-                TimeEndLesson = entity.DateEndLesson.ToShortTimeString(),
-                DateBeginLesson = entity.DateBeginLesson,
-                DateEndLesson = entity.DateEndLesson
-            };
-        }
+            var record = entity.CreateScheduleRecordShortViewModel(new ConsultationRecordShortViewModel()) as ConsultationRecordShortViewModel;
 
-        public static StreamingLessonViewModel CreateStreamingLessonViewModel(StreamingLesson entity)
-        {
-            return new StreamingLessonViewModel
-            {
-                Id = entity.Id,
-                IncomingGroups = entity.IncomingGroups,
-                StreamName = entity.StreamName
-            };
+            record.ConsultationTime = entity.ConsultationTime;
+            record.LessonType = LessonTypes.конс;
+            record.ScheduleRecordType = ScheduleRecordType.Consultation;
+
+            return record;
         }
     }
 }

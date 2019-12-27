@@ -13,17 +13,11 @@ namespace ScheduleControlsAndForms.Semester
 
         private readonly ISemesterRecordService _serviceSR;
 
-        private readonly IConsultationRecordService _serviceCR;
-
-        private readonly IStreamingLessonService _serviceSL;
-
-        public ScheduleSemesterTabControl(IScheduleProcess process, ISemesterRecordService serviceSR, IConsultationRecordService serviceCR, IStreamingLessonService serviceSL)
+        public ScheduleSemesterTabControl(IScheduleProcess process, ISemesterRecordService serviceSR)
         {
             InitializeComponent();
             _process = process;
             _serviceSR = serviceSR;
-            _serviceCR = serviceCR;
-            _serviceSL = serviceSL;
         }
 
         public void LoadData(int type)
@@ -54,7 +48,7 @@ namespace ScheduleControlsAndForms.Semester
                                 Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR, _serviceSL)
+                            var control = new ScheduleSemesterControl(_process, _serviceSR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -86,7 +80,7 @@ namespace ScheduleControlsAndForms.Semester
                                 Text = studentGroups[i].GroupName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR, _serviceSL)
+                            var control = new ScheduleSemesterControl(_process, _serviceSR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -118,7 +112,7 @@ namespace ScheduleControlsAndForms.Semester
                                 Text = lecturers[i].FullName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR, _serviceSL)
+                            var control = new ScheduleSemesterControl(_process, _serviceSR)
                             {
                                 Dock = DockStyle.Fill
                             };

@@ -90,8 +90,6 @@ namespace DepartmentUniversalTabletTest
             container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IScheduleLessonTimeService, ScheduleLessonTimeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IStreamingLessonService, StreamingLessonService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());

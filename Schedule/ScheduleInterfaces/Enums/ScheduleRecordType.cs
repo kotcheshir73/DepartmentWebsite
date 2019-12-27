@@ -1,6 +1,6 @@
 ﻿namespace Enums
 {
-    public enum ScheduleRecordTypeForDiscipline
+    public enum ScheduleRecordType
     {
         Semester,
 

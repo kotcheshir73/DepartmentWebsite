@@ -13,14 +13,11 @@ namespace ScheduleControlsAndForms.Offset
 
         private readonly IOffsetRecordService _serviceOR;
 
-        private readonly IConsultationRecordService _serviceCR;
-
-        public ScheduleOffsetTabControl(IScheduleProcess process, IOffsetRecordService serviceOR, IConsultationRecordService serviceCR)
+        public ScheduleOffsetTabControl(IScheduleProcess process, IOffsetRecordService serviceOR)
         {
             InitializeComponent();
             _process = process;
             _serviceOR = serviceOR;
-            _serviceCR = serviceCR;
         }
 
         public void LoadData(int type)
@@ -51,7 +48,7 @@ namespace ScheduleControlsAndForms.Offset
                                 Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
+                            var control = new ScheduleOffsetControl(_process, _serviceOR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -83,7 +80,7 @@ namespace ScheduleControlsAndForms.Offset
                                 Text = studentGroups[i].GroupName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
+                            var control = new ScheduleOffsetControl(_process, _serviceOR)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -115,7 +112,7 @@ namespace ScheduleControlsAndForms.Offset
                                 Text = lecturers[i].FullName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
+                            var control = new ScheduleOffsetControl(_process, _serviceOR)
                             {
                                 Dock = DockStyle.Fill
                             };

@@ -1,12 +1,10 @@
-﻿using AcademicYearInterfaces.BindingModels;
-using BaseInterfaces.BindingModels;
-using ControlsAndForms.Messangers;
+﻿using ControlsAndForms.Messangers;
+using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Configuration;
 using System.Windows.Forms;
 
 namespace ScheduleControlsAndForms
@@ -23,118 +21,11 @@ namespace ScheduleControlsAndForms
 
         public void LoadData()
         {
-            var resultC = _process.GetClassrooms(new ClassroomGetBindingModel { });
-            if (!resultC.Succeeded)
+            foreach (var date in ScheduleHelper.GetSemesterDates())
             {
-                ErrorMessanger.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultC.Errors);
-                return;
+                comboBoxStartPeriodDate.Items.Add(date.ToLongDateString());
             }
-            foreach (var elem in resultC.Result.List)
-            {
-                checkedListBoxClassrooms.Items.Add(elem.Number, true);
-            }
-
-            var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
-            if (!resultSG.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-                return;
-            }
-            foreach (var elem in resultSG.Result.List)
-            {
-                checkedListBoxStudentGroups.Items.Add(elem.GroupName, true);
-            }
-
-            var resultL = _process.GetLecturers(new LecturerGetBindingModel { });
-            if (!resultL.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке преподавателей возникла ошибка: ", resultSG.Errors);
-                return;
-            }
-            foreach (var elem in resultL.Result.List)
-            {
-                checkedListBoxLecturers.Items.Add(elem.FullName, true);
-            }
-
-            var resultSD = _process.GetSeasonDaties(new SeasonDatesGetBindingModel { });
-            if (!resultSD.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultSD.Errors);
-                return;
-            }
-            comboBoxSeasonDates.ValueMember = "Value";
-            comboBoxSeasonDates.DisplayMember = "Display";
-            comboBoxSeasonDates.DataSource = resultSD.Result.List
-                .Select(cd => new { Value = cd.Id, Display = cd.Title }).ToList();
-
-            var resultCD = _process.GetCurrentDates();
-            if (!resultCD.Succeeded)
-            {
-                ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
-                return;
-            }
-            var _dates = resultCD.Result;
-            if (_dates != null)
-            {
-                comboBoxSeasonDates.SelectedValue = _dates.Id;
-            }
-        }
-
-        /// <summary>
-        /// Получение списка выбраных аудиторий
-        /// </summary>
-        /// <returns></returns>
-        private List<string> GetListOfClassrooms()
-        {
-            List<string> classrooms = new List<string>();
-            foreach (var elem in checkedListBoxClassrooms.CheckedItems)
-            {
-                classrooms.Add(elem.ToString());
-            }
-            if (classrooms.Count == 0)
-            {
-                MessageBox.Show("Список аудиторий пуст!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return null;
-            }
-            return classrooms;
-        }
-
-        /// <summary>
-        /// Получение списка выбраных групп
-        /// </summary>
-        /// <returns></returns>
-        private List<string> GetListOfStudentGroups()
-        {
-            List<string> studentGroups = new List<string>();
-            foreach (var elem in checkedListBoxStudentGroups.CheckedItems)
-            {
-                studentGroups.Add(elem.ToString());
-            }
-            if (studentGroups.Count == 0)
-            {
-                MessageBox.Show("Список групп пуст!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return null;
-            }
-            return studentGroups;
-        }
-
-        /// <summary>
-        /// Получение списка выбраных преподавателей
-        /// </summary>
-        /// <returns></returns>
-        private List<string> GetListOfLecturers()
-        {
-            List<string> lecturers = new List<string>();
-            foreach (var elem in checkedListBoxLecturers.CheckedItems)
-            {
-                lecturers.Add(elem.ToString());
-            }
-            if (lecturers.Count == 0)
-            {
-                MessageBox.Show("Список преподавателей пуст!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return null;
-            }
-            return lecturers;
+            comboBoxStartPeriodDate.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -142,12 +33,31 @@ namespace ScheduleControlsAndForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonMakeLoadHTMLScheduleForClassrooms_Click(object sender, EventArgs e)
+        private void ButtonImportSemesterFromSite_Click(object sender, EventArgs e)
         {
-            var result = _process.ImportHtml(new ImportToSemesterFromHTMLBindingModel
+            if (comboBoxStartPeriodDate.SelectedIndex == -1)
             {
-                ScheduleUrl = textBoxLinkToHtml.Text,
-                IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
+                MessageBox.Show("Выберите дату начала периода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var list = new List<string>();
+
+            int counter = 1;
+            string url;
+            do
+            {
+                url = ConfigurationManager.AppSettings[$"ScheduleUrl{counter++}"];
+                if (string.IsNullOrEmpty(url))
+                {
+                    break;
+                }
+                list.Add(url);
+            } while (true);
+
+            var result = _process.Import(new ImportToSemesterRecordsBindingModel
+            {
+                ScheduleDate = Convert.ToDateTime(comboBoxStartPeriodDate.Text),
+                ScheduleUrls = list
             });
 
             if (result.Succeeded)
@@ -161,571 +71,121 @@ namespace ScheduleControlsAndForms
         }
 
         /// <summary>
-        /// Отчистка расписания
+        /// Загрузка расписания зачетов
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonClearSemesterRecordClassrooms_Click(object sender, EventArgs e)
-        {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
-                        {
-                            ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> studentGroups = GetListOfStudentGroups();
-            if (studentGroups != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in studentGroups)
-                    {
-                        var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
-                        {
-                            StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> lecturers = GetListOfLecturers();
-            if (lecturers != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in lecturers)
-                    {
-                        var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
-                        {
-                            LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void ButtonClearOffsetRecordClassrooms_Click(object sender, EventArgs e)
-        {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
-                        {
-                            ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> studentGroups = GetListOfStudentGroups();
-            if (studentGroups != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
-                        {
-                            StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> lecturers = GetListOfLecturers();
-            if (lecturers != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in lecturers)
-                    {
-                        var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
-                        {
-                            LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void ButtonClearExaminationRecordClassrooms_Click(object sender, EventArgs e)
-        {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
-                        {
-                            ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> studentGroups = GetListOfStudentGroups();
-            if (studentGroups != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
-                        {
-                            StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> lecturers = GetListOfLecturers();
-            if (lecturers != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in lecturers)
-                    {
-                        var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
-                        {
-                            LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void ButtonClearConsultationRecordClassrooms_Click(object sender, EventArgs e)
-        {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms != null)
-            {
-
-                if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
-                        {
-                            ClassroomNumber = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> studentGroups = GetListOfStudentGroups();
-            if (studentGroups != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in classrooms)
-                    {
-                        var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
-                        {
-                            StudentGroupName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-
-            List<string> lecturers = GetListOfLecturers();
-            if (lecturers != null)
-            {
-                if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (var elem in lecturers)
-                    {
-                        var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
-                        {
-                            LecturerName = elem,
-                            IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-                        });
-
-                        if (!result.Succeeded)
-                        {
-                            ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Сохранение настроек
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonSeasonDatesSave_Click(object sender, EventArgs e)
-        {
-            if (comboBoxSeasonDates.SelectedItem != null)
-            {
-                if (MessageBox.Show("Сохранить изменения?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    var result = _process.UpdateCurrentDates(new SeasonDatesGetBindingModel
-                    {
-                        Id = new Guid(comboBoxSeasonDates.SelectedValue.ToString()),
-                        Title = comboBoxSeasonDates.Text
-                    });
-
-                    if (result.Succeeded)
-                    {
-                        MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        StringBuilder strRes = new StringBuilder();
-                        foreach (var err in result.Errors)
-                        {
-                            strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                        }
-                        MessageBox.Show(string.Format("Не удалось обновить: {0}", strRes), "",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-        private void ButtonCheckRecordsIfNotComplite_Click(object sender, EventArgs e)
-        {
-            var result = _process.CheckSemesterRecordsIfNotComplite();
-            if (result.Succeeded)
-            {
-                MessageBox.Show("Обновление прошло успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                StringBuilder strRes = new StringBuilder();
-                foreach (var err in result.Errors)
-                {
-                    strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                }
-                MessageBox.Show(string.Format("Не удалось обновить расписание: {0}", strRes), "",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void ButtonImportOffsetFromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
-                Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx"
+                Filter = "Excel|*.xlsx"
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _process.ImportExcel(new ImportToOffsetFromExcel { FileName = dialog.FileName });
+                var result = _process.Import(new ImportToOffsetFromExcel
+                {
+                    ScheduleDate = dateTimePickerOffsetStart.Value,
+                    FileName = dialog.FileName
+                });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 }
             }
         }
 
+        /// <summary>
+        /// Загрузка расписания экзаменов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonImportExaminationFromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
-                Filter = "Excel-2003|*.xls|Excel-2007|*.xlsx"
+                Filter = "Excel-2007|*.xlsx"
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = _process.ImportExcel(new ImportToExaminationFromExcel { FileName = dialog.FileName });
+                var result = _process.Import(new ImportToExaminationFromExcel
+                {
+                    ScheduleDate = dateTimePickerExamStart.Value,
+                    FileName = dialog.FileName
+                });
                 if (result.Succeeded)
                 {
                     MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
                 }
             }
         }
 
         /// <summary>
-        /// Экспорт в Excel
+        /// Отчистка расписания
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonExportSemesterRecordExcel_Click(object sender, EventArgs e)
+        private void ButtonClearSemesterRecord_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms == null)
+            var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
             {
-                return;
-            }
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            SaveFileDialog dialog = new SaveFileDialog()
+            if (!result.Succeeded)
             {
-                Filter = "Excel|*.xlsx"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.ExportSemesterRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по семестру", result.Errors);
             }
         }
 
-        private void ButtonExportOffsetRecordExcel_Click(object sender, EventArgs e)
+        private void ButtonClearOffsetRecord_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms == null)
+            var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
             {
-                return;
-            }
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            SaveFileDialog dialog = new SaveFileDialog()
+            if (!result.Succeeded)
             {
-                Filter = "Excel|*.xlsx"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.ExportOffsetRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по зачетам", result.Errors);
             }
         }
 
-        private void ButtonExportExaminationRecordExcel_Click(object sender, EventArgs e)
+        private void ButtonClearExaminationRecord_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms == null)
+            var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
             {
-                return;
-            }
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            SaveFileDialog dialog = new SaveFileDialog()
+            if (!result.Succeeded)
             {
-                Filter = "Excel|*.xlsx"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.ExportExaminationRecordExcel(new ExportToExcelClassroomsBindingModel { FileName = dialog.FileName, Classrooms = classrooms });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по экзаменам", result.Errors);
             }
         }
 
-        /// <summary>
-        /// Экспорт в html
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonExportSemesterRecordHTML_Click(object sender, EventArgs e)
+        private void ButtonClearConsultationRecord_Click(object sender, EventArgs e)
         {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms == null)
+            var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
             {
-                return;
-            }
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (!result.Succeeded)
             {
-                var result = _process.ExportSemesterRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void ButtonExportOffsetRecordHTML_Click(object sender, EventArgs e)
-        {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms == null)
-            {
-                return;
-            }
-
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.ExportOffsetRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void ButtonExportExaminationRecordHTML_Click(object sender, EventArgs e)
-        {
-            List<string> classrooms = GetListOfClassrooms();
-            if (classrooms == null)
-            {
-                return;
-            }
-
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = _process.ExportExaminationRecordHTML(new ExportToHTMLClassroomsBindingModel { FilePath = dialog.SelectedPath, Classrooms = classrooms });
-                if (result.Succeeded)
-                {
-                    MessageBox.Show("Выгружено", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    StringBuilder strRes = new StringBuilder();
-                    foreach (var err in result.Errors)
-                    {
-                        strRes.Append(string.Format("{0} : {1}\r\n", err.Key, err.Value));
-                    }
-                    MessageBox.Show(string.Format("Не удалось выгрузить: {0}", strRes), "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по консультациям", result.Errors);
             }
         }
     }

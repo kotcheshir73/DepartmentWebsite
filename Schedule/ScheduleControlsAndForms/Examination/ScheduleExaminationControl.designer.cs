@@ -33,7 +33,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridViewFirstWeek = new System.Windows.Forms.DataGridView();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnExamFrist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnExamSecond = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnConsFirst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnConsSecond = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelTop = new System.Windows.Forms.Panel();
             this.labelTop = new System.Windows.Forms.Label();
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
@@ -45,25 +50,19 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonConsultation = new System.Windows.Forms.ToolStripButton();
-            this.ColumnWeek1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnWeek1Lesson1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnWeek1Lesson2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnWeek1Lesson7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnWeek1Lesson8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.panelTop.SuspendLayout();
             this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridViewFirstWeek
+            // dataGridView
             // 
-            this.dataGridViewFirstWeek.AllowUserToAddRows = false;
-            this.dataGridViewFirstWeek.AllowUserToDeleteRows = false;
-            this.dataGridViewFirstWeek.AllowUserToOrderColumns = true;
-            this.dataGridViewFirstWeek.AllowUserToResizeColumns = false;
-            this.dataGridViewFirstWeek.AllowUserToResizeRows = false;
-            this.dataGridViewFirstWeek.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AllowUserToOrderColumns = true;
+            this.dataGridView.AllowUserToResizeColumns = false;
+            this.dataGridView.AllowUserToResizeRows = false;
+            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -71,19 +70,19 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewFirstWeek.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewFirstWeek.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnWeek1,
-            this.ColumnWeek1Lesson1,
-            this.ColumnWeek1Lesson2,
-            this.ColumnWeek1Lesson7,
-            this.ColumnWeek1Lesson8});
-            this.dataGridViewFirstWeek.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewFirstWeek.Location = new System.Drawing.Point(0, 55);
-            this.dataGridViewFirstWeek.MultiSelect = false;
-            this.dataGridViewFirstWeek.Name = "dataGridViewFirstWeek";
-            this.dataGridViewFirstWeek.ReadOnly = true;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnDate,
+            this.ColumnExamFrist,
+            this.ColumnExamSecond,
+            this.ColumnConsFirst,
+            this.ColumnConsSecond});
+            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView.Location = new System.Drawing.Point(0, 55);
+            this.dataGridView.MultiSelect = false;
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -91,18 +90,61 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewFirstWeek.RowHeadersVisible = false;
+            this.dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridView.RowHeadersVisible = false;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridViewFirstWeek.RowTemplate.Height = 45;
-            this.dataGridViewFirstWeek.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewFirstWeek.Size = new System.Drawing.Size(800, 445);
-            this.dataGridViewFirstWeek.TabIndex = 2;
-            this.dataGridViewFirstWeek.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
-            this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
-            this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.DataGridView_Resize);
+            this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridView.RowTemplate.Height = 45;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView.Size = new System.Drawing.Size(800, 445);
+            this.dataGridView.TabIndex = 2;
+            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
+            this.dataGridView.Resize += new System.EventHandler(this.DataGridView_Resize);
+            // 
+            // ColumnDate
+            // 
+            this.ColumnDate.HeaderText = "Дата";
+            this.ColumnDate.Name = "ColumnDate";
+            this.ColumnDate.ReadOnly = true;
+            this.ColumnDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnExamFrist
+            // 
+            this.ColumnExamFrist.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnExamFrist.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ColumnExamFrist.HeaderText = "Экзамен утро";
+            this.ColumnExamFrist.Name = "ColumnExamFrist";
+            this.ColumnExamFrist.ReadOnly = true;
+            this.ColumnExamFrist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnExamSecond
+            // 
+            this.ColumnExamSecond.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnExamSecond.HeaderText = "Экзамен день";
+            this.ColumnExamSecond.Name = "ColumnExamSecond";
+            this.ColumnExamSecond.ReadOnly = true;
+            this.ColumnExamSecond.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnConsFirst
+            // 
+            this.ColumnConsFirst.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            this.ColumnConsFirst.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ColumnConsFirst.HeaderText = "Консультация первая";
+            this.ColumnConsFirst.Name = "ColumnConsFirst";
+            this.ColumnConsFirst.ReadOnly = true;
+            this.ColumnConsFirst.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnConsSecond
+            // 
+            this.ColumnConsSecond.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnConsSecond.HeaderText = "Консультация вторая";
+            this.ColumnConsSecond.Name = "ColumnConsSecond";
+            this.ColumnConsSecond.ReadOnly = true;
+            this.ColumnConsSecond.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // panelTop
             // 
@@ -135,8 +177,7 @@
             this.toolStripButtonDel,
             this.toolStripSeparator3,
             this.toolStripButtonRef,
-            this.toolStripSeparator4,
-            this.toolStripButtonConsultation});
+            this.toolStripSeparator4});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -199,68 +240,16 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButtonConsultation
-            // 
-            this.toolStripButtonConsultation.Image = global::ScheduleControlsAndForms.Properties.Resources.Add;
-            this.toolStripButtonConsultation.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonConsultation.Name = "toolStripButtonConsultation";
-            this.toolStripButtonConsultation.Size = new System.Drawing.Size(104, 22);
-            this.toolStripButtonConsultation.Text = "Консультация";
-            this.toolStripButtonConsultation.Click += new System.EventHandler(this.ToolStripButtonConsultation_Click);
-            // 
-            // ColumnWeek1
-            // 
-            this.ColumnWeek1.HeaderText = "Дата";
-            this.ColumnWeek1.Name = "ColumnWeek1";
-            this.ColumnWeek1.ReadOnly = true;
-            this.ColumnWeek1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ColumnWeek1Lesson1
-            // 
-            this.ColumnWeek1Lesson1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnWeek1Lesson1.HeaderText = "Экзамен 8:00";
-            this.ColumnWeek1Lesson1.Name = "ColumnWeek1Lesson1";
-            this.ColumnWeek1Lesson1.ReadOnly = true;
-            this.ColumnWeek1Lesson1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ColumnWeek1Lesson2
-            // 
-            this.ColumnWeek1Lesson2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek1Lesson2.HeaderText = "Экзамен 12:00";
-            this.ColumnWeek1Lesson2.Name = "ColumnWeek1Lesson2";
-            this.ColumnWeek1Lesson2.ReadOnly = true;
-            this.ColumnWeek1Lesson2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ColumnWeek1Lesson7
-            // 
-            this.ColumnWeek1Lesson7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            this.ColumnWeek1Lesson7.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ColumnWeek1Lesson7.HeaderText = "Консультация 16:00";
-            this.ColumnWeek1Lesson7.Name = "ColumnWeek1Lesson7";
-            this.ColumnWeek1Lesson7.ReadOnly = true;
-            this.ColumnWeek1Lesson7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ColumnWeek1Lesson8
-            // 
-            this.ColumnWeek1Lesson8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek1Lesson8.HeaderText = "Консультация 17:00";
-            this.ColumnWeek1Lesson8.Name = "ColumnWeek1Lesson8";
-            this.ColumnWeek1Lesson8.ReadOnly = true;
-            this.ColumnWeek1Lesson8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // ScheduleExaminationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridViewFirstWeek);
+            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.toolStripMenu);
             this.Name = "ScheduleExaminationControl";
             this.Size = new System.Drawing.Size(800, 500);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.panelTop.ResumeLayout(false);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
@@ -270,7 +259,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView dataGridViewFirstWeek;
+        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelTop;
         private System.Windows.Forms.ToolStrip toolStripMenu;
@@ -282,11 +271,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButtonConsultation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWeek1Lesson8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExamFrist;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExamSecond;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnConsFirst;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnConsSecond;
     }
 }
