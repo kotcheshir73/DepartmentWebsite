@@ -24,6 +24,15 @@ namespace WebImplementations
             };
         }
 
+        public static WebClassroomViewModel CreateWebClassroomViewModel(Classroom entity)
+        {
+            return new WebClassroomViewModel
+            {
+                Id = entity.Id,
+                Number = entity.Number
+            };
+        }
+
         public static WebLecturerViewModel CreateWebLecturerViewModel(Lecturer entity)
         {
             return new WebLecturerViewModel
@@ -50,6 +59,16 @@ namespace WebImplementations
                 Id = entity.Id,
                 DisciplineName = entity.DisciplineName,
                 DisciplineDescription = entity.DisciplineDescription
+            };
+        }
+
+        public static WebStudentGroupViewModel CreateWebStudentGroupViewModel(StudentGroup entity)
+        {
+            return new WebStudentGroupViewModel
+            {
+                Id = entity.Id,
+                GroupName = entity.GroupName,
+                Course = entity.Course
             };
         }
 

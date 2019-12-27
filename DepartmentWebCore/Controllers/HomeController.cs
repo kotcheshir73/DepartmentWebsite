@@ -13,18 +13,25 @@ namespace DepartmentWebCore.Controllers
 {
     public class HomeController : Controller
     {
+        private static IWebClassroomService _serviceCL;
+
         private static IWebLecturerService _serviceWL;
 
         private static IWebEducationDirectionService _serviceWED;
+
+        private static IWebStudentGroupService _serviceWSG;
 
         private static INewsService _serviceN;
 
         private IMemoryCache cache;
 
-        public HomeController(IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, INewsService serviceN, IMemoryCache memoryCache)
+        public HomeController(IWebClassroomService serviceCL, IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG, 
+            INewsService serviceN, IMemoryCache memoryCache)
         {
+            _serviceCL = serviceCL;
             _serviceWL = serviceWL;
             _serviceWED = serviceWED;
+            _serviceWSG = serviceWSG;
             _serviceN = serviceN;
             cache = memoryCache;
         }
@@ -58,6 +65,39 @@ namespace DepartmentWebCore.Controllers
                     }
                 };
 
+                MenuElementModel schedule = new MenuElementModel()
+                {
+                    Name = "Расписание",
+                    Child = new List<MenuElementModel>(),
+                    Controller = "Schedule",
+                    Action = "Index"
+                };
+
+                var classroomList = _serviceCL.GetClassrooms(new WebClassroomGetBindingModel());
+                if (classroomList.Succeeded)
+                {
+                    MenuElementModel classroomSchedule = new MenuElementModel()
+                    {
+                        Name = "Аудитории",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "Schedule",
+                        Action = "Classrooms"
+                    };
+
+                    foreach (var tmp in classroomList.Result.List)
+                    {
+                        classroomSchedule.Child.Add(new MenuElementModel()
+                        {
+                            Id = tmp.Id,
+                            Name = tmp.Number,
+                            Controller = "Schedule",
+                            Action = "Classroom"
+                        });
+                    }
+
+                    schedule.Child.Add(classroomSchedule);
+                }
+
                 var lecturerList = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
                 if (lecturerList.Succeeded)
                 {
@@ -69,6 +109,14 @@ namespace DepartmentWebCore.Controllers
                         Action = "Index"
                     };
 
+                    MenuElementModel lecturerSchedule = new MenuElementModel()
+                    {
+                        Name = "Преподаватели",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "Schedule",
+                        Action = "Lecturers"
+                    };
+
                     foreach (var tmp in lecturerList.Result.List)
                     {
                         lecturer.Child.Add(new MenuElementModel()
@@ -78,9 +126,19 @@ namespace DepartmentWebCore.Controllers
                             Controller = "Lecturer",
                             Action = "Lecturer"
                         });
+
+                        lecturerSchedule.Child.Add(new MenuElementModel()
+                        {
+                            Id = tmp.Id,
+                            Name = tmp.FullName,
+                            Controller = "Schedule",
+                            Action = "Lecturer"
+                        });
                     }
 
                     mainMenu.Add(lecturer);
+
+                    schedule.Child.Add(lecturerSchedule);
                 }
 
                 var educationDirectionList = _serviceWED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
@@ -124,6 +182,33 @@ namespace DepartmentWebCore.Controllers
 
                     cache.Set("mainMenu", mainMenu, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
                 }
+
+                var studentGroups = _serviceWSG.GetStudentGroups(new WebStudentGroupGetBindingModel());
+                if(studentGroups.Succeeded)
+                {
+                    MenuElementModel studentgroupSchedule = new MenuElementModel()
+                    {
+                        Name = "Группы",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "Schedule",
+                        Action = "StudentGroups"
+                    };
+
+                    foreach (var tmp in studentGroups.Result.List)
+                    {
+                        studentgroupSchedule.Child.Add(new MenuElementModel()
+                        {
+                            Id = tmp.Id,
+                            Name = tmp.GroupName,
+                            Controller = "Schedule",
+                            Action = "StudentGroup"
+                        });
+                    }
+
+                    schedule.Child.Add(studentgroupSchedule);
+                }
+
+                mainMenu.Add(schedule);
             }
 
             return PartialView(mainMenu);
