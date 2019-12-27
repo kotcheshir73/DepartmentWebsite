@@ -4,6 +4,7 @@ using ScheduleControlsAndForms.Consultation;
 using ScheduleControlsAndForms.Examination;
 using ScheduleControlsAndForms.Offset;
 using ScheduleControlsAndForms.Semester;
+using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -98,7 +99,7 @@ namespace ScheduleControlsAndForms.BaseControls
             rowsTime.Add(row);
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 45));
 
-            List<DateTime> times = _process.GetScheduleLessonTimes().Result;
+            List<DateTime> times = ScheduleHelper.ScheduleLessonTimes();
             for (int i = 0; i < times.Count; ++i)
             {
                 int colspan = 9;
@@ -332,7 +333,7 @@ namespace ScheduleControlsAndForms.BaseControls
 
                 ScheduleDate = ScheduleDate.Value.Date.AddHours(hour).AddMinutes(minute);
 
-                List<DateTime> times = _process.GetScheduleLessonTimes().Result;
+                List<DateTime> times = ScheduleHelper.ScheduleLessonTimes();
                 foreach (var rowTime in rowsTime)
                 {
                     for (int i = 0; i < times.Count; ++i)

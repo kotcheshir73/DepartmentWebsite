@@ -1,14 +1,10 @@
-﻿using AcademicYearInterfaces.BindingModels;
-using BaseInterfaces.BindingModels;
-using ControlsAndForms.Messangers;
+﻿using ControlsAndForms.Messangers;
 using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ScheduleControlsAndForms
@@ -103,6 +99,11 @@ namespace ScheduleControlsAndForms
             }
         }
 
+        /// <summary>
+        /// Загрузка расписания экзаменов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonImportExaminationFromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
@@ -132,269 +133,60 @@ namespace ScheduleControlsAndForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonClearSemesterRecordClassrooms_Click(object sender, EventArgs e)
+        private void ButtonClearSemesterRecord_Click(object sender, EventArgs e)
         {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
-            //            {
-            //                ClassroomNumber = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
+            var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
+            {
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> studentGroups = GetListOfStudentGroups();
-            //if (studentGroups != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in studentGroups)
-            //        {
-            //            var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
-            //            {
-            //                StudentGroupName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> lecturers = GetListOfLecturers();
-            //if (lecturers != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in lecturers)
-            //        {
-            //            var result = _process.ClearSemesterRecords(new ScheduleGetBindingModel
-            //            {
-            //                LecturerName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по семестру", result.Errors);
+            }
         }
 
-        private void ButtonClearOffsetRecordClassrooms_Click(object sender, EventArgs e)
+        private void ButtonClearOffsetRecord_Click(object sender, EventArgs e)
         {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
-            //            {
-            //                ClassroomNumber = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
+            var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
+            {
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> studentGroups = GetListOfStudentGroups();
-            //if (studentGroups != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
-            //            {
-            //                StudentGroupName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> lecturers = GetListOfLecturers();
-            //if (lecturers != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in lecturers)
-            //        {
-            //            var result = _process.ClearOffsetRecords(new ScheduleGetBindingModel
-            //            {
-            //                LecturerName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по зачетам", result.Errors);
+            }
         }
 
-        private void ButtonClearExaminationRecordClassrooms_Click(object sender, EventArgs e)
+        private void ButtonClearExaminationRecord_Click(object sender, EventArgs e)
         {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
-            //            {
-            //                ClassroomNumber = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
+            var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
+            {
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> studentGroups = GetListOfStudentGroups();
-            //if (studentGroups != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
-            //            {
-            //                StudentGroupName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> lecturers = GetListOfLecturers();
-            //if (lecturers != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in lecturers)
-            //        {
-            //            var result = _process.ClearExaminationRecords(new ScheduleGetBindingModel
-            //            {
-            //                LecturerName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по экзаменам", result.Errors);
+            }
         }
 
-        private void ButtonClearConsultationRecordClassrooms_Click(object sender, EventArgs e)
+        private void ButtonClearConsultationRecord_Click(object sender, EventArgs e)
         {
-            //List<string> classrooms = GetListOfClassrooms();
-            //if (classrooms != null)
-            //{
+            var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
+            {
+                DateBegin = dateTimePickerFromClear.Value,
+                DateEnd = dateTimePickerToClear.Value
+            });
 
-            //    if (MessageBox.Show("Отчистить расписание выбранных аудиторий?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
-            //            {
-            //                ClassroomNumber = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по аудитории {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> studentGroups = GetListOfStudentGroups();
-            //if (studentGroups != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных групп?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in classrooms)
-            //        {
-            //            var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
-            //            {
-            //                StudentGroupName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по группе {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //List<string> lecturers = GetListOfLecturers();
-            //if (lecturers != null)
-            //{
-            //    if (MessageBox.Show("Отчистить расписание выбранных преподавателей?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        foreach (var elem in lecturers)
-            //        {
-            //            var result = _process.ClearConsultationRecords(new ScheduleGetBindingModel
-            //            {
-            //                LecturerName = elem,
-            //                //IsFirstHalfSemester = checkBoxIsFirstHalfSemester.Checked
-            //            });
-
-            //            if (!result.Succeeded)
-            //            {
-            //                ErrorMessanger.PrintErrorMessage(string.Format("Не удалось отчистить расписание по преподавателю {0}:", elem), result.Errors);
-            //            }
-            //        }
-            //    }
-            //}
+            if (!result.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("Не удалось отчистить расписание по консультациям", result.Errors);
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ScheduleInterfaces.ViewModels
 		{
 			get
 			{
-				return string.Format("{0} {1}{2}{3}{2}{4}", LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
+				return string.Format("{0} {1}({2}){3}{4}{3}{5}", LessonDiscipline, LessonClassroom, LessonConsultationClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
 			}
 		}
 	}
@@ -35,7 +35,7 @@ namespace ScheduleInterfaces.ViewModels
 
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}({3}){4}{5}{4}{6}", LessonType, LessonDiscipline, LessonClassroom, LessonConsultationClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
+            return string.Format("{0} {1} {2}{3}{4}{3}{5}", LessonType, LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
         }
     }
 }

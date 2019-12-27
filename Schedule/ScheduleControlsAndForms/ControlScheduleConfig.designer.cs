@@ -30,11 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlScheduleConfig));
             this.groupBoxClearClassrooms = new System.Windows.Forms.GroupBox();
-            this.buttonClearConsultationRecordClassrooms = new System.Windows.Forms.Button();
-            this.buttonClearExaminationRecordClassrooms = new System.Windows.Forms.Button();
-            this.buttonClearOffsetRecordClassrooms = new System.Windows.Forms.Button();
-            this.buttonClearSemesterRecordClassrooms = new System.Windows.Forms.Button();
+            this.buttonClearConsultationRecord = new System.Windows.Forms.Button();
+            this.buttonClearExaminationRecord = new System.Windows.Forms.Button();
+            this.buttonClearOffsetRecord = new System.Windows.Forms.Button();
+            this.buttonClearSemesterRecord = new System.Windows.Forms.Button();
             this.groupBoxImport = new System.Windows.Forms.GroupBox();
+            this.dateTimePickerExamStart = new System.Windows.Forms.DateTimePicker();
+            this.labelStartExamsDate = new System.Windows.Forms.Label();
             this.dateTimePickerOffsetStart = new System.Windows.Forms.DateTimePicker();
             this.labelStartOffsetsDate = new System.Windows.Forms.Label();
             this.buttonImportSemesterFromSite = new System.Windows.Forms.Button();
@@ -43,9 +45,11 @@
             this.buttonImportExaminationFromExcel = new System.Windows.Forms.Button();
             this.buttonImportOffsetFromExcel = new System.Windows.Forms.Button();
             this.groupBoxExportInfo = new System.Windows.Forms.GroupBox();
-            this.labelOffsetExport = new System.Windows.Forms.Label();
-            this.dateTimePickerExamStart = new System.Windows.Forms.DateTimePicker();
-            this.labelStartExamsDate = new System.Windows.Forms.Label();
+            this.labelExamImport = new System.Windows.Forms.Label();
+            this.labelOffsetImport = new System.Windows.Forms.Label();
+            this.labelPeriod = new System.Windows.Forms.Label();
+            this.dateTimePickerFromClear = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerToClear = new System.Windows.Forms.DateTimePicker();
             this.groupBoxClearClassrooms.SuspendLayout();
             this.groupBoxImport.SuspendLayout();
             this.groupBoxExportInfo.SuspendLayout();
@@ -53,56 +57,59 @@
             // 
             // groupBoxClearClassrooms
             // 
-            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearConsultationRecordClassrooms);
-            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearExaminationRecordClassrooms);
-            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearOffsetRecordClassrooms);
-            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearSemesterRecordClassrooms);
-            this.groupBoxClearClassrooms.Location = new System.Drawing.Point(209, 5);
+            this.groupBoxClearClassrooms.Controls.Add(this.dateTimePickerToClear);
+            this.groupBoxClearClassrooms.Controls.Add(this.dateTimePickerFromClear);
+            this.groupBoxClearClassrooms.Controls.Add(this.labelPeriod);
+            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearConsultationRecord);
+            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearExaminationRecord);
+            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearOffsetRecord);
+            this.groupBoxClearClassrooms.Controls.Add(this.buttonClearSemesterRecord);
+            this.groupBoxClearClassrooms.Location = new System.Drawing.Point(650, 3);
             this.groupBoxClearClassrooms.Name = "groupBoxClearClassrooms";
-            this.groupBoxClearClassrooms.Size = new System.Drawing.Size(200, 204);
+            this.groupBoxClearClassrooms.Size = new System.Drawing.Size(200, 265);
             this.groupBoxClearClassrooms.TabIndex = 2;
             this.groupBoxClearClassrooms.TabStop = false;
             this.groupBoxClearClassrooms.Text = "Отчистка аудиторий";
             // 
-            // buttonClearConsultationRecordClassrooms
+            // buttonClearConsultationRecord
             // 
-            this.buttonClearConsultationRecordClassrooms.Location = new System.Drawing.Point(25, 150);
-            this.buttonClearConsultationRecordClassrooms.Name = "buttonClearConsultationRecordClassrooms";
-            this.buttonClearConsultationRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearConsultationRecordClassrooms.TabIndex = 3;
-            this.buttonClearConsultationRecordClassrooms.Text = "Отчистить консультации";
-            this.buttonClearConsultationRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearConsultationRecordClassrooms.Click += new System.EventHandler(this.ButtonClearConsultationRecordClassrooms_Click);
+            this.buttonClearConsultationRecord.Location = new System.Drawing.Point(27, 223);
+            this.buttonClearConsultationRecord.Name = "buttonClearConsultationRecord";
+            this.buttonClearConsultationRecord.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearConsultationRecord.TabIndex = 6;
+            this.buttonClearConsultationRecord.Text = "Отчистить консультации";
+            this.buttonClearConsultationRecord.UseVisualStyleBackColor = true;
+            this.buttonClearConsultationRecord.Click += new System.EventHandler(this.ButtonClearConsultationRecord_Click);
             // 
-            // buttonClearExaminationRecordClassrooms
+            // buttonClearExaminationRecord
             // 
-            this.buttonClearExaminationRecordClassrooms.Location = new System.Drawing.Point(25, 110);
-            this.buttonClearExaminationRecordClassrooms.Name = "buttonClearExaminationRecordClassrooms";
-            this.buttonClearExaminationRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearExaminationRecordClassrooms.TabIndex = 2;
-            this.buttonClearExaminationRecordClassrooms.Text = "Отчистить экзамены";
-            this.buttonClearExaminationRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearExaminationRecordClassrooms.Click += new System.EventHandler(this.ButtonClearExaminationRecordClassrooms_Click);
+            this.buttonClearExaminationRecord.Location = new System.Drawing.Point(27, 183);
+            this.buttonClearExaminationRecord.Name = "buttonClearExaminationRecord";
+            this.buttonClearExaminationRecord.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearExaminationRecord.TabIndex = 5;
+            this.buttonClearExaminationRecord.Text = "Отчистить экзамены";
+            this.buttonClearExaminationRecord.UseVisualStyleBackColor = true;
+            this.buttonClearExaminationRecord.Click += new System.EventHandler(this.ButtonClearExaminationRecord_Click);
             // 
-            // buttonClearOffsetRecordClassrooms
+            // buttonClearOffsetRecord
             // 
-            this.buttonClearOffsetRecordClassrooms.Location = new System.Drawing.Point(25, 70);
-            this.buttonClearOffsetRecordClassrooms.Name = "buttonClearOffsetRecordClassrooms";
-            this.buttonClearOffsetRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearOffsetRecordClassrooms.TabIndex = 1;
-            this.buttonClearOffsetRecordClassrooms.Text = "Отчистить зачеты";
-            this.buttonClearOffsetRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearOffsetRecordClassrooms.Click += new System.EventHandler(this.ButtonClearOffsetRecordClassrooms_Click);
+            this.buttonClearOffsetRecord.Location = new System.Drawing.Point(27, 143);
+            this.buttonClearOffsetRecord.Name = "buttonClearOffsetRecord";
+            this.buttonClearOffsetRecord.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearOffsetRecord.TabIndex = 4;
+            this.buttonClearOffsetRecord.Text = "Отчистить зачеты";
+            this.buttonClearOffsetRecord.UseVisualStyleBackColor = true;
+            this.buttonClearOffsetRecord.Click += new System.EventHandler(this.ButtonClearOffsetRecord_Click);
             // 
-            // buttonClearSemesterRecordClassrooms
+            // buttonClearSemesterRecord
             // 
-            this.buttonClearSemesterRecordClassrooms.Location = new System.Drawing.Point(25, 30);
-            this.buttonClearSemesterRecordClassrooms.Name = "buttonClearSemesterRecordClassrooms";
-            this.buttonClearSemesterRecordClassrooms.Size = new System.Drawing.Size(150, 30);
-            this.buttonClearSemesterRecordClassrooms.TabIndex = 0;
-            this.buttonClearSemesterRecordClassrooms.Text = "Отчистить семестр";
-            this.buttonClearSemesterRecordClassrooms.UseVisualStyleBackColor = true;
-            this.buttonClearSemesterRecordClassrooms.Click += new System.EventHandler(this.ButtonClearSemesterRecordClassrooms_Click);
+            this.buttonClearSemesterRecord.Location = new System.Drawing.Point(27, 103);
+            this.buttonClearSemesterRecord.Name = "buttonClearSemesterRecord";
+            this.buttonClearSemesterRecord.Size = new System.Drawing.Size(150, 30);
+            this.buttonClearSemesterRecord.TabIndex = 3;
+            this.buttonClearSemesterRecord.Text = "Отчистить семестр";
+            this.buttonClearSemesterRecord.UseVisualStyleBackColor = true;
+            this.buttonClearSemesterRecord.Click += new System.EventHandler(this.ButtonClearSemesterRecord_Click);
             // 
             // groupBoxImport
             // 
@@ -118,9 +125,25 @@
             this.groupBoxImport.Location = new System.Drawing.Point(3, 3);
             this.groupBoxImport.Name = "groupBoxImport";
             this.groupBoxImport.Size = new System.Drawing.Size(200, 282);
-            this.groupBoxImport.TabIndex = 6;
+            this.groupBoxImport.TabIndex = 0;
             this.groupBoxImport.TabStop = false;
             this.groupBoxImport.Text = "Импорт";
+            // 
+            // dateTimePickerExamStart
+            // 
+            this.dateTimePickerExamStart.Location = new System.Drawing.Point(35, 209);
+            this.dateTimePickerExamStart.Name = "dateTimePickerExamStart";
+            this.dateTimePickerExamStart.Size = new System.Drawing.Size(150, 20);
+            this.dateTimePickerExamStart.TabIndex = 7;
+            // 
+            // labelStartExamsDate
+            // 
+            this.labelStartExamsDate.AutoSize = true;
+            this.labelStartExamsDate.Location = new System.Drawing.Point(18, 193);
+            this.labelStartExamsDate.Name = "labelStartExamsDate";
+            this.labelStartExamsDate.Size = new System.Drawing.Size(117, 13);
+            this.labelStartExamsDate.TabIndex = 6;
+            this.labelStartExamsDate.Text = "Дата начала зачетов:";
             // 
             // dateTimePickerOffsetStart
             // 
@@ -188,39 +211,57 @@
             // 
             // groupBoxExportInfo
             // 
-            this.groupBoxExportInfo.Controls.Add(this.labelOffsetExport);
-            this.groupBoxExportInfo.Location = new System.Drawing.Point(931, 0);
+            this.groupBoxExportInfo.Controls.Add(this.labelExamImport);
+            this.groupBoxExportInfo.Controls.Add(this.labelOffsetImport);
+            this.groupBoxExportInfo.Location = new System.Drawing.Point(209, 3);
             this.groupBoxExportInfo.Name = "groupBoxExportInfo";
-            this.groupBoxExportInfo.Size = new System.Drawing.Size(443, 406);
-            this.groupBoxExportInfo.TabIndex = 7;
+            this.groupBoxExportInfo.Size = new System.Drawing.Size(435, 165);
+            this.groupBoxExportInfo.TabIndex = 1;
             this.groupBoxExportInfo.TabStop = false;
             this.groupBoxExportInfo.Text = "Информация по экспорту";
             // 
-            // labelOffsetExport
+            // labelExamImport
             // 
-            this.labelOffsetExport.AutoSize = true;
-            this.labelOffsetExport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelOffsetExport.Location = new System.Drawing.Point(6, 16);
-            this.labelOffsetExport.Name = "labelOffsetExport";
-            this.labelOffsetExport.Size = new System.Drawing.Size(430, 80);
-            this.labelOffsetExport.TabIndex = 0;
-            this.labelOffsetExport.Text = resources.GetString("labelOffsetExport.Text");
+            this.labelExamImport.AutoSize = true;
+            this.labelExamImport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelExamImport.Location = new System.Drawing.Point(6, 92);
+            this.labelExamImport.Name = "labelExamImport";
+            this.labelExamImport.Size = new System.Drawing.Size(423, 67);
+            this.labelExamImport.TabIndex = 1;
+            this.labelExamImport.Text = resources.GetString("labelExamImport.Text");
             // 
-            // dateTimePickerExamStart
+            // labelOffsetImport
             // 
-            this.dateTimePickerExamStart.Location = new System.Drawing.Point(35, 209);
-            this.dateTimePickerExamStart.Name = "dateTimePickerExamStart";
-            this.dateTimePickerExamStart.Size = new System.Drawing.Size(150, 20);
-            this.dateTimePickerExamStart.TabIndex = 7;
+            this.labelOffsetImport.AutoSize = true;
+            this.labelOffsetImport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelOffsetImport.Location = new System.Drawing.Point(6, 16);
+            this.labelOffsetImport.Name = "labelOffsetImport";
+            this.labelOffsetImport.Size = new System.Drawing.Size(361, 67);
+            this.labelOffsetImport.TabIndex = 0;
+            this.labelOffsetImport.Text = resources.GetString("labelOffsetImport.Text");
             // 
-            // labelStartExamsDate
+            // labelPeriod
             // 
-            this.labelStartExamsDate.AutoSize = true;
-            this.labelStartExamsDate.Location = new System.Drawing.Point(18, 193);
-            this.labelStartExamsDate.Name = "labelStartExamsDate";
-            this.labelStartExamsDate.Size = new System.Drawing.Size(117, 13);
-            this.labelStartExamsDate.TabIndex = 6;
-            this.labelStartExamsDate.Text = "Дата начала зачетов:";
+            this.labelPeriod.AutoSize = true;
+            this.labelPeriod.Location = new System.Drawing.Point(24, 23);
+            this.labelPeriod.Name = "labelPeriod";
+            this.labelPeriod.Size = new System.Drawing.Size(48, 13);
+            this.labelPeriod.TabIndex = 0;
+            this.labelPeriod.Text = "Период:";
+            // 
+            // dateTimePickerFromClear
+            // 
+            this.dateTimePickerFromClear.Location = new System.Drawing.Point(27, 41);
+            this.dateTimePickerFromClear.Name = "dateTimePickerFromClear";
+            this.dateTimePickerFromClear.Size = new System.Drawing.Size(150, 20);
+            this.dateTimePickerFromClear.TabIndex = 1;
+            // 
+            // dateTimePickerToClear
+            // 
+            this.dateTimePickerToClear.Location = new System.Drawing.Point(27, 67);
+            this.dateTimePickerToClear.Name = "dateTimePickerToClear";
+            this.dateTimePickerToClear.Size = new System.Drawing.Size(150, 20);
+            this.dateTimePickerToClear.TabIndex = 2;
             // 
             // ControlScheduleConfig
             // 
@@ -232,6 +273,7 @@
             this.Name = "ControlScheduleConfig";
             this.Size = new System.Drawing.Size(1386, 500);
             this.groupBoxClearClassrooms.ResumeLayout(false);
+            this.groupBoxClearClassrooms.PerformLayout();
             this.groupBoxImport.ResumeLayout(false);
             this.groupBoxImport.PerformLayout();
             this.groupBoxExportInfo.ResumeLayout(false);
@@ -242,15 +284,15 @@
 
         #endregion
         private System.Windows.Forms.GroupBox groupBoxClearClassrooms;
-        private System.Windows.Forms.Button buttonClearSemesterRecordClassrooms;
+        private System.Windows.Forms.Button buttonClearSemesterRecord;
         private System.Windows.Forms.GroupBox groupBoxImport;
         private System.Windows.Forms.Button buttonImportOffsetFromExcel;
-        private System.Windows.Forms.Button buttonClearOffsetRecordClassrooms;
-        private System.Windows.Forms.Button buttonClearExaminationRecordClassrooms;
-        private System.Windows.Forms.Button buttonClearConsultationRecordClassrooms;
+        private System.Windows.Forms.Button buttonClearOffsetRecord;
+        private System.Windows.Forms.Button buttonClearExaminationRecord;
+        private System.Windows.Forms.Button buttonClearConsultationRecord;
         private System.Windows.Forms.Button buttonImportExaminationFromExcel;
         private System.Windows.Forms.GroupBox groupBoxExportInfo;
-        private System.Windows.Forms.Label labelOffsetExport;
+        private System.Windows.Forms.Label labelOffsetImport;
         private System.Windows.Forms.Button buttonImportSemesterFromSite;
         private System.Windows.Forms.ComboBox comboBoxStartPeriodDate;
         private System.Windows.Forms.Label labelStartSemesterPeriodDate;
@@ -258,5 +300,9 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerOffsetStart;
         private System.Windows.Forms.DateTimePicker dateTimePickerExamStart;
         private System.Windows.Forms.Label labelStartExamsDate;
+        private System.Windows.Forms.Label labelExamImport;
+        private System.Windows.Forms.DateTimePicker dateTimePickerToClear;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFromClear;
+        private System.Windows.Forms.Label labelPeriod;
     }
 }

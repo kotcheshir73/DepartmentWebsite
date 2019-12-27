@@ -69,11 +69,6 @@ namespace ScheduleImplementations.Services
             return _serviceG.GetStudentGroups(model);
         }
 
-        public ResultService<List<DateTime>> GetScheduleLessonTimes()
-        {
-            return ResultService<List<DateTime>>.Success(ScheduleHelper.ScheduleLessonTimes());
-        }
-
         public ISemesterRecordService GetSemesterRecordService()
         {
             return _serviceSR;
@@ -103,7 +98,7 @@ namespace ScheduleImplementations.Services
             using (var context = DepartmentUserManager.GetContext)
             {
                 // время пар
-                List<DateTime> times = GetScheduleLessonTimes().Result;
+                List<DateTime> times = ScheduleHelper.ScheduleLessonTimes();
 
                 //вытаскиваем учебный год
                 var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Учебный год");
@@ -330,25 +325,22 @@ namespace ScheduleImplementations.Services
                         records.Add(new ExaminationRecordViewModel
                         {
                             Id = find.Id,
-                            ClassroomId = find.ClassroomId,
-                            Classroom = find.Classroom?.ToString(),
+                            ClassroomId = find.ConsultationClassroomId,
+                            Classroom = find.ConsultationClassroom?.ToString(),
                             DisciplineId = find.DisciplineId,
                             Discipline = find.Discipline?.ToString(),
                             LecturerId = find.LecturerId,
                             Lecturer = find.Lecturer?.ToString(),
                             StudentGroupId = find.StudentGroupId,
                             StudentGroup = find.StudentGroup?.ToString(),
-                            LessonClassroom = find.LessonClassroom,
+                            LessonClassroom = find.LessonConsultationClassroom,
                             LessonDiscipline = find.LessonDiscipline,
                             LessonLecturer = find.LessonLecturer,
                             LessonStudentGroup = find.LessonStudentGroup,
                             LessonType = LessonTypes.экзконс,
                             ScheduleRecordType = ScheduleRecordType.Examination,
                             ScheduleDate = find.DateConsultation,
-                            TimeSpanMinutes = 90,
-
-                            LessonConsultationClassroom = find.LessonConsultationClassroom,
-                            DateConsultation = find.DateConsultation
+                            TimeSpanMinutes = 90
                         });
                     }
                     if (find.ScheduleDate.Date >= model.BeginDate && find.ScheduleDate <= model.EndDate)
@@ -371,10 +363,7 @@ namespace ScheduleImplementations.Services
                             LessonType = LessonTypes.экзамен,
                             ScheduleRecordType = ScheduleRecordType.Examination,
                             ScheduleDate = find.ScheduleDate,
-                            TimeSpanMinutes = 180,
-
-                            LessonConsultationClassroom = find.LessonConsultationClassroom,
-                            DateConsultation = find.DateConsultation
+                            TimeSpanMinutes = 180
                         });
                     }
                 }

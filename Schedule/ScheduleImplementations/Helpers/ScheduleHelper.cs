@@ -479,6 +479,10 @@ namespace ScheduleImplementations.Helpers
                 if (discipline != null)
                 {
                     record.DisciplineId = discipline.Id;
+                    if (!string.IsNullOrEmpty(discipline.DisciplineShortName))
+                    {
+                        record.LessonDiscipline = discipline.DisciplineShortName;
+                    }
                 }
             }
             else

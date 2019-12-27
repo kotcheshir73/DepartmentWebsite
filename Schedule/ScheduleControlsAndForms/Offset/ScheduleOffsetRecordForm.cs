@@ -130,7 +130,7 @@ namespace ScheduleControlsAndForms.Offset
 
         private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonClassroom.Text) && comboBoxClassroom.SelectedIndex > -1)
+            if (comboBoxClassroom.SelectedIndex > -1)
             {
                 textBoxLessonClassroom.Text = comboBoxClassroom.Text;
             }
@@ -138,7 +138,7 @@ namespace ScheduleControlsAndForms.Offset
 
         private void ComboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text) && comboBoxDiscipline.SelectedIndex > -1)
+            if (comboBoxDiscipline.SelectedIndex > -1)
             {
                 textBoxLessonDiscipline.Text = comboBoxDiscipline.Text;
             }
@@ -146,7 +146,7 @@ namespace ScheduleControlsAndForms.Offset
 
         private void ComboBoxLecturer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text) && comboBoxLecturer.SelectedIndex > -1)
+            if (comboBoxLecturer.SelectedIndex > -1)
             {
                 textBoxLessonLecturer.Text = comboBoxLecturer.Text;
             }
@@ -154,7 +154,7 @@ namespace ScheduleControlsAndForms.Offset
 
         private void ComboBoxStudentGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonStudentGroup.Text) && comboBoxStudentGroup.SelectedIndex > -1)
+            if (comboBoxStudentGroup.SelectedIndex > -1)
             {
                 textBoxLessonStudentGroup.Text = comboBoxStudentGroup.Text;
             }

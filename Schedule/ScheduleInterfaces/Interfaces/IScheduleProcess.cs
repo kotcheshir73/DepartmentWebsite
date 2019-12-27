@@ -46,13 +46,6 @@ namespace ScheduleInterfaces.Interfaces
         IConsultationRecordService GetConsultationRecordService();
 
         /// <summary>
-        /// Получение списка временных интервалов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<List<DateTime>> GetScheduleLessonTimes();
-
-        /// <summary>
         /// Загрузка расписания в виде html-страницы
         /// </summary>
         /// <param name="model"></param>

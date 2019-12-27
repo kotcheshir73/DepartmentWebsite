@@ -100,7 +100,7 @@ namespace ScheduleControlsAndForms.Examination
 
                 foreach (var record in list)
                 {
-                    int daysCons = (record.DateConsultation - dateBeginExamination).Days;
+                    int daysCons = (record.DateConsultation.Date - dateBeginExamination.Date).Days;
                     if (daysCons > -1 && daysCons <= days)
                     {
                         // если выводим по аудитории, то проверка, что консультация стоит в ней, либо вывод не по аудиториям
@@ -119,7 +119,7 @@ namespace ScheduleControlsAndForms.Examination
                         }
                     }
 
-                    int daysExam = (record.ScheduleDate - dateBeginExamination).Days;
+                    int daysExam = (record.ScheduleDate.Date - dateBeginExamination.Date).Days;
                     if (daysExam > -1 && daysExam <= days)
                     {
                         if ((_model.ClassroomId.HasValue && record.LessonClassroom == _model.ClassroomNumber) || !_model.ClassroomId.HasValue)

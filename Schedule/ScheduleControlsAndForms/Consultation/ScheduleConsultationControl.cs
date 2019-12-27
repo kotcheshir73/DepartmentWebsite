@@ -85,7 +85,7 @@ namespace ScheduleControlsAndForms.Consultation
 
             foreach (var record in list)
             {
-                int daysCons = (record.ScheduleDate - dateBeginConsultation).Days;
+                int daysCons = (record.ScheduleDate.Date - dateBeginConsultation.Date).Days;
                 if (daysCons > -1 && daysCons <= days)
                 {
                     dataGridView.Rows[daysCons].Cells[0].Value = record.Text;

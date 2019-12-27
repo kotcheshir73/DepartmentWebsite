@@ -98,7 +98,7 @@ namespace ScheduleControlsAndForms.Offset
                     string text = string.Format("{0} {1} {2}{3}{4}{3}{5}", "зач.", record.LessonDiscipline, record.LessonClassroom,
                         Environment.NewLine, record.LessonLecturer, record.LessonGroup);
 
-                    int daysOffset = (record.ScheduleDate - dateBeginOffset).Days;
+                    int daysOffset = (record.ScheduleDate.Date - dateBeginOffset.Date).Days;
                     if (daysOffset > -1 && daysOffset <= days)
                     {
                         dataGridView.Rows[daysOffset].Cells[record.Lesson].Value = record.Text;
