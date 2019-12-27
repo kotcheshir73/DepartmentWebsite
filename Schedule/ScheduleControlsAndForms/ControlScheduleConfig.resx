@@ -117,12 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="labelOffsetExport.Text" xml:space="preserve">
+  <data name="labelExamImport.Text" xml:space="preserve">
+    <value>Экзамены. Файл загрузки должен иметь вид:
+Обязательно проверить, что на каждом листе даты начинаются с одной и той же
+Под день 3 строки выделяется
+Количество дней не ограничено
+Может быть несколько листов в файле</value>
+  </data>
+  <data name="labelOffsetImport.Text" xml:space="preserve">
     <value>Зачеты. Файл загрузки должен иметь вид:
-В первой колонке должна быть ячейка "Дни недели", с нее начинается обработка
-Каждый зачет должен быть в 3 последовательных строках:
-- Дисциплина
-- Преподаватель
-- Пара и аудитория</value>
+Под зачетный день должно выделяться 6 строк (по 3 стоки на зачет)
+Проверять особенно вторую неделю, может быть лишняя строка
+Зачеты идут в 6 дней
+Может быть несколько листов в файле</value>
   </data>
 </root>

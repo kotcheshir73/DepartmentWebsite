@@ -7,15 +7,9 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class ConsultationRecordShortViewModel : ScheduleRecordShortViewModel
     {
-		public int Week { get; set; }
+        public int ConsultationTime { get; set; }
 
-		public int Day { get; set; }
-
-		public int Lesson { get; set; }
-
-		public DateTime DateConsultation { get; set; }
-
-		public string Text
+        public string Text
 		{
 			get
 			{
@@ -29,6 +23,11 @@ namespace ScheduleInterfaces.ViewModels
 	/// </summary>
 	public class ConsultationRecordViewModel : ScheduleRecordViewModel
     {
-		public DateTime DateConsultation { get; set; }
-	}
+        public int ConsultationTime { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}{3}{4}{3}{5}", LessonType, LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
+        }
+    }
 }

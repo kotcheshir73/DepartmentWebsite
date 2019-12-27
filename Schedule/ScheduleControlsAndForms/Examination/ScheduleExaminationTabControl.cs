@@ -13,14 +13,11 @@ namespace ScheduleControlsAndForms.Examination
 
         private readonly IExaminationRecordService _serviceER;
 
-        private readonly IConsultationRecordService _serviceCR;
-
-        public ScheduleExaminationTabControl(IScheduleProcess process, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
+        public ScheduleExaminationTabControl(IScheduleProcess process, IExaminationRecordService serviceER)
         {
             InitializeComponent();
             _process = process;
             _serviceER = serviceER;
-            _serviceCR = serviceCR;
         }
 
         public void LoadData(int type)
@@ -51,11 +48,11 @@ namespace ScheduleControlsAndForms.Examination
                                 Text = "Аудитория " + classrooms[i].Number
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleExaminationControl(_process, _serviceER, _serviceCR)
+                            var control = new ScheduleExaminationControl(_process, _serviceER)
                             {
                                 Dock = DockStyle.Fill
                             };
-                            control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id });
+                            control.LoadData(string.Format("{0} аудитория.", classrooms[i].Number), new ScheduleGetBindingModel { ClassroomId = classrooms[i].Id, ClassroomNumber = classrooms[i].Number });
                             tabControlSemester.TabPages[i].Controls.Add(control);
                         }
                     }
@@ -83,7 +80,7 @@ namespace ScheduleControlsAndForms.Examination
                                 Text = studentGroups[i].GroupName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleExaminationControl(_process, _serviceER, _serviceCR)
+                            var control = new ScheduleExaminationControl(_process, _serviceER)
                             {
                                 Dock = DockStyle.Fill
                             };
@@ -115,7 +112,7 @@ namespace ScheduleControlsAndForms.Examination
                                 Text = lecturers[i].FullName
                             };
                             tabControlSemester.TabPages.Add(tabpage);
-                            var control = new ScheduleExaminationControl(_process, _serviceER, _serviceCR)
+                            var control = new ScheduleExaminationControl(_process, _serviceER)
                             {
                                 Dock = DockStyle.Fill
                             };

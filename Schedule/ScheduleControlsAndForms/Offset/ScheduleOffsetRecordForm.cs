@@ -18,15 +18,17 @@ namespace ScheduleControlsAndForms.Offset
 
         private Guid? _id;
 
-        private int? _lesson;
-
-        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleProcess process, Guid? id = null, int? lesson = null)
+        public ScheduleOffsetRecordForm(IOffsetRecordService service, IScheduleProcess process, Guid? id = null, DateTime? scheduleDate = null)
         {
             InitializeComponent();
             _service = service;
             _process = process;
             _id = id;
-            _lesson = lesson;
+
+            if (scheduleDate.HasValue)
+            {
+                dateTimePickerDateOffset.Value = scheduleDate.Value;
+            }
         }
 
         private void ScheduleOffsetRecordForm_Load(object sender, EventArgs e)
@@ -64,7 +66,7 @@ namespace ScheduleControlsAndForms.Offset
 			comboBoxStudentGroup.DataSource = resultSG.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
 			comboBoxStudentGroup.SelectedItem = null;
-			textBoxLessonGroup.Text = string.Empty;
+            textBoxLessonStudentGroup.Text = string.Empty;
 
             comboBoxDiscipline.ValueMember = "Value";
             comboBoxDiscipline.DisplayMember = "Display";
@@ -85,14 +87,7 @@ namespace ScheduleControlsAndForms.Offset
 			comboBoxClassroom.DataSource = resultS.Result.List
 				.Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
 			comboBoxClassroom.SelectedItem = null;
-			textBoxClassroom.Text = string.Empty;
-
-            if (_lesson.HasValue)
-            {
-                comboBoxWeek.SelectedIndex = _lesson.Value / 100;
-                comboBoxDay.SelectedIndex = (_lesson.Value % 100) / 10;
-                comboBoxLesson.SelectedIndex = _lesson.Value % 10 - 1;
-            }
+            textBoxLessonClassroom.Text = string.Empty;
 
             if (_id.HasValue)
             {
@@ -105,12 +100,11 @@ namespace ScheduleControlsAndForms.Offset
 				var entity = result.Result;
 
 				textBoxLessonDiscipline.Text = entity.LessonDiscipline;
-                textBoxLessonGroup.Text = entity.LessonGroup;
+                textBoxLessonStudentGroup.Text = entity.LessonStudentGroup;
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
-                textBoxClassroom.Text = entity.LessonClassroom;
+                textBoxLessonClassroom.Text = entity.LessonClassroom;
 
-                comboBoxWeek.SelectedIndex = entity.Week;
-                comboBoxDay.SelectedIndex = entity.Day;
+                dateTimePickerDateOffset.Value = entity.ScheduleDate;
                 comboBoxLesson.SelectedIndex = entity.Lesson;
 
                 if (entity.ClassroomId.HasValue)
@@ -134,9 +128,17 @@ namespace ScheduleControlsAndForms.Offset
             }
         }
 
+        private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxClassroom.SelectedIndex > -1)
+            {
+                textBoxLessonClassroom.Text = comboBoxClassroom.Text;
+            }
+        }
+
         private void ComboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text) && comboBoxDiscipline.SelectedIndex > -1)
+            if (comboBoxDiscipline.SelectedIndex > -1)
             {
                 textBoxLessonDiscipline.Text = comboBoxDiscipline.Text;
             }
@@ -144,7 +146,7 @@ namespace ScheduleControlsAndForms.Offset
 
         private void ComboBoxLecturer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text) && comboBoxLecturer.SelectedIndex > -1)
+            if (comboBoxLecturer.SelectedIndex > -1)
             {
                 textBoxLessonLecturer.Text = comboBoxLecturer.Text;
             }
@@ -152,27 +154,19 @@ namespace ScheduleControlsAndForms.Offset
 
         private void ComboBoxStudentGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxStudentGroup.SelectedIndex > -1)
+            if (comboBoxStudentGroup.SelectedIndex > -1)
             {
-                textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
-            }
-        }
-
-        private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(textBoxClassroom.Text) && comboBoxClassroom.SelectedIndex > -1)
-            {
-                textBoxClassroom.Text = comboBoxClassroom.Text;
+                textBoxLessonStudentGroup.Text = comboBoxStudentGroup.Text;
             }
         }
 
         private bool CheckFill()
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
+            if (string.IsNullOrEmpty(textBoxLessonClassroom.Text))
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text))
+            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
             {
                 return false;
             }
@@ -180,15 +174,7 @@ namespace ScheduleControlsAndForms.Offset
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxClassroom.Text))
-            {
-                return false;
-            }
-            if (comboBoxWeek.SelectedIndex == -1)
-            {
-                return false;
-            }
-            if (comboBoxDay.SelectedIndex == -1)
+            if (string.IsNullOrEmpty(textBoxLessonStudentGroup.Text))
             {
                 return false;
             }
@@ -203,6 +189,11 @@ namespace ScheduleControlsAndForms.Offset
         {
             if (CheckFill())
             {
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
+                }
                 Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
@@ -218,24 +209,18 @@ namespace ScheduleControlsAndForms.Offset
                 {
                     studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
                 }
-                Guid? classroomId = null;
-                if (comboBoxClassroom.SelectedValue != null)
-                {
-                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
-                }
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateOffsetRecord(new OffsetRecordRecordBindingModel
+                    result = _service.CreateOffsetRecord(new OffsetRecordSetBindingModel
                     {
-                        Week = comboBoxWeek.SelectedIndex,
-                        Day = comboBoxDay.SelectedIndex,
+                        ScheduleDate = dateTimePickerDateOffset.Value,
                         Lesson = comboBoxLesson.SelectedIndex,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonGroup = textBoxLessonGroup.Text,
-                        LessonClassroom = textBoxClassroom.Text,
+                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
+                        LessonClassroom = textBoxLessonClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,
@@ -245,17 +230,16 @@ namespace ScheduleControlsAndForms.Offset
                 }
                 else
                 {
-                    result = _service.UpdateOffsetRecord(new OffsetRecordRecordBindingModel
+                    result = _service.UpdateOffsetRecord(new OffsetRecordSetBindingModel
                     {
                         Id = _id.Value,
-                        Week = comboBoxWeek.SelectedIndex,
-                        Day = comboBoxDay.SelectedIndex,
+                        ScheduleDate = dateTimePickerDateOffset.Value,
                         Lesson = comboBoxLesson.SelectedIndex,
 
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonGroup = textBoxLessonGroup.Text,
-                        LessonClassroom = textBoxClassroom.Text,
+                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
+                        LessonClassroom = textBoxLessonClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,

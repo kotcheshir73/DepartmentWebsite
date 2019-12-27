@@ -1,51 +1,16 @@
-﻿using AcademicYearInterfaces.ViewModels;
-using ScheduleInterfaces.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Tools.BindingModels;
 
 namespace ScheduleInterfaces.BindingModels
 {
     /// <summary>
-    /// Выгружаем расписание по аудиториям в excel-файл
-    /// </summary>
-    public class ExportToExcelClassroomsBindingModel
-    {
-        public string FileName { get; set; }
-
-        public List<string> Classrooms { get; set; }
-
-        public Guid SeasonDatesId { get; set; }
-
-        public List<ScheduleLessonTimeViewModel> Times { get; set; }
-
-        public SeasonDatesViewModel Dates { get; set; }
-    }
-
-    /// <summary>
-    /// Выгружаем расписание по аудиториям в html-файлы для текущей версии сайта
-    /// </summary>
-    public class ExportToHTMLClassroomsBindingModel
-    {
-        public string FilePath { get; set; }
-
-        public List<string> Classrooms { get; set; }
-
-        public Guid SeasonDatesId { get; set; }
-
-        public List<ScheduleLessonTimeViewModel> Times { get; set; }
-
-        public SeasonDatesViewModel Dates { get; set; }
-    }
-
-    /// <summary>
     /// Импорт данных с общего сайта
     /// </summary>
-    public class ImportToSemesterFromHTMLBindingModel
+    public class ImportToSemesterRecordsBindingModel
     {
-        public string ScheduleUrl { get; set; }
+        public DateTime ScheduleDate { get; set; }
 
-        public bool IsFirstHalfSemester { get; set; }
+        public List<string> ScheduleUrls { get; set; }
     }
 
     /// <summary>
@@ -53,6 +18,8 @@ namespace ScheduleInterfaces.BindingModels
     /// </summary>
     public class ImportToOffsetFromExcel
     {
+        public DateTime ScheduleDate { get; set; }
+
         public string FileName { get; set; }
     }
 
@@ -61,16 +28,31 @@ namespace ScheduleInterfaces.BindingModels
     /// </summary>
     public class ImportToExaminationFromExcel
     {
+        public DateTime ScheduleDate { get; set; }
+
         public string FileName { get; set; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ScheduleRecordsForDiciplineBindingModel : PageSettingGetBinidingModel
+    public class LoadScheduleBindingModel
     {
-        public Guid SeasonDateId { get; set; }
+        public DateTime BeginDate { get; set; }
 
-        public Guid DisciplineId { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public string ClassroomNumber { get; set; }
+
+        public Guid? ClassroomId { get; set; }
+
+        public string StudentGroupName { get; set; }
+
+        public Guid? StudentGroupId { get; set; }
+
+        public string DisciplineName { get; set; }
+
+        public Guid? DisciplineId { get; set; }
+
+        public string LecturerName { get; set; }
+
+        public Guid? LecturerId { get; set; }
     }
 }

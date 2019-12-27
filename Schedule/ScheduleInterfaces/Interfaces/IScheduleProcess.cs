@@ -1,9 +1,9 @@
-﻿using AcademicYearInterfaces.BindingModels;
-using AcademicYearInterfaces.ViewModels;
-using BaseInterfaces.BindingModels;
+﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.ViewModels;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.ViewModels;
+using System;
+using System.Collections.Generic;
 using Tools;
 
 namespace ScheduleInterfaces.Interfaces
@@ -37,66 +37,48 @@ namespace ScheduleInterfaces.Interfaces
         /// <returns></returns>
         ResultService<StudentGroupPageViewModel> GetStudentGroups(StudentGroupGetBindingModel model);
 
+        ISemesterRecordService GetSemesterRecordService();
+
+        IExaminationRecordService GetExaminationRecordService();
+
+        IOffsetRecordService GetOffsetRecordService();
+
+        IConsultationRecordService GetConsultationRecordService();
+
         /// <summary>
-        /// Получение списка временных интервалов
+        /// Загрузка расписания в виде html-страницы
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<SeasonDatesPageViewModel> GetSeasonDaties(SeasonDatesGetBindingModel model);
-
-        /// <summary>
-        /// Получить даты по текущему семестру
-        /// </summary>
-        /// <returns></returns>
-        ResultService<SeasonDatesViewModel> GetCurrentDates();
-
-        /// <summary>
-        /// Измненение текущих настроек
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService UpdateCurrentDates(SeasonDatesGetBindingModel model);
-
-        /// <summary>
-        /// Получение списка временных интервалов
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<ScheduleLessonTimePageViewModel> GetScheduleLessonTimes(ScheduleLessonTimeGetBindingModel model);
+        ResultService<List<ScheduleRecordViewModel>> LoadSchedule(LoadScheduleBindingModel model);
 
         /// <summary>
         /// Получение записей расписания семестра, зачетов и экзаменов по дисциплине
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<ScheduleRecordsForDisciplinePageViewModel> GetScheduleRecordsForDiciplinePageViewModel(ScheduleRecordsForDiciplineBindingModel model);
+        //ResultService<ScheduleRecordsForDisciplinePageViewModel> GetScheduleRecordsForDiciplinePageViewModel(ScheduleRecordsForDiciplineBindingModel model);
 
         /// <summary>
         /// Загрузка расписания
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ImportHtml(ImportToSemesterFromHTMLBindingModel model);
+        ResultService Import(ImportToSemesterRecordsBindingModel model);
 
         /// <summary>
         /// Импорт зачетов из excel-файла
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ImportExcel(ImportToOffsetFromExcel model);
+        ResultService Import(ImportToOffsetFromExcel model);
 
         /// <summary>
         /// Импорт экзаменов из excel-файла
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService ImportExcel(ImportToExaminationFromExcel model);
-
-        /// <summary>
-        /// Проверка расписания на предмет записей без названия дисциплины или с неизвестным типом занятия
-        /// </summary>
-        /// <returns></returns>
-        ResultService CheckSemesterRecordsIfNotComplite();
+        ResultService Import(ImportToExaminationFromExcel model);
 
         /// <summary>
         /// Отчистка пар семестра
@@ -125,47 +107,5 @@ namespace ScheduleInterfaces.Interfaces
 		/// <param name="model"></param>
 		/// <returns></returns>
 		ResultService ClearConsultationRecords(ScheduleGetBindingModel model);
-
-		/// <summary>
-		/// Выгрузка данных в Excel
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		ResultService ExportSemesterRecordExcel(ExportToExcelClassroomsBindingModel model);
-
-        /// <summary>
-        /// Выгрузка данных в Excel
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ExportOffsetRecordExcel(ExportToExcelClassroomsBindingModel model);
-
-        /// <summary>
-        /// Выгрузка данных в Excel
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ExportExaminationRecordExcel(ExportToExcelClassroomsBindingModel model);
-
-        /// <summary>
-        /// Выгрузка данных в html
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ExportSemesterRecordHTML(ExportToHTMLClassroomsBindingModel model);
-
-        /// <summary>
-        /// Выгрузка данных в html
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ExportOffsetRecordHTML(ExportToHTMLClassroomsBindingModel model);
-
-        /// <summary>
-        /// Выгрузка данных в html
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService ExportExaminationRecordHTML(ExportToHTMLClassroomsBindingModel model);
 	}
 }

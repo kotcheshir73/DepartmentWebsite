@@ -99,7 +99,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonRef = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonConsultation = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -119,19 +118,19 @@
             // excelToolStripMenuItem2
             // 
             this.excelToolStripMenuItem2.Name = "excelToolStripMenuItem2";
-            this.excelToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
+            this.excelToolStripMenuItem2.Size = new System.Drawing.Size(106, 22);
             this.excelToolStripMenuItem2.Text = "Excel";
             // 
             // hTMLToolStripMenuItem2
             // 
             this.hTMLToolStripMenuItem2.Name = "hTMLToolStripMenuItem2";
-            this.hTMLToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
+            this.hTMLToolStripMenuItem2.Size = new System.Drawing.Size(106, 22);
             this.hTMLToolStripMenuItem2.Text = "HTML";
             // 
             // xMLToolStripMenuItem2
             // 
             this.xMLToolStripMenuItem2.Name = "xMLToolStripMenuItem2";
-            this.xMLToolStripMenuItem2.Size = new System.Drawing.Size(107, 22);
+            this.xMLToolStripMenuItem2.Size = new System.Drawing.Size(106, 22);
             this.xMLToolStripMenuItem2.Text = "XML";
             // 
             // экспортВсегоToolStripMenuItem
@@ -147,19 +146,19 @@
             // excelToolStripMenuItem3
             // 
             this.excelToolStripMenuItem3.Name = "excelToolStripMenuItem3";
-            this.excelToolStripMenuItem3.Size = new System.Drawing.Size(107, 22);
+            this.excelToolStripMenuItem3.Size = new System.Drawing.Size(106, 22);
             this.excelToolStripMenuItem3.Text = "Excel";
             // 
             // hTMLToolStripMenuItem3
             // 
             this.hTMLToolStripMenuItem3.Name = "hTMLToolStripMenuItem3";
-            this.hTMLToolStripMenuItem3.Size = new System.Drawing.Size(107, 22);
+            this.hTMLToolStripMenuItem3.Size = new System.Drawing.Size(106, 22);
             this.hTMLToolStripMenuItem3.Text = "HTML";
             // 
             // xMLToolStripMenuItem3
             // 
             this.xMLToolStripMenuItem3.Name = "xMLToolStripMenuItem3";
-            this.xMLToolStripMenuItem3.Size = new System.Drawing.Size(107, 22);
+            this.xMLToolStripMenuItem3.Size = new System.Drawing.Size(106, 22);
             this.xMLToolStripMenuItem3.Text = "XML";
             // 
             // buttonNextWeek
@@ -242,19 +241,19 @@
             // excelToolStripMenuItem1
             // 
             this.excelToolStripMenuItem1.Name = "excelToolStripMenuItem1";
-            this.excelToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.excelToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
             this.excelToolStripMenuItem1.Text = "Excel";
             // 
             // hTMLToolStripMenuItem1
             // 
             this.hTMLToolStripMenuItem1.Name = "hTMLToolStripMenuItem1";
-            this.hTMLToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.hTMLToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
             this.hTMLToolStripMenuItem1.Text = "HTML";
             // 
             // xMLToolStripMenuItem1
             // 
             this.xMLToolStripMenuItem1.Name = "xMLToolStripMenuItem1";
-            this.xMLToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.xMLToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
             this.xMLToolStripMenuItem1.Text = "XML";
             // 
             // экспортToolStripMenuItem
@@ -270,19 +269,19 @@
             // excelToolStripMenuItem
             // 
             this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
-            this.excelToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.excelToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.excelToolStripMenuItem.Text = "Excel";
             // 
             // hTMLToolStripMenuItem
             // 
             this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.hTMLToolStripMenuItem.Text = "HTML";
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.xMLToolStripMenuItem.Text = "XML";
             // 
             // dataGridViewFirstWeek
@@ -602,8 +601,7 @@
             this.toolStripButtonDel,
             this.toolStripSeparator3,
             this.toolStripButtonRef,
-            this.toolStripSeparator4,
-            this.toolStripButtonConsultation});
+            this.toolStripSeparator4});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(800, 25);
@@ -665,15 +663,6 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButtonConsultation
-            // 
-            this.toolStripButtonConsultation.Image = global::ScheduleControlsAndForms.Properties.Resources.Add;
-            this.toolStripButtonConsultation.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonConsultation.Name = "toolStripButtonConsultation";
-            this.toolStripButtonConsultation.Size = new System.Drawing.Size(104, 22);
-            this.toolStripButtonConsultation.Text = "Консультация";
-            this.toolStripButtonConsultation.Click += new System.EventHandler(this.ToolStripButtonConsultation_Click);
             // 
             // ScheduleSemesterControl
             // 
@@ -755,7 +744,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButtonRef;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButtonConsultation;
         private System.Windows.Forms.ToolStripButton toolStripButtonUpd;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButtonDel;

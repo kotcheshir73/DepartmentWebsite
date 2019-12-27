@@ -1,22 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ScheduleInterfaces.BindingModels
 {
-	public class SemesterRecordRecordBindingModel : ScheduleSetBindingModel
+	public class SemesterRecordSetBindingModel : ScheduleSetBindingModel
     {
-        public bool IsFirstHalfSemester { get; set; }
-
         [Required(ErrorMessage = "required")]
-        public string LessonType { get; set; }
+        public LessonTypes LessonType { get; set; }
 
         public int Week { get; set; }
 
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-		public bool IsStreaming { get; set; }
-
-        public bool IsSubgroup { get; set; }
     }
 }

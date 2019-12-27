@@ -18,21 +18,26 @@ namespace ScheduleControlsAndForms.Examination
 
         private Guid? _id;
 
-        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleProcess process, Guid? id = null)
+        public ScheduleExaminationRecordForm(IExaminationRecordService service, IScheduleProcess process, Guid? id = null, DateTime? scheduleDate = null)
         {
             InitializeComponent();
             _service = service;
             _process = process;
             _id = id;
+
+            if (scheduleDate.HasValue)
+            {
+                dateTimePickerDateExamination.Value = scheduleDate.Value;
+            }
         }
 
         private void ScheduleExaminationRecordForm_Load(object sender, EventArgs e)
-		{
-			var resultS = _process.GetClassrooms(new ClassroomGetBindingModel { });
-			if (!resultS.Succeeded)
-			{
+        {
+            var resultS = _process.GetClassrooms(new ClassroomGetBindingModel { });
+            if (!resultS.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке аудиторий возникла ошибка: ", resultS.Errors);
-				return;
+                return;
             }
 
             var resultD = _process.GetDisciplines(new DisciplineGetBindingModel { });
@@ -49,19 +54,19 @@ namespace ScheduleControlsAndForms.Examination
                 return;
             }
 
-			var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { } );
-			if (!resultSG.Succeeded)
-			{
+            var resultSG = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
+            if (!resultSG.Succeeded)
+            {
                 ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
-				return;
-			}
+                return;
+            }
 
-			comboBoxClassroom.ValueMember = "Value";
-			comboBoxClassroom.DisplayMember = "Display";
-			comboBoxClassroom.DataSource = resultS.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
-			comboBoxClassroom.SelectedItem = null;
-			textBoxClassroom.Text = string.Empty;
+            comboBoxClassroom.ValueMember = "Value";
+            comboBoxClassroom.DisplayMember = "Display";
+            comboBoxClassroom.DataSource = resultS.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
+            comboBoxClassroom.SelectedItem = null;
+            textBoxLessonClassroom.Text = string.Empty;
 
             comboBoxDiscipline.ValueMember = "Value";
             comboBoxDiscipline.DisplayMember = "Display";
@@ -76,31 +81,40 @@ namespace ScheduleControlsAndForms.Examination
                 .Select(ed => new { Value = ed.Id, Display = ed.FullName }).ToList();
             comboBoxLecturer.SelectedItem = null;
             textBoxLessonLecturer.Text = string.Empty;
-            
-            comboBoxStudentGroup.ValueMember = "Value";
-			comboBoxStudentGroup.DisplayMember = "Display";
-			comboBoxStudentGroup.DataSource = resultSG.Result.List
-				.Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
-			comboBoxStudentGroup.SelectedItem = null;
-			textBoxLessonGroup.Text = string.Empty;
 
-			if (_id.HasValue)
+            comboBoxStudentGroup.ValueMember = "Value";
+            comboBoxStudentGroup.DisplayMember = "Display";
+            comboBoxStudentGroup.DataSource = resultSG.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+            comboBoxStudentGroup.SelectedItem = null;
+            textBoxLessonStudentGroup.Text = string.Empty;
+
+            comboBoxConsultationClassroom.ValueMember = "Value";
+            comboBoxConsultationClassroom.DisplayMember = "Display";
+            comboBoxConsultationClassroom.DataSource = resultS.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.Number }).ToList();
+            comboBoxConsultationClassroom.SelectedItem = null;
+            textBoxConsultationClassroom.Text = string.Empty;
+
+            if (_id.HasValue)
             {
                 var result = _service.GetExaminationRecord(new ScheduleGetBindingModel { Id = _id.Value });
-				if (!result.Succeeded)
-				{
+                if (!result.Succeeded)
+                {
                     ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
-					Close();
-				}
-				var entity = result.Result;
+                    Close();
+                }
+                var entity = result.Result;
 
-				textBoxLessonDiscipline.Text = entity.LessonDiscipline;
-                textBoxLessonGroup.Text = entity.LessonGroup;
+                textBoxLessonClassroom.Text = entity.LessonClassroom;
+                textBoxLessonDiscipline.Text = entity.LessonDiscipline;
                 textBoxLessonLecturer.Text = entity.LessonLecturer;
-                textBoxClassroom.Text = entity.LessonClassroom;
+                textBoxLessonStudentGroup.Text = entity.LessonStudentGroup;
+
 
                 dateTimePickerDateConsultation.Value = entity.DateConsultation;
-                dateTimePickerDateExamination.Value = entity.DateExamination;
+                textBoxConsultationClassroom.Text = entity.LessonConsultationClassroom;
+                dateTimePickerDateExamination.Value = entity.ScheduleDate;
 
                 if (entity.ClassroomId.HasValue)
                 {
@@ -118,15 +132,24 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
                 }
+                if (entity.ConsultationClassroomId.HasValue)
+                {
+                    comboBoxConsultationClassroom.SelectedValue = entity.ConsultationClassroomId;
+                }
+            }
+        }
 
-                dateTimePickerDateConsultation.Enabled = false;
-                dateTimePickerDateExamination.Enabled = false;
+        private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxClassroom.SelectedIndex > -1)
+            {
+                textBoxLessonClassroom.Text = comboBoxClassroom.Text;
             }
         }
 
         private void ComboBoxDiscipline_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text) && comboBoxDiscipline.SelectedIndex > -1)
+            if (comboBoxDiscipline.SelectedIndex > -1)
             {
                 textBoxLessonDiscipline.Text = comboBoxDiscipline.Text;
             }
@@ -134,7 +157,7 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ComboBoxLecturer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonLecturer.Text) && comboBoxLecturer.SelectedIndex > -1)
+            if (comboBoxLecturer.SelectedIndex > -1)
             {
                 textBoxLessonLecturer.Text = comboBoxLecturer.Text;
             }
@@ -142,27 +165,27 @@ namespace ScheduleControlsAndForms.Examination
 
         private void ComboBoxStudentGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text) && comboBoxStudentGroup.SelectedIndex > -1)
+            if (comboBoxStudentGroup.SelectedIndex > -1)
             {
-                textBoxLessonGroup.Text = comboBoxStudentGroup.Text;
+                textBoxLessonStudentGroup.Text = comboBoxStudentGroup.Text;
             }
         }
 
-        private void ComboBoxClassroom_SelectedIndexChanged(object sender, EventArgs e)
+        private void СomboBoxConsultationClassroom_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxClassroom.Text) && comboBoxClassroom.SelectedIndex > -1)
+            if (comboBoxConsultationClassroom.SelectedIndex > -1)
             {
-                textBoxClassroom.Text = comboBoxClassroom.Text;
+                textBoxConsultationClassroom.Text = comboBoxConsultationClassroom.Text;
             }
         }
 
         private bool CheckFill()
         {
-            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
+            if (string.IsNullOrEmpty(textBoxLessonClassroom.Text))
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxLessonGroup.Text))
+            if (string.IsNullOrEmpty(textBoxLessonDiscipline.Text))
             {
                 return false;
             }
@@ -170,7 +193,11 @@ namespace ScheduleControlsAndForms.Examination
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(textBoxClassroom.Text))
+            if (string.IsNullOrEmpty(textBoxLessonStudentGroup.Text))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(textBoxConsultationClassroom.Text))
             {
                 return false;
             }
@@ -181,6 +208,11 @@ namespace ScheduleControlsAndForms.Examination
         {
             if (CheckFill())
             {
+                Guid? classroomId = null;
+                if (comboBoxClassroom.SelectedValue != null)
+                {
+                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
+                }
                 Guid? disciplineId = null;
                 if (comboBoxDiscipline.SelectedValue != null)
                 {
@@ -196,47 +228,51 @@ namespace ScheduleControlsAndForms.Examination
                 {
                     studentGroupId = new Guid(comboBoxStudentGroup.SelectedValue.ToString());
                 }
-                Guid? classroomId = null;
-                if (comboBoxClassroom.SelectedValue != null)
+                Guid? consultaionClassroomId = null;
+                if (comboBoxConsultationClassroom.SelectedValue != null)
                 {
-                    classroomId = new Guid(comboBoxClassroom.SelectedValue.ToString());
+                    consultaionClassroomId = new Guid(comboBoxConsultationClassroom.SelectedValue.ToString());
                 }
                 ResultService result;
                 if (!_id.HasValue)
                 {
-                    result = _service.CreateExaminationRecord(new ExaminationRecordRecordBindingModel
+                    result = _service.CreateExaminationRecord(new ExaminationRecordSetBindingModel
                     {
                         DateConsultation = dateTimePickerDateConsultation.Value,
-                        DateExamination = dateTimePickerDateExamination.Value,
+                        ScheduleDate = dateTimePickerDateExamination.Value,
 
+                        LessonClassroom = textBoxLessonClassroom.Text,
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonGroup = textBoxLessonGroup.Text,
-                        LessonClassroom = textBoxClassroom.Text,
+                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
+                        LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
-                        StudentGroupId = studentGroupId
+                        StudentGroupId = studentGroupId,
+                        ConsultationClassroomId = consultaionClassroomId
                     });
                 }
                 else
                 {
-                    result = _service.UpdateExaminationRecord(new ExaminationRecordRecordBindingModel
+                    result = _service.UpdateExaminationRecord(new ExaminationRecordSetBindingModel
                     {
                         Id = _id.Value,
                         DateConsultation = dateTimePickerDateConsultation.Value,
-                        DateExamination = dateTimePickerDateExamination.Value,
+                        ScheduleDate = dateTimePickerDateExamination.Value,
 
+                        LessonClassroom = textBoxLessonClassroom.Text,
                         LessonDiscipline = textBoxLessonDiscipline.Text,
                         LessonLecturer = textBoxLessonLecturer.Text,
-                        LessonGroup = textBoxLessonGroup.Text,
-                        LessonClassroom = textBoxClassroom.Text,
+                        LessonStudentGroup = textBoxLessonStudentGroup.Text,
+                        LessonConsultationClassroom = textBoxConsultationClassroom.Text,
 
                         ClassroomId = classroomId,
                         DisciplineId = disciplineId,
                         LecturerId = lecturerId,
-                        StudentGroupId = studentGroupId
+                        StudentGroupId = studentGroupId,
+                        ConsultationClassroomId = consultaionClassroomId
                     });
                 }
                 if (result.Succeeded)
@@ -245,9 +281,9 @@ namespace ScheduleControlsAndForms.Examination
                     Close();
                 }
                 else
-				{
+                {
                     ErrorMessanger.PrintErrorMessage("При сохранении возникла ошибка: ", result.Errors);
-				}
+                }
             }
             else
             {

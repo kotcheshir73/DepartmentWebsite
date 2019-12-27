@@ -26,14 +26,14 @@ namespace ScheduleInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateOffsetRecord(OffsetRecordRecordBindingModel model);
+        ResultService CreateOffsetRecord(OffsetRecordSetBindingModel model);
 
         /// <summary>
         /// Изменение записи о зачете
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateOffsetRecord(OffsetRecordRecordBindingModel model);
+        ResultService UpdateOffsetRecord(OffsetRecordSetBindingModel model);
 
         /// <summary>
         /// Удаление записи о зачете

@@ -29,84 +29,57 @@
         private void InitializeComponent()
         {
             this.panelDateTime = new System.Windows.Forms.Panel();
-            this.labelWeek = new System.Windows.Forms.Label();
-            this.comboBoxWeek = new System.Windows.Forms.ComboBox();
-            this.labelDay = new System.Windows.Forms.Label();
+            this.labelDateOffset = new System.Windows.Forms.Label();
             this.labelLesson = new System.Windows.Forms.Label();
             this.comboBoxLesson = new System.Windows.Forms.ComboBox();
-            this.comboBoxDay = new System.Windows.Forms.ComboBox();
-            this.panelBaseData = new System.Windows.Forms.Panel();
-            this.comboBoxLecturer = new System.Windows.Forms.ComboBox();
-            this.comboBoxClassroom = new System.Windows.Forms.ComboBox();
-            this.comboBoxStudentGroup = new System.Windows.Forms.ComboBox();
-            this.panelTextData = new System.Windows.Forms.Panel();
-            this.textBoxLessonDiscipline = new System.Windows.Forms.TextBox();
-            this.textBoxLessonLecturer = new System.Windows.Forms.TextBox();
-            this.textBoxLessonGroup = new System.Windows.Forms.TextBox();
-            this.textBoxClassroom = new System.Windows.Forms.TextBox();
-            this.labelClassroom = new System.Windows.Forms.Label();
-            this.labelLessonGroup = new System.Windows.Forms.Label();
-            this.labelLessonLecturer = new System.Windows.Forms.Label();
-            this.labelLessonDiscipline = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.panelRecord = new System.Windows.Forms.Panel();
             this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
+            this.comboBoxLecturer = new System.Windows.Forms.ComboBox();
+            this.textBoxLessonDiscipline = new System.Windows.Forms.TextBox();
+            this.comboBoxClassroom = new System.Windows.Forms.ComboBox();
+            this.textBoxLessonLecturer = new System.Windows.Forms.TextBox();
+            this.comboBoxStudentGroup = new System.Windows.Forms.ComboBox();
+            this.textBoxLessonStudentGroup = new System.Windows.Forms.TextBox();
+            this.textBoxLessonClassroom = new System.Windows.Forms.TextBox();
+            this.labelLessonDiscipline = new System.Windows.Forms.Label();
+            this.labelLessonLecturer = new System.Windows.Forms.Label();
+            this.labelLessonClassroom = new System.Windows.Forms.Label();
+            this.labelLessonStudentGroup = new System.Windows.Forms.Label();
+            this.dateTimePickerDateOffset = new System.Windows.Forms.DateTimePicker();
             this.panelDateTime.SuspendLayout();
-            this.panelBaseData.SuspendLayout();
-            this.panelTextData.SuspendLayout();
+            this.panelRecord.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelDateTime
             // 
             this.panelDateTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelDateTime.Controls.Add(this.labelWeek);
-            this.panelDateTime.Controls.Add(this.comboBoxWeek);
-            this.panelDateTime.Controls.Add(this.labelDay);
+            this.panelDateTime.Controls.Add(this.dateTimePickerDateOffset);
+            this.panelDateTime.Controls.Add(this.labelDateOffset);
             this.panelDateTime.Controls.Add(this.labelLesson);
             this.panelDateTime.Controls.Add(this.comboBoxLesson);
-            this.panelDateTime.Controls.Add(this.comboBoxDay);
-            this.panelDateTime.Location = new System.Drawing.Point(104, 135);
+            this.panelDateTime.Location = new System.Drawing.Point(10, 131);
             this.panelDateTime.Name = "panelDateTime";
-            this.panelDateTime.Size = new System.Drawing.Size(386, 38);
-            this.panelDateTime.TabIndex = 6;
+            this.panelDateTime.Size = new System.Drawing.Size(500, 38);
+            this.panelDateTime.TabIndex = 1;
             // 
-            // labelWeek
+            // labelDateOffset
             // 
-            this.labelWeek.AutoSize = true;
-            this.labelWeek.Location = new System.Drawing.Point(9, 11);
-            this.labelWeek.Name = "labelWeek";
-            this.labelWeek.Size = new System.Drawing.Size(45, 13);
-            this.labelWeek.TabIndex = 10;
-            this.labelWeek.Text = "Неделя";
-            // 
-            // comboBoxWeek
-            // 
-            this.comboBoxWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxWeek.FormattingEnabled = true;
-            this.comboBoxWeek.Items.AddRange(new object[] {
-            "1",
-            "2"});
-            this.comboBoxWeek.Location = new System.Drawing.Point(60, 8);
-            this.comboBoxWeek.Name = "comboBoxWeek";
-            this.comboBoxWeek.Size = new System.Drawing.Size(45, 21);
-            this.comboBoxWeek.TabIndex = 11;
-            // 
-            // labelDay
-            // 
-            this.labelDay.AutoSize = true;
-            this.labelDay.Location = new System.Drawing.Point(127, 11);
-            this.labelDay.Name = "labelDay";
-            this.labelDay.Size = new System.Drawing.Size(34, 13);
-            this.labelDay.TabIndex = 12;
-            this.labelDay.Text = "День";
+            this.labelDateOffset.AutoSize = true;
+            this.labelDateOffset.Location = new System.Drawing.Point(9, 11);
+            this.labelDateOffset.Name = "labelDateOffset";
+            this.labelDateOffset.Size = new System.Drawing.Size(73, 13);
+            this.labelDateOffset.TabIndex = 0;
+            this.labelDateOffset.Text = "Дата зачета:";
             // 
             // labelLesson
             // 
             this.labelLesson.AutoSize = true;
-            this.labelLesson.Location = new System.Drawing.Point(244, 11);
+            this.labelLesson.Location = new System.Drawing.Point(303, 11);
             this.labelLesson.Name = "labelLesson";
             this.labelLesson.Size = new System.Drawing.Size(33, 13);
-            this.labelLesson.TabIndex = 14;
+            this.labelLesson.TabIndex = 2;
             this.labelLesson.Text = "Пара";
             // 
             // comboBoxLesson
@@ -122,227 +95,207 @@
             "6",
             "7",
             "8"});
-            this.comboBoxLesson.Location = new System.Drawing.Point(283, 8);
+            this.comboBoxLesson.Location = new System.Drawing.Point(342, 8);
             this.comboBoxLesson.Name = "comboBoxLesson";
             this.comboBoxLesson.Size = new System.Drawing.Size(45, 21);
-            this.comboBoxLesson.TabIndex = 15;
-            // 
-            // comboBoxDay
-            // 
-            this.comboBoxDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxDay.FormattingEnabled = true;
-            this.comboBoxDay.Items.AddRange(new object[] {
-            "Пн",
-            "Вт",
-            "Ср",
-            "Чт",
-            "Пт",
-            "Сб",
-            "Вс"});
-            this.comboBoxDay.Location = new System.Drawing.Point(167, 8);
-            this.comboBoxDay.Name = "comboBoxDay";
-            this.comboBoxDay.Size = new System.Drawing.Size(45, 21);
-            this.comboBoxDay.TabIndex = 13;
-            // 
-            // panelBaseData
-            // 
-            this.panelBaseData.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelBaseData.Controls.Add(this.comboBoxDiscipline);
-            this.panelBaseData.Controls.Add(this.comboBoxLecturer);
-            this.panelBaseData.Controls.Add(this.comboBoxClassroom);
-            this.panelBaseData.Controls.Add(this.comboBoxStudentGroup);
-            this.panelBaseData.Location = new System.Drawing.Point(300, 9);
-            this.panelBaseData.Name = "panelBaseData";
-            this.panelBaseData.Size = new System.Drawing.Size(190, 120);
-            this.panelBaseData.TabIndex = 5;
-            // 
-            // comboBoxLecturer
-            // 
-            this.comboBoxLecturer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLecturer.FormattingEnabled = true;
-            this.comboBoxLecturer.Location = new System.Drawing.Point(3, 34);
-            this.comboBoxLecturer.Name = "comboBoxLecturer";
-            this.comboBoxLecturer.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxLecturer.TabIndex = 1;
-            this.comboBoxLecturer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLecturer_SelectedIndexChanged);
-            // 
-            // comboBoxClassroom
-            // 
-            this.comboBoxClassroom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxClassroom.FormattingEnabled = true;
-            this.comboBoxClassroom.Location = new System.Drawing.Point(3, 86);
-            this.comboBoxClassroom.Name = "comboBoxClassroom";
-            this.comboBoxClassroom.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxClassroom.TabIndex = 3;
-            this.comboBoxClassroom.SelectedIndexChanged += new System.EventHandler(this.ComboBoxClassroom_SelectedIndexChanged);
-            // 
-            // comboBoxStudentGroup
-            // 
-            this.comboBoxStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxStudentGroup.FormattingEnabled = true;
-            this.comboBoxStudentGroup.Location = new System.Drawing.Point(3, 60);
-            this.comboBoxStudentGroup.Name = "comboBoxStudentGroup";
-            this.comboBoxStudentGroup.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxStudentGroup.TabIndex = 2;
-            this.comboBoxStudentGroup.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStudentGroup_SelectedIndexChanged);
-            // 
-            // panelTextData
-            // 
-            this.panelTextData.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelTextData.Controls.Add(this.textBoxLessonDiscipline);
-            this.panelTextData.Controls.Add(this.textBoxLessonLecturer);
-            this.panelTextData.Controls.Add(this.textBoxLessonGroup);
-            this.panelTextData.Controls.Add(this.textBoxClassroom);
-            this.panelTextData.Location = new System.Drawing.Point(104, 9);
-            this.panelTextData.Name = "panelTextData";
-            this.panelTextData.Size = new System.Drawing.Size(190, 120);
-            this.panelTextData.TabIndex = 4;
-            // 
-            // textBoxLessonDiscipline
-            // 
-            this.textBoxLessonDiscipline.Location = new System.Drawing.Point(3, 6);
-            this.textBoxLessonDiscipline.Name = "textBoxLessonDiscipline";
-            this.textBoxLessonDiscipline.Size = new System.Drawing.Size(180, 20);
-            this.textBoxLessonDiscipline.TabIndex = 0;
-            // 
-            // textBoxLessonLecturer
-            // 
-            this.textBoxLessonLecturer.Location = new System.Drawing.Point(3, 32);
-            this.textBoxLessonLecturer.Name = "textBoxLessonLecturer";
-            this.textBoxLessonLecturer.Size = new System.Drawing.Size(180, 20);
-            this.textBoxLessonLecturer.TabIndex = 1;
-            // 
-            // textBoxLessonGroup
-            // 
-            this.textBoxLessonGroup.Location = new System.Drawing.Point(3, 58);
-            this.textBoxLessonGroup.Name = "textBoxLessonGroup";
-            this.textBoxLessonGroup.Size = new System.Drawing.Size(180, 20);
-            this.textBoxLessonGroup.TabIndex = 2;
-            // 
-            // textBoxClassroom
-            // 
-            this.textBoxClassroom.Location = new System.Drawing.Point(3, 84);
-            this.textBoxClassroom.Name = "textBoxClassroom";
-            this.textBoxClassroom.Size = new System.Drawing.Size(180, 20);
-            this.textBoxClassroom.TabIndex = 3;
-            // 
-            // labelClassroom
-            // 
-            this.labelClassroom.AutoSize = true;
-            this.labelClassroom.Location = new System.Drawing.Point(12, 98);
-            this.labelClassroom.Name = "labelClassroom";
-            this.labelClassroom.Size = new System.Drawing.Size(60, 13);
-            this.labelClassroom.TabIndex = 3;
-            this.labelClassroom.Text = "Аудитория";
-            // 
-            // labelLessonGroup
-            // 
-            this.labelLessonGroup.AutoSize = true;
-            this.labelLessonGroup.Location = new System.Drawing.Point(12, 72);
-            this.labelLessonGroup.Name = "labelLessonGroup";
-            this.labelLessonGroup.Size = new System.Drawing.Size(42, 13);
-            this.labelLessonGroup.TabIndex = 2;
-            this.labelLessonGroup.Text = "Группа";
-            // 
-            // labelLessonLecturer
-            // 
-            this.labelLessonLecturer.AutoSize = true;
-            this.labelLessonLecturer.Location = new System.Drawing.Point(12, 46);
-            this.labelLessonLecturer.Name = "labelLessonLecturer";
-            this.labelLessonLecturer.Size = new System.Drawing.Size(86, 13);
-            this.labelLessonLecturer.TabIndex = 1;
-            this.labelLessonLecturer.Text = "Преподаватель";
-            // 
-            // labelLessonDiscipline
-            // 
-            this.labelLessonDiscipline.AutoSize = true;
-            this.labelLessonDiscipline.Location = new System.Drawing.Point(12, 20);
-            this.labelLessonDiscipline.Name = "labelLessonDiscipline";
-            this.labelLessonDiscipline.Size = new System.Drawing.Size(52, 13);
-            this.labelLessonDiscipline.TabIndex = 0;
-            this.labelLessonDiscipline.Text = "Предмет";
+            this.comboBoxLesson.TabIndex = 3;
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(415, 179);
+            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonClose.Location = new System.Drawing.Point(435, 175);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 8;
+            this.buttonClose.TabIndex = 3;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(334, 179);
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Location = new System.Drawing.Point(354, 175);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 7;
+            this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            // 
+            // panelRecord
+            // 
+            this.panelRecord.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRecord.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelRecord.Controls.Add(this.comboBoxDiscipline);
+            this.panelRecord.Controls.Add(this.comboBoxLecturer);
+            this.panelRecord.Controls.Add(this.textBoxLessonDiscipline);
+            this.panelRecord.Controls.Add(this.comboBoxClassroom);
+            this.panelRecord.Controls.Add(this.textBoxLessonLecturer);
+            this.panelRecord.Controls.Add(this.comboBoxStudentGroup);
+            this.panelRecord.Controls.Add(this.textBoxLessonStudentGroup);
+            this.panelRecord.Controls.Add(this.textBoxLessonClassroom);
+            this.panelRecord.Controls.Add(this.labelLessonDiscipline);
+            this.panelRecord.Controls.Add(this.labelLessonLecturer);
+            this.panelRecord.Controls.Add(this.labelLessonClassroom);
+            this.panelRecord.Controls.Add(this.labelLessonStudentGroup);
+            this.panelRecord.Location = new System.Drawing.Point(10, 10);
+            this.panelRecord.Name = "panelRecord";
+            this.panelRecord.Size = new System.Drawing.Size(500, 115);
+            this.panelRecord.TabIndex = 0;
             // 
             // comboBoxDiscipline
             // 
             this.comboBoxDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDiscipline.FormattingEnabled = true;
-            this.comboBoxDiscipline.Location = new System.Drawing.Point(3, 6);
+            this.comboBoxDiscipline.Location = new System.Drawing.Point(306, 32);
             this.comboBoxDiscipline.Name = "comboBoxDiscipline";
             this.comboBoxDiscipline.Size = new System.Drawing.Size(180, 21);
-            this.comboBoxDiscipline.TabIndex = 0;
+            this.comboBoxDiscipline.TabIndex = 5;
             this.comboBoxDiscipline.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDiscipline_SelectedIndexChanged);
+            // 
+            // comboBoxLecturer
+            // 
+            this.comboBoxLecturer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLecturer.FormattingEnabled = true;
+            this.comboBoxLecturer.Location = new System.Drawing.Point(306, 59);
+            this.comboBoxLecturer.Name = "comboBoxLecturer";
+            this.comboBoxLecturer.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxLecturer.TabIndex = 8;
+            this.comboBoxLecturer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLecturer_SelectedIndexChanged);
+            // 
+            // textBoxLessonDiscipline
+            // 
+            this.textBoxLessonDiscipline.Location = new System.Drawing.Point(120, 32);
+            this.textBoxLessonDiscipline.Name = "textBoxLessonDiscipline";
+            this.textBoxLessonDiscipline.Size = new System.Drawing.Size(180, 20);
+            this.textBoxLessonDiscipline.TabIndex = 4;
+            // 
+            // comboBoxClassroom
+            // 
+            this.comboBoxClassroom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxClassroom.FormattingEnabled = true;
+            this.comboBoxClassroom.Location = new System.Drawing.Point(306, 5);
+            this.comboBoxClassroom.Name = "comboBoxClassroom";
+            this.comboBoxClassroom.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxClassroom.TabIndex = 2;
+            this.comboBoxClassroom.SelectedIndexChanged += new System.EventHandler(this.ComboBoxClassroom_SelectedIndexChanged);
+            // 
+            // textBoxLessonLecturer
+            // 
+            this.textBoxLessonLecturer.Location = new System.Drawing.Point(120, 59);
+            this.textBoxLessonLecturer.Name = "textBoxLessonLecturer";
+            this.textBoxLessonLecturer.Size = new System.Drawing.Size(180, 20);
+            this.textBoxLessonLecturer.TabIndex = 7;
+            // 
+            // comboBoxStudentGroup
+            // 
+            this.comboBoxStudentGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStudentGroup.FormattingEnabled = true;
+            this.comboBoxStudentGroup.Location = new System.Drawing.Point(306, 86);
+            this.comboBoxStudentGroup.Name = "comboBoxStudentGroup";
+            this.comboBoxStudentGroup.Size = new System.Drawing.Size(180, 21);
+            this.comboBoxStudentGroup.TabIndex = 11;
+            this.comboBoxStudentGroup.SelectedIndexChanged += new System.EventHandler(this.ComboBoxStudentGroup_SelectedIndexChanged);
+            // 
+            // textBoxLessonStudentGroup
+            // 
+            this.textBoxLessonStudentGroup.Location = new System.Drawing.Point(120, 86);
+            this.textBoxLessonStudentGroup.Name = "textBoxLessonStudentGroup";
+            this.textBoxLessonStudentGroup.Size = new System.Drawing.Size(180, 20);
+            this.textBoxLessonStudentGroup.TabIndex = 10;
+            // 
+            // textBoxLessonClassroom
+            // 
+            this.textBoxLessonClassroom.Location = new System.Drawing.Point(120, 5);
+            this.textBoxLessonClassroom.Name = "textBoxLessonClassroom";
+            this.textBoxLessonClassroom.Size = new System.Drawing.Size(180, 20);
+            this.textBoxLessonClassroom.TabIndex = 1;
+            // 
+            // labelLessonDiscipline
+            // 
+            this.labelLessonDiscipline.AutoSize = true;
+            this.labelLessonDiscipline.Location = new System.Drawing.Point(2, 35);
+            this.labelLessonDiscipline.Name = "labelLessonDiscipline";
+            this.labelLessonDiscipline.Size = new System.Drawing.Size(52, 13);
+            this.labelLessonDiscipline.TabIndex = 3;
+            this.labelLessonDiscipline.Text = "Предмет";
+            // 
+            // labelLessonLecturer
+            // 
+            this.labelLessonLecturer.AutoSize = true;
+            this.labelLessonLecturer.Location = new System.Drawing.Point(2, 62);
+            this.labelLessonLecturer.Name = "labelLessonLecturer";
+            this.labelLessonLecturer.Size = new System.Drawing.Size(86, 13);
+            this.labelLessonLecturer.TabIndex = 6;
+            this.labelLessonLecturer.Text = "Преподаватель";
+            // 
+            // labelLessonClassroom
+            // 
+            this.labelLessonClassroom.AutoSize = true;
+            this.labelLessonClassroom.Location = new System.Drawing.Point(3, 8);
+            this.labelLessonClassroom.Name = "labelLessonClassroom";
+            this.labelLessonClassroom.Size = new System.Drawing.Size(60, 13);
+            this.labelLessonClassroom.TabIndex = 0;
+            this.labelLessonClassroom.Text = "Аудитория";
+            // 
+            // labelLessonStudentGroup
+            // 
+            this.labelLessonStudentGroup.AutoSize = true;
+            this.labelLessonStudentGroup.Location = new System.Drawing.Point(2, 89);
+            this.labelLessonStudentGroup.Name = "labelLessonStudentGroup";
+            this.labelLessonStudentGroup.Size = new System.Drawing.Size(42, 13);
+            this.labelLessonStudentGroup.TabIndex = 9;
+            this.labelLessonStudentGroup.Text = "Группа";
+            // 
+            // dateTimePickerDateOffset
+            // 
+            this.dateTimePickerDateOffset.Location = new System.Drawing.Point(120, 8);
+            this.dateTimePickerDateOffset.Name = "dateTimePickerDateOffset";
+            this.dateTimePickerDateOffset.Size = new System.Drawing.Size(180, 20);
+            this.dateTimePickerDateOffset.TabIndex = 1;
             // 
             // ScheduleOffsetRecordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 207);
+            this.ClientSize = new System.Drawing.Size(519, 206);
+            this.Controls.Add(this.panelRecord);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.panelDateTime);
-            this.Controls.Add(this.panelBaseData);
-            this.Controls.Add(this.panelTextData);
-            this.Controls.Add(this.labelClassroom);
-            this.Controls.Add(this.labelLessonGroup);
-            this.Controls.Add(this.labelLessonLecturer);
-            this.Controls.Add(this.labelLessonDiscipline);
             this.Name = "ScheduleOffsetRecordForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Зачет";
             this.Load += new System.EventHandler(this.ScheduleOffsetRecordForm_Load);
             this.panelDateTime.ResumeLayout(false);
             this.panelDateTime.PerformLayout();
-            this.panelBaseData.ResumeLayout(false);
-            this.panelTextData.ResumeLayout(false);
-            this.panelTextData.PerformLayout();
+            this.panelRecord.ResumeLayout(false);
+            this.panelRecord.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Panel panelDateTime;
-        private System.Windows.Forms.Label labelWeek;
-        private System.Windows.Forms.ComboBox comboBoxWeek;
-        private System.Windows.Forms.Label labelDay;
+        private System.Windows.Forms.Label labelDateOffset;
         private System.Windows.Forms.Label labelLesson;
         private System.Windows.Forms.ComboBox comboBoxLesson;
-        private System.Windows.Forms.ComboBox comboBoxDay;
-        private System.Windows.Forms.Panel panelBaseData;
-        private System.Windows.Forms.ComboBox comboBoxLecturer;
-        private System.Windows.Forms.ComboBox comboBoxClassroom;
-        private System.Windows.Forms.ComboBox comboBoxStudentGroup;
-        private System.Windows.Forms.Panel panelTextData;
-        private System.Windows.Forms.TextBox textBoxLessonDiscipline;
-        private System.Windows.Forms.TextBox textBoxLessonLecturer;
-        private System.Windows.Forms.TextBox textBoxLessonGroup;
-        private System.Windows.Forms.TextBox textBoxClassroom;
-        private System.Windows.Forms.Label labelClassroom;
-        private System.Windows.Forms.Label labelLessonGroup;
-        private System.Windows.Forms.Label labelLessonLecturer;
-        private System.Windows.Forms.Label labelLessonDiscipline;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Panel panelRecord;
         private System.Windows.Forms.ComboBox comboBoxDiscipline;
+        private System.Windows.Forms.ComboBox comboBoxLecturer;
+        private System.Windows.Forms.TextBox textBoxLessonDiscipline;
+        private System.Windows.Forms.ComboBox comboBoxClassroom;
+        private System.Windows.Forms.TextBox textBoxLessonLecturer;
+        private System.Windows.Forms.ComboBox comboBoxStudentGroup;
+        private System.Windows.Forms.TextBox textBoxLessonStudentGroup;
+        private System.Windows.Forms.TextBox textBoxLessonClassroom;
+        private System.Windows.Forms.Label labelLessonDiscipline;
+        private System.Windows.Forms.Label labelLessonLecturer;
+        private System.Windows.Forms.Label labelLessonClassroom;
+        private System.Windows.Forms.Label labelLessonStudentGroup;
+        private System.Windows.Forms.DateTimePicker dateTimePickerDateOffset;
     }
 }

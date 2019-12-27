@@ -1,11 +1,9 @@
 ﻿using BaseInterfaces.BindingModels;
 using ControlsAndForms.Messangers;
-using ScheduleControlsAndForms.Examination;
-using ScheduleControlsAndForms.Offset;
-using ScheduleControlsAndForms.Semester;
+using Enums;
+using ScheduleControlsAndForms.BaseControls;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,52 +13,56 @@ namespace ScheduleControlsAndForms.Current
     {
         private readonly IScheduleProcess _process;
 
-        private readonly ISemesterRecordService _serviceSR;
+        private bool switchFlag;
 
-        private readonly IOffsetRecordService _serviceOR;
-
-        private readonly IExaminationRecordService _serviceER;
-
-        private readonly IConsultationRecordService _serviceCR;
-
-        private readonly IStreamingLessonService _serviceSL;
-
-        public ControlCurrentStudentGroup(IScheduleProcess process, ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER,
-            IConsultationRecordService serviceCR, IStreamingLessonService serviceSL)
+        public ControlCurrentStudentGroup(IScheduleProcess process)
         {
             InitializeComponent();
             _process = process;
-            _serviceSR = serviceSR;
-            _serviceOR = serviceOR;
-            _serviceER = serviceER;
-            _serviceCR = serviceCR;
-            _serviceSL = serviceSL;
+            switchFlag = true;
         }
 
         public void LoadData()
         {
-            tabControlStudentGroup.TabPages.Clear();
-
-            var resultCD = _process.GetCurrentDates();
-            if (!resultCD.Succeeded)
+            if (switchFlag)
             {
-                ErrorMessanger.PrintErrorMessage("При загрузке дат семестра возникла ошибка: ", resultCD.Errors);
+                var control = new ControlCurrentObjects(_process)
+                {
+                    Dock = DockStyle.Fill
+                };
+                control.LoadData(ScheduleObjectLoad.StudentGroups);
+
+                Controls.Clear();
+                Controls.Add(control);
+                Controls.Add(panelTop);
             }
-            var _dates = resultCD.Result;
-
-            var currentDate = DateTime.Now;
-
-            var resultStudentGroups = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
-            if (!resultStudentGroups.Succeeded)
+            else
             {
-                ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
-                return;
-            }
-            var studentGroups = resultStudentGroups.Result.List;
+                TabControl tabControlStudentGroup = new TabControl
+                {
+                    Alignment = TabAlignment.Left,
+                    Dock = DockStyle.Fill,
+                    Location = new Point(0, 33),
+                    Margin = new Padding(0),
+                    Multiline = true,
+                    Name = "tabControlClassroom",
+                    Padding = new Point(0, 0),
+                    SelectedIndex = 0,
+                    Size = new Size(800, 467),
+                    TabIndex = 1
+                };
 
-            if (studentGroups != null)
-            {
-                if (currentDate.Date <= Convert.ToDateTime(_dates.DateEndSecondHalfSemester).Date)
+                tabControlStudentGroup.TabPages.Clear();
+
+                var resultStudentGroups = _process.GetStudentGroups(new StudentGroupGetBindingModel { });
+                if (!resultStudentGroups.Succeeded)
+                {
+                    ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", resultStudentGroups.Errors);
+                    return;
+                }
+                var studentGroups = resultStudentGroups.Result.List;
+
+                if (studentGroups != null)
                 {
                     for (int i = 0; i < studentGroups.Count; i++)
                     {
@@ -68,68 +70,32 @@ namespace ScheduleControlsAndForms.Current
                         {
                             AutoScroll = true,
                             Location = new Point(23, 4),
-                            Name = "tabPageSemester" + studentGroups[i].Id,
+                            Name = "tabPage" + studentGroups[i].Id,
                             Padding = new Padding(3),
                             Size = new Size(1140, 611),
                             Tag = i.ToString(),
                             Text = studentGroups[i].GroupName
                         };
                         tabControlStudentGroup.TabPages.Add(tabpage);
-                        var control = new ScheduleSemesterControl(_process, _serviceSR, _serviceCR, _serviceSL)
+                        var control = new ControlCurrentDates(_process)
                         {
                             Dock = DockStyle.Fill
                         };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupId = studentGroups[i].Id });
+                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new LoadScheduleBindingModel { StudentGroupId = studentGroups[i].Id });
                         tabControlStudentGroup.TabPages[i].Controls.Add(control);
                     }
                 }
-                else if (Convert.ToDateTime(_dates.DateBeginOffset).Date >= currentDate.Date && currentDate.Date <= Convert.ToDateTime(_dates.DateBeginExamination).Date)
-                {
-                    for (int i = 0; i < studentGroups.Count; i++)
-                    {
-                        TabPage tabpage = new TabPage
-                        {
-                            AutoScroll = true,
-                            Location = new Point(23, 4),
-                            Name = "tabPageOffset" + studentGroups[i].Id,
-                            Padding = new Padding(3),
-                            Size = new Size(1140, 611),
-                            Tag = i.ToString(),
-                            Text = studentGroups[i].GroupName
-                        };
-                        tabControlStudentGroup.TabPages.Add(tabpage);
-                        var control = new ScheduleOffsetControl(_process, _serviceOR, _serviceCR)
-                        {
-                            Dock = DockStyle.Fill
-                        };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupId = studentGroups[i].Id });
-                        tabControlStudentGroup.TabPages[i].Controls.Add(control);
-                    }
-                }
-                else if (Convert.ToDateTime(_dates.DateEndExamination).Date >= currentDate.Date)
-                {
-                    for (int i = 0; i < studentGroups.Count; i++)
-                    {
-                        TabPage tabpage = new TabPage
-                        {
-                            AutoScroll = true,
-                            Location = new Point(23, 4),
-                            Name = "tabPageExamination" + studentGroups[i].Id,
-                            Padding = new Padding(3),
-                            Size = new Size(1140, 611),
-                            Tag = i.ToString(),
-                            Text = studentGroups[i].GroupName
-                        };
-                        tabControlStudentGroup.TabPages.Add(tabpage);
-                        var control = new ScheduleExaminationControl(_process, _serviceER, _serviceCR)
-                        {
-                            Dock = DockStyle.Fill
-                        };
-                        control.LoadData(string.Format("Группа {0}.", studentGroups[i].GroupName), new ScheduleGetBindingModel { StudentGroupId = studentGroups[i].Id });
-                        tabControlStudentGroup.TabPages[i].Controls.Add(control);
-                    }
-                }
+
+                Controls.Clear();
+                Controls.Add(tabControlStudentGroup);
+                Controls.Add(panelTop);
             }
+        }
+
+        private void ButtonSwitch_Click(object sender, System.EventArgs e)
+        {
+            switchFlag = !switchFlag;
+            LoadData();
         }
     }
 }

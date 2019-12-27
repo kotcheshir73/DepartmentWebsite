@@ -1,7 +1,6 @@
 ﻿using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
-using ScheduleImplementations.Helpers;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -24,95 +23,56 @@ namespace ScheduleImplementations.Services
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
-                var currentDates = model.SeasonDateId ?? DepartmentUserManager.GetCurrentDates().Id;
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var selectedRecords = context.ConsultationRecords.Where(x => x.SeasonDatesId == currentDates);
+                    var selectedRecords = context.ConsultationRecords.AsQueryable();
 
-                    if (model.DateBegin.HasValue)
+                    if (model.DateBegin.HasValue && model.DateEnd.HasValue)
                     {
-                        if (!string.IsNullOrEmpty(model.ClassroomNumber))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.LessonClassroom == model.ClassroomNumber &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (!string.IsNullOrEmpty(model.StudentGroupName))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.LessonGroup == model.StudentGroupName &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (model.LecturerId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.LecturerId == model.LecturerId.Value &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (model.DisciplineId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.DisciplineId == model.DisciplineId.Value &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (model.ClassroomId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.ClassroomId == model.ClassroomId.Value &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (model.StudentGroupId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.StudentGroupId == model.StudentGroupId.Value &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
+                        selectedRecords = selectedRecords.Where(x => x.ScheduleDate >= model.DateBegin.Value.Date &&
+                                                                    x.ScheduleDate <= model.DateEnd.Value.Date.AddDays(1));
                     }
-                    else
+
+                    if (model.ClassroomId.HasValue)
                     {
-                        if (!string.IsNullOrEmpty(model.ClassroomNumber))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
-                            selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
-                        }
-                        if (!string.IsNullOrEmpty(model.StudentGroupName))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
-                            selectedRecords = selectedRecords.Where(x => x.LessonGroup == model.StudentGroupName);
-                        }
-                        if (model.LecturerId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
-                            selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
-                        }
-                        if (model.DisciplineId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
-                            selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
-                        }
-                        if (model.ClassroomId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
-                            selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
-                        }
-                        if (model.StudentGroupId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
-                            selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
-                        }
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                        selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
+                    }
+                    if (model.DisciplineId.HasValue)
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                        selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
+                    }
+                    if (model.LecturerId.HasValue)
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
+                        selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
+                    }
+                    if (model.StudentGroupId.HasValue)
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                        selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
+                    }
+
+                    if (!string.IsNullOrEmpty(model.ClassroomNumber))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                        selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
+                    }
+                    if (!string.IsNullOrEmpty(model.DisciplineName))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                        selectedRecords = selectedRecords.Where(x => x.LessonDiscipline == model.DisciplineName);
+                    }
+                    if (!string.IsNullOrEmpty(model.LecturerName))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                        selectedRecords = selectedRecords.Where(x => x.LessonLecturer == model.LecturerName);
+                    }
+                    if (!string.IsNullOrEmpty(model.StudentGroupName))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                        selectedRecords = selectedRecords.Where(x => x.LessonStudentGroup == model.StudentGroupName);
                     }
 
                     selectedRecords = selectedRecords
@@ -121,28 +81,9 @@ namespace ScheduleImplementations.Services
                                             .Include(x => x.Lecturer)
                                             .Include(x => x.StudentGroup);
 
-                    var records = selectedRecords.ToList();
+                    selectedRecords = selectedRecords.OrderBy(s => s.ScheduleDate);
 
-                    ConsultationRecordRecordBindingModel record;
-                    List<ConsultationRecordShortViewModel> result = new List<ConsultationRecordShortViewModel>();
-                    for (int i = 0; i < records.Count; ++i)
-                    {
-                        record = new ConsultationRecordRecordBindingModel
-                        {
-                            ClassroomId = model.ClassroomId,
-                            LecturerId = model.LecturerId,
-                            StudentGroupId = model.StudentGroupId,
-                            DateConsultation = records[i].DateConsultation
-                        };
-                        var seasonDate = model.SeasonDateId.HasValue ?
-                                                context.SeasonDates.FirstOrDefault(x => x.Id == model.SeasonDateId.Value) :
-                                                DepartmentUserManager.GetCurrentDates();
-                        ScheduleHelper.CheckCreateConsultation(record, seasonDate);
-
-                        result.Add(ScheduleModelFactoryToViewModel.CreateConsultationRecordShortViewModel(records[i], record));
-                    }
-
-                    return ResultService<List<ConsultationRecordShortViewModel>>.Success(result.OrderBy(x => x.Id).ToList());
+                    return ResultService<List<ConsultationRecordShortViewModel>>.Success(selectedRecords.Select(x => x.CreateRecordShortViewModel()).ToList());
                 }
             }
             catch (Exception ex)
@@ -161,13 +102,16 @@ namespace ScheduleImplementations.Services
                 {
                     var entity = context.ConsultationRecords
                                 .Where(x => x.Id == model.Id)
-                                .Include(x => x.Classroom).Include(x => x.Discipline).Include(x => x.Lecturer).Include(x => x.StudentGroup)
+                                .Include(x => x.Classroom)
+                                .Include(x => x.Discipline)
+                                .Include(x => x.Lecturer)
+                                .Include(x => x.StudentGroup)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService<ConsultationRecordViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    return ResultService<ConsultationRecordViewModel>.Success(ScheduleModelFactoryToViewModel.CreateConsultationRecordViewModel(entity));
+                    return ResultService<ConsultationRecordViewModel>.Success(entity.CreateRecordViewModel());
                 }
             }
             catch (Exception ex)
@@ -176,19 +120,15 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService CreateConsultationRecord(ConsultationRecordRecordBindingModel model)
+		public ResultService CreateConsultationRecord(ConsultationRecordSetBindingModel model)
 		{
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
-                var seasonDate = DepartmentUserManager.GetCurrentDates();
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    ScheduleHelper.CheckCreateConsultation(model, seasonDate);
-
-                    var entity = ScheduleModelFacotryFromBindingModel.CreateConsultationRecord(model, seasonDate: seasonDate);
+                    var entity = model.CreateRecord();
 
                     context.ConsultationRecords.Add(entity);
                     context.SaveChanges();
@@ -202,7 +142,7 @@ namespace ScheduleImplementations.Services
             }
 		}
 
-		public ResultService UpdateConsultationRecord(ConsultationRecordRecordBindingModel model)
+		public ResultService UpdateConsultationRecord(ConsultationRecordSetBindingModel model)
 		{
             try
             {
@@ -210,13 +150,13 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.ConsultationRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.ConsultationRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
-                    entity = ScheduleModelFacotryFromBindingModel.CreateConsultationRecord(model, entity);
+
+                    entity = model.CreateRecord(entity);
                     context.SaveChanges();
 
                     return ResultService.Success();
@@ -236,8 +176,7 @@ namespace ScheduleImplementations.Services
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.ConsultationRecords
-                                .FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.ConsultationRecords.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -261,69 +200,52 @@ namespace ScheduleImplementations.Services
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
-                var currentDates = model.SeasonDateId ?? DepartmentUserManager.GetCurrentDates().Id;
-
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var selectedRecords = context.ConsultationRecords.Where(x => x.SeasonDatesId == currentDates);
+                    var selectedRecords = context.ConsultationRecords.Where(x => 
+                    x.ScheduleDate >= model.DateBegin.Value.Date &&
+                                           x.ScheduleDate <= model.DateEnd.Value.Date.AddDays(1));
 
-                    if (model.DateBegin.HasValue)
+                    if (model.ClassroomId.HasValue)
                     {
-                        if (!string.IsNullOrEmpty(model.ClassroomNumber))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.Delete, "Расписание аудитории");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.LessonClassroom == model.ClassroomNumber &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (!string.IsNullOrEmpty(model.StudentGroupName))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.Delete, "Расписание групп");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.LessonGroup == model.StudentGroupName &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (model.LecturerId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.Delete, "Расписание преподавателей");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.LecturerId == model.LecturerId.Value &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
-                        if (model.DisciplineId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.Delete, "Расписание дисциплины");
-                            selectedRecords = selectedRecords
-                                .Where(x => x.DisciplineId == model.DisciplineId.Value &&
-                                            x.DateConsultation >= model.DateBegin.Value &&
-                                            x.DateConsultation <= model.DateEnd.Value);
-                        }
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                        selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId.Value);
                     }
-                    else
+                    if (model.DisciplineId.HasValue)
                     {
-                        if (!string.IsNullOrEmpty(model.ClassroomNumber))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.Delete, "Расписание аудитории");
-                            selectedRecords = selectedRecords.Where(x => x.ClassroomId == model.ClassroomId);
-                        }
-                        if (!string.IsNullOrEmpty(model.StudentGroupName))
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.Delete, "Расписание групп");
-                            selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
-                        }
-                        if (model.LecturerId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.Delete, "Расписание преподавателей");
-                            selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
-                        }
-                        if (model.DisciplineId.HasValue)
-                        {
-                            DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.Delete, "Расписание дисциплины");
-                            selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
-                        }
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_дисциплины, AccessType.View, "Расписание дисциплины");
+                        selectedRecords = selectedRecords.Where(x => x.DisciplineId == model.DisciplineId.Value);
+                    }
+                    if (model.LecturerId.HasValue)
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_преподаватели, AccessType.View, "Расписание преподавателей");
+                        selectedRecords = selectedRecords.Where(x => x.LecturerId == model.LecturerId.Value);
+                    }
+                    if (model.StudentGroupId.HasValue)
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                        selectedRecords = selectedRecords.Where(x => x.StudentGroupId == model.StudentGroupId.Value);
+                    }
+
+                    if (!string.IsNullOrEmpty(model.ClassroomNumber))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                        selectedRecords = selectedRecords.Where(x => x.LessonClassroom == model.ClassroomNumber);
+                    }
+                    if (!string.IsNullOrEmpty(model.DisciplineName))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_аудитории, AccessType.View, "Расписание аудитории");
+                        selectedRecords = selectedRecords.Where(x => x.LessonDiscipline == model.DisciplineName);
+                    }
+                    if (!string.IsNullOrEmpty(model.LecturerName))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                        selectedRecords = selectedRecords.Where(x => x.LessonLecturer == model.LecturerName);
+                    }
+                    if (!string.IsNullOrEmpty(model.StudentGroupName))
+                    {
+                        DepartmentUserManager.CheckAccess(AccessOperation.Расписание_группы, AccessType.View, "Расписание групп");
+                        selectedRecords = selectedRecords.Where(x => x.LessonStudentGroup == model.StudentGroupName);
                     }
 
                     context.ConsultationRecords.RemoveRange(selectedRecords);

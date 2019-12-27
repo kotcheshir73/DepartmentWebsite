@@ -9,15 +9,13 @@ namespace ScheduleInterfaces.ViewModels
     {
 		public DateTime DateConsultation { get; set; }
 
-		public DateTime DateExamination { get; set; }
-
         public string LessonConsultationClassroom { get; set; }
 
         public string Text
 		{
 			get
 			{
-				return string.Format("{0} {1}{2}{3}{2}{4}", LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
+				return string.Format("{0} {1}({2}){3}{4}{3}{5}", LessonDiscipline, LessonClassroom, LessonConsultationClassroom, Environment.NewLine, LessonLecturer, LessonGroup);
 			}
 		}
 	}
@@ -29,12 +27,15 @@ namespace ScheduleInterfaces.ViewModels
     {
 		public DateTime DateConsultation { get; set; }
 
-		public DateTime DateExamination { get; set; }
-
         public string LessonConsultationClassroom { get; set; }
 
         public Guid? ConsultationClassroomId { get; set; }
 
         public string ConsultationClassroom { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}{3}{4}{3}{5}", LessonType, LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
+        }
     }
 }

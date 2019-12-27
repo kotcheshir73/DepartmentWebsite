@@ -2,22 +2,16 @@
 
 namespace ScheduleInterfaces.ViewModels
 {
-	/// <summary>
-	/// Краткая запись для вывода в расписании
-	/// </summary>
-	public class SemesterRecordShortViewModel : ScheduleRecordShortViewModel
+    /// <summary>
+    /// Краткая запись для вывода в расписании
+    /// </summary>
+    public class SemesterRecordShortViewModel : ScheduleRecordShortViewModel
     {
 		public int Week { get; set; }
 
 		public int Day { get; set; }
 
 		public int Lesson { get; set; }
-
-		public string LessonType { get; set; }
-
-		public bool IsStreaming { get; set; }
-
-        public bool IsSubgroup { get; set; }
 
         public string Text
 		{
@@ -39,12 +33,9 @@ namespace ScheduleInterfaces.ViewModels
 
 		public int Lesson { get; set; }
 
-		public string LessonType { get; set; }
-
-        public bool IsFirstHalfSemester { get; set; }
-
-        public bool IsStreaming { get; set; }
-
-        public bool IsSubgroup { get; set; }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}{3}{4}{3}{5}", LessonType, LessonDiscipline, LessonClassroom, Environment.NewLine, LessonLecturer, LessonStudentGroup);
+        }
     }
 }

@@ -26,14 +26,14 @@ namespace ScheduleInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateExaminationRecord(ExaminationRecordRecordBindingModel model);
+        ResultService CreateExaminationRecord(ExaminationRecordSetBindingModel model);
 
         /// <summary>
         /// Изменение записи об экзамене
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateExaminationRecord(ExaminationRecordRecordBindingModel model);
+        ResultService UpdateExaminationRecord(ExaminationRecordSetBindingModel model);
 
         /// <summary>
         /// Удаление записи об экзамене
