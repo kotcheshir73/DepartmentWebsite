@@ -1,0 +1,16 @@
+﻿@using DepartmentWebCore.Helpers
+
+@model ScheduleClassroomsModel
+
+@{
+    ViewBag.Title = "Расписание аудиторий";
+}
+
+<div class="schedule-header-datetime">
+    @Html.LabelFor(model => model.Date)
+    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "datepicker", @PlaceHolder = "dd.MMMM.yyyy" } })
+</div>
+
+<div class="schedule-schedule">
+    @Html.ClassroomsSchedule(Model)
+</div>

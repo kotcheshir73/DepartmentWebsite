@@ -630,3 +630,48 @@ textarea {
     padding: 5px;
 }
 /*---------------------------------------------------*/
+
+/*--------расписание--------------------------------*/
+.schedule-head-element-line {
+    text-align: center;
+}
+
+.schedule-header-datetime {
+    padding: 10px;
+    margin-top: 5px;
+}
+
+    .schedule-header-datetime label {
+        padding-right: 10px;
+    }
+
+.schedule-table {
+    width: 100%
+}
+
+.schedule-row-time {
+    padding: 5px;
+}
+
+    .schedule-row-time td {
+        text-align: center;
+        padding: 5px;
+    }
+
+.schedule-col-header {
+    width: 20%;
+}
+
+.schedule-row {
+    text-align: center;
+    padding: 5px;
+    height: 90px;
+}
+
+    .schedule-row td {
+        text-align: center;
+        margin-left: 5px;
+        padding-left: 5px;
+        border-radius: 10px;
+    }
+/*---------------------------------------------------*/

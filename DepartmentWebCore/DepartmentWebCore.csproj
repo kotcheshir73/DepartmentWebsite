@@ -39,6 +39,7 @@
     <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj" />
     <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj" />
     <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj" />
+    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj" />
     <ProjectReference Include="..\WebImplementations\WebImplementations.csproj" />
     <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj" />
   </ItemGroup>
@@ -50,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Schedule\" />
     <Folder Include="wwwroot\lib\ckeditor\" />
     <Folder Include="wwwroot\lib\fontawesome\" />
   </ItemGroup>

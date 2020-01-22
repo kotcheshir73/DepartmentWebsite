@@ -41,6 +41,13 @@
             }
         });
     });
+
+    $('.datepicker').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: "-99Y",
+        dateFormat: "dd.MMMM.yyyy"
+    });
 });
 
 ShowError = function (result) {
