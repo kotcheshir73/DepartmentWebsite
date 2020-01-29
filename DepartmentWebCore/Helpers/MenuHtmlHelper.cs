@@ -40,7 +40,11 @@ namespace DepartmentWebCore.Helpers
                 sb.Append("</ul>");
             }
 
-            StringBuilder addParameters = new StringBuilder();
+            StringBuilder addParameters = new StringBuilder("?");
+            if(menuItem.Id.HasValue)
+            {
+                addParameters.Append($"Id={menuItem.Id}");
+            }
             if(menuItem.AdditionalParameters != null)
             {
                 foreach(var elem in menuItem.AdditionalParameters)
@@ -49,7 +53,12 @@ namespace DepartmentWebCore.Helpers
                 }
             }
 
-            string action = $"<a href=\"/{menuItem.Controller}/{menuItem.Action}?Id={menuItem.Id}{addParameters}\">{menuItem.Name}</a>";
+            if(addParameters.Length == 1)
+            {
+                addParameters.Clear();
+            }
+
+            string action = $"<a href=\"/{menuItem.Controller}/{menuItem.Action}{addParameters}\">{menuItem.Name}</a>";
 
             return $"<li class=\"sub-menu-item\">{action}{sb.ToString()}</li>";
         }

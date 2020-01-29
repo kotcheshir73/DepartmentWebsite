@@ -1,9 +1,9 @@
 ﻿@using DepartmentWebCore.Helpers
 
-@model ScheduleClassroomsModel
+@model ScheduleLecturersModel
 
 @{
-    ViewBag.Title = "Расписание аудиторий";
+    ViewBag.Title = "Расписание преподавателей";
 }
 
 <div class="schedule-header-datetime">
@@ -26,7 +26,7 @@
 </div>
 
 <div class="schedule-schedule">
-    @Html.ClassroomsSchedule(Model)
+    @Html.LecturersSchedule(Model)
 </div>
 
 <script>
@@ -37,7 +37,7 @@
         });
 
         $('#datetimepicker').on('dp.change', function (e) {
-            window.location.href = '@Url.Action("Classrooms", "Schedule")?dateString=' + e.date.format(e.date._f);
+            window.location.href = '@Url.Action("Lecturers", "Schedule")?dateString=' + e.date.format(e.date._f);
         })
 
         $('#beforeDay').on('click', function () {
@@ -46,7 +46,7 @@
             var day = date.getDate();
             var month = date.getMonth();
             var year = date.getFullYear();
-            window.location.href = '@Url.Action("Classrooms", "Schedule")?dateString=' + day + '.' + (month + 1) + '.' + year;
+            window.location.href = '@Url.Action("Lecturers", "Schedule")?dateString=' + day + '.' + (month + 1) + '.' + year;
         })
 
         $('#nextDay').on('click', function () {
@@ -55,7 +55,7 @@
             var day = date.getDate();
             var month = date.getMonth();
             var year = date.getFullYear();
-            window.location.href = '@Url.Action("Classrooms", "Schedule")?dateString=' + day + '.' + (month + 1) + '.' + year;
+            window.location.href = '@Url.Action("Lecturers", "Schedule")?dateString=' + day + '.' + (month + 1) + '.' + year;
         })
     });
 </script>

@@ -36,19 +36,18 @@ namespace DepartmentWebCore.Controllers
             return View();
         }
 
-        public IActionResult Classrooms(DateTime? date)
+        public IActionResult Classrooms(string dateString)
         {
-            if(!date.HasValue)
-            {
-                date = DateTime.Now;
-            }
-
             var model = new ScheduleClassroomsModel
             {
                 Date = DateTime.Now,
                 Classrooms = new List<WebClassroomViewModel>(),
                 List = new List<ScheduleRecordViewModel>()
             };
+            if (!string.IsNullOrEmpty(dateString))
+            {
+                model.Date = Convert.ToDateTime(dateString);
+            }
 
             var classrooms = _serviceCL.GetClassrooms(new WebClassroomGetBindingModel());
             if (classrooms.Succeeded)
@@ -57,10 +56,72 @@ namespace DepartmentWebCore.Controllers
             }
             var records = _process.LoadSchedule(new LoadScheduleBindingModel
             {
-                BeginDate = date.Value.Date,
-                EndDate = date.Value.Date.AddDays(1).AddSeconds(-1)
+                BeginDate = model.Date.Date,
+                EndDate = model.Date.Date.AddDays(1).AddSeconds(-1)
             });
             if(records.Succeeded)
+            {
+                model.List = records.Result;
+            }
+
+            return View(model);
+        }
+
+        public IActionResult Lecturers(string dateString)
+        {
+            var model = new ScheduleLecturersModel
+            {
+                Date = DateTime.Now,
+                Lecturers = new List<WebLecturerViewModel>(),
+                List = new List<ScheduleRecordViewModel>()
+            };
+            if (!string.IsNullOrEmpty(dateString))
+            {
+                model.Date = Convert.ToDateTime(dateString);
+            }
+
+            var lecturers = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
+            if (lecturers.Succeeded)
+            {
+                model.Lecturers = lecturers.Result.List;
+            }
+            var records = _process.LoadSchedule(new LoadScheduleBindingModel
+            {
+                BeginDate = model.Date.Date,
+                EndDate = model.Date.Date.AddDays(1).AddSeconds(-1)
+            });
+            if (records.Succeeded)
+            {
+                model.List = records.Result;
+            }
+
+            return View(model);
+        }
+
+        public IActionResult StudentGroups(string dateString)
+        {
+            var model = new ScheduleStudentGroupsModel
+            {
+                Date = DateTime.Now,
+                StudentGroups = new List<WebStudentGroupViewModel>(),
+                List = new List<ScheduleRecordViewModel>()
+            };
+            if (!string.IsNullOrEmpty(dateString))
+            {
+                model.Date = Convert.ToDateTime(dateString);
+            }
+
+            var studentGroups = _serviceWSG.GetStudentGroups(new WebStudentGroupGetBindingModel());
+            if (studentGroups.Succeeded)
+            {
+                model.StudentGroups = studentGroups.Result.List;
+            }
+            var records = _process.LoadSchedule(new LoadScheduleBindingModel
+            {
+                BeginDate = model.Date.Date,
+                EndDate = model.Date.Date.AddDays(1).AddSeconds(-1)
+            });
+            if (records.Succeeded)
             {
                 model.List = records.Result;
             }

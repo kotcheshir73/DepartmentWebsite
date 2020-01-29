@@ -10,7 +10,7 @@ namespace DepartmentWebCore.Models
             Child = new List<MenuElementModel>(); 
         }
 
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public string Name { get; set; }
 
