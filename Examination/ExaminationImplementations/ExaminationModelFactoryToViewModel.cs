@@ -251,11 +251,14 @@ namespace ExaminationImplementations
                 return null;
             }
 
+            var bodyproperty = CreateTicketTemplateBodyPropertiesViewModel(entity.TicketTemplateBodyProperties?.FirstOrDefault());
+
             return new TicketTemplateBodyViewModel
             {
                 Id = entity.Id,
                 TicketTemplateId = entity.TicketTemplateId,
-                TicketTemplateBodyPropertiesViewModel = CreateTicketTemplateBodyPropertiesViewModel(entity.TicketTemplateBodyProperties?.FirstOrDefault()),
+                TicketTemplateBodyPropertiesId = bodyproperty?.Id,
+                TicketTemplateBodyPropertiesViewModel = bodyproperty,
                 TicketTemplateTablePageViewModel = entity.TicketTemplateTables != null ?
                                                     new TicketTemplateTablePageViewModel
                                                     {

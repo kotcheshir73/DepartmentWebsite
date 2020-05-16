@@ -165,6 +165,8 @@ namespace ExaminationControlsAndForms.TicketTemplate
                     Id = _id.Value,
                     TemplateName = textBoxTemplateName.Text,
                     TicketTemplateBodyId = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel.Id,
+                    //TODO если изменять всю модель - вылетает ошибка при сохранении
+                  //  TicketTemplateBodySetBindingModel = (tabPageBody.Controls[0] as ControlTicketTemplateViewerBody).GetModel,
                     TicketTemplateDocumentSettingSetBindingModels = _ticketTemplateDocumentSettingPageViewModel?.List.Select(x => new TicketTemplateDocumentSettingSetBindingModel
                         {
                             Id = x.Id,

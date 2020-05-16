@@ -28,7 +28,9 @@ namespace ExaminationControlsAndForms.Services
         /// <param name="body"></param>
         private void LoadBody(TicketTemplateBodyViewModel body)
         {
-            var steps = (body.TicketTemplateTablePageViewModel?.List.Count ?? 0) + (body.TicketTemplateParagraphPageViewModel?.List.Count ?? 0);
+            var tableOrderMax = body.TicketTemplateTablePageViewModel?.List.Count > 0 ? body.TicketTemplateTablePageViewModel?.List.Max(x => x.Order) ?? 0 : 0;
+            var paragraphOrderMax = body.TicketTemplateParagraphPageViewModel?.List.Count > 0 ? body.TicketTemplateParagraphPageViewModel?.List.Max(x => x.Order) ?? 0 : 0;
+            var steps = Math.Max(tableOrderMax, paragraphOrderMax);
             StringBuilder html = new StringBuilder("<body>");
             string size = "";
             for (int i = 0; i < steps; ++i)
