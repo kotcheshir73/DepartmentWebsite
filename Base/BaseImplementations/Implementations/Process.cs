@@ -491,12 +491,10 @@ namespace BaseImplementations.Implementations
                                 StudentOrderType = StudentOrderType.Движение.ToString()
                             });
                             context.StudentOrders.Add(deductionOrder);
-                            context.SaveChanges();
                         }
                         else if (deductionOrder.IsDeleted)
                         {
                             deductionOrder.IsDeleted = false;
-                            context.SaveChanges();
                         }
                         StudentOrderType type = StudentOrderType.ОтчислитьПоСобственному;
                         if (model.DeductionReason.Contains("неуспеваем"))
@@ -521,12 +519,10 @@ namespace BaseImplementations.Implementations
                                 StudentOrderType = type.ToString()
                             });
                             context.StudentOrderBlocks.Add(deductionOrderBlock);
-                            context.SaveChanges();
                         }
                         else if (deductionOrderBlock.IsDeleted)
                         {
                             deductionOrderBlock.IsDeleted = false;
-                            context.SaveChanges();
                         }
                         var deductionSOS = context.StudentOrderBlockStudents.FirstOrDefault(x => x.StudentOrderBlockId == deductionOrderBlock.Id && x.StudentId == entity.Id);
                         if (deductionSOS == null)
@@ -539,18 +535,16 @@ namespace BaseImplementations.Implementations
                                 Info = model.Studnets[i].Item2
                             });
                             context.StudentOrderBlockStudents.Add(deductionSOS);
-                            context.SaveChanges();
                         }
                         else if (deductionSOS.IsDeleted)
                         {
                             deductionSOS.IsDeleted = false;
-                            context.SaveChanges();
                         }
 
                         entity.StudentState = StudentState.Отчислен;
                         entity.StudentGroupId = null;
-                        context.SaveChanges();
                     }
+                    context.SaveChanges();
                     transaction.Commit();
 
                     return ResultService.Success();
