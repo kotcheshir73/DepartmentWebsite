@@ -4,6 +4,7 @@ using ControlsAndForms.Messangers;
 using Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Unity;
 
@@ -14,15 +15,18 @@ namespace BaseControlsAndForms.Services
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
+        private readonly IStudentGroupService _serviceSG;
+
         private readonly IStudentService _serviceS;
 
         private readonly IProcess _process;
 
         private Guid? _id = null;
 
-        public FormRecovery(IStudentService serviceS, IProcess process, Guid? id = null)
+        public FormRecovery(IStudentGroupService serviceSG, IStudentService serviceS, IProcess process, Guid? id = null)
         {
             InitializeComponent();
+            _serviceSG = serviceSG;
             _serviceS = serviceS;
             _process = process;
             if(id.HasValue)
@@ -33,6 +37,19 @@ namespace BaseControlsAndForms.Services
 
         private void FormRecovery_Load(object sender, EventArgs e)
         {
+            var resultSG = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { });
+            if (!resultSG.Succeeded)
+            {
+                ErrorMessanger.PrintErrorMessage("При загрузке групп возникла ошибка: ", resultSG.Errors);
+                return;
+            }
+
+            comboBoxNewStudentGroup.ValueMember = "Value";
+            comboBoxNewStudentGroup.DisplayMember = "Display";
+            comboBoxNewStudentGroup.DataSource = resultSG.Result.List
+                .Select(ed => new { Value = ed.Id, Display = ed.GroupName }).ToList();
+            comboBoxNewStudentGroup.SelectedItem = null;
+
             var result = _serviceS.GetStudents(new StudentGetBindingModel
             {
                 StudentStatus = StudentState.Отчислен,
@@ -53,6 +70,11 @@ namespace BaseControlsAndForms.Services
                     res.Patronymic
                 });
             }
+
+            if(_id.HasValue)
+            {
+                comboBoxNewStudentGroup.SelectedValue = _id;
+            }
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
@@ -62,9 +84,9 @@ namespace BaseControlsAndForms.Services
                 MessageBox.Show("Введите основание перевода", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(!_id.HasValue)
+            if (comboBoxNewStudentGroup.SelectedValue == null)
             {
-                MessageBox.Show("Неизвестна группа", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите группу", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             var list = new List<Guid>();
@@ -85,7 +107,7 @@ namespace BaseControlsAndForms.Services
                 StudnetIds = list,
                 RecoveryOrderDate = dateTimePickerRecoveryDate.Value,
                 RecoveryOrderNumber = textBoxRecoveryOrderNumber.Text,
-                StudentGroupId = _id.Value
+                StudentGroupId = new Guid(comboBoxNewStudentGroup.SelectedValue.ToString())
             });
             if (result.Succeeded)
             {
