@@ -128,5 +128,18 @@ namespace BaseControlsAndForms.Services
 			DialogResult = DialogResult.Cancel;
 			Close();
 		}
+
+		private void DataGridViewStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			if(e.ColumnIndex == 1)
+			{
+				var val = dataGridViewStudents.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+				if((bool)val)
+				{
+					dataGridViewStudents.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value =
+						dataGridViewStudents.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+				}
+			}
+		}
 	}
 }
