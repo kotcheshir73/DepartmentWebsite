@@ -65,7 +65,10 @@ namespace BaseControlsAndForms.Student
             {
                 pictureBoxPhoto.Image = entity.Photo;
             }
-            comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+            if (entity.StudentGroupId.HasValue)
+            {
+                comboBoxStudentGroup.SelectedValue = entity.StudentGroupId;
+            }
             checkBoxIsSteward.Checked = entity.IsSteward;
         }
 
