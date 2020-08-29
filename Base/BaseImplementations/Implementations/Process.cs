@@ -507,6 +507,10 @@ namespace BaseImplementations.Implementations
                         {
                             type = StudentOrderType.ОтчислитьВСвязиСПереводом;
                         }
+                        else if (model.DeductionReason.Contains("невыходом"))
+                        {
+                            type = StudentOrderType.ОтчислитьЗаНевыходСАкадема;
+                        }
                         // ищем блок приказа для направления
                         var deductionOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == deductionOrder.Id && x.StudentOrderType == type);
                         if (deductionOrderBlock == null)
