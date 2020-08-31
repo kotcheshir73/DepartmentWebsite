@@ -42,10 +42,7 @@ namespace DepartmentUniversalTablet.Pages
                 string login = loginTextBox.Text;
                 string password = passwordTextBox.Password;
 
-                await Task.Run(() =>
-                {
-                    DepartmentUserManager.LoginAsync(login, password);
-                });
+                await DepartmentUserManager.LoginAsync(login, password);
 
                 Frame.Navigate(typeof(AcademicYearsPage));
             }

@@ -7,25 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DatabaseContext
 {
     public class DepartmentUserManager
     {
-        private static Encoding ascii = Encoding.ASCII;
-
-        private static DepartmentUser _user;
-
-        private static List<DepartmentRole> _roles;
-
+        private static readonly Encoding ascii = Encoding.ASCII;
         private static readonly int CountMaxAttempt = 3;
 
-        public static Guid? UserId => _user?.Id;
+        public static Guid? UserId => User?.Id;
 
-        public static bool IsAuth => _user != null;
+        public static bool IsAuth => User != null;
 
-        public static string LecturerName => $"{_user?.Lecturer?.LastName} {_user?.Lecturer?.FirstName[0]}.{_user?.Lecturer?.Patronymic?[0]}.";
-        
+        public static string LecturerName => $"{User?.Lecturer?.LastName} {User?.Lecturer?.FirstName[0]}.{User?.Lecturer?.Patronymic?[0]}.";        
 
         public static DepartmentDatabaseContext GetContext
         {
@@ -54,6 +49,10 @@ namespace DatabaseContext
             }
         }
 
+        public static DepartmentUser User { get; private set; }
+
+        public static List<DepartmentRole> Roles { get; private set; }
+
         /// <summary>
         /// Авторизация пользователя к операции
         /// </summary>
@@ -65,7 +64,7 @@ namespace DatabaseContext
         {
             using (var context = GetContext)
             {
-                var access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && _roles.Contains(a.Role));
+                var access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && Roles.Contains(a.Role));
                 if (access != null)
                 {
                     if (access.AccessType >= type) return;
@@ -88,71 +87,45 @@ namespace DatabaseContext
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static bool Login(string login, string password)
+        public static async Task LoginAsync(string login, string password)
         {
             var passHash = GetPasswordHash(password);
 
             using (var context = GetContext)
             {
-                var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
+                var user = await context.DepartmentUsers.FirstOrDefaultAsync(u => u.UserName == login && u.PasswordHash == passHash);
                 if (user == null)
                 {
-                    var checkUser = context.DepartmentUsers.FirstOrDefault(u => u.UserName == login && !u.IsLocked);
-                    if(checkUser != null)
+                    var checkUser = await context.DepartmentUsers.FirstOrDefaultAsync(u => u.UserName == login && !u.IsLocked);
+                    if (checkUser != null)
                     {
                         checkUser.CountAttempt++;
-                        if(checkUser.CountAttempt > CountMaxAttempt)
+                        if (checkUser.CountAttempt > CountMaxAttempt)
                         {
                             checkUser.IsLocked = true;
                             checkUser.DateLocked = DateTime.Now;
                         }
-                        context.SaveChanges();
                     }
 
                     throw new Exception("Введен неверный логин/пароль");
                 }
                 if (user.IsLocked)
                 {
-                    throw new Exception("Пользователь заблокирован");
+                    if (user.DateLocked.Value.AddHours(3) > DateTime.Now)
+                    {
+                        user.IsLocked = false;
+                    }
+                    else
+                    {
+                        throw new Exception("Пользователь заблокирован");
+                    }
                 }
 
                 user.DateLastVisit = DateTime.Now;
-                context.SaveChanges();
-                _user = user;
-                _roles = context.DepartmentUserRoles.Where(x => x.UserId == _user.Id).Select(x => x.Role).ToList();
+                await context.SaveChangesAsync();
+                User = user;
+                Roles = await context.DepartmentUserRoles.Where(x => x.UserId == User.Id).Select(x => x.Role).ToListAsync();
             }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Аутентификация пользователя
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static void LoginAsync(string login, string password)
-        {
-            var passHash = GetPasswordHash(password);
-
-            using (var context = GetContext)
-            {
-                var user = context.DepartmentUsers.Where(x => x.LecturerId != null).Include(x => x.Lecturer).FirstOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
-                if (user == null)
-                {
-                    throw new Exception("Введен неверный логин/пароль");
-                }
-                if (user.IsLocked)
-                {
-                    throw new Exception("Пользователь заблокирован");
-                }
-                user.DateLastVisit = DateTime.Now;
-                context.SaveChanges();
-                _user = user;
-                _roles = context.DepartmentUserRoles.Where(x => x.UserId == _user.Id).Select(x => x.Role).ToList();
-            }
-
-            return;
         }
 
         /// <summary>
@@ -222,17 +195,14 @@ namespace DatabaseContext
 
         private static void CreateAdministrationRoleAndUserWithAllAccess()
         {
-            DepartmentRole role = null;
-            DepartmentUser user = null;
             using (var context = GetContext)
             using (var transaction = context.Database.BeginTransaction())
             {
-                role = new DepartmentRole
+                DepartmentRole role = new DepartmentRole
                 {
                     RoleName = "Администратор"
                 };
                 context.DepartmentRoles.Add(role);
-                context.SaveChanges();
 
                 List<DepartmentAccess> accesses = new List<DepartmentAccess>();
                 foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
@@ -245,20 +215,18 @@ namespace DatabaseContext
                     });
                 }
                 context.DepartmentAccesses.AddRange(accesses);
-                context.SaveChanges();
 
                 var md5 = new MD5CryptoServiceProvider();
-                user = new DepartmentUser
+                DepartmentUser user = new DepartmentUser
                 {
                     UserName = "admin",
                     PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
                 };
                 context.DepartmentUsers.Add(user);
-                context.SaveChanges();
 
                 context.DepartmentUserRoles.Add(new DepartmentUserRole { UserId = user.Id, RoleId = role.Id });
-                context.SaveChanges();
 
+                context.SaveChanges();
                 transaction.Commit();
             }
         }

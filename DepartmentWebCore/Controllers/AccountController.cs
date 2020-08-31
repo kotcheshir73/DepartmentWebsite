@@ -37,10 +37,10 @@ namespace DepartmentWebCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loginModel = _serviceWA.Authentication(new WebAuthenticationLoginBindingModel
+                var loginModel = await _serviceWA.AuthenticationAsync(new WebAuthenticationLoginBindingModel
                 {
                     Login = model.Login,
-                    Hash = DepartmentUserManager.GetPasswordHash(model.Password)
+                    Password = model.Password
                 });
 
                 if (!loginModel.Succeeded)

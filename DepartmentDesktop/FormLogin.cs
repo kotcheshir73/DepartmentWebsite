@@ -2,6 +2,7 @@
 using DatabaseContext;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DepartmentDesktop
@@ -17,11 +18,11 @@ namespace DepartmentDesktop
         {
             try
             {
-                DepartmentUserManager.Login(textBoxLogin.Text, textBoxPassword.Text);
+                Task.WaitAll(Task.Run(async () => await DepartmentUserManager.LoginAsync(textBoxLogin.Text, textBoxPassword.Text)));
                 DialogResult = DialogResult.OK;
                 Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ErrorMessanger.PrintErrorMessage("При аутентфикации возникла ошибка: ", new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("Аутентфикация", ex.Message) });
             }

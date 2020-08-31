@@ -1,4 +1,5 @@
-﻿using Tools;
+﻿using System.Threading.Tasks;
+using Tools;
 using WebInterfaces.BindingModels;
 using WebInterfaces.ViewModels;
 
@@ -11,7 +12,7 @@ namespace WebInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<WebAuthenticationLoginViewModel> Authentication(WebAuthenticationLoginBindingModel model);
+        Task<ResultService<WebAuthenticationLoginViewModel>> AuthenticationAsync(WebAuthenticationLoginBindingModel model);
 
         ResultService ChangePassword(WebAuthenticationChangePassword model);
     }

@@ -13,13 +13,6 @@ namespace DepartmentTablet
 
         public static Guid? UserId { get { return _user?.Id ?? null; } }
 
-        public static bool Login(string userName, string password)
-        {
-            DepartmentUserManager.Login(userName, password);
-            //_user = AccessCheckService.Login(userName, password);
-            return _user != null;
-        }
-
         public static void Logout()
         {
             _user = null;

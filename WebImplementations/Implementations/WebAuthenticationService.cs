@@ -2,6 +2,7 @@
 using Enums;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Tools;
 using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
@@ -11,35 +12,18 @@ namespace WebImplementations.Implementations
 {
     public class WebAuthenticationService : IWebAuthenticationService
     {
-        public ResultService<WebAuthenticationLoginViewModel> Authentication(WebAuthenticationLoginBindingModel model)
+        public async Task<ResultService<WebAuthenticationLoginViewModel>> AuthenticationAsync(WebAuthenticationLoginBindingModel model)
         {
             try
             {
-                using (var context = DepartmentUserManager.GetContext)
+                await DepartmentUserManager.LoginAsync(model.Login, model.Password);
+
+                return ResultService<WebAuthenticationLoginViewModel>.Success(new WebAuthenticationLoginViewModel
                 {
-                    var user = context.DepartmentUsers.FirstOrDefault(u => u.UserName == model.Login && u.PasswordHash == model.Hash);
-
-                    if (user == null)
-                    {
-                        throw new Exception("Введен неверный логин/пароль");
-                    }
-                    if (user.IsLocked)
-                    {
-                        throw new Exception("Пользователь заблокирован");
-                    }
-
-                    user.DateLastVisit = DateTime.Now;
-                    context.SaveChanges();
-
-                    var roles = context.DepartmentUserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role.RoleName).ToList();
-
-                    return ResultService<WebAuthenticationLoginViewModel>.Success(new WebAuthenticationLoginViewModel
-                    {
-                        UserId = user.Id.ToString(),
-                        UserName = user.UserName,
-                        UserRoles = roles
-                    });
-                }
+                    UserId = DepartmentUserManager.User.Id.ToString(),
+                    UserName = DepartmentUserManager.User.UserName,
+                    UserRoles = DepartmentUserManager.Roles.Select(x => x.RoleName).ToList()
+                });
             }
             catch (Exception ex)
             {
