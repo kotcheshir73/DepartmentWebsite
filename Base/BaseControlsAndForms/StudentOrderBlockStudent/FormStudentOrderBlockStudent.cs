@@ -39,7 +39,10 @@ namespace BaseControlsAndForms.StudentOrderBlockStudent
             comboBoxStudentOrderBlock.DisplayMember = "Display";
             comboBoxStudentOrderBlock.DataSource = resultSOB.Result.List
                 .Select(d => new { Value = d.Id, Display = d.StudentOrderType }).ToList();
-            comboBoxStudentOrderBlock.SelectedValue = _sobId;
+            if (_sobId.HasValue)
+            {
+                comboBoxStudentOrderBlock.SelectedValue = _sobId;
+            }
 
 
             var resultS = _service.GetStudents(new StudentGetBindingModel { });
