@@ -1158,7 +1158,7 @@ namespace AcademicYearImplementations.Implementations
         private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model, BlueAsteriskDisicplineType ObjectType)
         {
             var attribute = node.Attributes.GetNamedItem("ЗЕТфакт");
-            var zet = Convert.ToInt32(attribute.Value);
+            var zet = (attribute != null) ? Convert.ToInt32(attribute.Value) : 0;
 
             Semesters semester = (Semesters)Enum.ToObject(typeof(Semesters), (hour.Kurs - 1) * 2 + hour.Semester);
             if (model.Semesters.Contains(semester))
