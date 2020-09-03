@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DepartmentWebCore.Models
 {
@@ -9,6 +10,8 @@ namespace DepartmentWebCore.Models
         public string Name { get; set; }
 
         public bool IsFile { get; set; }
+
+        public DateTime DateUpdate { get; set; }
 
         public List<DisciplineContextElementModel> Childs { get; set; }
     }

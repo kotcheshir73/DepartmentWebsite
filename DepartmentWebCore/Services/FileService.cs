@@ -79,11 +79,16 @@ namespace DepartmentWebCore.Services
                 {".docx", "application/vnd.ms-word"},
                 {".xls", "application/vnd.ms-excel"},
                 {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},
+                {".ppt", "application/vnd.ms-powerpoint"},
+                {".pptx", "application/vnd.ms-powerpoint"},
                 {".png", "image/png"},
                 {".jpg", "image/jpeg"},
                 {".jpeg", "image/jpeg"},
                 {".gif", "image/gif"},
-                {".csv", "text/csv"}
+                {".csv", "text/csv"},
+                {".7z", "application/zip"},
+                {".zip", "application/zip"},
+                {".rar", "application/zip"}
             }; ;
             var ext = Path.GetExtension(filename).ToLowerInvariant();
             return types[ext];
@@ -124,11 +129,11 @@ namespace DepartmentWebCore.Services
         public DisciplineContextElementModel GetDisciplineContext(Guid id, string direction, IWebDisciplineService serviceD)
         {
             var directoryInfo = new DirectoryInfo(direction);
+            var folders = serviceD.GetDisciplineFolderNames(new WebDisciplineFolderNamesBindingModel { DisciplineId = id }).Result;
 
             if (!directoryInfo.Exists)
             {
                 directoryInfo.Create();
-                var folders = serviceD.GetDisciplineFolderNames(new WebDisciplineFolderNamesBindingModel { DisciplineId = id }).Result;
                 if(folders != null)
                 {
                     foreach(var folder in folders)
@@ -143,8 +148,49 @@ namespace DepartmentWebCore.Services
                     }
                 }
             }
+            else
+            {
+                if (folders != null)
+                {
+                    foreach (var folder in folders)
+                    {
+                        var directSem = new DirectoryInfo($"{direction}\\{folder.Semester}");
+                        if (!directSem.Exists)
+                        {
+                            directSem.Create();
+                        }
+
+                        foreach (var child in folder.FolderNames)
+                        {
+                            var directChild = new DirectoryInfo($"{direction}\\{folder.Semester}\\{child}");
+                            if (!directChild.Exists)
+                            {
+                                directChild.Create();
+                            }
+                        }
+
+                        var directDop = new DirectoryInfo($"{direction}\\{folder.Semester}\\Дополнительно");
+                        if (!directDop.Exists)
+                        {
+                            directDop.Create();
+                        }
+                    }
+                }
+            }
 
             var element = new DisciplineContextElementModel();
+
+            // для практик нет подпапок
+            if (folders != null && folders.Count == 0)
+            {
+                element.Childs = element.Childs ?? new List<DisciplineContextElementModel>();
+                element.Childs.Add(new DisciplineContextElementModel
+                {
+                    FullPath = directoryInfo.FullName.Substring(direction.Replace("\\\\", "\\").Length),
+                    Name = directoryInfo.Name,
+                    IsFile = false
+                });
+            }
 
             GetDirectoriesFromContext(directoryInfo, element, direction);
 
@@ -160,10 +206,9 @@ namespace DepartmentWebCore.Services
         private DisciplineContextElementModel GetDirectoriesFromContext(DirectoryInfo directoryInfo, DisciplineContextElementModel element, string direction)
         {
             var directories = directoryInfo.GetDirectories();
+            element.Childs = element.Childs ?? new List<DisciplineContextElementModel>();
             if(directories.Length > 0)
             {
-                element.Childs = element.Childs ?? new List<DisciplineContextElementModel>();
-
                 foreach (var directory in directories)
                 {
                     var child = new DisciplineContextElementModel
@@ -202,7 +247,8 @@ namespace DepartmentWebCore.Services
                     {
                         FullPath = file.FullName.Substring(direction.Replace("\\\\", "\\").Length),
                         Name = file.Name,
-                        IsFile = true
+                        IsFile = true,
+                        DateUpdate = file.LastWriteTime
                     });
                 }
             }

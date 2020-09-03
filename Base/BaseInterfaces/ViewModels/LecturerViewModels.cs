@@ -45,6 +45,8 @@ namespace BaseInterfaces.ViewModels
 
         public byte[] PhotoByteArr { get; set; }
 
+        public bool OnlyForPrivate { get; set; }
+
         public string FullName
 		{
 			get

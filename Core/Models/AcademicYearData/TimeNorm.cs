@@ -108,6 +108,12 @@ namespace Models.AcademicYearData
         [DataMember]
         public bool UseInLearningProgress { get; set; }
 
+        /// <summary>
+        /// Выводить для сайта
+        /// </summary>
+        [DataMember]
+        public bool UseInSite { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual AcademicYear AcademicYear { get; set; }

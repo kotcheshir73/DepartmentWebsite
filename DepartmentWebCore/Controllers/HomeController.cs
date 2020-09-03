@@ -1,6 +1,7 @@
 ﻿using DepartmentWebCore.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,27 @@ namespace DepartmentWebCore.Controllers
 {
     public class HomeController : Controller
     {
+        private static IWebClassroomService _serviceCL;
+
         private static IWebLecturerService _serviceWL;
 
         private static IWebEducationDirectionService _serviceWED;
 
+        private static IWebStudentGroupService _serviceWSG;
+
         private static INewsService _serviceN;
 
-        public HomeController(IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, INewsService serviceN)
+        private IMemoryCache cache;
+
+        public HomeController(IWebClassroomService serviceCL, IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG, 
+            INewsService serviceN, IMemoryCache memoryCache)
         {
+            _serviceCL = serviceCL;
             _serviceWL = serviceWL;
             _serviceWED = serviceWED;
+            _serviceWSG = serviceWSG;
             _serviceN = serviceN;
+            cache = memoryCache;
         }
 
         [HttpGet]
@@ -40,79 +51,164 @@ namespace DepartmentWebCore.Controllers
 
         public ActionResult MainMenu()
         {
-            List<MenuElementModel> mainMenu = new List<MenuElementModel>
-            {
-                new MenuElementModel
-                {
-                    Controller = "News",
-                    Action = "Index",
-                    Name = "Новости"
-                }
-            };
+            List<MenuElementModel> mainMenu;
 
-            var lecturerList = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-            if (lecturerList.Succeeded)
+            if (!cache.TryGetValue("mainMenu", out mainMenu))
             {
-                MenuElementModel lecturer = new MenuElementModel()
+                mainMenu = new List<MenuElementModel>
                 {
-                    Name = "Преподаватели",
+                    new MenuElementModel
+                    {
+                        Controller = "News",
+                        Action = "Index",
+                        Name = "Новости"
+                    }
+                };
+
+                MenuElementModel schedule = new MenuElementModel()
+                {
+                    Name = "Расписание",
                     Child = new List<MenuElementModel>(),
-                    Controller = "Lecturer",
+                    Controller = "Schedule",
                     Action = "Index"
                 };
 
-                foreach (var tmp in lecturerList.Result.List)
+                var classroomList = _serviceCL.GetClassrooms(new WebClassroomGetBindingModel());
+                if (classroomList.Succeeded)
                 {
-                    lecturer.Child.Add(new MenuElementModel()
+                    MenuElementModel classroomSchedule = new MenuElementModel()
                     {
-                        Id = tmp.Id,
-                        Name = tmp.FullName,
-                        Controller = "Lecturer",
-                        Action = "Lecturer"
-                    });
-                }
-
-                mainMenu.Add(lecturer);
-            }
-
-            var educationDirectionList = _serviceWED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-            if (educationDirectionList.Succeeded)
-            {
-                MenuElementModel educationDirection = new MenuElementModel()
-                {
-                    Name = "Направления",
-                    Child = new List<MenuElementModel>(),
-                    Controller = "EducationDirection",
-                    Action = "Index"
-                };
-
-                foreach (var ed in educationDirectionList.Result.List)
-                {
-                    MenuElementModel contingent = new MenuElementModel()
-                    {
-                        Name = ed.ToString(),
+                        Name = "Аудитории",
                         Child = new List<MenuElementModel>(),
-                        Controller = "EducationDirection",
-                        Action = "EducationDirection",
-                        Id = ed.Id
+                        Controller = "Schedule",
+                        Action = "Classrooms"
                     };
 
-                    foreach (var course in ed.Courses)
+                    foreach (var tmp in classroomList.Result.List)
                     {
-                        contingent.Child.Add(new MenuElementModel
+                        classroomSchedule.Child.Add(new MenuElementModel()
                         {
-                            Id = ed.Id,
-                            Name = course.Item2,
-                            Controller = "EducationDirection",
-                            Action = "EducationDirection",
-                            AdditionalParameters = new Dictionary<string, string> { { "courseId", course.Item1.ToString() } }
+                            Id = tmp.Id,
+                            Name = tmp.Number,
+                            Controller = "Schedule",
+                            Action = "Classroom"
                         });
                     }
 
-                    educationDirection.Child.Add(contingent);
+                    schedule.Child.Add(classroomSchedule);
                 }
 
-                mainMenu.Add(educationDirection);
+                var lecturerList = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
+                if (lecturerList.Succeeded)
+                {
+                    MenuElementModel lecturer = new MenuElementModel()
+                    {
+                        Name = "Преподаватели",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "Lecturer",
+                        Action = "Index"
+                    };
+
+                    MenuElementModel lecturerSchedule = new MenuElementModel()
+                    {
+                        Name = "Преподаватели",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "Schedule",
+                        Action = "Lecturers"
+                    };
+
+                    foreach (var tmp in lecturerList.Result.List)
+                    {
+                        lecturer.Child.Add(new MenuElementModel()
+                        {
+                            Id = tmp.Id,
+                            Name = tmp.FullName,
+                            Controller = "Lecturer",
+                            Action = "Lecturer"
+                        });
+
+                        lecturerSchedule.Child.Add(new MenuElementModel()
+                        {
+                            Id = tmp.Id,
+                            Name = tmp.FullName,
+                            Controller = "Schedule",
+                            Action = "Lecturer"
+                        });
+                    }
+
+                    mainMenu.Add(lecturer);
+
+                    schedule.Child.Add(lecturerSchedule);
+                }
+
+                var educationDirectionList = _serviceWED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
+                if (educationDirectionList.Succeeded)
+                {
+                    MenuElementModel educationDirection = new MenuElementModel()
+                    {
+                        Name = "Направления",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "EducationDirection",
+                        Action = "Index"
+                    };
+
+                    foreach (var ed in educationDirectionList.Result.List)
+                    {
+                        MenuElementModel contingent = new MenuElementModel()
+                        {
+                            Name = ed.ToString(),
+                            Child = new List<MenuElementModel>(),
+                            Controller = "EducationDirection",
+                            Action = "EducationDirection",
+                            Id = ed.Id
+                        };
+
+                        foreach (var course in ed.Courses)
+                        {
+                            contingent.Child.Add(new MenuElementModel
+                            {
+                                Id = ed.Id,
+                                Name = course.Item2,
+                                Controller = "EducationDirection",
+                                Action = "EducationDirection",
+                                AdditionalParameters = new Dictionary<string, string> { { "courseId", course.Item1.ToString() } }
+                            });
+                        }
+
+                        educationDirection.Child.Add(contingent);
+                    }
+
+                    mainMenu.Add(educationDirection);
+
+                    cache.Set("mainMenu", mainMenu, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+                }
+
+                var studentGroups = _serviceWSG.GetStudentGroups(new WebStudentGroupGetBindingModel());
+                if(studentGroups.Succeeded)
+                {
+                    MenuElementModel studentgroupSchedule = new MenuElementModel()
+                    {
+                        Name = "Группы",
+                        Child = new List<MenuElementModel>(),
+                        Controller = "Schedule",
+                        Action = "StudentGroups"
+                    };
+
+                    foreach (var tmp in studentGroups.Result.List)
+                    {
+                        studentgroupSchedule.Child.Add(new MenuElementModel()
+                        {
+                            Id = tmp.Id,
+                            Name = tmp.GroupName,
+                            Controller = "Schedule",
+                            Action = "StudentGroup"
+                        });
+                    }
+
+                    schedule.Child.Add(studentgroupSchedule);
+                }
+
+                mainMenu.Add(schedule);
             }
 
             return PartialView(mainMenu);

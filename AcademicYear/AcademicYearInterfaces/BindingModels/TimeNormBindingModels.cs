@@ -53,6 +53,8 @@ namespace AcademicYearInterfaces.BindingModels
 
         public bool UseInLearningProgress { get; set; }
 
+        public bool UseInSite { get; set; }
+
         /// <summary>
         /// Код вида работ в справочнике видов работ в новой версии планов, чтобы потом искать работу в строках плана
         /// </summary>

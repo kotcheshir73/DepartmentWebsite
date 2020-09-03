@@ -98,6 +98,7 @@ namespace BaseImplementations
             entity.Email = model.Email;
             entity.Description = model.Description;
             entity.Photo = model.Photo;
+            entity.OnlyForPrivate = model.OnlyForPrivate;
 
             return entity;
         }

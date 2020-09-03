@@ -82,6 +82,9 @@ namespace Models.Base
         [DataMember]
         public byte[] Photo { get; set; }
 
+        [DataMember]
+        public bool OnlyForPrivate { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual LecturerPost LecturerPost { get; set; }

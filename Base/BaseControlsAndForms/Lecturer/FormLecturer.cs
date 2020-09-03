@@ -89,6 +89,7 @@ namespace BaseControlsAndForms.Lecturer
             {
                 pictureBoxPhoto.Image = entity.Photo;
             }
+            checkBoxOnlyForPrivate.Checked = entity.OnlyForPrivate;
         }
 
         protected override bool CheckFill()
@@ -158,7 +159,8 @@ namespace BaseControlsAndForms.Lecturer
                     Rank = comboBoxRank.Text,
                     Rank2 = comboBoxRank2.Text,
                     Description = textBoxDescription.Text,
-                    Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
+                    Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[])),
+                    OnlyForPrivate = checkBoxOnlyForPrivate.Checked
                 });
             }
             else
@@ -180,7 +182,8 @@ namespace BaseControlsAndForms.Lecturer
                     Rank = comboBoxRank.Text,
                     Rank2 = comboBoxRank2.Text,
                     Description = textBoxDescription.Text,
-                    Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[]))
+                    Photo = (byte[])converter.ConvertTo(pictureBoxPhoto.Image, typeof(byte[])),
+                    OnlyForPrivate = checkBoxOnlyForPrivate.Checked
                 });
             }
             if (result.Succeeded)

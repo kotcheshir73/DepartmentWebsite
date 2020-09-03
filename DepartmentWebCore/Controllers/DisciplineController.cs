@@ -47,7 +47,7 @@ namespace DepartmentWebCore.Controllers
             {
                 return PartialView();
             }
-            ViewBag.CanAction = model.Result.Lecturers.Contains(new Guid(User.Identity.Name));
+            ViewBag.CanAction = model.Result.Lecturers.Contains(new Guid(User.Identity.Name)) || User.IsInRole("Администратор");
             ViewBag.Id = id;
 
             return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Result.DisciplineName}\\", _serviceWD));

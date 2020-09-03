@@ -240,7 +240,8 @@ namespace AcademicYearImplementations
                 Hours = entity.Hours,
                 NumKoef = entity.NumKoef,
                 TimeNormKoef = entity.TimeNormKoef.ToString(),
-                UseInLearningProgress = entity.UseInLearningProgress
+                UseInLearningProgress = entity.UseInLearningProgress,
+                UseInSite = entity.UseInSite
             };
         }
 

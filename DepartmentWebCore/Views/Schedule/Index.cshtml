@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Расписание";
+}
+
+<h2 class="page-header">Расписание</h2>
+
+<table class="table">
+    <tr class="schedule-head-element">
+        <td class="schedule-head-element-line">
+            @Html.ActionLink("Аудитории", "Classrooms", "Schedule", null, null)
+        </td>
+        <td class="schedule-head-element-line">
+            @Html.ActionLink("Преподаватели", "Lecturers", "Schedule", null, null)
+        </td>
+        <td class="schedule-head-element-line">
+            @Html.ActionLink("Группы", "StudentGroups", "Schedule", null, null)
+        </td>
+    </tr>
+</table>

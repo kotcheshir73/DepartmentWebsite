@@ -1,0 +1,61 @@
+﻿@using DepartmentWebCore.Helpers
+
+@model ScheduleStudentGroupsModel
+
+@{
+    ViewBag.Title = "Расписание групп";
+}
+
+<div class="schedule-header-datetime">
+    <div class="row">
+        <div class="col-sm-1">
+            <button id="beforeDay"><img src="~/Images/Left.jpg" alt="День до" style="vertical-align: middle" width="25" height="25"></button>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group" id="datetimepicker">
+                <input type="text" class="form-control" value="@Model.Date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <button id="nextDay"><img src="~/Images/Right.jpg" alt="День след" style="vertical-align: middle" width="25" height="25"></button>
+        </div>
+    </div>
+</div>
+
+<div class="schedule-schedule">
+    @Html.StudentGroupsSchedule(Model)
+</div>
+
+<script>
+    $(function () {
+        $("#datetimepicker").datetimepicker({
+            format: 'DD.MM.YYYY',
+            locale: 'ru'
+        });
+
+        $('#datetimepicker').on('dp.change', function (e) {
+            window.location.href = '@Url.Action("StudentGroups", "Schedule")?dateString=' + e.date.format(e.date._f);
+        })
+
+        $('#beforeDay').on('click', function () {
+            var date = new Date($("#datetimepicker").data("DateTimePicker").date());
+            date.setDate(date.getDate() - 1);
+            var day = date.getDate();
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            window.location.href = '@Url.Action("StudentGroups", "Schedule")?dateString=' + day + '.' + (month + 1) + '.' + year;
+        })
+
+        $('#nextDay').on('click', function () {
+            var date = new Date($("#datetimepicker").data("DateTimePicker").date());
+            date.setDate(date.getDate() + 1);
+            var day = date.getDate();
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            window.location.href = '@Url.Action("StudentGroups", "Schedule")?dateString=' + day + '.' + (month + 1) + '.' + year;
+        })
+    });
+</script>

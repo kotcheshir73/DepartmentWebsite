@@ -594,6 +594,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("UseInLearningProgress");
 
+                    b.Property<bool>("UseInSite");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AcademicYearId");
@@ -859,6 +861,8 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("MobileNumber")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<bool>("OnlyForPrivate");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()

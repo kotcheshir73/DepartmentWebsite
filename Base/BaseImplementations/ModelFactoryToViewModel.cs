@@ -92,7 +92,8 @@ namespace BaseImplementations
                 Address = entity.Address,
                 Description = entity.Description,
                 Photo = entity.Photo != null && entity.Photo.Length > 0 ? Image.FromStream(new MemoryStream(entity.Photo)) : null,
-                PhotoByteArr = entity.Photo
+                PhotoByteArr = entity.Photo,
+                OnlyForPrivate = entity.OnlyForPrivate
             };
         }
 

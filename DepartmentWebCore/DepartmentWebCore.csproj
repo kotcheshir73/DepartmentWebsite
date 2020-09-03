@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.10.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="2.2.6" />
@@ -39,6 +39,7 @@
     <ProjectReference Include="..\Base\BaseImplementations\BaseImplementations.csproj" />
     <ProjectReference Include="..\Base\BaseInterfaces\BaseInterfaces.csproj" />
     <ProjectReference Include="..\LearningProgress\LearningProgressInterfaces\LearningProgressInterfaces.csproj" />
+    <ProjectReference Include="..\Schedule\ScheduleImplementations\ScheduleImplementations.csproj" />
     <ProjectReference Include="..\WebImplementations\WebImplementations.csproj" />
     <ProjectReference Include="..\WebInterfaces\WebInterfaces.csproj" />
   </ItemGroup>

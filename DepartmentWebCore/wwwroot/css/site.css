@@ -158,6 +158,18 @@ textarea {
     text-decoration: underline;
 }
 
+.lecturer-element-img {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+
+    .lecturer-element-img img {
+        max-height: 100px;
+        max-width: 100px;
+        object-fit: cover;
+    }
+
 .text-lecturer {
     color: #222222;
     font-size: 20px;
@@ -179,8 +191,19 @@ textarea {
     .text-lecturer-items li {
         margin-left: 15px;
     }
-/*----------------------------------------------------*/
 
+.text-lecturer-img {
+    width: 300px;
+    height: 300px;
+    text-align: center;
+}
+
+    .text-lecturer-img img {
+        max-height: 300px;
+        max-width: 300px;
+        object-fit: cover;
+    }
+/*----------------------------------------------------*/
 .education-wrapper {
     width: 100%;
 }
@@ -605,5 +628,50 @@ textarea {
 
 .answer-element-actions {
     padding: 5px;
+}
+/*---------------------------------------------------*/
+
+/*--------расписание--------------------------------*/
+.schedule-head-element-line {
+    text-align: center;
+}
+
+.schedule-header-datetime {
+    padding: 10px;
+    margin-top: 5px;
+}
+
+    .schedule-header-datetime label {
+        padding-right: 10px;
+    }
+
+.schedule-table {
+    width: 100%
+}
+
+.schedule-row-time {
+    padding: 5px;
+}
+
+    .schedule-row-time td {
+        text-align: center;
+        padding: 5px;
+    }
+
+.schedule-col-header {
+    width: 20%;
+}
+
+.schedule-row {
+    text-align: center;
+    padding: 5px;
+    height: 90px;
+}
+
+.schedule-cell-border {
+    text-align: center;
+    margin-left: 5px;
+    padding-left: 5px;
+    border: 1px solid #000000;
 }
 /*---------------------------------------------------*/

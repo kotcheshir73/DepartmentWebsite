@@ -1,4 +1,6 @@
-﻿using DepartmentWebCore.Models;
+﻿using BaseImplementations.Implementations;
+using BaseInterfaces.Interfaces;
+using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ScheduleImplementations.Services;
+using ScheduleInterfaces.Interfaces;
 using Unity;
 using Unity.Lifetime;
 using WebImplementations.Implementations;
@@ -39,6 +43,9 @@ namespace DepartmentWebCore
                 {
                     options.LoginPath = new PathString("/Account/Login");
                 });
+
+            // добавление кэширования
+            services.AddMemoryCache();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -76,11 +83,27 @@ namespace DepartmentWebCore
         {
             container.RegisterType<IWebAuthenticationService, WebAuthenticationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebClassroomService, WebClassroomService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IWebStudentGroupService, WebStudentGroupService>(new HierarchicalLifetimeManager());
             container.RegisterType<INewsService, NewsService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<FileService, FileService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILecturerPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
         }
     }
 }
