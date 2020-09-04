@@ -71,6 +71,24 @@ namespace Tools
             return result;
         }
 
+        public static ResultService Error(string key, Exception error, ResultServiceStatusCode statusCode)
+        {
+            var result = new ResultService
+            {
+                Succeeded = false
+            };
+            result.Errors.Add(new KeyValuePair<string, string>(key, error.Message));
+
+            while (error.InnerException != null)
+            {
+                error = error.InnerException;
+                result.Errors.Add(new KeyValuePair<string, string>("Inner error:", error.Message));
+            }
+            result.StatusCode = statusCode;
+
+            return result;
+        }
+
         public static ResultService Success()
         {
             return new ResultService

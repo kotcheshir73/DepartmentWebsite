@@ -23,8 +23,8 @@ namespace DatabaseContext
 			if (optionsBuilder.IsConfigured == false)
 			{
 				// TODO вынести в config
-				optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
-				//optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=true;MultipleActiveResultSets=True;");
+				//optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
+				optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=true;MultipleActiveResultSets=True;");
 			}
 			base.OnConfiguring(optionsBuilder);
 		}
@@ -153,21 +153,25 @@ namespace DatabaseContext
 			}
 			catch (Exception)
 			{
-				foreach (var entry in ChangeTracker.Entries())
+				try
 				{
-					switch (entry.State)
+					foreach (var entry in ChangeTracker.Entries())
 					{
-						case EntityState.Modified:
-							entry.State = EntityState.Unchanged;
-							break;
-						case EntityState.Deleted:
-							entry.Reload();
-							break;
-						case EntityState.Added:
-							entry.State = EntityState.Detached;
-							break;
+						switch (entry.State)
+						{
+							case EntityState.Modified:
+								entry.State = EntityState.Unchanged;
+								break;
+							case EntityState.Deleted:
+								entry.Reload();
+								break;
+							case EntityState.Added:
+								entry.State = EntityState.Detached;
+								break;
+						}
 					}
 				}
+				catch { }
 				throw;
 			}
 		}
