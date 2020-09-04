@@ -34,7 +34,7 @@ namespace ScheduleImplementations.Helpers
                         var groupName = cell.Cq().Text();
                         if (!string.IsNullOrEmpty(groupName))
                         {
-                            var res = ParsingPage(url.Replace("raspisan.htm", (cell as HtmlAnchorElement).Href), groupName, model.ScheduleDate);
+                            var res = ParsingPage(url.Replace("raspisan.html", (cell as HtmlAnchorElement).Href), groupName, model.ScheduleDate);
 
                             if (!res.Succeeded)
                             {
