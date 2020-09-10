@@ -111,7 +111,7 @@ namespace AcademicYearImplementations.Implementations
                     var entity = AcademicYearModelFacotryFromBindingModel.CreateStreamLesson(model);
 
                     var exsistEntity = context.StreamLessons.FirstOrDefault(x => x.AcademicYearId == entity.AcademicYearId &&
-                            x.StreamLessonName == entity.StreamLessonName);
+                            x.StreamLessonName == entity.StreamLessonName && x.Semester == entity.Semester);
                     if (exsistEntity == null)
                     {
                         context.StreamLessons.Add(entity);

@@ -336,9 +336,9 @@ namespace ScheduleImplementations.Helpers
 						// ищем эту пару в списке загруженных
 						var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
 													(x.ClassroomId == record.ClassroomId || x.LessonClassroom == record.LessonClassroom) &&
-													(x.DisciplineId == record.DisciplineId || x.LessonDiscipline == record.LessonDiscipline) &&
-													(x.LecturerId == record.LecturerId || x.LessonLecturer == record.LessonLecturer) &&
-													(x.StudentGroupId == record.StudentGroupId || x.LessonStudentGroup == record.LessonStudentGroup));
+													((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
+													((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
+													((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
 
 						if (searchRecord != null)
 						{
@@ -359,7 +359,7 @@ namespace ScheduleImplementations.Helpers
 					{
 						// ищем эту пару в списке загруженных
 						var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
-													(x.ClassroomId == record.ClassroomId || x.LessonClassroom == record.LessonClassroom) &&
+													((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
 													(x.DisciplineId == record.DisciplineId || x.LessonDiscipline == record.LessonDiscipline) &&
 													((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
 													((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
@@ -383,10 +383,10 @@ namespace ScheduleImplementations.Helpers
 					{
 						// ищем эту пару в списке загруженных
 						var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
-													(x.ClassroomId == record.ClassroomId || x.LessonClassroom == record.LessonClassroom) &&
-													(x.DisciplineId == record.DisciplineId || x.LessonDiscipline == record.LessonDiscipline) &&
+													((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
+													((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
 													(x.LecturerId == record.LecturerId || x.LessonLecturer == record.LessonLecturer) &&
-													(x.StudentGroupId == record.StudentGroupId || x.LessonStudentGroup == record.LessonStudentGroup));
+													((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
 
 						if (searchRecord != null)
 						{

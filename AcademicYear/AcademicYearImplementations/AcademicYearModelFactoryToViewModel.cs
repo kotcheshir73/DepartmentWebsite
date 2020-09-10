@@ -209,6 +209,8 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 StreamLessonId = entity.StreamLessonId,
                 AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
+                AcademicPlanRecordId = entity.AcademicPlanRecordElement.AcademicPlanRecordId,
+                AcademicPlanId = entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlanId,
                 StreamLessonName = entity.StreamLesson.StreamLessonName,
                 AcademicPlanRecordElementText = string.Format("{0} {1} {2}",
                     entity.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection.ShortName,

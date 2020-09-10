@@ -343,7 +343,7 @@ namespace AcademicYearControlsAndForms.Services
                 {
                     if (editForm is StandartForm)
                     {
-                        (editForm as StandartForm).AddCloseEvent(LoadRecords);
+                       // (editForm as StandartForm).AddCloseEvent(LoadRecords);
                     }
                     editForm.Show();
                 }

@@ -85,9 +85,10 @@ namespace AcademicYearImplementations.Implementations
 
                     query = query
                         .Include(x => x.AcademicPlanRecordElement)
+                        .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection)
-                        .Include(x => x.AcademicPlanRecordElement.TimeNorm)
                         .Include(x => x.StreamLesson);
 
                     var result = new StreamLessonRecordPageViewModel
@@ -116,6 +117,7 @@ namespace AcademicYearImplementations.Implementations
                     var entity = context.StreamLessonRecords
                                 .Include(x => x.AcademicPlanRecordElement)
                                 .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
                                 .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                                 .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.AcademicPlan.EducationDirection)
                                 .Include(x => x.StreamLesson)

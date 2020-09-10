@@ -1916,7 +1916,8 @@ namespace AcademicYearImplementations.Implementations
                             sl = new StreamLesson
                             {
                                 AcademicYearId = model.AcademicYearId,
-                                StreamLessonName = apreGroup.Key.DisciplineName
+                                StreamLessonName = apreGroup.Key.DisciplineName,
+                                Semester = apreGroup.Key.Semester.Value
                             };
                             context.StreamLessons.Add(sl);
                             context.SaveChanges();

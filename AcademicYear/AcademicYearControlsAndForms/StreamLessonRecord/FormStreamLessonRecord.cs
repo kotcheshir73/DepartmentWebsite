@@ -78,6 +78,8 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
             var entity = result.Result;
 
             comboBoxStreamLesson.SelectedValue = entity.StreamLessonId;
+            comboBoxAcademicPlan.SelectedValue = entity.AcademicPlanId;
+            comboBoxAcademicPlanRecord.SelectedValue = entity.AcademicPlanRecordId;
             comboBoxAcademicPlanRecordElement.SelectedValue = entity.AcademicPlanRecordElementId;
             checkBoxIsMain.Checked = entity.IsMain;
         }

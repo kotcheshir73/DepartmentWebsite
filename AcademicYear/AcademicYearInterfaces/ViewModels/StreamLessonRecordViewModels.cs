@@ -11,6 +11,10 @@ namespace AcademicYearInterfaces.ViewModels
 
         public Guid AcademicPlanRecordElementId { get; set; }
 
+        public Guid AcademicPlanRecordId { get; set; }
+
+        public Guid AcademicPlanId { get; set; }
+
         public string StreamLessonName { get; set; }
 
         public string AcademicPlanRecordElementText { get; set; }

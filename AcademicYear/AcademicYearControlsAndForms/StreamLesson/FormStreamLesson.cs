@@ -3,6 +3,7 @@ using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
+using Enums;
 using System;
 using System.Data;
 using System.Linq;
@@ -37,6 +38,11 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 return false;
             }
 
+            foreach (var elem in Enum.GetValues(typeof(Semesters)))
+            {
+                comboBoxSemester.Items.Add(elem.ToString());
+            }
+
             comboBoxAcademicYear.ValueMember = "Value";
             comboBoxAcademicYear.DisplayMember = "Display";
             comboBoxAcademicYear.DataSource = resultAY.Result.List
@@ -67,6 +73,10 @@ namespace AcademicYearControlsAndForms.StreamLesson
             comboBoxAcademicYear.SelectedValue = entity.AcademicYearId;
             textBoxStreamLessonName.Text = entity.StreamLessonName;
             textBoxStreamLessonHours.Text = entity.StreamLessonHours.ToString();
+            if (!string.IsNullOrEmpty(entity.Semester))
+            {
+                comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
+            }
         }
 
         protected override bool CheckFill()
@@ -100,7 +110,8 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 {
                     AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                     StreamLessonName = textBoxStreamLessonName.Text,
-                    StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
+                    StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text),
+                    Semester = comboBoxSemester.Text
                 });
             }
             else
@@ -110,7 +121,8 @@ namespace AcademicYearControlsAndForms.StreamLesson
                     Id = _id.Value,
                     AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString()),
                     StreamLessonName = textBoxStreamLessonName.Text,
-                    StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text)
+                    StreamLessonHours = Convert.ToDecimal(textBoxStreamLessonHours.Text),
+                    Semester = comboBoxSemester.Text
                 });
             }
             if (result.Succeeded)

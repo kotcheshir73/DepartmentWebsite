@@ -31,7 +31,8 @@ namespace AcademicYearControlsAndForms.StreamLesson
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
                 new ColumnConfig { Name = "StreamLessonName", Title = "Название потока", Width = 250, Visible = true },
-                new ColumnConfig { Name = "StreamLessonHours", Title = "Часы", Width = 100, Visible = true }
+                new ColumnConfig { Name = "StreamLessonHours", Title = "Часы", Width = 100, Visible = true },
+                new ColumnConfig { Name = "StreamLessonSemester", Title = "Семестр", Width = 100, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { };
@@ -86,7 +87,8 @@ namespace AcademicYearControlsAndForms.StreamLesson
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
                     res.StreamLessonName,
-                    res.StreamLessonHours
+                    res.StreamLessonHours,
+                    res.Semester
                 );
             }
             return result.Result.MaxCount;
