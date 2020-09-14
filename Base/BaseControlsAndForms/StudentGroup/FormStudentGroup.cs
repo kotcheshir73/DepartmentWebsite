@@ -81,6 +81,8 @@ namespace BaseControlsAndForms.StudentGroup
             {
                 comboBoxCurator.SelectedValue = entity.CuratorId;
             }
+
+            tabControl.SelectedIndex = 1;
         }
 
         protected override bool CheckFill()
