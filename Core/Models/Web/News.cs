@@ -27,7 +27,7 @@ namespace Models.Web
 
         //-------------------------------------------------------------------------
 
-        public DepartmentUser DepartmentUser { get; set; }
+        public virtual DepartmentUser DepartmentUser { get; set; }
 
 
         //-------------------------------------------------------------------------

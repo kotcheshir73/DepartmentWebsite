@@ -918,7 +918,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(20);
+                        .HasMaxLength(150);
 
                     b.Property<bool>("IsDeleted");
 
@@ -926,14 +926,14 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(30);
+                        .HasMaxLength(150);
 
                     b.Property<string>("NumberOfBook")
                         .IsRequired()
                         .HasMaxLength(10);
 
                     b.Property<string>("Patronymic")
-                        .HasMaxLength(30);
+                        .HasMaxLength(150);
 
                     b.Property<byte[]>("Photo");
 

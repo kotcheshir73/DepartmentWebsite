@@ -61,7 +61,7 @@ namespace DepartmentTablet
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //AuthorizationService.Login("admin", "qwerty");
-            DepartmentUserManager.Login("admin", "qwerty");
+            DepartmentUserManager.LoginAsync("admin", "qwerty");
             Application.Run(container.Resolve<FormMain>());
         }
 
