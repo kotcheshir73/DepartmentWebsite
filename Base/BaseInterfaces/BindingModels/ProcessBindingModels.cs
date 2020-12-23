@@ -77,6 +77,8 @@ namespace BaseInterfaces.BindingModels
         public DateTime AcademOrderDate { get; set; }
 
         public string AcademOrderNumber { get; set; }
+
+        public DateTime DateBack { get; set; }
     }
 
     /// <summary>

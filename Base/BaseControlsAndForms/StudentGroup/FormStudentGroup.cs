@@ -3,6 +3,7 @@ using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using ControlsAndForms.Forms;
 using ControlsAndForms.Messangers;
+using Enums;
 using System;
 using System.Data;
 using System.Linq;
@@ -64,7 +65,17 @@ namespace BaseControlsAndForms.StudentGroup
                 control.Dock = DockStyle.Fill;
                 tabPageStudents.Controls.Add(control);
             }
-            (tabPageStudents.Controls[0] as ControlStudent).LoadData(null, _id.Value);
+            (tabPageStudents.Controls[0] as ControlStudent).LoadData(StudentState.Учится, _id.Value);
+
+
+            if (tabPageAcadem.Controls.Count == 0)
+            {
+                var control = Container.Resolve<ControlStudent>();
+                control.Dock = DockStyle.Fill;
+                tabPageAcadem.Controls.Add(control);
+            }
+            (tabPageAcadem.Controls[0] as ControlStudent).LoadData(StudentState.Академ, _id.Value);
+
             var result = _service.GetStudentGroup(new StudentGroupGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {

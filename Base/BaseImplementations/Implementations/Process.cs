@@ -81,6 +81,7 @@ namespace BaseImplementations.Implementations
                             #endregion
 
                             var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
+                            entity.Description = $"Зачислен в группу приказом №{enrollmentOrder.OrderNumber} от {enrollmentOrder.DateCreate.ToShortDateString()}";
                             var exsistEntity = context.Students.FirstOrDefault(x => x.NumberOfBook == entity.NumberOfBook && entity.NumberOfBook != "н/а");
                             if (exsistEntity == null)
                             {
@@ -198,6 +199,7 @@ namespace BaseImplementations.Implementations
                             #endregion
 
                             var entity = ModelFacotryFromBindingModel.CreateStudent(model.StudentList[i]);
+                            entity.Description = $"Зачислен в группу переводом по приказу №{enrollmentOrder.OrderNumber} от {enrollmentOrder.DateCreate.ToShortDateString()}";
                             var exsistEntity = context.Students.FirstOrDefault(x => x.NumberOfBook == entity.NumberOfBook && entity.NumberOfBook != "н/а");
                             if (exsistEntity == null)
                             {
@@ -300,6 +302,7 @@ namespace BaseImplementations.Implementations
                             transferOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"Переведен{(model.StudentList[i].Item2 ? " условно" : string.Empty)} в группу {newGroup.GroupName} приказом №{transferOrder.OrderNumber} от {transferOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var transferOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == transferOrder.Id && x.StudentOrderType == StudentOrderType.ПереводНаКурс);
                         if (transferOrderBlock == null)
@@ -405,6 +408,7 @@ namespace BaseImplementations.Implementations
                             transferOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"Переведен в группу {newGroup.GroupName} приказом №{transferOrder.OrderNumber} от {transferOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var transferOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == transferOrder.Id && x.StudentOrderType == StudentOrderType.ПереводВГруппу);
                         if (transferOrderBlock == null)
@@ -509,6 +513,7 @@ namespace BaseImplementations.Implementations
                         {
                             type = StudentOrderType.ОтчислитьЗаНевыходСАкадема;
                         }
+                        entity.Description = $"Отчислен по причине {model.DeductionReason} ({model.Studnets[i].Item2}) приказом №{deductionOrder.OrderNumber} от {deductionOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var deductionOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == deductionOrder.Id && x.StudentOrderType == type);
                         if (deductionOrderBlock == null)
@@ -602,6 +607,7 @@ namespace BaseImplementations.Implementations
                             academOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"В академ до {model.DateBack.ToShortDateString()} приказом №{academOrder.OrderNumber} от {academOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var academOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == academOrder.Id && x.StudentOrderType == StudentOrderType.ВАкадем);
                         if (academOrderBlock == null)
@@ -626,7 +632,8 @@ namespace BaseImplementations.Implementations
                             {
                                 StudentOrderBlockId = academOrderBlock.Id,
                                 StudentId = entity.Id,
-                                StudentGroupFromId = entity.StudentGroupId
+                                StudentGroupFromId = entity.StudentGroupId,
+                                Info = model.DateBack.ToShortDateString()
                             });
                             context.StudentOrderBlockStudents.Add(academSOS);
                             context.SaveChanges();
@@ -694,6 +701,7 @@ namespace BaseImplementations.Implementations
                             academOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"Продлен академ до {model.DateBack.ToShortDateString()} приказом №{academOrder.OrderNumber} от {academOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var academOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == academOrder.Id && x.StudentOrderType == StudentOrderType.ВАкадем);
                         if (academOrderBlock == null)
@@ -718,7 +726,8 @@ namespace BaseImplementations.Implementations
                             {
                                 StudentOrderBlockId = academOrderBlock.Id,
                                 StudentId = entity.Id,
-                                StudentGroupFromId = entity.StudentGroupId
+                                StudentGroupFromId = entity.StudentGroupId,
+                                Info = model.DateBack.ToShortDateString()
                             });
                             context.StudentOrderBlockStudents.Add(academSOS);
                             context.SaveChanges();
@@ -786,6 +795,7 @@ namespace BaseImplementations.Implementations
                             academOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"Из академа приказом №{academOrder.OrderNumber} от {academOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var academOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == academOrder.Id && x.StudentOrderType == StudentOrderType.ИзАкадема);
                         if (academOrderBlock == null)
@@ -880,6 +890,7 @@ namespace BaseImplementations.Implementations
                             recoveryOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"Восстановлен приказом №{recoveryOrder.OrderNumber} от {recoveryOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var recoveryOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == recoveryOrder.Id && x.StudentOrderType == StudentOrderType.Восстановить);
                         if (recoveryOrderBlock == null)
@@ -971,6 +982,7 @@ namespace BaseImplementations.Implementations
                             finishOrder.IsDeleted = false;
                             context.SaveChanges();
                         }
+                        entity.Description = $"Завершил обучение приказом №{finishOrder.OrderNumber} от {finishOrder.DateCreate.ToShortDateString()}";
                         // ищем блок приказа для направления
                         var finishOrderBlock = context.StudentOrderBlocks.FirstOrDefault(x => x.StudentOrderId == finishOrder.Id && x.StudentOrderType == StudentOrderType.ОтчислитьПоЗавершению);
                         if (finishOrderBlock == null)

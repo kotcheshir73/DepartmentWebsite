@@ -57,6 +57,7 @@ namespace BaseControlsAndForms.Services
 			{
 				AcademOrderDate = dateTimePickerToAcademDate.Value,
 				AcademOrderNumber = textBoxToAcademOrderNumber.Text,
+				DateBack = dateTimePickerTo.Value,
                 StudnetIds = _ids
             });
 			if (result.Succeeded)
