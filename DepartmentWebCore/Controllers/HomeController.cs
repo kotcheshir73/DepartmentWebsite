@@ -1,4 +1,6 @@
-﻿using DepartmentWebCore.Models;
+﻿using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using DepartmentWebCore.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -13,7 +15,7 @@ namespace DepartmentWebCore.Controllers
 {
     public class HomeController : Controller
     {
-        private static IWebClassroomService _serviceCL;
+        private static IClassroomService _serviceCL;
 
         private static IWebLecturerService _serviceWL;
 
@@ -27,7 +29,7 @@ namespace DepartmentWebCore.Controllers
 
         private IMemoryCache cache;
 
-        public HomeController(IWebClassroomService serviceCL, IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG,
+        public HomeController(IClassroomService serviceCL, IWebLecturerService serviceWL, IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG,
             INewsService serviceN, IWebStudyProcessService serviceSP, IMemoryCache memoryCache)
         {
             _serviceCL = serviceCL;
@@ -36,6 +38,7 @@ namespace DepartmentWebCore.Controllers
             _serviceWSG = serviceWSG;
             _serviceN = serviceN;
             _serviceSP = serviceSP;
+
             cache = memoryCache;
         }
 
@@ -76,7 +79,7 @@ namespace DepartmentWebCore.Controllers
                     Action = "Index"
                 };
 
-                var classroomList = _serviceCL.GetClassrooms(new WebClassroomGetBindingModel());
+                var classroomList = _serviceCL.GetClassrooms(new ClassroomGetBindingModel { SkipCheck = true, NotUseInSchedule = false });
                 if (classroomList.Succeeded)
                 {
                     MenuElementModel classroomSchedule = new MenuElementModel()

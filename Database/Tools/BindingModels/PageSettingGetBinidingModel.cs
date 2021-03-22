@@ -2,7 +2,7 @@
 
 namespace Tools.BindingModels
 {
-    public class PageSettingGetBinidingModel
+    public class PageSettingGetBinidingModel : CoreAccessBindingModel
     {
         public Guid? Id { get; set; }
 

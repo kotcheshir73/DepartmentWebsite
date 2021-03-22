@@ -25,15 +25,6 @@ namespace WebImplementations
             };
         }
 
-        public static WebClassroomViewModel CreateWebClassroomViewModel(Classroom entity)
-        {
-            return new WebClassroomViewModel
-            {
-                Id = entity.Id,
-                Number = entity.Number
-            };
-        }
-
         public static WebLecturerViewModel CreateWebLecturerViewModel(Lecturer entity)
         {
             return new WebLecturerViewModel

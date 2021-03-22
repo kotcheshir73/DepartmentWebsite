@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BaseInterfaces.BindingModels;
+using BaseInterfaces.Interfaces;
+using BaseInterfaces.ViewModels;
 using DepartmentWebCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using ScheduleInterfaces.BindingModels;
@@ -15,15 +18,15 @@ namespace DepartmentWebCore.Controllers
 {
     public class ScheduleController : Controller
     {
-        private static IWebClassroomService _serviceCL;
-
         private static IWebLecturerService _serviceWL;
 
         private static IWebStudentGroupService _serviceWSG;
 
+        private static IClassroomService _serviceCL;
+
         private static IScheduleProcess _process;
 
-        public ScheduleController(IWebClassroomService serviceCL, IWebLecturerService serviceWL, IWebStudentGroupService serviceWSG, IScheduleProcess process)
+        public ScheduleController(IClassroomService serviceCL, IWebLecturerService serviceWL, IWebStudentGroupService serviceWSG, IScheduleProcess process)
         {
             _serviceCL = serviceCL;
             _serviceWL = serviceWL;
@@ -41,7 +44,7 @@ namespace DepartmentWebCore.Controllers
             var model = new ScheduleClassroomsModel
             {
                 Date = DateTime.Now,
-                Classrooms = new List<WebClassroomViewModel>(),
+                Classrooms = new List<ClassroomViewModel>(),
                 List = new List<ScheduleRecordViewModel>()
             };
             if (!string.IsNullOrEmpty(dateString))
@@ -49,7 +52,7 @@ namespace DepartmentWebCore.Controllers
                 model.Date = Convert.ToDateTime(dateString);
             }
 
-            var classrooms = _serviceCL.GetClassrooms(new WebClassroomGetBindingModel());
+            var classrooms = _serviceCL.GetClassrooms(new ClassroomGetBindingModel { SkipCheck = true, NotUseInSchedule = false });
             if (classrooms.Succeeded)
             {
                 model.Classrooms = classrooms.Result.List;

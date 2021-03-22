@@ -2,10 +2,12 @@
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using DatabaseContext;
+using DatabaseContext.Extensions;
 using Enums;
 using System;
 using System.Linq;
 using Tools;
+using Tools.BindingModels;
 
 namespace BaseImplementations.Implementations
 {
@@ -19,7 +21,7 @@ namespace BaseImplementations.Implementations
         {
             try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                (model as CoreAccessBindingModel).CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)

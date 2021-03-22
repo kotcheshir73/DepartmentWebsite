@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseContext
 {
-    public class DepartmentUserManager
+	public class DepartmentUserManager
     {
         private static readonly Encoding ascii = Encoding.ASCII;
         private static readonly int CountMaxAttempt = 3;
