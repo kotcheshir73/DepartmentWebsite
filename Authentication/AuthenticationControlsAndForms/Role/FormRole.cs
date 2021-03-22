@@ -41,6 +41,7 @@ namespace AuthenticationControlsAndForms.Role
             var entity = result.Result;
 
             textBoxRoleName.Text = entity.RoleName;
+            numericUpDownRolePriority.Value = entity.RolePriority;
         }
 
         protected override bool CheckFill()
@@ -59,7 +60,8 @@ namespace AuthenticationControlsAndForms.Role
             {
                 result = _service.CreateRole(new RoleSetBindingModel
                 {
-                    RoleName = textBoxRoleName.Text
+                    RoleName = textBoxRoleName.Text,
+                    RolePriority = (int)numericUpDownRolePriority.Value
                 });
             }
             else
@@ -67,7 +69,8 @@ namespace AuthenticationControlsAndForms.Role
                 result = _service.UpdateRole(new RoleSetBindingModel
                 {
                     Id = _id.Value,
-                    RoleName = textBoxRoleName.Text
+                    RoleName = textBoxRoleName.Text,
+                    RolePriority = (int)numericUpDownRolePriority.Value
                 });
             }
             if (result.Succeeded)

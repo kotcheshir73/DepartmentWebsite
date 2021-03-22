@@ -15,6 +15,7 @@ namespace AuthenticationImplementations
 				entity = new DepartmentRole();
 			}
 			entity.RoleName = model.RoleName;
+			entity.RolePriority = model.RolePriority;
 
 			return entity;
 		}

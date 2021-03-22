@@ -1,19 +1,19 @@
 ﻿using AuthenticationInterfaces.ViewModels;
 using Models.Authentication;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
 namespace AuthenticationImplementations
 {
-    public static class AuthenticationModelFactoryToViewModel
+	public static class AuthenticationModelFactoryToViewModel
     {
         public static RoleViewModel CreateRoleViewModel(DepartmentRole entity)
         {
             return new RoleViewModel
             {
                 Id = entity.Id,
-                RoleName = entity.RoleName
+                RoleName = entity.RoleName,
+                RolePriority = entity.RolePriority
             };
         }
 
