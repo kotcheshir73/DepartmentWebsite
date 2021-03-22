@@ -1,0 +1,97 @@
+﻿@model (List<string> tableHead, List<List<object>> tableBody, List<MenuElementModel> actions, Guid Id)
+
+<div style="margin-bottom:10px">
+    <button id="btnCreate" type="button" class="btn btn-primary">Добавить</button>
+    @if (Model.actions.Count > 0)
+    {
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Действия <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (var action in Model.actions)
+                {
+                    <li><a href="#">@action.Name</a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+<table id="table" class="table table-bordered table-hover" style="font-size:medium">
+    <thead class="text-center" style="font-weight:bold;color:white">
+        <tr class="label-info">
+            @foreach (string head in Model.tableHead)
+            {
+                <td>@head</td>
+            }
+            <td />
+        </tr>
+    </thead>
+    <tbody style="">
+        @foreach (var row in Model.tableBody)
+        {
+            <tr value="@row[0]">
+                @for (int i = 1; i < row.Count(); i++)
+                {
+                    <td>@row[i]</td>
+                }
+                <td class="text-center"><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalDelete" data-text="@row[1] - @row[2]" data-id="@row[0]">X</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Delete" asp-controller="StudyProcess">
+    <input id="elementId" type="hidden" name="Id" />
+    <input id="menuElement" type="hidden" name="menuElement" value="@ViewBag.menuElement" />
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalDeleteLabel">Удаление элемента</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    <button id="btnDelete" type="button" class="btn btn-danger">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+$(function () {
+    $('#table tbody tr').dblclick(function () {
+        window.location = "@Url.Action("Edit", "StudyProcess", new { Id = "rowId", menuElement = @ViewBag.menuElement })".replace("rowId", $(this).attr("value"));
+    });
+
+    $('#modalDelete').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var data = button.data('text');
+        var Id = button.data('id');
+        var body = 'Вы уверены, что хотите удалить: <br> <b>' + data + '</b>?';
+        $(this).find('.modal-body').html(body);
+        $(this).find('#elementId').attr('value', Id);
+        $(this).find('#btnDelete').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Delete", "StudyProcess")',
+                data: { Id, "menuElement": "@ViewBag.menuElement" },
+                success: function () {
+                    document.location.reload(true);
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        });
+    });
+
+    $('#btnCreate').click(function () {
+        window.location = "@Url.Action("Create", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })";
+    });
+})
+</script>

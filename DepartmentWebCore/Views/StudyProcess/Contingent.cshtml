@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = Model.ContingentName;
+}
+
+@using WebInterfaces.ViewModels
+@model WebContingentViewModel
+
+<form class="form-horizontal" style="margin-top:10px" asp-action="Contingent" asp-controller="StudyProcess">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="AcademicYearId" value="@Model.AcademicYearId" />
+    <div class="form-group">
+        <div class="col-xs-8">
+            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный год*</label>
+        <div class="col-xs-6">
+            <select class="form-control" disabled>
+                <option value="@Model.AcademicYearId">@Model.AcademicYear</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Направление*</label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="EducationDirectionId" required>
+                @foreach (var educationDirection in ViewBag.EducationDirections)
+                {
+                    if (educationDirection.Id == Model.EducationDirectionId)
+                    {
+                        <option selected value="@educationDirection.Id">@educationDirection.FullName()</option>
+                    }
+                    else
+                    {
+                        <option value="@educationDirection.Id">@educationDirection.FullName()</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Наименование*</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" asp-for="ContingentName" value="@Model.ContingentName" required>
+        </div>
+    </div>
+    <div class="container" style="padding-right:0;">
+        <row>
+            <div class="col-xs-2">
+                <div class="form-group">
+                    <label style="font-weight:bold;" class="col-xs-6 control-label">Курс*</label>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" asp-for="Course" value="@Model.Course" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label style="font-weight:bold;" class="col-xs-6 control-label">Количество групп*</label>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" asp-for="CountGroups" value="@Model.CountGroups" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold;" class="col-xs-6 control-label">Количество студентов*</label>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" asp-for="CountStudents" value="@Model.CountStudents" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold;" class="col-xs-6 control-label">Количество подгрупп*</label>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" asp-for="CountSubgroups" value="@Model.CountSubgroups" required>
+                    </div>
+                </div>
+            </div>
+        </row>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Contingent", "StudyProcess")',
+                data: $('form').serialize(),
+                success: function () {
+                    window.location = document.referrer;
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+    });
+</script>

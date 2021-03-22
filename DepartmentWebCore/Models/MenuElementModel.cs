@@ -7,7 +7,8 @@ namespace DepartmentWebCore.Models
     {
         public MenuElementModel()
         {
-            Child = new List<MenuElementModel>(); 
+            Child = new List<MenuElementModel>();
+            AdditionalParameters = new Dictionary<string, string>();
         }
 
         public Guid? Id { get; set; }

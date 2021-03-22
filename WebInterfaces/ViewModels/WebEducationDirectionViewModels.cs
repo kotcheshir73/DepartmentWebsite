@@ -26,6 +26,11 @@ namespace WebInterfaces.ViewModels
         {
             return $"{Cipher} {ShortName}";
         }
+
+        public string FullName()
+        {
+            return $"{Cipher} - {ShortName} ({Profile})";
+        }
     }
 
     public class WebEducationDirectionDisciplineByCoursesViewModel

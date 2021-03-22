@@ -1,0 +1,139 @@
+﻿@{
+    ViewBag.Title = Model.AcademicPlanRecordElementText;
+}
+
+@using WebInterfaces.ViewModels
+@model WebStreamLessonRecordViewModel
+
+<form class="form-horizontal" style="margin-top:10px" asp-action="StreamLessonRecord" asp-controller="StudyProcess">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="StreamLessonId" value="@Model.StreamLessonId" />
+
+    <div class="form-group">
+        <div class="col-xs-8">
+            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Поток*</label>
+        <div class="col-xs-6">
+            <select class="form-control" disabled>
+                <option value="@Model.StreamLessonId">@Model.StreamLessonName</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный план</label>
+        <div class="col-xs-6">
+            <select id="academicPlans" class="form-control" asp-for="AcademicPlanId" required>
+                @foreach (var academicPlan in ViewBag.AcademicPlans)
+                {
+                    if (academicPlan.Id == Model.AcademicPlanId)
+                    {
+                        <option selected value="@academicPlan.Id">@academicPlan.ToString()</option>
+                    }
+                    else
+                    {
+                        <option value="@academicPlan.Id">@academicPlan.ToString()</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Запись учебного плана</label>
+        <div class="col-xs-6">
+            <select id="academicPlanRecords" class="form-control" asp-for="AcademicPlanRecordId" required></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Нагрузка по записи учебного плана*</label>
+        <div class="col-xs-6">
+            <select id="academicPlanRecordElements" class="form-control" asp-for="AcademicPlanRecordElementId" required></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Считать по этой записи часы</label>
+        <div class="col-xs-6">
+            <input class="form-check-input" asp-for="IsMain" />
+        </div>
+    </div>
+
+</form>
+
+<script>
+    $(function () {
+        $(document).ready(function () {
+            $('#academicPlans').change();
+        });
+        $('#academicPlans').on('change', function () {
+            var AcademicPlanId = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAcademicPlanRecords", "StudyProcess")',
+                data: { AcademicPlanId },
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        $("#academicPlanRecords").empty();
+                        var select = document.getElementById("academicPlanRecords");
+                        for (var i = 0; i < data.length; i++) {
+                            select.add(new Option(data[i].disciplne, data[i].id));
+                            if ("@Model.AcademicPlanRecordId.ToString()" == data[i].id) {
+                                select.options[i].selected = true;
+                            }
+                        }
+                        $('#academicPlanRecords').change();
+                    }
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+        $('#academicPlanRecords').on('change', function () {
+            var AcademicPlanRecordId = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAcademicPlanRecordElements", "StudyProcess")',
+                data: { AcademicPlanRecordId },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                    if (data != null) {
+                        $("#academicPlanRecordElements").empty();
+                        var select = document.getElementById("academicPlanRecordElements");
+                        for (var i = 0; i < data.length; i++) {
+                            select.add(new Option(data[i].kindOfLoadName, data[i].id));
+                            if ("@Model.AcademicPlanRecordElementId.ToString()" == data[i].id) {
+                                select.options[i].selected = true;
+                            }
+                        }
+                    }
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+        $('#btnSave').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("StreamLessonRecord", "StudyProcess")',
+                data: $('form').serialize(),
+                success: function () {
+                    window.location = document.referrer;
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+    });
+</script>

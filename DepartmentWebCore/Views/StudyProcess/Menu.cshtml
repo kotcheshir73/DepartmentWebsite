@@ -1,0 +1,20 @@
+﻿@model List<SubmenuModel>
+
+@{string activeClass = string.Empty; }
+
+<nav aria-label="..." width="100%">
+    <ul class="pagination pagination-lg">
+        @foreach (var menuItem in Model)
+        {
+            @if (menuItem.isActive)
+            {
+                activeClass = "active";
+            }
+            else
+            {
+                activeClass = "";
+            }
+            <li class="@activeClass"><a asp-action="Index" asp-controller="StudyProcess" asp-all-route-data='new Dictionary<string,string> { { "Id", @menuItem.AcademicYearId.ToString() }, {"menuElement", @menuItem.ActionName }}'>@menuItem.Name</a></li>
+        }
+    </ul>
+</nav>

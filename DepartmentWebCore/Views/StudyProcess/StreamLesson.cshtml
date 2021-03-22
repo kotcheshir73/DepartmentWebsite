@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = Model.StreamLessonName;
+}
+
+@using DepartmentWebCore.Helpers
+@using WebInterfaces.ViewModels
+@model WebStreamLessonViewModel
+
+<form class="form-horizontal" style="margin-top:10px" asp-action="StreamLesson" asp-controller="StudyProcess">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="AcademicYearId" value="@Model.AcademicYearId" />
+
+    <div class="form-group">
+        <div class="col-xs-8">
+            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный год*</label>
+        <div class="col-xs-6">
+            <select class="form-control" disabled>
+                <option value="@Model.AcademicYearId">@Model.AcademicYear</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Название*</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" asp-for="StreamLessonName" value="@Model.StreamLessonName" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Часы*</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" asp-for="StreamLessonHours" value="@Model.StreamLessonHours" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Семестр</label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="Semester">
+                @foreach (var semester in ViewBag.Semesters)
+                {
+                    if (semester == Model.Semester)
+                    {
+                        <option selected value="@semester">@semester</option>
+                    }
+                    else
+                    {
+                        <option value="@semester">@semester</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div>
+        @Html.RenderAction("Table", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+    </div>
+
+</form>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("StreamLesson", "StudyProcess")',
+                data: $('form').serialize(),
+                success: function () {
+                    window.location = document.referrer;
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+    });
+</script>

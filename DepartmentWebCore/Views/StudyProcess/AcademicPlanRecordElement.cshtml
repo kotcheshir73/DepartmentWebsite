@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = Model.Disciplne + " : " + Model.KindOfLoadName;
+}
+
+@using DepartmentWebCore.Helpers
+@using WebInterfaces.ViewModels
+@model WebAcademicPlanRecordElementViewModel
+
+<form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecordElement" asp-controller="StudyProcess">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="AcademicPlanRecordId" value="@Model.AcademicPlanRecordId" />
+
+    <div class="form-group">
+        <div class="col-xs-8">
+            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Запись учебного плана</label>
+        <div class="col-xs-6">
+            <select class="form-control" disabled>
+                <option value="@Model.AcademicPlanRecordId">@Model.Disciplne</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Норма времени*</label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="TimeNormId" required>
+                @foreach (var timeNorm in ViewBag.TimeNorms)
+                {
+                    if (timeNorm.Id == Model.TimeNormId)
+                    {
+                        <option selected value="@timeNorm.Id">@timeNorm.KindOfLoadName</option>
+                    }
+                    else
+                    {
+                        <option value="@timeNorm.Id">@timeNorm.KindOfLoadName</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">План. часы*</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" asp-for="PlanHours" value="@Model.PlanHours" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Факт. часы*</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" asp-for="FactHours" value="@Model.FactHours" required>
+        </div>
+    </div>
+
+    <div>
+        @Html.RenderAction("Table", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+    </div>
+
+</form>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AcademicPlanRecordElement", "StudyProcess")',
+                data: $('form').serialize(),
+                success: function () {
+                    window.location = document.referrer;
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+    });
+</script>
