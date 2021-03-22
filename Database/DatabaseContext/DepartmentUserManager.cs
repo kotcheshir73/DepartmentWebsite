@@ -124,7 +124,7 @@ namespace DatabaseContext
                 user.DateLastVisit = DateTime.Now;
                 await context.SaveChangesAsync();
                 User = user;
-                Roles = await context.DepartmentUserRoles.Where(x => x.UserId == User.Id).Select(x => x.Role).ToListAsync();
+                Roles = await context.DepartmentUserRoles.Where(x => x.UserId == User.Id).Select(x => x.Role).OrderByDescending(x => x.RolePriority).ToListAsync();
             }
         }
 

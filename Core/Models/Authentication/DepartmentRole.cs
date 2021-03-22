@@ -13,6 +13,9 @@ namespace Models.Authentication
         [DataMember]
         public string RoleName { get; set; }
 
+        [DataMember]
+        public int RolePriority { get; set; }
+
         //-------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------

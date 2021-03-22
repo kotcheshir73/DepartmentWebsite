@@ -7,5 +7,7 @@ namespace AuthenticationInterfaces.ViewModels
 	public class RoleViewModel : PageSettingElementViewModel
 	{
 		public string RoleName { get; set; }
+
+		public int RolePriority { get; set; }
 	}
 }

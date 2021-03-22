@@ -9,5 +9,8 @@ namespace AuthenticationInterfaces.BindingModels
     {
         [Required(ErrorMessage = "required")]
         public string RoleName { get; set; }
+
+        [Required(ErrorMessage = "required")]
+        public int RolePriority { get; set; }
     }
 }

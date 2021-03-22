@@ -25,8 +25,9 @@ namespace AuthenticationControlsAndForms.Role
 			List<ColumnConfig> columns = new List<ColumnConfig>
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-				new ColumnConfig { Name = "RoleName", Title = "Название", Width = 300, Visible = true }
-			};
+				new ColumnConfig { Name = "RoleName", Title = "Название", Width = 300, Visible = true },
+                new ColumnConfig { Name = "RolePriority", Title = "Приоритет", Width = 150, Visible = true }
+            };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
 
@@ -72,7 +73,8 @@ namespace AuthenticationControlsAndForms.Role
                 standartControl.GetDataGridViewRows.Add(new object[]
 				{
 					res.Id,
-					res.RoleName
+					res.RoleName,
+                    res.RolePriority
 				});
             }
             return result.Result.MaxCount;
