@@ -1,4 +1,6 @@
-﻿using DatabaseContext;
+﻿using AuthenticationInterfaces.BindingModels;
+using AuthenticationInterfaces.Interfaces;
+using DatabaseContext;
 using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -18,11 +20,11 @@ namespace DepartmentWebCore.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IWebAuthenticationService _serviceWA;
+        private readonly IAuthenticationProcess _serviceA;
 
-        public AccountController(IWebAuthenticationService serviceWA)
+        public AccountController(IAuthenticationProcess serviceA)
         {
-            _serviceWA = serviceWA;
+            _serviceA = serviceA;
         }
 
         [HttpGet]
@@ -37,32 +39,23 @@ namespace DepartmentWebCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loginModel = await _serviceWA.AuthenticationAsync(new WebAuthenticationLoginBindingModel
-                {
-                    Login = model.Login,
-                    Password = model.Password
-                });
+                await DepartmentUserManager.LoginAsync(model.Login, model.Password);
 
-                if (!loginModel.Succeeded)
-                {
-                    ErrorService.ThrowErrors(loginModel.Errors);
-                }
-
-                await Authenticate(loginModel.Result);
+                await Authenticate();
 
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
 
-        private async Task Authenticate(WebAuthenticationLoginViewModel user)
+        private async Task Authenticate()
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId),
-                new Claim("username", user.UserName),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.UserRoles.FirstOrDefault())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, DepartmentUserManager.User.Id.ToString()),
+                new Claim("username", DepartmentUserManager.User.UserName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, DepartmentUserManager.Roles.Select(x => x.RoleName).FirstOrDefault())
             };
 
             // создаем объект ClaimsIdentity
@@ -96,11 +89,11 @@ namespace DepartmentWebCore.Controllers
                 throw new Exception("Новый пароль и подтверждение не совпадают");
             }
 
-            var result = _serviceWA.ChangePassword(new WebAuthenticationChangePassword
+            var result = _serviceA.ChangePassword(new ChangePasswordBindingModels
             {
                 Id = new Guid(User.Identity.Name),
-                OldPassword = DepartmentUserManager.GetPasswordHash(model.Password),
-                NewPassword = DepartmentUserManager.GetPasswordHash(model.NewPassword)
+                OldPassword = model.Password,
+                NewPassword = model.NewPassword
             });
 
             if (!result.Succeeded)

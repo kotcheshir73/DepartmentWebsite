@@ -1,5 +1,7 @@
 ﻿using AcademicYearImplementations.Implementations;
 using AcademicYearInterfaces.Interfaces;
+using AuthenticationImplementations.Implementations;
+using AuthenticationInterfaces.Interfaces;
 using BaseImplementations.Implementations;
 using BaseInterfaces.Interfaces;
 using DepartmentWebCore.Models;
@@ -88,9 +90,7 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
-            container.RegisterType<IWebAuthenticationService, WebAuthenticationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebClassroomService, WebClassroomService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebLecturerService, WebLecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<IWebStudentGroupService, WebStudentGroupService>(new HierarchicalLifetimeManager());
@@ -105,6 +105,8 @@ namespace DepartmentWebCore
             container.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILecturerPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IExaminationRecordService, ExaminationRecordService>(new HierarchicalLifetimeManager());

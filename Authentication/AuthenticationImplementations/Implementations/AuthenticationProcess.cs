@@ -213,7 +213,9 @@ namespace AuthenticationImplementations.Implementations
 
 				using (var context = DepartmentUserManager.GetContext)
 				{
-					var user = context.DepartmentUsers.FirstOrDefault(x => x.Id == model.Id);
+					var user = string.IsNullOrEmpty(model.OldPassword) ? context.DepartmentUsers.FirstOrDefault(x => x.Id == model.Id) :
+						 context.DepartmentUsers.FirstOrDefault(u => u.Id == model.Id && u.PasswordHash == 
+						 DepartmentUserManager.GetPasswordHash(model.OldPassword));
 
 					if (user == null)
 					{
