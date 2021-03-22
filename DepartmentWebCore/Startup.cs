@@ -1,4 +1,6 @@
-﻿using BaseImplementations.Implementations;
+﻿using AcademicYearImplementations.Implementations;
+using AcademicYearInterfaces.Interfaces;
+using BaseImplementations.Implementations;
 using BaseInterfaces.Interfaces;
 using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
@@ -35,6 +37,11 @@ namespace DepartmentWebCore
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
+                options.Cookie.IsEssential = true;
             });
 
             // установка конфигурации подключения
@@ -104,6 +111,8 @@ namespace DepartmentWebCore
             container.RegisterType<IOffsetRecordService, OffsetRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IWebStudyProcessService, WebStudyProcessService>(new HierarchicalLifetimeManager());
         }
     }
 }

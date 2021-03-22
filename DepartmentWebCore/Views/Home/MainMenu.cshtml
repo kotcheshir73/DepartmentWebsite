@@ -9,6 +9,9 @@
 <ul class="navig">
     @foreach (var item in Model)
     {
-        @Html.MenuItem(item)
+        @if (User.IsInRole("Администратор") && item.AdditionalParameters.ContainsKey("StudyProcess") || !item.AdditionalParameters.ContainsKey("StudyProcess"))
+        {
+            @Html.MenuItem(item)
+        }
     }
 </ul>

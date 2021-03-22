@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = Model.Disciplne;
+}
+
+@using DepartmentWebCore.Helpers
+@using WebInterfaces.ViewModels
+@model WebAcademicPlanRecordViewModel
+
+<form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecord" asp-controller="StudyProcess">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="AcademicPlanId" value="@Model.AcademicPlanId" />
+
+    <div class="form-group">
+        <div class="col-xs-8">
+            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный план*</label>
+        <div class="col-xs-6">
+            <select class="form-control" disabled>
+                <option value="@Model.AcademicPlanId">@ViewBag.AcademicPlan.EducationDirection</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Дисциплина*</label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="DisciplineId" required>
+                @foreach (var discipline in ViewBag.Disciplines)
+                {
+                    if (discipline.Id == Model.DisciplineId)
+                    {
+                        <option selected value="@discipline.Id">@discipline.DisciplineName</option>
+                    }
+                    else
+                    {
+                        <option value="@discipline.Id">@discipline.DisciplineName</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Контингент</label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="ContingentId">
+                @foreach (var сontingent in ViewBag.Contingents)
+                {
+                    if (сontingent.Id == Model.ContingentId)
+                    {
+                        <option selected value="@сontingent.Id">@сontingent.ContingentName</option>
+                    }
+                    else
+                    {
+                        <option value="@сontingent.Id">@сontingent.ContingentName</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Семестр</label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="Semester">
+                @foreach (var semester in ViewBag.Semesters)
+                {
+                    if (semester == Model.Semester)
+                    {
+                        <option selected value="@semester">@semester</option>
+                    }
+                    else
+                    {
+                        <option value="@semester">@semester</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Зет*</label>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" asp-for="Zet" value="@Model.Zet" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Дисциплина по выбору</label>
+        <div class="col-xs-6">
+            <input class="form-check-input" asp-for="Selectable" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label">Участвует в расчете</label>
+        <div class="col-xs-6">
+            <input class="form-check-input" asp-for="IsSelected" />
+        </div>
+    </div>
+
+    <div>
+        @Html.RenderAction("Table", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $('#btnSave').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AcademicPlanRecord", "StudyProcess")',
+                data: $('form').serialize(),
+                success: function () {
+                    window.location = document.referrer;
+                },
+                error: function (result) {
+                    ShowError(result);
+                }
+            });
+        });
+    });
+</script>
