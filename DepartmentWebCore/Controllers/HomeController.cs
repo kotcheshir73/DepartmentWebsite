@@ -1,7 +1,4 @@
-﻿using BaseInterfaces.BindingModels;
-using BaseInterfaces.Interfaces;
-using BaseInterfaces.ViewModels;
-using DepartmentWebCore.Models;
+﻿using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +16,6 @@ namespace DepartmentWebCore.Controllers
 	{
 		private readonly IWebEducationDirectionService _serviceWED;
 
-		private readonly IWebStudentGroupService _serviceWSG;
-
 		private readonly INewsService _serviceN;
 
 		private readonly IWebStudyProcessService _serviceSP;
@@ -29,11 +24,10 @@ namespace DepartmentWebCore.Controllers
 
 		private readonly IMemoryCache cache;
 
-		public HomeController(IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG,
+		public HomeController(IWebEducationDirectionService serviceWED,
 			INewsService serviceN, IWebStudyProcessService serviceSP, BaseService baseService, IMemoryCache memoryCache)
 		{
 			_serviceWED = serviceWED;
-			_serviceWSG = serviceWSG;
 			_serviceN = serviceN;
 			_serviceSP = serviceSP;
 
@@ -187,8 +181,8 @@ namespace DepartmentWebCore.Controllers
 					cache.Set("mainMenu", mainMenu, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
 				}
 
-				var studentGroups = _serviceWSG.GetStudentGroups(new WebStudentGroupGetBindingModel());
-				if (studentGroups.Succeeded)
+				var listStudentGroups = _baseService.GetStudentGroups();
+				if (listStudentGroups != null)
 				{
 					MenuElementModel studentgroupSchedule = new MenuElementModel()
 					{
@@ -198,7 +192,7 @@ namespace DepartmentWebCore.Controllers
 						Action = "StudentGroups"
 					};
 
-					foreach (var tmp in studentGroups.Result.List)
+					foreach (var tmp in listStudentGroups)
 					{
 						studentgroupSchedule.Child.Add(new MenuElementModel()
 						{

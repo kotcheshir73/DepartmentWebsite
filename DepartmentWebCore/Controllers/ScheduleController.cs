@@ -7,24 +7,18 @@ using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
 using System;
 using System.Collections.Generic;
-using WebInterfaces.BindingModels;
-using WebInterfaces.Interfaces;
-using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Controllers
 {
 	public class ScheduleController : Controller
     {
-        private static IWebStudentGroupService _serviceWSG;
-
         private static IScheduleProcess _process;
 
         private readonly BaseService _baseService;
 
-        public ScheduleController(IWebStudentGroupService serviceWSG, IScheduleProcess process,
+        public ScheduleController(IScheduleProcess process,
             BaseService baseService)
         {
-            _serviceWSG = serviceWSG;
             _process = process;
 
             _baseService = baseService;
@@ -102,7 +96,7 @@ namespace DepartmentWebCore.Controllers
             var model = new ScheduleStudentGroupsModel
             {
                 Date = DateTime.Now,
-                StudentGroups = new List<WebStudentGroupViewModel>(),
+                StudentGroups = new List<StudentGroupViewModel>(),
                 List = new List<ScheduleRecordViewModel>()
             };
             if (!string.IsNullOrEmpty(dateString))
@@ -110,10 +104,10 @@ namespace DepartmentWebCore.Controllers
                 model.Date = Convert.ToDateTime(dateString);
             }
 
-            var studentGroups = _serviceWSG.GetStudentGroups(new WebStudentGroupGetBindingModel());
-            if (studentGroups.Succeeded)
+            var listStudentGroups = _baseService.GetStudentGroups();
+            if (listStudentGroups != null)
             {
-                model.StudentGroups = studentGroups.Result.List;
+                model.StudentGroups = listStudentGroups;
             }
             var records = _process.LoadSchedule(new LoadScheduleBindingModel
             {

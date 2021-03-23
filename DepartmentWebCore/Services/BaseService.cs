@@ -16,22 +16,31 @@ namespace DepartmentWebCore.Services
 
 		private readonly ILecturerService _serviceL;
 
+		private readonly IStudentGroupService _serviceSG;
+
 		private readonly IAcademicPlanRecordMissionService _academicPlanRecordMissionService;
 
 		private readonly IAcademicYearProcess _academicYearProcess;
 
 		private IMemoryCache cache;
 
-		public BaseService(IClassroomService serviceC, ILecturerService serviceL, IAcademicPlanRecordMissionService academicPlanRecordMissionService, IAcademicYearProcess academicYearProcess, 
+		public BaseService(IClassroomService serviceC, ILecturerService serviceL, IStudentGroupService serviceSG, 
+			IAcademicPlanRecordMissionService academicPlanRecordMissionService, IAcademicYearProcess academicYearProcess, 
 			IMemoryCache memoryCache)
 		{
 			_serviceC = serviceC;
 			_serviceL = serviceL;
+			_serviceSG = serviceSG;
 			_academicPlanRecordMissionService = academicPlanRecordMissionService;
 			_academicYearProcess = academicYearProcess;
 			cache = memoryCache;
 		}
 
+		/// <summary>
+		/// Получения аудиторий
+		/// </summary>
+		/// <param name="notUseInSchedule">true - в которых не проводятся занятия</param>
+		/// <returns></returns>
 		public List<ClassroomViewModel> GetClassrooms(bool notUseInSchedule = false)
 		{
 			if (!cache.TryGetValue($"Classrooms", out List<ClassroomViewModel> listClassrooms))
@@ -47,6 +56,10 @@ namespace DepartmentWebCore.Services
 			return listClassrooms;
 		}
 
+		/// <summary>
+		/// Получение преподавателей
+		/// </summary>
+		/// <returns></returns>
 		public List<LecturerViewModel> GetLecturers()
 		{
 			if (!cache.TryGetValue($"Lecturers", out List<LecturerViewModel> listLecturers))
@@ -62,6 +75,30 @@ namespace DepartmentWebCore.Services
 			return listLecturers;
 		}
 
+		/// <summary>
+		/// Получение преподавателей
+		/// </summary>
+		/// <returns></returns>
+		public List<StudentGroupViewModel> GetStudentGroups()
+		{
+			if (!cache.TryGetValue($"StudentGroups", out List<StudentGroupViewModel> listStudentGroups))
+			{
+				var studentGroupList = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { SkipCheck = true });
+				if (studentGroupList.Succeeded)
+				{
+					listStudentGroups = studentGroupList.Result.List;
+					cache.Set($"StudentGroups", listStudentGroups, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+				}
+			}
+
+			return listStudentGroups;
+		}
+
+		/// <summary>
+		/// Получение преподавателя
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public LecturerViewModel GetLecturer(Guid id)
 		{
 			var listLecturers = GetLecturers();
@@ -84,6 +121,11 @@ namespace DepartmentWebCore.Services
 			return model;
 		}
 
+		/// <summary>
+		/// Получение списка дисцпилн преподавателя
+		/// </summary>
+		/// <param name="lecturerId"></param>
+		/// <returns></returns>
 		public List<(Guid Id, string Title)> GetDisciplineForLecutrer(Guid lecturerId)
 		{
 			if (!cache.TryGetValue($"LecturerDisicplie:{lecturerId}", out List<(Guid Id, string Title)> list))

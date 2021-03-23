@@ -35,16 +35,6 @@ namespace WebImplementations
             };
         }
 
-        public static WebStudentGroupViewModel CreateWebStudentGroupViewModel(StudentGroup entity)
-        {
-            return new WebStudentGroupViewModel
-            {
-                Id = entity.Id,
-                GroupName = entity.GroupName,
-                Course = entity.Course
-            };
-        }
-
         public static NewsViewModel CreateNewsViewModel(News entity)
         {
             return new NewsViewModel

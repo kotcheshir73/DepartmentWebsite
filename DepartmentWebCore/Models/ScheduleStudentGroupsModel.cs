@@ -1,12 +1,12 @@
-﻿using ScheduleInterfaces.ViewModels;
+﻿using BaseInterfaces.ViewModels;
+using ScheduleInterfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Models
 {
-    public class ScheduleStudentGroupsModel
+	public class ScheduleStudentGroupsModel
     {
         [DataType(DataType.Date)]
         [Display(Name = "Дата")]
@@ -14,6 +14,6 @@ namespace DepartmentWebCore.Models
 
         public List<ScheduleRecordViewModel> List { get; set; }
 
-        public List<WebStudentGroupViewModel> StudentGroups { get; set; }
+        public List<StudentGroupViewModel> StudentGroups { get; set; }
     }
 }
