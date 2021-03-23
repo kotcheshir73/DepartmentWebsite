@@ -5,22 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
-using WebInterfaces.BindingModels;
-using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
-    public class DisciplineController : Controller
+	public class DisciplineController : Controller
     {
-        private IWebDisciplineService _serviceWD;
+        private readonly BaseService _baseService;
 
         private readonly FileService _fileService;
 
         private readonly string _filePath;
 
-        public DisciplineController(IWebDisciplineService serviceWD, FileService fileService, IOptions<CustonConfig> config)
+        public DisciplineController(BaseService baseService, FileService fileService, IOptions<CustonConfig> config)
         {
-            _serviceWD = serviceWD;
+            _baseService = baseService;
             _fileService = fileService;
 
             _filePath = $"{config.Value.DirectoryPath}\\Disciplines\\";
@@ -28,44 +26,44 @@ namespace DepartmentWebCore.Controllers
 
         public ActionResult Discipline(Guid id)
         {
-            var model = _serviceWD.GetDiscipline(new WebDisciplineGetBindingModel { Id = id });
-
-            if (!model.Succeeded)
+            var model = _baseService.GetDiscipline(id);
+            if (model == null)
             {
                 return new EmptyResult();
             }
 
-            return View(model.Result);
+            ViewBag.DisciplineLecturers = _baseService.GetLecturerForDiscipline(id);
+
+            return View(model);
         }
 
         [Authorize]
         public ActionResult DisciplineContent(Guid id)
         {
-            var model = _serviceWD.GetDisciplineContentInfo(new WebDisciplineContentInfoBindingModel { DisciplineId = id });
-
-            if(!model.Succeeded)
+            var model = _baseService.GetLecturerUsersForDiscipline(id);
+            if (model == default)
             {
-                return PartialView();
+                return new EmptyResult();
             }
-            ViewBag.CanAction = model.Result.Lecturers.Contains(new Guid(User.Identity.Name)) || User.IsInRole("Администратор");
+            ViewBag.CanAction = model.Users.Contains(new Guid(User.Identity.Name)) || User.IsInRole("Администратор");
             ViewBag.Id = id;
 
-            return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Result.DisciplineName}\\", _serviceWD));
+            return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Title}\\"));
         }
 
         [Authorize]
         public FileResult Download(Guid id, string fullName)
         {
-            var discipline = _serviceWD.GetDisciplineName(new WebDisciplineGetBindingModel { Id = id });
+            var discipline = _baseService.GetDiscipline(id);
 
-            if (!discipline.Succeeded)
+            if (discipline == null)
             {
                 return null;
             }
 
-            string fileName = _fileService.GetFileName($"{_filePath}\\{discipline.Result.DisciplineName}\\{fullName}");
+            string fileName = _fileService.GetFileName($"{_filePath}\\{discipline.DisciplineName}\\{fullName}");
 
-            return File(_fileService.GetFileForDowmload($"{_filePath}\\{discipline.Result.DisciplineName}\\{fullName}"), _fileService.GetContentType(fileName), fileName);
+            return File(_fileService.GetFileForDowmload($"{_filePath}\\{discipline.DisciplineName}\\{fullName}"), _fileService.GetContentType(fileName), fileName);
         }
 
         [Authorize(Roles = "Преподаватель, Администратор")]
@@ -84,11 +82,11 @@ namespace DepartmentWebCore.Controllers
         [Authorize(Roles = "Преподаватель, Администратор")]
         public async Task<ActionResult> LoadFile(DisiplineLoadFileModel model)
         {
-            var discipline = _serviceWD.GetDisciplineName(new WebDisciplineGetBindingModel { Id = model.Id });
+            var discipline = _baseService.GetDiscipline(model.Id);
 
             if (model.FilesForUpload != null)
             {
-                await _fileService.SaveFiles(model.FilesForUpload, $"{_filePath}\\{discipline.Result.DisciplineName}\\{model.FullName}");
+                await _fileService.SaveFiles(model.FilesForUpload, $"{_filePath}\\{discipline.DisciplineName}\\{model.FullName}");
             }
 
             return RedirectToAction("Discipline", new { model.Id });
@@ -97,9 +95,9 @@ namespace DepartmentWebCore.Controllers
         [Authorize(Roles = "Преподаватель, Администратор")]
         public void DeleteFile(Guid id, string fullName)
         {
-            var discipline = _serviceWD.GetDisciplineName(new WebDisciplineGetBindingModel { Id = id });
+            var discipline = _baseService.GetDiscipline(id);
 
-            _fileService.DeleteFile($"{_filePath}\\{discipline.Result.DisciplineName}\\{fullName}");
+            _fileService.DeleteFile($"{_filePath}\\{discipline.DisciplineName}\\{fullName}");
         } 
     }
 }

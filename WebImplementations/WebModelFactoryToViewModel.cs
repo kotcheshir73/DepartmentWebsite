@@ -25,16 +25,6 @@ namespace WebImplementations
             };
         }
 
-        public static WebDisciplineViewModel CreateWebDisciplineViewModel(Discipline entity)
-        {
-            return new WebDisciplineViewModel
-            {
-                Id = entity.Id,
-                DisciplineName = entity.DisciplineName,
-                DisciplineDescription = entity.DisciplineDescription
-            };
-        }
-
         public static NewsViewModel CreateNewsViewModel(News entity)
         {
             return new NewsViewModel

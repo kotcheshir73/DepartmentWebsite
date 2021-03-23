@@ -20,5 +20,9 @@ namespace AcademicYearInterfaces.ViewModels
         public string DisciplineTitle { get; set; }
 
         public decimal Hours { get; set; }
+
+        public string TimeNormShortName { get; set; }
+
+        public string Semester { get; set; }
     }
 }

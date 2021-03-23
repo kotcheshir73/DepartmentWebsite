@@ -69,7 +69,7 @@ namespace DepartmentWebCore.Controllers
 
         public ActionResult LecturerDisciplines(Guid id)
         {
-            return PartialView(_baseService.GetDisciplineForLecutrer(id));
+            return PartialView(_baseService.GetDisciplineForLecturer(id));
         }
     }
 }

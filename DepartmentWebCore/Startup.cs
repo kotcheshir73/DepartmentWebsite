@@ -91,10 +91,8 @@ namespace DepartmentWebCore
         public void ConfigureContainer(IUnityContainer container)
         {
             container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWebDisciplineService, WebDisciplineService>(new HierarchicalLifetimeManager());
             container.RegisterType<INewsService, NewsService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
-            container.RegisterType<FileService, FileService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IClassroomService, ClassroomService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
@@ -104,7 +102,10 @@ namespace DepartmentWebCore
             container.RegisterType<ILecturerStudyPostSerivce, LecturerStudyPostSerivce>(new HierarchicalLifetimeManager());
             container.RegisterType<ILecturerDepartmentPostSerivce, LecturerDepartmentPostSerivce>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());
 
+            container.RegisterType<IRoleService, RoleService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthenticationProcess, AuthenticationProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<ITimeNormService, TimeNormService>(new HierarchicalLifetimeManager());
@@ -128,6 +129,7 @@ namespace DepartmentWebCore
             container.RegisterType<IWebStudyProcessService, WebStudyProcessService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<BaseService>(new HierarchicalLifetimeManager());
+            container.RegisterType<FileService>(new HierarchicalLifetimeManager());
         }
     }
 }

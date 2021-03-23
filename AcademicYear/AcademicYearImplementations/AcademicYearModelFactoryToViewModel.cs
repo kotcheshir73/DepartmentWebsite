@@ -84,7 +84,10 @@ namespace AcademicYearImplementations
                 AcademicPlanRecordElementTitle = entity.AcademicPlanRecordElement.TimeNorm.TimeNormName,
                 LecturerName = entity.Lecturer.ToString(),
                 DisciplineTitle = entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
-                Hours = entity.Hours
+                Hours = entity.Hours,
+                TimeNormShortName = entity.AcademicPlanRecordElement.TimeNorm.TimeNormShortName,
+                Semester = entity.AcademicPlanRecordElement.AcademicPlanRecord.Semester.HasValue ? 
+                        entity.AcademicPlanRecordElement.AcademicPlanRecord.Semester.ToString() : string.Empty,
             };
         }
 

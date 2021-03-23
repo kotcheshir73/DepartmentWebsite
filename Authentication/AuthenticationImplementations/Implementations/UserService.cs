@@ -50,7 +50,10 @@ namespace AuthenticationImplementations.Implementations
 		{
             try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<UserPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
@@ -66,6 +69,10 @@ namespace AuthenticationImplementations.Implementations
                     if (model.IsBanned.HasValue)
                     {
                         query = query.Where(x => x.IsLocked == model.IsBanned.Value);
+                    }
+                    if(model.LecturerIds != null)
+                    {
+                        query = query.Where(x => x.LecturerId.HasValue && model.LecturerIds.Contains(x.LecturerId.Value));
                     }
 
                     query = query.OrderBy(x => x.UserName).ThenBy(x => x.DateLastVisit);

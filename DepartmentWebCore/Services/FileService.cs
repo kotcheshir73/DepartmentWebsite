@@ -12,6 +12,13 @@ namespace DepartmentWebCore.Services
 {
     public class FileService
     {
+        private readonly BaseService _baseService;
+
+        public FileService(BaseService baseService)
+        {
+            _baseService = baseService;
+        }
+
         /// <summary>
         /// Сохранение файлов на диск
         /// </summary>
@@ -126,10 +133,10 @@ namespace DepartmentWebCore.Services
         /// <param name="direction"></param>
         /// <param name="folders">Список папок, если папки нет</param>
         /// <returns></returns>
-        public DisciplineContextElementModel GetDisciplineContext(Guid id, string direction, IWebDisciplineService serviceD)
+        public DisciplineContextElementModel GetDisciplineContext(Guid id, string direction)
         {
             var directoryInfo = new DirectoryInfo(direction);
-            var folders = serviceD.GetDisciplineFolderNames(new WebDisciplineFolderNamesBindingModel { DisciplineId = id }).Result;
+            var folders = _baseService.GetDisciplineFolderNames(id);
 
             if (!directoryInfo.Exists)
             {

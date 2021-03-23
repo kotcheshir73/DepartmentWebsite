@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Tools.BindingModels;
 
@@ -9,6 +10,8 @@ namespace AuthenticationInterfaces.BindingModels
 		public bool? IsBanned { get; set; }
 
         public string RoleType { get; set; }
+
+		public List<Guid> LecturerIds { get; set; } 
     }
 
 	public class UserSetBindingModel : PageSettingSetBinidingModel

@@ -16,8 +16,7 @@ namespace DepartmentWebCore.Controllers
 
         private readonly BaseService _baseService;
 
-        public ScheduleController(IScheduleProcess process,
-            BaseService baseService)
+        public ScheduleController(IScheduleProcess process, BaseService baseService)
         {
             _process = process;
 

@@ -1,7 +1,7 @@
-﻿@using WebInterfaces.ViewModels
+﻿@using BaseInterfaces.ViewModels
 @using DepartmentWebCore.Helpers
 
-@model WebDisciplineViewModel
+@model DisciplineViewModel
 
 @{
     ViewBag.Title = Model.DisciplineName;
@@ -29,9 +29,9 @@
 <div class="discipline-lecturer">
     <div class="discipline-lecturer-title">
         Преподаватели:
-        @if (Model.DisciplineLecturers != null && Model.DisciplineLecturers.Count > 0)
+        @if (ViewBag.DisciplineLecturers != null && ViewBag.DisciplineLecturers.Count > 0)
         {
-            @foreach (var lecturer in Model.DisciplineLecturers)
+            @foreach (var lecturer in ViewBag.DisciplineLecturers)
             {
                 <a href="/Lecturer/Lecturer?Id=@lecturer.Item1">@lecturer.Item2</a>
             }
