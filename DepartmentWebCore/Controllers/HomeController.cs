@@ -15,17 +15,17 @@ namespace DepartmentWebCore.Controllers
 {
     public class HomeController : Controller
     {
-        private static IClassroomService _serviceCL;
+        private readonly IClassroomService _serviceCL;
 
-        private static IWebLecturerService _serviceWL;
+        private readonly IWebLecturerService _serviceWL;
 
-        private static IWebEducationDirectionService _serviceWED;
+        private readonly IWebEducationDirectionService _serviceWED;
 
-        private static IWebStudentGroupService _serviceWSG;
+        private readonly IWebStudentGroupService _serviceWSG;
 
-        private static INewsService _serviceN;
+        private readonly INewsService _serviceN;
 
-        private static IWebStudyProcessService _serviceSP;
+        private readonly IWebStudyProcessService _serviceSP;
 
         private IMemoryCache cache;
 

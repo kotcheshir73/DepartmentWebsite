@@ -2,16 +2,14 @@
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using DatabaseContext;
-using DatabaseContext.Extensions;
 using Enums;
 using System;
 using System.Linq;
 using Tools;
-using Tools.BindingModels;
 
 namespace BaseImplementations.Implementations
 {
-    public class ClassroomService : IClassroomService
+	public class ClassroomService : IClassroomService
     {
         private readonly AccessOperation _serviceOperation = AccessOperation.Аудитории;
 
@@ -21,7 +19,10 @@ namespace BaseImplementations.Implementations
         {
             try
             {
-                (model as CoreAccessBindingModel).CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<ClassroomPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)

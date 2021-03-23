@@ -115,6 +115,8 @@ namespace DepartmentWebCore
             container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IWebStudyProcessService, WebStudyProcessService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<BaseService>(new HierarchicalLifetimeManager());
         }
     }
 }

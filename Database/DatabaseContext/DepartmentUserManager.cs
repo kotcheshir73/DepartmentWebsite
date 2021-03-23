@@ -8,285 +8,339 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Tools.BindingModels;
 
 namespace DatabaseContext
 {
 	public class DepartmentUserManager
-    {
-        private static readonly Encoding ascii = Encoding.ASCII;
-        private static readonly int CountMaxAttempt = 3;
+	{
+		private static readonly Encoding ascii = Encoding.ASCII;
+		private static readonly int CountMaxAttempt = 3;
 
-        public static Guid? UserId => User?.Id;
+		public static string ErrorMessage { get; private set; }
 
-        public static bool IsAuth => User != null;
+		public static Guid? UserId => User?.Id;
 
-        public static string LecturerName => $"{User?.Lecturer?.LastName} {User?.Lecturer?.FirstName[0]}.{User?.Lecturer?.Patronymic?[0]}.";        
+		public static bool IsAuth => User != null;
 
-        public static DepartmentDatabaseContext GetContext
-        {
-            get
-            {
-                return new DepartmentDatabaseContext();
-            }
-        }
+		public static string LecturerName => $"{User?.Lecturer?.LastName} {User?.Lecturer?.FirstName[0]}.{User?.Lecturer?.Patronymic?[0]}.";
 
-        public static SeasonDates GetCurrentDates()
-        {
-            using (var context = GetContext)
-            {
-                var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
-                if (currentSetting == null)
-                {
-                    throw new Exception("CurrentSetting not found");
-                }
+		public static DepartmentDatabaseContext GetContext => new DepartmentDatabaseContext();
 
-                var currentDates = context.SeasonDates.Where(sd => sd.Title == currentSetting.Value).FirstOrDefault();
-                if (currentDates == null)
-                {
-                    throw new Exception("CurrentDates not found");
-                }
-                return currentDates;
-            }
-        }
+		public static SeasonDates GetCurrentDates()
+		{
+			using (var context = GetContext)
+			{
+				var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Даты семестра");
+				if (currentSetting == null)
+				{
+					throw new Exception("CurrentSetting not found");
+				}
 
-        public static DepartmentUser User { get; private set; }
+				var currentDates = context.SeasonDates.Where(sd => sd.Title == currentSetting.Value).FirstOrDefault();
+				if (currentDates == null)
+				{
+					throw new Exception("CurrentDates not found");
+				}
+				return currentDates;
+			}
+		}
 
-        public static List<DepartmentRole> Roles { get; private set; }
+		public static DepartmentUser User { get; private set; }
 
-        /// <summary>
-        /// Авторизация пользователя к операции
-        /// </summary>
-        /// <param name="operation"></param>
-        /// <param name="type"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public static void CheckAccess(AccessOperation operation, AccessType type, string entity)
-        {
-            using (var context = GetContext)
-            {
-                var access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && Roles.Contains(a.Role));
-                if (access != null)
-                {
-                    if (access.AccessType >= type) return;
-                }
-                switch (type)
-                {
-                    case AccessType.View:
-                        throw new Exception($"Нет доступа на чтение данных по сущности '{entity}'");
-                    case AccessType.Change:
-                        throw new Exception($"Нет доступа на изменение данных по сущности '{entity}'");
-                    case AccessType.Delete:
-                        throw new Exception($"Нет доступа на удаление данных по сущности '{entity}'");
-                }
-            }
-        }
+		public static List<DepartmentRole> Roles { get; private set; }
 
-        /// <summary>
-        /// Аутентификация пользователя
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static async Task LoginAsync(string login, string password)
-        {
-            var passHash = GetPasswordHash(password);
+		/// <summary>
+		/// Авторизация пользователя к операции
+		/// </summary>
+		/// <param name="operation"></param>
+		/// <param name="type"></param>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		public static void CheckAccess(AccessOperation operation, AccessType type, string entity)
+		{
+			using (var context = GetContext)
+			{
+				var access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && Roles.Contains(a.Role));
+				if (access != null)
+				{
+					if (access.AccessType >= type) return;
+				}
+				switch (type)
+				{
+					case AccessType.View:
+						throw new Exception($"Нет доступа на чтение данных по сущности '{entity}'");
+					case AccessType.Change:
+						throw new Exception($"Нет доступа на изменение данных по сущности '{entity}'");
+					case AccessType.Delete:
+						throw new Exception($"Нет доступа на удаление данных по сущности '{entity}'");
+				}
+			}
+		}
 
-            using (var context = GetContext)
-            {
-                var user = await context.DepartmentUsers.FirstOrDefaultAsync(u => u.UserName == login && u.PasswordHash == passHash);
-                if (user == null)
-                {
-                    var checkUser = await context.DepartmentUsers.FirstOrDefaultAsync(u => u.UserName == login && !u.IsLocked);
-                    if (checkUser != null)
-                    {
-                        checkUser.CountAttempt++;
-                        if (checkUser.CountAttempt > CountMaxAttempt)
-                        {
-                            checkUser.IsLocked = true;
-                            checkUser.DateLocked = DateTime.Now;
-                        }
-                    }
+		/// <summary>
+		/// Авторизация пользователя к операции
+		/// </summary>
+		/// <param name="operation"></param>
+		/// <param name="type"></param>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		public static bool CheckAccess(CoreAccessBindingModel model, AccessOperation operation, AccessType type, string entity)
+		{
+			using (var context = GetContext)
+			{
+				DepartmentAccess access;
+				if (model != null)
+				{
+					if (model.SkipCheck && type == AccessType.View)
+					{
+						return true;
+					}
+					if(!model.UserId.HasValue && User != null)
+					{
+						model.UserId = UserId;
+					}
 
-                    throw new Exception("Введен неверный логин/пароль");
-                }
-                if (user.IsLocked)
-                {
-                    if (user.DateLocked.Value.AddHours(3) > DateTime.Now)
-                    {
-                        user.IsLocked = false;
-                    }
-                    else
-                    {
-                        throw new Exception("Пользователь заблокирован");
-                    }
-                }
+					var roles = context.DepartmentUserRoles.Where(x => x.UserId == model.UserId).Select(x => x.Role).OrderByDescending(x => x.RolePriority).ToList();
+					if (roles == null)
+					{
+						ErrorMessage = $"Не верный пользователь";
+						return false;
+					}
+					access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && roles.Contains(a.Role));
+				}
+				else
+				{
+					access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && Roles.Contains(a.Role));
+				}
+				if (access != null)
+				{
+					if (access.AccessType >= type) return true;
+				}
+				switch (type)
+				{
+					case AccessType.View:
+						ErrorMessage = $"Нет доступа на чтение данных по сущности '{entity}'";
+						return false;
+					case AccessType.Change:
+						ErrorMessage = $"Нет доступа на изменение данных по сущности '{entity}'";
+						return false;
+					case AccessType.Delete:
+						ErrorMessage = $"Нет доступа на удаление данных по сущности '{entity}'";
+						return false;
+					default:
+						ErrorMessage = $"Нет доступа по сущности '{entity}'";
+						return false;
+				}
+			}
+		}
 
-                user.DateLastVisit = DateTime.Now;
-                await context.SaveChangesAsync();
-                User = user;
-                Roles = await context.DepartmentUserRoles.Where(x => x.UserId == User.Id).Select(x => x.Role).OrderByDescending(x => x.RolePriority).ToListAsync();
-            }
-        }
+		/// <summary>
+		/// Аутентификация пользователя
+		/// </summary>
+		/// <param name="login"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		public static async Task LoginAsync(string login, string password)
+		{
+			var passHash = GetPasswordHash(password);
 
-        /// <summary>
-        /// Смена пароля
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="oldPassword"></param>
-        /// <param name="newPassword"></param>
-        public static void ChangePassword(string login, string oldPassword, string newPassword)
-        {
-            var passHash = GetPasswordHash(oldPassword);
-            using (var context = GetContext)
-            {
-                var user = context.DepartmentUsers.SingleOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
-                if (user == null)
-                {
-                    throw new Exception("Введен неверный логин/пароль");
-                }
-                if (user.IsLocked)
-                {
-                    throw new Exception("Пользователь забаннен");
-                }
-                user.PasswordHash = GetPasswordHash(newPassword);
-                context.SaveChanges();
-            }
-        }
+			using (var context = GetContext)
+			{
+				var user = await context.DepartmentUsers.FirstOrDefaultAsync(u => u.UserName == login && u.PasswordHash == passHash);
+				if (user == null)
+				{
+					var checkUser = await context.DepartmentUsers.FirstOrDefaultAsync(u => u.UserName == login && !u.IsLocked);
+					if (checkUser != null)
+					{
+						checkUser.CountAttempt++;
+						if (checkUser.CountAttempt > CountMaxAttempt)
+						{
+							checkUser.IsLocked = true;
+							checkUser.DateLocked = DateTime.Now;
+						}
+					}
 
-        /// <summary>
-        /// Получение хеша пароля
-        /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static string GetPasswordHash(string password)
-        {
-            var md5 = new MD5CryptoServiceProvider();
-            return ascii.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
-        }
+					throw new Exception("Введен неверный логин/пароль");
+				}
+				if (user.IsLocked)
+				{
+					if (user.DateLocked.Value.AddHours(3) > DateTime.Now)
+					{
+						user.IsLocked = false;
+					}
+					else
+					{
+						throw new Exception("Пользователь заблокирован");
+					}
+				}
 
-        public static void CheckExsistData()
-        {
-            try
-            {
-                using (var context = GetContext)
-                {
-                    var role = context.DepartmentRoles.FirstOrDefault(x => x.RoleName == "Администратор");
-                    if (role == null)
-                    {
-                        CreateAdministrationRoleAndUserWithAllAccess();
-                    }
-                    role = context.DepartmentRoles.FirstOrDefault(x => x.RoleName == "Преподаватель");
-                    if (role == null)
-                    {
-                        CreateLecturerRolesWithAllAccess();
-                    }
-                    role = context.DepartmentRoles.FirstOrDefault(x => x.RoleName == "Студент");
-                    if (role == null)
-                    {
-                        CreateStudentRolesWithAllAccess();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+				user.DateLastVisit = DateTime.Now;
+				await context.SaveChangesAsync();
+				User = user;
+				Roles = await context.DepartmentUserRoles.Where(x => x.UserId == User.Id).Select(x => x.Role).OrderByDescending(x => x.RolePriority).ToListAsync();
+			}
+		}
 
-        private static void CreateAdministrationRoleAndUserWithAllAccess()
-        {
-            using (var context = GetContext)
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                DepartmentRole role = new DepartmentRole
-                {
-                    RoleName = "Администратор"
-                };
-                context.DepartmentRoles.Add(role);
+		/// <summary>
+		/// Смена пароля
+		/// </summary>
+		/// <param name="login"></param>
+		/// <param name="oldPassword"></param>
+		/// <param name="newPassword"></param>
+		public static void ChangePassword(string login, string oldPassword, string newPassword)
+		{
+			var passHash = GetPasswordHash(oldPassword);
+			using (var context = GetContext)
+			{
+				var user = context.DepartmentUsers.SingleOrDefault(u => u.UserName == login && u.PasswordHash == passHash);
+				if (user == null)
+				{
+					throw new Exception("Введен неверный логин/пароль");
+				}
+				if (user.IsLocked)
+				{
+					throw new Exception("Пользователь забаннен");
+				}
+				user.PasswordHash = GetPasswordHash(newPassword);
+				context.SaveChanges();
+			}
+		}
 
-                List<DepartmentAccess> accesses = new List<DepartmentAccess>();
-                foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
-                {
-                    accesses.Add(new DepartmentAccess
-                    {
-                        AccessType = AccessType.Administrator,
-                        Operation = elem,
-                        RoleId = role.Id
-                    });
-                }
-                context.DepartmentAccesses.AddRange(accesses);
+		/// <summary>
+		/// Получение хеша пароля
+		/// </summary>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		public static string GetPasswordHash(string password)
+		{
+			var md5 = new MD5CryptoServiceProvider();
+			return ascii.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
+		}
 
-                var md5 = new MD5CryptoServiceProvider();
-                DepartmentUser user = new DepartmentUser
-                {
-                    UserName = "admin",
-                    PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
-                };
-                context.DepartmentUsers.Add(user);
+		public static void CheckExsistData()
+		{
+			try
+			{
+				using (var context = GetContext)
+				{
+					var role = context.DepartmentRoles.FirstOrDefault(x => x.RoleName == "Администратор");
+					if (role == null)
+					{
+						CreateAdministrationRoleAndUserWithAllAccess();
+					}
+					role = context.DepartmentRoles.FirstOrDefault(x => x.RoleName == "Преподаватель");
+					if (role == null)
+					{
+						CreateLecturerRolesWithAllAccess();
+					}
+					role = context.DepartmentRoles.FirstOrDefault(x => x.RoleName == "Студент");
+					if (role == null)
+					{
+						CreateStudentRolesWithAllAccess();
+					}
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 
-                context.DepartmentUserRoles.Add(new DepartmentUserRole { UserId = user.Id, RoleId = role.Id });
+		private static void CreateAdministrationRoleAndUserWithAllAccess()
+		{
+			using (var context = GetContext)
+			using (var transaction = context.Database.BeginTransaction())
+			{
+				DepartmentRole role = new DepartmentRole
+				{
+					RoleName = "Администратор"
+				};
+				context.DepartmentRoles.Add(role);
 
-                context.SaveChanges();
-                transaction.Commit();
-            }
-        }
+				List<DepartmentAccess> accesses = new List<DepartmentAccess>();
+				foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+				{
+					accesses.Add(new DepartmentAccess
+					{
+						AccessType = AccessType.Administrator,
+						Operation = elem,
+						RoleId = role.Id
+					});
+				}
+				context.DepartmentAccesses.AddRange(accesses);
 
-        private static void CreateLecturerRolesWithAllAccess()
-        {
-            using (var context = GetContext)
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                DepartmentRole role = new DepartmentRole
-                {
-                    RoleName = "Преподаватель"
-                };
-                context.DepartmentRoles.Add(role);
-                context.SaveChanges();
+				var md5 = new MD5CryptoServiceProvider();
+				DepartmentUser user = new DepartmentUser
+				{
+					UserName = "admin",
+					PasswordHash = Encoding.ASCII.GetString(md5.ComputeHash(Encoding.ASCII.GetBytes("qwerty")))
+				};
+				context.DepartmentUsers.Add(user);
 
-                //List<Access> accesses = new List<Access>();
-                //foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
-                //{
-                //    accesses.Add(new Access
-                //    {
-                //        AccessType = AccessType.Administrator,
-                //        Operation = elem,
-                //        RoleId = role.Id
-                //    });
-                //}
-                //_context.Accesses.AddRange(accesses);
-                //_context.SaveChanges();
+				context.DepartmentUserRoles.Add(new DepartmentUserRole { UserId = user.Id, RoleId = role.Id });
 
-                transaction.Commit();
-            }
-        }
+				context.SaveChanges();
+				transaction.Commit();
+			}
+		}
 
-        private static void CreateStudentRolesWithAllAccess()
-        {
-            using (var context = GetContext)
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                DepartmentRole role = new DepartmentRole
-                {
-                    RoleName = "Студент"
-                };
-                context.DepartmentRoles.Add(role);
-                context.SaveChanges();
+		private static void CreateLecturerRolesWithAllAccess()
+		{
+			using (var context = GetContext)
+			using (var transaction = context.Database.BeginTransaction())
+			{
+				DepartmentRole role = new DepartmentRole
+				{
+					RoleName = "Преподаватель"
+				};
+				context.DepartmentRoles.Add(role);
+				context.SaveChanges();
 
-                //List<Access> accesses = new List<Access>();
-                //foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
-                //{
-                //    accesses.Add(new Access
-                //    {
-                //        AccessType = AccessType.Administrator,
-                //        Operation = elem,
-                //        RoleId = role.Id
-                //    });
-                //}
-                //_context.Accesses.AddRange(accesses);
-                //_context.SaveChanges();
+				//List<Access> accesses = new List<Access>();
+				//foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+				//{
+				//    accesses.Add(new Access
+				//    {
+				//        AccessType = AccessType.Administrator,
+				//        Operation = elem,
+				//        RoleId = role.Id
+				//    });
+				//}
+				//_context.Accesses.AddRange(accesses);
+				//_context.SaveChanges();
 
-                transaction.Commit();
-            }
-        }
-    }
+				transaction.Commit();
+			}
+		}
+
+		private static void CreateStudentRolesWithAllAccess()
+		{
+			using (var context = GetContext)
+			using (var transaction = context.Database.BeginTransaction())
+			{
+				DepartmentRole role = new DepartmentRole
+				{
+					RoleName = "Студент"
+				};
+				context.DepartmentRoles.Add(role);
+				context.SaveChanges();
+
+				//List<Access> accesses = new List<Access>();
+				//foreach (AccessOperation elem in Enum.GetValues(typeof(AccessOperation)))
+				//{
+				//    accesses.Add(new Access
+				//    {
+				//        AccessType = AccessType.Administrator,
+				//        Operation = elem,
+				//        RoleId = role.Id
+				//    });
+				//}
+				//_context.Accesses.AddRange(accesses);
+				//_context.SaveChanges();
+
+				transaction.Commit();
+			}
+		}
+	}
 }
