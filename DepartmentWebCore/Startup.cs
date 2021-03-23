@@ -90,7 +90,6 @@ namespace DepartmentWebCore
 
         public void ConfigureContainer(IUnityContainer container)
         {
-            container.RegisterType<IWebEducationDirectionService, WebEducationDirectionService>(new HierarchicalLifetimeManager());
             container.RegisterType<INewsService, NewsService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
 

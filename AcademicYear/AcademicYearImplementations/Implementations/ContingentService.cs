@@ -43,7 +43,10 @@ namespace AcademicYearImplementations.Implementations
         {
             try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<ContingentPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)

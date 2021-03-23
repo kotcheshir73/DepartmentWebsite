@@ -52,7 +52,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordMission
             comboBoxAcademicPlanRecordElement.ValueMember = "Value";
             comboBoxAcademicPlanRecordElement.DisplayMember = "Display";
             comboBoxAcademicPlanRecordElement.DataSource = resultAPR.Result.List
-                .Select(ap => new { Value = ap.Id, Display = ap.Disciplne }).ToList();
+                .Select(ap => new { Value = ap.Id, Display = ap.Discipline }).ToList();
             comboBoxAcademicPlanRecordElement.SelectedValue = _apreId;
 
             comboBoxLecturer.ValueMember = "Value";

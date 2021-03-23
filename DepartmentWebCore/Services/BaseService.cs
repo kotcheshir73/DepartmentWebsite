@@ -6,6 +6,7 @@ using AuthenticationInterfaces.Interfaces;
 using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
+using DepartmentWebCore.Models;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -15,33 +16,42 @@ namespace DepartmentWebCore.Services
 {
 	public class BaseService
 	{
-		private readonly IClassroomService _serviceC;
+		private readonly IClassroomService _serviceBC;
 
-		private readonly IDisciplineService _serviceD;
+		private readonly IDisciplineService _serviceBD;
 
-		private readonly ILecturerService _serviceL;
+		private readonly IEducationDirectionService _serviceBED;
 
-		private readonly IStudentGroupService _serviceSG;
+		private readonly ILecturerService _serviceBL;
 
-		private readonly IUserService _serviceU;
+		private readonly IStudentGroupService _serviceBSG;
 
-		private readonly IAcademicPlanRecordMissionService _academicPlanRecordMissionService;
+		private readonly IUserService _serviceAU;
+
+		private readonly IContingentService _serviceAYC;
+
+		private readonly IAcademicPlanRecordElementService _serviceAYAPPE;
+
+		private readonly IAcademicPlanRecordMissionService _serviceAYAPPM;
 
 		private readonly IAcademicYearProcess _academicYearProcess;
 
 		private readonly IMemoryCache cache;
 
-		public BaseService(IClassroomService serviceC, IDisciplineService serviceD, ILecturerService serviceL, IStudentGroupService serviceSG,
-			IUserService serviceU,
-			IAcademicPlanRecordMissionService academicPlanRecordMissionService, IAcademicYearProcess academicYearProcess,
-			IMemoryCache memoryCache)
+		public BaseService(IClassroomService serviceBC, IDisciplineService serviceBD, IEducationDirectionService serviceBED, 
+			ILecturerService serviceBL, IStudentGroupService serviceBSG, IUserService serviceAU, IContingentService serviceAYC,
+			IAcademicPlanRecordElementService serviceAYAPPE, IAcademicPlanRecordMissionService serviceAYAPPM, 
+			IAcademicYearProcess academicYearProcess, IMemoryCache memoryCache)
 		{
-			_serviceC = serviceC;
-			_serviceD = serviceD;
-			_serviceL = serviceL;
-			_serviceSG = serviceSG;
-			_serviceU = serviceU;
-			_academicPlanRecordMissionService = academicPlanRecordMissionService;
+			_serviceBC = serviceBC;
+			_serviceBD = serviceBD;
+			_serviceBED = serviceBED;
+			_serviceBL = serviceBL;
+			_serviceBSG = serviceBSG;
+			_serviceAU = serviceAU;
+			_serviceAYC = serviceAYC;
+			_serviceAYAPPE = serviceAYAPPE;
+			_serviceAYAPPM = serviceAYAPPM;
 			_academicYearProcess = academicYearProcess;
 			cache = memoryCache;
 		}
@@ -55,7 +65,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"Classrooms", out List<ClassroomViewModel> listClassrooms))
 			{
-				var classroomList = _serviceC.GetClassrooms(new ClassroomGetBindingModel { SkipCheck = true, NotUseInSchedule = notUseInSchedule });
+				var classroomList = _serviceBC.GetClassrooms(new ClassroomGetBindingModel { SkipCheck = true, NotUseInSchedule = notUseInSchedule });
 				if (classroomList.Succeeded)
 				{
 					listClassrooms = classroomList.Result.List;
@@ -74,7 +84,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"Disciplines", out List<DisciplineViewModel> listDisciplines))
 			{
-				var disciplineList = _serviceD.GetDisciplines(new DisciplineGetBindingModel { SkipCheck = true });
+				var disciplineList = _serviceBD.GetDisciplines(new DisciplineGetBindingModel { SkipCheck = true });
 				if (disciplineList.Succeeded)
 				{
 					listDisciplines = disciplineList.Result.List;
@@ -83,6 +93,113 @@ namespace DepartmentWebCore.Services
 			}
 
 			return listDisciplines;
+		}
+
+		/// <summary>
+		/// Получение направлений
+		/// </summary>
+		/// <returns></returns>
+		public List<EducationDirectionViewModel> GetEducationDirections()
+		{
+			if (!cache.TryGetValue($"EducationDirections", out List<EducationDirectionViewModel> listEducationDirections))
+			{
+				var educationDirectionList = _serviceBED.GetEducationDirections(new  EducationDirectionGetBindingModel { SkipCheck = true });
+				if (educationDirectionList.Succeeded)
+				{
+					listEducationDirections = educationDirectionList.Result.List;
+					cache.Set($"EducationDirections", listEducationDirections, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+				}
+			}
+
+			return listEducationDirections;
+		}
+
+		/// <summary>
+		/// Получение нправления
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public EducationDirectionViewModel GetEducationDirection(Guid id)
+		{
+			var listEducationDirections = GetEducationDirections();
+			EducationDirectionViewModel model = null;
+			if (listEducationDirections != null)
+			{
+				model = listEducationDirections.FirstOrDefault(x => x.Id == id);
+			}
+			if (model == null)
+			{
+				var educationDirection = _serviceBED.GetEducationDirection(new EducationDirectionGetBindingModel { Id = id, SkipCheck = true });
+				if (!educationDirection.Succeeded)
+				{
+					return null;
+				}
+				model = educationDirection.Result;
+				listEducationDirections.Add(model);
+			}
+
+			return model;
+		}
+
+		/// <summary>
+		/// Список курсов направления
+		/// </summary>
+		/// <param name="educationDirectionId"></param>
+		/// <returns></returns>
+		public List<(Guid Id, string Course)> GetCourses(Guid educationDirectionId)
+		{
+			if (!cache.TryGetValue($"EducationDirectionsCourses:{educationDirectionId}", out List<(Guid Id, string Course)> courses))
+			{
+				var contingent = _serviceAYC.GetContingents(new ContingentGetBindingModel
+				{
+					SkipCheck = true,
+					EducationDirectionId = educationDirectionId,
+					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id
+				});
+				if (contingent.Succeeded)
+				{
+					courses = contingent.Result.List
+						.Select(x => (Id: x.Id, Course: $"Курс {Math.Log((double)x.Course, 2) + 1}")).OrderBy(x => x.Course).ToList();
+					cache.Set($"EducationDirectionsCourses:{educationDirectionId}", courses, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+				}
+			}
+
+			return courses;
+		}
+
+		/// <summary>
+		/// Список дисциплин курса направления
+		/// </summary>
+		/// <param name="contingentId"></param>
+		/// <returns></returns>
+		public List<EducationDirectionDisciplineByCoursesModel> GetEducationDirectionDisciplineByCourses(Guid contingentId)
+		{
+			if (!cache.TryGetValue($"EducationDirectionDisciplineByCourses:{contingentId}", out List<EducationDirectionDisciplineByCoursesModel> disciplines))
+			{
+				var elements = _serviceAYAPPE.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel
+				{
+					SkipCheck = true,
+					ContingentId = contingentId,
+					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
+					TimeNormUseInSite = true,
+					AcademicPlanRecordIsSelected = true
+				});
+				if (elements.Succeeded)
+				{
+					disciplines = elements.Result.List.Select(x => new EducationDirectionDisciplineByCoursesModel
+					{
+						DisciplineId = x.DisciplineId,
+						DisciplineName = x.Discipline,
+						Semester = x.Semester,
+						TimeNormName = x.KindOfLoadName
+					}).Distinct()
+					.OrderBy(x => x.Semester).ThenBy(x => x.DisciplineName)
+					.ToList();
+					cache.Set($"EducationDirectionDisciplineByCourses:{contingentId}", disciplines, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+				}
+			}
+
+			return disciplines;
 		}
 
 		/// <summary>
@@ -100,7 +217,7 @@ namespace DepartmentWebCore.Services
 			}
 			if (model == null)
 			{
-				var discipline = _serviceD.GetDiscipline(new DisciplineGetBindingModel { Id = id, SkipCheck = true });
+				var discipline = _serviceBD.GetDiscipline(new DisciplineGetBindingModel { Id = id, SkipCheck = true });
 				if (!discipline.Succeeded)
 				{
 					return null;
@@ -120,7 +237,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"Lecturers", out List<LecturerViewModel> listLecturers))
 			{
-				var lecturerList = _serviceL.GetLecturers(new LecturerGetBindingModel { SkipCheck = true });
+				var lecturerList = _serviceBL.GetLecturers(new LecturerGetBindingModel { SkipCheck = true });
 				if (lecturerList.Succeeded)
 				{
 					listLecturers = lecturerList.Result.List;
@@ -146,7 +263,7 @@ namespace DepartmentWebCore.Services
 			}
 			if (model == null)
 			{
-				var lecturer = _serviceL.GetLecturer(new LecturerGetBindingModel { Id = id, SkipCheck = true });
+				var lecturer = _serviceBL.GetLecturer(new LecturerGetBindingModel { Id = id, SkipCheck = true });
 				if (!lecturer.Succeeded)
 				{
 					return null;
@@ -166,7 +283,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"StudentGroups", out List<StudentGroupViewModel> listStudentGroups))
 			{
-				var studentGroupList = _serviceSG.GetStudentGroups(new StudentGroupGetBindingModel { SkipCheck = true });
+				var studentGroupList = _serviceBSG.GetStudentGroups(new StudentGroupGetBindingModel { SkipCheck = true });
 				if (studentGroupList.Succeeded)
 				{
 					listStudentGroups = studentGroupList.Result.List;
@@ -186,7 +303,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"LecturerDisicplie:{lecturerId}", out List<(Guid Id, string Title)> list))
 			{
-				var missions = _academicPlanRecordMissionService.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
+				var missions = _serviceAYAPPM.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
 				{
 					LecturerId = lecturerId,
 					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
@@ -218,7 +335,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"DisicplineMission:{disciplineId}", out List<AcademicPlanRecordMissionViewModel> missions))
 			{
-				var records = _academicPlanRecordMissionService.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
+				var records = _serviceAYAPPM.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
 				{
 					DisciplineId = disciplineId,
 					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
@@ -251,7 +368,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"DisicplineMission:{disciplineId}", out List<AcademicPlanRecordMissionViewModel> missions))
 			{
-				var records = _academicPlanRecordMissionService.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
+				var records = _serviceAYAPPM.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
 				{
 					DisciplineId = disciplineId,
 					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
@@ -265,7 +382,7 @@ namespace DepartmentWebCore.Services
 				cache.Set($"DisicplineMission:{disciplineId}", missions, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
 			}
 
-			var users = _serviceU.GetUsers(new UserGetBindingModel
+			var users = _serviceAU.GetUsers(new UserGetBindingModel
 			{
 				SkipCheck = true,
 				LecturerIds = missions.Select(x => x.LecturerId).Distinct().ToList()
@@ -289,7 +406,7 @@ namespace DepartmentWebCore.Services
 		{
 			if (!cache.TryGetValue($"DisicplineMission:{disciplineId}", out List<AcademicPlanRecordMissionViewModel> missions))
 			{
-				var records = _academicPlanRecordMissionService.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
+				var records = _serviceAYAPPM.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
 				{
 					DisciplineId = disciplineId,
 					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
@@ -318,7 +435,7 @@ namespace DepartmentWebCore.Services
 		}
 
 		/// <summary>
-		/// 
+		/// Получение имени папки по норме времени
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>

@@ -20,8 +20,6 @@ namespace DepartmentWebCore.Controllers
     {
         private static IWebStudyProcessService _serviceSP;
 
-        private static IWebEducationDirectionService _serviceED;
-
         private static IDisciplineBlockService _serviceDB;
 
         private static IDisciplineService _serviceD;
@@ -30,12 +28,10 @@ namespace DepartmentWebCore.Controllers
 
         private const string defaultMenu = "AcademicPlans";
 
-        public StudyProcessController(IWebStudyProcessService serviceSP,
-            IWebEducationDirectionService serviceED, IDisciplineBlockService serviceDB,
+        public StudyProcessController(IWebStudyProcessService serviceSP, IDisciplineBlockService serviceDB,
             IDisciplineService serviceD, BaseService baseService)
         {
             _serviceSP = serviceSP;
-            _serviceED = serviceED;
             _serviceDB = serviceDB;
             _serviceD = serviceD;
             _baseService = baseService;
@@ -316,12 +312,12 @@ namespace DepartmentWebCore.Controllers
 
                 case "AcademicPlans":
                     var academicPlanView = new WebAcademicPlanViewModel() { AcademicYearId = Id, AcademicCourses = 0 };
-                    var educationDirections = _serviceED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
+                    var educationDirections = _baseService.GetEducationDirections();
                     var academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
-                    if (educationDirections.Succeeded && academicYear.Succeeded)
+                    if (educationDirections != null && academicYear.Succeeded)
                     {
                         academicPlanView.AcademicYear = academicYear.Result.Title;
-                        ViewBag.EducationDirections = educationDirections.Result.List;
+                        ViewBag.EducationDirections = educationDirections;
                         ViewBag.AcademicCourses = Enum.GetValues(typeof(AcademicCourse)).Cast<AcademicCourse>().ToList();
                         ViewBag.menuElement = "AcademicPlan";
                         return View("AcademicPlan", academicPlanView);
@@ -424,11 +420,11 @@ namespace DepartmentWebCore.Controllers
                 case "Contingents":
                     var contingentView = new WebContingentViewModel() { AcademicYearId = Id };
                     academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
-                    educationDirections = _serviceED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-                    if (educationDirections.Succeeded && academicYear.Succeeded)
+                    educationDirections = _baseService.GetEducationDirections();
+                    if (educationDirections != null && academicYear.Succeeded)
                     {
                         contingentView.AcademicYear = academicYear.Result.Title;
-                        ViewBag.EducationDirections = educationDirections.Result.List;
+                        ViewBag.EducationDirections = educationDirections;
                         ViewBag.menuElement = "Contingent";
                         return View("Contingent", contingentView);
                     }
@@ -465,10 +461,10 @@ namespace DepartmentWebCore.Controllers
                     var academicPlan = _serviceSP.GetAcademicPlan(new WebAcademicPlanGetBindingModel { Id = Id });
                     if (academicPlan.Succeeded)
                     {
-                        var educationDirections = _serviceED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-                        if (educationDirections.Succeeded)
+                        var educationDirections = _baseService.GetEducationDirections();
+                        if (educationDirections != null)
                         {
-                            ViewBag.EducationDirections = educationDirections.Result.List;
+                            ViewBag.EducationDirections = educationDirections;
                             ViewBag.AcademicCourses = Enum.GetValues(typeof(AcademicCourse)).Cast<AcademicCourse>().ToList();
                             ViewBag.menuElement = "AcademicPlan";
                             return View("AcademicPlan", academicPlan.Result);
@@ -582,10 +578,10 @@ namespace DepartmentWebCore.Controllers
                     var contingent = _serviceSP.GetContingent(new WebContingentGetBindingModel { Id = Id });
                     if (contingent.Succeeded)
                     {
-                        var educationDirections = _serviceED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-                        if (educationDirections.Succeeded)
+                        var educationDirections = _baseService.GetEducationDirections();
+                        if (educationDirections != null)
                         {
-                            ViewBag.EducationDirections = educationDirections.Result.List;
+                            ViewBag.EducationDirections = educationDirections;
                             ViewBag.menuElement = "Contingent";
                             return View("Contingent", contingent.Result);
                         }

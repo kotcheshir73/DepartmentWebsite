@@ -1,7 +1,7 @@
-﻿@using WebInterfaces.ViewModels
+﻿@using BaseInterfaces.ViewModels
 @using DepartmentWebCore.Helpers
 
-@model WebEducationDirectionViewModel
+@model EducationDirectionViewModel
 
 @{
     ViewBag.Title = string.Format("{0} {1} {2}", Model.Cipher, Model.Title, Model.Profile);
@@ -26,18 +26,18 @@
         </div>
     </div>
 
-    @if (Model.Courses != null && Model.Courses.Count > 0)
+    @if (ViewBag.Courses != null && ViewBag.Courses.Count > 0)
     {
         <div class="education-panel-table">
             <table class="education-courses">
                 <tr>
-                    @foreach (var course in Model.Courses)
+                    @foreach (var course in ViewBag.Courses)
                     {
-                        <th data-id="@course.Item1" class="@(course.Item1 == ViewBag.CourseId ? "selected " : "") course-item">@course.Item2</th>
+                        <th data-id="@course.Id" class="@(course.Id == ViewBag.CourseId ? "selected " : "") course-item">@course.Course</th>
                     }
                 </tr>
                 <tr>
-                    <td colspan="@Model.Courses.Count">
+                    <td colspan="@ViewBag.Courses.Count">
                         <div id="course">
                             @Html.RenderAction("EducationDirectionCourse", "EducationDirection", new { Id = ViewBag.CourseId })
                         </div>

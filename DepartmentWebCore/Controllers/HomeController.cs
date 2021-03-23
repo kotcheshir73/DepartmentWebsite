@@ -14,8 +14,6 @@ namespace DepartmentWebCore.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IWebEducationDirectionService _serviceWED;
-
 		private readonly INewsService _serviceN;
 
 		private readonly IWebStudyProcessService _serviceSP;
@@ -24,10 +22,8 @@ namespace DepartmentWebCore.Controllers
 
 		private readonly IMemoryCache cache;
 
-		public HomeController(IWebEducationDirectionService serviceWED,
-			INewsService serviceN, IWebStudyProcessService serviceSP, BaseService baseService, IMemoryCache memoryCache)
+		public HomeController(INewsService serviceN, IWebStudyProcessService serviceSP, BaseService baseService, IMemoryCache memoryCache)
 		{
-			_serviceWED = serviceWED;
 			_serviceN = serviceN;
 			_serviceSP = serviceSP;
 
@@ -139,8 +135,8 @@ namespace DepartmentWebCore.Controllers
 					schedule.Child.Add(lecturerSchedule);
 				}
 
-				var educationDirectionList = _serviceWED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-				if (educationDirectionList.Succeeded)
+				var educationDirectionList = _baseService.GetEducationDirections();
+				if (educationDirectionList != null)
 				{
 					MenuElementModel educationDirection = new MenuElementModel()
 					{
@@ -150,30 +146,34 @@ namespace DepartmentWebCore.Controllers
 						Action = "Index"
 					};
 
-					foreach (var ed in educationDirectionList.Result.List)
+					foreach (var ed in educationDirectionList)
 					{
-						MenuElementModel contingent = new MenuElementModel()
+						var courses = _baseService.GetCourses(ed.Id);
+						if (courses != null && courses.Count > 0)
 						{
-							Name = ed.ToString(),
-							Child = new List<MenuElementModel>(),
-							Controller = "EducationDirection",
-							Action = "EducationDirection",
-							Id = ed.Id
-						};
-
-						foreach (var course in ed.Courses)
-						{
-							contingent.Child.Add(new MenuElementModel
+							MenuElementModel contingent = new MenuElementModel()
 							{
-								Id = ed.Id,
-								Name = course.Item2,
+								Name = ed.ToString(),
+								Child = new List<MenuElementModel>(),
 								Controller = "EducationDirection",
 								Action = "EducationDirection",
-								AdditionalParameters = new Dictionary<string, string> { { "courseId", course.Item1.ToString() } }
-							});
-						}
+								Id = ed.Id
+							};
 
-						educationDirection.Child.Add(contingent);
+							foreach (var course in courses)
+							{
+								contingent.Child.Add(new MenuElementModel
+								{
+									Id = ed.Id,
+									Name = course.Course,
+									Controller = "EducationDirection",
+									Action = "EducationDirection",
+									AdditionalParameters = new Dictionary<string, string> { { "courseId", course.Id.ToString() } }
+								});
+							}
+
+							educationDirection.Child.Add(contingent);
+						}
 					}
 
 					mainMenu.Add(educationDirection);

@@ -5,12 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using WebInterfaces.BindingModels;
-using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Services
 {
-    public class FileService
+	public class FileService
     {
         private readonly BaseService _baseService;
 

@@ -66,10 +66,12 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicPlanRecordId = entity.AcademicPlanRecordId,
                 TimeNormId = entity.TimeNormId,
-                Disciplne = entity.AcademicPlanRecord.Discipline.DisciplineName,
+                DisciplineId = entity.AcademicPlanRecord.DisciplineId,
+                Discipline = entity.AcademicPlanRecord.Discipline.DisciplineName,
                 KindOfLoadName = entity.TimeNorm.KindOfLoadName,
                 PlanHours = entity.PlanHours,
-                FactHours = entity.FactHours
+                FactHours = entity.FactHours,
+                Semester = entity.AcademicPlanRecord.Semester.HasValue ? (int)entity.AcademicPlanRecord.Semester.Value : 0
             };
         }
 

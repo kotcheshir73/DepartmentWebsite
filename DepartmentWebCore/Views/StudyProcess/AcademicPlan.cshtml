@@ -35,11 +35,11 @@
                 {
                     if (educationDirection.Id == Model.EducationDirectionId)
                     {
-                        <option selected value="@educationDirection.Id">@educationDirection.FullName()</option>
+                        <option selected value="@educationDirection.Id">@educationDirection.ToString()</option>
                     }
                     else
                     {
-                        <option value="@educationDirection.Id">@educationDirection.FullName()</option>
+                        <option value="@educationDirection.Id">@educationDirection.ToString()</option>
                     }
                 }
             </select>

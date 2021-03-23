@@ -84,7 +84,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecordElement
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.Disciplne,
+                    res.Discipline,
                     res.KindOfLoadName,
                     res.PlanHours,
                     res.FactHours

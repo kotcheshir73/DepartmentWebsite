@@ -19,7 +19,10 @@ namespace BaseImplementations.Implementations
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<EducationDirectionPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
@@ -55,7 +58,10 @@ namespace BaseImplementations.Implementations
 		{
 			try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<EducationDirectionViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 using (var context = DepartmentUserManager.GetContext)
                 {

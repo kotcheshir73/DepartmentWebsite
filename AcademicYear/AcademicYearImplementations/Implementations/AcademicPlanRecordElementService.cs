@@ -40,20 +40,39 @@ namespace AcademicYearImplementations.Implementations
         {
             try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<AcademicPlanRecordElementPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var query = context.AcademicPlanRecordElements.Where(x => !x.IsDeleted).AsQueryable();
 
+                    if (model.AcademicYearId.HasValue)
+                    {
+                        query = query.Where(x => x.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.AcademicYearId);
+                    }
                     if (model.AcademicPlanRecordId.HasValue)
                     {
                         query = query.Where(x => x.AcademicPlanRecordId == model.AcademicPlanRecordId);
                     }
+                    if (model.AcademicPlanRecordIsSelected.HasValue)
+                    {
+                        query = query.Where(x => x.AcademicPlanRecord.IsSelected == model.AcademicPlanRecordIsSelected.Value);
+                    }
                     if (model.TimeNormId.HasValue)
                     {
                         query = query.Where(x => x.TimeNormId == model.TimeNormId);
+                    }
+                    if (model.TimeNormUseInSite.HasValue)
+                    {
+                        query = query.Where(x => x.TimeNorm.UseInSite == model.TimeNormUseInSite.Value);
+                    }
+                    if (model.ContingentId.HasValue)
+                    {
+                        query = query.Where(x => x.AcademicPlanRecord.ContingentId == model.ContingentId);
                     }
 
                     query = query.OrderBy(x => x.AcademicPlanRecordId).ThenBy(x => x.TimeNormId);
@@ -66,7 +85,11 @@ namespace AcademicYearImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.AcademicPlanRecord).Include(x => x.AcademicPlanRecord.Discipline).Include(x => x.TimeNorm);
+                    query = query
+                        .Include(x => x.AcademicPlanRecord)
+                        .Include(x => x.AcademicPlanRecord.AcademicPlan)
+                        .Include(x => x.AcademicPlanRecord.Discipline)
+                        .Include(x => x.TimeNorm);
 
                     var result = new AcademicPlanRecordElementPageViewModel
                     {

@@ -1,6 +1,5 @@
 ﻿using Enums;
 using Models.AcademicYearData;
-using Models.Base;
 using Models.Web;
 using System;
 using System.Linq;
@@ -8,23 +7,8 @@ using WebInterfaces.ViewModels;
 
 namespace WebImplementations
 {
-    public static class WebModelFactoryToViewModel
+	public static class WebModelFactoryToViewModel
     {
-        public static WebEducationDirectionViewModel CreateWebEducationDirectionViewModel(IGrouping<EducationDirection, Contingent> entity)
-        {
-            return new WebEducationDirectionViewModel
-            {
-                Id = entity.Key.Id,
-                Cipher = entity.Key.Cipher,
-                Title = entity.Key.Title,
-                ShortName = entity.Key.ShortName,
-                Qualification = entity.Key.Qualification.ToString(),
-                Profile = entity.Key.Profile,
-                Description = entity.Key.Description,
-                Courses = entity.Select(x => new Tuple<Guid, string>(x.Id, $"Курс {Math.Log((double)x.Course, 2) + 1}")).OrderBy(x => x.Item2).ToList()
-            };
-        }
-
         public static NewsViewModel CreateNewsViewModel(News entity)
         {
             return new NewsViewModel

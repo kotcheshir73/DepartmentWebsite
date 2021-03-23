@@ -1,64 +1,64 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DepartmentWebCore.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using WebInterfaces.BindingModels;
-using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
-    public class EducationDirectionController : Controller
+	public class EducationDirectionController : Controller
     {
-        IWebEducationDirectionService _serviceED;
+        private readonly BaseService _baseService;
 
-        public EducationDirectionController(IWebEducationDirectionService serviceED)
+        public EducationDirectionController(BaseService baseService)
         {
-            _serviceED = serviceED;
+            _baseService = baseService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var list = _serviceED.GetEducationDirections(new WebEducationDirectionGetBindingModel());
-
-            if (!list.Succeeded)
+            var list = _baseService.GetEducationDirections();
+            if (list == null)
             {
                 return new EmptyResult();
             }
 
-            return View(list.Result.List);
+            return View(list);
         }
 
         [HttpGet]
         public IActionResult EducationDirection(Guid id, Guid? courseId)
         {
-            var model = _serviceED.GetEducationDirection(new WebEducationDirectionGetBindingModel { Id = id });
+            var model = _baseService.GetEducationDirection(id);
 
-            if (!model.Succeeded)
+            if (model == null)
             {
                 return new EmptyResult();
             }
 
+            var courses = _baseService.GetCourses(id);
+
             if(!courseId.HasValue)
             {
-                courseId = model.Result.Courses?.FirstOrDefault().Item1;
+                courseId = courses.FirstOrDefault().Id;
             }
 
             ViewBag.CourseId = courseId;
+            ViewBag.Courses = courses;
 
-            return View(model.Result);
+            return View(model);
         }
 
         [HttpGet]
         public IActionResult EducationDirectionCourse(Guid id)
         {
-            var list = _serviceED.GetDisciplinesByCourses(new WebEducationDirectionDisciplineListInfoBindingModel { CourseId = id });
-
-            if (!list.Succeeded)
+            var list = _baseService.GetEducationDirectionDisciplineByCourses(id);
+            if (list == null)
             {
                 return new EmptyResult();
             }
 
-            return PartialView(list.Result);
+            return PartialView(list);
         }
     }
 }

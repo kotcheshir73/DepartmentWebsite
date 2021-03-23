@@ -7,7 +7,15 @@ namespace AcademicYearInterfaces.BindingModels
     {
         public Guid? AcademicPlanRecordId { get; set; }
 
+        public Guid? AcademicYearId { get; set; }
+
         public Guid? TimeNormId { get; set; }
+
+        public Guid? ContingentId { get; set; }
+
+        public bool? TimeNormUseInSite { get; set; }
+
+        public bool? AcademicPlanRecordIsSelected { get; set; }
     }
 
     public class AcademicPlanRecordElementSetBindingModel : PageSettingSetBinidingModel
