@@ -1,4 +1,5 @@
-﻿using ScheduleInterfaces.ViewModels;
+﻿using BaseInterfaces.ViewModels;
+using ScheduleInterfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,6 @@ namespace DepartmentWebCore.Models
 
         public List<ScheduleRecordViewModel> List { get; set; }
 
-        public List<WebLecturerViewModel> Lecturers { get; set; }
+        public List<LecturerViewModel> Lecturers { get; set; }
     }
 }

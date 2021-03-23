@@ -9,6 +9,12 @@ namespace AcademicYearInterfaces.Interfaces
     public interface IAcademicYearProcess
     {
         /// <summary>
+        /// Получение текущего учебного года
+        /// </summary>
+        /// <returns></returns>
+        ResultService<AcademicYearViewModel> GetCurrentAcademicYear();
+
+        /// <summary>
         /// Загрузка записей учебного плана из xml
         /// </summary>
         /// <param name="model"></param>

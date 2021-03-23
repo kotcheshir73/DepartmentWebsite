@@ -33,6 +33,37 @@ namespace AcademicYearImplementations.Implementations
             _serviceDTDR = serviceDTDR;
         }
 
+        public ResultService<AcademicYearViewModel> GetCurrentAcademicYear()
+        {
+            try
+            {
+                using (var context = DepartmentUserManager.GetContext)
+                {
+                    var currentSetting = context.CurrentSettings.FirstOrDefault(cs => cs.Key == "Учебный год");
+                    AcademicYear entity = null;
+                    if (currentSetting == null)
+                    {
+                        entity = context.AcademicYears.OrderByDescending(x => x.DateCreate).FirstOrDefault();
+                    }
+                    else
+                    {
+                        entity = context.AcademicYears.Where(x => x.Title == currentSetting.Value).FirstOrDefault();
+                    }
+
+                    if (entity == null)
+                    {
+                        return ResultService<AcademicYearViewModel>.Error("Error:", "AcademicYears not found", ResultServiceStatusCode.NotFound);
+                    }
+
+                    return ResultService<AcademicYearViewModel>.Success(AcademicYearModelFactoryToViewModel.CreateAcademicYearViewModel(entity));
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResultService<AcademicYearViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
         /// <summary>
         /// Получение списка курсов, которые есть в учбеном плане
         /// </summary>
@@ -2596,5 +2627,5 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-    }
+	}
 }

@@ -80,8 +80,10 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicPlanRecordElementId = entity.AcademicPlanRecordElementId,
                 LecturerId = entity.LecturerId,
+                DisciplineId = entity.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId,
                 AcademicPlanRecordElementTitle = entity.AcademicPlanRecordElement.TimeNorm.TimeNormName,
                 LecturerName = entity.Lecturer.ToString(),
+                DisciplineTitle = entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
                 Hours = entity.Hours
             };
         }

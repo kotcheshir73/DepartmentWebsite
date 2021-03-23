@@ -6,7 +6,9 @@ using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using DepartmentWebCore.Models;
+using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
 using ScheduleInterfaces.ViewModels;
@@ -18,20 +20,22 @@ namespace DepartmentWebCore.Controllers
 {
     public class ScheduleController : Controller
     {
-        private static IWebLecturerService _serviceWL;
-
         private static IWebStudentGroupService _serviceWSG;
 
         private static IClassroomService _serviceCL;
 
         private static IScheduleProcess _process;
 
-        public ScheduleController(IClassroomService serviceCL, IWebLecturerService serviceWL, IWebStudentGroupService serviceWSG, IScheduleProcess process)
+        private readonly BaseService _baseService;
+
+        public ScheduleController(IClassroomService serviceCL, IWebStudentGroupService serviceWSG, IScheduleProcess process,
+            BaseService baseService)
         {
             _serviceCL = serviceCL;
-            _serviceWL = serviceWL;
             _serviceWSG = serviceWSG;
             _process = process;
+
+            _baseService = baseService;
         }
 
         public IActionResult Index()
@@ -75,7 +79,7 @@ namespace DepartmentWebCore.Controllers
             var model = new ScheduleLecturersModel
             {
                 Date = DateTime.Now,
-                Lecturers = new List<WebLecturerViewModel>(),
+                Lecturers = new List<LecturerViewModel>(),
                 List = new List<ScheduleRecordViewModel>()
             };
             if (!string.IsNullOrEmpty(dateString))
@@ -83,10 +87,10 @@ namespace DepartmentWebCore.Controllers
                 model.Date = Convert.ToDateTime(dateString);
             }
 
-            var lecturers = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-            if (lecturers.Succeeded)
+            var listLecturers = _baseService.GetLecturers();
+            if (listLecturers != null)
             {
-                model.Lecturers = lecturers.Result.List;
+                model.Lecturers = listLecturers;
             }
             var records = _process.LoadSchedule(new LoadScheduleBindingModel
             {

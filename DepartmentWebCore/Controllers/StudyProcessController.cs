@@ -1,6 +1,7 @@
 ﻿using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using DepartmentWebCore.Models;
+using DepartmentWebCore.Services;
 using Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,25 +20,25 @@ namespace DepartmentWebCore.Controllers
     {
         private static IWebStudyProcessService _serviceSP;
 
-        private static IWebLecturerService _serviceWL;
-
         private static IWebEducationDirectionService _serviceED;
 
         private static IDisciplineBlockService _serviceDB;
 
         private static IDisciplineService _serviceD;
 
+        private readonly BaseService _baseService;
+
         private const string defaultMenu = "AcademicPlans";
 
-        public StudyProcessController(IWebStudyProcessService serviceSP, IWebLecturerService serviceWL,
+        public StudyProcessController(IWebStudyProcessService serviceSP,
             IWebEducationDirectionService serviceED, IDisciplineBlockService serviceDB,
-            IDisciplineService serviceD)
+            IDisciplineService serviceD, BaseService baseService)
         {
             _serviceSP = serviceSP;
-            _serviceWL = serviceWL;
             _serviceED = serviceED;
             _serviceDB = serviceDB;
             _serviceD = serviceD;
+            _baseService = baseService;
         }
 
         public IActionResult Index(Guid? Id)
@@ -363,11 +364,11 @@ namespace DepartmentWebCore.Controllers
                 case "AcademicPlanRecordElement":
                     var academicPlanRecordMissionView = new WebAcademicPlanRecordMissionViewModel() { AcademicPlanRecordElementId = Id };
                     var academicPlanRecordElement = _serviceSP.GetAcademicPlanRecordElement(new WebAcademicPlanRecordElementGetBindingModel { Id = Id });
-                    var lecturers = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-                    if (academicPlanRecordElement.Succeeded && lecturers.Succeeded)
+                    var lecturers = _baseService.GetLecturers();
+                    if (academicPlanRecordElement.Succeeded && lecturers != null)
                     {
                         ViewBag.AcademicPlanRecordElement = academicPlanRecordElement.Result;
-                        ViewBag.Lecturers = lecturers.Result.List.OrderBy(x => x.LastName);
+                        ViewBag.Lecturers = lecturers.OrderBy(x => x.LastName);
                         ViewBag.menuElement = "AcademicPlanRecordMission";
                         return View("AcademicPlanRecordMission", academicPlanRecordMissionView);
                     }
@@ -436,11 +437,11 @@ namespace DepartmentWebCore.Controllers
                 case "LecturerWorkloads":
                     var lecturerWorkloadView = new WebLecturerWorkloadViewModel() { AcademicYearId = Id };
                     academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
-                    lecturers = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-                    if (lecturers.Succeeded && academicYear.Succeeded)
+                    lecturers = _baseService.GetLecturers();
+                    if (lecturers != null && academicYear.Succeeded)
                     {
                         lecturerWorkloadView.AcademicYear = academicYear.Result.Title;
-                        ViewBag.Lecturers = lecturers.Result.List.OrderBy(x => x.LastName);
+                        ViewBag.Lecturers = lecturers.OrderBy(x => x.LastName);
                         ViewBag.menuElement = "LecturerWorkload";
                         return View("LecturerWorkload", lecturerWorkloadView);
                     }
@@ -517,11 +518,11 @@ namespace DepartmentWebCore.Controllers
                     if (academicPlanRecordMission.Succeeded)
                     {
                         academicPlanRecordElement = _serviceSP.GetAcademicPlanRecordElement(new WebAcademicPlanRecordElementGetBindingModel { Id = academicPlanRecordMission.Result.AcademicPlanRecordElementId });
-                        var lecturers = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-                        if (academicPlanRecordElement.Succeeded && lecturers.Succeeded)
+                        var lecturers = _baseService.GetLecturers();
+                        if (academicPlanRecordElement.Succeeded && lecturers != null)
                         {
                             ViewBag.AcademicPlanRecordElement = academicPlanRecordElement.Result;
-                            ViewBag.Lecturers = lecturers.Result.List.OrderBy(x => x.LastName);
+                            ViewBag.Lecturers = lecturers.OrderBy(x => x.LastName);
                             ViewBag.menuElement = "AcademicPlanRecordMission";
                             return View("AcademicPlanRecordMission", academicPlanRecordMission.Result);
                         }
@@ -595,10 +596,10 @@ namespace DepartmentWebCore.Controllers
                     var lecturerWorkload = _serviceSP.GetLecturerWorkload(new WebLecturerWorkloadGetBindingModel { Id = Id });
                     if (lecturerWorkload.Succeeded)
                     {
-                        var lecturers = _serviceWL.GetLecturers(new WebLecturerGetBindingModel());
-                        if (lecturers.Succeeded)
+                        var lecturers = _baseService.GetLecturers();
+                        if (lecturers != null)
                         {
-                            ViewBag.Lecturers = lecturers.Result.List.OrderBy(x => x.LastName);
+                            ViewBag.Lecturers = lecturers.OrderBy(x => x.LastName);
                             ViewBag.menuElement = "LecturerWorkload";
                             return View("LecturerWorkload", lecturerWorkload.Result);
                         }

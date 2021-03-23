@@ -1,4 +1,4 @@
-﻿@model List<Tuple<Guid, string>>
+﻿@model List<(Guid Id, string Title)>
 
 @if (Model.Count != 0)
 {
@@ -8,7 +8,7 @@
         <ul class="text-lecturer-items">
             @foreach (var item in Model)
             {
-                <li><a href="@Url.Action("Discipline", "Discipline", new { id = item.Item1 })">@item.Item2</a></li>
+                <li><a href="@Url.Action("Discipline", "Discipline", new { id = item.Id })">@item.Title</a></li>
             }
         </ul>
     </p>

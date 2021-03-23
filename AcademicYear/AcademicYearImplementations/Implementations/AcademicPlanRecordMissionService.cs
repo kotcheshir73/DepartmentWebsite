@@ -43,7 +43,10 @@ namespace AcademicYearImplementations.Implementations
         {
             try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<AcademicPlanRecordMissionPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
@@ -73,7 +76,11 @@ namespace AcademicYearImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.AcademicPlanRecordElement).Include(x => x.AcademicPlanRecordElement.TimeNorm).Include(x => x.Lecturer);
+                    query = query
+                        .Include(x => x.AcademicPlanRecordElement)
+                        .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
+                        .Include(x => x.Lecturer);
 
                     var result = new AcademicPlanRecordMissionPageViewModel
                     {

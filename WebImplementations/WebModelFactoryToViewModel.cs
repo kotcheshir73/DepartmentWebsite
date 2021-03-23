@@ -25,25 +25,6 @@ namespace WebImplementations
             };
         }
 
-        public static WebLecturerViewModel CreateWebLecturerViewModel(Lecturer entity)
-        {
-            return new WebLecturerViewModel
-            {
-                Id = entity.Id,
-                LecturerPostId = entity.LecturerStudyPostId,
-                LastName = entity.LastName,
-                FirstName = entity.FirstName,
-                Patronymic = entity.Patronymic,
-                Post = entity.LecturerDepartmentPost?.ToString() ?? string.Empty,
-                LecturerPost = entity.LecturerStudyPost?.ToString() ?? string.Empty,
-                Rank = entity.Rank.ToString(),
-                Rank2 = entity.Rank2.ToString(),
-                Email = entity.Email,
-                Description = entity.Description,
-                Photo = entity.Photo
-            };
-        }
-
         public static WebDisciplineViewModel CreateWebDisciplineViewModel(Discipline entity)
         {
             return new WebDisciplineViewModel

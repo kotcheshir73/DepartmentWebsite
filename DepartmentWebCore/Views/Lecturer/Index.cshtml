@@ -1,31 +1,48 @@
-﻿@using WebInterfaces.ViewModels
+﻿@using BaseInterfaces.ViewModels
 
-@model List<WebLecturerViewModel>
+@model List<LecturerViewModel>
 
 @{
-    ViewBag.Title = "Преподавательский состав";
+	ViewBag.Title = "Преподавательский состав";
 }
 
 <h2 class="page-header">Преподавательский состав</h2>
 
-<table class="table">    
+<table class="table">
 
-   @foreach (var lecturer in Model)
-    {        
-        <tr id="list" class="lecturer-element" data-id="@lecturer.Id">    
-            <td class="lecturer-element-img">
-                @if (lecturer.Photo != null && lecturer.Photo.Length > 0)
-                {
-                    <img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.Photo))" alt="@lecturer.FullName" />
-                }
-                else
-                {
-                    <img src="~/Images/default-lecturer.png" alt="@lecturer.FullName">
-                }
-            </td>
-            <td class="lecturer-element-line">
-               @string.Format("{0} {1} {2} {3} {4} {5}", lecturer.LastName, lecturer.FirstName, lecturer.Patronymic, lecturer.Post, lecturer.Rank2, lecturer.LecturerPost)
-            </td>    
-        </tr>
-    }
+	@foreach (var lecturer in Model)
+	{
+		<tr id="list" class="lecturer-element" data-id="@lecturer.Id">
+			<td class="lecturer-element-img">
+				@if (lecturer.Photo != null && lecturer.PhotoByteArr.Length > 0)
+				{
+					<img src="data:image/png;base64,@(Convert.ToBase64String(lecturer.PhotoByteArr))" alt="@lecturer.FullName" />
+				}
+				else
+				{
+					<img src="~/Images/default-lecturer.png" alt="@lecturer.FullName">
+				}
+			</td>
+			<td class="lecturer-element-line">
+				<p class="text-lecturer">
+					@string.Format("{0} {1} {2}", lecturer.LastName, lecturer.FirstName, lecturer.Patronymic)
+				</p>
+				<p class="text-lecturer">
+					@if (lecturer.LectureDepartmentPost != "Преподаватель")
+					{	
+						@string.Format("Должность на кафдере: {0}", lecturer.LectureDepartmentPost);
+					}
+				</p>
+				<p class="text-lecturer">
+					@if (!string.IsNullOrEmpty(lecturer.Rank2))
+					{
+						@string.Format("Звание: {0}", lecturer.Rank2);
+					}
+				</p>
+				<p class="text-lecturer">
+					@string.Format("Должность: {0}", lecturer.LecturerStudyPost)
+				</p>
+			</td>
+		</tr>
+	}
 </table>

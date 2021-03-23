@@ -1,32 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DepartmentWebCore.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using WebInterfaces.BindingModels;
-using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
-    public class LecturerController : Controller
+	public class LecturerController : Controller
     {
-        private readonly IWebLecturerService _serviceL;
+        private readonly BaseService _baseService;
 
-        public LecturerController(IWebLecturerService serviceL)
+        public LecturerController(BaseService baseService)
         {
-            _serviceL = serviceL;
+            _baseService = baseService;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var list = _serviceL.GetLecturers(new WebLecturerGetBindingModel());
-            if(list.Succeeded)
+            var listLecturers = _baseService.GetLecturers();
+            if (listLecturers != null)
             {
-                foreach (var tmp in list.Result.List)
+                foreach (var tmp in listLecturers)
                 {
                     if (tmp.Rank2.ToLower() == "отсутствует")
                     {
                         tmp.Rank2 = "";
                     }
-                    else
+                    else if (tmp.Rank2.Length < 4)
                     {
                         string str = tmp.Rank2;
                         tmp.Rank2 = "";
@@ -36,77 +35,41 @@ namespace DepartmentWebCore.Controllers
                         }
                         tmp.Rank2 += ",";
                     }
-
-                    if (tmp.LecturerPost == "отсутствует")
-                    {
-                        tmp.LecturerPost = "";
-                    }
-                    else
-                    {
-                        tmp.LecturerPost = tmp.LecturerPost.ToLower();
-                    }
-
-                    if (tmp.Post == "ЗаведующийКафедрой")
-                    {
-                        tmp.Post = "Зав. кафедрой,";
-                    }
-                    else if (tmp.Post == "ЗаместительЗаведующегоКафедрой")
-                    {
-                        tmp.Post = "Зам. зав. кафедрой,";
-                    }
-                    else
-                    {
-                        tmp.Post = "";
-                    }
                 }
             }
 
-            return View(list.Result.List);
+            return View(listLecturers);
         }
 
         [HttpGet]
         public ActionResult Lecturer(Guid id)
         {
-            var model = _serviceL.GetLecturer(new WebLecturerGetBindingModel { Id = id });
-
-            if (!model.Succeeded)
+            var model = _baseService.GetLecturer(id);
+            if (model == null)
             {
                 return new EmptyResult();
             }
 
-            if (model.Result.Rank2.ToLower() == "отсутствует")
+            if (model.Rank2.ToLower() == "отсутствует")
             {
-                model.Result.Rank2 = "";
+                model.Rank2 = "";
             }
-            else
+            else if (model.Rank2.Length < 4)
             {
-                string str = model.Result.Rank2;
-                model.Result.Rank2 = "";
+                string str = model.Rank2;
+                model.Rank2 = "";
                 for (int i = 0; i < str.Length; i++)
                 {
-                    model.Result.Rank2 += str[i] + ".";
+                    model.Rank2 += str[i] + ".";
                 }
             }
 
-            if (model.Result.LecturerPost == "отсутствует")
-            {
-                model.Result.LecturerPost = "";
-            }
+            return View(model);
+        }
 
-            if (model.Result.Post == "ЗаведующийКафедрой")
-            {
-                model.Result.Post = "Заведующий кафедрой,";
-            }
-            else if (model.Result.Post == "ЗаместительЗаведующегоКафедрой")
-            {
-                model.Result.Post = "Заместитель заведующего кафедрой,";
-            }
-            else
-            {
-                model.Result.Post = "";
-            }
-
-            return View(model.Result);
+        public ActionResult LecturerDisciplines(Guid id)
+        {
+            return PartialView(_baseService.GetDisciplineForLecutrer(id));
         }
     }
 }
