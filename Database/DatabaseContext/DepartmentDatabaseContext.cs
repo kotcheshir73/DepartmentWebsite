@@ -45,7 +45,7 @@ namespace DatabaseContext
 		public virtual DbSet<DisciplineBlock> DisciplineBlocks { get; set; }
 		public virtual DbSet<EducationDirection> EducationDirections { set; get; }
 		public virtual DbSet<Lecturer> Lecturers { set; get; }
-		public virtual DbSet<LecturerPost> LecturerPosts { get; set; }
+		public virtual DbSet<LecturerStudyPost> LecturerStudyPosts { get; set; }
 		public virtual DbSet<Student> Students { set; get; }
 		public virtual DbSet<StudentGroup> StudentGroups { set; get; }
 		public virtual DbSet<StudentOrder> StudentOrders { set; get; }

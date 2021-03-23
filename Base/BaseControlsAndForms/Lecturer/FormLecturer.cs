@@ -27,7 +27,7 @@ namespace BaseControlsAndForms.Lecturer
 
         protected override bool LoadComponents()
         {
-            var resultLP = _service.GetLecturerPosts(new LecturerPostGetBindingModel { });
+            var resultLP = _service.GetLecturerStudyPosts(new LecturerStudyPostGetBindingModel { });
             if (!resultLP.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке должностей преподавателей возникла ошибка: ", resultLP.Errors);
@@ -52,11 +52,11 @@ namespace BaseControlsAndForms.Lecturer
             }
             comboBoxRank2.SelectedIndex = 0;
 
-            comboBoxLecturerPost.ValueMember = "Value";
-            comboBoxLecturerPost.DisplayMember = "Display";
-            comboBoxLecturerPost.DataSource = resultLP.Result.List
-                .Select(lp => new { Value = lp.Id, Display = lp.PostTitle }).ToList();
-            comboBoxLecturerPost.SelectedItem = null;
+            comboBoxLecturerStudyPost.ValueMember = "Value";
+            comboBoxLecturerStudyPost.DisplayMember = "Display";
+            comboBoxLecturerStudyPost.DataSource = resultLP.Result.List
+                .Select(lp => new { Value = lp.Id, Display = lp.StudyPostTitle }).ToList();
+            comboBoxLecturerStudyPost.SelectedItem = null;
 
             return true;
         }
@@ -83,7 +83,7 @@ namespace BaseControlsAndForms.Lecturer
             comboBoxPost.SelectedIndex = comboBoxPost.Items.IndexOf(entity.Post);
             comboBoxRank.SelectedIndex = comboBoxRank.Items.IndexOf(entity.Rank);
             comboBoxRank2.SelectedIndex = comboBoxRank2.Items.IndexOf(entity.Rank2);
-            comboBoxLecturerPost.SelectedValue = entity.LecturerPostId;
+            comboBoxLecturerStudyPost.SelectedValue = entity.LecturerStudyPostId;
             textBoxDescription.Text = entity.Description;
             if (entity.Photo != null)
             {
@@ -94,7 +94,7 @@ namespace BaseControlsAndForms.Lecturer
 
         protected override bool CheckFill()
         {
-            if (comboBoxLecturerPost.SelectedValue == null)
+            if (comboBoxLecturerStudyPost.SelectedValue == null)
             {
                 return false;
             }
@@ -145,7 +145,7 @@ namespace BaseControlsAndForms.Lecturer
             {
                 result = _service.CreateLecturer(new LecturerSetBindingModel
                 {
-                    LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
+                    LecturerStudyPostId = new Guid(comboBoxLecturerStudyPost.SelectedValue.ToString()),
                     LastName = textBoxLastName.Text,
                     FirstName = textBoxFirstName.Text,
                     Patronymic = textBoxPatronymic.Text,
@@ -168,7 +168,7 @@ namespace BaseControlsAndForms.Lecturer
                 result = _service.UpdateLecturer(new LecturerSetBindingModel
                 {
                     Id = _id.Value,
-                    LecturerPostId = new Guid(comboBoxLecturerPost.SelectedValue.ToString()),
+                    LecturerStudyPostId = new Guid(comboBoxLecturerStudyPost.SelectedValue.ToString()),
                     LastName = textBoxLastName.Text,
                     FirstName = textBoxFirstName.Text,
                     Patronymic = textBoxPatronymic.Text,

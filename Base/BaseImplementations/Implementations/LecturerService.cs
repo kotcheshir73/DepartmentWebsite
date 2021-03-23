@@ -12,20 +12,20 @@ namespace BaseImplementations.Implementations
 {
     public class LecturerService : ILecturerService
 	{
-        private readonly ILecturerPostSerivce _serviceLP;
+        private readonly ILecturerStudyPostSerivce _serviceLP;
 
 		private readonly AccessOperation _serviceOperation = AccessOperation.Преподаватели;
 
         private readonly string _entity = "Преподаватели";
 
-        public LecturerService(ILecturerPostSerivce serviceLP)
+        public LecturerService(ILecturerStudyPostSerivce serviceLP)
 		{
             _serviceLP = serviceLP;
         }
 
-        public ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model)
+        public ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model)
         {
-            return _serviceLP.GetLecturerPosts(model);
+            return _serviceLP.GetLecturerStudyPosts(model);
         }
 
 

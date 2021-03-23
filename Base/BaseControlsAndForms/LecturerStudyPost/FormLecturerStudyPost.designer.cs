@@ -1,6 +1,6 @@
-﻿namespace BaseControlsAndForms.LecturerPost
+﻿namespace BaseControlsAndForms.LecturerStudyPost
 {
-    partial class FormLecturerPost
+    partial class FormLecturerStudyPost
     {
         /// <summary>
         /// Clean up any resources being used.

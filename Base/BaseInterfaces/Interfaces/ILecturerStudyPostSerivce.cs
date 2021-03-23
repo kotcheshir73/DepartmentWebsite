@@ -4,41 +4,41 @@ using Tools;
 
 namespace BaseInterfaces.Interfaces
 {
-    public interface ILecturerPostSerivce
+    public interface ILecturerStudyPostSerivce
     {
         /// <summary>
         /// Получение списка должностей
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model);
+        ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model);
 
         /// <summary>
         /// Получения должности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<LecturerPostViewModel> GetLecturerPost(LecturerPostGetBindingModel model);
+        ResultService<LecturerStudyPostViewModel> GetLecturerStudyPost(LecturerStudyPostGetBindingModel model);
 
         /// <summary>
         /// Создание новой должности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService CreateLecturerPost(LecturerPostSetBindingModel model);
+        ResultService CreateLecturerStudyPost(LecturerStudyPostSetBindingModel model);
 
         /// <summary>
         /// Изменение должности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService UpdateLecturerPost(LecturerPostSetBindingModel model);
+        ResultService UpdateLecturerStudyPost(LecturerStudyPostSetBindingModel model);
 
         /// <summary>
         /// Удаление должности
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService DeleteLecturerPost(LecturerPostGetBindingModel model);
+        ResultService DeleteLecturerStudyPost(LecturerStudyPostGetBindingModel model);
     }
 }

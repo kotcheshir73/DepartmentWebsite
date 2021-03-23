@@ -51,13 +51,13 @@ namespace BaseImplementations
             return entity;
         }
 
-        public static LecturerPost CreateLecturerPost(LecturerPostSetBindingModel model, LecturerPost entity = null)
+        public static LecturerStudyPost CreateLecturerStudyPost(LecturerStudyPostSetBindingModel model, LecturerStudyPost entity = null)
         {
             if (entity == null)
             {
-                entity = new LecturerPost();
+                entity = new LecturerStudyPost();
             }
-            entity.PostTitle = model.PostTitle;
+            entity.StudyPostTitle = model.StudyPostTitle;
             entity.Hours = model.Hours;
 
             return entity;
@@ -83,7 +83,7 @@ namespace BaseImplementations
             {
                 entity = new Lecturer();
             }
-            entity.LecturerPostId = model.LecturerPostId;
+            entity.LecturerStudyPostId = model.LecturerStudyPostId;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.Patronymic = model.Patronymic;

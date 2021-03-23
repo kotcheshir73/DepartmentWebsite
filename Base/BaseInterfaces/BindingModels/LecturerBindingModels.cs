@@ -11,7 +11,7 @@ namespace BaseInterfaces.BindingModels
 
     public class LecturerSetBindingModel : PageSettingSetBinidingModel
     {
-        public Guid LecturerPostId { get; set; }
+        public Guid LecturerStudyPostId { get; set; }
 
         public string FirstName { get; set; }
 

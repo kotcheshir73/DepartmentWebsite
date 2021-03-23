@@ -30,7 +30,7 @@ namespace WebImplementations
             return new WebLecturerViewModel
             {
                 Id = entity.Id,
-                LecturerPostId = entity.LecturerPostId,
+                LecturerPostId = entity.LecturerStudyPostId,
                 LastName = entity.LastName,
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,

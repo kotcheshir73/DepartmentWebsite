@@ -9,7 +9,7 @@ namespace BaseInterfaces.ViewModels
 
     public class LecturerViewModel : PageSettingElementViewModel
     {
-        public Guid LecturerPostId { get; set; }
+        public Guid LecturerStudyPostId { get; set; }
 
         public string FirstName { get; set; }
 

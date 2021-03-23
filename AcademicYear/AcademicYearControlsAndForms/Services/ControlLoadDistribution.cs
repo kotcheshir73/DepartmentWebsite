@@ -34,7 +34,7 @@ namespace AcademicYearControlsAndForms.Services
         private readonly ILecturerWorkloadService _serviceLW;
 
         // private readonly IIndividualPlanRecordService _serviceIPR;
-        private readonly ILecturerPostSerivce _serviceLP;
+        private readonly ILecturerStudyPostSerivce _serviceLP;
 
         private readonly IDisciplineTimeDistributionService _serviceDTD;
 
@@ -53,7 +53,7 @@ namespace AcademicYearControlsAndForms.Services
         private int _timeNormLastColumnIndex;
 
         public ControlLoadDistribution(IAcademicYearService serviceAY, ITimeNormService serviceTN, IAcademicYearProcess process, ILecturerService serviceL,/* IStatementService serviceS, 
-            IIndividualPlanRecordService serviceIPR,*/ IDisciplineTimeDistributionService serviceDTD, ILecturerWorkloadService serviceLW, ILecturerPostSerivce serviceLP,
+            IIndividualPlanRecordService serviceIPR,*/ IDisciplineTimeDistributionService serviceDTD, ILecturerWorkloadService serviceLW, ILecturerStudyPostSerivce serviceLP,
             IAcademicPlanRecordMissionService serviceAPRM)
         {
             InitializeComponent();
@@ -126,7 +126,7 @@ namespace AcademicYearControlsAndForms.Services
             {
                 _columns.Add(new ColumnConfig
                 {
-                    Name = string.Format("Lecturer_{0}_{1}", lect.Id, lect.LecturerPostId),
+                    Name = string.Format("Lecturer_{0}_{1}", lect.Id, lect.LecturerStudyPostId),
                     Title = lect.FullName,
                     Width = 40,
                     Visible = true
@@ -198,7 +198,7 @@ namespace AcademicYearControlsAndForms.Services
             {
                 AcademicYearId = new Guid(comboBoxAcademicYear.SelectedValue.ToString())
             });
-            var hours = _serviceLP.GetLecturerPosts(new LecturerPostGetBindingModel() { });
+            var hours = _serviceLP.GetLecturerStudyPosts(new LecturerStudyPostGetBindingModel() { });
             if (result.Succeeded)
             {
                 dataGridViewList.Rows.Clear();

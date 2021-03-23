@@ -9,10 +9,10 @@ namespace Models.Base
     /// Преподавательская должность
     /// </summary>
     [DataContract]
-    public class LecturerPost : BaseEntity
+    public class LecturerStudyPost : BaseEntity
     {
         [DataMember]
-        public string PostTitle { get; set; }
+        public string StudyPostTitle { get; set; }
 
         [DataMember]
         public int Hours { get; set; }
@@ -21,7 +21,7 @@ namespace Models.Base
 
         //-------------------------------------------------------------------------
 
-        [ForeignKey("LecturerPostId")]
+        [ForeignKey("LecturerStudyPostId")]
         public virtual List<Lecturer> Lecturers { get; set; }
 
         //-------------------------------------------------------------------------
@@ -29,9 +29,9 @@ namespace Models.Base
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            if (!string.IsNullOrEmpty(PostTitle))
+            if (!string.IsNullOrEmpty(StudyPostTitle))
             {
-                result.Append(PostTitle);
+                result.Append(StudyPostTitle);
             }
             return result.ToString();
         }

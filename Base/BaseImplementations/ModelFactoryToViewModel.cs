@@ -47,12 +47,12 @@ namespace BaseImplementations
             };
         }
 
-        public static LecturerPostViewModel CreateLecturerPostViewModel(LecturerPost entity)
+        public static LecturerStudyPostViewModel CreateLecturerStudyPostViewModel(LecturerStudyPost entity)
         {
-            return new LecturerPostViewModel
+            return new LecturerStudyPostViewModel
             {
                 Id = entity.Id,
-                PostTitle = entity.PostTitle,
+                StudyPostTitle = entity.StudyPostTitle,
                 Hours = entity.Hours
             };
         }
@@ -76,7 +76,7 @@ namespace BaseImplementations
             return new LecturerViewModel
             {
                 Id = entity.Id,
-                LecturerPostId = entity.LecturerPostId,
+                LecturerStudyPostId = entity.LecturerStudyPostId,
                 LastName = entity.LastName,
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,

@@ -20,7 +20,7 @@ namespace Models.Base
     {
         [Required]
         [DataMember]
-        public Guid LecturerPostId { get; set; }
+        public Guid LecturerStudyPostId { get; set; }
 
         [MaxLength(20)]
         [Required]
@@ -87,7 +87,7 @@ namespace Models.Base
 
         //-------------------------------------------------------------------------
 
-        public virtual LecturerPost LecturerPost { get; set; }
+        public virtual LecturerStudyPost LecturerPost { get; set; }
 
         //-------------------------------------------------------------------------
 

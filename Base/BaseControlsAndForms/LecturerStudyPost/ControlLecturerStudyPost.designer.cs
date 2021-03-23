@@ -1,4 +1,4 @@
-﻿namespace BaseControlsAndForms.LecturerPost
+﻿namespace BaseControlsAndForms.LecturerStudyPost
 {
     partial class ControlLecturerPost
     {

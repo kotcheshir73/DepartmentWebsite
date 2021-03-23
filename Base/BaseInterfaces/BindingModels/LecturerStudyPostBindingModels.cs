@@ -3,12 +3,12 @@ using Tools.BindingModels;
 
 namespace BaseInterfaces.BindingModels
 {
-    public class LecturerPostGetBindingModel : PageSettingGetBinidingModel { }
+    public class LecturerStudyPostGetBindingModel : PageSettingGetBinidingModel { }
 
-    public class LecturerPostSetBindingModel : PageSettingSetBinidingModel
+    public class LecturerStudyPostSetBindingModel : PageSettingSetBinidingModel
     {
         [Required(ErrorMessage = "required")]
-        public string PostTitle { get; set; }
+        public string StudyPostTitle { get; set; }
 
         [Required(ErrorMessage = "required")]
         public int Hours { get; set; }

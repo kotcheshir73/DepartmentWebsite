@@ -6,16 +6,16 @@ using System;
 using Tools;
 using Unity;
 
-namespace BaseControlsAndForms.LecturerPost
+namespace BaseControlsAndForms.LecturerStudyPost
 {
-    public partial class FormLecturerPost : StandartForm
+    public partial class FormLecturerStudyPost : StandartForm
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly ILecturerPostSerivce _service;
+        private readonly ILecturerStudyPostSerivce _service;
 
-        public FormLecturerPost(ILecturerPostSerivce service, Guid? id = null) : base(id)
+        public FormLecturerStudyPost(ILecturerStudyPostSerivce service, Guid? id = null) : base(id)
         {
             InitializeComponent();
             _service = service;
@@ -23,7 +23,7 @@ namespace BaseControlsAndForms.LecturerPost
 
         protected override void LoadData()
         {
-            var result = _service.GetLecturerPost(new LecturerPostGetBindingModel { Id = _id.Value });
+            var result = _service.GetLecturerStudyPost(new LecturerStudyPostGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -31,7 +31,7 @@ namespace BaseControlsAndForms.LecturerPost
             }
             var entity = result.Result;
 
-            textBoxPostTitle.Text = entity.PostTitle;
+            textBoxPostTitle.Text = entity.StudyPostTitle;
             textBoxHours.Text = entity.Hours.ToString();
         }
 
@@ -41,12 +41,11 @@ namespace BaseControlsAndForms.LecturerPost
             {
                 return false;
             }
-            int hours = 0;
-            if (!int.TryParse(textBoxHours.Text, out hours))
-            {
-                return false;
-            }
-            return true;
+			if (!int.TryParse(textBoxHours.Text, out _))
+			{
+				return false;
+			}
+			return true;
         }
 
         protected override bool Save()
@@ -54,18 +53,18 @@ namespace BaseControlsAndForms.LecturerPost
             ResultService result;
             if (!_id.HasValue)
             {
-                result = _service.CreateLecturerPost(new LecturerPostSetBindingModel
+                result = _service.CreateLecturerStudyPost(new LecturerStudyPostSetBindingModel
                 {
-                    PostTitle = textBoxPostTitle.Text,
+                    StudyPostTitle = textBoxPostTitle.Text,
                     Hours = Convert.ToInt32(textBoxHours.Text)
                 });
             }
             else
             {
-                result = _service.UpdateLecturerPost(new LecturerPostSetBindingModel
+                result = _service.UpdateLecturerStudyPost(new LecturerStudyPostSetBindingModel
                 {
                     Id = _id.Value,
-                    PostTitle = textBoxPostTitle.Text,
+                    StudyPostTitle = textBoxPostTitle.Text,
                     Hours = Convert.ToInt32(textBoxHours.Text)
                 });
             }
@@ -73,9 +72,9 @@ namespace BaseControlsAndForms.LecturerPost
             {
                 if (result.Result != null)
                 {
-                    if (result.Result is Guid)
+                    if (result.Result is Guid guid)
                     {
-                        _id = (Guid)result.Result;
+                        _id = guid;
                     }
                 }
                 return true;

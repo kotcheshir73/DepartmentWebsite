@@ -11,7 +11,7 @@ namespace BaseInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService<LecturerPostPageViewModel> GetLecturerPosts(LecturerPostGetBindingModel model);
+        ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model);
 
         /// <summary>
         /// Получение списка преподавателей

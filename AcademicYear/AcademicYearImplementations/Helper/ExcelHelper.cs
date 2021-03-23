@@ -105,7 +105,7 @@ namespace AcademicYearImplementations.Helper
                                             .GroupBy(x => new { x.AcademicPlanRecordElement.AcademicPlanRecord.DisciplineId, x.AcademicPlanRecordElement.AcademicPlanRecord.Semester });
                             double? workload = (context.LecturerWorkload.FirstOrDefault(x => x.LecturerId == lecturer.Id && x.AcademicYearId == model.AcademicYearId &&
                                                             !x.IsDeleted))?.Workload;
-                            int? post = context.LecturerPosts.FirstOrDefault(x => x.Id == lecturer.LecturerPostId)?.Hours;
+                            int? post = context.LecturerStudyPosts.FirstOrDefault(x => x.Id == lecturer.LecturerStudyPostId)?.Hours;
                             double? hours = workload * post;
                             double? diff = hours - (double)aprms.Sum(x => x.Sum(y => y.Hours));
 

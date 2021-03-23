@@ -8,16 +8,16 @@ using System.Windows.Forms;
 using Unity;
 using Unity.Resolution;
 
-namespace BaseControlsAndForms.LecturerPost
+namespace BaseControlsAndForms.LecturerStudyPost
 {
     public partial class ControlLecturerPost : UserControl
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly ILecturerPostSerivce _service;
+        private readonly ILecturerStudyPostSerivce _service;
 
-        public ControlLecturerPost(ILecturerPostSerivce service)
+        public ControlLecturerPost(ILecturerStudyPostSerivce service)
         {
             InitializeComponent();
             _service = service;
@@ -25,7 +25,7 @@ namespace BaseControlsAndForms.LecturerPost
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "PostTitle", Title = "Название", Width = 200, Visible = true },
+                new ColumnConfig { Name = "StudyPostTitle", Title = "Название", Width = 200, Visible = true },
                 new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
             };
 
@@ -61,7 +61,7 @@ namespace BaseControlsAndForms.LecturerPost
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetLecturerPosts(new LecturerPostGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetLecturerStudyPosts(new LecturerStudyPostGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -72,7 +72,7 @@ namespace BaseControlsAndForms.LecturerPost
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.PostTitle,
+                    res.StudyPostTitle,
                     res.Hours
                 );
             }
@@ -81,12 +81,12 @@ namespace BaseControlsAndForms.LecturerPost
 
         private void AddRecord()
         {
-            var form = Container.Resolve<FormLecturerPost>(
+            var form = Container.Resolve<FormLecturerStudyPost>(
                 new ParameterOverrides
                 {
                     { "id", Guid.Empty }
                 }
-                .OnType<FormLecturerPost>());
+                .OnType<FormLecturerStudyPost>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -98,12 +98,12 @@ namespace BaseControlsAndForms.LecturerPost
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<FormLecturerPost>(
+                var form = Container.Resolve<FormLecturerStudyPost>(
                     new ParameterOverrides
                     {
                         { "id", id }
                     }
-                    .OnType<FormLecturerPost>());
+                    .OnType<FormLecturerStudyPost>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -120,7 +120,7 @@ namespace BaseControlsAndForms.LecturerPost
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteLecturerPost(new LecturerPostGetBindingModel { Id = id });
+                        var result = _service.DeleteLecturerStudyPost(new LecturerStudyPostGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

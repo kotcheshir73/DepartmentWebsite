@@ -3,7 +3,7 @@ using BaseControlsAndForms.Discipline;
 using BaseControlsAndForms.DisciplineBlock;
 using BaseControlsAndForms.EducationDirection;
 using BaseControlsAndForms.Lecturer;
-using BaseControlsAndForms.LecturerPost;
+using BaseControlsAndForms.LecturerStudyPost;
 using BaseControlsAndForms.Student;
 using BaseControlsAndForms.StudentGroup;
 using BaseControlsAndForms.StudentOrder;
@@ -16,7 +16,7 @@ using Unity.Lifetime;
 
 namespace BaseControlsAndForms
 {
-    public static class Controller
+	public static class Controller
     {
         private static IUnityContainer _container;
 
@@ -27,7 +27,7 @@ namespace BaseControlsAndForms
             currentContainer.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ILecturerPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILecturerStudyPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());

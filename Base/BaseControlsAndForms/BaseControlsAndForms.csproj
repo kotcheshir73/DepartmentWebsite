@@ -106,17 +106,17 @@
     <Compile Include="EducationDirection\FormEducationDirection.designer.cs">
       <DependentUpon>FormEducationDirection.cs</DependentUpon>
     </Compile>
-    <Compile Include="LecturerPost\ControlLecturerPost.cs">
+    <Compile Include="LecturerStudyPost\ControlLecturerStudyPost.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LecturerPost\ControlLecturerPost.designer.cs">
-      <DependentUpon>ControlLecturerPost.cs</DependentUpon>
+    <Compile Include="LecturerStudyPost\ControlLecturerStudyPost.designer.cs">
+      <DependentUpon>ControlLecturerStudyPost.cs</DependentUpon>
     </Compile>
-    <Compile Include="LecturerPost\FormLecturerPost.cs">
+    <Compile Include="LecturerStudyPost\FormLecturerStudyPost.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LecturerPost\FormLecturerPost.designer.cs">
-      <DependentUpon>FormLecturerPost.cs</DependentUpon>
+    <Compile Include="LecturerStudyPost\FormLecturerStudyPost.designer.cs">
+      <DependentUpon>FormLecturerStudyPost.cs</DependentUpon>
     </Compile>
     <Compile Include="Lecturer\ControlLecturer.cs">
       <SubType>UserControl</SubType>
@@ -282,11 +282,11 @@
     <EmbeddedResource Include="EducationDirection\FormEducationDirection.resx">
       <DependentUpon>FormEducationDirection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LecturerPost\ControlLecturerPost.resx">
-      <DependentUpon>ControlLecturerPost.cs</DependentUpon>
+    <EmbeddedResource Include="LecturerStudyPost\ControlLecturerStudyPost.resx">
+      <DependentUpon>ControlLecturerStudyPost.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LecturerPost\FormLecturerPost.resx">
-      <DependentUpon>FormLecturerPost.cs</DependentUpon>
+    <EmbeddedResource Include="LecturerStudyPost\FormLecturerStudyPost.resx">
+      <DependentUpon>FormLecturerStudyPost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Lecturer\ControlLecturer.resx">
       <DependentUpon>ControlLecturer.cs</DependentUpon>
