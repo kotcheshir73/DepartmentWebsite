@@ -17,10 +17,6 @@ namespace DepartmentWebCore.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IClassroomService _serviceCL;
-
-		private readonly ILecturerService _serviceL;
-
 		private readonly IWebEducationDirectionService _serviceWED;
 
 		private readonly IWebStudentGroupService _serviceWSG;
@@ -31,13 +27,11 @@ namespace DepartmentWebCore.Controllers
 
 		private readonly BaseService _baseService;
 
-		private IMemoryCache cache;
+		private readonly IMemoryCache cache;
 
-		public HomeController(IClassroomService serviceCL, ILecturerService serviceL, IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG,
+		public HomeController(IWebEducationDirectionService serviceWED, IWebStudentGroupService serviceWSG,
 			INewsService serviceN, IWebStudyProcessService serviceSP, BaseService baseService, IMemoryCache memoryCache)
 		{
-			_serviceCL = serviceCL;
-			_serviceL = serviceL;
 			_serviceWED = serviceWED;
 			_serviceWSG = serviceWSG;
 			_serviceN = serviceN;
@@ -63,9 +57,7 @@ namespace DepartmentWebCore.Controllers
 
 		public ActionResult MainMenu()
 		{
-			List<MenuElementModel> mainMenu;
-
-			if (!cache.TryGetValue("mainMenu", out mainMenu))
+			if (!cache.TryGetValue("mainMenu", out List<MenuElementModel> mainMenu))
 			{
 				mainMenu = new List<MenuElementModel>
 				{
@@ -85,8 +77,8 @@ namespace DepartmentWebCore.Controllers
 					Action = "Index"
 				};
 
-				var classroomList = _serviceCL.GetClassrooms(new ClassroomGetBindingModel { SkipCheck = true, NotUseInSchedule = false });
-				if (classroomList.Succeeded)
+				var classroomList = _baseService.GetClassrooms();
+				if (classroomList != null)
 				{
 					MenuElementModel classroomSchedule = new MenuElementModel()
 					{
@@ -96,7 +88,7 @@ namespace DepartmentWebCore.Controllers
 						Action = "Classrooms"
 					};
 
-					foreach (var tmp in classroomList.Result.List)
+					foreach (var tmp in classroomList)
 					{
 						classroomSchedule.Child.Add(new MenuElementModel()
 						{

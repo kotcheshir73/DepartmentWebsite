@@ -12,6 +12,8 @@ namespace DepartmentWebCore.Services
 {
 	public class BaseService
 	{
+		private readonly IClassroomService _serviceC;
+
 		private readonly ILecturerService _serviceL;
 
 		private readonly IAcademicPlanRecordMissionService _academicPlanRecordMissionService;
@@ -20,13 +22,29 @@ namespace DepartmentWebCore.Services
 
 		private IMemoryCache cache;
 
-		public BaseService(ILecturerService serviceL, IAcademicPlanRecordMissionService academicPlanRecordMissionService, IAcademicYearProcess academicYearProcess, 
+		public BaseService(IClassroomService serviceC, ILecturerService serviceL, IAcademicPlanRecordMissionService academicPlanRecordMissionService, IAcademicYearProcess academicYearProcess, 
 			IMemoryCache memoryCache)
 		{
+			_serviceC = serviceC;
 			_serviceL = serviceL;
 			_academicPlanRecordMissionService = academicPlanRecordMissionService;
 			_academicYearProcess = academicYearProcess;
 			cache = memoryCache;
+		}
+
+		public List<ClassroomViewModel> GetClassrooms(bool notUseInSchedule = false)
+		{
+			if (!cache.TryGetValue($"Classrooms", out List<ClassroomViewModel> listClassrooms))
+			{
+				var classroomList = _serviceC.GetClassrooms(new ClassroomGetBindingModel { SkipCheck = true, NotUseInSchedule = notUseInSchedule });
+				if (classroomList.Succeeded)
+				{
+					listClassrooms = classroomList.Result.List;
+					cache.Set($"Classrooms", listClassrooms, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
+				}
+			}
+
+			return listClassrooms;
 		}
 
 		public List<LecturerViewModel> GetLecturers()
