@@ -11,6 +11,8 @@ namespace BaseInterfaces.ViewModels
     {
         public Guid LecturerStudyPostId { get; set; }
 
+        public Guid? LecturerDepartmentPostId { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -29,9 +31,9 @@ namespace BaseInterfaces.ViewModels
 
         public string HomeNumber { get; set; }
 
-        public string Post { get; set; }
+        public string LectureDepartmentPost { get; set; }
 
-        public string LecturerPost { get; set; }
+        public string LecturerStudyPost { get; set; }
 
         public double Workload { get; set; }
 

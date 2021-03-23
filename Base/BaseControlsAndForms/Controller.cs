@@ -3,6 +3,7 @@ using BaseControlsAndForms.Discipline;
 using BaseControlsAndForms.DisciplineBlock;
 using BaseControlsAndForms.EducationDirection;
 using BaseControlsAndForms.Lecturer;
+using BaseControlsAndForms.LecturerDepartmentPost;
 using BaseControlsAndForms.LecturerStudyPost;
 using BaseControlsAndForms.Student;
 using BaseControlsAndForms.StudentGroup;
@@ -27,7 +28,8 @@ namespace BaseControlsAndForms
             currentContainer.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ILecturerStudyPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILecturerDepartmentPostSerivce, LecturerDepartmentPostSerivce>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILecturerStudyPostSerivce, LecturerStudyPostSerivce>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());
@@ -48,7 +50,9 @@ namespace BaseControlsAndForms
 
         public static ControlEducationDirection GetControlEducationDirection { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlEducationDirection>(); } }
 
-        public static ControlLecturerPost GetControlLecturerPost { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlLecturerPost>(); } }
+        public static ControlLecturerDepartmentPost GetControlLecturerDepartmentPost { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlLecturerDepartmentPost>(); } }
+
+        public static ControlLecturerStudyPost GetControlLecturerStudyPost { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlLecturerStudyPost>(); } }
 
         public static ControlLecturer GetControlLecturer { get { if (_container == null) _container = BuildUnityContainer(); return _container.Resolve<ControlLecturer>(); } }
 

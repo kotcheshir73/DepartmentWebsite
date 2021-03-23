@@ -47,7 +47,7 @@
 			this.labelRank = new System.Windows.Forms.Label();
 			this.labelAbbreviation = new System.Windows.Forms.Label();
 			this.textBoxAbbreviation = new System.Windows.Forms.TextBox();
-			this.comboBoxPost = new System.Windows.Forms.ComboBox();
+			this.comboBoxLecturerDepartmentPost = new System.Windows.Forms.ComboBox();
 			this.comboBoxRank = new System.Windows.Forms.ComboBox();
 			this.comboBoxRank2 = new System.Windows.Forms.ComboBox();
 			this.labelRank2 = new System.Windows.Forms.Label();
@@ -72,7 +72,7 @@
 			this.panelMain.Controls.Add(this.textBoxFirstName);
 			this.panelMain.Controls.Add(this.comboBoxRank);
 			this.panelMain.Controls.Add(this.labelPatronymic);
-			this.panelMain.Controls.Add(this.comboBoxPost);
+			this.panelMain.Controls.Add(this.comboBoxLecturerDepartmentPost);
 			this.panelMain.Controls.Add(this.textBoxPatronymic);
 			this.panelMain.Controls.Add(this.textBoxAbbreviation);
 			this.panelMain.Controls.Add(this.labelDescription);
@@ -306,14 +306,14 @@
 			this.textBoxAbbreviation.Size = new System.Drawing.Size(100, 20);
 			this.textBoxAbbreviation.TabIndex = 28;
 			// 
-			// comboBoxPost
+			// comboBoxLecturerDepartmentPost
 			// 
-			this.comboBoxPost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxPost.FormattingEnabled = true;
-			this.comboBoxPost.Location = new System.Drawing.Point(126, 242);
-			this.comboBoxPost.Name = "comboBoxPost";
-			this.comboBoxPost.Size = new System.Drawing.Size(200, 21);
-			this.comboBoxPost.TabIndex = 17;
+			this.comboBoxLecturerDepartmentPost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxLecturerDepartmentPost.FormattingEnabled = true;
+			this.comboBoxLecturerDepartmentPost.Location = new System.Drawing.Point(126, 242);
+			this.comboBoxLecturerDepartmentPost.Name = "comboBoxLecturerDepartmentPost";
+			this.comboBoxLecturerDepartmentPost.Size = new System.Drawing.Size(200, 21);
+			this.comboBoxLecturerDepartmentPost.TabIndex = 17;
 			// 
 			// comboBoxRank
 			// 
@@ -411,7 +411,7 @@
 		private System.Windows.Forms.Label labelRank;
 		private System.Windows.Forms.Label labelAbbreviation;
 		private System.Windows.Forms.TextBox textBoxAbbreviation;
-        private System.Windows.Forms.ComboBox comboBoxPost;
+        private System.Windows.Forms.ComboBox comboBoxLecturerDepartmentPost;
         private System.Windows.Forms.ComboBox comboBoxRank;
         private System.Windows.Forms.ComboBox comboBoxRank2;
         private System.Windows.Forms.Label labelRank2;

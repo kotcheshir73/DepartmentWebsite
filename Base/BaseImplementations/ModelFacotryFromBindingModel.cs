@@ -51,6 +51,18 @@ namespace BaseImplementations
             return entity;
         }
 
+        public static LecturerDepartmentPost CreateLecturerDepartmentPost(LecturerDepartmentPostSetBindingModel model, LecturerDepartmentPost entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new LecturerDepartmentPost();
+            }
+            entity.DepartmentPostTitle = model.DepartmentPostTitle;
+            entity.Order = model.Order;
+
+            return entity;
+        }
+
         public static LecturerStudyPost CreateLecturerStudyPost(LecturerStudyPostSetBindingModel model, LecturerStudyPost entity = null)
         {
             if (entity == null)
@@ -84,12 +96,12 @@ namespace BaseImplementations
                 entity = new Lecturer();
             }
             entity.LecturerStudyPostId = model.LecturerStudyPostId;
+            entity.LecturerDepartmentPostId = model.LecturerDepartmentPostId;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.Patronymic = model.Patronymic;
             entity.Abbreviation = model.Abbreviation;
             entity.DateBirth = model.DateBirth;
-            entity.Post = (Post)Enum.Parse(typeof(Post), model.Post);
             entity.Rank = (Rank)Enum.Parse(typeof(Rank), model.Rank);
             entity.Rank2 = (Rank2)Enum.Parse(typeof(Rank2), model.Rank2);
             entity.Address = model.Address;

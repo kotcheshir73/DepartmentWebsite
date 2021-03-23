@@ -47,6 +47,16 @@ namespace BaseImplementations
             };
         }
 
+        public static LecturerDepartmentPostViewModel CreateLecturerDepartmentPostViewModel(LecturerDepartmentPost entity)
+        {
+            return new LecturerDepartmentPostViewModel
+            {
+                Id = entity.Id,
+                DepartmentPostTitle = entity.DepartmentPostTitle,
+                Order = entity.Order
+            };
+        }
+
         public static LecturerStudyPostViewModel CreateLecturerStudyPostViewModel(LecturerStudyPost entity)
         {
             return new LecturerStudyPostViewModel
@@ -77,13 +87,14 @@ namespace BaseImplementations
             {
                 Id = entity.Id,
                 LecturerStudyPostId = entity.LecturerStudyPostId,
+                LecturerDepartmentPostId = entity.LecturerDepartmentPostId,
                 LastName = entity.LastName,
                 FirstName = entity.FirstName,
                 Patronymic = entity.Patronymic,
                 Abbreviation = entity.Abbreviation,
                 DateBirth = entity.DateBirth,
-                Post = entity.Post.ToString(),
-                LecturerPost = entity.LecturerPost?.ToString() ?? string.Empty,
+                LectureDepartmentPost = entity.LecturerDepartmentPost?.ToString() ?? string.Empty,
+                LecturerStudyPost = entity.LecturerStudyPost?.ToString() ?? string.Empty,
                 Rank = entity.Rank.ToString(),
                 Rank2 = entity.Rank2.ToString(),
                 HomeNumber = entity.HomeNumber,

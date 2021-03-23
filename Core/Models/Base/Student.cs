@@ -23,17 +23,17 @@ namespace Models.Base
         [DataMember]
         public Guid? StudentGroupId { get; set; }
         
-        [MaxLength(20)]
+        [MaxLength(150)]
         [Required]
         [DataMember]
         public string FirstName { get; set; }
         
-        [MaxLength(30)]
+        [MaxLength(150)]
         [Required]
         [DataMember]
         public string LastName { get; set; }
         
-        [MaxLength(30)]
+        [MaxLength(150)]
         [DataMember]
         public string Patronymic { get; set; }
         

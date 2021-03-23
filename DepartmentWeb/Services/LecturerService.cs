@@ -23,9 +23,9 @@ namespace DepartmentWeb.Services
                 {
                     var query = context.Lecturers.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderBy(x => x.LecturerPost.Hours).ThenBy(x => x.LastName);
+                    query = query.OrderBy(x => x.LecturerStudyPost.Hours).ThenBy(x => x.LastName);
                     
-                    query = query.Include(x => x.LecturerPost).Include(x => x.LecturerWorkloads);
+                    query = query.Include(x => x.LecturerStudyPost).Include(x => x.LecturerWorkloads);
 
                     var result = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList();
 
@@ -39,7 +39,7 @@ namespace DepartmentWeb.Services
 
                     foreach(var item in orderList)
                     {
-                        var tmp = result.FirstOrDefault(x => x.Post == item);
+                        var tmp = result.FirstOrDefault(x => x.LectureDepartmentPost == item);
                         newRes.Add(tmp);
                         result.Remove(tmp);
                     }
@@ -64,7 +64,7 @@ namespace DepartmentWeb.Services
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.Lecturers
-                                .Include(x => x.LecturerPost)
+                                .Include(x => x.LecturerStudyPost)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

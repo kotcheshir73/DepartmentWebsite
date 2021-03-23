@@ -147,15 +147,26 @@ namespace DepartmentDesktop
 			var control = BaseControlsAndForms.Controller.GetControlEducationDirection;
 			ApplyControl(control);
 			control.LoadData();
-		}
+        }
         /// <summary>
         /// Должности преподавателей
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LecturerPostToolStripMenuItem_Click(object sender, EventArgs e)
+        private void lecturerDepartmentPostToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var control = BaseControlsAndForms.Controller.GetControlLecturerPost;
+            var control = BaseControlsAndForms.Controller.GetControlLecturerDepartmentPost;
+            ApplyControl(control);
+            control.LoadData();
+        }
+        /// <summary>
+        /// Должности преподавателей
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LecturerStudyPostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var control = BaseControlsAndForms.Controller.GetControlLecturerStudyPost;
             ApplyControl(control);
             control.LoadData();
         }
@@ -566,6 +577,6 @@ namespace DepartmentDesktop
             ApplyControl(control);
             control.LoadData();
         }
-        #endregion
-    }
+		#endregion
+	}
 }

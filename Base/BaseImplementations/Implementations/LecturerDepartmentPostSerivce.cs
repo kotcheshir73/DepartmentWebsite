@@ -9,13 +9,13 @@ using Tools;
 
 namespace BaseImplementations.Implementations
 {
-    public class LecturerPostSerivce : ILecturerStudyPostSerivce
+	public class LecturerDepartmentPostSerivce : ILecturerDepartmentPostSerivce
     {
         private readonly AccessOperation _serviceOperation = AccessOperation.Должности_преподавателей;
 
         private readonly string _entity = "Должности преподавателей";
 
-        public ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model)
+        public ResultService<LecturerDepartmentPostPageViewModel> GetLecturerDepartmentPosts(LecturerDepartmentPostGetBindingModel model)
         {
             try
             {
@@ -24,9 +24,9 @@ namespace BaseImplementations.Implementations
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.LecturerStudyPosts.Where(x => !x.IsDeleted).AsQueryable();
+                    var query = context.LecturerDepartmentPosts.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderBy(x => x.StudyPostTitle);
+                    query = query.OrderBy(x => x.Order);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -36,22 +36,22 @@ namespace BaseImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    var result = new LecturerStudyPostPageViewModel
+                    var result = new LecturerDepartmentPostPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateLecturerStudyPostViewModel).ToList()
+                        List = query.Select(ModelFactoryToViewModel.CreateLecturerDepartmentPostViewModel).ToList()
                     };
 
-                    return ResultService<LecturerStudyPostPageViewModel>.Success(result);
+                    return ResultService<LecturerDepartmentPostPageViewModel>.Success(result);
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<LecturerStudyPostPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<LecturerDepartmentPostPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService<LecturerStudyPostViewModel> GetLecturerStudyPost(LecturerStudyPostGetBindingModel model)
+        public ResultService<LecturerDepartmentPostViewModel> GetLecturerDepartmentPost(LecturerDepartmentPostGetBindingModel model)
         {
             try
             {
@@ -59,26 +59,26 @@ namespace BaseImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.LecturerStudyPosts
+                    var entity = context.LecturerDepartmentPosts
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<LecturerStudyPostViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<LecturerDepartmentPostViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<LecturerStudyPostViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<LecturerDepartmentPostViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    return ResultService<LecturerStudyPostViewModel>.Success(ModelFactoryToViewModel.CreateLecturerStudyPostViewModel(entity));
+                    return ResultService<LecturerDepartmentPostViewModel>.Success(ModelFactoryToViewModel.CreateLecturerDepartmentPostViewModel(entity));
                 }
             }
             catch (Exception ex)
             {
-                return ResultService<LecturerStudyPostViewModel>.Error(ex, ResultServiceStatusCode.Error);
+                return ResultService<LecturerDepartmentPostViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
         }
 
-        public ResultService CreateLecturerStudyPost(LecturerStudyPostSetBindingModel model)
+        public ResultService CreateLecturerDepartmentPost(LecturerDepartmentPostSetBindingModel model)
         {
             try
             {
@@ -86,12 +86,12 @@ namespace BaseImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateLecturerStudyPost(model);
+                    var entity = ModelFacotryFromBindingModel.CreateLecturerDepartmentPost(model);
 
-                    var exsistEntity = context.LecturerStudyPosts.FirstOrDefault(x => x.StudyPostTitle == entity.StudyPostTitle);
+                    var exsistEntity = context.LecturerDepartmentPosts.FirstOrDefault(x => x.DepartmentPostTitle == entity.DepartmentPostTitle);
                     if (exsistEntity == null)
                     {
-                        context.LecturerStudyPosts.Add(entity);
+                        context.LecturerDepartmentPosts.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -116,7 +116,7 @@ namespace BaseImplementations.Implementations
             }
         }
 
-        public ResultService UpdateLecturerStudyPost(LecturerStudyPostSetBindingModel model)
+        public ResultService UpdateLecturerDepartmentPost(LecturerDepartmentPostSetBindingModel model)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace BaseImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.LecturerStudyPosts.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.LecturerDepartmentPosts.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -133,7 +133,7 @@ namespace BaseImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateLecturerStudyPost(model, entity);
+                    entity = ModelFacotryFromBindingModel.CreateLecturerDepartmentPost(model, entity);
 
                     context.SaveChanges();
 
@@ -146,7 +146,7 @@ namespace BaseImplementations.Implementations
             }
         }
 
-        public ResultService DeleteLecturerStudyPost(LecturerStudyPostGetBindingModel model)
+        public ResultService DeleteLecturerDepartmentPost(LecturerDepartmentPostGetBindingModel model)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace BaseImplementations.Implementations
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.LecturerStudyPosts.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.LecturerDepartmentPosts.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);

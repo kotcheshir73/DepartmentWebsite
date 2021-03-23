@@ -22,9 +22,9 @@ namespace WebImplementations.Implementations
                 {
                     var query = context.Lecturers.Where(x => !x.IsDeleted && !x.OnlyForPrivate).AsQueryable();
 
-                    query = query.OrderBy(x => x.LecturerPost.Hours).ThenBy(x => x.LastName);
+                    query = query.OrderBy(x => x.LecturerStudyPost.Hours).ThenBy(x => x.LastName);
 
-                    query = query.Include(x => x.LecturerPost).Include(x => x.LecturerWorkloads);
+                    query = query.Include(x => x.LecturerStudyPost).Include(x => x.LecturerWorkloads);
 
                     var queryResult = query.Select(WebModelFactoryToViewModel.CreateWebLecturerViewModel).ToList();
 
@@ -67,7 +67,7 @@ namespace WebImplementations.Implementations
                 using (var context = DepartmentUserManager.GetContext)
                 {
                     var entity = context.Lecturers
-                                .Include(x => x.LecturerPost)
+                                .Include(x => x.LecturerStudyPost)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {

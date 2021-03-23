@@ -6,24 +6,24 @@ using System;
 using Tools;
 using Unity;
 
-namespace BaseControlsAndForms.LecturerStudyPost
+namespace BaseControlsAndForms.LecturerDepartmentPost
 {
-    public partial class FormLecturerStudyPost : StandartForm
-    {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+	public partial class FormLecturerDepartmentPost : StandartForm
+	{
+		[Dependency]
+		public new IUnityContainer Container { get; set; }
 
-        private readonly ILecturerStudyPostSerivce _service;
+		private readonly ILecturerDepartmentPostSerivce _service;
 
-        public FormLecturerStudyPost(ILecturerStudyPostSerivce service, Guid? id = null) : base(id)
-        {
-            InitializeComponent();
-            _service = service;
+		public FormLecturerDepartmentPost(ILecturerDepartmentPostSerivce service, Guid? id = null) : base(id)
+		{
+			InitializeComponent();
+			_service = service;
         }
 
         protected override void LoadData()
         {
-            var result = _service.GetLecturerStudyPost(new LecturerStudyPostGetBindingModel { Id = _id.Value });
+            var result = _service.GetLecturerDepartmentPost(new LecturerDepartmentPostGetBindingModel { Id = _id.Value });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -31,21 +31,17 @@ namespace BaseControlsAndForms.LecturerStudyPost
             }
             var entity = result.Result;
 
-            textBoxStudyPostTitle.Text = entity.StudyPostTitle;
-            textBoxHours.Text = entity.Hours.ToString();
+            textBoxDepartmentPostTitle.Text = entity.DepartmentPostTitle;
+            numericUpDownOrder.Value= entity.Order;
         }
 
         protected override bool CheckFill()
         {
-            if (string.IsNullOrEmpty(textBoxStudyPostTitle.Text))
+            if (string.IsNullOrEmpty(textBoxDepartmentPostTitle.Text))
             {
                 return false;
             }
-			if (!int.TryParse(textBoxHours.Text, out _))
-			{
-				return false;
-			}
-			return true;
+            return true;
         }
 
         protected override bool Save()
@@ -53,19 +49,19 @@ namespace BaseControlsAndForms.LecturerStudyPost
             ResultService result;
             if (!_id.HasValue)
             {
-                result = _service.CreateLecturerStudyPost(new LecturerStudyPostSetBindingModel
+                result = _service.CreateLecturerDepartmentPost(new LecturerDepartmentPostSetBindingModel
                 {
-                    StudyPostTitle = textBoxStudyPostTitle.Text,
-                    Hours = Convert.ToInt32(textBoxHours.Text)
+                    DepartmentPostTitle = textBoxDepartmentPostTitle.Text,
+                    Order = Convert.ToInt32(numericUpDownOrder.Value)
                 });
             }
             else
             {
-                result = _service.UpdateLecturerStudyPost(new LecturerStudyPostSetBindingModel
+                result = _service.UpdateLecturerDepartmentPost(new LecturerDepartmentPostSetBindingModel
                 {
                     Id = _id.Value,
-                    StudyPostTitle = textBoxStudyPostTitle.Text,
-                    Hours = Convert.ToInt32(textBoxHours.Text)
+                    DepartmentPostTitle = textBoxDepartmentPostTitle.Text,
+                    Order = Convert.ToInt32(numericUpDownOrder.Value)
                 });
             }
             if (result.Succeeded)

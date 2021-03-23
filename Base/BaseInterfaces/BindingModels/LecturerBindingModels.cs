@@ -13,6 +13,8 @@ namespace BaseInterfaces.BindingModels
     {
         public Guid LecturerStudyPostId { get; set; }
 
+        public Guid? LecturerDepartmentPostId { get; set; }
+
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "required")]
@@ -36,9 +38,6 @@ namespace BaseInterfaces.BindingModels
         public string MobileNumber { get; set; }
 
         public string HomeNumber { get; set; }
-
-        [Required(ErrorMessage = "required")]
-        public string Post { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string Rank { get; set; }

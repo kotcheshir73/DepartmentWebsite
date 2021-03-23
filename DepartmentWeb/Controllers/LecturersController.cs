@@ -38,24 +38,24 @@ namespace DepartmentWeb.Controllers
                     tmp.Rank2 += ",";
                 }
 
-                if(tmp.LecturerPost == "отсутствует")
+                if(tmp.LecturerStudyPost == "отсутствует")
                 {
-                    tmp.LecturerPost = "";
+                    tmp.LecturerStudyPost = "";
                 }
                 else
                 {
-                    tmp.LecturerPost = tmp.LecturerPost.ToLower();
+                    tmp.LecturerStudyPost = tmp.LecturerStudyPost.ToLower();
                 }
 
-                if (tmp.Post == "ЗаведующийКафедрой")
+                if (tmp.LectureDepartmentPost == "ЗаведующийКафедрой")
                 {
-                    tmp.Post = "Заведующий кафедрой,";
-                }else if (tmp.Post == "ЗаместительЗаведующегоКафедрой")
+                    tmp.LectureDepartmentPost = "Заведующий кафедрой,";
+                }else if (tmp.LectureDepartmentPost == "ЗаместительЗаведующегоКафедрой")
                 {
-                    tmp.Post = "Заместитель заведующего кафедрой,";
+                    tmp.LectureDepartmentPost = "Заместитель заведующего кафедрой,";
                 }else
                 {
-                    tmp.Post = "";
+                    tmp.LectureDepartmentPost = "";
                 }
             }
             return View(list.Result);
@@ -79,22 +79,22 @@ namespace DepartmentWeb.Controllers
                 model.Result.Rank2 += ",";
             }
 
-            if (model.Result.LecturerPost == "отсутствует")
+            if (model.Result.LecturerStudyPost == "отсутствует")
             {
-                model.Result.LecturerPost = "";
+                model.Result.LecturerStudyPost = "";
             }
 
-            if (model.Result.Post == "ЗаведующийКафедрой")
+            if (model.Result.LectureDepartmentPost == "ЗаведующийКафедрой")
             {
-                model.Result.Post = "Заведующий кафедрой,";
+                model.Result.LectureDepartmentPost = "Заведующий кафедрой,";
             }
-            else if (model.Result.Post == "ЗаместительЗаведующегоКафедрой")
+            else if (model.Result.LectureDepartmentPost == "ЗаместительЗаведующегоКафедрой")
             {
-                model.Result.Post = "Заместитель заведующего кафедрой,";
+                model.Result.LectureDepartmentPost = "Заместитель заведующего кафедрой,";
             }
             else
             {
-                model.Result.Post = "";
+                model.Result.LectureDepartmentPost = "";
             }
             return View(model.Result);
         }

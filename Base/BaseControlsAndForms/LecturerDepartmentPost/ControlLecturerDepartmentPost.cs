@@ -8,16 +8,16 @@ using System.Windows.Forms;
 using Unity;
 using Unity.Resolution;
 
-namespace BaseControlsAndForms.LecturerStudyPost
+namespace BaseControlsAndForms.LecturerDepartmentPost
 {
-    public partial class ControlLecturerStudyPost : UserControl
-    {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
+	public partial class ControlLecturerDepartmentPost : UserControl
+	{
+		[Dependency]
+		public new IUnityContainer Container { get; set; }
 
-        private readonly ILecturerStudyPostSerivce _service;
+		private readonly ILecturerDepartmentPostSerivce _service;
 
-        public ControlLecturerStudyPost(ILecturerStudyPostSerivce service)
+		public ControlLecturerDepartmentPost(ILecturerDepartmentPostSerivce service)
         {
             InitializeComponent();
             _service = service;
@@ -25,8 +25,8 @@ namespace BaseControlsAndForms.LecturerStudyPost
             List<ColumnConfig> columns = new List<ColumnConfig>
             {
                 new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
-                new ColumnConfig { Name = "StudyPostTitle", Title = "Название", Width = 200, Visible = true },
-                new ColumnConfig { Name = "Hours", Title = "Часы", Width = 100, Visible = true }
+                new ColumnConfig { Name = "DepartmentPostTitle", Title = "Название", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Order", Title = "Порядок", Width = 100, Visible = true }
             };
 
             List<string> hideToolStripButtons = new List<string> { "toolStripDropDownButtonMoves" };
@@ -61,7 +61,7 @@ namespace BaseControlsAndForms.LecturerStudyPost
 
         private int LoadRecords(int pageNumber, int pageSize)
         {
-            var result = _service.GetLecturerStudyPosts(new LecturerStudyPostGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
+            var result = _service.GetLecturerDepartmentPosts(new LecturerDepartmentPostGetBindingModel { PageNumber = pageNumber, PageSize = pageSize });
             if (!result.Succeeded)
             {
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -72,8 +72,8 @@ namespace BaseControlsAndForms.LecturerStudyPost
             {
                 standartControl.GetDataGridViewRows.Add(
                     res.Id,
-                    res.StudyPostTitle,
-                    res.Hours
+                    res.DepartmentPostTitle,
+                    res.Order
                 );
             }
             return result.Result.MaxCount;
@@ -81,12 +81,12 @@ namespace BaseControlsAndForms.LecturerStudyPost
 
         private void AddRecord()
         {
-            var form = Container.Resolve<FormLecturerStudyPost>(
+            var form = Container.Resolve<FormLecturerDepartmentPost>(
                 new ParameterOverrides
                 {
                     { "id", Guid.Empty }
                 }
-                .OnType<FormLecturerStudyPost>());
+                .OnType<FormLecturerDepartmentPost>());
             if (form.ShowDialog() == DialogResult.OK)
             {
                 standartControl.LoadPage();
@@ -98,12 +98,12 @@ namespace BaseControlsAndForms.LecturerStudyPost
             if (standartControl.GetDataGridViewSelectedRows.Count == 1)
             {
                 Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[0].Cells[0].Value.ToString());
-                var form = Container.Resolve<FormLecturerStudyPost>(
+                var form = Container.Resolve<FormLecturerDepartmentPost>(
                     new ParameterOverrides
                     {
                         { "id", id }
                     }
-                    .OnType<FormLecturerStudyPost>());
+                    .OnType<FormLecturerDepartmentPost>());
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     standartControl.LoadPage();
@@ -120,7 +120,7 @@ namespace BaseControlsAndForms.LecturerStudyPost
                     for (int i = 0; i < standartControl.GetDataGridViewSelectedRows.Count; ++i)
                     {
                         Guid id = new Guid(standartControl.GetDataGridViewSelectedRows[i].Cells[0].Value.ToString());
-                        var result = _service.DeleteLecturerStudyPost(new LecturerStudyPostGetBindingModel { Id = id });
+                        var result = _service.DeleteLecturerDepartmentPost(new LecturerDepartmentPostGetBindingModel { Id = id });
                         if (!result.Succeeded)
                         {
                             ErrorMessanger.PrintErrorMessage("При удалении возникла ошибка: ", result.Errors);

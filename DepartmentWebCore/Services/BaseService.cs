@@ -41,7 +41,7 @@ namespace DepartmentWebCore.Services
 			//TODO добавить order к LecturerPost
 			foreach (var item in orderList)
 			{
-				var tmp = lecturers.Result.List.FirstOrDefault(x => x.Post == item);
+				var tmp = lecturers.Result.List.FirstOrDefault(x => x.LectureDepartmentPost == item);
 				result.Add(tmp);
 				lecturers.Result.List.Remove(tmp);
 			}

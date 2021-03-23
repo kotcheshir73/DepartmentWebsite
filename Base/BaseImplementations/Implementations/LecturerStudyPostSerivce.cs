@@ -3,55 +3,30 @@ using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using DatabaseContext;
 using Enums;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Tools;
 
 namespace BaseImplementations.Implementations
 {
-    public class LecturerService : ILecturerService
+    public class LecturerStudyPostSerivce : ILecturerStudyPostSerivce
     {
-        private readonly ILecturerDepartmentPostSerivce _serviceLDP;
+        private readonly AccessOperation _serviceOperation = AccessOperation.Должности_преподавателей;
 
-        private readonly ILecturerStudyPostSerivce _serviceLSP;
-
-		private readonly AccessOperation _serviceOperation = AccessOperation.Преподаватели;
-
-        private readonly string _entity = "Преподаватели";
-
-        public LecturerService(ILecturerDepartmentPostSerivce serviceLDP, ILecturerStudyPostSerivce serviceLSP)
-		{
-            _serviceLDP = serviceLDP;
-            _serviceLSP = serviceLSP;
-        }
-
-        public ResultService<LecturerDepartmentPostPageViewModel> GetLecturerDepartmentPosts(LecturerDepartmentPostGetBindingModel model)
-        {
-            return _serviceLDP.GetLecturerDepartmentPosts(model);
-        }
+        private readonly string _entity = "Должности преподавателей";
 
         public ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model)
         {
-            return _serviceLSP.GetLecturerStudyPosts(model);
-        }
-
-
-		public ResultService<LecturerPageViewModel> GetLecturers(LecturerGetBindingModel model)
-		{
-			try
+            try
             {
-                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
-				{
-                    return ResultService<LecturerPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
-                }
+                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var query = context.Lecturers.Where(x => !x.IsDeleted).AsQueryable();
+                    var query = context.LecturerStudyPosts.Where(x => !x.IsDeleted).AsQueryable();
 
-                    query = query.OrderByDescending(x => x.LecturerDepartmentPost.Order).ThenBy(x => x.LecturerStudyPost.Hours).ThenBy(x => x.LastName);
+                    query = query.OrderBy(x => x.StudyPostTitle);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -61,67 +36,62 @@ namespace BaseImplementations.Implementations
                                     .Take(model.PageSize.Value);
                     }
 
-                    query = query.Include(x => x.LecturerDepartmentPost).Include(x => x.LecturerStudyPost).Include(x => x.LecturerWorkloads);
-
-                    var result = new LecturerPageViewModel
+                    var result = new LecturerStudyPostPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(ModelFactoryToViewModel.CreateLecturerViewModel).ToList()
+                        List = query.Select(ModelFactoryToViewModel.CreateLecturerStudyPostViewModel).ToList()
                     };
 
-                    return ResultService<LecturerPageViewModel>.Success(result);
+                    return ResultService<LecturerStudyPostPageViewModel>.Success(result);
                 }
-			}
-			catch (Exception ex)
-			{
-				return ResultService<LecturerPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                return ResultService<LecturerStudyPostPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
 
-		public ResultService<LecturerViewModel> GetLecturer(LecturerGetBindingModel model)
-		{
-			try
+        public ResultService<LecturerStudyPostViewModel> GetLecturerStudyPost(LecturerStudyPostGetBindingModel model)
+        {
+            try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Lecturers
-                                .Include(x => x.LecturerDepartmentPost)
-                                .Include(x => x.LecturerStudyPost)
+                    var entity = context.LecturerStudyPosts
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
-                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
+                        return ResultService<LecturerStudyPostViewModel>.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
                     }
                     else if (entity.IsDeleted)
                     {
-                        return ResultService<LecturerViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
+                        return ResultService<LecturerStudyPostViewModel>.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-
-                    return ResultService<LecturerViewModel>.Success(ModelFactoryToViewModel.CreateLecturerViewModel(entity));
+                    return ResultService<LecturerStudyPostViewModel>.Success(ModelFactoryToViewModel.CreateLecturerStudyPostViewModel(entity));
                 }
-			}
-			catch (Exception ex)
-			{
-				return ResultService<LecturerViewModel>.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                return ResultService<LecturerStudyPostViewModel>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
 
-		public ResultService CreateLecturer(LecturerSetBindingModel model)
-		{
-			try
+        public ResultService CreateLecturerStudyPost(LecturerStudyPostSetBindingModel model)
+        {
+            try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = ModelFacotryFromBindingModel.CreateLecturer(model);
+                    var entity = ModelFacotryFromBindingModel.CreateLecturerStudyPost(model);
 
-                    var exsistEntity = context.Lecturers.FirstOrDefault(x => x.LastName == entity.LastName && x.FirstName == entity.FirstName);
+                    var exsistEntity = context.LecturerStudyPosts.FirstOrDefault(x => x.StudyPostTitle == entity.StudyPostTitle);
                     if (exsistEntity == null)
                     {
-                        context.Lecturers.Add(entity);
+                        context.LecturerStudyPosts.Add(entity);
                         context.SaveChanges();
                         return ResultService.Success(entity.Id);
                     }
@@ -139,22 +109,22 @@ namespace BaseImplementations.Implementations
                         }
                     }
                 }
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
 
-		public ResultService UpdateLecturer(LecturerSetBindingModel model)
-		{
-			try
+        public ResultService UpdateLecturerStudyPost(LecturerStudyPostSetBindingModel model)
+        {
+            try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Lecturers.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.LecturerStudyPosts.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -163,28 +133,28 @@ namespace BaseImplementations.Implementations
                     {
                         return ResultService.Error("Error:", "Элемент был удален", ResultServiceStatusCode.WasDelete);
                     }
-                    entity = ModelFacotryFromBindingModel.CreateLecturer(model, entity);
+                    entity = ModelFacotryFromBindingModel.CreateLecturerStudyPost(model, entity);
 
                     context.SaveChanges();
 
                     return ResultService.Success();
                 }
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
 
-		public ResultService DeleteLecturer(LecturerGetBindingModel model)
-		{
-			try
+        public ResultService DeleteLecturerStudyPost(LecturerStudyPostGetBindingModel model)
+        {
+            try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
 
                 using (var context = DepartmentUserManager.GetContext)
                 {
-                    var entity = context.Lecturers.FirstOrDefault(x => x.Id == model.Id);
+                    var entity = context.LecturerStudyPosts.FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
                     {
                         return ResultService.Error("Error:", "Элемент не найден", ResultServiceStatusCode.NotFound);
@@ -197,13 +167,14 @@ namespace BaseImplementations.Implementations
                     entity.DateDelete = DateTime.Now;
 
                     context.SaveChanges();
+
                     return ResultService.Success();
                 }
-			}
-			catch (Exception ex)
-			{
-				return ResultService.Error(ex, ResultServiceStatusCode.Error);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                return ResultService.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
     }
 }

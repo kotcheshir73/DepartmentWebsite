@@ -27,18 +27,19 @@ namespace BaseControlsAndForms.Lecturer
 
         protected override bool LoadComponents()
         {
-            var resultLP = _service.GetLecturerStudyPosts(new LecturerStudyPostGetBindingModel { });
-            if (!resultLP.Succeeded)
+            var resultLSP = _service.GetLecturerStudyPosts(new LecturerStudyPostGetBindingModel { });
+            if (!resultLSP.Succeeded)
             {
-                ErrorMessanger.PrintErrorMessage("При загрузке должностей преподавателей возникла ошибка: ", resultLP.Errors);
+                ErrorMessanger.PrintErrorMessage("При загрузке должностей преподавателей возникла ошибка: ", resultLSP.Errors);
                 return false;
             }
 
-            foreach (var elem in Enum.GetValues(typeof(Post)))
+            var resultLDP = _service.GetLecturerDepartmentPosts(new LecturerDepartmentPostGetBindingModel { });
+            if (!resultLDP.Succeeded)
             {
-                comboBoxPost.Items.Add(elem.ToString());
+                ErrorMessanger.PrintErrorMessage("При загрузке должностей преподавателей возникла ошибка: ", resultLDP.Errors);
+                return false;
             }
-            comboBoxPost.SelectedIndex = 0;
 
             foreach (var elem in Enum.GetValues(typeof(Rank)))
             {
@@ -54,9 +55,15 @@ namespace BaseControlsAndForms.Lecturer
 
             comboBoxLecturerStudyPost.ValueMember = "Value";
             comboBoxLecturerStudyPost.DisplayMember = "Display";
-            comboBoxLecturerStudyPost.DataSource = resultLP.Result.List
+            comboBoxLecturerStudyPost.DataSource = resultLSP.Result.List
                 .Select(lp => new { Value = lp.Id, Display = lp.StudyPostTitle }).ToList();
             comboBoxLecturerStudyPost.SelectedItem = null;
+
+            comboBoxLecturerDepartmentPost.ValueMember = "Value";
+            comboBoxLecturerDepartmentPost.DisplayMember = "Display";
+            comboBoxLecturerDepartmentPost.DataSource = resultLDP.Result.List
+                .Select(lp => new { Value = lp.Id, Display = lp.DepartmentPostTitle }).ToList();
+            comboBoxLecturerDepartmentPost.SelectedItem = null;
 
             return true;
         }
@@ -80,7 +87,10 @@ namespace BaseControlsAndForms.Lecturer
             textBoxEmail.Text = entity.Email;
             textBoxMobileNumber.Text = entity.MobileNumber;
             textBoxHomeNumber.Text = entity.HomeNumber;
-            comboBoxPost.SelectedIndex = comboBoxPost.Items.IndexOf(entity.Post);
+            if(entity.LecturerDepartmentPostId.HasValue)
+            {
+                comboBoxLecturerDepartmentPost.SelectedValue = entity.LecturerDepartmentPostId;
+            }
             comboBoxRank.SelectedIndex = comboBoxRank.Items.IndexOf(entity.Rank);
             comboBoxRank2.SelectedIndex = comboBoxRank2.Items.IndexOf(entity.Rank2);
             comboBoxLecturerStudyPost.SelectedValue = entity.LecturerStudyPostId;
@@ -122,10 +132,6 @@ namespace BaseControlsAndForms.Lecturer
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(comboBoxPost.Text))
-            {
-                return false;
-            }
             if (string.IsNullOrEmpty(comboBoxRank.Text))
             {
                 return false;
@@ -146,6 +152,8 @@ namespace BaseControlsAndForms.Lecturer
                 result = _service.CreateLecturer(new LecturerSetBindingModel
                 {
                     LecturerStudyPostId = new Guid(comboBoxLecturerStudyPost.SelectedValue.ToString()),
+                    LecturerDepartmentPostId = comboBoxLecturerDepartmentPost.SelectedValue != null ?
+                     new Guid(comboBoxLecturerDepartmentPost.SelectedValue.ToString()) : (Guid?)null,
                     LastName = textBoxLastName.Text,
                     FirstName = textBoxFirstName.Text,
                     Patronymic = textBoxPatronymic.Text,
@@ -155,7 +163,6 @@ namespace BaseControlsAndForms.Lecturer
                     Email = textBoxEmail.Text,
                     MobileNumber = textBoxMobileNumber.Text,
                     HomeNumber = textBoxHomeNumber.Text,
-                    Post = comboBoxPost.Text,
                     Rank = comboBoxRank.Text,
                     Rank2 = comboBoxRank2.Text,
                     Description = textBoxDescription.Text,
@@ -169,6 +176,8 @@ namespace BaseControlsAndForms.Lecturer
                 {
                     Id = _id.Value,
                     LecturerStudyPostId = new Guid(comboBoxLecturerStudyPost.SelectedValue.ToString()),
+                    LecturerDepartmentPostId = comboBoxLecturerDepartmentPost.SelectedValue != null ?
+                     new Guid(comboBoxLecturerDepartmentPost.SelectedValue.ToString()) : (Guid?)null,
                     LastName = textBoxLastName.Text,
                     FirstName = textBoxFirstName.Text,
                     Patronymic = textBoxPatronymic.Text,
@@ -178,7 +187,6 @@ namespace BaseControlsAndForms.Lecturer
                     Email = textBoxEmail.Text,
                     MobileNumber = textBoxMobileNumber.Text,
                     HomeNumber = textBoxHomeNumber.Text,
-                    Post = comboBoxPost.Text,
                     Rank = comboBoxRank.Text,
                     Rank2 = comboBoxRank2.Text,
                     Description = textBoxDescription.Text,

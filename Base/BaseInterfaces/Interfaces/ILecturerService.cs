@@ -5,13 +5,20 @@ using Tools;
 namespace BaseInterfaces.Interfaces
 {
     public interface ILecturerService
-    {
-        /// <summary>
-        /// Получение списка должностей
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model);
+	{
+		/// <summary>
+		/// Получение списка должностей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<LecturerDepartmentPostPageViewModel> GetLecturerDepartmentPosts(LecturerDepartmentPostGetBindingModel model);
+
+		/// <summary>
+		/// Получение списка должностей
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ResultService<LecturerStudyPostPageViewModel> GetLecturerStudyPosts(LecturerStudyPostGetBindingModel model);
 
         /// <summary>
         /// Получение списка преподавателей

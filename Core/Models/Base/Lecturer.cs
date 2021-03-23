@@ -15,24 +15,28 @@ namespace Models.Base
     /// Класс, описывающий преподавателя
     /// </summary>
     [DataContract]
-    [ClassUse("LecturerPost", "LecturerPostId", "У преподавателя есть должность")]
+    [ClassUse("LecturerStudyPost", "LecturerStudyPostId", "У преподавателя есть учебная должность")]
+    [ClassUse("LecturerDepartmentPost", "LecturerDepartmentPostId", "У преподавателя есть кафедральная должность")]
     public class Lecturer : BaseEntity
     {
         [Required]
         [DataMember]
         public Guid LecturerStudyPostId { get; set; }
 
-        [MaxLength(20)]
+        [DataMember]
+        public Guid? LecturerDepartmentPostId { get; set; }
+
+        [MaxLength(50)]
         [Required]
         [DataMember]
         public string FirstName { get; set; }
         
-        [MaxLength(30)]
+        [MaxLength(50)]
         [Required]
         [DataMember]
         public string LastName { get; set; }
         
-        [MaxLength(30)]
+        [MaxLength(50)]
         [Required]
         [DataMember]
         public string Patronymic { get; set; }
@@ -63,10 +67,6 @@ namespace Models.Base
         [MaxLength(50)]
         [DataMember]
         public string HomeNumber { get; set; }
-        
-        [Required]
-        [DataMember]
-        public Post Post { get; set; }
 
         [Required]
         [DataMember]
@@ -87,7 +87,9 @@ namespace Models.Base
 
         //-------------------------------------------------------------------------
 
-        public virtual LecturerStudyPost LecturerPost { get; set; }
+        public virtual LecturerStudyPost LecturerStudyPost { get; set; }
+
+        public virtual LecturerDepartmentPost LecturerDepartmentPost { get; set; }
 
         //-------------------------------------------------------------------------
 

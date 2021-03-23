@@ -106,6 +106,18 @@
     <Compile Include="EducationDirection\FormEducationDirection.designer.cs">
       <DependentUpon>FormEducationDirection.cs</DependentUpon>
     </Compile>
+    <Compile Include="LecturerDepartmentPost\ControlLecturerDepartmentPost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LecturerDepartmentPost\ControlLecturerDepartmentPost.Designer.cs">
+      <DependentUpon>ControlLecturerDepartmentPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LecturerDepartmentPost\FormLecturerDepartmentPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LecturerDepartmentPost\FormLecturerDepartmentPost.Designer.cs">
+      <DependentUpon>FormLecturerDepartmentPost.cs</DependentUpon>
+    </Compile>
     <Compile Include="LecturerStudyPost\ControlLecturerStudyPost.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -281,6 +293,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EducationDirection\FormEducationDirection.resx">
       <DependentUpon>FormEducationDirection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LecturerDepartmentPost\ControlLecturerDepartmentPost.resx">
+      <DependentUpon>ControlLecturerDepartmentPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LecturerDepartmentPost\FormLecturerDepartmentPost.resx">
+      <DependentUpon>FormLecturerDepartmentPost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LecturerStudyPost\ControlLecturerStudyPost.resx">
       <DependentUpon>ControlLecturerStudyPost.cs</DependentUpon>

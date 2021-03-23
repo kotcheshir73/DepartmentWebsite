@@ -61,7 +61,7 @@ namespace DepartmentUniversalTablet
             container.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILecturerStudyPostSerivce, LecturerPostSerivce>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILecturerStudyPostSerivce, LecturerStudyPostSerivce>(new HierarchicalLifetimeManager());
             container.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentService, StudentService>(new HierarchicalLifetimeManager());

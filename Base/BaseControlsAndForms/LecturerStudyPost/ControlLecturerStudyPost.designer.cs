@@ -1,6 +1,6 @@
 ﻿namespace BaseControlsAndForms.LecturerStudyPost
 {
-    partial class ControlLecturerPost
+    partial class ControlLecturerStudyPost
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
