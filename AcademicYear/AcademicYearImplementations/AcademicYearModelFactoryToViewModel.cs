@@ -49,6 +49,7 @@ namespace AcademicYearImplementations
                 DisciplineId = entity.DisciplineId,
                 ContingentId = entity.ContingentId,
                 Disciplne = entity.Discipline.DisciplineName,
+                InDepartment = entity.InDepartment,
                 Semester = entity.Semester.HasValue ? entity.Semester.ToString() : string.Empty,
                 ContingentGroup = entity.ContingentId.HasValue ? entity.Contingent.ContingentName : string.Empty,
                 Zet = entity.Zet,
@@ -71,7 +72,8 @@ namespace AcademicYearImplementations
                 KindOfLoadName = entity.TimeNorm.KindOfLoadName,
                 PlanHours = entity.PlanHours,
                 FactHours = entity.FactHours,
-                Semester = entity.AcademicPlanRecord.Semester.HasValue ? (int)entity.AcademicPlanRecord.Semester.Value : 0
+                Semester = entity.AcademicPlanRecord.Semester.HasValue ? (int)entity.AcademicPlanRecord.Semester.Value : 0,
+                InDepartment = entity.AcademicPlanRecord.InDepartment
             };
         }
 

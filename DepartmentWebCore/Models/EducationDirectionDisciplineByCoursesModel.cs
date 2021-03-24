@@ -11,5 +11,7 @@ namespace DepartmentWebCore.Models
 		public string TimeNormName { get; set; }
 
 		public int Semester { get; set; }
+
+		public bool InDepartment { get; set; }
 	}
 }

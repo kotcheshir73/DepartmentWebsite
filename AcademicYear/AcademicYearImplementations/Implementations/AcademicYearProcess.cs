@@ -1041,87 +1041,81 @@ namespace AcademicYearImplementations.Implementations
                         //смотрим код кафедры, нужно отобрать только наши
                         XmlNode attribute = node.Attributes.GetNamedItem("КодКафедры");
 
-                        // если код кафедры или дисциплина по выбору (блок, включающий дисциплины по выбору)
-                        if (attribute == null || attribute.Value == kafedraNumber.Value)
+                        bool inKafedra = attribute == null || attribute.Value == kafedraNumber.Value;
+                        //базовая, выборная или альтернативная
+                        attribute = node.Attributes.GetNamedItem("ВидОбъекта");
+                        BlueAsteriskDisicplineType objectType = model.DisicplineTypes.FirstOrDefault(x => x.Code == attribute.Value);
+
+                        // ищем дисциплину
+                        var discipline = GetDiscipline(node, model);
+                        model.Disciplines.Add(discipline);
+
+                        // вытаскиваем часы по дисциплине
+                        var hours = model.NewHours.Where(x => x.ObjectCode == discipline.DisciplineBlueAsteriskCode).ToList();
+                        foreach (var hour in hours)
                         {
-                            //базовая, выборная или альтернативная
-                            attribute = node.Attributes.GetNamedItem("ВидОбъекта");
-                            BlueAsteriskDisicplineType objectType = model.DisicplineTypes.FirstOrDefault(x => x.Code == attribute.Value);
-
-                            // ищем дисциплину
-                            var discipline = GetDiscipline(node, model);
-
-                            model.Disciplines.Add(discipline);
-
-                            // вытаскиваем часы по дисциплине
-                            var hours = model.NewHours.Where(x => x.ObjectCode == discipline.DisciplineBlueAsteriskCode).ToList();
-                            foreach (var hour in hours)
+                            var apr = GetAPR(node, hour, discipline, model, objectType, inKafedra);
+                            if (apr != null)
                             {
-                                var apr = GetAPR(node, hour, discipline, model, objectType);
-
-                                if (apr != null)
+                                List<TimeNormSetBindingModel> timeNorms = new List<TimeNormSetBindingModel>();
+                                // если перед нами практика, то выбираем только один нужный тип нагрузки
+                                if (!string.IsNullOrEmpty(discipline.DisciplineBlueAsteriskPracticCode))
                                 {
-
-                                    List<TimeNormSetBindingModel> timeNorms = new List<TimeNormSetBindingModel>();
-                                    // если перед нами практика, то выбираем только один нужный тип нагрузки
-                                    if (!string.IsNullOrEmpty(discipline.DisciplineBlueAsteriskPracticCode))
+                                    var tn = model.TimeNorms.FirstOrDefault(x => x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode);
+                                    if (tn == null)
                                     {
-                                        var tn = model.TimeNorms.FirstOrDefault(x => x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode);
-                                        if (tn == null)
+                                        throw new Exception(string.Format("Не найдена нагрузка на практику с кодом {0}", discipline.DisciplineBlueAsteriskPracticCode));
+                                    }
+                                    timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == hour.TypeNormCode &&
+                                                                                x.DisciplineBlockId == discipline.DisciplineBlockId &&
+                                                                                (string.IsNullOrEmpty(x.TimeNormEducationDirectionQualification) ||
+                                                                                    x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString()) &&
+                                                                                x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode));
+                                }
+                                else
+                                {
+                                    timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == hour.TypeNormCode &&
+                                                                                x.DisciplineBlockId == discipline.DisciplineBlockId &&
+                                                                                        (string.IsNullOrEmpty(x.TimeNormEducationDirectionQualification) ||
+                                                                                        x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString())));
+                                }
+                                foreach (var timeNorm in timeNorms)
+                                {
+                                    decimal planHours = 1;
+                                    if (!string.IsNullOrEmpty(timeNorm.KindOfLoadBlueAsteriskAttributeName))
+                                    {
+                                        if (!hour.TimeNorms.ContainsKey(timeNorm.KindOfLoadBlueAsteriskAttributeName))
                                         {
-                                            throw new Exception(string.Format("Не найдена нагрузка на практику с кодом {0}", discipline.DisciplineBlueAsteriskPracticCode));
+                                            throw new Exception(string.Format("Не найдена атрибут {1} по дисциплине с кодом {0}", discipline.DisciplineBlueAsteriskCode,
+                                                timeNorm.KindOfLoadBlueAsteriskAttributeName));
                                         }
-                                        timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == hour.TypeNormCode &&
-                                                                                    x.DisciplineBlockId == discipline.DisciplineBlockId &&
-                                                                                    (string.IsNullOrEmpty(x.TimeNormEducationDirectionQualification) ||
-                                                                                        x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString()) &&
-                                                                                    x.KindOfLoadBlueAsteriskPracticCode == discipline.DisciplineBlueAsteriskPracticCode));
+                                        planHours = Math.Abs(hour.TimeNorms[timeNorm.KindOfLoadBlueAsteriskAttributeName]);
+                                    }
+
+                                    var recordelement = context.AcademicPlanRecordElements.FirstOrDefault(apre =>
+                                        apre.AcademicPlanRecordId == apr.Id &&
+                                        apre.TimeNormId == timeNorm.Id);
+
+                                    if (recordelement == null)
+                                    {
+                                        context.AcademicPlanRecordElements.Add(AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
+                                        {
+                                            AcademicPlanRecordId = apr.Id,
+                                            TimeNormId = timeNorm.Id,
+                                            PlanHours = planHours,
+                                            FactHours = 0
+                                        }));
                                     }
                                     else
                                     {
-                                        timeNorms.AddRange(model.TimeNorms.Where(x => x.KindOfLoadBlueAsteriskCode == hour.TypeNormCode &&
-                                                                                    x.DisciplineBlockId == discipline.DisciplineBlockId &&
-                                                                                            (string.IsNullOrEmpty(x.TimeNormEducationDirectionQualification) ||
-                                                                                            x.TimeNormEducationDirectionQualification == academicPlan.EducationDirection.Qualification.ToString())));
+                                        if (recordelement.IsDeleted)
+                                        {
+                                            recordelement.IsDeleted = false;
+                                            recordelement.DateDelete = null;
+                                        }
+                                        recordelement.PlanHours = planHours;
                                     }
-                                    foreach (var timeNorm in timeNorms)
-                                    {
-                                        decimal planHours = 1;
-                                        if (!string.IsNullOrEmpty(timeNorm.KindOfLoadBlueAsteriskAttributeName))
-                                        {
-                                            if (!hour.TimeNorms.ContainsKey(timeNorm.KindOfLoadBlueAsteriskAttributeName))
-                                            {
-                                                throw new Exception(string.Format("Не найдена атрибут {1} по дисциплине с кодом {0}", discipline.DisciplineBlueAsteriskCode,
-                                                    timeNorm.KindOfLoadBlueAsteriskAttributeName));
-                                            }
-                                            planHours = Math.Abs(hour.TimeNorms[timeNorm.KindOfLoadBlueAsteriskAttributeName]);
-                                        }
-
-                                        var recordelement = context.AcademicPlanRecordElements.FirstOrDefault(apre =>
-                                            apre.AcademicPlanRecordId == apr.Id &&
-                                            apre.TimeNormId == timeNorm.Id);
-
-                                        if (recordelement == null)
-                                        {
-                                            context.AcademicPlanRecordElements.Add(AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
-                                            {
-                                                AcademicPlanRecordId = apr.Id,
-                                                TimeNormId = timeNorm.Id,
-                                                PlanHours = planHours,
-                                                FactHours = 0
-                                            }));
-                                        }
-                                        else
-                                        {
-                                            if (recordelement.IsDeleted)
-                                            {
-                                                recordelement.IsDeleted = false;
-                                                recordelement.DateDelete = null;
-                                            }
-                                            recordelement.PlanHours = planHours;
-                                        }
-                                        context.SaveChanges();
-                                    }
+                                    context.SaveChanges();
                                 }
                             }
                         }
@@ -1186,7 +1180,8 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model, BlueAsteriskDisicplineType ObjectType)
+        private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model, 
+            BlueAsteriskDisicplineType ObjectType, bool inKafedra)
         {
             var attribute = node.Attributes.GetNamedItem("ЗЕТфакт");
             var zet = (attribute != null) ? Convert.ToInt32(attribute.Value) : 0;
@@ -1221,6 +1216,7 @@ namespace AcademicYearImplementations.Implementations
                                 AcademicPlanId = model.AcademicPlanId,
                                 DisciplineId = parentDiscipilne.Id,
                                 ContingentId = contingent.Id,
+                                InDepartment = inKafedra,
                                 Semester = semester.ToString(),
                                 Selectable = ObjectType.TypeName != "Базовая",
                                 Zet = zet,
@@ -1265,6 +1261,7 @@ namespace AcademicYearImplementations.Implementations
                             AcademicPlanId = model.AcademicPlanId,
                             DisciplineId = discipline.Id,
                             ContingentId = contingent.Id,
+                            InDepartment = inKafedra,
                             Semester = semester.ToString(),
                             Selectable = ObjectType.TypeName != "Базовая",
                             IsSelected = ObjectType.TypeName == "Базовая",
@@ -1287,11 +1284,18 @@ namespace AcademicYearImplementations.Implementations
                         record.DateDelete = null;
                         record.Zet = zet;
                         record.Selectable = ObjectType.TypeName != "Базовая";
-                        record.IsSelected = ObjectType.TypeName == "Базовая";
+                        record.IsSelected = ObjectType.TypeName == "Базовая" && inKafedra;
                         //record.AcademicPlanRecordParentId = recordParent?.Id;
 
                         context.SaveChanges();
                     }
+                    else if (record.InDepartment != inKafedra)
+                    {
+                        record.InDepartment =inKafedra;
+                        record.IsSelected = ObjectType.TypeName == "Базовая" && inKafedra;
+                        context.SaveChanges();
+                    }
+
                     return record;
                 }
             }

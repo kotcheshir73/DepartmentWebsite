@@ -38,6 +38,7 @@ namespace AcademicYearControlsAndForms
             currentContainer.RegisterType<IDisciplineBlockService, DisciplineBlockService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineService, DisciplineService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IEducationDirectionService, EducationDirectionService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ILecturerDepartmentPostSerivce, LecturerDepartmentPostSerivce>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerStudyPostSerivce, LecturerStudyPostSerivce>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILecturerService, LecturerService>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudentGroupService, StudentGroupService>(new HierarchicalLifetimeManager());

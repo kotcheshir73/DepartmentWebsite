@@ -248,6 +248,12 @@ textarea {
     margin-bottom: 0;
 }
 
+.education-discipline-nokafedra {
+    padding: 15px 15px 15px 35px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
 .education-title:hover {
     display: inline-block;
     text-decoration: underline;
@@ -290,6 +296,12 @@ textarea {
     padding: 15px 15px 15px 35px;
     font-size: 18px;
     font-weight: normal;
+}
+.course-table-tab td span {
+    padding: 15px 15px 15px 35px;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 0;
 }
 
 

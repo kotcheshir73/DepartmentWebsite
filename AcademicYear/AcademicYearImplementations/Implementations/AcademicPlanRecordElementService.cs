@@ -60,7 +60,12 @@ namespace AcademicYearImplementations.Implementations
                     }
                     if (model.AcademicPlanRecordIsSelected.HasValue)
                     {
-                        query = query.Where(x => x.AcademicPlanRecord.IsSelected == model.AcademicPlanRecordIsSelected.Value);
+                        query = query.Where(x =>
+                            (x.AcademicPlanRecord.IsSelected == model.AcademicPlanRecordIsSelected.Value && x.AcademicPlanRecord.InDepartment &&
+                            !x.AcademicPlanRecord.IsParent && !x.AcademicPlanRecord.Selectable) || // выборка кафедральных обязательных дисциплин
+                            (!x.AcademicPlanRecord.InDepartment && !x.AcademicPlanRecord.Selectable) ||  // выбор не кафедральных обязательных дисциплин
+                            (x.AcademicPlanRecord.IsSelected == model.AcademicPlanRecordIsSelected.Value && x.AcademicPlanRecord.Selectable) // выборка дисциплин по выбору
+                        );
                     }
                     if (model.TimeNormId.HasValue)
                     {

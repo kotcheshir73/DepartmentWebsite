@@ -23,5 +23,7 @@ namespace AcademicYearInterfaces.ViewModels
         public decimal FactHours { get; set; }
 
         public int Semester { get; set; }
+
+        public bool InDepartment { get; set; }
     }
 }

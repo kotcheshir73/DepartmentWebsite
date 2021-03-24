@@ -31,7 +31,7 @@ namespace AcademicYearImplementations.Implementations
                         query = query.Where(x => x.Id == model.Id);
                     }
 
-                    query = query.OrderBy(x => x.Id);
+                    query = query.OrderBy(x => x.Title);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {

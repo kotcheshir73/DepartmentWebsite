@@ -15,7 +15,9 @@ namespace AcademicYearInterfaces.ViewModels
 
         public string Disciplne { get; set; }
 
-		public string Semester { get; set; }
+        public bool InDepartment { get; set; }
+
+        public string Semester { get; set; }
 
         public string ContingentGroup { get; set; }
 

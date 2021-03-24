@@ -29,6 +29,7 @@ namespace AcademicYearImplementations
             entity.AcademicPlanId = model.AcademicPlanId;
 			entity.DisciplineId = model.DisciplineId;
             entity.ContingentId = model.ContingentId;
+            entity.InDepartment = model.InDepartment;
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
             entity.Selectable = model.Selectable;

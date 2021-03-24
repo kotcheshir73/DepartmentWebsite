@@ -115,6 +115,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
             textBoxZet.Text = entity.Zet.ToString();
             checkBoxSelectable.Checked = entity.Selectable;
             checkBoxIsSelected.Checked = entity.IsSelected;
+            checkBoxInDepartment.Checked = entity.InDepartment;
         }
 
         protected override bool CheckFill()
@@ -148,6 +149,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
                     DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                     ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
+                    InDepartment = checkBoxInDepartment.Checked,
                     Semester = comboBoxSemester.Text,
                     Zet = Convert.ToInt32(textBoxZet.Text),
                     Selectable = checkBoxSelectable.Checked,
@@ -162,6 +164,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     AcademicPlanId = new Guid(comboBoxAcademicPlan.SelectedValue.ToString()),
                     DisciplineId = new Guid(comboBoxDiscipline.SelectedValue.ToString()),
                     ContingentId = comboBoxContingent.SelectedValue != null ? new Guid(comboBoxContingent.SelectedValue.ToString()) : (Guid?)null,
+                    InDepartment = checkBoxInDepartment.Checked,
                     Semester = comboBoxSemester.Text,
                     Zet = Convert.ToInt32(textBoxZet.Text),
                     Selectable = checkBoxSelectable.Checked,

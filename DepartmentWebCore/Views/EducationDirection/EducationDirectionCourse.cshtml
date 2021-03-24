@@ -16,19 +16,33 @@
         </tr>
 
         <tr class="course-table-tab">
-            <td width="50%">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("зачет")))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("зачет")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
 
-            <td width="50%">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("зачет")))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("зачет")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
         </tr>
 
         <tr>
@@ -37,19 +51,33 @@
         </tr>
 
         <tr class="course-table-tab">
-            <td width="50%">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("курсов")))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("курсов")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
 
-            <td width="50%">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("курсов")))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("курсов")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
         </tr>
 
         <tr>
@@ -58,19 +86,33 @@
         </tr>
 
         <tr class="course-table-tab">
-            <td width="50%" style="padding:15px;">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%" style="padding:15px;">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
 
-            <td width="50%" style="padding:15px;">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%" style="padding:15px;">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
         </tr>
 
         <tr>
@@ -79,19 +121,33 @@
         </tr>
 
         <tr class="course-table-tab">
-            <td width="50%" style="padding:15px;">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("практик")))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%" style="padding:15px;">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("практик")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
 
-            <td width="50%" style="padding:15px;">
-                @foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("практик")))
-                {
-                    @Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
-                }
-            </td>
+			<td width="50%" style="padding:15px;">
+				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("практик")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
         </tr>
     </table>
 }

@@ -28,7 +28,10 @@ namespace Models.AcademicYearData
         
         [DataMember]
         public Guid? ContingentId { get; set; }
-        
+
+        [DataMember]
+        public bool InDepartment { get; set; }
+
         [DataMember]
         public Semesters? Semester { get; set; }
 

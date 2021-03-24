@@ -68,6 +68,10 @@ namespace AcademicYearImplementations.Implementations
                     {
                         query = query.Where(x => x.Id == model.Id);
                     }
+                    if(model.Semester.HasValue)
+                    {
+                        query = query.Where(x => x.Semester == model.Semester);
+                    }
 
                     query = query.OrderBy(x => x.Semester).ThenBy(x => x.Discipline.DisciplineName);
 

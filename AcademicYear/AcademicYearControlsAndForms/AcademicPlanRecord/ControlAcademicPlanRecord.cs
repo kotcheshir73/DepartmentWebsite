@@ -2,6 +2,7 @@
 using AcademicYearInterfaces.Interfaces;
 using ControlsAndForms.Messangers;
 using ControlsAndForms.Models;
+using Enums;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -31,7 +32,8 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
 			{
 				new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
 				new ColumnConfig { Name = "Disciplne", Title = "Дисциплина", Width = 200, Visible = true },
-				new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
+                new ColumnConfig { Name = "InDepartment", Title = "Кафедральная", Width = 150, Visible = true },
+                new ColumnConfig { Name = "Semester", Title = "Семестр", Width = 150, Visible = true },
                 new ColumnConfig { Name = "Contingent", Title = "Контингент", Width = 150, Visible = true },
                 new ColumnConfig { Name = "Zet", Title = "Зет", Width = 100, Visible = true },
                 new ColumnConfig { Name = "IsParent", Title = "Родительская", Width = 100, Visible = true },
@@ -80,7 +82,19 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
 
 		private int LoadRecords(int pageNumber, int pageSize)
         {
-			var result = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { PageNumber = pageNumber, PageSize = pageSize, AcademicPlanId = _apId });
+            Semesters sem = Semesters.Первый;
+            switch(pageNumber + 1)
+			{
+                case 2: sem = Semesters.Второй; break;
+                case 3: sem = Semesters.Третий; break;
+                case 4: sem = Semesters.Четвертый; break;
+                case 5: sem = Semesters.Пятый; break;
+                case 6: sem = Semesters.Шестой; break;
+                case 7: sem = Semesters.Седьмой; break;
+                case 8: sem = Semesters.Восьмой; break;
+                default: sem = Semesters.Первый; break;
+            }
+			var result = _service.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { Semester = sem, AcademicPlanId = _apId });
 			if (!result.Succeeded)
 			{
                 ErrorMessanger.PrintErrorMessage("При загрузке возникла ошибка: ", result.Errors);
@@ -92,7 +106,8 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                 standartControl.GetDataGridViewRows.Add(
 					res.Id,
 					res.Disciplne,
-					res.Semester,
+                    res.InDepartment ? "да" : "нет",
+                    res.Semester,
                     res.ContingentGroup,
                     res.Zet,
                     res.IsParent ? "да" : "нет",
