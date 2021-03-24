@@ -193,7 +193,8 @@ namespace DepartmentWebCore.Services
 						DisciplineName = x.Discipline,
 						Semester = x.Semester,
 						TimeNormName = x.KindOfLoadName,
-						InDepartment = x.InDepartment
+						InDepartment = x.InDepartment,
+						IsFacultative = x.IsFacultative
 					}).Distinct()
 					.OrderBy(x => x.Semester).ThenBy(x => x.DisciplineName)
 					.ToList();

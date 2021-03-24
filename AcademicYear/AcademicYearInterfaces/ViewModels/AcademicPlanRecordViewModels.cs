@@ -36,6 +36,11 @@ namespace AcademicYearInterfaces.ViewModels
         public bool IsChild { get; set; }
 
         /// <summary>
+        /// Является факультативной дисциплиной
+        /// </summary>
+        public bool IsFacultative { get; set; }
+
+        /// <summary>
         /// Участвует в расчетах нагрузки
         /// </summary>
         public bool IsUseInWorkload { get; set; }

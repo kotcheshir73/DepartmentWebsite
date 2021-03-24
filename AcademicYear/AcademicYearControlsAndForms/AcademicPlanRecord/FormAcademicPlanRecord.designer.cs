@@ -33,6 +33,7 @@
 			this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageConfig = new System.Windows.Forms.TabPage();
+			this.checkBoxIsParent = new System.Windows.Forms.CheckBox();
 			this.checkBoxIsActiveSemester = new System.Windows.Forms.CheckBox();
 			this.checkBoxInDepartment = new System.Windows.Forms.CheckBox();
 			this.checkBoxIsChild = new System.Windows.Forms.CheckBox();
@@ -40,7 +41,7 @@
 			this.labelContingent = new System.Windows.Forms.Label();
 			this.comboBoxContingent = new System.Windows.Forms.ComboBox();
 			this.tabPageRecords = new System.Windows.Forms.TabPage();
-			this.checkBoxIsParent = new System.Windows.Forms.CheckBox();
+			this.checkBoxIsFacultative = new System.Windows.Forms.CheckBox();
 			this.panelMain.SuspendLayout();
 			this.panelTop.SuspendLayout();
 			this.tabControl.SuspendLayout();
@@ -141,6 +142,7 @@
 			// 
 			// tabPageConfig
 			// 
+			this.tabPageConfig.Controls.Add(this.checkBoxIsFacultative);
 			this.tabPageConfig.Controls.Add(this.checkBoxIsParent);
 			this.tabPageConfig.Controls.Add(this.checkBoxIsActiveSemester);
 			this.tabPageConfig.Controls.Add(this.checkBoxInDepartment);
@@ -164,14 +166,26 @@
 			this.tabPageConfig.Text = "Запись учебного плана";
 			this.tabPageConfig.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxIsParent
+			// 
+			this.checkBoxIsParent.AutoSize = true;
+			this.checkBoxIsParent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkBoxIsParent.Enabled = false;
+			this.checkBoxIsParent.Location = new System.Drawing.Point(109, 188);
+			this.checkBoxIsParent.Name = "checkBoxIsParent";
+			this.checkBoxIsParent.Size = new System.Drawing.Size(226, 17);
+			this.checkBoxIsParent.TabIndex = 11;
+			this.checkBoxIsParent.Text = "Родительская дисциплина для выбора:";
+			this.checkBoxIsParent.UseVisualStyleBackColor = true;
+			// 
 			// checkBoxIsActiveSemester
 			// 
 			this.checkBoxIsActiveSemester.AutoSize = true;
 			this.checkBoxIsActiveSemester.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxIsActiveSemester.Location = new System.Drawing.Point(109, 259);
+			this.checkBoxIsActiveSemester.Location = new System.Drawing.Point(403, 226);
 			this.checkBoxIsActiveSemester.Name = "checkBoxIsActiveSemester";
 			this.checkBoxIsActiveSemester.Size = new System.Drawing.Size(77, 17);
-			this.checkBoxIsActiveSemester.TabIndex = 14;
+			this.checkBoxIsActiveSemester.TabIndex = 15;
 			this.checkBoxIsActiveSemester.Text = "Активная:";
 			this.checkBoxIsActiveSemester.UseVisualStyleBackColor = true;
 			// 
@@ -179,10 +193,10 @@
 			// 
 			this.checkBoxInDepartment.AutoSize = true;
 			this.checkBoxInDepartment.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxInDepartment.Location = new System.Drawing.Point(109, 223);
+			this.checkBoxInDepartment.Location = new System.Drawing.Point(403, 190);
 			this.checkBoxInDepartment.Name = "checkBoxInDepartment";
 			this.checkBoxInDepartment.Size = new System.Drawing.Size(104, 17);
-			this.checkBoxInDepartment.TabIndex = 13;
+			this.checkBoxInDepartment.TabIndex = 14;
 			this.checkBoxInDepartment.Text = "Кафедральная:";
 			this.checkBoxInDepartment.UseVisualStyleBackColor = true;
 			// 
@@ -202,10 +216,10 @@
 			// 
 			this.checkBoxIsUseInWorkload.AutoSize = true;
 			this.checkBoxIsUseInWorkload.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxIsUseInWorkload.Location = new System.Drawing.Point(109, 188);
+			this.checkBoxIsUseInWorkload.Location = new System.Drawing.Point(403, 155);
 			this.checkBoxIsUseInWorkload.Name = "checkBoxIsUseInWorkload";
 			this.checkBoxIsUseInWorkload.Size = new System.Drawing.Size(133, 17);
-			this.checkBoxIsUseInWorkload.TabIndex = 12;
+			this.checkBoxIsUseInWorkload.TabIndex = 13;
 			this.checkBoxIsUseInWorkload.Text = "Участвует в расчете:";
 			this.checkBoxIsUseInWorkload.UseVisualStyleBackColor = true;
 			// 
@@ -237,17 +251,17 @@
 			this.tabPageRecords.Text = "Распределение часов";
 			this.tabPageRecords.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxIsParent
+			// checkBoxIsFacultative
 			// 
-			this.checkBoxIsParent.AutoSize = true;
-			this.checkBoxIsParent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxIsParent.Enabled = false;
-			this.checkBoxIsParent.Location = new System.Drawing.Point(284, 155);
-			this.checkBoxIsParent.Name = "checkBoxIsParent";
-			this.checkBoxIsParent.Size = new System.Drawing.Size(226, 17);
-			this.checkBoxIsParent.TabIndex = 11;
-			this.checkBoxIsParent.Text = "Родительская дисциплина для выбора:";
-			this.checkBoxIsParent.UseVisualStyleBackColor = true;
+			this.checkBoxIsFacultative.AutoSize = true;
+			this.checkBoxIsFacultative.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkBoxIsFacultative.Enabled = false;
+			this.checkBoxIsFacultative.Location = new System.Drawing.Point(109, 223);
+			this.checkBoxIsFacultative.Name = "checkBoxIsFacultative";
+			this.checkBoxIsFacultative.Size = new System.Drawing.Size(115, 17);
+			this.checkBoxIsFacultative.TabIndex = 12;
+			this.checkBoxIsFacultative.Text = "Факультативная:";
+			this.checkBoxIsFacultative.UseVisualStyleBackColor = true;
 			// 
 			// FormAcademicPlanRecord
 			// 
@@ -285,5 +299,6 @@
 		private System.Windows.Forms.CheckBox checkBoxInDepartment;
 		private System.Windows.Forms.CheckBox checkBoxIsActiveSemester;
 		private System.Windows.Forms.CheckBox checkBoxIsParent;
+		private System.Windows.Forms.CheckBox checkBoxIsFacultative;
 	}
 }

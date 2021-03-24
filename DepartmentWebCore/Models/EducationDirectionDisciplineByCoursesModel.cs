@@ -13,5 +13,7 @@ namespace DepartmentWebCore.Models
 		public int Semester { get; set; }
 
 		public bool InDepartment { get; set; }
+
+		public bool IsFacultative { get; set; }
 	}
 }

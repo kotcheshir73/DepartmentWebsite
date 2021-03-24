@@ -55,6 +55,12 @@ namespace Models.AcademicYearData
         public bool IsChild { get; set; }
 
         /// <summary>
+        /// Является факультативной дисциплиной
+        /// </summary>
+        [DataMember]
+        public bool IsFacultative { get; set; }
+
+        /// <summary>
         /// Участвует в расчетах нагрузки
         /// </summary>
         [DataMember]

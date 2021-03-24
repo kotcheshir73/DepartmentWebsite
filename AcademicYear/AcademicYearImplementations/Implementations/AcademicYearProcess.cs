@@ -1034,10 +1034,15 @@ namespace AcademicYearImplementations.Implementations
 
                     if (node.Name == "ПланыСтроки")
                     {
-                        //смотрим код кафедры, нужно отобрать только наши
+                        //смотрим код кафедры
                         XmlNode attribute = node.Attributes.GetNamedItem("КодКафедры");
 
                         bool inKafedra = attribute == null || attribute.Value == kafedraNumber.Value;
+
+                        //смотрим код дисциплины
+                        attribute = node.Attributes.GetNamedItem("ДисциплинаКод");
+                        bool inFacultative = attribute != null ? attribute.Value.StartsWith("ФТД") : false;
+
                         //базовая, выборная или альтернативная
                         attribute = node.Attributes.GetNamedItem("ВидОбъекта");
                         BlueAsteriskDisicplineType objectType = model.DisicplineTypes.FirstOrDefault(x => x.Code == attribute.Value);
@@ -1050,7 +1055,7 @@ namespace AcademicYearImplementations.Implementations
                         var hours = model.NewHours.Where(x => x.ObjectCode == discipline.DisciplineBlueAsteriskCode).ToList();
                         foreach (var hour in hours)
                         {
-                            var apr = GetAPR(node, hour, discipline, model, objectType, inKafedra);
+                            var apr = GetAPR(node, hour, discipline, model, objectType, inKafedra, inFacultative);
                             if (apr != null)
                             {
                                 List<TimeNormSetBindingModel> timeNorms = new List<TimeNormSetBindingModel>();
@@ -1177,7 +1182,7 @@ namespace AcademicYearImplementations.Implementations
         }
 
         private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model, 
-            BlueAsteriskDisicplineType ObjectType, bool inKafedra)
+            BlueAsteriskDisicplineType ObjectType, bool inKafedra, bool inFacultative)
         {
             var attribute = node.Attributes.GetNamedItem("ЗЕТфакт");
             var zet = (attribute != null) ? Convert.ToInt32(attribute.Value) : 0;
@@ -1213,9 +1218,10 @@ namespace AcademicYearImplementations.Implementations
                             ContingentId = contingent?.Id,
                             InDepartment = inKafedra,
                             Semester = semester.ToString(),
-                            IsChild = false,
                             Zet = zet,
                             IsParent = true,
+                            IsChild = false,
+                            IsFacultative = inFacultative,
                             IsActiveSemester = active,
                             IsUseInWorkload = false
                         }));
@@ -1235,6 +1241,7 @@ namespace AcademicYearImplementations.Implementations
 
                         recordParent.ContingentId = contingent?.Id;
                         recordParent.IsChild = false;
+                        recordParent.IsFacultative = inFacultative;
                         recordParent.IsActiveSemester = active;
                         context.SaveChanges();
                     }
@@ -1266,7 +1273,9 @@ namespace AcademicYearImplementations.Implementations
                         Zet = zet,
                         Semester = semester.ToString(),
                         AcademicPlanRecordParentId = recordParent?.Id,
+                        IsParent = false,
                         IsChild = ObjectType.TypeName != "Базовая",
+                        IsFacultative = inFacultative,
                         IsUseInWorkload = ObjectType.TypeName == "Базовая" && inKafedra && active,
                         InDepartment = inKafedra,
                         IsActiveSemester = active
@@ -1285,7 +1294,9 @@ namespace AcademicYearImplementations.Implementations
                     record.IsDeleted = false;
                     record.DateDelete = null;
                     record.Zet = zet;
+                    record.IsParent = false;
                     record.IsChild = ObjectType.TypeName != "Базовая";
+                    record.IsFacultative = inFacultative;
                     record.IsUseInWorkload = ObjectType.TypeName == "Базовая" && inKafedra && active;
                     record.IsActiveSemester = active;
                     record.AcademicPlanRecordParentId = recordParent?.Id;
@@ -1301,6 +1312,7 @@ namespace AcademicYearImplementations.Implementations
                     record.AcademicPlanRecordParentId = recordParent?.Id;
                     record.IsActiveSemester = active;
                     record.ContingentId = contingent?.Id;
+                    record.IsFacultative = inFacultative;
                     context.SaveChanges();
                 }
 

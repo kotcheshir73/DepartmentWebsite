@@ -56,6 +56,7 @@ namespace AcademicYearImplementations
                 AcademicPlanRecordParentId = entity.AcademicPlanRecordParentId,
                 IsParent = entity.IsParent,
                 IsChild = entity.IsChild,
+                IsFacultative = entity.IsFacultative,
                 IsUseInWorkload = entity.IsUseInWorkload,
                 IsActiveSemester = entity.IsActiveSemester
             };
@@ -74,7 +75,8 @@ namespace AcademicYearImplementations
                 PlanHours = entity.PlanHours,
                 FactHours = entity.FactHours,
                 Semester = entity.AcademicPlanRecord.Semester.HasValue ? (int)entity.AcademicPlanRecord.Semester.Value : 0,
-                InDepartment = entity.AcademicPlanRecord.InDepartment
+                InDepartment = entity.AcademicPlanRecord.InDepartment,
+                IsFacultative = entity.AcademicPlanRecord.IsFacultative
             };
         }
 

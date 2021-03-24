@@ -118,6 +118,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
             checkBoxIsUseInWorkload.Checked = entity.IsUseInWorkload;
             checkBoxInDepartment.Checked = entity.InDepartment;
             checkBoxIsActiveSemester.Checked = entity.IsActiveSemester;
+            checkBoxIsFacultative.Checked = entity.IsFacultative;
         }
 
         protected override bool CheckFill()
@@ -156,6 +157,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     Zet = Convert.ToInt32(textBoxZet.Text),
                     IsParent = checkBoxIsParent.Checked,
                     IsChild = checkBoxIsChild.Checked,
+                    IsFacultative = checkBoxIsFacultative.Checked,
                     IsUseInWorkload = checkBoxIsUseInWorkload.Checked,
                     IsActiveSemester = checkBoxIsActiveSemester.Checked
                 });
@@ -173,6 +175,7 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     Zet = Convert.ToInt32(textBoxZet.Text),
                     IsParent = checkBoxIsParent.Checked,
                     IsChild = checkBoxIsChild.Checked,
+                    IsFacultative = checkBoxIsFacultative.Checked,
                     IsUseInWorkload = checkBoxIsUseInWorkload.Checked,
                     IsActiveSemester = checkBoxIsActiveSemester.Checked
                 });

@@ -17,7 +17,7 @@
 
         <tr class="course-table-tab">
 			<td width="50%">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("зачет")))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("зачет")))
 				{
 					if (discipline.InDepartment)
 					{
@@ -31,7 +31,7 @@
 			</td>
 
 			<td width="50%">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("зачет")))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("зачет")))
 				{
 					if (discipline.InDepartment)
 					{
@@ -52,7 +52,7 @@
 
         <tr class="course-table-tab">
 			<td width="50%">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("курсов")))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("курсов")))
 				{
 					if (discipline.InDepartment)
 					{
@@ -66,7 +66,7 @@
 			</td>
 
 			<td width="50%">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("курсов")))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("курсов")))
 				{
 					if (discipline.InDepartment)
 					{
@@ -87,7 +87,7 @@
 
         <tr class="course-table-tab">
 			<td width="50%" style="padding:15px;">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 1 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
 				{
 					if (discipline.InDepartment)
 					{
@@ -101,7 +101,7 @@
 			</td>
 
 			<td width="50%" style="padding:15px;">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 0 && (x.TimeNormName.ToLower().Contains("экзамен") || x.TimeNormName.Contains("ВКР") || x.TimeNormName.ToLower().Contains("ГИА"))))
 				{
 					if (discipline.InDepartment)
 					{
@@ -122,7 +122,7 @@
 
         <tr class="course-table-tab">
 			<td width="50%" style="padding:15px;">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("практик")))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("практик")))
 				{
 					if (discipline.InDepartment)
 					{
@@ -136,7 +136,42 @@
 			</td>
 
 			<td width="50%" style="padding:15px;">
-				@foreach (var discipline in Model.Where(x => x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("практик")))
+				@foreach (var discipline in Model.Where(x => !x.IsFacultative && x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("практик")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
+        </tr>
+
+        <tr>
+            <td>Факультативы</td>
+			<td>Факультативы</td>
+        </tr>
+
+        <tr class="course-table-tab">
+			<td width="50%" style="padding:15px;">
+				@foreach (var discipline in Model.Where(x => x.IsFacultative && x.Semester % 2 == 1 && x.TimeNormName.ToLower().Contains("зачет")))
+				{
+					if (discipline.InDepartment)
+					{
+						@Html.ActionLink(discipline.DisciplineName, "Discipline", "Discipline", new { id = discipline.DisciplineId }, null)<br />
+					}
+					else
+					{
+						<span>@discipline.DisciplineName</span><br />
+					}
+				}
+			</td>
+
+			<td width="50%" style="padding:15px;">
+				@foreach (var discipline in Model.Where(x => x.IsFacultative && x.Semester % 2 == 0 && x.TimeNormName.ToLower().Contains("зачет")))
 				{
 					if (discipline.InDepartment)
 					{

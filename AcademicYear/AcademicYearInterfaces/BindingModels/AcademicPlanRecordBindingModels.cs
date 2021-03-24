@@ -38,9 +38,14 @@ namespace AcademicYearInterfaces.BindingModels
         public bool IsChild { get; set; }
 
 		/// <summary>
+		/// Является факультативной дисциплиной
+		/// </summary>
+		public bool IsFacultative { get; set; }
+
+		/// <summary>
 		/// Участвует в расчетах нагрузки
 		/// </summary>
-        public bool IsUseInWorkload { get; set; }
+		public bool IsUseInWorkload { get; set; }
 
 		/// <summary>
 		/// Является преподаваемой дисциплиной по учебному плану (есть группы, которые проходят эту дисциплину в этом учебном году)
