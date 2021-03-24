@@ -16,6 +16,8 @@ namespace AcademicYearInterfaces.BindingModels
         public bool? TimeNormUseInSite { get; set; }
 
         public bool? AcademicPlanRecordIsSelected { get; set; }
+
+        public bool? AcademicPlanRecordIsActive { get; set; }
     }
 
     public class AcademicPlanRecordElementSetBindingModel : PageSettingSetBinidingModel

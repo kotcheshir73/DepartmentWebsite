@@ -25,10 +25,24 @@ namespace AcademicYearInterfaces.ViewModels
 
         public Guid? AcademicPlanRecordParentId { get; set; }
 
+        /// <summary>
+        /// Является родительской для дисциплин по выбору
+        /// </summary>
         public bool IsParent { get; set; }
 
-        public bool Selectable { get; set; }
+        /// <summary>
+        /// Является дисциплиной по выбору
+        /// </summary>
+        public bool IsChild { get; set; }
 
-        public bool IsSelected { get; set; }
+        /// <summary>
+        /// Участвует в расчетах нагрузки
+        /// </summary>
+        public bool IsUseInWorkload { get; set; }
+
+        /// <summary>
+        /// Является преподаваемой дисциплиной по учебному плану (есть группы, которые проходят эту дисциплину в этом учебном году)
+        /// </summary>
+        public bool IsActiveSemester { get; set; }
     }
 }

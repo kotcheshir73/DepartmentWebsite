@@ -7,6 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Services\BaseService.cs~RFf8f5278.TMP" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
 		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.App" />

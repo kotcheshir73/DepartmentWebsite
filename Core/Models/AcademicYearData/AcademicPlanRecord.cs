@@ -38,18 +38,33 @@ namespace Models.AcademicYearData
         [DataMember]
         public Guid? AcademicPlanRecordParentId { get; set; }
 
-        [DataMember]
-        public bool IsParent { get; set; }
-
         [Required]
         [DataMember]
         public int Zet { get; set; }
 
+        /// <summary>
+        /// Является родительской для дисциплин по выбору
+        /// </summary>
         [DataMember]
-        public bool Selectable { get; set; }
+        public bool IsParent { get; set; }
 
+        /// <summary>
+        /// Является дисциплиной по выбору
+        /// </summary>
         [DataMember]
-        public bool IsSelected { get; set; }
+        public bool IsChild { get; set; }
+
+        /// <summary>
+        /// Участвует в расчетах нагрузки
+        /// </summary>
+        [DataMember]
+        public bool IsUseInWorkload { get; set; }
+
+        /// <summary>
+        /// Является преподаваемой дисциплиной по учебному плану (есть группы, которые проходят эту дисциплину в этом учебном году)
+        /// </summary>
+        [DataMember]
+        public bool IsActiveSemester { get; set; }
 
         //-------------------------------------------------------------------------
 

@@ -76,8 +76,8 @@ namespace WebImplementations
             entity.ContingentId = model.ContingentId;
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
-            entity.Selectable = model.Selectable;
-            entity.IsSelected = model.IsSelected;
+            entity.IsChild = model.Selectable;
+            entity.IsUseInWorkload = model.IsSelected;
 
             return entity;
         }

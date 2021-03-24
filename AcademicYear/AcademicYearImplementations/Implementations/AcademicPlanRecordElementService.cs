@@ -61,11 +61,15 @@ namespace AcademicYearImplementations.Implementations
                     if (model.AcademicPlanRecordIsSelected.HasValue)
                     {
                         query = query.Where(x =>
-                            (x.AcademicPlanRecord.IsSelected == model.AcademicPlanRecordIsSelected.Value && x.AcademicPlanRecord.InDepartment &&
-                            !x.AcademicPlanRecord.IsParent && !x.AcademicPlanRecord.Selectable) || // выборка кафедральных обязательных дисциплин
-                            (!x.AcademicPlanRecord.InDepartment && !x.AcademicPlanRecord.Selectable) ||  // выбор не кафедральных обязательных дисциплин
-                            (x.AcademicPlanRecord.IsSelected == model.AcademicPlanRecordIsSelected.Value && x.AcademicPlanRecord.Selectable) // выборка дисциплин по выбору
+                            (x.AcademicPlanRecord.IsUseInWorkload == model.AcademicPlanRecordIsSelected.Value && x.AcademicPlanRecord.InDepartment &&
+                            !x.AcademicPlanRecord.IsParent && !x.AcademicPlanRecord.IsChild) || // выборка кафедральных обязательных дисциплин
+                            (!x.AcademicPlanRecord.InDepartment && !x.AcademicPlanRecord.IsChild) ||  // выбор не кафедральных обязательных дисциплин
+                            (x.AcademicPlanRecord.IsUseInWorkload == model.AcademicPlanRecordIsSelected.Value && x.AcademicPlanRecord.IsChild) // выборка дисциплин по выбору
                         );
+                    }
+                    if (model.AcademicPlanRecordIsActive.HasValue)
+                    {
+                        query = query.Where(x => x.AcademicPlanRecord.IsActiveSemester == model.AcademicPlanRecordIsActive.Value);
                     }
                     if (model.TimeNormId.HasValue)
                     {

@@ -154,7 +154,7 @@ namespace DepartmentWebCore.Services
 				{
 					SkipCheck = true,
 					EducationDirectionId = educationDirectionId,
-					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id
+					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
 				});
 				if (contingent.Succeeded)
 				{
@@ -182,7 +182,8 @@ namespace DepartmentWebCore.Services
 					ContingentId = contingentId,
 					AcademicYearId = _academicYearProcess.GetCurrentAcademicYear().Result.Id,
 					TimeNormUseInSite = true,
-					AcademicPlanRecordIsSelected = true
+					AcademicPlanRecordIsSelected = true,
+					AcademicPlanRecordIsActive = true
 				});
 				if (elements.Succeeded)
 				{

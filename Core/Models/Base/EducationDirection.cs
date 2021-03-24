@@ -68,13 +68,7 @@ namespace Models.Base
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
-            if (!string.IsNullOrEmpty(Cipher))
-            {
-                result.Append(Cipher);
-            }
-            return result.ToString();
+            return $"{Cipher} - {ShortName} ({Profile})";
         }
-
     }
 }

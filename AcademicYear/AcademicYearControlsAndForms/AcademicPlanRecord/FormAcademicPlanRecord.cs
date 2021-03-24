@@ -113,9 +113,11 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                 comboBoxSemester.SelectedIndex = comboBoxSemester.Items.IndexOf(entity.Semester);
             }
             textBoxZet.Text = entity.Zet.ToString();
-            checkBoxSelectable.Checked = entity.Selectable;
-            checkBoxIsSelected.Checked = entity.IsSelected;
+            checkBoxIsParent.Checked = entity.IsParent;
+            checkBoxIsChild.Checked = entity.IsChild;
+            checkBoxIsUseInWorkload.Checked = entity.IsUseInWorkload;
             checkBoxInDepartment.Checked = entity.InDepartment;
+            checkBoxIsActiveSemester.Checked = entity.IsActiveSemester;
         }
 
         protected override bool CheckFill()
@@ -152,8 +154,10 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     InDepartment = checkBoxInDepartment.Checked,
                     Semester = comboBoxSemester.Text,
                     Zet = Convert.ToInt32(textBoxZet.Text),
-                    Selectable = checkBoxSelectable.Checked,
-                    IsSelected = checkBoxIsSelected.Checked
+                    IsParent = checkBoxIsParent.Checked,
+                    IsChild = checkBoxIsChild.Checked,
+                    IsUseInWorkload = checkBoxIsUseInWorkload.Checked,
+                    IsActiveSemester = checkBoxIsActiveSemester.Checked
                 });
             }
             else
@@ -167,8 +171,10 @@ namespace AcademicYearControlsAndForms.AcademicPlanRecord
                     InDepartment = checkBoxInDepartment.Checked,
                     Semester = comboBoxSemester.Text,
                     Zet = Convert.ToInt32(textBoxZet.Text),
-                    Selectable = checkBoxSelectable.Checked,
-                    IsSelected = checkBoxIsSelected.Checked
+                    IsParent = checkBoxIsParent.Checked,
+                    IsChild = checkBoxIsChild.Checked,
+                    IsUseInWorkload = checkBoxIsUseInWorkload.Checked,
+                    IsActiveSemester = checkBoxIsActiveSemester.Checked
                 });
             }
             if (result.Succeeded)

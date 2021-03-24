@@ -44,11 +44,11 @@
 			// panelMain
 			// 
 			this.panelMain.Controls.Add(this.tabControl);
-			this.panelMain.Size = new System.Drawing.Size(1084, 725);
+			this.panelMain.Size = new System.Drawing.Size(1284, 725);
 			// 
 			// panelTop
 			// 
-			this.panelTop.Size = new System.Drawing.Size(1084, 36);
+			this.panelTop.Size = new System.Drawing.Size(1284, 36);
 			// 
 			// labelAcademicYear
 			// 
@@ -116,7 +116,7 @@
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(1084, 725);
+			this.tabControl.Size = new System.Drawing.Size(1284, 725);
 			this.tabControl.TabIndex = 0;
 			// 
 			// tabPageConfig
@@ -133,7 +133,7 @@
 			this.tabPageConfig.Location = new System.Drawing.Point(4, 22);
 			this.tabPageConfig.Name = "tabPageConfig";
 			this.tabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageConfig.Size = new System.Drawing.Size(1076, 699);
+			this.tabPageConfig.Size = new System.Drawing.Size(1276, 699);
 			this.tabPageConfig.TabIndex = 0;
 			this.tabPageConfig.Text = "Учебный план";
 			this.tabPageConfig.UseVisualStyleBackColor = true;
@@ -180,7 +180,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1084, 761);
+			this.ClientSize = new System.Drawing.Size(1284, 761);
 			this.Name = "FormAcademicPlan";
 			this.Text = "Учебный план";
 			this.panelMain.ResumeLayout(false);

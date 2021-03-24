@@ -32,8 +32,9 @@ namespace AcademicYearImplementations
             entity.InDepartment = model.InDepartment;
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
             entity.Zet = model.Zet;
-            entity.Selectable = model.Selectable;
-            entity.IsSelected = model.IsSelected;
+            entity.IsChild = model.IsChild;
+            entity.IsUseInWorkload = model.IsUseInWorkload;
+            entity.IsActiveSemester = model.IsActiveSemester;
 
             return entity;
 		}

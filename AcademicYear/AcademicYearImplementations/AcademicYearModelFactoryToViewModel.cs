@@ -55,8 +55,9 @@ namespace AcademicYearImplementations
                 Zet = entity.Zet,
                 AcademicPlanRecordParentId = entity.AcademicPlanRecordParentId,
                 IsParent = entity.IsParent,
-                IsSelected = entity.IsSelected,
-                Selectable = entity.Selectable
+                IsChild = entity.IsChild,
+                IsUseInWorkload = entity.IsUseInWorkload,
+                IsActiveSemester = entity.IsActiveSemester
             };
         }
 
@@ -111,7 +112,7 @@ namespace AcademicYearImplementations
                 Id = entity.Id,
                 AcademicYearId = entity.AcademicYearId,
                 EducationDirectionId = entity.EducationDirectionId,
-                EducationDirectionShortName = entity.EducationDirection.ShortName,
+                EducationDirectionShortName = entity.EducationDirection.ToString(),
                 AcademicYear = entity.AcademicYear.Title,
                 ContingentName = entity.ContingentName,
                 Course = (int)entity.Course,

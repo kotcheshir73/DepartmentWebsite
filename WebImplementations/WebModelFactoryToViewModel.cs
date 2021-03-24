@@ -97,8 +97,8 @@ namespace WebImplementations
                 Zet = entity.Zet,
                 AcademicPlanRecordParentId = entity.AcademicPlanRecordParentId,
                 IsParent = entity.IsParent,
-                IsSelected = entity.IsSelected,
-                Selectable = entity.Selectable
+                IsSelected = entity.IsUseInWorkload,
+                Selectable = entity.IsChild
             };
         }
 
