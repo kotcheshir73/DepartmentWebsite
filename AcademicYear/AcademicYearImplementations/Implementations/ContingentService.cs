@@ -58,6 +58,11 @@ namespace AcademicYearImplementations.Implementations
                         query = query.Where(x => x.AcademicYearId == model.AcademicYearId);
                     }
 
+                    if (model.EducationDirectionId.HasValue)
+                    {
+                        query = query.Where(x => x.EducationDirectionId == model.EducationDirectionId);
+                    }
+
                     if (model.AcademicPlanId.HasValue)
                     {
                         var ap = context.AcademicPlans.FirstOrDefault(x => x.Id == model.AcademicPlanId);

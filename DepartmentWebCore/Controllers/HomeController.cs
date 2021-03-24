@@ -153,7 +153,7 @@ namespace DepartmentWebCore.Controllers
 						{
 							MenuElementModel contingent = new MenuElementModel()
 							{
-								Name = ed.ToString(),
+								Name = ed.ToShortString(),
 								Child = new List<MenuElementModel>(),
 								Controller = "EducationDirection",
 								Action = "EducationDirection",

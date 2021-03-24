@@ -159,7 +159,7 @@ namespace DepartmentWebCore.Services
 				if (contingent.Succeeded)
 				{
 					courses = contingent.Result.List
-						.Select(x => (Id: x.Id, Course: $"Курс {Math.Log((double)x.Course, 2) + 1}")).OrderBy(x => x.Course).ToList();
+						.Select(x => (Id: x.Id, Course: $"Курс {Math.Log((double)x.Course, 2) + 1}")).OrderBy(x => x.Course).Distinct().ToList();
 					cache.Set($"EducationDirectionsCourses:{educationDirectionId}", courses, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
 				}
 			}

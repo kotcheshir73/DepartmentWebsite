@@ -22,5 +22,10 @@ namespace BaseInterfaces.ViewModels
         {
             return $"{Cipher} - {ShortName} ({Profile})";
         }
+
+        public string ToShortString()
+        {
+            return $"{Cipher} - {ShortName}";
+        }
     }
 }

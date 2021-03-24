@@ -33,7 +33,7 @@
                 <tr>
                     @foreach (var course in ViewBag.Courses)
                     {
-                        <th data-id="@course.Id" class="@(course.Id == ViewBag.CourseId ? "selected " : "") course-item">@course.Course</th>
+                        <th data-id="@course.Item1" class="@(course.Item1 == ViewBag.CourseId ? "selected " : "") course-item">@course.Item2</th>
                     }
                 </tr>
                 <tr>
