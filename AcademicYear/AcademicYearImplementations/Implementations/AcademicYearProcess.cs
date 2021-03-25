@@ -1249,6 +1249,7 @@ namespace AcademicYearImplementations.Implementations
                     if (!recordParent.IsParent)
                     {
                         recordParent.IsParent = true;
+                        recordParent.IsChild = false;
                         recordParent.IsUseInWorkload = false;
                         context.SaveChanges();
                     }

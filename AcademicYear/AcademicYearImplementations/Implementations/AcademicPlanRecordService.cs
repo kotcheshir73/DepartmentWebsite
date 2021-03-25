@@ -7,7 +7,9 @@ using BaseInterfaces.ViewModels;
 using DatabaseContext;
 using Enums;
 using Microsoft.EntityFrameworkCore;
+using Models.AcademicYearData;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tools;
 
@@ -73,7 +75,7 @@ namespace AcademicYearImplementations.Implementations
                         query = query.Where(x => x.Semester == model.Semester);
                     }
 
-                    query = query.OrderBy(x => x.Semester).ThenBy(x => x.Discipline.DisciplineName);
+                    query = query.OrderBy(x => x.Semester).ThenBy(x => x.IsChild || x.IsParent).ThenBy(x => x.IsChild).ThenBy(x => x.Discipline.DisciplineName);
 
                     if (model.PageNumber.HasValue && model.PageSize.HasValue)
                     {
@@ -87,10 +89,29 @@ namespace AcademicYearImplementations.Implementations
                         .Include(x => x.Discipline)
                         .Include(x => x.Contingent);
 
+                    var list = query.ToList();
+                    var childs = list.Where(x => x.IsChild).ToList();
+                    for (int i = 0; i < list.Count; ++i)
+					{
+                        if(list[i].IsParent)
+						{
+                            for(int j = 0; j < childs.Count; ++j)
+							{
+                                if (childs[j].AcademicPlanRecordParentId == list[i].Id)
+								{
+                                    list.Remove(childs[j]);
+                                    list.Insert(i + 1, childs[j]);
+                                    childs.Remove(childs[j]);
+                                    j--;
+								}
+							}
+						}
+					}
+
                     var result = new AcademicPlanRecordPageViewModel
                     {
                         MaxCount = countPages,
-                        List = query.Select(AcademicYearModelFactoryToViewModel.CreateAcademicPlanRecordViewModel).ToList()
+                        List = list.Select(AcademicYearModelFactoryToViewModel.CreateAcademicPlanRecordViewModel).ToList()
                     };
 
                     return ResultService<AcademicPlanRecordPageViewModel>.Success(result);
