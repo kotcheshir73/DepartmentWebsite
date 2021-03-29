@@ -369,6 +369,7 @@ namespace DepartmentWebCore.Services
 		/// <returns></returns>
 		public (string Title, List<Guid> Users) GetLecturerUsersForDiscipline(Guid disciplineId)
 		{
+			string disciplineName = string.Empty;
 			if (!cache.TryGetValue($"DisicplineMission:{disciplineId}", out List<AcademicPlanRecordMissionViewModel> missions))
 			{
 				var records = _serviceAYAPPM.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel
@@ -384,6 +385,10 @@ namespace DepartmentWebCore.Services
 				missions = records.Result.List.Distinct().ToList();
 				cache.Set($"DisicplineMission:{disciplineId}", missions, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
 			}
+			if (missions.Count == 0)
+			{
+				disciplineName = GetDiscipline(disciplineId)?.DisciplineName;
+			}
 
 			var users = _serviceAU.GetUsers(new UserGetBindingModel
 			{
@@ -395,7 +400,7 @@ namespace DepartmentWebCore.Services
 				return default;
 			}
 
-			var record = (missions.FirstOrDefault().DisciplineTitle, users.Result.List.Select(x => x.Id).Distinct().ToList());
+			var record = (missions.FirstOrDefault()?.DisciplineTitle ?? disciplineName, users.Result.List?.Select(x => x.Id)?.Distinct()?.ToList());
 
 			return record;
 		}
