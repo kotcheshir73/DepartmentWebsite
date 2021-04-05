@@ -2,8 +2,8 @@
     ViewBag.Title = Model.Lecturer;
 }
 
-@using WebInterfaces.ViewModels
-@model WebLecturerWorkloadViewModel
+@using AcademicYearInterfaces.ViewModels
+@model LecturerWorkloadViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="LecturerWorkload" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />

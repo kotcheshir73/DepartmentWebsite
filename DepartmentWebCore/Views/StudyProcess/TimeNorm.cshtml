@@ -2,8 +2,8 @@
     ViewBag.Title = Model.TimeNormName;
 }
 
-@using WebInterfaces.ViewModels
-@model WebTimeNormViewModel
+@using AcademicYearInterfaces.ViewModels
+@model TimeNormViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="TimeNorm" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
@@ -178,7 +178,7 @@
                         <label style="font-weight:bold;" class="col-sm-2 control-label">Синоним для синей звездочки</label>
                         <div class="col-xs-9">
                             <input type="text" class="form-control" asp-for="KindOfLoadBlueAsteriskName" value="@Model.KindOfLoadBlueAsteriskName">
-                            <label class="control-label pull-right">Название нагрузки в справочнике видов работа в новой версии планов</label>
+                            <label class="control-label pull-right">Название нагрузки в справочнике видов работ в новой версии планов</label>
                         </div>
 
                     </div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Tools.ViewModels;
 
 namespace AcademicYearInterfaces.ViewModels
@@ -17,8 +18,10 @@ namespace AcademicYearInterfaces.ViewModels
 
         public string StreamLessonName { get; set; }
 
+        [DisplayName("Запись")]
         public string AcademicPlanRecordElementText { get; set; }
 
+        [DisplayName("Считать по этой записи часы")]
         public bool IsMain { get; set; }
     }
 }

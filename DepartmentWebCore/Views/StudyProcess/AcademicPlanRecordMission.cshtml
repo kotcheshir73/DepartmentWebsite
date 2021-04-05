@@ -2,8 +2,8 @@
     ViewBag.Title = Model.AcademicPlanRecordElementTitle + " : " + Model.LecturerName;
 }
 
-@using WebInterfaces.ViewModels
-@model WebAcademicPlanRecordMissionViewModel
+@using AcademicYearInterfaces.ViewModels
+@model AcademicPlanRecordMissionViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecordMission" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
