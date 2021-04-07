@@ -1,4 +1,4 @@
-﻿@model (List<string> tableHead, List<List<object>> tableBody, List<MenuElementModel> actions, Guid Id)
+﻿@model (List<string> tableHead, List<List<object>> tableBody, List<(bool IsDropdownElement, MenuElementModel action)> actions, Guid Id)
 
 <div style="margin-bottom:10px">
     <button id="btnCreate" type="button" class="btn btn-primary">Добавить</button>
@@ -9,9 +9,12 @@
                 Действия <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                @foreach (var action in Model.actions)
+                @foreach (var element in Model.actions)
                 {
-                    <li><a href="#">@action.Name</a></li>
+                    @if (element.IsDropdownElement)
+                    {
+                        <li><a href="#">@element.action.Name</a></li>
+                    }
                 }
             </ul>
         </div>
@@ -36,7 +39,16 @@
                 {
                     <td>@row[i]</td>
                 }
-                <td class="text-center"><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalDelete" data-text="@row[1] - @row[2]" data-id="@row[0]">X</button></td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-danger btn-xs tooltipped" data-toggle="modal" data-target="#modalDelete" title="Удалить" data-text="@row[1] - @row[2]" data-id="@row[0]">X</button>
+                    @foreach (var element in Model.actions)
+                    {
+                        @if (!element.IsDropdownElement)
+                        {
+                            <button type="button" class="btn btn-success btn-xs tooltipped" @*data-toggle="modal" data-target="#modalUpload"*@ title="@element.action.Name" data-id="@row[0]">@element.action.AdditionalParameters["ButtonName"]</button>
+                        }
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -63,35 +75,40 @@
 </form>
 
 <script>
-$(function () {
-    $('#table tbody tr').dblclick(function () {
-        window.location = "@Url.Action("Edit", "StudyProcess", new { Id = "rowId", menuElement = @ViewBag.menuElement })".replace("rowId", $(this).attr("value"));
-    });
+    $(function () {
+        $('.tooltipped').tooltip({
+            placement: "right",
+            trigger: "hover"
+        });
 
-    $('#modalDelete').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var data = button.data('text');
-        var Id = button.data('id');
-        var body = 'Вы уверены, что хотите удалить: <br> <b>' + data + '</b>?';
-        $(this).find('.modal-body').html(body);
-        $(this).find('#elementId').attr('value', Id);
-        $(this).find('#btnDelete').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("Delete", "StudyProcess")',
-                data: { Id, "menuElement": "@ViewBag.menuElement" },
-                success: function () {
-                    document.location.reload(true);
-                },
-                error: function (result) {
-                    alert(result);
-                }
+        $('#table tbody tr').dblclick(function () {
+            window.location = "@Url.Action("Edit", "StudyProcess", new { Id = "rowId", menuElement = @ViewBag.menuElement })".replace("rowId", $(this).attr("value"));
+        });
+
+        $('#modalDelete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var data = button.data('text');
+            var Id = button.data('id');
+            var body = 'Вы уверены, что хотите удалить: <br> <b>' + data + '</b>?';
+            $(this).find('.modal-body').html(body);
+            $(this).find('#elementId').attr('value', Id);
+            $(this).find('#btnDelete').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Delete", "StudyProcess")',
+                    data: { Id, "menuElement": "@ViewBag.menuElement" },
+                    success: function () {
+                        document.location.reload(true);
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
             });
         });
-    });
 
-    $('#btnCreate').click(function () {
-        window.location = "@Url.Action("Create", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })";
-    });
-})
+        $('#btnCreate').click(function () {
+            window.location = "@Url.Action("Create", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })";
+        });
+    })
 </script>

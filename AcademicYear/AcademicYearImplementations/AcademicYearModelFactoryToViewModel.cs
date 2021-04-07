@@ -48,7 +48,7 @@ namespace AcademicYearImplementations
                 AcademicPlanId = entity.AcademicPlanId,
                 DisciplineId = entity.DisciplineId,
                 ContingentId = entity.ContingentId,
-                Disciplne = entity.Discipline.DisciplineName,
+                Discipline = entity.Discipline.DisciplineName,
                 InDepartment = entity.InDepartment,
                 Semester = entity.Semester.HasValue ? entity.Semester.ToString() : string.Empty,
                 ContingentGroup = entity.ContingentId.HasValue ? entity.Contingent.ContingentName : string.Empty,

@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = Model.Disciplne;
+    ViewBag.Title = Model.Discipline;
 }
 
 @using DepartmentWebCore.Helpers
-@using WebInterfaces.ViewModels
-@model WebAcademicPlanRecordViewModel
+@using AcademicYearInterfaces.ViewModels
+@model AcademicPlanRecordViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecord" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
@@ -91,16 +91,9 @@
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Дисциплина по выбору</label>
-        <div class="col-xs-6">
-            <input class="form-check-input" asp-for="Selectable" />
-        </div>
-    </div>
-
-    <div class="form-group">
         <label style="font-weight:bold;" class="col-sm-2 control-label">Участвует в расчете</label>
         <div class="col-xs-6">
-            <input class="form-check-input" asp-for="IsSelected" />
+            <input class="form-check-input" asp-for="IsUseInWorkload" />
         </div>
     </div>
 

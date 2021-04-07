@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Tools.ViewModels;
 
 namespace AcademicYearInterfaces.ViewModels
@@ -13,8 +14,10 @@ namespace AcademicYearInterfaces.ViewModels
 
         public string AcademicYear { get; set; }
 
+        [DisplayName("Преподаватель")]
         public string Lecturer { get; set; }
 
+        [DisplayName("Нагрузка")]
         public double Workload { get; set; }
     }
 }

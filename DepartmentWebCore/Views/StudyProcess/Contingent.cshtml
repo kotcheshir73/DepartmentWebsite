@@ -2,8 +2,8 @@
     ViewBag.Title = Model.ContingentName;
 }
 
-@using WebInterfaces.ViewModels
-@model WebContingentViewModel
+@using AcademicYearInterfaces.ViewModels
+@model ContingentViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="Contingent" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />

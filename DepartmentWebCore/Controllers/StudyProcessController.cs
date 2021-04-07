@@ -1,4 +1,7 @@
-﻿using BaseInterfaces.BindingModels;
+﻿using AcademicYearInterfaces.BindingModels;
+using AcademicYearInterfaces.Interfaces;
+using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
 using BaseInterfaces.Interfaces;
 using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
@@ -9,16 +12,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tools;
-using WebInterfaces.BindingModels;
 using WebInterfaces.Interfaces;
-using WebInterfaces.ViewModels;
 
 namespace DepartmentWebCore.Controllers
 {
     [Authorize(Roles = "Администратор")]
     public class StudyProcessController : Controller
     {
-        private static IWebStudyProcessService _serviceSP;
+        private static IStudyProcessService _serviceSP;
 
         private static IDisciplineBlockService _serviceDB;
 
@@ -26,15 +27,48 @@ namespace DepartmentWebCore.Controllers
 
         private readonly BaseService _baseService;
 
+        private readonly IAcademicYearService _serviceAY;
+
+        private readonly IAcademicPlanService _serviceAP;
+
+        private readonly IAcademicPlanRecordService _serviceAPR;
+
+        private readonly IAcademicPlanRecordElementService _serviceAPRE;
+
+        private readonly IAcademicPlanRecordMissionService _serviceAPRM;
+
+        private readonly ITimeNormService _serviceTN;
+
+        private readonly IContingentService _serviceC;
+
+        private readonly IStreamLessonService _serviceSL;
+
+        private readonly IStreamLessonRecordService _serviceSLR;
+
+        private readonly ILecturerWorkloadService _serviceLW;
+
         private const string defaultMenu = "AcademicPlans";
 
-        public StudyProcessController(IWebStudyProcessService serviceSP, IDisciplineBlockService serviceDB,
-            IDisciplineService serviceD, BaseService baseService)
+        public StudyProcessController(IStudyProcessService serviceSP, IDisciplineBlockService serviceDB, IDisciplineService serviceD,
+             BaseService baseService, IAcademicYearService serviceAY, IAcademicPlanService serviceAP, IAcademicPlanRecordService serviceAPR,
+             IAcademicPlanRecordElementService serviceAPRE, IAcademicPlanRecordMissionService serviceAPRM, ITimeNormService serviceTN,
+             IContingentService serviceC, IStreamLessonService serviceSL, IStreamLessonRecordService serviceSLR,
+             ILecturerWorkloadService serviceLW)
         {
             _serviceSP = serviceSP;
             _serviceDB = serviceDB;
             _serviceD = serviceD;
             _baseService = baseService;
+            _serviceAY = serviceAY;
+            _serviceAP = serviceAP;
+            _serviceAPR = serviceAPR;
+            _serviceAPRE = serviceAPRE;
+            _serviceAPRM = serviceAPRM;
+            _serviceTN = serviceTN;
+            _serviceC = serviceC;
+            _serviceSL = serviceSL;
+            _serviceSLR = serviceSLR;
+            _serviceLW = serviceLW;
         }
 
         public IActionResult Index(Guid? Id)
@@ -45,15 +79,15 @@ namespace DepartmentWebCore.Controllers
                 TempData.Remove("Error");
             }
 
-            WebAcademicYearViewModel academicYearView = new WebAcademicYearViewModel();
+            AcademicYearViewModel academicYearView = new AcademicYearViewModel();
 
             if (Id == null)
             {
-                Id = _serviceSP.GetAcademicYears(new WebAcademicYearGetBindingModel { }).Result.List.LastOrDefault().Id;
+                Id = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel()).Result.List.LastOrDefault().Id;
             }
             if (Id != Guid.Empty)
             {
-                var academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel { Id = Id });
+                var academicYear = _serviceAY.GetAcademicYear(new AcademicYearGetBindingModel { Id = Id });
                 if (academicYear.Succeeded)
                 {
                     academicYearView = academicYear.Result;
@@ -107,36 +141,34 @@ namespace DepartmentWebCore.Controllers
         {
             List<string> tableHead = new List<string>();
             List<List<object>> tableBody = new List<List<object>>();
-            List<MenuElementModel> actions = new List<MenuElementModel>();
+            List<(bool IsDropdownElement, MenuElementModel action)> actions = new List<(bool IsDropdownElement, MenuElementModel action)>();
 
             switch (menuElement)
             {
                 case "AcademicPlans":
-                    var names = _serviceSP.GetPropertiesNames(typeof(WebAcademicPlanViewModel));
+                    var names = _serviceSP.GetPropertiesNames(typeof(AcademicPlanViewModel));
                     tableHead = names.displayNames;
-                    actions = new List<MenuElementModel> {
-                            new MenuElementModel
-                            {
-                                Name = "Создать контингент",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            },
-                            new MenuElementModel
-                            {
-                                Name = "Загрузить из xml",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            },
-                            new MenuElementModel
-                            {
-                                Name = "Загрузить из xml (синяя звездочка)",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            }};
+                    actions = new List<(bool IsDropdownElement, MenuElementModel action)> {
+                            (true, new MenuElementModel
+                                {
+                                    Name = "Создать контингент",
+                                    Controller = "StudyProcess",
+                                    Action = ""
+                                }
+                            ),
+                            (false, new MenuElementModel
+                                {
+                                    Name = "Загрузить из xml",
+                                    Controller = "StudyProcess",
+                                    Action = "",
+                                    AdditionalParameters = new Dictionary<string, string>{ {"ButtonName", "↥" } }
+                                }
+                            )
+                    };
 
                     if (Id != Guid.Empty)
                     {
-                        var academicPlans = _serviceSP.GetAcademicPlans(new WebAcademicPlanGetBindingModel { AcademicYearId = Id });
+                        var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = Id });
                         if (academicPlans.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(academicPlans.Result.List, names.propertiesNames);
@@ -145,48 +177,40 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlan":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebAcademicPlanRecordViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(AcademicPlanRecordViewModel));
                     tableHead = names.displayNames;
-                    actions = new List<MenuElementModel> {
-                            new MenuElementModel
-                            {
-                                Name = "Загрузить из xml",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            },
-                            new MenuElementModel
-                            {
-                                Name = "Загрузить из xml (синяя звездочка)",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            }};
 
                     if (Id != Guid.Empty)
                     {
-                        var academicPlanRecords = _serviceSP.GetAcademicPlanRecords(new WebAcademicPlanRecordGetBindingModel { AcademicPlanId = Id });
-                        if (academicPlanRecords.Succeeded)
+                        var academicPlanRecords = _serviceAPR.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { AcademicPlanId = Id });
+                        var academicPlan = _serviceAP.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = Id });
+                        if (academicPlanRecords.Succeeded && academicPlan.Succeeded)
                         {
-
+                            academicPlanRecords.Result.List = academicPlanRecords.Result.List
+                                .Where(x =>
+                                academicPlan.Result.AcademicCoursesStrings.Contains(((int)Enum.Parse(typeof(Semesters), x.Semester) / 2 + (int)Enum.Parse(typeof(Semesters), x.Semester) % 2).ToString()))
+                                .ToList();
                             tableBody = _serviceSP.GetPropertiesValues(academicPlanRecords.Result.List, names.propertiesNames);
-
                         }
                     }
                     break;
 
                 case "AcademicPlanRecord":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebAcademicPlanRecordElementViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(AcademicPlanRecordElementViewModel));
                     tableHead = names.displayNames;
-                    actions = new List<MenuElementModel> {
-                            new MenuElementModel
-                            {
-                                Name = "Перенести в другую нагрузку",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            }};
+                    actions = new List<(bool IsDropdownElement, MenuElementModel action)> {
+                            (true, new MenuElementModel
+                                {
+                                    Name = "Перенести в другую нагрузку",
+                                    Controller = "StudyProcess",
+                                    Action = ""
+                                }
+                            )
+                    };
 
                     if (Id != Guid.Empty)
                     {
-                        var academicPlanRecordElements = _serviceSP.GetAcademicPlanRecordElements(new WebAcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = Id });
+                        var academicPlanRecordElements = _serviceAPRE.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = Id });
                         if (academicPlanRecordElements.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(academicPlanRecordElements.Result.List, names.propertiesNames);
@@ -195,9 +219,9 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlanRecordElement":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebAcademicPlanRecordMissionViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(AcademicPlanRecordMissionViewModel));
                     tableHead = names.displayNames;
-                    var academicPlanRecordMissions = _serviceSP.GetAcademicPlanRecordMissions(new WebAcademicPlanRecordMissionGetBindingModel { AcademicPlanRecordElementId = Id });
+                    var academicPlanRecordMissions = _serviceAPRM.GetAcademicPlanRecordMissions(new AcademicPlanRecordMissionGetBindingModel { AcademicPlanRecordElementId = Id });
 
                     if (Id != Guid.Empty)
                     {
@@ -209,19 +233,21 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "StreamLessons":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebStreamLessonViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(StreamLessonViewModel));
                     tableHead = names.displayNames;
-                    actions = new List<MenuElementModel> {
-                            new MenuElementModel
-                            {
-                                Name = "Создать потоки",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            }};
+                    actions = new List<(bool IsDropdownElement, MenuElementModel action)> {
+                            (true, new MenuElementModel
+                                {
+                                    Name = "Создать потоки",
+                                    Controller = "StudyProcess",
+                                    Action = ""
+                                }
+                            )
+                    };
 
                     if (Id != Guid.Empty)
                     {
-                        var streamLessons = _serviceSP.GetStreamLessons(new WebStreamLessonGetBindingModel { AcademicYearId = Id });
+                        var streamLessons = _serviceSL.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = Id });
                         if (streamLessons.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(streamLessons.Result.List, names.propertiesNames);
@@ -230,12 +256,12 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "StreamLesson":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebStreamLessonRecordViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(StreamLessonRecordViewModel));
                     tableHead = names.displayNames;
 
                     if (Id != Guid.Empty)
                     {
-                        var streamLessonRecords = _serviceSP.GetStreamLessonRecords(new WebStreamLessonRecordGetBindingModel { StreamLessonId = Id });
+                        var streamLessonRecords = _serviceSLR.GetStreamLessonRecords(new StreamLessonRecordGetBindingModel { StreamLessonId = Id });
                         if (streamLessonRecords.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(streamLessonRecords.Result.List, names.propertiesNames);
@@ -244,12 +270,12 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "TimeNorms":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebTimeNormViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(TimeNormViewModel));
                     tableHead = names.displayNames;
 
                     if (Id != Guid.Empty)
                     {
-                        var timeNorms = _serviceSP.GetTimeNorms(new WebTimeNormGetBindingModel { AcademicYearId = Id });
+                        var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicYearId = Id });
                         if (timeNorms.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(timeNorms.Result.List, names.propertiesNames);
@@ -258,12 +284,12 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "Contingents":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebContingentViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(ContingentViewModel));
                     tableHead = names.displayNames;
 
                     if (Id != Guid.Empty)
                     {
-                        var contingents = _serviceSP.GetContingents(new WebContingentGetBindingModel { AcademicYearId = Id });
+                        var contingents = _serviceC.GetContingents(new ContingentGetBindingModel { AcademicYearId = Id });
                         if (contingents.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(contingents.Result.List, names.propertiesNames);
@@ -272,19 +298,21 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "LecturerWorkloads":
-                    names = _serviceSP.GetPropertiesNames(typeof(WebLecturerWorkloadViewModel));
+                    names = _serviceSP.GetPropertiesNames(typeof(LecturerWorkloadViewModel));
                     tableHead = names.displayNames;
-                    actions = new List<MenuElementModel> {
-                            new MenuElementModel
-                            {
-                                Name = "Создать нагрузку",
-                                Controller = "StudyProcess",
-                                Action = ""
-                            }};
+                    actions = new List<(bool IsDropdownElement, MenuElementModel action)> {
+                            (true, new MenuElementModel
+                                {
+                                    Name = "Создать нагрузку",
+                                    Controller = "StudyProcess",
+                                    Action = ""
+                                }
+                            )
+                    };
 
                     if (Id != Guid.Empty)
                     {
-                        var lecturerWorkloads = _serviceSP.GetLecturerWorkloads(new WebLecturerWorkloadGetBindingModel { AcademicYearId = Id });
+                        var lecturerWorkloads = _serviceLW.GetLecturerWorkloads(new LecturerWorkloadGetBindingModel { AcademicYearId = Id });
                         if (lecturerWorkloads.Succeeded)
                         {
                             tableBody = _serviceSP.GetPropertiesValues(lecturerWorkloads.Result.List, names.propertiesNames);
@@ -307,13 +335,13 @@ namespace DepartmentWebCore.Controllers
             switch (menuElement)
             {
                 case "AcademicYear":
-                    var academicYearView = new WebAcademicYearViewModel();
+                    var academicYearView = new AcademicYearViewModel();
                     return View("Index", academicYearView);
 
                 case "AcademicPlans":
-                    var academicPlanView = new WebAcademicPlanViewModel() { AcademicYearId = Id, AcademicCourses = 0 };
+                    var academicPlanView = new AcademicPlanViewModel() { AcademicYearId = Id, AcademicCourses = 0 };
                     var educationDirections = _baseService.GetEducationDirections();
-                    var academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
+                    var academicYear = _serviceAY.GetAcademicYear(new AcademicYearGetBindingModel() { Id = Id });
                     if (educationDirections != null && academicYear.Succeeded)
                     {
                         academicPlanView.AcademicYear = academicYear.Result.Title;
@@ -325,13 +353,13 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlan":
-                    var academicPlanRecordView = new WebAcademicPlanRecordViewModel() { AcademicPlanId = Id };
-                    var academicPlan = _serviceSP.GetAcademicPlan(new WebAcademicPlanGetBindingModel { Id = Id });
+                    var academicPlanRecordView = new AcademicPlanRecordViewModel() { AcademicPlanId = Id };
+                    var academicPlan = _serviceAP.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = Id });
                     var semesters = Enum.GetValues(typeof(Semesters)).Cast<Semesters>().Select(v => v.ToString()).ToList();
                     if (academicPlan.Succeeded)
                     {
                         var disciplines = _serviceD.GetDisciplines(new DisciplineGetBindingModel { });
-                        var contingents = _serviceSP.GetContingents(new WebContingentGetBindingModel { AcademicPlanId = Id });
+                        var contingents = _serviceC.GetContingents(new ContingentGetBindingModel { AcademicPlanId = Id });
                         if (disciplines.Succeeded && contingents.Succeeded)
                         {
                             ViewBag.AcademicPlan = academicPlan.Result;
@@ -345,12 +373,12 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlanRecord":
-                    var academicPlanRecordElementView = new WebAcademicPlanRecordElementViewModel() { AcademicPlanRecordId = Id };
-                    var timeNorms = _serviceSP.GetTimeNorms(new WebTimeNormGetBindingModel { AcademicPlanRecordId = Id });
-                    var academicPlanRecord = _serviceSP.GetAcademicPlanRecord(new WebAcademicPlanRecordGetBindingModel { Id = Id });
+                    var academicPlanRecordElementView = new AcademicPlanRecordElementViewModel() { AcademicPlanRecordId = Id };
+                    var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = Id });
+                    var academicPlanRecord = _serviceAPR.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = Id });
                     if (timeNorms.Succeeded && academicPlanRecord.Succeeded)
                     {
-                        academicPlanRecordElementView.Disciplne = academicPlanRecord.Result.Disciplne;
+                        academicPlanRecordElementView.Discipline = academicPlanRecord.Result.Discipline;
                         ViewBag.TimeNorms = timeNorms.Result.List;
                         ViewBag.menuElement = "AcademicPlanRecordElement";
                         return View("AcademicPlanRecordElement", academicPlanRecordElementView);
@@ -358,8 +386,8 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlanRecordElement":
-                    var academicPlanRecordMissionView = new WebAcademicPlanRecordMissionViewModel() { AcademicPlanRecordElementId = Id };
-                    var academicPlanRecordElement = _serviceSP.GetAcademicPlanRecordElement(new WebAcademicPlanRecordElementGetBindingModel { Id = Id });
+                    var academicPlanRecordMissionView = new AcademicPlanRecordMissionViewModel() { AcademicPlanRecordElementId = Id };
+                    var academicPlanRecordElement = _serviceAPRE.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = Id });
                     var lecturers = _baseService.GetLecturers();
                     if (academicPlanRecordElement.Succeeded && lecturers != null)
                     {
@@ -371,8 +399,8 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "StreamLessons":
-                    var streamLessonView = new WebStreamLessonViewModel() { AcademicYearId = Id };
-                    academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
+                    var streamLessonView = new StreamLessonViewModel() { AcademicYearId = Id };
+                    academicYear = _serviceAY.GetAcademicYear(new AcademicYearGetBindingModel() { Id = Id });
                     if (academicYear.Succeeded)
                     {
                         streamLessonView.AcademicYear = academicYear.Result.Title;
@@ -383,11 +411,11 @@ namespace DepartmentWebCore.Controllers
                     return View("StreamLesson", streamLessonView);
 
                 case "StreamLesson":
-                    var streamLessonRecordView = new WebStreamLessonRecordViewModel() { StreamLessonId = Id };
-                    var streamLesson = _serviceSP.GetStreamLesson(new WebStreamLessonGetBindingModel { Id = Id });
+                    var streamLessonRecordView = new StreamLessonRecordViewModel() { StreamLessonId = Id };
+                    var streamLesson = _serviceSL.GetStreamLesson(new StreamLessonGetBindingModel { Id = Id });
                     if (streamLesson.Succeeded)
                     {
-                        var academicPlans = _serviceSP.GetAcademicPlans(new WebAcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
+                        var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
                         if (academicPlans.Succeeded)
                         {
                             streamLessonRecordView.StreamLessonName = streamLesson.Result.StreamLessonName;
@@ -399,8 +427,8 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "TimeNorms":
-                    var timeNormView = new WebTimeNormViewModel() { AcademicYearId = Id };
-                    academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
+                    var timeNormView = new TimeNormViewModel() { AcademicYearId = Id };
+                    academicYear = _serviceAY.GetAcademicYear(new AcademicYearGetBindingModel() { Id = Id });
                     var disciplineBlocks = _serviceDB.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
                     var educationDirectionQualifications = Enum.GetValues(typeof(EducationDirectionQualification)).Cast<EducationDirectionQualification>().Select(v => v.ToString()).ToList();
                     var kindOfLoadTypes = Enum.GetValues(typeof(KindOfLoadType)).Cast<KindOfLoadType>().Select(v => v.ToString()).ToList();
@@ -418,8 +446,8 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "Contingents":
-                    var contingentView = new WebContingentViewModel() { AcademicYearId = Id };
-                    academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
+                    var contingentView = new ContingentViewModel() { AcademicYearId = Id };
+                    academicYear = _serviceAY.GetAcademicYear(new AcademicYearGetBindingModel() { Id = Id });
                     educationDirections = _baseService.GetEducationDirections();
                     if (educationDirections != null && academicYear.Succeeded)
                     {
@@ -431,8 +459,8 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "LecturerWorkloads":
-                    var lecturerWorkloadView = new WebLecturerWorkloadViewModel() { AcademicYearId = Id };
-                    academicYear = _serviceSP.GetAcademicYear(new WebAcademicYearGetBindingModel() { Id = Id });
+                    var lecturerWorkloadView = new LecturerWorkloadViewModel() { AcademicYearId = Id };
+                    academicYear = _serviceAY.GetAcademicYear(new AcademicYearGetBindingModel() { Id = Id });
                     lecturers = _baseService.GetLecturers();
                     if (lecturers != null && academicYear.Succeeded)
                     {
@@ -458,7 +486,7 @@ namespace DepartmentWebCore.Controllers
             switch (menuElement)
             {
                 case "AcademicPlans":
-                    var academicPlan = _serviceSP.GetAcademicPlan(new WebAcademicPlanGetBindingModel { Id = Id });
+                    var academicPlan = _serviceAP.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = Id });
                     if (academicPlan.Succeeded)
                     {
                         var educationDirections = _baseService.GetEducationDirections();
@@ -473,14 +501,14 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlan":
-                    var academicPlanRecord = _serviceSP.GetAcademicPlanRecord(new WebAcademicPlanRecordGetBindingModel { Id = Id });
+                    var academicPlanRecord = _serviceAPR.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = Id });
                     if (academicPlanRecord.Succeeded)
                     {
-                        academicPlan = _serviceSP.GetAcademicPlan(new WebAcademicPlanGetBindingModel { Id = academicPlanRecord.Result.AcademicPlanId });
+                        academicPlan = _serviceAP.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = academicPlanRecord.Result.AcademicPlanId });
                         if (academicPlan.Succeeded)
                         {
                             var disciplines = _serviceD.GetDisciplines(new DisciplineGetBindingModel { });
-                            var contingents = _serviceSP.GetContingents(new WebContingentGetBindingModel { AcademicPlanId = academicPlan.Result.Id });
+                            var contingents = _serviceC.GetContingents(new ContingentGetBindingModel { AcademicPlanId = academicPlan.Result.Id });
                             var semesters = Enum.GetValues(typeof(Semesters)).Cast<Semesters>().Select(v => v.ToString()).ToList();
                             if (disciplines.Succeeded && contingents.Succeeded)
                             {
@@ -496,10 +524,10 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlanRecord":
-                    var academicPlanRecordElement = _serviceSP.GetAcademicPlanRecordElement(new WebAcademicPlanRecordElementGetBindingModel { Id = Id });
+                    var academicPlanRecordElement = _serviceAPRE.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = Id });
                     if (academicPlanRecordElement.Succeeded)
                     {
-                        var timeNorms = _serviceSP.GetTimeNorms(new WebTimeNormGetBindingModel { AcademicPlanRecordId = academicPlanRecordElement.Result.AcademicPlanRecordId });
+                        var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = academicPlanRecordElement.Result.AcademicPlanRecordId });
                         if (timeNorms.Succeeded)
                         {
                             ViewBag.TimeNorms = timeNorms.Result.List;
@@ -510,10 +538,10 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "AcademicPlanRecordElement":
-                    var academicPlanRecordMission = _serviceSP.GetAcademicPlanRecordMission(new WebAcademicPlanRecordMissionGetBindingModel { Id = Id });
+                    var academicPlanRecordMission = _serviceAPRM.GetAcademicPlanRecordMission(new AcademicPlanRecordMissionGetBindingModel { Id = Id });
                     if (academicPlanRecordMission.Succeeded)
                     {
-                        academicPlanRecordElement = _serviceSP.GetAcademicPlanRecordElement(new WebAcademicPlanRecordElementGetBindingModel { Id = academicPlanRecordMission.Result.AcademicPlanRecordElementId });
+                        academicPlanRecordElement = _serviceAPRE.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = academicPlanRecordMission.Result.AcademicPlanRecordElementId });
                         var lecturers = _baseService.GetLecturers();
                         if (academicPlanRecordElement.Succeeded && lecturers != null)
                         {
@@ -526,7 +554,7 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "StreamLessons":
-                    var streamLesson = _serviceSP.GetStreamLesson(new WebStreamLessonGetBindingModel { Id = Id });
+                    var streamLesson = _serviceSL.GetStreamLesson(new StreamLessonGetBindingModel { Id = Id });
                     if (streamLesson.Succeeded)
                     {
                         var semesters = Enum.GetValues(typeof(Semesters)).Cast<Semesters>().Select(v => v.ToString()).ToList();
@@ -537,13 +565,13 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "StreamLesson":
-                    var streamLessonRecord = _serviceSP.GetStreamLessonRecord(new WebStreamLessonRecordGetBindingModel { Id = Id });
+                    var streamLessonRecord = _serviceSLR.GetStreamLessonRecord(new StreamLessonRecordGetBindingModel { Id = Id });
                     if (streamLessonRecord.Succeeded)
                     {
-                        streamLesson = _serviceSP.GetStreamLesson(new WebStreamLessonGetBindingModel { Id = streamLessonRecord.Result.StreamLessonId });
+                        streamLesson = _serviceSL.GetStreamLesson(new StreamLessonGetBindingModel { Id = streamLessonRecord.Result.StreamLessonId });
                         if (streamLesson.Succeeded)
                         {
-                            var academicPlans = _serviceSP.GetAcademicPlans(new WebAcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
+                            var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
                             if (academicPlans.Succeeded)
                             {
                                 ViewBag.AcademicPlans = academicPlans.Result.List;
@@ -555,7 +583,7 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "TimeNorms":
-                    var timeNorm = _serviceSP.GetTimeNorm(new WebTimeNormGetBindingModel { Id = Id });
+                    var timeNorm = _serviceTN.GetTimeNorm(new TimeNormGetBindingModel { Id = Id });
                     if (timeNorm.Succeeded)
                     {
                         var disciplineBlocks = _serviceDB.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
@@ -575,7 +603,7 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "Contingents":
-                    var contingent = _serviceSP.GetContingent(new WebContingentGetBindingModel { Id = Id });
+                    var contingent = _serviceC.GetContingent(new ContingentGetBindingModel { Id = Id });
                     if (contingent.Succeeded)
                     {
                         var educationDirections = _baseService.GetEducationDirections();
@@ -589,7 +617,7 @@ namespace DepartmentWebCore.Controllers
                     break;
 
                 case "LecturerWorkloads":
-                    var lecturerWorkload = _serviceSP.GetLecturerWorkload(new WebLecturerWorkloadGetBindingModel { Id = Id });
+                    var lecturerWorkload = _serviceLW.GetLecturerWorkload(new LecturerWorkloadGetBindingModel { Id = Id });
                     if (lecturerWorkload.Succeeded)
                     {
                         var lecturers = _baseService.GetLecturers();
@@ -614,39 +642,39 @@ namespace DepartmentWebCore.Controllers
             switch (menuElement)
             {
                 case "AcademicPlans":
-                    result = _serviceSP.DeleteAcademicPlan(new WebAcademicPlanGetBindingModel { Id = Id });
+                    result = _serviceAP.DeleteAcademicPlan(new AcademicPlanGetBindingModel { Id = Id });
                     break;
 
                 case "AcademicPlan":
-                    result = _serviceSP.DeleteAcademicPlanRecord(new WebAcademicPlanRecordGetBindingModel { Id = Id });
+                    result = _serviceAPR.DeleteAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = Id });
                     break;
 
                 case "AcademicPlanRecord":
-                    result = _serviceSP.DeleteAcademicPlanRecordElement(new WebAcademicPlanRecordElementGetBindingModel { Id = Id });
+                    result = _serviceAPRE.DeleteAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = Id });
                     break;
 
                 case "AcademicPlanRecordElement":
-                    result = _serviceSP.DeleteAcademicPlanRecordMission(new WebAcademicPlanRecordMissionGetBindingModel { Id = Id });
+                    result = _serviceAPRM.DeleteAcademicPlanRecordMission(new AcademicPlanRecordMissionGetBindingModel { Id = Id });
                     break;
 
                 case "StreamLessons":
-                    result = _serviceSP.DeleteStreamLesson(new WebStreamLessonGetBindingModel { Id = Id });
+                    result = _serviceSL.DeleteStreamLesson(new StreamLessonGetBindingModel { Id = Id });
                     break;
 
                 case "StreamLesson":
-                    result = _serviceSP.DeleteStreamLessonRecord(new WebStreamLessonRecordGetBindingModel { Id = Id });
+                    result = _serviceSLR.DeleteStreamLessonRecord(new StreamLessonRecordGetBindingModel { Id = Id });
                     break;
 
                 case "TimeNorms":
-                    result = _serviceSP.DeleteTimeNorm(new WebTimeNormGetBindingModel { Id = Id });
+                    result = _serviceTN.DeleteTimeNorm(new TimeNormGetBindingModel { Id = Id });
                     break;
 
                 case "Contingents":
-                    result = _serviceSP.DeleteContingent(new WebContingentGetBindingModel { Id = Id });
+                    result = _serviceC.DeleteContingent(new ContingentGetBindingModel { Id = Id });
                     break;
 
                 case "LecturerWorkloads":
-                    result = _serviceSP.DeleteLecturerWorkload(new WebLecturerWorkloadGetBindingModel { Id = Id });
+                    result = _serviceLW.DeleteLecturerWorkload(new LecturerWorkloadGetBindingModel { Id = Id });
                     break;
             }
 
@@ -657,19 +685,19 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public IActionResult AcademicYear(WebAcademicYearSetBindingModel model)
+        public IActionResult AcademicYear(AcademicYearSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateAcademicYear(new WebAcademicYearSetBindingModel
+                result = _serviceAY.CreateAcademicYear(new AcademicYearSetBindingModel
                 {
                     Title = model.Title
                 });
             }
             else
             {
-                result = _serviceSP.UpdateAcademicYear(new WebAcademicYearSetBindingModel
+                result = _serviceAY.UpdateAcademicYear(new AcademicYearSetBindingModel
                 {
                     Id = model.Id,
                     Title = model.Title
@@ -691,16 +719,16 @@ namespace DepartmentWebCore.Controllers
             }
 
             return Json(model.Id);
-           // return RedirectToAction("Index", new { Id = model.Id });
+            // return RedirectToAction("Index", new { Id = model.Id });
         }
 
         [HttpPost]
-        public void AcademicPlan(WebAcademicPlanSetBindingModel model)
+        public void AcademicPlan(AcademicPlanSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateAcademicPlan(new WebAcademicPlanSetBindingModel
+                result = _serviceAP.CreateAcademicPlan(new AcademicPlanSetBindingModel
                 {
                     AcademicYearId = model.AcademicYearId,
                     EducationDirectionId = model.EducationDirectionId,
@@ -710,7 +738,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateAcademicPlan(new WebAcademicPlanSetBindingModel
+                result = _serviceAP.UpdateAcademicPlan(new AcademicPlanSetBindingModel
                 {
                     Id = model.Id,
                     AcademicYearId = model.AcademicYearId,
@@ -725,25 +753,30 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void AcademicPlanRecord(WebAcademicPlanRecordSetBindingModel model)
+        public void AcademicPlanRecord(AcademicPlanRecordSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateAcademicPlanRecord(new WebAcademicPlanRecordSetBindingModel
+                result = _serviceAPR.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                 {
                     AcademicPlanId = model.AcademicPlanId,
                     DisciplineId = model.DisciplineId,
                     ContingentId = model.ContingentId,
                     Semester = model.Semester,
                     Zet = model.Zet,
-                    Selectable = model.Selectable,
-                    IsSelected = model.IsSelected
+                    IsUseInWorkload = model.IsUseInWorkload,
+                    InDepartment = model.InDepartment,
+                    IsActiveSemester = model.IsActiveSemester,
+
+                    IsChild = model.IsChild,
+                    IsParent = model.IsParent,
+                    IsFacultative = model.IsFacultative
                 });
             }
             else
             {
-                result = _serviceSP.UpdateAcademicPlanRecord(new WebAcademicPlanRecordSetBindingModel
+                result = _serviceAPR.UpdateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
                 {
                     Id = model.Id,
                     AcademicPlanId = model.AcademicPlanId,
@@ -751,8 +784,13 @@ namespace DepartmentWebCore.Controllers
                     ContingentId = model.ContingentId,
                     Semester = model.Semester,
                     Zet = model.Zet,
-                    Selectable = model.Selectable,
-                    IsSelected = model.IsSelected
+                    IsUseInWorkload = model.IsUseInWorkload,
+                    InDepartment = model.InDepartment,
+                    IsActiveSemester = model.IsActiveSemester,
+
+                    IsChild = model.IsChild,
+                    IsParent = model.IsParent,
+                    IsFacultative = model.IsFacultative
                 });
             }
             if (!result.Succeeded)
@@ -762,12 +800,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void AcademicPlanRecordElement(WebAcademicPlanRecordElementSetBindingModel model)
+        public void AcademicPlanRecordElement(AcademicPlanRecordElementSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateAcademicPlanRecordElement(new WebAcademicPlanRecordElementSetBindingModel
+                result = _serviceAPRE.CreateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
                 {
                     AcademicPlanRecordId = model.AcademicPlanRecordId,
                     TimeNormId = model.TimeNormId,
@@ -778,7 +816,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateAcademicPlanRecordElement(new WebAcademicPlanRecordElementSetBindingModel
+                result = _serviceAPRE.UpdateAcademicPlanRecordElement(new AcademicPlanRecordElementSetBindingModel
                 {
                     Id = model.Id,
                     AcademicPlanRecordId = model.AcademicPlanRecordId,
@@ -794,12 +832,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void AcademicPlanRecordMission(WebAcademicPlanRecordMissionSetBindingModel model)
+        public void AcademicPlanRecordMission(AcademicPlanRecordMissionSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateAcademicPlanRecordMission(new WebAcademicPlanRecordMissionSetBindingModel
+                result = _serviceAPRM.CreateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
                 {
                     AcademicPlanRecordElementId = model.AcademicPlanRecordElementId,
                     LecturerId = model.LecturerId,
@@ -810,7 +848,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateAcademicPlanRecordMission(new WebAcademicPlanRecordMissionSetBindingModel
+                result = _serviceAPRM.UpdateAcademicPlanRecordMission(new AcademicPlanRecordMissionSetBindingModel
                 {
                     Id = model.Id,
                     AcademicPlanRecordElementId = model.AcademicPlanRecordElementId,
@@ -825,12 +863,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void StreamLesson(WebStreamLessonSetBindingModel model)
+        public void StreamLesson(StreamLessonSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateStreamLesson(new WebStreamLessonSetBindingModel
+                result = _serviceSL.CreateStreamLesson(new StreamLessonSetBindingModel
                 {
                     AcademicYearId = model.AcademicYearId,
                     StreamLessonName = model.StreamLessonName,
@@ -840,7 +878,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateStreamLesson(new WebStreamLessonSetBindingModel
+                result = _serviceSL.UpdateStreamLesson(new StreamLessonSetBindingModel
                 {
                     Id = model.Id,
                     AcademicYearId = model.AcademicYearId,
@@ -856,12 +894,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void StreamLessonRecord(WebStreamLessonRecordSetBindingModel model)
+        public void StreamLessonRecord(StreamLessonRecordSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateStreamLessonRecord(new WebStreamLessonRecordSetBindingModel
+                result = _serviceSLR.CreateStreamLessonRecord(new StreamLessonRecordSetBindingModel
                 {
                     StreamLessonId = model.StreamLessonId,
                     AcademicPlanRecordElementId = model.AcademicPlanRecordElementId,
@@ -870,7 +908,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateStreamLessonRecord(new WebStreamLessonRecordSetBindingModel
+                result = _serviceSLR.UpdateStreamLessonRecord(new StreamLessonRecordSetBindingModel
                 {
                     Id = model.Id,
                     StreamLessonId = model.StreamLessonId,
@@ -885,12 +923,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void TimeNorm(WebTimeNormSetBindingModel model)
+        public void TimeNorm(TimeNormSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateTimeNorm(new WebTimeNormSetBindingModel
+                result = _serviceTN.CreateTimeNorm(new TimeNormSetBindingModel
                 {
                     AcademicYearId = model.AcademicYearId,
                     DisciplineBlockId = model.DisciplineBlockId,
@@ -913,7 +951,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateTimeNorm(new WebTimeNormSetBindingModel
+                result = _serviceTN.UpdateTimeNorm(new TimeNormSetBindingModel
                 {
                     Id = model.Id,
                     AcademicYearId = model.AcademicYearId,
@@ -942,12 +980,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void Contingent(WebContingentSetBindingModel model)
+        public void Contingent(ContingentSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateContingent(new WebContingentSetBindingModel
+                result = _serviceC.CreateContingent(new ContingentSetBindingModel
                 {
                     AcademicYearId = model.AcademicYearId,
                     EducationDirectionId = model.EducationDirectionId,
@@ -960,7 +998,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateContingent(new WebContingentSetBindingModel
+                result = _serviceC.UpdateContingent(new ContingentSetBindingModel
                 {
                     Id = model.Id,
                     AcademicYearId = model.AcademicYearId,
@@ -979,12 +1017,12 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public void LecturerWorkload(WebLecturerWorkloadSetBindingModel model)
+        public void LecturerWorkload(LecturerWorkloadSetBindingModel model)
         {
             ResultService result;
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceSP.CreateLecturerWorkload(new WebLecturerWorkloadSetBindingModel
+                result = _serviceLW.CreateLecturerWorkload(new LecturerWorkloadSetBindingModel
                 {
                     AcademicYearId = model.AcademicYearId,
                     LecturerId = model.LecturerId,
@@ -993,7 +1031,7 @@ namespace DepartmentWebCore.Controllers
             }
             else
             {
-                result = _serviceSP.UpdateLecturerWorkload(new WebLecturerWorkloadSetBindingModel
+                result = _serviceLW.UpdateLecturerWorkload(new LecturerWorkloadSetBindingModel
                 {
                     Id = model.Id,
                     AcademicYearId = model.AcademicYearId,
@@ -1010,7 +1048,7 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public JsonResult GetAcademicPlanRecords(Guid AcademicPlanId)
         {
-            var academicPlanRecords = _serviceSP.GetAcademicPlanRecords(new WebAcademicPlanRecordGetBindingModel { AcademicPlanId = AcademicPlanId });
+            var academicPlanRecords = _serviceAPR.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { AcademicPlanId = AcademicPlanId });
             if (academicPlanRecords.Succeeded)
             {
                 return Json(academicPlanRecords.Result.List);
@@ -1021,7 +1059,7 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public JsonResult GetAcademicPlanRecordElements(Guid AcademicPlanRecordId)
         {
-            var academicPlanRecordElements = _serviceSP.GetAcademicPlanRecordElements(new WebAcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = AcademicPlanRecordId });
+            var academicPlanRecordElements = _serviceAPRE.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = AcademicPlanRecordId });
             if (academicPlanRecordElements.Succeeded)
             {
                 return Json(academicPlanRecordElements.Result.List);

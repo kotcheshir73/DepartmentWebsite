@@ -49,7 +49,7 @@ namespace AcademicYearControlsAndForms.DisciplineTimeDistribution
             comboBoxAcademicPlanRecord.ValueMember = "Value";
             comboBoxAcademicPlanRecord.DisplayMember = "Display";
             comboBoxAcademicPlanRecord.DataSource = resultAPR.Result.List
-                .Select(ap => new { Value = ap.Id, Display = ap.Disciplne }).ToList();
+                .Select(ap => new { Value = ap.Id, Display = ap.Discipline }).ToList();
 
             comboBoxStudentGroup.ValueMember = "Value";
             comboBoxStudentGroup.DisplayMember = "Display";

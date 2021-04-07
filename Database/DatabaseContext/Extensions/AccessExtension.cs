@@ -5,7 +5,7 @@ using Tools.BindingModels;
 
 namespace DatabaseContext.Extensions
 {
-	public static class AccessExtension
+    public static class AccessExtension
     {
         /// <summary>
         /// Авторизация пользователя к операции
@@ -16,16 +16,16 @@ namespace DatabaseContext.Extensions
         /// <param name="entity"></param>
         public static void CheckAccess(this CoreAccessBindingModel coreAccess, AccessOperation operation, AccessType type, string entity)
         {
-            if(coreAccess.SkipCheck && type == AccessType.View)
-			{
+            if (coreAccess.SkipCheck && type == AccessType.View)
+            {
                 return;
-			}
+            }
             using (var context = DepartmentUserManager.GetContext)
             {
                 var roles = context.DepartmentUserRoles.Where(x => x.UserId == coreAccess.UserId).Select(x => x.Role).OrderByDescending(x => x.RolePriority).ToList();
                 if (roles == null)
                 {
-                    throw new Exception($"Нетверный пользователь");
+                    throw new Exception($"Неверный пользователь");
                 }
 
                 var access = context.DepartmentAccesses.FirstOrDefault(a => a.Operation == operation && roles.Contains(a.Role));

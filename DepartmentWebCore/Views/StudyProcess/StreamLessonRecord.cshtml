@@ -2,8 +2,8 @@
     ViewBag.Title = Model.AcademicPlanRecordElementText;
 }
 
-@using WebInterfaces.ViewModels
-@model WebStreamLessonRecordViewModel
+@using AcademicYearInterfaces.ViewModels
+@model StreamLessonRecordViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="StreamLessonRecord" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
@@ -84,7 +84,7 @@
                         $("#academicPlanRecords").empty();
                         var select = document.getElementById("academicPlanRecords");
                         for (var i = 0; i < data.length; i++) {
-                            select.add(new Option(data[i].disciplne, data[i].id));
+                            select.add(new Option(data[i].discipline, data[i].id));
                             if ("@Model.AcademicPlanRecordId.ToString()" == data[i].id) {
                                 select.options[i].selected = true;
                             }

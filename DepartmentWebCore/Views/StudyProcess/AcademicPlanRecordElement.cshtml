@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = Model.Disciplne + " : " + Model.KindOfLoadName;
+    ViewBag.Title = Model.Discipline + " : " + Model.KindOfLoadName;
 }
 
 @using DepartmentWebCore.Helpers
-@using WebInterfaces.ViewModels
-@model WebAcademicPlanRecordElementViewModel
+@using AcademicYearInterfaces.ViewModels
+@model AcademicPlanRecordElementViewModel
 
 <form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecordElement" asp-controller="StudyProcess">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
@@ -21,7 +21,7 @@
         <label style="font-weight:bold;" class="col-sm-2 control-label">Запись учебного плана</label>
         <div class="col-xs-6">
             <select class="form-control" disabled>
-                <option value="@Model.AcademicPlanRecordId">@Model.Disciplne</option>
+                <option value="@Model.AcademicPlanRecordId">@Model.Discipline</option>
             </select>
         </div>
     </div>
