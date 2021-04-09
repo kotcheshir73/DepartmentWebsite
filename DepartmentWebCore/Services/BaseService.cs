@@ -385,6 +385,13 @@ namespace DepartmentWebCore.Services
 				cache.Set($"DisicplineMission:{disciplineId}", missions, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(10)));
 			}
 
+			string disciplineName = string.Empty;
+			if (missions == null || missions.Count == 0)
+			{
+				var disc = GetDiscipline(disciplineId);
+				disciplineName = disc?.DisciplineName;
+			}
+
 			var users = _serviceAU.GetUsers(new UserGetBindingModel
 			{
 				SkipCheck = true,
@@ -395,7 +402,7 @@ namespace DepartmentWebCore.Services
 				return default;
 			}
 
-			var record = (missions.FirstOrDefault().DisciplineTitle, users.Result.List.Select(x => x.Id).Distinct().ToList());
+			var record = (missions?.FirstOrDefault()?.DisciplineTitle ?? disciplineName, users.Result.List?.Select(x => x.Id)?.Distinct()?.ToList());
 
 			return record;
 		}
