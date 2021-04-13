@@ -1,49 +1,45 @@
 ﻿@{
-    ViewBag.Title = Model.AcademicPlanRecordElementTitle + " : " + Model.LecturerName;
+    ViewBag.Title = Model.AcademicPlanRecordElementTitle != null && Model.LecturerName != null ? Model.AcademicPlanRecordElementTitle + " : " + Model.LecturerName : "Распределение нагрузки";
 }
 
 @using AcademicYearInterfaces.ViewModels
 @model AcademicPlanRecordMissionViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecordMission" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicPlanRecordElementId" value="@Model.AcademicPlanRecordElementId" />
+    <input type="hidden" asp-for="AcademicPlanRecordElementId" />
+
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicPlanRecordElement" asp-action="View" asp-route-Id="@Model.AcademicPlanRecordElementId">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Запись нагрузки*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicPlanRecordElementId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicPlanRecordElementId">@ViewBag.AcademicPlanRecordElement.Disciplne</option>
-            </select>
+            <select class="form-control" asp-for="AcademicPlanRecordElementId" asp-items="@ViewBag.AcademicPlanRecordElements" disabled></select>
+            <span asp-validation-for="AcademicPlanRecordElementId" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Преподаватель*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="LecturerId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="LecturerId">
-                @foreach (var lecturer in ViewBag.Lecturers)
-                {
-                    if (lecturer.Id == Model.LecturerId)
-                    {
-                        <option selected value="@lecturer.Id">@lecturer.FullName</option>
-                    }
-                    else
-                    {
-                        <option value="@lecturer.Id">@lecturer.FullName</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="LecturerId" asp-items="@ViewBag.Lecturers"></select>
+            <span asp-validation-for="LecturerId" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Часы*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Hours"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="Hours" value="@Model.Hours" required>
+            <input class="form-control" asp-for="Hours">
+            <span asp-validation-for="Hours" class="text-danger"></span>
         </div>
     </div>
 </form>
@@ -51,17 +47,34 @@
 <script>
     $(function () {
         $('#btnSave').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("AcademicPlanRecordMission", "StudyProcess")',
-                data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
-                },
-                error: function (result) {
-                    ShowError(result);
-                }
-            });
+            $('#error').text("");
+            if ($("form").valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Save", "AcademicPlanRecordMission")',
+                    data: $('form').serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            return;
+                        }
+                        if (data.id != null) {
+                            window.location = "@Url.Action("View", "AcademicPlanRecordMission", new { Id = "id" })".replace("id", data.id);
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            }
         });
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

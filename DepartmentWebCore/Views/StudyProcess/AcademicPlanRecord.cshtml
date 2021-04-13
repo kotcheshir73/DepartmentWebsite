@@ -1,121 +1,116 @@
 ﻿@{
-    ViewBag.Title = Model.Discipline;
+    ViewBag.Title = Model.Discipline != null ? Model.Discipline : "Запись академического плана";
 }
 
 @using DepartmentWebCore.Helpers
 @using AcademicYearInterfaces.ViewModels
 @model AcademicPlanRecordViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecord" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicPlanId" value="@Model.AcademicPlanId" />
+    <input type="hidden" asp-for="AcademicPlanId" />
+
+    <input type="hidden" asp-for="InDepartment" value="@Model.InDepartment" />
+    <input type="hidden" asp-for="IsActiveSemester" value="@Model.IsActiveSemester" />
+    <input type="hidden" asp-for="IsChild" value="@Model.IsChild" />
+    <input type="hidden" asp-for="IsParent" value="@Model.IsParent" />
+    <input type="hidden" asp-for="IsFacultative" value="@Model.IsFacultative" />
 
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicPlan" asp-action="View" asp-route-Id="@Model.AcademicPlanId">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
+
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный план*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicPlanId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicPlanId">@ViewBag.AcademicPlan.EducationDirection</option>
-            </select>
+            <select class="form-control" asp-for="AcademicPlanId" asp-items="@ViewBag.AcademicPlans" disabled></select>
+            <span asp-validation-for="AcademicPlanId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Дисциплина*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="DisciplineId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="DisciplineId" required>
-                @foreach (var discipline in ViewBag.Disciplines)
-                {
-                    if (discipline.Id == Model.DisciplineId)
-                    {
-                        <option selected value="@discipline.Id">@discipline.DisciplineName</option>
-                    }
-                    else
-                    {
-                        <option value="@discipline.Id">@discipline.DisciplineName</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="DisciplineId" asp-items="@ViewBag.Disciplines"></select>
+            <span asp-validation-for="DisciplineId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Контингент</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="ContingentId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="ContingentId">
-                @foreach (var сontingent in ViewBag.Contingents)
-                {
-                    if (сontingent.Id == Model.ContingentId)
-                    {
-                        <option selected value="@сontingent.Id">@сontingent.ContingentName</option>
-                    }
-                    else
-                    {
-                        <option value="@сontingent.Id">@сontingent.ContingentName</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="ContingentId" asp-items="@ViewBag.Contingents"></select>
+            <span asp-validation-for="ContingentId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Семестр</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Semester"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="Semester">
-                @foreach (var semester in ViewBag.Semesters)
-                {
-                    if (semester == Model.Semester)
-                    {
-                        <option selected value="@semester">@semester</option>
-                    }
-                    else
-                    {
-                        <option value="@semester">@semester</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="Semester" asp-items="@ViewBag.Semesters"></select>
+            <span asp-validation-for="Semester" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Зет*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Zet"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="Zet" value="@Model.Zet" required>
+            <input class="form-control" asp-for="Zet">
+            <span asp-validation-for="Zet" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Участвует в расчете</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="IsUseInWorkload"></label>
         <div class="col-xs-6">
             <input class="form-check-input" asp-for="IsUseInWorkload" />
+            <span asp-validation-for="IsUseInWorkload" class="text-danger"></span>
         </div>
     </div>
 
     <div>
-        @Html.RenderAction("Table", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+        @Html.RenderAction("Table", "AcademicPlanRecordElement", new { Id = Model.Id })
     </div>
 </form>
 
 <script>
     $(function () {
         $('#btnSave').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("AcademicPlanRecord", "StudyProcess")',
-                data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
-                },
-                error: function (result) {
-                    ShowError(result);
-                }
-            });
+            $('#error').text("");
+            if ($("form").valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Save", "AcademicPlanRecord")',
+                    data: $('form').serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            return;
+                        }
+                        if (data.id != null) {
+                            window.location = "@Url.Action("View", "AcademicPlanRecord", new { Id = "id" })".replace("id", data.id);
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            }
         });
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

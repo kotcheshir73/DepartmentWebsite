@@ -1,49 +1,45 @@
 ﻿@{
-    ViewBag.Title = Model.Lecturer;
+    ViewBag.Title = Model.Lecturer != null ? Model.Lecturer : "Нагрузка преподавателя";
 }
 
 @using AcademicYearInterfaces.ViewModels
 @model LecturerWorkloadViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="LecturerWorkload" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicYearId" value="@Model.AcademicYearId" />
+    <input type="hidden" asp-for="AcademicYearId" />
+
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicYear" asp-action="View" asp-route-Id="@Model.AcademicYearId" asp-route-menuElement="@ViewBag.menuElement">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный год*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicYearId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicYearId">@Model.AcademicYear</option>
-            </select>
+            <select class="form-control" asp-for="AcademicYearId" asp-items="@ViewBag.AcademicYears" disabled></select>
+            <span asp-validation-for="AcademicYearId" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Преподаватель*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="LecturerId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="LecturerId">
-                @foreach (var lecturer in ViewBag.Lecturers)
-                {
-                    if (lecturer.Id == Model.LecturerId)
-                    {
-                        <option selected value="@lecturer.Id">@lecturer.FullName</option>
-                    }
-                    else
-                    {
-                        <option value="@lecturer.Id">@lecturer.FullName</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="LecturerId" asp-items="@ViewBag.Lecturers"></select>
+            <span asp-validation-for="LecturerId" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Нагрузка*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Workload"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="Workload" value="@Model.Workload" required>
+            <input class="form-control" asp-for="Workload">
+            <span asp-validation-for="Workload" class="text-danger"></span>
         </div>
     </div>
 </form>
@@ -51,17 +47,34 @@
 <script>
     $(function () {
         $('#btnSave').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("LecturerWorkload", "StudyProcess")',
-                data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
-                },
-                error: function (result) {
-                    ShowError(result);
-                }
-            });
+            $('#error').text("");
+            if ($("form").valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Save", "LecturerWorkload")',
+                    data: $('form').serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            return;
+                        }
+                        if (data.id != null) {
+                            window.location = "@Url.Action("View", "LecturerWorkload", new { Id = "id" })".replace("id", data.id);
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            }
         });
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

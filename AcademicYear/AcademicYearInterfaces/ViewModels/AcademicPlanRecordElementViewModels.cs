@@ -1,6 +1,6 @@
-﻿using Enums;
-using System;
+﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Tools.ViewModels;
 
 namespace AcademicYearInterfaces.ViewModels
@@ -9,8 +9,12 @@ namespace AcademicYearInterfaces.ViewModels
 
     public class AcademicPlanRecordElementViewModel : PageSettingElementViewModel
     {
+        [Required]
+        [Display(Name = "Запись учебного плана")]
         public Guid AcademicPlanRecordId { get; set; }
 
+        [Required]
+        [Display(Name = "Норма времени*")]
         public Guid TimeNormId { get; set; }
 
         public Guid DisciplineId { get; set; }
@@ -21,10 +25,14 @@ namespace AcademicYearInterfaces.ViewModels
         [DisplayName("Вид нагрузки")]
         public string KindOfLoadName { get; set; }
 
+        [Required]
         [DisplayName("План. часы")]
+        [Display(Name = "План. часы*")]
         public decimal PlanHours { get; set; }
 
+        [Required]
         [DisplayName("Факт. часы")]
+        [Display(Name = "Факт. часы*")]
         public decimal FactHours { get; set; }
 
         public int Semester { get; set; }

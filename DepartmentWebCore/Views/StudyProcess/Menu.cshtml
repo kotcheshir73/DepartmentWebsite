@@ -14,7 +14,7 @@
             {
                 activeClass = "";
             }
-            <li class="@activeClass"><a asp-action="Index" asp-controller="StudyProcess" asp-all-route-data='new Dictionary<string,string> { { "Id", @menuItem.AcademicYearId.ToString() }, {"menuElement", @menuItem.ActionName }}'>@menuItem.Name</a></li>
+            <li class="@activeClass"><a asp-action="View" asp-controller="AcademicYear" asp-all-route-data='new Dictionary<string,string> { { "Id", @menuItem.AcademicYearId.ToString() }, {"menuElement", @menuItem.ActionName }}'>@menuItem.Name</a></li>
         }
     </ul>
 </nav>

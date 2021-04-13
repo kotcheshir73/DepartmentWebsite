@@ -1,6 +1,7 @@
 ﻿using Enums;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Tools.ViewModels;
 
 namespace AcademicYearInterfaces.ViewModels
@@ -9,8 +10,11 @@ namespace AcademicYearInterfaces.ViewModels
 
     public class AcademicPlanViewModel : PageSettingElementViewModel
     {
+        [Required]
+        [Display(Name = "Учебный год*")]
         public Guid AcademicYearId { get; set; }
 
+        [Display(Name = "Направление")]
         public Guid? EducationDirectionId { get; set; }
 
         public string AcademicYear { get; set; }
@@ -21,6 +25,7 @@ namespace AcademicYearInterfaces.ViewModels
         [DisplayName("Курсы")]
         public string AcademicCoursesStrings { get; set; }
 
+        [Display(Name = "Курсы")]
         public int? AcademicCourses { get; set; }
 
         public override string ToString()

@@ -24,6 +24,8 @@ namespace DepartmentWebCore
 {
     public class Startup
     {
+        public const string StudyProcessAuthRole = "Администратор";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
