@@ -9,7 +9,7 @@
 <ul class="navig">
     @foreach (var item in Model)
     {
-        @if (User.IsInRole("Администратор") && item.AdditionalParameters.ContainsKey("StudyProcess") || !item.AdditionalParameters.ContainsKey("StudyProcess"))
+        @if (User.IsInRole(Startup.StudyProcessAuthRole) && item.AdditionalParameters.ContainsKey("StudyProcess") || !item.AdditionalParameters.ContainsKey("StudyProcess"))
         {
             @Html.MenuItem(item)
         }

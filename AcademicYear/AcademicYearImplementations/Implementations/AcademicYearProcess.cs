@@ -685,7 +685,8 @@ namespace AcademicYearImplementations.Implementations
                     }
 
                     XmlDocument newXmlDocument = new XmlDocument();
-                    newXmlDocument.Load(new XmlTextReader(model.FileName));
+                    using (XmlTextReader xmlTextReader = new XmlTextReader(model.FileName))
+                        newXmlDocument.Load(xmlTextReader);
                     XmlNode mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ").FirstChild.FirstChild;
                     if (mainRootElementNode != null)
                     {
@@ -1185,7 +1186,7 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model, 
+        private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model,
             BlueAsteriskDisicplineType ObjectType, bool inKafedra, bool inFacultative)
         {
             var attribute = node.Attributes.GetNamedItem("ЗЕТфакт");
@@ -1193,7 +1194,7 @@ namespace AcademicYearImplementations.Implementations
 
             Semesters semester = (Semesters)Enum.ToObject(typeof(Semesters), (hour.Kurs - 1) * 2 + hour.Semester);
             var active = model.Semesters.Contains(semester);
-            
+
             var contingent = GetContingent(semester, model.AcademicPlanId);
 
             using (var context = DepartmentUserManager.GetContext)
@@ -1249,7 +1250,7 @@ namespace AcademicYearImplementations.Implementations
                         recordParent.IsActiveSemester = active;
                         context.SaveChanges();
                     }
-                    
+
                     if (!recordParent.IsParent)
                     {
                         recordParent.IsParent = true;
@@ -2662,5 +2663,5 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-	}
+    }
 }

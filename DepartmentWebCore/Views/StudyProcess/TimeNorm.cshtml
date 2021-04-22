@@ -1,90 +1,70 @@
 ﻿@{
-    ViewBag.Title = Model.TimeNormName;
+    ViewBag.Title = Model.TimeNormName != null ? Model.TimeNormName : "Норма времени";
 }
 
 @using AcademicYearInterfaces.ViewModels
 @model TimeNormViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="TimeNorm" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicYearId" value="@Model.AcademicYearId" />
+    <input type="hidden" asp-for="AcademicYearId" />
 
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicYear" asp-action="View" asp-route-Id="@Model.AcademicYearId" asp-route-menuElement="@ViewBag.menuElement">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный год*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicYearId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicYearId">@Model.AcademicYear</option>
-            </select>
+            <select class="form-control" asp-for="AcademicYearId" asp-items="@ViewBag.AcademicYears" disabled></select>
+            <span asp-validation-for="AcademicYearId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Блок дисциплин*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="DisciplineBlockId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="DisciplineBlockId" required>
-                @foreach (var disciplineBlock in ViewBag.DisciplineBlocks)
-                {
-                    if (disciplineBlock.Id == Model.DisciplineBlockId)
-                    {
-                        <option selected value="@disciplineBlock.Id">@disciplineBlock.Title</option>
-                    }
-                    else
-                    {
-                        <option value="@disciplineBlock.Id">@disciplineBlock.Title</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="DisciplineBlockId" asp-items="@ViewBag.DisciplineBlocks"></select>
+            <span asp-validation-for="DisciplineBlockId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Название*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="TimeNormName"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="TimeNormName" value="@Model.TimeNormName" required>
+            <input class="form-control" asp-for="TimeNormName">
+            <span asp-validation-for="TimeNormName" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="TimeNormShortName"></label>
+        <div class="col-xs-6">
+            <input class="form-control" asp-for="TimeNormShortName">
+            <span asp-validation-for="TimeNormShortName" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Краткое название*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="TimeNormOrder"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="TimeNormShortName" value="@Model.TimeNormShortName" required>
+            <input class="form-control" asp-for="TimeNormOrder">
+            <span asp-validation-for="TimeNormOrder" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Порядок*</label>
+        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="TimeNormEducationDirectionQualification"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="TimeNormOrder" value="@Model.TimeNormOrder" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Уровень обучения</label>
-        <div class="col-xs-6">
-            <select class="form-control" asp-for="TimeNormEducationDirectionQualification">
-                @if (Model.TimeNormEducationDirectionQualification == null)
-                {
-                    <option selected value=""></option>
-                }
-                @foreach (var educationDirectionQualification in ViewBag.EducationDirectionQualifications)
-                {
-                    if (educationDirectionQualification == Model.TimeNormEducationDirectionQualification)
-                    {
-                        <option selected value="@educationDirectionQualification">@educationDirectionQualification</option>
-                    }
-                    else
-                    {
-                        <option value="@educationDirectionQualification">@educationDirectionQualification</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="TimeNormEducationDirectionQualification" asp-items="@ViewBag.EducationDirectionQualifications"></select>
+            <span asp-validation-for="TimeNormEducationDirectionQualification" class="text-danger"></span>
         </div>
     </div>
 
@@ -94,21 +74,10 @@
                 <div class="panel-heading">Множитель 1 - Кол-во объектов</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Тип нагрузки*</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="KindOfLoadType"></label>
                         <div class="col-xs-9">
-                            <select class="form-control" asp-for="KindOfLoadType" required>
-                                @foreach (var kindOfLoadType in ViewBag.KindOfLoadTypes)
-                                {
-                                    if (kindOfLoadType == Model.KindOfLoadType)
-                                    {
-                                        <option selected value="@kindOfLoadType">@kindOfLoadType</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@kindOfLoadType">@kindOfLoadType</option>
-                                    }
-                                }
-                            </select>
+                            <select class="form-control" asp-for="KindOfLoadType" asp-items="@ViewBag.KindOfLoadTypes"></select>
+                            <span asp-validation-for="KindOfLoadType" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -118,9 +87,10 @@
                 <div class="panel-heading">Множитель 2 - Кол-во часов (пусто - значит из УП)</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Часы</label>
+                        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Hours"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="Hours" value="@Model.Hours">
+                            <input class="form-control" asp-for="Hours">
+                            <span asp-validation-for="Hours" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -130,27 +100,17 @@
                 <div class="panel-heading">Множитель 3 - Коэф (пусто - значит нет)</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Числовой коэффициент</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="NumKoef"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="NumKoef" value="@Model.NumKoef">
+                            <input class="form-control" asp-for="NumKoef">
+                            <span asp-validation-for="NumKoef" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Коэффициент норм времени*</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="TimeNormKoef"></label>
                         <div class="col-xs-9">
-                            <select class="form-control" asp-for="TimeNormKoef" required>
-                                @foreach (var timeNormKoef in ViewBag.TimeNormKoefs)
-                                {
-                                    if (timeNormKoef == Model.TimeNormKoef)
-                                    {
-                                        <option selected value="@timeNormKoef">@timeNormKoef</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@timeNormKoef">@timeNormKoef</option>
-                                    }
-                                }
-                            </select>
+                            <select class="form-control" asp-for="TimeNormKoef" asp-items="@ViewBag.TimeNormKoefs"></select>
+                            <span asp-validation-for="TimeNormKoef" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -160,80 +120,103 @@
                 <div class="panel-heading">Тип нагрузки</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Название вида нагрузки*</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="KindOfLoadName"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="KindOfLoadName" value="@Model.KindOfLoadName" required>
+                            <input class="form-control" asp-for="KindOfLoadName">
+                            <span asp-validation-for="KindOfLoadName" class="text-danger"></span>
                         </div>
                     </div>
 
+
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Имя атрибута</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="KindOfLoadAttributeName"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="KindOfLoadAttributeName" value="@Model.KindOfLoadAttributeName">
+                            <input class="form-control" asp-for="KindOfLoadAttributeName">
                             <label class="control-label pull-right">Атрибут для поиска нагрузки в старой версии планов</label>
+                            <span asp-validation-for="KindOfLoadAttributeName" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Синоним для синей звездочки</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="KindOfLoadBlueAsteriskName"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="KindOfLoadBlueAsteriskName" value="@Model.KindOfLoadBlueAsteriskName">
+                            <input class="form-control" asp-for="KindOfLoadBlueAsteriskName">
                             <label class="control-label pull-right">Название нагрузки в справочнике видов работ в новой версии планов</label>
+                            <span asp-validation-for="KindOfLoadBlueAsteriskName" class="text-danger"></span>
                         </div>
-
                     </div>
 
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Атрибут для получения часов</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="KindOfLoadBlueAsteriskAttributeName"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="KindOfLoadBlueAsteriskAttributeName" value="@Model.KindOfLoadBlueAsteriskAttributeName">
+                            <input class="form-control" asp-for="KindOfLoadBlueAsteriskAttributeName">
                             <label class="control-label pull-right">Название атрибута, по которому извлекать часы для расчетов из строк Плана</label>
-
+                            <span asp-validation-for="KindOfLoadBlueAsteriskAttributeName" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label style="font-weight:bold;" class="col-sm-2 control-label">Синоним для практики</label>
+                        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="KindOfLoadBlueAsteriskPracticName"></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" asp-for="KindOfLoadBlueAsteriskPracticName" value="@Model.KindOfLoadBlueAsteriskPracticName">
+                            <input class="form-control" asp-for="KindOfLoadBlueAsteriskPracticName">
                             <label class="control-label pull-right">Название практики для извлечения из вида практик<br>(указывать только для нагрузок, связанных с практикой)</label>
+                            <span asp-validation-for="KindOfLoadBlueAsteriskPracticName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Выводить при настройке дисциплины</label>
+        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="UseInLearningProgress"></label>
         <div class="col-xs-6">
             <input class="form-check-input" asp-for="UseInLearningProgress" />
+            <span asp-validation-for="UseInLearningProgress" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Выводить на сайте</label>
+        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="UseInSite"></label>
         <div class="col-xs-6">
             <input class="form-check-input" asp-for="UseInSite" />
+            <span asp-validation-for="UseInLearningProgress" class="text-danger"></span>
         </div>
     </div>
 </form>
 
 <script>
+
     $(function () {
         $('#btnSave').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("TimeNorm", "StudyProcess")',
-                data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
-                },
-                error: function (result) {
-                    ShowError(result);
-                }
-            });
+            $('#error').text("");
+            if ($("form").valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Save", "TimeNorm")',
+                    data: $('form').serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            return;
+                        }
+                        if (data.id != null) {
+                            window.location = "@Url.Action("View", "TimeNorm", new { Id = "id" })".replace("id", data.id);
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            }
         });
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

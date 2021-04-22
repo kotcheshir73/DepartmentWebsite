@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Tools.ViewModels;
 
 namespace AcademicYearInterfaces.ViewModels
@@ -8,10 +9,15 @@ namespace AcademicYearInterfaces.ViewModels
 
     public class AcademicPlanRecordViewModel : PageSettingElementViewModel
     {
+        [Required]
+        [Display(Name = "Учебный план*")]
         public Guid AcademicPlanId { get; set; }
 
+        [Required]
+        [Display(Name = "Дисциплина*")]
         public Guid DisciplineId { get; set; }
 
+        [Display(Name = "Контингент")]
         public Guid? ContingentId { get; set; }
 
         [DisplayName("Дисциплина")]
@@ -21,12 +27,15 @@ namespace AcademicYearInterfaces.ViewModels
         public bool InDepartment { get; set; }
 
         [DisplayName("Семестр")]
+        [Display(Name = "Семестр")]
         public string Semester { get; set; }
 
         [DisplayName("Контингент")]
         public string ContingentGroup { get; set; }
 
+        [Required]
         [DisplayName("Зет")]
+        [Display(Name = "Зет*")]
         public int Zet { get; set; }
 
         public Guid? AcademicPlanRecordParentId { get; set; }
@@ -56,6 +65,7 @@ namespace AcademicYearInterfaces.ViewModels
         public bool IsActiveSemester { get; set; }
 
         [DisplayName("Уч. в расчете")]
+        [Display(Name = "Участвует в расчете")]
         /// <summary>
         /// Участвует в расчетах нагрузки
         /// </summary>

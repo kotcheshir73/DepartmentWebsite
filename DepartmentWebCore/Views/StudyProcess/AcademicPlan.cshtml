@@ -1,53 +1,44 @@
 ﻿@{
-    ViewBag.Title = Model.EducationDirection;
+    ViewBag.Title = Model.EducationDirection != null ? Model.EducationDirection : "Академический план";
 }
 
 @using DepartmentWebCore.Helpers
 @using AcademicYearInterfaces.ViewModels
 @model AcademicPlanViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlan" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicYearId" value="@Model.AcademicYearId" />
-    <input id="AcademicCourses" type="hidden" asp-for="AcademicCourses" value="@Model.AcademicCourses" />
+    <input type="hidden" asp-for="AcademicYearId" />
+    <input id="AcademicCourses" type="hidden" asp-for="AcademicCourses" />
 
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicYear" asp-action="View" asp-route-Id="@Model.AcademicYearId" asp-route-menuElement="@ViewBag.menuElement">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный год*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicYearId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicYearId">@Model.AcademicYear</option>
-            </select>
+            <select class="form-control" asp-for="AcademicYearId" asp-items="@ViewBag.AcademicYears" disabled></select>
+            <span asp-validation-for="AcademicYearId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Направление</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="EducationDirectionId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="EducationDirectionId" required>
-                @foreach (var educationDirection in ViewBag.EducationDirections)
-                {
-                    if (educationDirection.Id == Model.EducationDirectionId)
-                    {
-                        <option selected value="@educationDirection.Id">@educationDirection.ToString()</option>
-                    }
-                    else
-                    {
-                        <option value="@educationDirection.Id">@educationDirection.ToString()</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="EducationDirectionId" asp-items="@ViewBag.EducationDirections"></select>
+            <span asp-validation-for="EducationDirectionId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Курсы</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicCourses"></label>
         <div class="col-xs-6">
             @for (int i = 1; i <= @ViewBag.AcademicCourses.Count; i++)
             {
@@ -66,7 +57,7 @@
     </div>
 
     <div>
-        @Html.RenderAction("Table", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+        @Html.RenderAction("Table", "AcademicPlanRecord", new { Id = Model.Id })
     </div>
 </form>
 
@@ -82,18 +73,36 @@
             }
             $("#AcademicCourses").val(courses);
         });
+
         $('#btnSave').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("AcademicPlan", "StudyProcess")',
-                data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
-                },
-                error: function (result) {
-                    ShowError(result);
-                }
-            });
+            $('#error').text("");
+            if ($("form").valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Save", "AcademicPlan")',
+                    data: $('form').serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            return;
+                        }
+                        if (data.id != null) {
+                            window.location = "@Url.Action("View", "AcademicPlan", new { Id = "id" })".replace("id", data.id);
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            }
         });
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

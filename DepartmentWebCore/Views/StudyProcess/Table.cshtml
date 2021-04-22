@@ -1,20 +1,27 @@
-﻿@model (List<string> tableHead, List<List<object>> tableBody, List<(bool IsDropdownElement, MenuElementModel action)> actions, Guid Id)
+﻿@{
+    string controller = @ViewBag.menuElement;
+}
+@{
+    string getJsonDict(Dictionary<string, string> dict)
+    {
+        return JsonConvert.SerializeObject(dict);
+    }
+}
+@using Newtonsoft.Json;
+@model (List<string> tableHead, List<List<object>> tableBody, List<(bool IsDropdownElement, MenuElementModel action)> actions, Guid Id)
 
 <div style="margin-bottom:10px">
     <button id="btnCreate" type="button" class="btn btn-primary">Добавить</button>
-    @if (Model.actions.Count > 0)
+    @if (Model.actions.Where(x => x.IsDropdownElement).ToList().Count > 0)
     {
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Действия <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                @foreach (var element in Model.actions)
+                @foreach (var element in Model.actions.Where(x => x.IsDropdownElement))
                 {
-                    @if (element.IsDropdownElement)
-                    {
-                        <li><a href="#">@element.action.Name</a></li>
-                    }
+                    <li><a href="#" data-toggle="modal" data-target="#modalAction" data-id="@Model.Id" data-title="@element.action.Name" data-action="@element.action.Action">@element.action.Name</a></li>
                 }
             </ul>
         </div>
@@ -41,12 +48,13 @@
                 }
                 <td class="text-center">
                     <button type="button" class="btn btn-danger btn-xs tooltipped" data-toggle="modal" data-target="#modalDelete" title="Удалить" data-text="@row[1] - @row[2]" data-id="@row[0]">X</button>
-                    @foreach (var element in Model.actions)
+                    @foreach (var element in Model.actions.Where(x => !x.IsDropdownElement))
                     {
-                        @if (!element.IsDropdownElement)
-                        {
-                            <button type="button" class="btn btn-success btn-xs tooltipped" @*data-toggle="modal" data-target="#modalUpload"*@ title="@element.action.Name" data-id="@row[0]">@element.action.AdditionalParameters["ButtonName"]</button>
-                        }
+                        <button type="button" class="btn btn-success btn-xs tooltipped" data-toggle="modal" data-target="#modalAction" title="@element.action.Name"
+                                data-id="@row[0]" data-title="@element.action.Name" data-action="@element.action.Action"
+                                data-param="@getJsonDict(element.action.AdditionalParameters)">
+                            @element.action.AdditionalParameters["ButtonName"]
+                        </button>
                     }
                 </td>
             </tr>
@@ -54,25 +62,37 @@
     </tbody>
 </table>
 
-<form asp-action="Delete" asp-controller="StudyProcess">
-    <input id="elementId" type="hidden" name="Id" />
-    <input id="menuElement" type="hidden" name="menuElement" value="@ViewBag.menuElement" />
-    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modalDeleteLabel">Удаление элемента</h4>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                    <button id="btnDelete" type="button" class="btn btn-danger">Удалить</button>
-                </div>
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalDeleteLabel">Удаление элемента</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btnDelete" type="button" class="btn btn-danger">Удалить</button>
             </div>
         </div>
     </div>
-</form>
+</div>
+
+<div class="modal fade" id="modalAction" tabindex="-1" role="dialog" aria-labelledby="modalActionLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalActionLabel">Подтверждение</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btnAction" type="button" class="btn btn-danger">Подтвердить</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(function () {
@@ -82,23 +102,111 @@
         });
 
         $('#table tbody tr').dblclick(function () {
-            window.location = "@Url.Action("Edit", "StudyProcess", new { Id = "rowId", menuElement = @ViewBag.menuElement })".replace("rowId", $(this).attr("value"));
+            window.location = "@Url.Action("View", @controller, new { Id = "rowId" })".replace("rowId", $(this).attr("value"));
         });
 
         $('#modalDelete').on('show.bs.modal', function (event) {
+            $('.text-danger').text("");
             var button = $(event.relatedTarget);
             var data = button.data('text');
             var Id = button.data('id');
             var body = 'Вы уверены, что хотите удалить: <br> <b>' + data + '</b>?';
             $(this).find('.modal-body').html(body);
-            $(this).find('#elementId').attr('value', Id);
             $(this).find('#btnDelete').click(function () {
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("Delete", "StudyProcess")',
-                    data: { Id, "menuElement": "@ViewBag.menuElement" },
-                    success: function () {
-                        document.location.reload(true);
+                    url: '@Url.Action("Delete", @controller)',
+                    data: { Id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            $('#modalDelete').modal('hide');
+                            return;
+                        }
+                        else {
+                            document.location.reload(true);
+                        }
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+            });
+        });
+
+        $('#modalAction').on('show.bs.modal', function (event) {
+            $('.text-danger').text("");
+            var button = $(event.relatedTarget);
+            var title = button.data('title');
+            var Id = button.data('id');
+            var action = button.data('action');
+            var param = button.data('param');
+            var body = 'Вы уверены, что хотите выполнить действие: <br> <b>' + title + '</b>?';
+
+            if (param) {
+                if (param.File) {
+                    body = body + "<br><br>Выберите файл:<br><input type='file' class='form-control' id='file' name='file' accept='." + param.File + "'/>";
+                }
+                if (param.Select) {
+                    body = body + "<br><br><select id='modalSelect' class='form-control'></select>";
+                    $(this).find('.modal-body').html(body);
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("action", @controller)'.replace('action', param.Select),
+                        data: { "Id" : "@Model.Id" },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data != null) {
+                                $("#modalSelect").empty();
+                                var select = document.getElementById("modalSelect");
+                                for (var i = 0; i < data.length; i++) {
+                                    select.add(new Option(data[i].discipline, data[i].id));
+                                }
+                            }
+                        },
+                        error: function (result) {
+                            alert(result);
+                        }
+                    });
+                }
+            }
+
+            $(this).find('#modalId').attr('value', Id);
+            $(this).find('.modal-body').html(body);
+            $(this).find('#btnAction').click(function () {
+                var formData = new FormData();
+                formData.append("Id", Id);
+
+                if (param) {
+                    if (param.File) {
+                        var upload = document.getElementById('file').files;
+                        formData.append("file", upload[0])
+                    }
+                    if (param.Select) {
+                        var selectValue = $("#modalSelect").val();
+                        formData.append(param.Variable, selectValue)
+                    }
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("action", @controller)'.replace('action', action),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error.length > 0) {
+                            $('#error').text(data.error);
+                            $('#modalAction').modal('hide');
+                            return;
+                        }
+                        else {
+                            $('#modalAction').modal('hide');
+                            alert("Выполнено")
+                            document.location.reload(true);
+                        }
                     },
                     error: function (result) {
                         alert(result);
@@ -108,7 +216,7 @@
         });
 
         $('#btnCreate').click(function () {
-            window.location = "@Url.Action("Create", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })";
+            window.location = "@Url.Action("Create", @controller, new { Id = Model.Id })";
         });
     })
 </script>

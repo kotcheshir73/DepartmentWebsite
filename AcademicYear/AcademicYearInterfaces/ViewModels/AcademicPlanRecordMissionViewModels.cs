@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Tools.ViewModels;
 
 namespace AcademicYearInterfaces.ViewModels
@@ -8,8 +9,12 @@ namespace AcademicYearInterfaces.ViewModels
 
     public class AcademicPlanRecordMissionViewModel : PageSettingElementViewModel
     {
+        [Required]
+        [Display(Name = "Запись нагрузки*")]
         public Guid AcademicPlanRecordElementId { get; set; }
 
+        [Required]
+        [Display(Name = "Преподаватель*")]
         public Guid LecturerId { get; set; }
 
         public Guid DisciplineId { get; set; }
@@ -22,7 +27,9 @@ namespace AcademicYearInterfaces.ViewModels
 
         public string DisciplineTitle { get; set; }
 
+        [Required]
         [DisplayName("Часы")]
+        [Display(Name = "Часы*")]
         public decimal Hours { get; set; }
 
         public string TimeNormShortName { get; set; }

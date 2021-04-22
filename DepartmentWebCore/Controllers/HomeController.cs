@@ -69,7 +69,6 @@ namespace DepartmentWebCore.Controllers
                 MenuElementModel schedule = new MenuElementModel()
                 {
                     Name = "Расписание",
-                    Child = new List<MenuElementModel>(),
                     Controller = "Schedule",
                     Action = "Index"
                 };
@@ -80,7 +79,6 @@ namespace DepartmentWebCore.Controllers
                     MenuElementModel classroomSchedule = new MenuElementModel()
                     {
                         Name = "Аудитории",
-                        Child = new List<MenuElementModel>(),
                         Controller = "Schedule",
                         Action = "Classrooms"
                     };
@@ -105,7 +103,6 @@ namespace DepartmentWebCore.Controllers
                     MenuElementModel lecturer = new MenuElementModel()
                     {
                         Name = "Преподаватели",
-                        Child = new List<MenuElementModel>(),
                         Controller = "Lecturer",
                         Action = "Index"
                     };
@@ -113,7 +110,6 @@ namespace DepartmentWebCore.Controllers
                     MenuElementModel lecturerSchedule = new MenuElementModel()
                     {
                         Name = "Преподаватели",
-                        Child = new List<MenuElementModel>(),
                         Controller = "Schedule",
                         Action = "Lecturers"
                     };
@@ -148,7 +144,6 @@ namespace DepartmentWebCore.Controllers
                     MenuElementModel educationDirection = new MenuElementModel()
                     {
                         Name = "Направления",
-                        Child = new List<MenuElementModel>(),
                         Controller = "EducationDirection",
                         Action = "Index"
                     };
@@ -161,7 +156,6 @@ namespace DepartmentWebCore.Controllers
                             MenuElementModel contingent = new MenuElementModel()
                             {
                                 Name = ed.ToShortString(),
-                                Child = new List<MenuElementModel>(),
                                 Controller = "EducationDirection",
                                 Action = "EducationDirection",
                                 Id = ed.Id
@@ -194,7 +188,6 @@ namespace DepartmentWebCore.Controllers
                     MenuElementModel studentgroupSchedule = new MenuElementModel()
                     {
                         Name = "Группы",
-                        Child = new List<MenuElementModel>(),
                         Controller = "Schedule",
                         Action = "StudentGroups"
                     };
@@ -220,13 +213,11 @@ namespace DepartmentWebCore.Controllers
                 {
                     MenuElementModel academicYears = new MenuElementModel()
                     {
-                        Id = academicYearsList.Result.List.LastOrDefault().Id,
                         Name = "Учебный процесс",
-                        Controller = "StudyProcess",
-                        Action = "Index",
-                        Child = new List<MenuElementModel>(),
-                        AdditionalParameters = new Dictionary<string, string> { { "StudyProcess", "" } }
+                        Controller = "AcademicYear",
+                        Action = "View",
                     };
+                    academicYears.AdditionalParameters.Add("StudyProcess", string.Empty);
 
                     foreach (var tmp in academicYearsList.Result.List)
                     {
@@ -234,8 +225,8 @@ namespace DepartmentWebCore.Controllers
                         {
                             Id = tmp.Id,
                             Name = tmp.Title,
-                            Controller = "StudyProcess",
-                            Action = "Index"
+                            Controller = "AcademicYear",
+                            Action = "View"
                         });
                     }
 
@@ -243,7 +234,7 @@ namespace DepartmentWebCore.Controllers
                     {
                         Id = null,
                         Name = "+",
-                        Controller = "StudyProcess",
+                        Controller = "AcademicYear",
                         Action = "Create"
                     });
 
@@ -263,8 +254,8 @@ namespace DepartmentWebCore.Controllers
                         {
                             Id = tmp.Id,
                             Name = tmp.Title,
-                            Controller = "StudyProcess",
-                            Action = "Index"
+                            Controller = "AcademicYear",
+                            Action = "View"
                         });
                     }
 
@@ -272,7 +263,7 @@ namespace DepartmentWebCore.Controllers
                     {
                         Id = null,
                         Name = "+",
-                        Controller = "StudyProcess",
+                        Controller = "AcademicYear",
                         Action = "Create"
                     });
 
