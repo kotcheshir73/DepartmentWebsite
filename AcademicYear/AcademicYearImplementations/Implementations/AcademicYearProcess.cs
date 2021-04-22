@@ -1141,6 +1141,10 @@ namespace AcademicYearImplementations.Implementations
                 }
 
                 attribute = node.Attributes.GetNamedItem("Дисциплина");
+                if (attribute.Value.StartsWith("Защита "))
+				{
+                    int c = 0;
+				}
                 var discipline = context.Disciplines.FirstOrDefault(x => x.DisciplineBlueAsteriskName == attribute.Value);
                 if (discipline == null)
                 {
@@ -2051,6 +2055,10 @@ namespace AcademicYearImplementations.Implementations
                             .Include(x => x.Discipline).Include(x => x.Contingent).Include(x => x.AcademicPlan);
                     foreach (var APRRecord in APR)
                     {
+                        if (APRRecord.Contingent == null)
+						{
+                            continue;
+						}
                         var studentGroups = context.StudentGroups
                                         .Where(x => !x.IsDeleted && x.EducationDirectionId == APRRecord.Contingent.EducationDirectionId && x.Course == APRRecord.Contingent.Course);
                         foreach (var studentGroup in studentGroups)
