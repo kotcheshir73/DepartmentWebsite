@@ -175,7 +175,7 @@ namespace DepartmentWebCore.Controllers
             var result = _process.GetOtherAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { Id = Id });
             if (result.Succeeded)
             {
-                return Json(result.Result.List);
+                return Json(new SelectList(result.Result.List, "Id", "Discipline"));
             }
             return Json(null);
         }

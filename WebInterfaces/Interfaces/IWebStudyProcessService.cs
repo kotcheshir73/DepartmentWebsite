@@ -1,10 +1,27 @@
-﻿using System;
+﻿using AcademicYearInterfaces.BindingModels;
+using System;
 using System.Collections.Generic;
+using Tools;
 
 namespace WebInterfaces.Interfaces
 {
     public interface IStudyProcessService
     {
+        /// <summary>
+        /// Получение списка с базовой информацией для расчета штатов по учебному году
+        /// </summary>
+        /// <param name="model">Модель учебного года</param>
+        /// <returns></returns>
+        ResultService<List<List<object>>> GetAcademicYearLoading(AcademicYearGetBindingModel model);
+
+        /// <summary>
+        /// Получение списка с часами выбранного преподавателя по дисциплинам в определнном порядке
+        /// </summary>
+        /// <param name="LecturerId">Преподаватель</param>
+        /// <param name="AcademicYearId">Академический год</param>
+        /// <returns></returns>
+        ResultService<List<object>> GetLecturerMissions(Guid LecturerId, Guid AcademicYearId);
+
         /// <summary>
         /// Получение отображаемых имен свойств типа и их названий
         /// </summary>

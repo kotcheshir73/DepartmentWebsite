@@ -21,7 +21,13 @@
             <ul class="dropdown-menu">
                 @foreach (var element in Model.actions.Where(x => x.IsDropdownElement))
                 {
-                    <li><a href="#" data-toggle="modal" data-target="#modalAction" data-id="@Model.Id" data-title="@element.action.Name" data-action="@element.action.Action">@element.action.Name</a></li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#modalAction" data-id="@Model.Id" data-title="@element.action.Name"
+                           data-action="@element.action.Action"
+                           data-param="@getJsonDict(element.action.AdditionalParameters)">
+                            @element.action.Name
+                        </a>
+                    </li>
                 }
             </ul>
         </div>
@@ -38,7 +44,7 @@
             <td />
         </tr>
     </thead>
-    <tbody style="">
+    <tbody>
         @foreach (var row in Model.tableBody)
         {
             <tr value="@row[0]">
@@ -161,7 +167,7 @@
                                 $("#modalSelect").empty();
                                 var select = document.getElementById("modalSelect");
                                 for (var i = 0; i < data.length; i++) {
-                                    select.add(new Option(data[i].discipline, data[i].id));
+                                    select.add(new Option(data[i].text, data[i].value));
                                 }
                             }
                         },
@@ -169,6 +175,12 @@
                             alert(result);
                         }
                     });
+                }
+                if (param.Bool) {
+                    var checkboxes = param.Bool.split(",");
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        body = body + '<div class="checkbox"><label><input id="' + checkboxes[i].split(':')[0] + '" type="checkbox">' + checkboxes[i].split(':')[1] + '</label></div>'
+                    }
                 }
             }
 
@@ -186,6 +198,14 @@
                     if (param.Select) {
                         var selectValue = $("#modalSelect").val();
                         formData.append(param.Variable, selectValue)
+                    }
+                    if (param.Bool) {
+                        var checkboxes = param.Bool.split(",");
+                        for (var i = 0; i < checkboxes.length; i++) {
+                            var id = checkboxes[i].split(':')[0];
+                            var checkbox = document.getElementById(id);
+                            formData.append(id, checkbox.checked);
+                        }
                     }
                 }
 

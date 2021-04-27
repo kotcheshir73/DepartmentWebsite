@@ -177,7 +177,15 @@ namespace DepartmentWebCore.Controllers
                         Action = "LoadFromXML",
                         AdditionalParameters = new Dictionary<string, string>{ {"ButtonName", "↥"}, {"File", "plx"} }
                     }
-                )
+                ),
+                (true, new MenuElementModel
+                    {
+                        Name = "Перенос данных",
+                        Controller = "AcademicPlan",
+                        Action = "MakeDuplicate",
+                        AdditionalParameters = new Dictionary<string, string>{ { "Select", "GetAcademicYears" }, { "Variable", "AcademicYearId" }, { "Bool", "AcademicPlan:Учебные планы,Contingent:Контингент,TimeNorm:Нормы времени" } }
+                    }
+                ),
             };
 
             if (Id != Guid.Empty)
@@ -236,6 +244,39 @@ namespace DepartmentWebCore.Controllers
             catch (Exception e)
             {
                 error = e.Message;
+            }
+
+            return Json(new Dictionary<string, object> { { "error", error } });
+        }
+
+        [HttpPost]
+        public IActionResult GetAcademicYears(Guid Id)
+        {
+            var result = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel { });
+            if (result.Succeeded)
+            {
+                return Json(new SelectList(result.Result.List.Where(x => x.Id != Id), "Id", "Title"));
+            }
+            return Json(null);
+        }
+
+        [HttpPost]
+        public IActionResult MakeDuplicate(Guid Id, Guid AcademicYearId, bool AcademicPlan, bool Contingent, bool TimeNorm)
+        {
+            var result = _process.DuplicateAcademicYearElements(new EducationalProcessDuplicateAcademicYear
+            {
+                ToAcademicPlanId = Id,
+                FromAcademicPlanId = AcademicYearId,
+                DuplicateAcademicPlan = AcademicPlan,
+                DuplicateContingent = Contingent,
+                DuplicateTimeNorm = TimeNorm,
+                DuplicateSeasonDate = false
+            });
+            string error = string.Empty;
+
+            if (!result.Succeeded)
+            {
+                error = result.Errors.LastOrDefault().Value;
             }
 
             return Json(new Dictionary<string, object> { { "error", error } });
