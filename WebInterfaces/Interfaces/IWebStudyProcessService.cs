@@ -1,6 +1,7 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Tools;
 
 namespace WebInterfaces.Interfaces
@@ -21,6 +22,20 @@ namespace WebInterfaces.Interfaces
         /// <param name="AcademicYearId">Академический год</param>
         /// <returns></returns>
         ResultService<List<object>> GetLecturerMissions(Guid LecturerId, Guid AcademicYearId);
+
+        /// <summary>
+        /// Получение потока архива с нагрузками преподавателей для выгрузки
+        /// </summary>
+        /// <param name="model">Модель информации для выгрузки (путь, id)</param>
+        /// <returns></returns>
+        ResultService<MemoryStream> ImportLecturerWorkloads(ImportLecturerWorkloadBindingModel model);
+
+        /// <summary>
+        /// Получение потока архива с расчасовками преподавателей для выгрузки
+        /// </summary>
+        /// <param name="model">Модель информации для выгрузки (путь, id)</param>
+        /// <returns></returns>
+        ResultService<MemoryStream> ImportDisciplineTimeDistributions(ImportDisciplineTimeDistributionsBindingModel model);
 
         /// <summary>
         /// Получение отображаемых имен свойств типа и их названий

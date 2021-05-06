@@ -24,10 +24,14 @@
     <span asp-validation-for="Title" class="text-danger"></span>
     <div id="error" class="text-danger"></div>
 
-    <div class="form-group" style="margin-top:15px;">
-        <a asp-controller="Distribution" asp-action="View" asp-route-Id="@Model.Id" style="text-decoration: none;">
-            <button type="button" class="btn btn-primary btn-lg btn-block">Расчет штатов</button>
-        </a>
+    <div style="display:flex;justify-content:center">
+        <div class="form-group" style="margin-top:20px;margin-bottom:0px;">
+            <a asp-controller="Distribution" asp-action="View" asp-route-Id="@Model.Id" style="text-decoration: none;">
+                <button type="button" class="btn btn-primary btn-lg">Расчет штатов</button>
+            </a>
+            <button id="btnGetLecturerWorkload" type="button" class="btn btn-primary btn-lg">Получить нагрузки</button>
+            <button id="btnCreateDisciplineTimeDistributions" type="button" class="btn btn-primary btn-lg">Получить расчасовки</button>
+        </div>
     </div>
 
     <div style="display:flex;justify-content:center">
@@ -40,33 +44,41 @@
 </form>
 
 <script>
-    $(function () {
-        $('#btnSave').click(function () {
-            $("#error").text("");
-            if ($("form").valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Save", "AcademicYear")',
-                    data: $('form').serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.error.length > 0) {
-                            $('#error').text(data.error);
-                            return;
-                        }
-                        if (data.id != null) {
-                            window.location = "@Url.Action("View", "AcademicYear", new { Id = "id" })".replace("id", data.id);
-                        }
-                        else {
-                            window.location.reload();
-                        }
-                    },
-                    error: function (result) {
-                        alert(result);
+    $('#btnGetLecturerWorkload').click(function () {
+        window.location.href = '@Url.Action("GetLecturerWorkload", "AcademicYear", new { AcademicYearId = Model.Id })';
+        this.blur();
+    });
+
+    $('#btnCreateDisciplineTimeDistributions').click(function () {
+        window.location.href = '@Url.Action("GetDisciplineTimeDistributions", "AcademicYear", new { AcademicYearId = Model.Id })';
+        this.blur();
+    });
+
+    $('#btnSave').click(function () {
+        $("#error").text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "AcademicYear")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
                     }
-                });
-            }
-        });
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "AcademicYear", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
     });
 </script>
 

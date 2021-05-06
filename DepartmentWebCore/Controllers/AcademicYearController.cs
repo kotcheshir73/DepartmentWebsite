@@ -2,12 +2,16 @@
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
 using DepartmentWebCore.Models;
+using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Tools;
+using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
@@ -16,11 +20,21 @@ namespace DepartmentWebCore.Controllers
     {
         private readonly IAcademicYearService _serviceAY;
 
+        private readonly IStudyProcessService _serviceSP;
+
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        private readonly FileService _fileService;
+
         private const string defaultMenu = "AcademicPlan";
 
-        public AcademicYearController(IAcademicYearService serviceAY)
+        public AcademicYearController(IAcademicYearService serviceAY, IStudyProcessService serviceSP,
+            IHostingEnvironment hostingEnvironment, FileService fileService)
         {
             _serviceAY = serviceAY;
+            _serviceSP = serviceSP;
+            _hostingEnvironment = hostingEnvironment;
+            _fileService = fileService;
         }
 
         public IActionResult View(Guid Id, string menuElement)
@@ -135,6 +149,52 @@ namespace DepartmentWebCore.Controllers
             menu.ForEach(x => { if (x.ActionName == menuElement) x.isActive = true; else { x.isActive = false; } });
 
             return PartialView("../StudyProcess/Menu", menu);
+        }
+
+        [HttpGet]
+        public IActionResult GetLecturerWorkload(Guid AcademicYearId)
+        {
+            string fileName = "Нагрузки преподавателей.zip";
+
+            var result = _serviceSP.ImportLecturerWorkloads(new ImportLecturerWorkloadBindingModel
+            {
+                AcademicYearId = AcademicYearId,
+                Path = _hostingEnvironment.WebRootPath
+            });
+
+            if (result.Succeeded)
+            {
+                var zipStream = result.Result;
+
+                return File(zipStream, _fileService.GetContentType(fileName), fileName);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetDisciplineTimeDistributions(Guid AcademicYearId)
+        {
+            string fileName = "Расчасовки преподавателей.zip";
+
+            var result = _serviceSP.ImportDisciplineTimeDistributions(new ImportDisciplineTimeDistributionsBindingModel
+            {
+                AcademicYearId = AcademicYearId,
+                Path = _hostingEnvironment.WebRootPath
+            });
+
+            if (result.Succeeded)
+            {
+                var zipStream = result.Result;
+
+                return File(zipStream, _fileService.GetContentType(fileName), fileName);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }

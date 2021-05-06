@@ -7,11 +7,20 @@ using Tools;
 using AcademicYearInterfaces.BindingModels;
 using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
+using AcademicYearInterfaces.Interfaces;
+using System.IO;
+using System.IO.Compression;
 
 namespace WebImplementations.Implementations
 {
     public class StudyProcessService : IStudyProcessService
     {
+        private readonly IAcademicYearProcess _process;
+
+        public StudyProcessService(IAcademicYearProcess process)
+        {
+            _process = process;
+        }
 
         public ResultService<List<List<object>>> GetAcademicYearLoading(AcademicYearGetBindingModel model)
         {
@@ -197,6 +206,58 @@ namespace WebImplementations.Implementations
             {
                 return ResultService<List<object>>.Error(ex, ResultServiceStatusCode.Error);
             }
+        }
+
+        public ResultService<MemoryStream> ImportLecturerWorkloads(ImportLecturerWorkloadBindingModel model)
+        {
+            try
+            {
+                var result = _process.ImportLecturerWorkloads(model);
+
+                var files = Directory.GetFiles(model.Path, "*.xlsx");
+
+                var zipStream = GetMemoryStreamZipArchive(files);
+
+                return ResultService<MemoryStream>.Success(zipStream);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<MemoryStream>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        public ResultService<MemoryStream> ImportDisciplineTimeDistributions(ImportDisciplineTimeDistributionsBindingModel model)
+        {
+            try
+            {
+                var result = _process.ImportDisciplineTimeDistributionsLecturers(model);
+
+                var files = Directory.GetFiles(model.Path, "*.docx");
+
+                var zipStream = GetMemoryStreamZipArchive(files);
+
+                return ResultService<MemoryStream>.Success(zipStream);
+            }
+            catch (Exception ex)
+            {
+                return ResultService<MemoryStream>.Error(ex, ResultServiceStatusCode.Error);
+            }
+        }
+
+        private MemoryStream GetMemoryStreamZipArchive(string[] files)
+        {
+            var zipStream = new MemoryStream();
+            using (var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var filePath in files)
+                {
+                    zipArchive.CreateEntryFromFile(filePath, Path.GetFileName(filePath));
+                    File.Delete(filePath);
+                }
+            }
+            zipStream.Position = 0;
+
+            return zipStream;
         }
 
         public (List<string> displayNames, List<string> propertiesNames) GetPropertiesNames(Type type)
