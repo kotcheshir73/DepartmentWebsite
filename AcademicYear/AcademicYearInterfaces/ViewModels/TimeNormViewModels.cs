@@ -85,5 +85,8 @@ namespace AcademicYearInterfaces.ViewModels
 
         [Display(Name = "Выводить на сайте")]
         public bool UseInSite { get; set; }
+
+        [Display(Name = "Распределение по научным руководителям")]
+        public bool IsAssignmentByAdviser { get; set; }
     }
 }

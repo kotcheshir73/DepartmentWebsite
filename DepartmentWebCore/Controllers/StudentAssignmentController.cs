@@ -13,26 +13,27 @@ using WebInterfaces.Interfaces;
 
 namespace DepartmentWebCore.Controllers
 {
-    public class ContingentController : Controller
+    public class StudentAssignmentController : Controller
     {
-        private readonly IContingentService _serviceC;
+        private readonly IStudentAssignmentService _serviceSA;
 
         private static IStudyProcessService _serviceSP;
 
-        private const string defaultMenu = "Contingent";
+        private const string defaultMenu = "StudentAssignment";
 
-        public ContingentController(IContingentService serviceC, IStudyProcessService serviceSP)
+        public StudentAssignmentController(IStudentAssignmentService serviceSA, IStudyProcessService serviceSP)
         {
-            _serviceC = serviceC;
+            _serviceSA = serviceSA;
             _serviceSP = serviceSP;
         }
 
         public IActionResult View(Guid Id)
         {
-            var contingent = _serviceC.GetContingent(new ContingentGetBindingModel { Id = Id });
-            var academicYears = _serviceC.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var educationDirections = _serviceC.GetEducationDirections(new EducationDirectionGetBindingModel { });
-            if (contingent.Succeeded && academicYears.Succeeded && educationDirections.Succeeded)
+            var studentAssignment = _serviceSA.GetStudentAssignment(new StudentAssignmentGetBindingModel { Id = Id });
+            var academicYears = _serviceSA.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var educationDirections = _serviceSA.GetEducationDirections(new EducationDirectionGetBindingModel { });
+            var lecturers = _serviceSA.GetLecturers(new LecturerGetBindingModel { });
+            if (studentAssignment.Succeeded && academicYears.Succeeded && educationDirections.Succeeded && lecturers.Succeeded)
             {
                 ViewBag.AcademicYears = new SelectList(academicYears.Result.List, "Id", "Title");
                 ViewBag.EducationDirections = educationDirections.Result.List.Select(x => new SelectListItem()
@@ -40,9 +41,10 @@ namespace DepartmentWebCore.Controllers
                     Value = x.Id.ToString(),
                     Text = x.ToString()
                 });
+                ViewBag.Lecturers = new SelectList(lecturers.Result.List.OrderBy(x => x.LastName), "Id", "FullName");
 
                 ViewBag.menuElement = defaultMenu;
-                return View("../StudyProcess/Contingent", contingent.Result);
+                return View("../StudyProcess/StudentAssignment", studentAssignment.Result);
             }
             else
             {
@@ -52,10 +54,11 @@ namespace DepartmentWebCore.Controllers
 
         public IActionResult Create(Guid Id)
         {
-            var contingentView = new ContingentViewModel() { AcademicYearId = Id };
-            var academicYears = _serviceC.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var educationDirections = _serviceC.GetEducationDirections(new EducationDirectionGetBindingModel { });
-            if (educationDirections.Succeeded && academicYears.Succeeded)
+            var studentAssignmentView = new StudentAssignmentViewModel() { AcademicYearId = Id };
+            var academicYears = _serviceSA.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var educationDirections = _serviceSA.GetEducationDirections(new EducationDirectionGetBindingModel { });
+            var lecturers = _serviceSA.GetLecturers(new LecturerGetBindingModel { });
+            if (academicYears.Succeeded && educationDirections.Succeeded && lecturers.Succeeded)
             {
                 ViewBag.AcademicYears = new SelectList(academicYears.Result.List, "Id", "Title");
                 ViewBag.EducationDirections = educationDirections.Result.List.Select(x => new SelectListItem()
@@ -63,9 +66,10 @@ namespace DepartmentWebCore.Controllers
                     Value = x.Id.ToString(),
                     Text = x.ToString()
                 });
+                ViewBag.Lecturers = new SelectList(lecturers.Result.List.OrderBy(x => x.LastName), "Id", "FullName");
 
                 ViewBag.menuElement = defaultMenu;
-                return View("../StudyProcess/Contingent", contingentView);
+                return View("../StudyProcess/StudentAssignment", studentAssignmentView);
             }
             else
             {
@@ -76,7 +80,7 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public IActionResult Delete(Guid Id)
         {
-            var result = _serviceC.DeleteContingent(new ContingentGetBindingModel { Id = Id });
+            var result = _serviceSA.DeleteStudentAssignment(new StudentAssignmentGetBindingModel { Id = Id });
             string error = string.Empty;
 
             if (!result.Succeeded)
@@ -87,36 +91,30 @@ namespace DepartmentWebCore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(ContingentSetBindingModel model)
+        public IActionResult Save(StudentAssignmentSetBindingModel model)
         {
             ResultService result;
             string error = string.Empty;
 
             if (model?.Id == Guid.Empty)
             {
-                result = _serviceC.CreateContingent(new ContingentSetBindingModel
+                result = _serviceSA.CreateStudentAssignment(new StudentAssignmentSetBindingModel
                 {
                     AcademicYearId = model.AcademicYearId,
                     EducationDirectionId = model.EducationDirectionId,
-                    ContingentName = model.ContingentName,
-                    Course = (int)Math.Pow(2.0, Convert.ToDouble(model.Course) - 1.0),
-                    CountGroups = model.CountGroups,
-                    CountStudents = model.CountStudents,
-                    CountSubgroups = model.CountSubgroups
+                    LecturerId = model.LecturerId,
+                    CountStudents = model.CountStudents
                 });
             }
             else
             {
-                result = _serviceC.UpdateContingent(new ContingentSetBindingModel
+                result = _serviceSA.UpdateStudentAssignment(new StudentAssignmentSetBindingModel
                 {
                     Id = model.Id,
                     AcademicYearId = model.AcademicYearId,
                     EducationDirectionId = model.EducationDirectionId,
-                    ContingentName = model.ContingentName,
-                    Course = (int)Math.Pow(2.0, Convert.ToDouble(model.Course) - 1.0),
-                    CountGroups = model.CountGroups,
-                    CountStudents = model.CountStudents,
-                    CountSubgroups = model.CountSubgroups
+                    LecturerId = model.LecturerId,
+                    CountStudents = model.CountStudents
                 });
             }
 
@@ -140,7 +138,7 @@ namespace DepartmentWebCore.Controllers
 
         public IActionResult Table(Guid Id)
         {
-            var names = _serviceSP.GetPropertiesNames(typeof(ContingentViewModel));
+            var names = _serviceSP.GetPropertiesNames(typeof(StudentAssignmentViewModel));
             var tableHead = names.displayNames;
 
             List<List<object>> tableBody = new List<List<object>>();
@@ -148,10 +146,10 @@ namespace DepartmentWebCore.Controllers
 
             if (Id != Guid.Empty)
             {
-                var contingents = _serviceC.GetContingents(new ContingentGetBindingModel { AcademicYearId = Id });
-                if (contingents.Succeeded)
+                var studentAssignments = _serviceSA.GetStudentAssignments(new StudentAssignmentGetBindingModel { AcademicYearId = Id });
+                if (studentAssignments.Succeeded)
                 {
-                    tableBody = _serviceSP.GetPropertiesValues(contingents.Result.List, names.propertiesNames);
+                    tableBody = _serviceSP.GetPropertiesValues(studentAssignments.Result.List, names.propertiesNames);
                 }
             }
 

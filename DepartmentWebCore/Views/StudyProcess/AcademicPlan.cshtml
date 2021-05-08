@@ -62,44 +62,42 @@
 </form>
 
 <script>
-    $(function () {
-        $('input:checkbox').change(function () {
-            var courses = 0;
-            for (var i = 1; i <= @ViewBag.AcademicCourses.Count; i++) {
-                var checkbox = $("#" + i.toString());
-                if (checkbox.prop('checked')) {
-                    courses = courses + Math.pow(2, i - 1);
-                }
+    $('input:checkbox').change(function () {
+        var courses = 0;
+        for (var i = 1; i <= @ViewBag.AcademicCourses.Count; i++) {
+            var checkbox = $("#" + i.toString());
+            if (checkbox.prop('checked')) {
+                courses = courses + Math.pow(2, i - 1);
             }
-            $("#AcademicCourses").val(courses);
-        });
+        }
+        $("#AcademicCourses").val(courses);
+    });
 
-        $('#btnSave').click(function () {
-            $('#error').text("");
-            if ($("form").valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Save", "AcademicPlan")',
-                    data: $('form').serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.error.length > 0) {
-                            $('#error').text(data.error);
-                            return;
-                        }
-                        if (data.id != null) {
-                            window.location = "@Url.Action("View", "AcademicPlan", new { Id = "id" })".replace("id", data.id);
-                        }
-                        else {
-                            window.location.reload();
-                        }
-                    },
-                    error: function (result) {
-                        alert(result);
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "AcademicPlan")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
                     }
-                });
-            }
-        });
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "AcademicPlan", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
     });
 </script>
 

@@ -1,8 +1,8 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
 using DepartmentWebCore.Models;
-using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,10 +19,6 @@ namespace DepartmentWebCore.Controllers
     {
         private readonly ILecturerWorkloadService _serviceLW;
 
-        private readonly BaseService _baseService;
-
-        private readonly IAcademicYearService _serviceAY;
-
         private static IStudyProcessService _serviceSP;
 
         private readonly IAcademicYearProcess _process;
@@ -30,25 +26,22 @@ namespace DepartmentWebCore.Controllers
         private const string defaultMenu = "LecturerWorkload";
 
         public LecturerWorkloadController(ILecturerWorkloadService serviceLW, IStudyProcessService serviceSP,
-            BaseService baseService, IAcademicYearService serviceAY,
             IAcademicYearProcess process)
         {
             _serviceLW = serviceLW;
             _serviceSP = serviceSP;
-            _baseService = baseService;
-            _serviceAY = serviceAY;
             _process = process;
         }
 
         public IActionResult View(Guid Id)
         {
             var lecturerWorkload = _serviceLW.GetLecturerWorkload(new LecturerWorkloadGetBindingModel { Id = Id });
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var lecturers = _baseService.GetLecturers();
-            if (lecturerWorkload.Succeeded && academicYears.Succeeded && lecturers != null)
+            var academicYears = _serviceLW.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var lecturers = _serviceLW.GetLecturers(new LecturerGetBindingModel { });
+            if (lecturerWorkload.Succeeded && academicYears.Succeeded && lecturers.Succeeded)
             {
                 ViewBag.AcademicYears = new SelectList(academicYears.Result.List, "Id", "Title");
-                ViewBag.Lecturers = new SelectList(lecturers.OrderBy(x => x.LastName), "Id", "FullName");
+                ViewBag.Lecturers = new SelectList(lecturers.Result.List.OrderBy(x => x.LastName), "Id", "FullName");
 
                 ViewBag.menuElement = defaultMenu;
                 return View("../StudyProcess/LecturerWorkload", lecturerWorkload.Result);
@@ -62,12 +55,12 @@ namespace DepartmentWebCore.Controllers
         public IActionResult Create(Guid Id)
         {
             var lecturerWorkloadView = new LecturerWorkloadViewModel() { AcademicYearId = Id };
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var lecturers = _baseService.GetLecturers();
-            if (lecturers != null && academicYears.Succeeded)
+            var academicYears = _serviceLW.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var lecturers = _serviceLW.GetLecturers(new LecturerGetBindingModel { });
+            if (lecturers.Succeeded && academicYears.Succeeded)
             {
                 ViewBag.AcademicYears = new SelectList(academicYears.Result.List, "Id", "Title");
-                ViewBag.Lecturers = new SelectList(lecturers.OrderBy(x => x.LastName), "Id", "FullName");
+                ViewBag.Lecturers = new SelectList(lecturers.Result.List.OrderBy(x => x.LastName), "Id", "FullName");
 
                 ViewBag.menuElement = defaultMenu;
                 return View("../StudyProcess/LecturerWorkload", lecturerWorkloadView);

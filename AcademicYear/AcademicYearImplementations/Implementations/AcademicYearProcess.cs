@@ -1143,9 +1143,9 @@ namespace AcademicYearImplementations.Implementations
 
                 attribute = node.Attributes.GetNamedItem("Дисциплина");
                 if (attribute.Value.StartsWith("Защита "))
-				{
+                {
                     int c = 0;
-				}
+                }
                 var discipline = context.Disciplines.FirstOrDefault(x => x.DisciplineBlueAsteriskName == attribute.Value);
                 if (discipline == null)
                 {
@@ -1627,7 +1627,12 @@ namespace AcademicYearImplementations.Implementations
                     {
                         List<object> element = new List<object>();
 
-                        var apre = context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+                        var apre = context.AcademicPlanRecordElements
+                            .Include(x => x.TimeNorm)
+                            .Include(x => x.AcademicPlanRecord)
+                            .Include(x => x.AcademicPlanRecord.AcademicPlan)
+                            .FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+
                         if (apre != null)
                         {
                             element.Add(apre.Id);
@@ -1650,13 +1655,45 @@ namespace AcademicYearImplementations.Implementations
                             {
                                 element.Add(null);
                             }
-                            if (apre.FactHours != 0)
+                            if (timeNorm.IsAssignmentByAdviser)
                             {
-                                element.Add(apre.FactHours);
+                                var studentAssignments = context.StudentAssignments
+                                    .Where(x => !x.IsDeleted
+                                    && x.AcademicYearId == modelYear.Id
+                                    && x.EducationDirectionId == apre.AcademicPlanRecord.AcademicPlan.EducationDirectionId
+                                    && x.LecturerId == modelLecturer.Id);
+                                
+                                if (studentAssignments != null)
+                                {
+                                    var count = 0;
+                                    foreach (var studentAssignment in studentAssignments)
+                                    {
+                                        count += studentAssignment.CountStudents;
+                                    }
+                                    if (count != 0)
+                                    {
+                                        element.Add(((decimal)apre.TimeNorm.Hours * count).ToString("#.0"));
+                                    }
+                                    else
+                                    {
+                                        element.Add(null);
+                                    }
+                                }
+                                else
+                                {
+                                    element.Add(null);
+                                }
                             }
                             else
                             {
-                                element.Add(null);
+                                if (apre.FactHours != 0)
+                                {
+                                    element.Add(apre.FactHours);
+                                }
+                                else
+                                {
+                                    element.Add(null);
+                                }
                             }
                             if (aprm != null && aprm.Hours != 0)
                             {
@@ -2057,9 +2094,9 @@ namespace AcademicYearImplementations.Implementations
                     foreach (var APRRecord in APR)
                     {
                         if (APRRecord.Contingent == null)
-						{
+                        {
                             continue;
-						}
+                        }
                         var studentGroups = context.StudentGroups
                                         .Where(x => !x.IsDeleted && x.EducationDirectionId == APRRecord.Contingent.EducationDirectionId && x.Course == APRRecord.Contingent.Course);
                         foreach (var studentGroup in studentGroups)

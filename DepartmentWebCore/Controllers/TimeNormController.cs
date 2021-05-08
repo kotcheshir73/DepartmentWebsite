@@ -2,7 +2,6 @@
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
 using BaseInterfaces.BindingModels;
-using BaseInterfaces.Interfaces;
 using DepartmentWebCore.Models;
 using Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -21,28 +20,21 @@ namespace DepartmentWebCore.Controllers
     {
         private readonly ITimeNormService _serviceTN;
 
-        private readonly IDisciplineBlockService _serviceDB;
-
         private static IStudyProcessService _serviceSP;
-
-        private readonly IAcademicYearService _serviceAY;
 
         private const string defaultMenu = "TimeNorm";
 
-        public TimeNormController(ITimeNormService serviceTN, IDisciplineBlockService serviceDB,
-            IStudyProcessService serviceSP, IAcademicYearService serviceAY)
+        public TimeNormController(ITimeNormService serviceTN, IStudyProcessService serviceSP)
         {
             _serviceTN = serviceTN;
-            _serviceDB = serviceDB;
             _serviceSP = serviceSP;
-            _serviceAY = serviceAY;
         }
 
         public IActionResult View(Guid Id)
         {
             var timeNorm = _serviceTN.GetTimeNorm(new TimeNormGetBindingModel { Id = Id });
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var disciplineBlocks = _serviceDB.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
+            var academicYears = _serviceTN.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var disciplineBlocks = _serviceTN.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
             if (timeNorm.Succeeded && academicYears.Succeeded && disciplineBlocks.Succeeded)
             {
                 var educationDirectionQualifications = Enum.GetValues(typeof(EducationDirectionQualification))
@@ -79,8 +71,8 @@ namespace DepartmentWebCore.Controllers
         public IActionResult Create(Guid Id)
         {
             var timeNormView = new TimeNormViewModel() { AcademicYearId = Id };
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var disciplineBlocks = _serviceDB.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
+            var academicYears = _serviceTN.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var disciplineBlocks = _serviceTN.GetDisciplineBlocks(new DisciplineBlockGetBindingModel { });
             if (disciplineBlocks.Succeeded && academicYears.Succeeded)
             {
                 var educationDirectionQualifications = Enum.GetValues(typeof(EducationDirectionQualification))
@@ -162,8 +154,9 @@ namespace DepartmentWebCore.Controllers
                     NumKoef = decNumKoef,
                     TimeNormKoef = model.TimeNormKoef,
                     UseInLearningProgress = model.UseInLearningProgress,
-                    UseInSite = model.UseInSite
-                }); ;
+                    UseInSite = model.UseInSite,
+                    IsAssignmentByAdviser = model.IsAssignmentByAdviser
+                });
             }
             else
             {
@@ -186,7 +179,8 @@ namespace DepartmentWebCore.Controllers
                     NumKoef = decNumKoef,
                     TimeNormKoef = model.TimeNormKoef,
                     UseInLearningProgress = model.UseInLearningProgress,
-                    UseInSite = model.UseInSite
+                    UseInSite = model.UseInSite,
+                    IsAssignmentByAdviser = model.IsAssignmentByAdviser
                 });
             }
 

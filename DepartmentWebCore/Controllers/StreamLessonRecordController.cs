@@ -20,27 +20,16 @@ namespace DepartmentWebCore.Controllers
 
         private readonly IStreamLessonService _serviceSL;
 
-        private readonly IAcademicPlanService _serviceAP;
-
-        private readonly IAcademicPlanRecordService _serviceAPR;
-
-        private readonly IAcademicPlanRecordElementService _serviceAPRE;
-
         private static IStudyProcessService _serviceSP;
 
         private const string defaultMenu = "StreamLessonRecord";
 
         public StreamLessonRecordController(IStreamLessonRecordService serviceSLR, IStreamLessonService serviceSL,
-            IAcademicPlanService serviceAP, IStudyProcessService serviceSP,
-            IAcademicPlanRecordService serviceAPR, IAcademicPlanRecordElementService serviceAPRE)
+            IStudyProcessService serviceSP)
         {
             _serviceSLR = serviceSLR;
             _serviceSL = serviceSL;
-            _serviceAP = serviceAP;
             _serviceSP = serviceSP;
-            _serviceAPR = serviceAPR;
-            _serviceAPRE = serviceAPRE;
-
         }
 
         public IActionResult View(Guid Id)
@@ -52,7 +41,7 @@ namespace DepartmentWebCore.Controllers
                 if (streamLesson.Succeeded)
                 {
                     var streamLessons = _serviceSL.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
-                    var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
+                    var academicPlans = _serviceSLR.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
                     if (streamLessons.Succeeded && academicPlans.Succeeded)
                     {
                         ViewBag.StreamLessons = new SelectList(streamLessons.Result.List, "Id", "StreamLessonName");
@@ -77,7 +66,7 @@ namespace DepartmentWebCore.Controllers
             if (streamLesson.Succeeded)
             {
                 var streamLessons = _serviceSL.GetStreamLessons(new StreamLessonGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
-                var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
+                var academicPlans = _serviceSLR.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = streamLesson.Result.AcademicYearId });
                 if (streamLessons.Succeeded && academicPlans.Succeeded)
                 {
                     ViewBag.StreamLessons = new SelectList(streamLessons.Result.List, "Id", "StreamLessonName");
@@ -176,7 +165,7 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public IActionResult GetAcademicPlanRecords(Guid AcademicPlanId)
         {
-            var academicPlanRecords = _serviceAPR.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { AcademicPlanId = AcademicPlanId });
+            var academicPlanRecords = _serviceSLR.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { AcademicPlanId = AcademicPlanId });
             if (academicPlanRecords.Succeeded)
             {
                 return Json(academicPlanRecords.Result.List);
@@ -187,7 +176,7 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public IActionResult GetAcademicPlanRecordElements(Guid AcademicPlanRecordId)
         {
-            var academicPlanRecordElements = _serviceAPRE.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = AcademicPlanRecordId });
+            var academicPlanRecordElements = _serviceSLR.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = AcademicPlanRecordId });
             if (academicPlanRecordElements.Succeeded)
             {
                 return Json(academicPlanRecordElements.Result.List);

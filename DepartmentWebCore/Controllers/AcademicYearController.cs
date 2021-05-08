@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Tools;
 using WebInterfaces.Interfaces;
@@ -24,17 +23,20 @@ namespace DepartmentWebCore.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        private readonly IAcademicYearProcess _process;
+
         private readonly FileService _fileService;
 
         private const string defaultMenu = "AcademicPlan";
 
         public AcademicYearController(IAcademicYearService serviceAY, IStudyProcessService serviceSP,
-            IHostingEnvironment hostingEnvironment, FileService fileService)
+            IHostingEnvironment hostingEnvironment, FileService fileService, IAcademicYearProcess process)
         {
             _serviceAY = serviceAY;
             _serviceSP = serviceSP;
             _hostingEnvironment = hostingEnvironment;
             _fileService = fileService;
+            _process = process;
         }
 
         public IActionResult View(Guid Id, string menuElement)
@@ -117,7 +119,7 @@ namespace DepartmentWebCore.Controllers
                 new SubmenuModel
                 {
                     AcademicYearId = Id,
-                    Name = "Академические планы",
+                    Name = "Академ. планы",
                     ActionName = "AcademicPlan"
                 },
                 new SubmenuModel
@@ -141,8 +143,14 @@ namespace DepartmentWebCore.Controllers
                 new SubmenuModel
                 {
                     AcademicYearId = Id,
-                    Name = "Нагрузка преподавателей",
+                    Name = "Нагрузка",
                     ActionName = "LecturerWorkload"
+                },
+                new SubmenuModel
+                {
+                    AcademicYearId = Id,
+                    Name = "Распред. по науч. рук.",
+                    ActionName = "StudentAssignment"
                 }
             };
 
@@ -179,13 +187,15 @@ namespace DepartmentWebCore.Controllers
         {
             string fileName = "Расчасовки преподавателей.zip";
 
+            var disciplineTimeDistributions = _process.CreateDisciplineTimeDistributions(new AcademicYearGetBindingModel { Id = AcademicYearId });
+
             var result = _serviceSP.ImportDisciplineTimeDistributions(new ImportDisciplineTimeDistributionsBindingModel
             {
                 AcademicYearId = AcademicYearId,
                 Path = _hostingEnvironment.WebRootPath
             });
 
-            if (result.Succeeded)
+            if (disciplineTimeDistributions.Succeeded && result.Succeeded)
             {
                 var zipStream = result.Result;
 

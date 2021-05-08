@@ -45,33 +45,49 @@
 </form>
 
 <script>
-    $(function () {
-        $('#btnSave').click(function () {
-            $('#error').text("");
-            if ($("form").valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Save", "AcademicPlanRecordMission")',
-                    data: $('form').serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.error.length > 0) {
-                            $('#error').text(data.error);
-                            return;
-                        }
-                        if (data.id != null) {
-                            window.location = "@Url.Action("View", "AcademicPlanRecordMission", new { Id = "id" })".replace("id", data.id);
-                        }
-                        else {
-                            window.location.reload();
-                        }
-                    },
-                    error: function (result) {
-                        alert(result);
+    $(document).ready(function () {
+        var inputs = $("input[data-val-number*='number']");
+        for (var i = 0; i < inputs.length; i++) {
+            $(inputs[i]).on("change", function () {
+                changeNum(this);
+            });
+            changeNum(inputs[i]);
+        }
+    });
+
+    function changeNum(input) {
+        input = $(input);
+        var value = input.val();
+        if (value) {
+            input.val(value.replace(",", "."));
+        }
+    };
+
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "AcademicPlanRecordMission")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
                     }
-                });
-            }
-        });
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "AcademicPlanRecordMission", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
     });
 </script>
 

@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(DepartmentDatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210506215140_AddToTimeNormFlagIsAssignmentByAdviser")]
+    partial class AddToTimeNormFlagIsAssignmentByAdviser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -546,35 +548,6 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("StreamLessonId");
 
                     b.ToTable("StreamLessonRecords");
-                });
-
-            modelBuilder.Entity("Models.AcademicYearData.StudentAssignment", b =>
-                {
-                    b.Property<Guid>("Id");
-
-                    b.Property<Guid>("AcademicYearId");
-
-                    b.Property<int>("CountStudents");
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<DateTime?>("DateDelete");
-
-                    b.Property<Guid>("EducationDirectionId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid>("LecturerId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AcademicYearId");
-
-                    b.HasIndex("EducationDirectionId");
-
-                    b.HasIndex("LecturerId");
-
-                    b.ToTable("StudentAssignments");
                 });
 
             modelBuilder.Entity("Models.AcademicYearData.TimeNorm", b =>
@@ -2594,24 +2567,6 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.AcademicYearData.StreamLesson", "StreamLesson")
                         .WithMany("StreamLessonRecords")
                         .HasForeignKey("StreamLessonId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.AcademicYearData.StudentAssignment", b =>
-                {
-                    b.HasOne("Models.AcademicYearData.AcademicYear", "AcademicYear")
-                        .WithMany()
-                        .HasForeignKey("AcademicYearId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Models.Base.EducationDirection", "EducationDirection")
-                        .WithMany()
-                        .HasForeignKey("EducationDirectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Models.Base.Lecturer", "Lecturer")
-                        .WithMany()
-                        .HasForeignKey("LecturerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

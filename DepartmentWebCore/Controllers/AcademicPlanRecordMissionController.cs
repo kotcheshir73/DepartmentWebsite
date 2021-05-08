@@ -1,8 +1,8 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
 using DepartmentWebCore.Models;
-using DepartmentWebCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -19,18 +19,15 @@ namespace DepartmentWebCore.Controllers
 
         private readonly IAcademicPlanRecordElementService _serviceAPRE;
 
-        private readonly BaseService _baseService;
-
         private static IStudyProcessService _serviceSP;
 
         private const string defaultMenu = "AcademicPlanRecordMission";
 
         public AcademicPlanRecordMissionController(IAcademicPlanRecordMissionService serviceAPRM, IAcademicPlanRecordElementService serviceAPRE,
-            BaseService baseService, IStudyProcessService serviceSP)
+            IStudyProcessService serviceSP)
         {
             _serviceAPRM = serviceAPRM;
             _serviceAPRE = serviceAPRE;
-            _baseService = baseService;
             _serviceSP = serviceSP;
         }
 
@@ -40,14 +37,14 @@ namespace DepartmentWebCore.Controllers
             if (academicPlanRecordMission.Succeeded)
             {
                 var academicPlanRecordElement = _serviceAPRE.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = academicPlanRecordMission.Result.AcademicPlanRecordElementId });
-                var lecturers = _baseService.GetLecturers();
-                if (academicPlanRecordElement.Succeeded && lecturers != null)
+                var lecturers = _serviceAPRM.GetLecturers(new LecturerGetBindingModel { });
+                if (academicPlanRecordElement.Succeeded && lecturers.Succeeded)
                 {
                     var academicPlanRecordElements = _serviceAPRE.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = academicPlanRecordElement.Result.AcademicPlanRecordId });
                     if (academicPlanRecordElements.Succeeded)
                     {
                         ViewBag.AcademicPlanRecordElements = new SelectList(academicPlanRecordElements.Result.List, "Id", "Discipline");
-                        ViewBag.Lecturers = new SelectList(lecturers.OrderBy(x => x.LastName), "Id", "FullName");
+                        ViewBag.Lecturers = new SelectList(lecturers.Result.List.OrderBy(x => x.LastName), "Id", "FullName");
 
                         ViewBag.menuElement = defaultMenu;
                         return View("../StudyProcess/AcademicPlanRecordMission", academicPlanRecordMission.Result);
@@ -61,14 +58,14 @@ namespace DepartmentWebCore.Controllers
         {
             var academicPlanRecordMissionView = new AcademicPlanRecordMissionViewModel() { AcademicPlanRecordElementId = Id };
             var academicPlanRecordElement = _serviceAPRE.GetAcademicPlanRecordElement(new AcademicPlanRecordElementGetBindingModel { Id = Id });
-            var lecturers = _baseService.GetLecturers();
-            if (academicPlanRecordElement.Succeeded && lecturers != null)
+            var lecturers = _serviceAPRM.GetLecturers(new LecturerGetBindingModel { });
+            if (academicPlanRecordElement.Succeeded && lecturers.Succeeded)
             {
                 var academicPlanRecordElements = _serviceAPRE.GetAcademicPlanRecordElements(new AcademicPlanRecordElementGetBindingModel { AcademicPlanRecordId = academicPlanRecordElement.Result.AcademicPlanRecordId });
                 if (academicPlanRecordElements.Succeeded)
                 {
                     ViewBag.AcademicPlanRecordElements = new SelectList(academicPlanRecordElements.Result.List, "Id", "Discipline");
-                    ViewBag.Lecturers = new SelectList(lecturers.OrderBy(x => x.LastName), "Id", "FullName");
+                    ViewBag.Lecturers = new SelectList(lecturers.Result.List.OrderBy(x => x.LastName), "Id", "FullName");
 
                     ViewBag.menuElement = defaultMenu;
                     return View("../StudyProcess/AcademicPlanRecordMission", academicPlanRecordMissionView);

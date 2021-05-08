@@ -1,10 +1,9 @@
 ﻿@{
-    ViewBag.Title = Model.StreamLessonName != null ? Model.StreamLessonName : "Поток";
+    ViewBag.Title = Model.EducationDirection != null && Model.Lecturer != null ? Model.EducationDirection + " : " + Model.Lecturer : "Распределение по науч. рук.";
 }
 
-@using DepartmentWebCore.Helpers
 @using AcademicYearInterfaces.ViewModels
-@model StreamLessonViewModel
+@model StudentAssignmentViewModel
 
 <form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
@@ -29,60 +28,37 @@
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="StreamLessonName"></label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="EducationDirectionId"></label>
         <div class="col-xs-6">
-            <input class="form-control" asp-for="StreamLessonName">
-            <span asp-validation-for="StreamLessonName" class="text-danger"></span>
+            <select class="form-control" asp-for="EducationDirectionId" asp-items="@ViewBag.EducationDirections"></select>
+            <span asp-validation-for="EducationDirectionId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="StreamLessonHours"></label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="LecturerId"></label>
         <div class="col-xs-6">
-            <input class="form-control" asp-for="StreamLessonHours">
-            <span asp-validation-for="StreamLessonHours" class="text-danger"></span>
+            <select class="form-control" asp-for="LecturerId" asp-items="@ViewBag.Lecturers"></select>
+            <span asp-validation-for="LecturerId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Semester"></label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="CountStudents"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="Semester" asp-items="@ViewBag.Semesters"></select>
-            <span asp-validation-for="Semester" class="text-danger"></span>
+            <input class="form-control" asp-for="CountStudents">
+            <span asp-validation-for="CountStudents" class="text-danger"></span>
         </div>
     </div>
-
-    <div>
-        @Html.RenderAction("Table", "StreamLessonRecord", new { Id = Model.Id })
-    </div>
-
 </form>
 
 <script>
-    $(document).ready(function () {
-        var inputs = $("input[data-val-number*='number']");
-        for (var i = 0; i < inputs.length; i++) {
-            $(inputs[i]).on("change", function () {
-                changeNum(this);
-            });
-            changeNum(inputs[i]);
-        }
-    });
-
-    function changeNum(input) {
-        input = $(input);
-        var value = input.val();
-        if (value) {
-            input.val(value.replace(",", "."));
-        }
-    };
-
     $('#btnSave').click(function () {
-        $("#error").text("");
+        $('#error').text("");
         if ($("form").valid()) {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("Save", "StreamLesson")',
+                url: '@Url.Action("Save", "StudentAssignment")',
                 data: $('form').serialize(),
                 dataType: 'json',
                 success: function (data) {
@@ -91,7 +67,7 @@
                         return;
                     }
                     if (data.id != null) {
-                        window.location = "@Url.Action("View", "StreamLesson", new { Id = "id" })".replace("id", data.id);
+                        window.location = "@Url.Action("View", "StudentAssignment", new { Id = "id" })".replace("id", data.id);
                     }
                     else {
                         window.location.reload();

@@ -123,6 +123,8 @@ namespace DepartmentWebCore
             container.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILecturerWorkloadService, LecturerWorkloadService>(new HierarchicalLifetimeManager());
 
+            container.RegisterType<IStudentAssignmentService, StudentAssignmentService>(new HierarchicalLifetimeManager());
+
             container.RegisterType<IAcademicYearProcess, AcademicYearProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());

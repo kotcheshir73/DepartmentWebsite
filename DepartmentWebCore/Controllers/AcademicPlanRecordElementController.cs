@@ -18,8 +18,6 @@ namespace DepartmentWebCore.Controllers
 
         private readonly IAcademicPlanRecordElementService _serviceAPRE;
 
-        private readonly ITimeNormService _serviceTN;
-
         private readonly IAcademicYearProcess _process;
 
         private static IStudyProcessService _serviceSP;
@@ -27,12 +25,10 @@ namespace DepartmentWebCore.Controllers
         private const string defaultMenu = "AcademicPlanRecordElement";
 
         public AcademicPlanRecordElementController(IAcademicPlanRecordService serviceAPR, IAcademicPlanRecordElementService serviceAPRE,
-            ITimeNormService serviceTN, IStudyProcessService serviceSP,
-            IAcademicYearProcess process)
+            IStudyProcessService serviceSP, IAcademicYearProcess process)
         {
             _serviceAPR = serviceAPR;
             _serviceAPRE = serviceAPRE;
-            _serviceTN = serviceTN;
             _serviceSP = serviceSP;
             _process = process;
         }
@@ -43,7 +39,7 @@ namespace DepartmentWebCore.Controllers
             if (academicPlanRecordElement.Succeeded)
             {
                 var academicPlanRecord = _serviceAPR.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = academicPlanRecordElement.Result.AcademicPlanRecordId });
-                var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = academicPlanRecordElement.Result.AcademicPlanRecordId });
+                var timeNorms = _serviceAPRE.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = academicPlanRecordElement.Result.AcademicPlanRecordId });
                 if (academicPlanRecord.Succeeded && timeNorms.Succeeded)
                 {
                     var academicPlanRecords = _serviceAPR.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { AcademicPlanId = academicPlanRecord.Result.AcademicPlanId });
@@ -64,7 +60,7 @@ namespace DepartmentWebCore.Controllers
         {
             var academicPlanRecordElementView = new AcademicPlanRecordElementViewModel() { AcademicPlanRecordId = Id };
             var academicPlanRecord = _serviceAPR.GetAcademicPlanRecord(new AcademicPlanRecordGetBindingModel { Id = Id });
-            var timeNorms = _serviceTN.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = Id });
+            var timeNorms = _serviceAPRE.GetTimeNorms(new TimeNormGetBindingModel { AcademicPlanRecordId = Id });
             if (academicPlanRecord.Succeeded && timeNorms.Succeeded)
             {
                 var academicPlanRecords = _serviceAPR.GetAcademicPlanRecords(new AcademicPlanRecordGetBindingModel { AcademicPlanId = academicPlanRecord.Result.AcademicPlanId });

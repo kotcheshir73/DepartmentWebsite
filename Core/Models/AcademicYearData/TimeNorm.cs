@@ -24,7 +24,7 @@ namespace Models.AcademicYearData
         public Guid DisciplineBlockId { get; set; }
 
         [MaxLength(50)]
-		[Required]
+        [Required]
         [DataMember]
         public string TimeNormName { get; set; }
 
@@ -88,7 +88,7 @@ namespace Models.AcademicYearData
         /// </summary>
         [DataMember]
         public decimal? Hours { get; set; }
-        
+
         /// <summary>
         /// Множитель 3 может в себе хранить число
         /// </summary>
@@ -114,6 +114,12 @@ namespace Models.AcademicYearData
         [DataMember]
         public bool UseInSite { get; set; }
 
+        /// <summary>
+        /// Распределение по научным руководителям
+        /// </summary>
+        [DataMember]
+        public bool IsAssignmentByAdviser { get; set; }
+
         //-------------------------------------------------------------------------
 
         public virtual AcademicYear AcademicYear { get; set; }
@@ -127,7 +133,7 @@ namespace Models.AcademicYearData
 
         [ForeignKey("TimeNormId")]
         public virtual List<DisciplineTimeDistributionRecord> DisciplineTimeDistributionRecords { get; set; }
-        
+
         [ForeignKey("TimeNormId")]
         public virtual List<DisciplineLesson> DisciplineLessons { get; set; }
 

@@ -90,6 +90,7 @@
                         <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Hours"></label>
                         <div class="col-xs-9">
                             <input class="form-control" asp-for="Hours">
+                            @*<input class="form-control" asp-for="Hours" onfocus="changeNum(this, this.value)" onchange="changeNum(this, this.value)" data-type="@Model.Hours.GetType()">*@
                             <span asp-validation-for="Hours" class="text-danger"></span>
                         </div>
                     </div>
@@ -103,6 +104,7 @@
                         <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="NumKoef"></label>
                         <div class="col-xs-9">
                             <input class="form-control" asp-for="NumKoef">
+                            @*<input class="form-control" asp-for="NumKoef" onfocus="changeNum(this, this.value)" onchange="changeNum(this, this.value)" data-type="@Model.Hours.GetType()">*@
                             <span asp-validation-for="NumKoef" class="text-danger"></span>
                         </div>
                     </div>
@@ -183,37 +185,60 @@
             <span asp-validation-for="UseInLearningProgress" class="text-danger"></span>
         </div>
     </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="IsAssignmentByAdviser"></label>
+        <div class="col-xs-6">
+            <input class="form-check-input" asp-for="IsAssignmentByAdviser" />
+            <span asp-validation-for="IsAssignmentByAdviser" class="text-danger"></span>
+        </div>
+    </div>
 </form>
 
 <script>
+    $(document).ready(function () {
+        var inputs = $("input[data-val-number*='number']");
+        for (var i = 0; i < inputs.length; i++) {
+            $(inputs[i]).on("change", function () {
+                changeNum(this);
+            });
+            changeNum(inputs[i]);
+        }
+    });
 
-    $(function () {
-        $('#btnSave').click(function () {
-            $('#error').text("");
-            if ($("form").valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Save", "TimeNorm")',
-                    data: $('form').serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.error.length > 0) {
-                            $('#error').text(data.error);
-                            return;
-                        }
-                        if (data.id != null) {
-                            window.location = "@Url.Action("View", "TimeNorm", new { Id = "id" })".replace("id", data.id);
-                        }
-                        else {
-                            window.location.reload();
-                        }
-                    },
-                    error: function (result) {
-                        alert(result);
+    function changeNum(input) {
+        input = $(input);
+        var value = input.val();
+        if (value) {
+            input.val(value.replace(",", "."));
+        }
+    };
+
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "TimeNorm")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
                     }
-                });
-            }
-        });
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "TimeNorm", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
     });
 </script>
 

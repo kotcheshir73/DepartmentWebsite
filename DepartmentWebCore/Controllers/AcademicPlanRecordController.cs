@@ -2,7 +2,6 @@
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
 using BaseInterfaces.BindingModels;
-using BaseInterfaces.Interfaces;
 using DepartmentWebCore.Models;
 using Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -17,26 +16,19 @@ namespace DepartmentWebCore.Controllers
 {
     public class AcademicPlanRecordController : Controller
     {
-        private readonly IDisciplineService _serviceD;
-
         private readonly IAcademicPlanService _serviceAP;
 
         private readonly IAcademicPlanRecordService _serviceAPR;
-
-        private readonly IContingentService _serviceC;
 
         private static IStudyProcessService _serviceSP;
 
         private const string defaultMenu = "AcademicPlanRecord";
 
-        public AcademicPlanRecordController(IDisciplineService serviceD, IAcademicPlanService serviceAP,
-            IAcademicPlanRecordService serviceAPR, IContingentService serviceC,
+        public AcademicPlanRecordController(IAcademicPlanService serviceAP, IAcademicPlanRecordService serviceAPR,
             IStudyProcessService serviceSP)
         {
-            _serviceD = serviceD;
             _serviceAP = serviceAP;
             _serviceAPR = serviceAPR;
-            _serviceC = serviceC;
             _serviceSP = serviceSP;
         }
 
@@ -49,8 +41,8 @@ namespace DepartmentWebCore.Controllers
                 var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = academicPlan.Result.AcademicYearId });
                 if (academicPlan.Succeeded)
                 {
-                    var disciplines = _serviceD.GetDisciplines(new DisciplineGetBindingModel { });
-                    var contingents = _serviceC.GetContingents(new ContingentGetBindingModel { AcademicPlanId = academicPlan.Result.Id });
+                    var disciplines = _serviceAPR.GetDisciplines(new DisciplineGetBindingModel { });
+                    var contingents = _serviceAPR.GetContingents(new ContingentGetBindingModel { AcademicPlanId = academicPlan.Result.Id });
                     if (disciplines.Succeeded && contingents.Succeeded)
                     {
                         var semesters = Enum.GetValues(typeof(Semesters))
@@ -83,8 +75,8 @@ namespace DepartmentWebCore.Controllers
             var academicPlans = _serviceAP.GetAcademicPlans(new AcademicPlanGetBindingModel { AcademicYearId = academicPlan.Result.AcademicYearId });
             if (academicPlan.Succeeded)
             {
-                var disciplines = _serviceD.GetDisciplines(new DisciplineGetBindingModel { });
-                var contingents = _serviceC.GetContingents(new ContingentGetBindingModel { AcademicPlanId = academicPlan.Result.Id });
+                var disciplines = _serviceAPR.GetDisciplines(new DisciplineGetBindingModel { });
+                var contingents = _serviceAPR.GetContingents(new ContingentGetBindingModel { AcademicPlanId = academicPlan.Result.Id });
                 if (disciplines.Succeeded && contingents.Succeeded)
                 {
                     var semesters = Enum.GetValues(typeof(Semesters))

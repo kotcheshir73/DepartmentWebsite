@@ -19,8 +19,6 @@ namespace DepartmentWebCore.Controllers
     {
         private readonly IStreamLessonService _serviceSL;
 
-        private readonly IAcademicYearService _serviceAY;
-
         private static IStudyProcessService _serviceSP;
 
         private readonly IAcademicYearProcess _process;
@@ -28,18 +26,17 @@ namespace DepartmentWebCore.Controllers
         private const string defaultMenu = "StreamLesson";
 
         public StreamLessonController(IStreamLessonService serviceSL, IStudyProcessService serviceSP,
-            IAcademicYearService serviceAY, IAcademicYearProcess process)
+            IAcademicYearProcess process)
         {
             _serviceSL = serviceSL;
             _serviceSP = serviceSP;
-            _serviceAY = serviceAY;
             _process = process;
         }
 
         public IActionResult View(Guid Id)
         {
             var streamLesson = _serviceSL.GetStreamLesson(new StreamLessonGetBindingModel { Id = Id });
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var academicYears = _serviceSL.GetAcademicYears(new AcademicYearGetBindingModel() { });
             if (streamLesson.Succeeded && academicYears.Succeeded)
             {
                 var semesters = Enum.GetValues(typeof(Semesters))
@@ -62,7 +59,7 @@ namespace DepartmentWebCore.Controllers
         public IActionResult Create(Guid Id)
         {
             var streamLessonView = new StreamLessonViewModel() { AcademicYearId = Id };
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
+            var academicYears = _serviceSL.GetAcademicYears(new AcademicYearGetBindingModel() { });
             if (academicYears.Succeeded)
             {
                 var semesters = Enum.GetValues(typeof(Semesters))

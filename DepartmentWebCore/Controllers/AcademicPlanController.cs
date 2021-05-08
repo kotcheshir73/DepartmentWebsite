@@ -1,8 +1,8 @@
 ﻿using AcademicYearInterfaces.BindingModels;
 using AcademicYearInterfaces.Interfaces;
 using AcademicYearInterfaces.ViewModels;
+using BaseInterfaces.BindingModels;
 using DepartmentWebCore.Models;
-using DepartmentWebCore.Services;
 using Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +19,6 @@ namespace DepartmentWebCore.Controllers
 {
     public class AcademicPlanController : Controller
     {
-        private readonly BaseService _baseService;
-
-        private readonly IAcademicYearService _serviceAY;
-
         private readonly IAcademicPlanService _serviceAP;
 
         private static IStudyProcessService _serviceSP;
@@ -33,12 +29,9 @@ namespace DepartmentWebCore.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public AcademicPlanController(BaseService baseService, IAcademicYearService serviceAY,
-            IAcademicPlanService serviceAP, IStudyProcessService serviceSP,
+        public AcademicPlanController(IAcademicPlanService serviceAP, IStudyProcessService serviceSP,
             IAcademicYearProcess process, IHostingEnvironment hostingEnvironment)
         {
-            _baseService = baseService;
-            _serviceAY = serviceAY;
             _serviceAP = serviceAP;
             _serviceSP = serviceSP;
             _process = process;
@@ -48,12 +41,12 @@ namespace DepartmentWebCore.Controllers
         public IActionResult View(Guid Id)
         {
             var academicPlan = _serviceAP.GetAcademicPlan(new AcademicPlanGetBindingModel { Id = Id });
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var educationDirections = _baseService.GetEducationDirections();
-            if (academicPlan.Succeeded && academicYears.Succeeded && educationDirections != null)
+            var academicYears = _serviceAP.GetAcademicYears(new AcademicYearGetBindingModel { });
+            var educationDirections = _serviceAP.GetEducationDirections(new EducationDirectionGetBindingModel { });
+            if (academicPlan.Succeeded && academicYears.Succeeded && educationDirections.Succeeded)
             {
                 ViewBag.AcademicYears = new SelectList(academicYears.Result.List, "Id", "Title");
-                ViewBag.EducationDirections = educationDirections.Select(x => new SelectListItem()
+                ViewBag.EducationDirections = educationDirections.Result.List.Select(x => new SelectListItem()
                 {
                     Value = x.Id.ToString(),
                     Text = x.ToString()
@@ -75,12 +68,12 @@ namespace DepartmentWebCore.Controllers
         public IActionResult Create(Guid Id)
         {
             var academicPlanView = new AcademicPlanViewModel() { AcademicYearId = Id, AcademicCourses = 0 };
-            var academicYears = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel() { });
-            var educationDirections = _baseService.GetEducationDirections();
-            if (academicYears.Succeeded && educationDirections != null)
+            var academicYears = _serviceAP.GetAcademicYears(new AcademicYearGetBindingModel { });
+            var educationDirections = _serviceAP.GetEducationDirections(new EducationDirectionGetBindingModel { });
+            if (academicYears.Succeeded && educationDirections.Succeeded)
             {
                 ViewBag.AcademicYears = new SelectList(academicYears.Result.List, "Id", "Title");
-                ViewBag.EducationDirections = educationDirections.Select(x => new SelectListItem()
+                ViewBag.EducationDirections = educationDirections.Result.List.Select(x => new SelectListItem()
                 {
                     Value = x.Id.ToString(),
                     Text = x.ToString()
@@ -252,7 +245,7 @@ namespace DepartmentWebCore.Controllers
         [HttpPost]
         public IActionResult GetAcademicYears(Guid Id)
         {
-            var result = _serviceAY.GetAcademicYears(new AcademicYearGetBindingModel { });
+            var result = _serviceAP.GetAcademicYears(new AcademicYearGetBindingModel { });
             if (result.Succeeded)
             {
                 return Json(new SelectList(result.Result.List.Where(x => x.Id != Id), "Id", "Title"));

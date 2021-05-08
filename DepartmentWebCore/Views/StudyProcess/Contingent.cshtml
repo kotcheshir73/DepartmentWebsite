@@ -83,33 +83,31 @@
 </form>
 
 <script>
-    $(function () {
-        $('#btnSave').click(function () {
-            $('#error').text("");
-            if ($("form").valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Save", "Contingent")',
-                    data: $('form').serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.error.length > 0) {
-                            $('#error').text(data.error);
-                            return;
-                        }
-                        if (data.id != null) {
-                            window.location = "@Url.Action("View", "Contingent", new { Id = "id" })".replace("id", data.id);
-                        }
-                        else {
-                            window.location.reload();
-                        }
-                    },
-                    error: function (result) {
-                        alert(result);
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "Contingent")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
                     }
-                });
-            }
-        });
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "Contingent", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
     });
 </script>
 
