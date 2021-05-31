@@ -28,9 +28,11 @@ namespace AcademicYearInterfaces.ViewModels
         public string ContingentName { get; set; }
 
         [Required]
-        [DisplayName("Курс")]
         [Display(Name = "Курс*")]
         public int Course { get; set; }
+
+        [DisplayName("Курс")]
+        public int CourseString { get { return (int)(Math.Log(Course, 2.0) + 1); } }
 
         [Required]
         [DisplayName("Количество групп")]

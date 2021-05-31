@@ -1662,7 +1662,7 @@ namespace AcademicYearImplementations.Implementations
                                     && x.AcademicYearId == modelYear.Id
                                     && x.EducationDirectionId == apre.AcademicPlanRecord.AcademicPlan.EducationDirectionId
                                     && x.LecturerId == modelLecturer.Id);
-                                
+
                                 if (studentAssignments != null)
                                 {
                                     var count = 0;
@@ -1732,6 +1732,7 @@ namespace AcademicYearImplementations.Implementations
                             .Include(x => x.AcademicPlanRecord.Contingent)
                             .Include(x => x.AcademicPlanRecord.Discipline)
                             .Include(x => x.AcademicPlanRecord.AcademicPlan)
+                            .Include(x => x.AcademicPlanRecordMissions)
                             .Where(x => x.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id && x.TimeNormId == tn.Id && !x.IsDeleted &&
                                         x.AcademicPlanRecord.IsUseInWorkload && !x.AcademicPlanRecord.IsParent).ToList();
                         foreach (var apre in apres)
@@ -1825,6 +1826,22 @@ namespace AcademicYearImplementations.Implementations
                             {
                                 apre.FactHours = 0;
                             }
+                            #region Распределение по научным руководителям
+                            if (tn.IsAssignmentByAdviser)
+                            {
+                                foreach (var aprm in apre.AcademicPlanRecordMissions)
+                                {
+                                    var studentAssignment = context.StudentAssignments.FirstOrDefault(x => !x.IsDeleted
+                                        && x.AcademicYearId == model.Id && x.LecturerId == aprm.LecturerId
+                                        && x.EducationDirectionId == apre.AcademicPlanRecord.AcademicPlan.EducationDirectionId);
+                                    if (studentAssignment != null)
+                                    {
+                                        aprm.Hours = studentAssignment.CountStudents * (decimal)hours;
+                                    }
+                                }
+                                context.SaveChanges();
+                            }
+                            #endregion
                         }
                     }
 

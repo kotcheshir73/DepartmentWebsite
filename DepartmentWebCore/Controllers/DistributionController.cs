@@ -142,5 +142,19 @@ namespace DepartmentWebCore.Controllers
 
             return Json(new Dictionary<string, object> { { "error", error } });
         }
+
+        [HttpPost]
+        public IActionResult CalcFactHoursForAcademicYear(Guid AcademicYearId)
+        {
+            string error = string.Empty;
+
+            ResultService result = _process.CalcFactHoursForAcademicYear(new AcademicYearGetBindingModel { Id = AcademicYearId });
+            if (!result.Succeeded)
+            {
+                error = result.Errors.LastOrDefault().Value;
+            }
+
+            return Json(new Dictionary<string, object> { { "error", error } });
+        }
     }
 }
