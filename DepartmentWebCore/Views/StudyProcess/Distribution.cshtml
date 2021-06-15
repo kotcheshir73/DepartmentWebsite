@@ -1,6 +1,4 @@
-﻿@using DepartmentWebCore.Helpers
-
-<div id="error" class="text-danger"></div>
+﻿<div id="error" class="text-danger"></div>
 
 <button id="recalcHours" type="button" class="btn btn-primary pull-left">Произвести перерасчет</button>
 
@@ -215,6 +213,7 @@
     function deleteColumn(button) {
         $("." + button.value).remove();
         recalculationTotals(null);
+        disciplineRows();
     }
 
     function recalculationTotals(rowId) {

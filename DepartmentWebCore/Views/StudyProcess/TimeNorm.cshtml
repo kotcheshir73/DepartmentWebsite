@@ -90,7 +90,6 @@
                         <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="Hours"></label>
                         <div class="col-xs-9">
                             <input class="form-control" asp-for="Hours">
-                            @*<input class="form-control" asp-for="Hours" onfocus="changeNum(this, this.value)" onchange="changeNum(this, this.value)" data-type="@Model.Hours.GetType()">*@
                             <span asp-validation-for="Hours" class="text-danger"></span>
                         </div>
                     </div>
@@ -104,7 +103,6 @@
                         <label style="font-weight:bold;padding-top:0;" class="col-sm-2 control-label" asp-for="NumKoef"></label>
                         <div class="col-xs-9">
                             <input class="form-control" asp-for="NumKoef">
-                            @*<input class="form-control" asp-for="NumKoef" onfocus="changeNum(this, this.value)" onchange="changeNum(this, this.value)" data-type="@Model.Hours.GetType()">*@
                             <span asp-validation-for="NumKoef" class="text-danger"></span>
                         </div>
                     </div>
