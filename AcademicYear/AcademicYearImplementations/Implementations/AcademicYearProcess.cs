@@ -1204,63 +1204,61 @@ namespace AcademicYearImplementations.Implementations
                 if (attribute != null)
                 {
                     var parentDiscipilne = model.Disciplines.FirstOrDefault(x => x.DisciplineBlueAsteriskCode == attribute.Value);
-                    if (parentDiscipilne == null)
+                    if (parentDiscipilne != null)
                     {
-                        throw new Exception(string.Format("Не найдена родительская дисциплина с кодом {0}", attribute.Value));
-                    }
-
-                    recordParent = context.AcademicPlanRecords.FirstOrDefault(apr =>
-                            apr.AcademicPlanId == model.AcademicPlanId &&
-                            apr.DisciplineId == parentDiscipilne.Id &&
-                            apr.Semester == semester);
-
-                    if (recordParent == null)
-                    {
-                        context.AcademicPlanRecords.Add(AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
-                        {
-                            AcademicPlanId = model.AcademicPlanId,
-                            DisciplineId = parentDiscipilne.Id,
-                            ContingentId = contingent?.Id,
-                            InDepartment = inKafedra,
-                            Semester = semester.ToString(),
-                            Zet = zet,
-                            IsParent = true,
-                            IsChild = false,
-                            IsFacultative = inFacultative,
-                            IsActiveSemester = active,
-                            IsUseInWorkload = false
-                        }));
-
-                        context.SaveChanges();
-
                         recordParent = context.AcademicPlanRecords.FirstOrDefault(apr =>
-                                apr.AcademicPlanId == model.AcademicPlanId &&
-                                apr.DisciplineId == parentDiscipilne.Id &&
-                                apr.Semester == semester &&
-                                !apr.IsDeleted);
-                    }
-                    else if (recordParent.IsDeleted)
-                    {
-                        recordParent.IsDeleted = false;
-                        recordParent.DateDelete = null;
+                               apr.AcademicPlanId == model.AcademicPlanId &&
+                               apr.DisciplineId == parentDiscipilne.Id &&
+                               apr.Semester == semester);
 
-                        recordParent.ContingentId = contingent?.Id;
-                        recordParent.IsChild = false;
-                        recordParent.IsFacultative = inFacultative;
-                        recordParent.IsActiveSemester = active;
-                        context.SaveChanges();
-                    }
+                        if (recordParent == null)
+                        {
+                            context.AcademicPlanRecords.Add(AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
+                            {
+                                AcademicPlanId = model.AcademicPlanId,
+                                DisciplineId = parentDiscipilne.Id,
+                                ContingentId = contingent?.Id,
+                                InDepartment = inKafedra,
+                                Semester = semester.ToString(),
+                                Zet = zet,
+                                IsParent = true,
+                                IsChild = false,
+                                IsFacultative = inFacultative,
+                                IsActiveSemester = active,
+                                IsUseInWorkload = false
+                            }));
 
-                    if (!recordParent.IsParent)
-                    {
-                        recordParent.IsParent = true;
-                        recordParent.IsChild = false;
-                        recordParent.IsUseInWorkload = false;
-                        context.SaveChanges();
-                    }
-                    if (!recordParent.ContingentId.HasValue && contingent != null)
-                    {
-                        recordParent.ContingentId = contingent.Id;
+                            context.SaveChanges();
+
+                            recordParent = context.AcademicPlanRecords.FirstOrDefault(apr =>
+                                    apr.AcademicPlanId == model.AcademicPlanId &&
+                                    apr.DisciplineId == parentDiscipilne.Id &&
+                                    apr.Semester == semester &&
+                                    !apr.IsDeleted);
+                        }
+                        else if (recordParent.IsDeleted)
+                        {
+                            recordParent.IsDeleted = false;
+                            recordParent.DateDelete = null;
+
+                            recordParent.ContingentId = contingent?.Id;
+                            recordParent.IsChild = false;
+                            recordParent.IsFacultative = inFacultative;
+                            recordParent.IsActiveSemester = active;
+                            context.SaveChanges();
+                        }
+
+                        if (!recordParent.IsParent)
+                        {
+                            recordParent.IsParent = true;
+                            recordParent.IsChild = false;
+                            recordParent.IsUseInWorkload = false;
+                            context.SaveChanges();
+                        }
+                        if (!recordParent.ContingentId.HasValue && contingent != null)
+                        {
+                            recordParent.ContingentId = contingent.Id;
+                        }
                     }
                 }
 

@@ -139,7 +139,7 @@ namespace DepartmentWebCore.Helpers
                     }
                 }
 
-                sb.Append($"<td class=\"schedule-cell-border\" colspan=\"{colspan}\"><span>{i + 1} пара<br />{Times[i].ToString("HH:mm")}-{Times[i].AddMinutes(90).ToString("HH:mm")}</span></td>");
+                sb.Append($"<td class=\"schedule-cell-border\" colspan=\"{colspan}\"><span>{i + 1} пара<br />{Times[i].ToString("HH:mm")}-{Times[i].AddMinutes(80).ToString("HH:mm")}</span></td>");
             }
 
             sb.Append("</tr>");
