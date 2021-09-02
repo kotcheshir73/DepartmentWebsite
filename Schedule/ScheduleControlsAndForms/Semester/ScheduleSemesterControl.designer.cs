@@ -349,7 +349,7 @@
             this.ColumnWeek1Lesson1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek1Lesson1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnWeek1Lesson1.HeaderText = "1 пара\n08:00-09:30";
+            this.ColumnWeek1Lesson1.HeaderText = "1 пара\n08:30-09:50";
             this.ColumnWeek1Lesson1.Name = "ColumnWeek1Lesson1";
             this.ColumnWeek1Lesson1.ReadOnly = true;
             this.ColumnWeek1Lesson1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -357,7 +357,7 @@
             // ColumnWeek1Lesson2
             // 
             this.ColumnWeek1Lesson2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek1Lesson2.HeaderText = "2 пара\n09:40-11:10";
+            this.ColumnWeek1Lesson2.HeaderText = "2 пара\n10:00-11:20";
             this.ColumnWeek1Lesson2.Name = "ColumnWeek1Lesson2";
             this.ColumnWeek1Lesson2.ReadOnly = true;
             this.ColumnWeek1Lesson2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -367,7 +367,7 @@
             this.ColumnWeek1Lesson3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek1Lesson3.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ColumnWeek1Lesson3.HeaderText = "3 пара\n11:30-13:00";
+            this.ColumnWeek1Lesson3.HeaderText = "3 пара\n11:30-12:50";
             this.ColumnWeek1Lesson3.Name = "ColumnWeek1Lesson3";
             this.ColumnWeek1Lesson3.ReadOnly = true;
             this.ColumnWeek1Lesson3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -375,7 +375,7 @@
             // ColumnWeek1Lesson4
             // 
             this.ColumnWeek1Lesson4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek1Lesson4.HeaderText = "4 пара\n13:10-14:40";
+            this.ColumnWeek1Lesson4.HeaderText = "4 пара\n13:30-14:50";
             this.ColumnWeek1Lesson4.Name = "ColumnWeek1Lesson4";
             this.ColumnWeek1Lesson4.ReadOnly = true;
             this.ColumnWeek1Lesson4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -385,7 +385,7 @@
             this.ColumnWeek1Lesson5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek1Lesson5.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ColumnWeek1Lesson5.HeaderText = "5 пара\n14:50-16:20";
+            this.ColumnWeek1Lesson5.HeaderText = "5 пара\n15:00-16:20";
             this.ColumnWeek1Lesson5.Name = "ColumnWeek1Lesson5";
             this.ColumnWeek1Lesson5.ReadOnly = true;
             this.ColumnWeek1Lesson5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -393,7 +393,7 @@
             // ColumnWeek1Lesson6
             // 
             this.ColumnWeek1Lesson6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek1Lesson6.HeaderText = "6 пара\n16:30-18:00";
+            this.ColumnWeek1Lesson6.HeaderText = "6 пара\n16:30-17:50";
             this.ColumnWeek1Lesson6.Name = "ColumnWeek1Lesson6";
             this.ColumnWeek1Lesson6.ReadOnly = true;
             this.ColumnWeek1Lesson6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -403,7 +403,7 @@
             this.ColumnWeek1Lesson7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek1Lesson7.DefaultCellStyle = dataGridViewCellStyle5;
-            this.ColumnWeek1Lesson7.HeaderText = "7 пара\n18:10-19:40";
+            this.ColumnWeek1Lesson7.HeaderText = "7 пара\n18:00-19:20";
             this.ColumnWeek1Lesson7.Name = "ColumnWeek1Lesson7";
             this.ColumnWeek1Lesson7.ReadOnly = true;
             this.ColumnWeek1Lesson7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -411,7 +411,7 @@
             // ColumnWeek1Lesson8
             // 
             this.ColumnWeek1Lesson8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek1Lesson8.HeaderText = "8 пара\n19:50-21:20";
+            this.ColumnWeek1Lesson8.HeaderText = "8 пара\n19:30-20:50";
             this.ColumnWeek1Lesson8.Name = "ColumnWeek1Lesson8";
             this.ColumnWeek1Lesson8.ReadOnly = true;
             this.ColumnWeek1Lesson8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -482,7 +482,7 @@
             this.ColumnWeek2Lesson1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle9.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek2Lesson1.DefaultCellStyle = dataGridViewCellStyle9;
-            this.ColumnWeek2Lesson1.HeaderText = "1 пара\n08:00-09:30";
+            this.ColumnWeek2Lesson1.HeaderText = "1 пара\n08:30-09:50";
             this.ColumnWeek2Lesson1.Name = "ColumnWeek2Lesson1";
             this.ColumnWeek2Lesson1.ReadOnly = true;
             this.ColumnWeek2Lesson1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -490,7 +490,7 @@
             // ColumnWeek2Lesson2
             // 
             this.ColumnWeek2Lesson2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek2Lesson2.HeaderText = "2 пара\n09:40-11:10";
+            this.ColumnWeek2Lesson2.HeaderText = "2 пара\n10:00-11:20";
             this.ColumnWeek2Lesson2.Name = "ColumnWeek2Lesson2";
             this.ColumnWeek2Lesson2.ReadOnly = true;
             this.ColumnWeek2Lesson2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -500,7 +500,7 @@
             this.ColumnWeek2Lesson3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle10.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek2Lesson3.DefaultCellStyle = dataGridViewCellStyle10;
-            this.ColumnWeek2Lesson3.HeaderText = "3 пара\n11:30-13:00";
+            this.ColumnWeek2Lesson3.HeaderText = "3 пара\n11:30-12:50";
             this.ColumnWeek2Lesson3.Name = "ColumnWeek2Lesson3";
             this.ColumnWeek2Lesson3.ReadOnly = true;
             this.ColumnWeek2Lesson3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -508,7 +508,7 @@
             // ColumnWeek2Lesson4
             // 
             this.ColumnWeek2Lesson4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek2Lesson4.HeaderText = "4 пара\n13:10-14:40";
+            this.ColumnWeek2Lesson4.HeaderText = "4 пара\n13:30-14:50";
             this.ColumnWeek2Lesson4.Name = "ColumnWeek2Lesson4";
             this.ColumnWeek2Lesson4.ReadOnly = true;
             this.ColumnWeek2Lesson4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -518,7 +518,7 @@
             this.ColumnWeek2Lesson5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek2Lesson5.DefaultCellStyle = dataGridViewCellStyle11;
-            this.ColumnWeek2Lesson5.HeaderText = "5 пара\n14:50-16:20";
+            this.ColumnWeek2Lesson5.HeaderText = "5 пара\n15:00-16:20";
             this.ColumnWeek2Lesson5.Name = "ColumnWeek2Lesson5";
             this.ColumnWeek2Lesson5.ReadOnly = true;
             this.ColumnWeek2Lesson5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -526,7 +526,7 @@
             // ColumnWeek2Lesson6
             // 
             this.ColumnWeek2Lesson6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek2Lesson6.HeaderText = "6 пара\n16:30-18:00";
+            this.ColumnWeek2Lesson6.HeaderText = "6 пара\n16:30-17:50";
             this.ColumnWeek2Lesson6.Name = "ColumnWeek2Lesson6";
             this.ColumnWeek2Lesson6.ReadOnly = true;
             this.ColumnWeek2Lesson6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -536,7 +536,7 @@
             this.ColumnWeek2Lesson7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle12.BackColor = System.Drawing.Color.LightGray;
             this.ColumnWeek2Lesson7.DefaultCellStyle = dataGridViewCellStyle12;
-            this.ColumnWeek2Lesson7.HeaderText = "7 пара\n18:10-19:40";
+            this.ColumnWeek2Lesson7.HeaderText = "7 пара\n18:00-19:20";
             this.ColumnWeek2Lesson7.Name = "ColumnWeek2Lesson7";
             this.ColumnWeek2Lesson7.ReadOnly = true;
             this.ColumnWeek2Lesson7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -544,7 +544,7 @@
             // ColumnWeek2Lesson8
             // 
             this.ColumnWeek2Lesson8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnWeek2Lesson8.HeaderText = "8 пара\n19:50-21:20";
+            this.ColumnWeek2Lesson8.HeaderText = "8 пара\n19:30-20:50";
             this.ColumnWeek2Lesson8.Name = "ColumnWeek2Lesson8";
             this.ColumnWeek2Lesson8.ReadOnly = true;
             this.ColumnWeek2Lesson8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
