@@ -34,6 +34,8 @@ namespace ScheduleControlsAndForms.BaseControls
 
         private readonly List<int> rowsTime;
 
+        private readonly int lessonTime = 80; // 1 hour 20 minutes
+
         public ControlCurrentTableView()
         {
             InitializeComponent();
@@ -108,12 +110,12 @@ namespace ScheduleControlsAndForms.BaseControls
                     Location = new Point(0, 0),
                     Dock = DockStyle.Fill,
                     Margin = new Padding(0),
-                    Text = $"{i + 1} пара\r\n{times[i].ToString("HH:mm")}-{times[i].AddMinutes(90).ToString("HH:mm")}",
+                    Text = $"{i + 1} пара\r\n{times[i].ToString("HH:mm")}-{times[i].AddMinutes(lessonTime).ToString("HH:mm")}",
                     Tag = times[i].ToString("HH:mm"),
                     BackColor = TimeColor
                 };
 
-                if (DateTime.Now >= times[i] && DateTime.Now <= times[i].AddMinutes(90))
+                if (DateTime.Now >= times[i] && DateTime.Now <= times[i].AddMinutes(lessonTime))
                 {
                     buttonWeek.BackColor = Color.AliceBlue;
                 }
