@@ -45,7 +45,7 @@ namespace DepartmentWebCore.Controllers
             {
                 return new EmptyResult();
             }
-            ViewBag.CanAction = model.Users.Contains(new Guid(User.Identity.Name)) || User.IsInRole("Администратор");
+            ViewBag.CanAction = (model.Users?.Contains(new Guid(User.Identity.Name)) ?? false) || User.IsInRole("Администратор");
             ViewBag.Id = id;
 
             return PartialView(_fileService.GetDisciplineContext(id, $"{_filePath}\\{model.Title}\\"));
