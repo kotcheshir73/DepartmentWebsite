@@ -1,84 +1,110 @@
 ﻿@{
-    ViewBag.Title = Model.Disciplne + " : " + Model.KindOfLoadName;
+    ViewBag.Title = Model.Discipline != null && Model.KindOfLoadName != null ? Model.Discipline + " : " + Model.KindOfLoadName : "Элемент записи академического плана";
 }
 
 @using DepartmentWebCore.Helpers
-@using WebInterfaces.ViewModels
-@model WebAcademicPlanRecordElementViewModel
+@using AcademicYearInterfaces.ViewModels
+@model AcademicPlanRecordElementViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="AcademicPlanRecordElement" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicPlanRecordId" value="@Model.AcademicPlanRecordId" />
+    <input type="hidden" asp-for="AcademicPlanRecordId" />
 
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicPlanRecord" asp-action="View" asp-route-Id="@Model.AcademicPlanRecordId">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Запись учебного плана</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicPlanRecordId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicPlanRecordId">@Model.Disciplne</option>
-            </select>
+            <select class="form-control" asp-for="AcademicPlanRecordId" asp-items="@ViewBag.AcademicPlanRecords" disabled></select>
+            <span asp-validation-for="AcademicPlanRecordId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Норма времени*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="TimeNormId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="TimeNormId" required>
-                @foreach (var timeNorm in ViewBag.TimeNorms)
-                {
-                    if (timeNorm.Id == Model.TimeNormId)
-                    {
-                        <option selected value="@timeNorm.Id">@timeNorm.KindOfLoadName</option>
-                    }
-                    else
-                    {
-                        <option value="@timeNorm.Id">@timeNorm.KindOfLoadName</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="TimeNormId" asp-items="@ViewBag.TimeNorms"></select>
+            <span asp-validation-for="TimeNormId" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">План. часы*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="PlanHours"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="PlanHours" value="@Model.PlanHours" required>
+            <input class="form-control" asp-for="PlanHours">
+            <span asp-validation-for="PlanHours" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Факт. часы*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="FactHours"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="FactHours" value="@Model.FactHours" required>
+            <input class="form-control" asp-for="FactHours">
+            <span asp-validation-for="FactHours" class="text-danger"></span>
         </div>
     </div>
 
     <div>
-        @Html.RenderAction("Table", "StudyProcess", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+        @Html.RenderAction("Table", "AcademicPlanRecordMission", new { Id = Model.Id })
     </div>
 
 </form>
 
 <script>
-    $(function () {
-        $('#btnSave').click(function () {
+    $(document).ready(function () {
+        var inputs = $("input[data-val-number*='number']");
+        for (var i = 0; i < inputs.length; i++) {
+            $(inputs[i]).on("change", function () {
+                changeNum(this);
+            });
+            changeNum(inputs[i]);
+        }
+    });
+
+    function changeNum(input) {
+        input = $(input);
+        var value = input.val();
+        if (value) {
+            input.val(value.replace(",", "."));
+        }
+    };
+
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("AcademicPlanRecordElement", "StudyProcess")',
+                url: '@Url.Action("Save", "AcademicPlanRecordElement")',
                 data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
+                    }
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "AcademicPlanRecordElement", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
                 },
                 error: function (result) {
-                    ShowError(result);
+                    alert(result);
                 }
             });
-        });
+        }
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

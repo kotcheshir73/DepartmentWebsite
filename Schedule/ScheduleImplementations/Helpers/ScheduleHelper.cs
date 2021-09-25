@@ -331,14 +331,14 @@ namespace ScheduleImplementations.Helpers
         {
             return new List<DateTime>
             {
-                DateTime.Now.Date.AddHours(8).AddMinutes(0),
-                DateTime.Now.Date.AddHours(9).AddMinutes(40),
+                DateTime.Now.Date.AddHours(8).AddMinutes(30),
+                DateTime.Now.Date.AddHours(10).AddMinutes(00),
                 DateTime.Now.Date.AddHours(11).AddMinutes(30),
-                DateTime.Now.Date.AddHours(13).AddMinutes(10),
-                DateTime.Now.Date.AddHours(14).AddMinutes(50),
+                DateTime.Now.Date.AddHours(13).AddMinutes(30),
+                DateTime.Now.Date.AddHours(15).AddMinutes(00),
                 DateTime.Now.Date.AddHours(16).AddMinutes(30),
-                DateTime.Now.Date.AddHours(18).AddMinutes(10),
-                DateTime.Now.Date.AddHours(19).AddMinutes(50)
+                DateTime.Now.Date.AddHours(18).AddMinutes(00),
+                DateTime.Now.Date.AddHours(19).AddMinutes(30)
             };
         }
 

@@ -1,0 +1,346 @@
+﻿<div id="error" class="text-danger"></div>
+
+<button id="recalcHours" type="button" class="btn btn-primary pull-left">Произвести перерасчет</button>
+
+<div class="checkbox pull-right">
+    <label><input id="checkbox_disciplines" type="checkbox">Только заполненные дисциплины</label>
+</div>
+
+<table id="table" class="table table-hover table-bordered" style="font-size:medium;">
+    <thead class="text-center" style="font-weight:bold;color:white">
+        <tr class="label-info">
+            <th class="rotated-text"><div><span>Семестр</span></div></th>
+            <th class="rotated-text"><div><span>Код напр.</span></div></th>
+            <th class="rotated-text"><div><span>Дисциплина</span></div></th>
+            <th class="rotated-text"><div><span>Выб</span></div></th>
+            <th class="rotated-text"><div><span>Курс</span></div></th>
+            <th class="rotated-text"><div><span>Студенты</span></div></th>
+            <th class="rotated-text"><div><span>Потоки</span></div></th>
+            <th class="rotated-text"><div><span>Группы</span></div></th>
+            <th class="rotated-text"><div><span>Подгруппы</span></div></th>
+            <th class="rotated-text"><div><span>Итого (дисц.)</span></div></th>
+            <th id="plusLecturer"><button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalLecturer">+</button></th>
+            <th class="rotated-text"><div><span>Итого (преп.)</span></div></th>
+            <th class="rotated-text"><div><span>Итого</span></div></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < ViewBag.Data.Count; i++)
+        {
+            <tr id="row_@i" value="@ViewBag.Data[i][0]">
+                @if (ViewBag.Data[i].Count == 2)
+                {
+                    <td colspan="10" style="text-align: center;"><i>@ViewBag.Data[i][1]</i></td>
+                }
+                else
+                {
+                    @for (int j = 1; j < ViewBag.Data[i].Count; j++)
+                    {
+                        <td>
+                            @if (ViewBag.Data[i][0] == null)
+                            {
+                                <b>@ViewBag.Data[i][j]</b>
+                            }
+                            else
+                            {
+                                @ViewBag.Data[i][j]
+                            }
+                        </td>
+                    }
+                }
+                <td class="active plusLecturer" />
+                <td class="totalLecturers" />
+                <td class="totalDif" />
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="modalLecturer" tabindex="-1" role="dialog" aria-labelledby="modalLecturerLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLecturerLabel">Отображение преподавателя</h4>
+            </div>
+            <div class="modal-body">
+                Выберите преподавателя: <br>
+                <select id="selectLecturer" class='form-control' asp-items="@ViewBag.Lecturers"></select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btnLecturer" type="button" class="btn btn-danger">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modaldistributionEdit" tabindex="-1" role="dialog" aria-labelledby="modaldistributionEditLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modaldistributionEditLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <button id="btnDistributionAuto" type="button" class="btn btn-primary pull-right" style="margin-bottom:10px;">Автозаполнение</button>
+                <table id="table" class="table table-bordered table-hover" style="font-size:medium">
+                    <thead class="text-center" style="font-weight:bold;color:white">
+                        <tr class="label-info">
+                            <td>Название</td>
+                            <td>План</td>
+                            <td>Факт</td>
+                            <td>Назначено</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btnDistributionEdit" type="button" class="btn btn-danger">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#checkbox_disciplines').on('change', function () {
+        disciplineRows();
+    });
+
+    $('#modalLecturer').on('show.bs.modal', function () {
+        $('#error').text("");
+    });
+
+    $('#modaldistributionEdit').on('show.bs.modal', function () {
+        $('#error').text("");
+    });
+
+    $('#btnLecturer').click(function () {
+        var LecturerId = $('#selectLecturer').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetLecturerMissions", "Distribution")',
+            data: { "LecturerId": LecturerId, "AcademicYearId": "@ViewBag.AcademicYearId" },
+            dataType: 'json',
+            success: function (data) {
+                if (data.error.length == 0) {
+                    var newColumn = '<th class="rotated-text '
+                        + data.info[0]
+                        + '"><div><span>'
+                        + '<button type="button" class="btn btn-danger btn-xs" style="margin-right:5px;" '
+                        + ' value="'
+                        + data.info[0]
+                        + '"'
+                        + 'onclick="deleteColumn(this)"'
+                        +'>x</button>'
+                        + data.info[1]
+                        + '</span></th>';
+                    $("#plusLecturer").before(newColumn);
+                    for (var i = 2; i < data.info.length; i++) {
+                        var cell = data.info[i] == null ? "" : parseFloat(data.info[i]).toFixed(2).replace(".", ",");
+                        var academicPlanRecordId = $('#row_' + (i - 2)).attr("value");
+                        var newRow = '<td class="' + data.info[0] + '" ondblclick="distributionEdit(this)" data-lecturer="' + LecturerId + '" data-apr="' + academicPlanRecordId + '">' + cell + '</td>';
+                        $('#row_' + (i - 2) + ' .plusLecturer').before(newRow);
+                    }
+                }
+                else {
+                    $('#error').text(data.error);
+                }
+                recalculationTotals(null);
+                disciplineRows();
+                $('#modalLecturer').modal('hide');
+            },
+            error: function (result) {
+                alert(result);
+            }
+        });
+    });
+
+    $('#btnDistributionAuto').click(function () {
+        var rows = $("#modaldistributionEdit tbody tr");
+        for (var i = 0; i < rows.length; i++) {
+            var length = rows[i].children.length;
+            var fact = rows[i].children[length - 2].textContent.replace(",", ".");
+            var input = rows[i].children[length - 1].children[0];
+            numChange(input, fact);
+        }
+        this.blur();
+    });
+
+    $('#btnDistributionEdit').click(function () {
+        var lecturerId;
+        var aprId;
+        var total = 0;
+        var APRMs = [];
+        var rows = $("#modaldistributionEdit tbody tr");
+        for (var i = 0; i < rows.length; i++) {
+            var apre = rows[i].getAttribute('data-apre');
+            var aprm = rows[i].getAttribute('data-aprm') == "null" ? null : rows[i].getAttribute('data-aprm');
+            lecturerId = rows[i].getAttribute('data-lecturer');
+            aprId = rows[i].getAttribute('data-apr');
+            total = isNaN(parseFloat(rows[i].lastChild.lastChild.value)) ? total : total + parseFloat(rows[i].lastChild.lastChild.value);
+            var hours = rows[i].lastChild.lastChild.value == "" ? null : parseFloat(rows[i].lastChild.lastChild.value).toFixed(5).replace(".", ",");
+            APRMs[i] = [aprm, apre, lecturerId, hours];
+        }
+
+        var cell = $('td[data-lecturer="' + lecturerId + '"][data-apr="' + aprId + '"').first();
+        var id = $(cell.parent()).attr('id');
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveAPRMs", "Distribution")',
+            data: { "APRMs": APRMs },
+            dataType: 'json',
+            success: function (data) {
+                if (data.error.length == 0) {
+                    cell.text(total.toFixed(2).replace(".", ","));
+                    recalculationTotals(id);
+                }
+                else {
+                    $('#error').text(data.error);
+                }
+                $('#modaldistributionEdit').modal('hide');
+            },
+            error: function (result) {
+                alert(result);
+            }
+        });
+    });
+
+    function deleteColumn(button) {
+        $("." + button.value).remove();
+        recalculationTotals(null);
+        disciplineRows();
+    }
+
+    function recalculationTotals(rowId) {
+        var rows;
+        if (rowId == null) {
+            rows = $('tr[id^="row_"]');
+        }
+        else {
+            rows = $('tr[id="' + rowId + '"]');
+        }
+        for (var i = 0; i < rows.length; i++) {
+            resultByRow = 0;
+            var columns = rows[i].children;
+            if (columns.length < 13) {
+                continue;
+            }
+            for (var j = 10; j < columns.length - 3; j++) {
+                if (columns[j].textContent != "") {
+                    resultByRow = resultByRow + parseFloat(columns[j].textContent.replace(",", "."));
+                }
+            }
+            columns[columns.length - 2].textContent = resultByRow == 0 ? "" : resultByRow.toFixed(2).replace(".", ",");
+            var totalDif = parseFloat(columns[9].textContent.replace(",", ".")) - resultByRow;
+            columns[columns.length - 1].textContent = resultByRow == 0 ? "" : totalDif.toFixed(2).replace(".", ",");
+            if (resultByRow != 0 && totalDif != 0) {
+                columns[columns.length - 1].classList.add("danger");
+            }
+            else {
+                columns[columns.length - 1].classList.remove("danger");
+            }
+        }
+    }
+
+    function disciplineRows() {
+        var rows = $('tr[id^="row_"]');
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.display = '';
+            if (document.getElementById("checkbox_disciplines").checked) {
+                var hide = true;
+                if (rows[i].getAttribute("value") == null) {
+                    hide = false;
+                }
+                else {
+                    var columns = rows[i].children;
+                    for (var j = 10; j < columns.length - 3; j++) {
+                        if (columns[j].textContent != "") {
+                            hide = false;
+                            break;
+                        }
+                    }
+                }
+                if (hide) {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+    }
+
+    function distributionEdit(info) {
+        lecturerId = info.getAttribute("data-lecturer");
+        aprId = info.getAttribute("data-apr");
+
+        if (aprId != "undefined") {
+            var lecturerName = $("." + lecturerId)[0].textContent.substr(1);
+            var disciplineName = info.parentNode.children[2].textContent;
+            $("#modaldistributionEditLabel").text(lecturerName + " - " + disciplineName);
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetListAPRM", "Distribution")',
+                data: { "LecturerId": lecturerId, "AcademicPlanRecordId": aprId, "AcademicYearId": "@ViewBag.AcademicYearId" },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length == 0) {
+                        $("#modaldistributionEdit tbody").empty();
+                        for (var i = 0; i < data.info.length; i++) {
+                            var newRow = '<tr data-apre="' + data.info[i][0] + '" data-aprm="' + data.info[i][1] + '" data-lecturer="' + lecturerId + '" data-apr="' + aprId +'"> ';
+
+                            for (var j = 3; j < data.info[i].length - 1; j++) {
+                                var value = data.info[i][j] == null ? "" : isNaN(parseFloat(data.info[i][j])) ? data.info[i][j] : parseFloat(data.info[i][j]).toFixed(2).replace(".", ",");
+                                newRow += '<td>' + value + '</td>';
+                            }
+                            var value = data.info[i][6] == null ? "" : isNaN(parseFloat(data.info[i][6])) ? data.info[i][6] : parseFloat(data.info[i][6]);
+                            newRow += '<td><input class="form-control" type="number" step="any" min="0" value="' + value + '" onchange="numChange(this,this.value)"></td>';
+
+                            newRow += '</tr>'
+                            $("#modaldistributionEdit tbody").append(newRow);
+                        }
+                    }
+                    else {
+                        $('#error').text(data.error);
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+
+            $('#modaldistributionEdit').modal('show');
+        }
+    }
+
+    function numChange(input, value) {
+        $(input).val(value);
+    }
+
+    $('#recalcHours').click(function () {
+        $('#error').text("");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CalcFactHoursForAcademicYear", "Distribution")',
+            data: { "AcademicYearId": "@ViewBag.AcademicYearId" },
+            dataType: 'json',
+            success: function (data) {
+                if (data.error.length == 0) {
+                    alert("Перерасчет выполнен успешно!")
+                    window.location.reload();
+                }
+                else {
+                    $('#error').text(data.error);
+                }
+            },
+            error: function (result) {
+                alert(result);
+            }
+        });
+        this.blur();
+    });
+
+</script>

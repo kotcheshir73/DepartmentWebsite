@@ -152,7 +152,7 @@ namespace AcademicYearControlsAndForms.StreamLessonRecord
                 comboBoxAcademicPlanRecord.ValueMember = "Value";
                 comboBoxAcademicPlanRecord.DisplayMember = "Display";
                 comboBoxAcademicPlanRecord.DataSource = resultAPR.Result.List
-                    .Select(x => new { Value = x.Id, Display = x.Disciplne }).ToList();
+                    .Select(x => new { Value = x.Id, Display = x.Discipline }).ToList();
                 comboBoxAcademicPlanRecord.SelectedItem = null;
             }
         }

@@ -83,6 +83,7 @@ namespace AcademicYearImplementations.Implementations
                     query = query
                         .Include(x => x.AcademicPlanRecordElement)
                         .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                        .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
                         .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                         .Include(x => x.Lecturer);
 
@@ -112,6 +113,8 @@ namespace AcademicYearImplementations.Implementations
                     var entity = context.AcademicPlanRecordMissions
                                 .Include(x => x.AcademicPlanRecordElement)
                                 .Include(x => x.AcademicPlanRecordElement.TimeNorm)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord)
+                                .Include(x => x.AcademicPlanRecordElement.AcademicPlanRecord.Discipline)
                                 .Include(x => x.Lecturer)
                                 .FirstOrDefault(x => x.Id == model.Id);
                     if (entity == null)
@@ -142,7 +145,7 @@ namespace AcademicYearImplementations.Implementations
                 {
                     var entity = AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecordMission(model);
 
-                    var exsistEntity = context.AcademicPlanRecordMissions.FirstOrDefault(x => x.AcademicPlanRecordElementId == entity.AcademicPlanRecordElementId && 
+                    var exsistEntity = context.AcademicPlanRecordMissions.FirstOrDefault(x => x.AcademicPlanRecordElementId == entity.AcademicPlanRecordElementId &&
                             x.LecturerId == entity.LecturerId);
                     if (exsistEntity == null)
                     {

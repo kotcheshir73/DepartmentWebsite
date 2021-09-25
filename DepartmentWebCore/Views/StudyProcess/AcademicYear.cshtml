@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = Model.Title != null ? Model.Title : "Учебный год";
+    string controller = @ViewBag.menuElement;
+}
+
+@using AcademicYearInterfaces.ViewModels
+@using DepartmentWebCore.Helpers
+@model AcademicYearViewModel
+
+<form style="margin-top:10px">
+    <div class="row">
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <div class="col-xs-5">
+            <div class="input-group">
+                <div class="input-group-addon">Название учебного года: </div>
+                <input class="form-control" placeholder="Учебный год" asp-for="Title">
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <button id="btnSave" type="button" class="btn btn-primary">Сохранить</button>
+        </div>
+    </div>
+
+    <span asp-validation-for="Title" class="text-danger"></span>
+    <div id="error" class="text-danger"></div>
+
+    <div style="display:flex;justify-content:center">
+        <div class="form-group" style="margin-top:20px;margin-bottom:0px;">
+            <a asp-controller="Distribution" asp-action="View" asp-route-Id="@Model.Id" style="text-decoration: none;">
+                <button type="button" class="btn btn-primary btn-lg">Расчет штатов</button>
+            </a>
+            <button id="btnGetLecturerWorkload" type="button" class="btn btn-primary btn-lg">Получить нагрузки</button>
+            <button id="btnCreateDisciplineTimeDistributions" type="button" class="btn btn-primary btn-lg">Получить расчасовки</button>
+        </div>
+    </div>
+
+    <div style="display:flex;justify-content:center">
+        @Html.RenderAction("Menu", "AcademicYear", new { Id = Model.Id, menuElement = @ViewBag.menuElement })
+    </div>
+
+    <div>
+        @Html.RenderAction("Table", @controller, new { Id = Model.Id })
+    </div>
+</form>
+
+<script>
+    $('#btnGetLecturerWorkload').click(function () {
+        window.location.href = '@Url.Action("GetLecturerWorkload", "AcademicYear", new { AcademicYearId = Model.Id })';
+        this.blur();
+    });
+
+    $('#btnCreateDisciplineTimeDistributions').click(function () {
+        window.location.href = '@Url.Action("GetDisciplineTimeDistributions", "AcademicYear", new { AcademicYearId = Model.Id })';
+        this.blur();
+    });
+
+    $('#btnSave').click(function () {
+        $("#error").text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "AcademicYear")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
+                    }
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "AcademicYear", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
+    });
+</script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

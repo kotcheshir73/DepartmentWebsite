@@ -46,13 +46,13 @@ namespace AcademicYearControlsAndForms.Services
             comboBoxAcademicPlanRecord.ValueMember = "Value";
             comboBoxAcademicPlanRecord.DisplayMember = "Display";
             comboBoxAcademicPlanRecord.DataSource = resultAPR.Result.List
-                .Select(ap => new { Value = ap.Id, Display = ap.Disciplne }).ToList();
+                .Select(ap => new { Value = ap.Id, Display = ap.Discipline }).ToList();
             comboBoxAcademicPlanRecord.SelectedValue = _aprId;
         }
 
         private void ButtonChange_Click(object sender, EventArgs e)
         {
-            if(comboBoxAcademicPlanRecord.SelectedValue != null)
+            if (comboBoxAcademicPlanRecord.SelectedValue != null)
             {
                 var result = _process.ChangeAPRFromAPRE(new AcademicPlanRecordElementGetBindingModel
                 {

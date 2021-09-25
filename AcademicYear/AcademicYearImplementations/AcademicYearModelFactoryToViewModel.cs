@@ -48,7 +48,7 @@ namespace AcademicYearImplementations
                 AcademicPlanId = entity.AcademicPlanId,
                 DisciplineId = entity.DisciplineId,
                 ContingentId = entity.ContingentId,
-                Disciplne = entity.Discipline.DisciplineName,
+                Discipline = entity.Discipline.DisciplineName,
                 InDepartment = entity.InDepartment,
                 Semester = entity.Semester.HasValue ? entity.Semester.ToString() : string.Empty,
                 ContingentGroup = entity.ContingentId.HasValue ? entity.Contingent.ContingentName : string.Empty,
@@ -93,7 +93,7 @@ namespace AcademicYearImplementations
                 DisciplineTitle = entity.AcademicPlanRecordElement.AcademicPlanRecord.Discipline.DisciplineName,
                 Hours = entity.Hours,
                 TimeNormShortName = entity.AcademicPlanRecordElement.TimeNorm.TimeNormShortName,
-                Semester = entity.AcademicPlanRecordElement.AcademicPlanRecord.Semester.HasValue ? 
+                Semester = entity.AcademicPlanRecordElement.AcademicPlanRecord.Semester.HasValue ?
                         entity.AcademicPlanRecordElement.AcademicPlanRecord.Semester.ToString() : string.Empty,
             };
         }
@@ -255,7 +255,8 @@ namespace AcademicYearImplementations
                 NumKoef = entity.NumKoef,
                 TimeNormKoef = entity.TimeNormKoef.ToString(),
                 UseInLearningProgress = entity.UseInLearningProgress,
-                UseInSite = entity.UseInSite
+                UseInSite = entity.UseInSite,
+                IsAssignmentByAdviser = entity.IsAssignmentByAdviser
             };
         }
 
@@ -353,6 +354,20 @@ namespace AcademicYearImplementations
                 PlannedTerm = entity.PlannedTerm,
                 Post = entity.Post,
                 ReadyMark = entity.ReadyMark
+            };
+        }
+
+        public static StudentAssignmentViewModel CreateStudentAssignmentViewModel(StudentAssignment entity)
+        {
+            return new StudentAssignmentViewModel
+            {
+                Id = entity.Id,
+                AcademicYearId = entity.AcademicYearId,
+                EducationDirectionId = entity.EducationDirectionId,
+                EducationDirection = string.Format("{0} {1} ({2})", entity.EducationDirection.Cipher, entity.EducationDirection.ShortName, entity.EducationDirection.Profile),
+                LecturerId = entity.LecturerId,
+                Lecturer = entity.Lecturer.ToString(),
+                CountStudents = entity.CountStudents
             };
         }
     }

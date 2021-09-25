@@ -4,8 +4,8 @@ using Tools.BindingModels;
 
 namespace AcademicYearInterfaces.BindingModels
 {
-	public class TimeNormGetBindingModel : PageSettingGetBinidingModel
-	{
+    public class TimeNormGetBindingModel : PageSettingGetBinidingModel
+    {
         public Guid? AcademicYearId { get; set; }
 
         public Guid? AcademicPlanRecordId { get; set; }
@@ -13,14 +13,14 @@ namespace AcademicYearInterfaces.BindingModels
         public Guid? DisciplineBlockId { get; set; }
     }
 
-	public class TimeNormSetBindingModel : PageSettingSetBinidingModel
-	{
+    public class TimeNormSetBindingModel : PageSettingSetBinidingModel
+    {
         public Guid AcademicYearId { get; set; }
 
         public Guid DisciplineBlockId { get; set; }
 
         [Required(ErrorMessage = "required")]
-		public string TimeNormName { get; set; }
+        public string TimeNormName { get; set; }
 
         [Required(ErrorMessage = "required")]
         public string TimeNormShortName { get; set; }
@@ -44,7 +44,7 @@ namespace AcademicYearInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public string KindOfLoadType { get; set; }
 
-		public decimal? Hours { get; set; }
+        public decimal? Hours { get; set; }
 
         public decimal? NumKoef { get; set; }
 
@@ -54,6 +54,8 @@ namespace AcademicYearInterfaces.BindingModels
         public bool UseInLearningProgress { get; set; }
 
         public bool UseInSite { get; set; }
+
+        public bool IsAssignmentByAdviser { get; set; }
 
         /// <summary>
         /// Код вида работ в справочнике видов работ в новой версии планов, чтобы потом искать работу в строках плана

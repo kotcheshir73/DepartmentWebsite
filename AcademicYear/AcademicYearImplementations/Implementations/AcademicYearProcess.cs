@@ -685,7 +685,8 @@ namespace AcademicYearImplementations.Implementations
                     }
 
                     XmlDocument newXmlDocument = new XmlDocument();
-                    newXmlDocument.Load(new XmlTextReader(model.FileName));
+                    using (XmlTextReader xmlTextReader = new XmlTextReader(model.FileName))
+                        newXmlDocument.Load(xmlTextReader);
                     XmlNode mainRootElementNode = newXmlDocument.SelectSingleNode("/Документ").FirstChild.FirstChild;
                     if (mainRootElementNode != null)
                     {
@@ -1141,6 +1142,10 @@ namespace AcademicYearImplementations.Implementations
                 }
 
                 attribute = node.Attributes.GetNamedItem("Дисциплина");
+                if (attribute.Value.StartsWith("Защита "))
+                {
+                    int c = 0;
+                }
                 var discipline = context.Disciplines.FirstOrDefault(x => x.DisciplineBlueAsteriskName == attribute.Value);
                 if (discipline == null)
                 {
@@ -1181,7 +1186,7 @@ namespace AcademicYearImplementations.Implementations
             }
         }
 
-        private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model, 
+        private AcademicPlanRecord GetAPR(XmlNode node, BlueAsteriskNewHour hour, DisciplineSetBindingModel discipline, ParseBlueAsterisk model,
             BlueAsteriskDisicplineType ObjectType, bool inKafedra, bool inFacultative)
         {
             var attribute = node.Attributes.GetNamedItem("ЗЕТфакт");
@@ -1189,7 +1194,7 @@ namespace AcademicYearImplementations.Implementations
 
             Semesters semester = (Semesters)Enum.ToObject(typeof(Semesters), (hour.Kurs - 1) * 2 + hour.Semester);
             var active = model.Semesters.Contains(semester);
-            
+
             var contingent = GetContingent(semester, model.AcademicPlanId);
 
             using (var context = DepartmentUserManager.GetContext)
@@ -1199,63 +1204,61 @@ namespace AcademicYearImplementations.Implementations
                 if (attribute != null)
                 {
                     var parentDiscipilne = model.Disciplines.FirstOrDefault(x => x.DisciplineBlueAsteriskCode == attribute.Value);
-                    if (parentDiscipilne == null)
+                    if (parentDiscipilne != null)
                     {
-                        throw new Exception(string.Format("Не найдена родительская дисциплина с кодом {0}", attribute.Value));
-                    }
-
-                    recordParent = context.AcademicPlanRecords.FirstOrDefault(apr =>
-                            apr.AcademicPlanId == model.AcademicPlanId &&
-                            apr.DisciplineId == parentDiscipilne.Id &&
-                            apr.Semester == semester);
-
-                    if (recordParent == null)
-                    {
-                        context.AcademicPlanRecords.Add(AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
-                        {
-                            AcademicPlanId = model.AcademicPlanId,
-                            DisciplineId = parentDiscipilne.Id,
-                            ContingentId = contingent?.Id,
-                            InDepartment = inKafedra,
-                            Semester = semester.ToString(),
-                            Zet = zet,
-                            IsParent = true,
-                            IsChild = false,
-                            IsFacultative = inFacultative,
-                            IsActiveSemester = active,
-                            IsUseInWorkload = false
-                        }));
-
-                        context.SaveChanges();
-
                         recordParent = context.AcademicPlanRecords.FirstOrDefault(apr =>
-                                apr.AcademicPlanId == model.AcademicPlanId &&
-                                apr.DisciplineId == parentDiscipilne.Id &&
-                                apr.Semester == semester &&
-                                !apr.IsDeleted);
-                    }
-                    else if (recordParent.IsDeleted)
-                    {
-                        recordParent.IsDeleted = false;
-                        recordParent.DateDelete = null;
+                               apr.AcademicPlanId == model.AcademicPlanId &&
+                               apr.DisciplineId == parentDiscipilne.Id &&
+                               apr.Semester == semester);
 
-                        recordParent.ContingentId = contingent?.Id;
-                        recordParent.IsChild = false;
-                        recordParent.IsFacultative = inFacultative;
-                        recordParent.IsActiveSemester = active;
-                        context.SaveChanges();
-                    }
-                    
-                    if (!recordParent.IsParent)
-                    {
-                        recordParent.IsParent = true;
-                        recordParent.IsChild = false;
-                        recordParent.IsUseInWorkload = false;
-                        context.SaveChanges();
-                    }
-                    if (!recordParent.ContingentId.HasValue && contingent != null)
-                    {
-                        recordParent.ContingentId = contingent.Id;
+                        if (recordParent == null)
+                        {
+                            context.AcademicPlanRecords.Add(AcademicYearModelFacotryFromBindingModel.CreateAcademicPlanRecord(new AcademicPlanRecordSetBindingModel
+                            {
+                                AcademicPlanId = model.AcademicPlanId,
+                                DisciplineId = parentDiscipilne.Id,
+                                ContingentId = contingent?.Id,
+                                InDepartment = inKafedra,
+                                Semester = semester.ToString(),
+                                Zet = zet,
+                                IsParent = true,
+                                IsChild = false,
+                                IsFacultative = inFacultative,
+                                IsActiveSemester = active,
+                                IsUseInWorkload = false
+                            }));
+
+                            context.SaveChanges();
+
+                            recordParent = context.AcademicPlanRecords.FirstOrDefault(apr =>
+                                    apr.AcademicPlanId == model.AcademicPlanId &&
+                                    apr.DisciplineId == parentDiscipilne.Id &&
+                                    apr.Semester == semester &&
+                                    !apr.IsDeleted);
+                        }
+                        else if (recordParent.IsDeleted)
+                        {
+                            recordParent.IsDeleted = false;
+                            recordParent.DateDelete = null;
+
+                            recordParent.ContingentId = contingent?.Id;
+                            recordParent.IsChild = false;
+                            recordParent.IsFacultative = inFacultative;
+                            recordParent.IsActiveSemester = active;
+                            context.SaveChanges();
+                        }
+
+                        if (!recordParent.IsParent)
+                        {
+                            recordParent.IsParent = true;
+                            recordParent.IsChild = false;
+                            recordParent.IsUseInWorkload = false;
+                            context.SaveChanges();
+                        }
+                        if (!recordParent.ContingentId.HasValue && contingent != null)
+                        {
+                            recordParent.ContingentId = contingent.Id;
+                        }
                     }
                 }
 
@@ -1622,7 +1625,12 @@ namespace AcademicYearImplementations.Implementations
                     {
                         List<object> element = new List<object>();
 
-                        var apre = context.AcademicPlanRecordElements.FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+                        var apre = context.AcademicPlanRecordElements
+                            .Include(x => x.TimeNorm)
+                            .Include(x => x.AcademicPlanRecord)
+                            .Include(x => x.AcademicPlanRecord.AcademicPlan)
+                            .FirstOrDefault(x => x.AcademicPlanRecordId == modelPlanRecord.Id && x.TimeNormId == timeNorm.Id && !x.IsDeleted);
+
                         if (apre != null)
                         {
                             element.Add(apre.Id);
@@ -1645,13 +1653,45 @@ namespace AcademicYearImplementations.Implementations
                             {
                                 element.Add(null);
                             }
-                            if (apre.FactHours != 0)
+                            if (timeNorm.IsAssignmentByAdviser)
                             {
-                                element.Add(apre.FactHours);
+                                var studentAssignments = context.StudentAssignments
+                                    .Where(x => !x.IsDeleted
+                                    && x.AcademicYearId == modelYear.Id
+                                    && x.EducationDirectionId == apre.AcademicPlanRecord.AcademicPlan.EducationDirectionId
+                                    && x.LecturerId == modelLecturer.Id);
+
+                                if (studentAssignments != null)
+                                {
+                                    var count = 0;
+                                    foreach (var studentAssignment in studentAssignments)
+                                    {
+                                        count += studentAssignment.CountStudents;
+                                    }
+                                    if (count != 0)
+                                    {
+                                        element.Add(((decimal)apre.TimeNorm.Hours * count).ToString("#.0"));
+                                    }
+                                    else
+                                    {
+                                        element.Add(null);
+                                    }
+                                }
+                                else
+                                {
+                                    element.Add(null);
+                                }
                             }
                             else
                             {
-                                element.Add(null);
+                                if (apre.FactHours != 0)
+                                {
+                                    element.Add(apre.FactHours);
+                                }
+                                else
+                                {
+                                    element.Add(null);
+                                }
                             }
                             if (aprm != null && aprm.Hours != 0)
                             {
@@ -1690,6 +1730,7 @@ namespace AcademicYearImplementations.Implementations
                             .Include(x => x.AcademicPlanRecord.Contingent)
                             .Include(x => x.AcademicPlanRecord.Discipline)
                             .Include(x => x.AcademicPlanRecord.AcademicPlan)
+                            .Include(x => x.AcademicPlanRecordMissions)
                             .Where(x => x.AcademicPlanRecord.AcademicPlan.AcademicYearId == model.Id && x.TimeNormId == tn.Id && !x.IsDeleted &&
                                         x.AcademicPlanRecord.IsUseInWorkload && !x.AcademicPlanRecord.IsParent).ToList();
                         foreach (var apre in apres)
@@ -1783,6 +1824,22 @@ namespace AcademicYearImplementations.Implementations
                             {
                                 apre.FactHours = 0;
                             }
+                            #region Распределение по научным руководителям
+                            if (tn.IsAssignmentByAdviser)
+                            {
+                                foreach (var aprm in apre.AcademicPlanRecordMissions)
+                                {
+                                    var studentAssignment = context.StudentAssignments.FirstOrDefault(x => !x.IsDeleted
+                                        && x.AcademicYearId == model.Id && x.LecturerId == aprm.LecturerId
+                                        && x.EducationDirectionId == apre.AcademicPlanRecord.AcademicPlan.EducationDirectionId);
+                                    if (studentAssignment != null)
+                                    {
+                                        aprm.Hours = studentAssignment.CountStudents * (decimal)hours;
+                                    }
+                                }
+                                context.SaveChanges();
+                            }
+                            #endregion
                         }
                     }
 
@@ -2051,6 +2108,10 @@ namespace AcademicYearImplementations.Implementations
                             .Include(x => x.Discipline).Include(x => x.Contingent).Include(x => x.AcademicPlan);
                     foreach (var APRRecord in APR)
                     {
+                        if (APRRecord.Contingent == null)
+                        {
+                            continue;
+                        }
                         var studentGroups = context.StudentGroups
                                         .Where(x => !x.IsDeleted && x.EducationDirectionId == APRRecord.Contingent.EducationDirectionId && x.Course == APRRecord.Contingent.Course);
                         foreach (var studentGroup in studentGroups)
@@ -2654,5 +2715,5 @@ namespace AcademicYearImplementations.Implementations
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
         }
-	}
+    }
 }

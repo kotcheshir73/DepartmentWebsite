@@ -548,6 +548,35 @@ namespace DatabaseContext.Migrations
                     b.ToTable("StreamLessonRecords");
                 });
 
+            modelBuilder.Entity("Models.AcademicYearData.StudentAssignment", b =>
+                {
+                    b.Property<Guid>("Id");
+
+                    b.Property<Guid>("AcademicYearId");
+
+                    b.Property<int>("CountStudents");
+
+                    b.Property<DateTime>("DateCreate");
+
+                    b.Property<DateTime?>("DateDelete");
+
+                    b.Property<Guid>("EducationDirectionId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid>("LecturerId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("EducationDirectionId");
+
+                    b.HasIndex("LecturerId");
+
+                    b.ToTable("StudentAssignments");
+                });
+
             modelBuilder.Entity("Models.AcademicYearData.TimeNorm", b =>
                 {
                     b.Property<Guid>("Id");
@@ -561,6 +590,8 @@ namespace DatabaseContext.Migrations
                     b.Property<Guid>("DisciplineBlockId");
 
                     b.Property<decimal?>("Hours");
+
+                    b.Property<bool>("IsAssignmentByAdviser");
 
                     b.Property<bool>("IsDeleted");
 
@@ -2563,6 +2594,24 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Models.AcademicYearData.StreamLesson", "StreamLesson")
                         .WithMany("StreamLessonRecords")
                         .HasForeignKey("StreamLessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Models.AcademicYearData.StudentAssignment", b =>
+                {
+                    b.HasOne("Models.AcademicYearData.AcademicYear", "AcademicYear")
+                        .WithMany()
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Models.Base.EducationDirection", "EducationDirection")
+                        .WithMany()
+                        .HasForeignKey("EducationDirectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Models.Base.Lecturer", "Lecturer")
+                        .WithMany()
+                        .HasForeignKey("LecturerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -24,6 +24,8 @@ namespace DepartmentWebCore
 {
     public class Startup
     {
+        public const string StudyProcessAuthRole = "Администратор";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -117,6 +119,12 @@ namespace DepartmentWebCore
             container.RegisterType<IDisciplineTimeDistributionService, DisciplineTimeDistributionService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDisciplineTimeDistributionRecordService, DisciplineTimeDistributionRecordService>(new HierarchicalLifetimeManager());
 
+            container.RegisterType<IStreamLessonService, StreamLessonService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStreamLessonRecordService, StreamLessonRecordService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILecturerWorkloadService, LecturerWorkloadService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IStudentAssignmentService, StudentAssignmentService>(new HierarchicalLifetimeManager());
+
             container.RegisterType<IAcademicYearProcess, AcademicYearProcess>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IConsultationRecordService, ConsultationRecordService>(new HierarchicalLifetimeManager());
@@ -125,7 +133,7 @@ namespace DepartmentWebCore
             container.RegisterType<ISemesterRecordService, SemesterRecordService>(new HierarchicalLifetimeManager());
             container.RegisterType<IScheduleProcess, ScheduleProcess>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IWebStudyProcessService, WebStudyProcessService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStudyProcessService, StudyProcessService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<BaseService>(new HierarchicalLifetimeManager());
             container.RegisterType<FileService>(new HierarchicalLifetimeManager());

@@ -1,80 +1,80 @@
 ﻿@{
-    ViewBag.Title = Model.ContingentName;
+    ViewBag.Title = Model.ContingentName != null ? Model.ContingentName : "Контингент";
 }
 
-@using WebInterfaces.ViewModels
-@model WebContingentViewModel
+@using AcademicYearInterfaces.ViewModels
+@model ContingentViewModel
 
-<form class="form-horizontal" style="margin-top:10px" asp-action="Contingent" asp-controller="StudyProcess">
+<form class="form-horizontal" style="margin-top:10px">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <input type="hidden" asp-for="AcademicYearId" value="@Model.AcademicYearId" />
+    <input type="hidden" asp-for="AcademicYearId" />
+
     <div class="form-group">
         <div class="col-xs-8">
-            <label id="error" style="font-weight:bold;" class="col-sm-2 control-label text-danger">@ViewBag.Error</label>
+            <a asp-controller="AcademicYear" asp-action="View" asp-route-Id="@Model.AcademicYearId" asp-route-menuElement="@ViewBag.menuElement">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
             <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
         </div>
     </div>
+    <div id="error" class="text-danger"></div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Учебный год*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicYearId"></label>
         <div class="col-xs-6">
-            <select class="form-control" disabled>
-                <option value="@Model.AcademicYearId">@Model.AcademicYear</option>
-            </select>
+            <select class="form-control" asp-for="AcademicYearId" asp-items="@ViewBag.AcademicYears" disabled></select>
+            <span asp-validation-for="AcademicYearId" class="text-danger"></span>
         </div>
     </div>
+
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Направление*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="EducationDirectionId"></label>
         <div class="col-xs-6">
-            <select class="form-control" asp-for="EducationDirectionId" required>
-                @foreach (var educationDirection in ViewBag.EducationDirections)
-                {
-                    if (educationDirection.Id == Model.EducationDirectionId)
-                    {
-                        <option selected value="@educationDirection.Id">@educationDirection.ToString()</option>
-                    }
-                    else
-                    {
-                        <option value="@educationDirection.Id">@educationDirection.ToString()</option>
-                    }
-                }
-            </select>
+            <select class="form-control" asp-for="EducationDirectionId" asp-items="@ViewBag.EducationDirections"></select>
+            <span asp-validation-for="EducationDirectionId" class="text-danger"></span>
         </div>
     </div>
 
 
     <div class="form-group">
-        <label style="font-weight:bold;" class="col-sm-2 control-label">Наименование*</label>
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="ContingentName"></label>
         <div class="col-xs-6">
-            <input type="text" class="form-control" asp-for="ContingentName" value="@Model.ContingentName" required>
+            <input class="form-control" asp-for="ContingentName">
+            <span asp-validation-for="ContingentName" class="text-danger"></span>
         </div>
     </div>
+
     <div class="container" style="padding-right:0;">
         <row>
             <div class="col-xs-2">
                 <div class="form-group">
-                    <label style="font-weight:bold;" class="col-xs-6 control-label">Курс*</label>
+                    <label style="font-weight:bold;" class="col-xs-6 control-label" asp-for="Course"></label>
                     <div class="col-xs-6">
-                        <input type="text" class="form-control" asp-for="Course" value="@Model.Course" required>
+                        <input type="text" class="form-control" asp-for="Course">
+                        <span asp-validation-for="Course" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label style="font-weight:bold;" class="col-xs-6 control-label">Количество групп*</label>
+                    <label style="font-weight:bold;" class="col-xs-6 control-label" asp-for="CountGroups"></label>
                     <div class="col-xs-6">
-                        <input type="text" class="form-control" asp-for="CountGroups" value="@Model.CountGroups" required>
+                        <input class="form-control" asp-for="CountGroups">
+                        <span asp-validation-for="CountGroups" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label style="font-weight:bold;" class="col-xs-6 control-label">Количество студентов*</label>
+                    <label style="font-weight:bold;" class="col-xs-6 control-label" asp-for="CountStudents"></label>
                     <div class="col-xs-6">
-                        <input type="text" class="form-control" asp-for="CountStudents" value="@Model.CountStudents" required>
+                        <input class="form-control" asp-for="CountStudents">
+                        <span asp-validation-for="CountStudents" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label style="font-weight:bold;" class="col-xs-6 control-label">Количество подгрупп*</label>
+                    <label style="font-weight:bold;" class="col-xs-6 control-label" asp-for="CountSubgroups"></label>
                     <div class="col-xs-6">
-                        <input type="text" class="form-control" asp-for="CountSubgroups" value="@Model.CountSubgroups" required>
+                        <input class="form-control" asp-for="CountSubgroups">
+                        <span asp-validation-for="CountSubgroups" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -83,19 +83,34 @@
 </form>
 
 <script>
-    $(function () {
-        $('#btnSave').click(function () {
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("Contingent", "StudyProcess")',
+                url: '@Url.Action("Save", "Contingent")',
                 data: $('form').serialize(),
-                success: function () {
-                    window.location = document.referrer;
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
+                    }
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "Contingent", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
                 },
                 error: function (result) {
-                    ShowError(result);
+                    alert(result);
                 }
             });
-        });
+        }
     });
 </script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

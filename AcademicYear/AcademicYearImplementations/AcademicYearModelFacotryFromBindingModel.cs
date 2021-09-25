@@ -6,28 +6,28 @@ using System;
 namespace AcademicYearImplementations
 {
     public static class AcademicYearModelFacotryFromBindingModel
-	{
-		public static AcademicPlan CreateAcademicPlan(AcademicPlanSetBindingModel model, AcademicPlan entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new AcademicPlan();
-			}
-			entity.EducationDirectionId = model.EducationDirectionId;
-			entity.AcademicYearId = model.AcademicYearId;
-			entity.AcademicCourses = model.AcademicCourses.HasValue ? (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses) : (AcademicCourse?)null;
+    {
+        public static AcademicPlan CreateAcademicPlan(AcademicPlanSetBindingModel model, AcademicPlan entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new AcademicPlan();
+            }
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.AcademicCourses = model.AcademicCourses.HasValue ? (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.AcademicCourses) : (AcademicCourse?)null;
 
-			return entity;
-		}
+            return entity;
+        }
 
-		public static AcademicPlanRecord CreateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model, AcademicPlanRecord entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new AcademicPlanRecord();
-			}
+        public static AcademicPlanRecord CreateAcademicPlanRecord(AcademicPlanRecordSetBindingModel model, AcademicPlanRecord entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new AcademicPlanRecord();
+            }
             entity.AcademicPlanId = model.AcademicPlanId;
-			entity.DisciplineId = model.DisciplineId;
+            entity.DisciplineId = model.DisciplineId;
             entity.ContingentId = model.ContingentId;
             entity.InDepartment = model.InDepartment;
             entity.Semester = string.IsNullOrEmpty(model.Semester) ? (Semesters?)null : (Semesters)Enum.Parse(typeof(Semesters), model.Semester);
@@ -39,7 +39,7 @@ namespace AcademicYearImplementations
             entity.IsActiveSemester = model.IsActiveSemester;
 
             return entity;
-		}
+        }
 
         public static AcademicPlanRecordElement CreateAcademicPlanRecordElement(AcademicPlanRecordElementSetBindingModel model, AcademicPlanRecordElement entity = null)
         {
@@ -67,32 +67,32 @@ namespace AcademicYearImplementations
         }
 
         public static AcademicYear CreateAcademicYear(AcademicYearSetBindingModel model, AcademicYear entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new AcademicYear();
-			}
-			entity.Title = model.Title;
+        {
+            if (entity == null)
+            {
+                entity = new AcademicYear();
+            }
+            entity.Title = model.Title;
 
-			return entity;
-		}
+            return entity;
+        }
 
-		public static Contingent CreateContingent(ContingentSetBindingModel model, Contingent entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new Contingent();
-			}
-			entity.AcademicYearId = model.AcademicYearId;
-			entity.EducationDirectionId = model.EducationDirectionId;
-			entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
+        public static Contingent CreateContingent(ContingentSetBindingModel model, Contingent entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new Contingent();
+            }
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.Course = (AcademicCourse)Enum.ToObject(typeof(AcademicCourse), model.Course);
             entity.ContingentName = model.ContingentName;
             entity.CountGroups = model.CountGroups;
-			entity.CountStudetns = model.CountStudents;
-			entity.CountSubgroups = model.CountSubgroups;
+            entity.CountStudetns = model.CountStudents;
+            entity.CountSubgroups = model.CountSubgroups;
 
-			return entity;
-		}
+            return entity;
+        }
 
         public static DisciplineTimeDistribution CreateDisciplineTimeDistribution(DisciplineTimeDistributionSetBindingModel model, DisciplineTimeDistribution entity = null)
         {
@@ -131,7 +131,7 @@ namespace AcademicYearImplementations
             entity.ClassroomDescription = model.ClassroomDescription;
             return entity;
         }
-        
+
         public static LecturerWorkload CreateLecturerWorkload(LecturerWorkloadSetBindingModel model, LecturerWorkload entity = null)
         {
             if (entity == null)
@@ -145,27 +145,27 @@ namespace AcademicYearImplementations
             return entity;
         }
 
-		public static SeasonDates CreateSeasonDates(SeasonDatesSetBindingModel model, SeasonDates entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new SeasonDates();
-			}
-			entity.Title = model.Title;
+        public static SeasonDates CreateSeasonDates(SeasonDatesSetBindingModel model, SeasonDates entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new SeasonDates();
+            }
+            entity.Title = model.Title;
             entity.AcademicYearId = model.AcademicYearId;
-			entity.DateBeginExamination = model.DateBeginExamination;
-			entity.DateBeginOffset = model.DateBeginOffset;
-			entity.DateBeginPractice = model.DateBeginPractice;
-			entity.DateBeginFirstHalfSemester = model.DateBeginFirstHalfSemester;
+            entity.DateBeginExamination = model.DateBeginExamination;
+            entity.DateBeginOffset = model.DateBeginOffset;
+            entity.DateBeginPractice = model.DateBeginPractice;
+            entity.DateBeginFirstHalfSemester = model.DateBeginFirstHalfSemester;
             entity.DateBeginSecondHalfSemester = model.DateBeginSecondHalfSemester;
             entity.DateEndExamination = model.DateEndExamination;
-			entity.DateEndOffset = model.DateEndOffset;
-			entity.DateEndPractice = model.DateEndPractice;
-			entity.DateEndFirstHalfSemester = model.DateEndFirstHalfSemester;
+            entity.DateEndOffset = model.DateEndOffset;
+            entity.DateEndPractice = model.DateEndPractice;
+            entity.DateEndFirstHalfSemester = model.DateEndFirstHalfSemester;
             entity.DateEndSecondHalfSemester = model.DateEndSecondHalfSemester;
 
             return entity;
-		}
+        }
 
         public static StreamLesson CreateStreamLesson(StreamLessonSetBindingModel model, StreamLesson entity = null)
         {
@@ -193,16 +193,16 @@ namespace AcademicYearImplementations
 
             return entity;
         }
-        
-		public static TimeNorm CreateTimeNorm(TimeNormSetBindingModel model, TimeNorm entity = null)
-		{
-			if (entity == null)
-			{
-				entity = new TimeNorm();
-			}
+
+        public static TimeNorm CreateTimeNorm(TimeNormSetBindingModel model, TimeNorm entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new TimeNorm();
+            }
             entity.AcademicYearId = model.AcademicYearId;
             entity.DisciplineBlockId = model.DisciplineBlockId;
-			entity.TimeNormName = model.TimeNormName;
+            entity.TimeNormName = model.TimeNormName;
             entity.TimeNormShortName = model.TimeNormShortName;
             entity.TimeNormOrder = model.TimeNormOrder;
             entity.TimeNormEducationDirectionQualification = string.IsNullOrEmpty(model.TimeNormEducationDirectionQualification) ? (EducationDirectionQualification?)null : (EducationDirectionQualification)Enum.Parse(typeof(EducationDirectionQualification), model.TimeNormEducationDirectionQualification);
@@ -217,9 +217,10 @@ namespace AcademicYearImplementations
             entity.TimeNormKoef = string.IsNullOrEmpty(model.TimeNormKoef) ? TimeNormKoef.Пусто : (TimeNormKoef)Enum.Parse(typeof(TimeNormKoef), model.TimeNormKoef);
             entity.UseInLearningProgress = model.UseInLearningProgress;
             entity.UseInSite = model.UseInSite;
+            entity.IsAssignmentByAdviser = model.IsAssignmentByAdviser;
 
             return entity;
-		}
+        }
 
         public static IndividualPlanTitle CreateIndividualPlanTitle(IndividualPlanTitleSetBindingModel model, IndividualPlanTitle entity = null)
         {
@@ -300,6 +301,21 @@ namespace AcademicYearImplementations
             entity.PlannedTerm = model.PlannedTerm;
             entity.Post = model.Post;
             entity.ReadyMark = model.ReadyMark;
+            return entity;
+        }
+
+        public static StudentAssignment CreateStudentAssignment(StudentAssignmentSetBindingModel model, StudentAssignment entity = null)
+        {
+            if (entity == null)
+            {
+                entity = new StudentAssignment();
+            }
+
+            entity.AcademicYearId = model.AcademicYearId;
+            entity.EducationDirectionId = model.EducationDirectionId;
+            entity.LecturerId = model.LecturerId;
+            entity.CountStudents = model.CountStudents;
+
             return entity;
         }
     }

@@ -23,7 +23,7 @@ namespace DepartmentWebCore.Helpers
 
         private static List<DateTime> times;
 
-        private readonly static int colspan = 9;
+        private readonly static int colspan = 8;
 
         private static List<DateTime> Times
         {
@@ -139,7 +139,7 @@ namespace DepartmentWebCore.Helpers
                     }
                 }
 
-                sb.Append($"<td class=\"schedule-cell-border\" colspan=\"{colspan}\"><span>{i + 1} пара<br />{Times[i].ToString("HH:mm")}-{Times[i].AddMinutes(90).ToString("HH:mm")}</span></td>");
+                sb.Append($"<td class=\"schedule-cell-border\" colspan=\"{colspan}\"><span>{i + 1} пара<br />{Times[i].ToString("HH:mm")}-{Times[i].AddMinutes(80).ToString("HH:mm")}</span></td>");
             }
 
             sb.Append("</tr>");
@@ -157,7 +157,7 @@ namespace DepartmentWebCore.Helpers
                 // пропуск начала дня, если не с первой пары занятия
                 if(i == 0)
                 {
-                    var startTime = groups[i].Key.ScheduleDate.Date.AddHours(8);
+                    var startTime = groups[i].Key.ScheduleDate.Date.AddHours(8).AddMinutes(30);
                     var timespan = (groups[i].Key.ScheduleDate - startTime).TotalMinutes;
                     if (timespan >= step)
                     {

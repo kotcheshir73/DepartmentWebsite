@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = Model.EducationDirection != null && Model.Lecturer != null ? Model.EducationDirection + " : " + Model.Lecturer : "Распределение по науч. рук.";
+}
+
+@using AcademicYearInterfaces.ViewModels
+@model StudentAssignmentViewModel
+
+<form class="form-horizontal" style="margin-top:10px">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="AcademicYearId" />
+
+    <div class="form-group">
+        <div class="col-xs-8">
+            <a asp-controller="AcademicYear" asp-action="View" asp-route-Id="@Model.AcademicYearId" asp-route-menuElement="@ViewBag.menuElement">
+                <button type="button" class="btn btn-primary pull-left">Назад</button>
+            </a>
+            <button id="btnSave" type="button" class="btn btn-primary pull-right">Сохранить</button>
+        </div>
+    </div>
+    <div id="error" class="text-danger"></div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="AcademicYearId"></label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="AcademicYearId" asp-items="@ViewBag.AcademicYears" disabled></select>
+            <span asp-validation-for="AcademicYearId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="EducationDirectionId"></label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="EducationDirectionId" asp-items="@ViewBag.EducationDirections"></select>
+            <span asp-validation-for="EducationDirectionId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="LecturerId"></label>
+        <div class="col-xs-6">
+            <select class="form-control" asp-for="LecturerId" asp-items="@ViewBag.Lecturers"></select>
+            <span asp-validation-for="LecturerId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight:bold;" class="col-sm-2 control-label" asp-for="CountStudents"></label>
+        <div class="col-xs-6">
+            <input class="form-control" asp-for="CountStudents">
+            <span asp-validation-for="CountStudents" class="text-danger"></span>
+        </div>
+    </div>
+</form>
+
+<script>
+    $('#btnSave').click(function () {
+        $('#error').text("");
+        if ($("form").valid()) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "StudentAssignment")',
+                data: $('form').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.error.length > 0) {
+                        $('#error').text(data.error);
+                        return;
+                    }
+                    if (data.id != null) {
+                        window.location = "@Url.Action("View", "StudentAssignment", new { Id = "id" })".replace("id", data.id);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
+    });
+</script>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

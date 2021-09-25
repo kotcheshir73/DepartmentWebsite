@@ -297,6 +297,7 @@ textarea {
     font-size: 18px;
     font-weight: normal;
 }
+
 .course-table-tab td span {
     padding: 15px 15px 15px 35px;
     font-size: 18px;
@@ -687,3 +688,18 @@ textarea {
     border: 1px solid #000000;
 }
 /*---------------------------------------------------*/
+
+th.rotated-text {
+    height: 200px;
+    white-space: nowrap;
+    padding: 0 !important;
+}
+
+    th.rotated-text > div {
+        transform: translate(0px, 0px) rotate(270deg);
+        width: 30px;
+    }
+
+        th.rotated-text > div > span {
+            padding: 5px 10px;
+        }

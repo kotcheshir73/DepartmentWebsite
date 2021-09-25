@@ -35,6 +35,8 @@ namespace ScheduleImplementations.Services
 
         private readonly IConsultationRecordService _serviceCR;
 
+        private readonly int lessonTimeSpan = 80;
+
         public ScheduleProcess(IClassroomService serviceC, IDisciplineService serviceD, ILecturerService serviceL, IStudentGroupService serviceG,
             ISemesterRecordService serviceSR, IOffsetRecordService serviceOR, IExaminationRecordService serviceER, IConsultationRecordService serviceCR)
         {
@@ -187,7 +189,7 @@ namespace ScheduleImplementations.Services
                                             LessonType = find.LessonType,
                                             ScheduleRecordType = ScheduleRecordType.Semester,
                                             ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
-                                            TimeSpanMinutes = 90
+                                            TimeSpanMinutes = lessonTimeSpan
                                         });
                                     }
                                 }
@@ -253,7 +255,7 @@ namespace ScheduleImplementations.Services
                                             LessonType = find.LessonType,
                                             ScheduleRecordType = ScheduleRecordType.Semester,
                                             ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
-                                            TimeSpanMinutes = 90
+                                            TimeSpanMinutes = lessonTimeSpan
                                         });
                                     }
                                 }
@@ -300,7 +302,7 @@ namespace ScheduleImplementations.Services
                         LessonType = LessonTypes.зачет,
                         ScheduleRecordType = ScheduleRecordType.Offset,
                         ScheduleDate = find.ScheduleDate,
-                        TimeSpanMinutes = 90                        
+                        TimeSpanMinutes = lessonTimeSpan
                     });
                 }
 

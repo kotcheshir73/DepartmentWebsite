@@ -10,16 +10,19 @@ using Tools;
 namespace AcademicYearImplementations.Implementations
 {
     public class AcademicYearService : IAcademicYearService
-	{
-		private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_года;
+    {
+        private readonly AccessOperation _serviceOperation = AccessOperation.Учебные_года;
 
         private readonly string _entity = "Учебные планы";
 
         public ResultService<AcademicYearPageViewModel> GetAcademicYears(AcademicYearGetBindingModel model)
-		{
+        {
             try
             {
-                DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
+                if (!DepartmentUserManager.CheckAccess(model, _serviceOperation, AccessType.View, _entity))
+                {
+                    return ResultService<AcademicYearPageViewModel>.Error(new MethodAccessException(DepartmentUserManager.ErrorMessage), ResultServiceStatusCode.Error);
+                }
 
                 int countPages = 0;
                 using (var context = DepartmentUserManager.GetContext)
@@ -54,10 +57,10 @@ namespace AcademicYearImplementations.Implementations
             {
                 return ResultService<AcademicYearPageViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-		}
+        }
 
-		public ResultService<AcademicYearViewModel> GetAcademicYear(AcademicYearGetBindingModel model)
-		{
+        public ResultService<AcademicYearViewModel> GetAcademicYear(AcademicYearGetBindingModel model)
+        {
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.View, _entity);
@@ -82,10 +85,10 @@ namespace AcademicYearImplementations.Implementations
             {
                 return ResultService<AcademicYearViewModel>.Error(ex, ResultServiceStatusCode.Error);
             }
-		}
+        }
 
-		public ResultService CreateAcademicYear(AcademicYearSetBindingModel model)
-		{
+        public ResultService CreateAcademicYear(AcademicYearSetBindingModel model)
+        {
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
@@ -120,10 +123,10 @@ namespace AcademicYearImplementations.Implementations
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-		}
+        }
 
-		public ResultService UpdateAcademicYear(AcademicYearSetBindingModel model)
-		{
+        public ResultService UpdateAcademicYear(AcademicYearSetBindingModel model)
+        {
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Change, _entity);
@@ -151,10 +154,10 @@ namespace AcademicYearImplementations.Implementations
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-		}
+        }
 
-		public ResultService DeleteAcademicYear(AcademicYearGetBindingModel model)
-		{
+        public ResultService DeleteAcademicYear(AcademicYearGetBindingModel model)
+        {
             try
             {
                 DepartmentUserManager.CheckAccess(_serviceOperation, AccessType.Delete, _entity);
@@ -182,6 +185,6 @@ namespace AcademicYearImplementations.Implementations
             {
                 return ResultService.Error(ex, ResultServiceStatusCode.Error);
             }
-		}
-	}
+        }
+    }
 }
