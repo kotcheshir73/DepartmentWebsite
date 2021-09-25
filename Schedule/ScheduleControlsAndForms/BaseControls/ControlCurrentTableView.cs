@@ -104,7 +104,7 @@ namespace ScheduleControlsAndForms.BaseControls
             List<DateTime> times = ScheduleHelper.ScheduleLessonTimes();
             for (int i = 0; i < times.Count; ++i)
             {
-                int colspan = 9;
+                int colspan = 8;
                 var buttonWeek = new Button
                 {
                     Location = new Point(0, 0),
