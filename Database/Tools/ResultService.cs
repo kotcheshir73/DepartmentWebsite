@@ -34,7 +34,7 @@ namespace Tools
 
         public void AddError(Exception error)
         {
-            Errors.Add(new KeyValuePair<string, string>("Общая ошибка", error.Message));
+            Errors.Add(new KeyValuePair<string, string>("Общая ошибка", $"{error.Message}: {error.StackTrace}"));
             if (Succeeded)
             {
                 Succeeded = false;
@@ -59,12 +59,12 @@ namespace Tools
             {
                 Succeeded = false
             };
-            result.Errors.Add(new KeyValuePair<string, string>("Error:", error.Message));
+            result.Errors.Add(new KeyValuePair<string, string>("Error:", $"{error.Message}: {error.StackTrace}"));
 
             while (error.InnerException != null)
             {
                 error = error.InnerException;
-                result.Errors.Add(new KeyValuePair<string, string>("Inner error:", error.Message));
+                result.Errors.Add(new KeyValuePair<string, string>("Inner error:", $"{error.Message}: {error.StackTrace}"));
             }
             result.StatusCode = statusCode;
 
@@ -77,12 +77,12 @@ namespace Tools
             {
                 Succeeded = false
             };
-            result.Errors.Add(new KeyValuePair<string, string>(key, error.Message));
+            result.Errors.Add(new KeyValuePair<string, string>(key, $"{error.Message}: {error.StackTrace}"));
 
             while (error.InnerException != null)
             {
                 error = error.InnerException;
-                result.Errors.Add(new KeyValuePair<string, string>("Inner error:", error.Message));
+                result.Errors.Add(new KeyValuePair<string, string>("Inner error:", $"{error.Message}: {error.StackTrace}"));
             }
             result.StatusCode = statusCode;
 

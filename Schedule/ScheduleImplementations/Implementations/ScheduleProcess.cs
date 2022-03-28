@@ -13,6 +13,7 @@ using ScheduleServiceImplementations.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tools;
 
 namespace ScheduleImplementations.Services
@@ -659,9 +660,9 @@ namespace ScheduleImplementations.Services
         #endregion
 
         #region Import
-        public ResultService Import(ImportToSemesterRecordsBindingModel model)
+        public async Task<ResultService> Import(ImportToSemesterRecordsBindingModel model)
         {
-            return ImportScheduleFromSite.ImportHtml(model);
+            return await ImportScheduleFromTimeTableAPI.ImportHtml(model);
         }
 
         public ResultService Import(ImportToOffsetFromExcel model)

@@ -314,7 +314,7 @@ namespace ScheduleServiceImplementations.Helpers
                             {
                                 disicplinename = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 1);
 
-                                // коснультация переж экхаменом, пропускаем
+                                // коснультация переж экзаменом, пропускаем
                                 if (disicplinename.ToUpper() == "К")
                                 {
                                     continue;
@@ -426,6 +426,10 @@ namespace ScheduleServiceImplementations.Helpers
                             var lessonsandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 2).Split(new char[] { '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
                             for (int i = 0; i < lessonsandclassroom.Length - 1; ++i)
                             {
+                                if (!Regex.IsMatch(lessonsandclassroom[i], @"\dп"))
+                                {
+                                    continue;
+                                }
                                 var record = new OffsetRecordSetBindingModel
                                 {
                                     Id = Guid.Empty,
@@ -443,7 +447,14 @@ namespace ScheduleServiceImplementations.Helpers
                                 record.LessonClassroom = lessonsandclassroom[lessonsandclassroom.Length - 1];
                                 ScheduleHelper.GetClassroom(context, record);
 
-                                record.Lesson = Convert.ToInt32(Convert.ToInt32(lessonsandclassroom[i].Trim()[0].ToString())) - 1;
+                                try
+                                {
+                                    record.Lesson = Convert.ToInt32(Convert.ToInt32(lessonsandclassroom[i].Trim()[0].ToString())) - 1;
+                                }
+                                catch(Exception ex)
+                                {
+                                    throw new Exception($"Total: {disicplinename},{gr.Key},{GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 2)}, Param: {lessonsandclassroom[i]}", ex);
+                                }
                                 record.ScheduleDate = ScheduleHelper.GetDateWithTime(model.ScheduleDate.Date.AddDays(days), record.Lesson);
 
                                 var res = CheckNewOffsetRecordForConflict(record);

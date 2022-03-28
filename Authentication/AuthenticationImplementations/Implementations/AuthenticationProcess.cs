@@ -117,8 +117,12 @@ namespace AuthenticationImplementations.Implementations
 						var elem = assem.CreateInstance(set.PropertyType.GenericTypeArguments[0].FullName);
 						if (File.Exists(string.Format("{0}/{1}.json", folderName, elem.GetType().Name)))
 						{
-							MethodInfo generic = delMethod.MakeGenericMethod(elem.GetType());
-							generic.Invoke(this, null);
+							try
+							{
+								MethodInfo generic = delMethod.MakeGenericMethod(elem.GetType());
+								generic.Invoke(this, null);
+							}
+							finally { }
 						}
 					}
 				}

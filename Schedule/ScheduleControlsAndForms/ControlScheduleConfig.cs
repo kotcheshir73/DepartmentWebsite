@@ -33,7 +33,7 @@ namespace ScheduleControlsAndForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonImportSemesterFromSite_Click(object sender, EventArgs e)
+        private async void ButtonImportSemesterFromSite_Click(object sender, EventArgs e)
         {
             if (comboBoxStartPeriodDate.SelectedIndex == -1)
             {
@@ -54,7 +54,7 @@ namespace ScheduleControlsAndForms
                 list.Add(url);
             } while (true);
 
-            var result = _process.Import(new ImportToSemesterRecordsBindingModel
+            var result = await _process.Import(new ImportToSemesterRecordsBindingModel
             {
                 ScheduleDate = Convert.ToDateTime(comboBoxStartPeriodDate.Text),
                 ScheduleUrls = list

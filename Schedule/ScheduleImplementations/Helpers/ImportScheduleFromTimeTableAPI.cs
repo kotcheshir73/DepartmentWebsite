@@ -1,60 +1,78 @@
-﻿//using CsQuery;
-//using CsQuery.Implementation;
-using DatabaseContext;
-using DocumentFormat.OpenXml.InkML;
+﻿using DatabaseContext;
 using Enums;
 using ScheduleInterfaces.BindingModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Tools;
 
 namespace ScheduleImplementations.Helpers
 {
-    class ImportScheduleFromSite
+    //https://time.ulstu.ru/api/1.0/timetable
+    class ImportScheduleFromTimeTableAPI
     {
         private static List<SemesterRecordSetBindingModel> _findRecords;
 
-        public static ResultService ImportHtml(ImportToSemesterRecordsBindingModel model)
-        {
-            var resError = new ResultService();
+        private static HttpClient _client;
 
+        public static async Task<ResultService> ImportHtml(ImportToSemesterRecordsBindingModel model)
+        {
+            var apiURL = model.ScheduleUrls.First();
+            if (string.IsNullOrEmpty(apiURL))
+            {
+                return ResultService.Error("Ошибка", "Не определен url адреса api-сервера", ResultServiceStatusCode.Error);
+            }
+
+            GetClient(apiURL);
+            if (_client == null)
+            {
+                return ResultService.Error("Ошибка", "Не удалось создать клиента http", ResultServiceStatusCode.Error);
+            }
+
+            List<string> studentGroupsNames = null;
+            List<string> lecturerNames = null;
+            List<string> classroomsNames = null;
+
+            using (var context = DepartmentUserManager.GetContext)
+            {
+                studentGroupsNames = context.StudentGroups.Select(x => x.GroupName).ToList();
+                lecturerNames = context.Lecturers.Select(x => $"{x.LastName} {x.FirstName[0]} {x.Patronymic[0]}").ToList();
+                classroomsNames = context.Classrooms.Select(x => x.Number).ToList();
+            }
+            if (studentGroupsNames == null || studentGroupsNames.Count == 0)
+            {
+                return ResultService.Error("Ошибка", "Список групп пуст", ResultServiceStatusCode.Error);
+            }
+            if (lecturerNames == null || lecturerNames.Count == 0)
+            {
+                return ResultService.Error("Ошибка", "Список преподавателей пуст", ResultServiceStatusCode.Error);
+            }
+            if (classroomsNames == null || classroomsNames.Count == 0)
+            {
+                return ResultService.Error("Ошибка", "Список аудиторий пуст", ResultServiceStatusCode.Error);
+            }
+
+            var resError = new ResultService();
             _findRecords = new List<SemesterRecordSetBindingModel>();
 
-          /*  foreach (var url in model.ScheduleUrls)
+            foreach (var studentGroup in studentGroupsNames)
             {
-              //  int c = 9;
-                try
-                {
-                    var web = CQ.CreateFromUrl(url);
+                await LoadLessons(apiURL, studentGroup, model.ScheduleDate);
+            }
+            foreach (var lecturer in lecturerNames)
+            {
+                await LoadLessons(apiURL, lecturer, model.ScheduleDate);
+            }
+            foreach (var classroom in classroomsNames)
+            {
+                await LoadLessons(apiURL, classroom, model.ScheduleDate);
+            }
 
-                    var cells = web.Select("table tr td a");
-
-                    foreach (var cell in cells)
-                    {
-                        var groupName = cell.Cq().Text();
-                        if (!string.IsNullOrEmpty(groupName))
-                        {
-                            var res = ParsingPage(url.Replace("raspisan.html", (cell as HtmlAnchorElement).Href), groupName, model.ScheduleDate);
-
-                            if (!res.Succeeded)
-                            {
-                                foreach (var err in res.Errors)
-                                {
-                                    resError.AddError(err.Key, err.Value);
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    resError.AddError(ex);
-                }
-            }*/
-
-            _findRecords = _findRecords.Distinct().ToList();
             var result = SaveRecords(model);
             if (!result.Succeeded)
             {
@@ -67,200 +85,140 @@ namespace ScheduleImplementations.Helpers
             return resError;
         }
 
-        /// <summary>
-        /// Разбор страницы html с расписанием одной группы
-        /// Вытаскивается строка из ячейки и передается на анализ в метод AnalisString
-        /// Полученные из метода AnalisString записи расписания передаются в CheckNewSemesterRecordForConflictAndSave
-        /// для проверки наличия пар и сохранения
-        /// </summary>
-        /// <param name="schedulrUrl"></param>
-        /// <param name="classrooms"></param>
-        private static ResultService ParsingPage(string schedulrUrl, string groupName, DateTime date)
+        private static void GetClient(string url)
         {
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(url)
+            };
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        private static async Task<ResultService> LoadLessons(string url, string filter, DateTime date)
+        {
+            if (string.IsNullOrEmpty(filter))
+            {
+                return ResultService.Error("Ошибка", "Фильтр пуст", ResultServiceStatusCode.Error);
+            }
+
+            var response = await _client.GetAsync($"{url}?filter={filter}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return ResultService.Error("Ошибка получения данных", $"Не удалось получить ответ по расписанию по фильтру {filter}",
+                    ResultServiceStatusCode.Error);
+            }
+            var res = await response.Content.ReadAsStringAsync();
+            var schedules = JsonSerializer.Deserialize<TimeTableAPIScheduleAnswer>(res);
+            if (schedules == null || schedules.response == null || schedules.response.weeks == null)
+            {
+                return ResultService.Error("Ошибка получения данных", $"Не удалось получить данные расписания по фильтру {filter}",
+                    ResultServiceStatusCode.Error);
+            }
+
             var resError = new ResultService();
-            // загружаем страницу расписания группы
-          /*  var web = CQ.CreateFromUrl(schedulrUrl);
-
-            var tables = web.Select("table");
-
             int week = -1; // 0 - первая неделя, 1 - вторая неделя
-
-            foreach (var table in tables)
+            foreach (var scheduleWeek in schedules.response.weeks)
             {
                 week++;
-                int day = -3;
-
-                foreach (var row in table.Cq().Find("tr"))
+                int day = -1;
+                foreach (var scheduleDay in scheduleWeek.days)
                 {
                     day++;
-                    if (day < 0)
-                    { // пропускаем 2 первые строки, там идут пары и время
-                        continue;
-                    }
-
-                    int lesson = -2;
-                    foreach (var cell in row.Cq().Find("td"))
+                    int lesson = -1;
+                    foreach (var scheduleLes in scheduleDay.lessons)
                     {
                         lesson++;
-                        if (lesson < 0)
-                        { // пропускаем первую строку, там идет день недели
+                        if (scheduleLes == null)
+                        {
                             continue;
                         }
-
-                        var text = cell.Cq().Text().Trim();
-
-                        if (!string.IsNullOrEmpty(text) && text.Length > 2)
+                        foreach (var scheduleLesson in scheduleLes)
                         {
-                            var entity = new SemesterRecordSetBindingModel
+                            var entity = GetRecord(scheduleLesson, date, week, day, lesson);
+                            if (entity == null)
                             {
-                                Id = Guid.Empty,
-                                ScheduleDate = ScheduleHelper.GetDateWithTime(date, week, day, lesson),
-                                Week = week,
-                                Day = day,
-                                Lesson = lesson,
-                                LessonStudentGroup = groupName,
-                                NotParseRecord = text
-                            };
-
-                            var list = new List<SemesterRecordSetBindingModel> { entity };
-
-                            AnalisString(text, list);
-
-                            foreach (var record in list)
-                            {
-                                var result = CheckNewSemesterRecordForConflict(record);
-                                if (!result.Succeeded)
-                                {
-                                    foreach (var err in result.Errors)
-                                    {
-                                        resError.AddError(err.Key, err.Value);
-                                    }
-                                }
+                                continue;
                             }
+
+                            var result = CheckNewSemesterRecordForConflict(entity);
+                            if (!result.Succeeded)
+                            {
+                                foreach (var err in result.Errors)
+                                {
+                                    resError.AddError(err.Key, err.Value);
+                                }
+                                continue;
+                            }
+
+                            _findRecords.Add(entity);
                         }
                     }
                 }
-            }*/
+            }
+
             return resError;
         }
 
-        /// <summary>
-        /// Разбор ячейки расписания. Пытаемся получить название дисциплины, ФИО преподавателя и номер аудитории
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="records">Изначально передается список с 1 записью. Если пара разбита на подгруппы, то в список добавяться занятия</param>
-        private static void AnalisString(string text, List<SemesterRecordSetBindingModel> records)
+        private static SemesterRecordSetBindingModel GetRecord(TimeTableAPIScheduleRecord scheduleRecord, DateTime date, int week, int day, int lesson)
         {
-            if (records.Count == 0)
+            var entity = new SemesterRecordSetBindingModel
             {
-                return;
-            }
+                Id = Guid.Empty,
+                ScheduleDate = ScheduleHelper.GetDateWithTime(date, week, day, lesson),
+                Week = week,
+                Day = day,
+                Lesson = lesson,
+                LessonStudentGroup = scheduleRecord.group,
+                LessonClassroom = scheduleRecord.room,
+                LessonLecturer = scheduleRecord.teacher,
+                LessonDiscipline = scheduleRecord.nameOfLesson
+            };
 
-            text = Regex.Replace(text, @"(\-?)(\s?)\d(\s?)п/г", "").TrimStart();
+            // оперделяем тип занятия
+            var matchType = Regex.Match(entity.LessonDiscipline.Trim(), @"^(\w)+\.");
+            entity.LessonType = LessonTypes.нд;
+            if (matchType.Success)
+            {
+                switch (matchType.Value.ToLower())
+                {
+                    case "лек.":
+                        entity.LessonType = LessonTypes.лек;
+                        break;
+                    case "пр.":
+                        entity.LessonType = LessonTypes.пр;
+                        break;
+                    case "лаб.":
+                        entity.LessonType = LessonTypes.лаб;
+                        break;
+                }
+                if (entity.LessonType != LessonTypes.нд)
+                {
+                    entity.LessonDiscipline = entity.LessonDiscipline.Remove(0, matchType.Value.Length).Trim();
+                }
+            }
+            var subgroupMatch = Regex.Match(entity.LessonDiscipline, @"\-(\s)?\d(\s)?(п/г)$");
+            if (subgroupMatch.Success)
+            {
+                entity.LessonDiscipline = entity.LessonDiscipline.Remove(entity.LessonDiscipline.Length - subgroupMatch.Value.Length);
+            }
+            // может запись уже добавляли в рамках других поисков
+            var exsistRec = _findRecords.FirstOrDefault(x => x.Week == entity.Week && x.Day == entity.Day && x.Lesson == entity.Lesson &&
+                                x.LessonStudentGroup == entity.LessonStudentGroup && x.LessonClassroom == entity.LessonClassroom &&
+                                x.LessonLecturer == entity.LessonLecturer && x.LessonDiscipline == entity.LessonDiscipline);
+            if (exsistRec != null)
+            {
+                return null;
+            }
 
             using (var context = DepartmentUserManager.GetContext)
             {
-                //определяем группу
-                ScheduleHelper.GetStudentGroup(context, records[0]);
-
-                // отсекаем физ-ру первым делом
-                if (text.Contains("Элективные курсы по физичeской культуре и спорту"))
-                {
-                    records[0].LessonDiscipline = "Физкультура";
-                    records[0].LessonClassroom = "Спортзал";
-                    records[0].LessonLecturer = "Преподаватель";
-                    records[0].LessonType = LessonTypes.пр;
-                    var discipline = context.Disciplines.FirstOrDefault(d => d.DisciplineName == records[0].LessonDiscipline);
-                    if (discipline != null)
-                    {
-                        records[0].DisciplineId = discipline.Id;
-                    }
-                    return;
-                }
-
-                // Для дистанта
-                if (text.EndsWith("+"))
-                {
-                    text = text.Replace("+", "6-ДОТ_Дист");
-                }
-
-                // ищем в записе наличие аудиторий
-                var classroomMatches = Regex.Matches(text, @"\d(.|..|.. )?(_|-)(.|..)?([\d]+(/[\d]+)*([\w]+)*|[\w. ]+)");
-
-                for (int clM = 0; clM < classroomMatches.Count; ++clM)
-                {
-                    //аудиторий может быть несколько (пара для нескольких подгрупп, тогда создаем новую запись)
-                    while (clM >= records.Count)
-                    {
-                        records.Add(new SemesterRecordSetBindingModel
-                        {
-                            Id = Guid.Empty,
-                            ScheduleDate = records[0].ScheduleDate,
-                            Week = records[0].Week,
-                            Day = records[0].Day,
-                            Lesson = records[0].Lesson,
-                            LessonStudentGroup = records[0].LessonStudentGroup,
-                            StudentGroupId = records[0].StudentGroupId,
-                            NotParseRecord = records[0].NotParseRecord
-                        });
-                    }
-
-                    records[clM].LessonClassroom = classroomMatches[clM].Value;
-                    records[clM].LessonDiscipline = text;
-
-                    ScheduleHelper.GetClassroom(context, records[clM]);
-
-                    // убираем из текста номер аудитории, остается предмет и преподаватель
-                    var lessonText = text.Substring(0, text.IndexOf(records[clM].LessonClassroom)).TrimEnd();
-
-                    // вычисляем преподавателя
-                    records[clM].LessonLecturer = Regex.Match(lessonText, @"([\w]+ \w \w)$").Value;
-
-                    if (!string.IsNullOrEmpty(records[clM].LessonLecturer))
-                    {
-                        // оставляем только название предмета
-                        records[clM].LessonDiscipline = lessonText.Substring(0, lessonText.IndexOf(records[clM].LessonLecturer)).TrimEnd();
-                    }
-
-                    ScheduleHelper.GetLecturer(context, records[clM]);
-
-                    // оперделяем тип занятия
-                    records[clM].LessonType = LessonTypes.нд;
-                    if (records[clM].LessonDiscipline.ToLower().StartsWith("лек."))
-                    {
-                        records[clM].LessonType = LessonTypes.лек;
-                        records[clM].LessonDiscipline = records[clM].LessonDiscipline.Remove(0, 4);
-                    }
-                    if (records[clM].LessonDiscipline.ToLower().StartsWith("пр."))
-                    {
-                        records[clM].LessonType = LessonTypes.пр;
-                        records[clM].LessonDiscipline = records[clM].LessonDiscipline.Remove(0, 3);
-                    }
-                    if (records[clM].LessonDiscipline.ToLower().StartsWith("лаб."))
-                    {
-                        records[clM].LessonType = LessonTypes.лаб;
-                        records[clM].LessonDiscipline = records[clM].LessonDiscipline.Remove(0, 4);
-                    }
-
-                    // определяем дисциплину
-                    if (!string.IsNullOrEmpty(records[clM].LessonDiscipline))
-                    {
-                        ScheduleHelper.GetDiscipline(context, records[clM]);
-                    }
-                    else if (clM > 0) // иностранный для второй подгруппы не пишут название дисциплины
-                    {
-                        records[clM].LessonDiscipline = records[0].LessonDiscipline;
-                        records[clM].DisciplineId = records[0].DisciplineId;
-                    }
-                    else
-                    {
-                        records[clM].LessonDiscipline = "нет данных";
-                    }
-
-                    // обрезаем начальный текст, если разбивка на подгруппы идет
-                    text = text.Substring(text.IndexOf(records[clM].LessonClassroom) + records[clM].LessonClassroom.Length).TrimStart();
-                }
+                ScheduleHelper.GetStudentGroup(context, entity);
+                ScheduleHelper.GetClassroom(context, entity);
+                ScheduleHelper.GetLecturer(context, entity);
+                ScheduleHelper.GetDiscipline(context, entity);
             }
+            return entity;
         }
 
         /// <summary>
@@ -276,26 +234,37 @@ namespace ScheduleImplementations.Helpers
                 return ResultService.Success();
             }
 
+            if (string.IsNullOrEmpty(record.LessonLecturer) || string.IsNullOrEmpty(record.LessonStudentGroup) ||
+                string.IsNullOrEmpty(record.LessonDiscipline) || string.IsNullOrEmpty(record.LessonClassroom))
+            {
+                return ResultService.Error("Не все заполнено:", string.Format("дата {0} {1} {2}\r\nГруппа: {3}r\nДисциплина {4}\r\nПреподаватель: {5}r\nАудитория: {6}\r\n",
+                    record.Week, record.Day, record.Lesson,
+                    record.LessonStudentGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+            }
+
             // выбираем уже добавленные записи на эту пару
             var selectRecordsOnDate = _findRecords.Where(x => x.ScheduleDate == record.ScheduleDate);
 
-            //ищем другие занятия в этой аудитории (если потоковая пара, то дисциплина и преподаваетль должны совпадать)
-            var exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonClassroom == record.LessonClassroom);
-            if (exsistRecord != null && !(exsistRecord.LessonDiscipline == record.LessonDiscipline && exsistRecord.LessonLecturer == record.LessonLecturer))
-            {
-                if (!Regex.IsMatch(exsistRecord.LessonClassroom, @"6(.|..|.. )?-(.|..)?([\d]+([\w]+)*|[\w. ]+)"))
-                    return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
-                        record.Week, record.Day, record.Lesson,
-                        exsistRecord.LessonStudentGroup, record.LessonStudentGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-            }
-
             //ищем другие занятия этой группы (тип занятия должен совпадать, либо быть неизвестен, тогда предполагаем разибение на подгруппы)
-            exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonStudentGroup == record.LessonStudentGroup);
+            var exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonStudentGroup == record.LessonStudentGroup);
             if (exsistRecord != null && !(exsistRecord.LessonType == record.LessonType || exsistRecord.LessonType == LessonTypes.нд || record.LessonType == LessonTypes.нд))
             {
                 return ResultService.Error("Конфликт (группы):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
                     record.Week, record.Day, record.Lesson,
                     exsistRecord.LessonStudentGroup, record.LessonStudentGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonStudentGroup), ResultServiceStatusCode.Error);
+            }
+
+            if (!Regex.IsMatch(record.LessonClassroom, @"д(\.)?о(\.)?т(\.)?", RegexOptions.IgnoreCase))
+            //ищем другие занятия в этой аудитории (если потоковая пара, то дисциплина и преподаваетль должны совпадать)
+            {
+                exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonClassroom == record.LessonClassroom);
+                if (exsistRecord != null && !(exsistRecord.LessonDiscipline == record.LessonDiscipline && exsistRecord.LessonLecturer == record.LessonLecturer))
+                {
+                    if (!Regex.IsMatch(exsistRecord.LessonClassroom, @"6(.|..|.. )?-(.|..)?([\d]+([\w]+)*|[\w. ]+)"))
+                        return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0} {1} {2}\r\n{3} - {4}\r\n{5} {6} {7}\r\n",
+                            record.Week, record.Day, record.Lesson,
+                            exsistRecord.LessonStudentGroup, record.LessonStudentGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
+                }
             }
 
             //ищем другие занятия этого преподавателя
@@ -307,16 +276,6 @@ namespace ScheduleImplementations.Helpers
                     exsistRecord.LessonStudentGroup, record.LessonStudentGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonStudentGroup), ResultServiceStatusCode.Error);
 
             }
-
-            if (string.IsNullOrEmpty(record.LessonLecturer) || string.IsNullOrEmpty(record.LessonStudentGroup) ||
-                string.IsNullOrEmpty(record.LessonDiscipline) || string.IsNullOrEmpty(record.LessonClassroom))
-            {
-                return ResultService.Error("Не все заполнено:", string.Format("дата {0} {1} {2}\r\nГруппа: {3}r\nДисциплина {4}\r\nПреподаватель: {5}r\nАудитория: {6}\r\n",
-                    record.Week, record.Day, record.Lesson,
-                    record.LessonStudentGroup, record.LessonDiscipline, record.LessonLecturer, record.LessonClassroom), ResultServiceStatusCode.Error);
-            }
-
-            _findRecords.Add(record);
 
             return ResultService.Success();
         }

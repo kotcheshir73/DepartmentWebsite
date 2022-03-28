@@ -4,6 +4,7 @@ using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tools;
 
 namespace ScheduleInterfaces.Interfaces
@@ -64,7 +65,7 @@ namespace ScheduleInterfaces.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ResultService Import(ImportToSemesterRecordsBindingModel model);
+        Task<ResultService> Import(ImportToSemesterRecordsBindingModel model);
 
         /// <summary>
         /// Импорт зачетов из excel-файла
