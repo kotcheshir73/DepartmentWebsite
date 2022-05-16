@@ -44,6 +44,11 @@ namespace ExaminationImplementations.Implementations
                         {
                             try
                             {
+                                context.ExaminationTemplateBlockQuestions.RemoveRange(
+                                    context.ExaminationTemplateBlockQuestions
+                                        .Include(x => x.ExaminationTemplateTicketQuestions)
+                                        .Where(x => x.ExaminationTemplateBlockId == model.ExaminationTemplateBlockId));
+                                context.SaveChanges();
                                 foreach (var question in questions)
                                 {
                                     context.ExaminationTemplateBlockQuestions.Add(
@@ -172,6 +177,12 @@ namespace ExaminationImplementations.Implementations
                     {
                         try
                         {
+                            context.ExaminationTemplateTickets.RemoveRange(
+                                context.ExaminationTemplateTickets
+                                    .Include(x => x.ExaminationTemplateTicketQuestions)
+                                    .Where(x => x.ExaminationTemplateId == model.ExaminationTemplateId)
+                                );
+                            context.SaveChanges();
                             #region
                             bool stopCreate = false;
                             for (int i = 0; !stopCreate; ++i)
