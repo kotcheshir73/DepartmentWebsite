@@ -28,7 +28,8 @@ namespace DatabaseContext
 #endif
 
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"Data Source=CHESHIR\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=admin;password=cheshirSA123;MultipleActiveResultSets=True;");
+                //@"Data Source=CHESHIR\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=admin;password=cheshirSA123;MultipleActiveResultSets=True;"
+                optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
 #endif
             }
             base.OnConfiguring(optionsBuilder);

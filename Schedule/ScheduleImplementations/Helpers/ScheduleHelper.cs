@@ -443,7 +443,7 @@ namespace ScheduleImplementations.Helpers
         {
             if (!string.IsNullOrEmpty(record.LessonClassroom))
             {
-                var classroom = context.Classrooms.FirstOrDefault(c => record.LessonClassroom.Contains(c.Number) && !c.IsDeleted);
+                var classroom = context.Classrooms.FirstOrDefault(c => string.Compare(record.LessonClassroom, c.Number, true) == 0 && !c.IsDeleted);
                 if (classroom != null)
                 {
                     record.ClassroomId = classroom.Id;

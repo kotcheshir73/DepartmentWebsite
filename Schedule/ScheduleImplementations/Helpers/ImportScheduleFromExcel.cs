@@ -143,25 +143,23 @@ namespace ScheduleServiceImplementations.Helpers
 
                             // заведем прерываетль, чтобы прекратить обход, если лист пустой
                             int counter = 0;
-                            var value = string.Empty;
+                            var value = GetValue(workbookPart, sheetData, Symbols[colindex], rowindex);
 
                             while (value.ToLower() != "дни недели")
                             {
-                                value = GetValue(workbookPart, sheetData, Symbols[colindex], rowindex);
-                                rowindex++;
                                 counter++;
-
                                 if (counter > 10)
                                 {
                                     break;
                                 }
+                                rowindex++;
+                                value = GetValue(workbookPart, sheetData, Symbols[colindex], rowindex);
                             }
 
                             if (value.ToLower() != "дни недели")
                             {
                                 continue;
                             }
-                            rowindex--;
                             var res = LoadRows(model, workbookPart, sheetData, rowindex);
 
                             if (!res.Succeeded)
@@ -424,6 +422,15 @@ namespace ScheduleServiceImplementations.Helpers
 
                             // зачет может идти несколько пар, создадим несколько записей
                             var lessonsandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 2).Split(new char[] { '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (lessonsandclassroom.Length > 0)
+                            {
+                                var match = Regex.Match(lessonsandclassroom[0], @"\dп");
+                                if (lessonsandclassroom.Length < 2 && match.Success)
+                                {
+                                    var other = lessonsandclassroom[0].Replace(match.Value, "").Trim();
+                                    lessonsandclassroom = new string[] { match.Value, other };
+                                }
+                            }
                             for (int i = 0; i < lessonsandclassroom.Length - 1; ++i)
                             {
                                 if (!Regex.IsMatch(lessonsandclassroom[i], @"\dп"))
@@ -444,14 +451,14 @@ namespace ScheduleServiceImplementations.Helpers
                                 ScheduleHelper.GetDiscipline(context, record);
 
 
-                                record.LessonClassroom = lessonsandclassroom[lessonsandclassroom.Length - 1];
+                                record.LessonClassroom = lessonsandclassroom[lessonsandclassroom.Length - 1].Trim();
                                 ScheduleHelper.GetClassroom(context, record);
 
                                 try
                                 {
                                     record.Lesson = Convert.ToInt32(Convert.ToInt32(lessonsandclassroom[i].Trim()[0].ToString())) - 1;
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     throw new Exception($"Total: {disicplinename},{gr.Key},{GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 2)}, Param: {lessonsandclassroom[i]}", ex);
                                 }
@@ -586,6 +593,10 @@ namespace ScheduleServiceImplementations.Helpers
                                     record.LessonConsultationClassroom = record.LessonClassroom;
                                     record.ConsultationClassroomId = record.ClassroomId;
                                 }
+                                else if (Regex.IsMatch(timeandclassroom, @"д(\.)?о(\.)?т(\.)?", RegexOptions.IgnoreCase))
+                                {
+                                    record.LessonClassroom = "дот";
+                                }
                                 //инфа по времени
                                 var timeMatch = Regex.Match(timeandclassroom, @"(\d\d.\d\d)|(\d\d-\d\d)|(\d\d:\d\d)");
                                 if (timeMatch.Success)
@@ -595,28 +606,35 @@ namespace ScheduleServiceImplementations.Helpers
                                 }
 
                                 // ищем консультацию, она должна быть за 1-3 дня до экзамена
-                                int startIndex = curIndex - _countRowsInOffset;
+                                int startIndex = curIndex - 1;
                                 while (true)
                                 {
-                                    var curConsIndex = startIndex;
-                                    // символ К модет быть или в первой или второй строке
-                                    var cons = GetValue(workbookPart, sheetData, Symbols[gr.Key], curConsIndex);
-                                    if (string.IsNullOrEmpty(cons))
+                                    // символ К может быть или в первой или второй строке
+                                    var cons = GetValue(workbookPart, sheetData, Symbols[gr.Key], startIndex);
+                                    while (string.IsNullOrEmpty(cons))
                                     {
-                                        curConsIndex++;
-                                        cons = GetValue(workbookPart, sheetData, Symbols[gr.Key], curConsIndex);
+                                        startIndex--;
+                                        if (startIndex <= 0)
+                                        {
+                                            break;
+                                        }
+                                        cons = GetValue(workbookPart, sheetData, Symbols[gr.Key], startIndex);
                                     }
 
-                                    if (cons.ToUpper() == "К")
+                                    if (!string.IsNullOrEmpty(cons) && cons.ToUpper() == "К")
                                     {
-                                        record.DateConsultation = model.ScheduleDate.Date.AddDays(days - (curIndex - startIndex) / _countRowsInOffset).AddHours(_firstConsExamStartHour);
+                                        record.DateConsultation = model.ScheduleDate.Date.AddDays(days - (curIndex - startIndex) / _countRowsInOffset - 1).AddHours(_firstConsExamStartHour);
                                         // под К может стоять время и место консультации
-                                        timeandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], curConsIndex + 1);
+                                        timeandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], startIndex + 1);
                                         if (!string.IsNullOrEmpty(timeandclassroom))
                                         {
+                                            if (Regex.IsMatch(timeandclassroom, @"д(\.)?о(\.)?т(\.)?", RegexOptions.IgnoreCase))
+                                            {
+                                                record.LessonConsultationClassroom = "дот";
+                                            }
                                             // вытаскиваем аудиторию
                                             classroomMatch = Regex.Match(timeandclassroom, @"(^| )\d(_|-)([\d]+(/[\d]+)*([\w]+)*|[\w. ]+)");
-                                            if(classroomMatch.Success)
+                                            if (classroomMatch.Success)
                                             {
                                                 record.LessonConsultationClassroom = classroomMatch.Value.Trim();
                                                 ScheduleHelper.GetConsultationClassroom(context, record);
@@ -631,11 +649,10 @@ namespace ScheduleServiceImplementations.Helpers
                                         }
                                         break;
                                     }
-
-                                    startIndex -= _countRowsInOffset;
+                                    startIndex--;
 
                                     // не нашли консультацию
-                                    if (startIndex < curIndex - 3 * _countRowsInOffset)
+                                    if (startIndex <= 0)
                                     {
                                         record.DateConsultation = model.ScheduleDate;
                                         break;

@@ -58,8 +58,9 @@ namespace DepartmentWebCore
             // добавление кэширования
             services.AddMemoryCache();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            ///services.AddMvc(options => options.EnableEndpointRouting = false);
+            //services.AddControllers();
 
             services.Configure<CustonConfig>(Configuration.GetSection("CustonConfig"));
         }
@@ -88,6 +89,11 @@ namespace DepartmentWebCore
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
 
         public void ConfigureContainer(IUnityContainer container)

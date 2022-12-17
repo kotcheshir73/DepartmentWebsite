@@ -301,7 +301,7 @@ namespace ScheduleImplementations.Helpers
                     foreach (var record in selectedRecords)
                     {
                         // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
                                                     (x.ClassroomId == record.ClassroomId || x.LessonClassroom == record.LessonClassroom) &&
                                                     ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
                                                     ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
@@ -325,7 +325,7 @@ namespace ScheduleImplementations.Helpers
                     foreach (var record in selectedRecords)
                     {
                         // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
                                                     ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
                                                     (x.DisciplineId == record.DisciplineId || x.LessonDiscipline == record.LessonDiscipline) &&
                                                     ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
@@ -349,7 +349,7 @@ namespace ScheduleImplementations.Helpers
                     foreach (var record in selectedRecords)
                     {
                         // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
                                                     ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
                                                     ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
                                                     (x.LecturerId == record.LecturerId || x.LessonLecturer == record.LessonLecturer) &&
@@ -373,7 +373,7 @@ namespace ScheduleImplementations.Helpers
                     foreach (var record in selectedRecords)
                     {
                         // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.SingleOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
                                                     ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
                                                     ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
                                                     ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
