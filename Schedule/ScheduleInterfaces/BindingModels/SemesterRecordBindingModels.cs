@@ -8,6 +8,8 @@ namespace ScheduleInterfaces.BindingModels
         [Required(ErrorMessage = "required")]
         public LessonTypes LessonType { get; set; }
 
+        public int Period { get; set; }
+
         public int Week { get; set; }
 
 		public int Day { get; set; }

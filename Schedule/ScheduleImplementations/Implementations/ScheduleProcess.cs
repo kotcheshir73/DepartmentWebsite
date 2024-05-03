@@ -2,6 +2,7 @@
 using BaseInterfaces.Interfaces;
 using BaseInterfaces.ViewModels;
 using DatabaseContext;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using Enums;
 using Microsoft.EntityFrameworkCore;
 using Models.Schedule;
@@ -94,8 +95,10 @@ namespace ScheduleImplementations.Services
 
         public ResultService<List<ScheduleRecordViewModel>> LoadSchedule(LoadScheduleBindingModel model)
         {
-            // здесь будем хранить все найденные занятия
-            List<ScheduleRecordViewModel> records = new List<ScheduleRecordViewModel>();
+            model.EndDate = model.BeginDate.Date == model.EndDate.Date ? model.BeginDate.AddDays(1).Date : model.EndDate.Date;
+
+			// здесь будем хранить все найденные занятия
+			List<ScheduleRecordViewModel> records = new List<ScheduleRecordViewModel>();
 
             #region вытаскиваем записи
             using (var context = DepartmentUserManager.GetContext)
@@ -126,151 +129,207 @@ namespace ScheduleImplementations.Services
                     return ResultService<List<ScheduleRecordViewModel>>.Error("Error:", "CurrentSetting not found", ResultServiceStatusCode.NotFound);
                 }
 
-                //вытаскиваем все сезонные даты для выбранного года (для 4 курса есть различия)
-                var dates = context.SeasonDates.Where(x => x.AcademicYearId == academicYear.Id && !x.IsDeleted).ToList();
+				var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
+				{
+					ClassroomId = model.ClassroomId,
+					ClassroomNumber = model.ClassroomNumber,
+					DisciplineId = model.DisciplineId,
+					DisciplineName = model.DisciplineName,
+					LecturerId = model.LecturerId,
+					LecturerName = model.LecturerName,
+					StudentGroupId = model.StudentGroupId,
+					StudentGroupName = model.StudentGroupName,
+					DateBegin = model.BeginDate.Date,
+					DateEnd = model.EndDate.Date
+				});
 
-                if (dates == null || dates.Count == 0)
-                {
-                    return ResultService<List<ScheduleRecordViewModel>>.Error("Error:", "SeasonDates not found", ResultServiceStatusCode.NotFound);
-                }
+                var counts = (model.EndDate.Date - model.BeginDate.Date).TotalDays;
 
-                foreach (var date in dates)
-                {
-                    // Смотрим первую половину семестра
-                    // Если дата начала входит в нее или дата конца входит, то получаем записи
-                    // Для семестра дата занятия по первым двум неделям начала периода!!!
-                    if ((date.DateBeginFirstHalfSemester <= model.BeginDate && date.DateEndFirstHalfSemester >= model.BeginDate) ||
-                        (date.DateBeginFirstHalfSemester <= model.EndDate && date.DateEndFirstHalfSemester >= model.EndDate))
-                    {
-                        var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
-                        {
-                            ClassroomId = model.ClassroomId,
-                            ClassroomNumber = model.ClassroomNumber,
-                            DisciplineId = model.DisciplineId,
-                            DisciplineName = model.DisciplineName,
-                            LecturerId = model.LecturerId,
-                            LecturerName = model.LecturerName,
-                            StudentGroupId = model.StudentGroupId,
-                            StudentGroupName = model.StudentGroupName,
-                            DateBegin = date.DateBeginFirstHalfSemester.Date,
-                            DateEnd = date.DateBeginFirstHalfSemester.Date.AddDays(13)
-                        });
+				//while (startDate.Date <= model.EndDate.Date)
+				{
+					for (int day = 0; day < counts; day++)
+					{
+						for (int lesson = 0; lesson < 8; lesson++)
+						{
+							var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(model.BeginDate.Date.AddDays(day), lesson));
+							foreach (var find in search)
+							{
+								records.Add(new SemesterRecordViewModel
+								{
+									Id = find.Id,
+									ClassroomId = find.ClassroomId,
+									Classroom = find.Classroom?.ToString(),
+									DisciplineId = find.DisciplineId,
+									Discipline = find.Discipline?.ToString(),
+									LecturerId = find.LecturerId,
+									Lecturer = find.Lecturer?.ToString(),
+									StudentGroupId = find.StudentGroupId,
+									StudentGroup = find.StudentGroup?.ToString(),
+									LessonClassroom = find.LessonClassroom,
+									LessonDiscipline = find.LessonDiscipline,
+									LessonLecturer = find.LessonLecturer,
+									LessonStudentGroup = find.LessonStudentGroup,
+									LessonType = find.LessonType,
+									ScheduleRecordType = ScheduleRecordType.Semester,
+									ScheduleDate = find.ScheduleDate,
+									TimeSpanMinutes = lessonTimeSpan
+								});
+							}
+						}
 
-                        // week == 0 - первая неделя
-                        var week = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays / 7 % 2 : 0;
+						//startDate = startDate.AddDays(1);
+					}
 
-                        var startDay = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays % 7 : 0;
+					//week = ++week % 2;
+				}
 
-                        var startDate = date.DateBeginFirstHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginFirstHalfSemester;
 
-                        while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date)
-                        {
-                            for (int day = (int)startDay; day < 7 && startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date; day++)
-                            {
-                                for (int lesson = 0; lesson < 8; lesson++)
-                                {
-                                    var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(date.DateBeginFirstHalfSemester, (int)week, day, lesson));
-                                    foreach (var find in search)
-                                    {
-                                        records.Add(new SemesterRecordViewModel
-                                        {
-                                            Id = find.Id,
-                                            ClassroomId = find.ClassroomId,
-                                            Classroom = find.Classroom?.ToString(),
-                                            DisciplineId = find.DisciplineId,
-                                            Discipline = find.Discipline?.ToString(),
-                                            LecturerId = find.LecturerId,
-                                            Lecturer = find.Lecturer?.ToString(),
-                                            StudentGroupId = find.StudentGroupId,
-                                            StudentGroup = find.StudentGroup?.ToString(),
-                                            LessonClassroom = find.LessonClassroom,
-                                            LessonDiscipline = find.LessonDiscipline,
-                                            LessonLecturer = find.LessonLecturer,
-                                            LessonStudentGroup = find.LessonStudentGroup,
-                                            LessonType = find.LessonType,
-                                            ScheduleRecordType = ScheduleRecordType.Semester,
-                                            ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
-                                            TimeSpanMinutes = lessonTimeSpan
-                                        });
-                                    }
-                                }
+				//вытаскиваем все сезонные даты для выбранного года (для 4 курса есть различия)
+				/*  var dates = context.SeasonDates.Where(x => x.AcademicYearId == academicYear.Id && !x.IsDeleted).ToList();
 
-                                startDate = startDate.AddDays(1);
-                            }
+				  if (dates == null || dates.Count == 0)
+				  {
+					  return ResultService<List<ScheduleRecordViewModel>>.Error("Error:", "SeasonDates not found", ResultServiceStatusCode.NotFound);
+				  }
 
-                            week = ++week % 2;
-                        }
-                    }
+				  foreach (var date in dates)
+				  {
+					  // Смотрим первую половину семестра
+					  // Если дата начала входит в нее или дата конца входит, то получаем записи
+					  // Для семестра дата занятия по первым двум неделям начала периода!!!
+					  if ((date.DateBeginFirstHalfSemester <= model.BeginDate && date.DateEndFirstHalfSemester >= model.BeginDate) ||
+						  (date.DateBeginFirstHalfSemester <= model.EndDate && date.DateEndFirstHalfSemester >= model.EndDate))
+					  {
+						  var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
+						  {
+							  ClassroomId = model.ClassroomId,
+							  ClassroomNumber = model.ClassroomNumber,
+							  DisciplineId = model.DisciplineId,
+							  DisciplineName = model.DisciplineName,
+							  LecturerId = model.LecturerId,
+							  LecturerName = model.LecturerName,
+							  StudentGroupId = model.StudentGroupId,
+							  StudentGroupName = model.StudentGroupName,
+							  DateBegin = date.DateBeginFirstHalfSemester.Date,
+							  DateEnd = date.DateBeginFirstHalfSemester.Date.AddDays(13)
+						  });
 
-                    // Смотрим вторую половину семестра
-                    // Если дата начала входит в нее или дата конца входит, то получаем записи
-                    // Для семестра дата занятия по первым двум неделям начала периода!!!
-                    if ((date.DateBeginSecondHalfSemester <= model.BeginDate && date.DateEndSecondHalfSemester >= model.BeginDate) ||
-                        (date.DateBeginSecondHalfSemester <= model.EndDate && date.DateEndSecondHalfSemester >= model.EndDate))
-                    {
-                        var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
-                        {
-                            ClassroomId = model.ClassroomId,
-                            ClassroomNumber = model.ClassroomNumber,
-                            DisciplineId = model.DisciplineId,
-                            DisciplineName = model.DisciplineName,
-                            LecturerId = model.LecturerId,
-                            LecturerName = model.LecturerName,
-                            StudentGroupId = model.StudentGroupId,
-                            StudentGroupName = model.StudentGroupName,
-                            DateBegin = date.DateBeginSecondHalfSemester.Date,
-                            DateEnd = date.DateBeginSecondHalfSemester.Date.AddDays(13)
-                        });
+						  // week == 0 - первая неделя
+						  var week = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays / 7 % 2 : 0;
 
-                        // week == 0 - первая неделя
-                        var week = date.DateBeginSecondHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginSecondHalfSemester).TotalDays / 7 % 2 : 0;
+						  var startDay = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays % 7 : 0;
 
-                        var startDay = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays % 7 : 0;
+						  var startDate = date.DateBeginFirstHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginFirstHalfSemester;
 
-                        var startDate = date.DateBeginSecondHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginSecondHalfSemester;
+						  while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date)
+						  {
+							  for (int day = (int)startDay; day < 7 && startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndFirstHalfSemester.Date; day++)
+							  {
+								  for (int lesson = 0; lesson < 8; lesson++)
+								  {
+									  var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(date.DateBeginFirstHalfSemester, (int)week, day, lesson));
+									  foreach (var find in search)
+									  {
+										  records.Add(new SemesterRecordViewModel
+										  {
+											  Id = find.Id,
+											  ClassroomId = find.ClassroomId,
+											  Classroom = find.Classroom?.ToString(),
+											  DisciplineId = find.DisciplineId,
+											  Discipline = find.Discipline?.ToString(),
+											  LecturerId = find.LecturerId,
+											  Lecturer = find.Lecturer?.ToString(),
+											  StudentGroupId = find.StudentGroupId,
+											  StudentGroup = find.StudentGroup?.ToString(),
+											  LessonClassroom = find.LessonClassroom,
+											  LessonDiscipline = find.LessonDiscipline,
+											  LessonLecturer = find.LessonLecturer,
+											  LessonStudentGroup = find.LessonStudentGroup,
+											  LessonType = find.LessonType,
+											  ScheduleRecordType = ScheduleRecordType.Semester,
+											  ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
+											  TimeSpanMinutes = lessonTimeSpan
+										  });
+									  }
+								  }
 
-                        while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date)
-                        {
-                            for (int day = (int)startDay; day < 7 && startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date; day++)
-                            {
-                                for (int lesson = 0; lesson < 8; lesson++)
-                                {
-                                    var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(date.DateBeginSecondHalfSemester, (int)week, day, lesson));
-                                    foreach (var find in search)
-                                    {
-                                        records.Add(new SemesterRecordViewModel
-                                        {
-                                            Id = find.Id,
-                                            ClassroomId = find.ClassroomId,
-                                            Classroom = find.Classroom?.ToString(),
-                                            DisciplineId = find.DisciplineId,
-                                            Discipline = find.Discipline?.ToString(),
-                                            LecturerId = find.LecturerId,
-                                            Lecturer = find.Lecturer?.ToString(),
-                                            StudentGroupId = find.StudentGroupId,
-                                            StudentGroup = find.StudentGroup?.ToString(),
-                                            LessonClassroom = find.LessonClassroom,
-                                            LessonDiscipline = find.LessonDiscipline,
-                                            LessonLecturer = find.LessonLecturer,
-                                            LessonStudentGroup = find.LessonStudentGroup,
-                                            LessonType = find.LessonType,
-                                            ScheduleRecordType = ScheduleRecordType.Semester,
-                                            ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
-                                            TimeSpanMinutes = lessonTimeSpan
-                                        });
-                                    }
-                                }
+								  startDate = startDate.AddDays(1);
+							  }
 
-                                startDate = startDate.AddDays(1);
-                            }
+							  week = ++week % 2;
+						  }
+					  }
 
-                            week = ++week % 2;
-                        }
-                    }
-                }
+					  // Смотрим вторую половину семестра
+					  // Если дата начала входит в нее или дата конца входит, то получаем записи
+					  // Для семестра дата занятия по первым двум неделям начала периода!!!
+					  if ((date.DateBeginSecondHalfSemester <= model.BeginDate && date.DateEndSecondHalfSemester >= model.BeginDate) ||
+						  (date.DateBeginSecondHalfSemester <= model.EndDate && date.DateEndSecondHalfSemester >= model.EndDate))
+					  {
+						  var semRecords = GetSemesterRecords(new ScheduleGetBindingModel
+						  {
+							  ClassroomId = model.ClassroomId,
+							  ClassroomNumber = model.ClassroomNumber,
+							  DisciplineId = model.DisciplineId,
+							  DisciplineName = model.DisciplineName,
+							  LecturerId = model.LecturerId,
+							  LecturerName = model.LecturerName,
+							  StudentGroupId = model.StudentGroupId,
+							  StudentGroupName = model.StudentGroupName,
+							  DateBegin = date.DateBeginSecondHalfSemester.Date,
+							  DateEnd = date.DateBeginSecondHalfSemester.Date.AddDays(13)
+						  });
 
-                // Смотрим зачеты
-                var offRecords = GetOffsetRecords(new ScheduleGetBindingModel
+						  // week == 0 - первая неделя
+						  var week = date.DateBeginSecondHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginSecondHalfSemester).TotalDays / 7 % 2 : 0;
+
+						  var startDay = date.DateBeginFirstHalfSemester < model.BeginDate ? (model.BeginDate - date.DateBeginFirstHalfSemester).TotalDays % 7 : 0;
+
+						  var startDate = date.DateBeginSecondHalfSemester < model.BeginDate ? model.BeginDate : date.DateBeginSecondHalfSemester;
+
+						  while (startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date)
+						  {
+							  for (int day = (int)startDay; day < 7 && startDate.Date <= model.EndDate.Date && startDate.Date <= date.DateEndSecondHalfSemester.Date; day++)
+							  {
+								  for (int lesson = 0; lesson < 8; lesson++)
+								  {
+									  var search = semRecords.Where(x => x.ScheduleDate == ScheduleHelper.GetDateWithTime(date.DateBeginSecondHalfSemester, (int)week, day, lesson));
+									  foreach (var find in search)
+									  {
+										  records.Add(new SemesterRecordViewModel
+										  {
+											  Id = find.Id,
+											  ClassroomId = find.ClassroomId,
+											  Classroom = find.Classroom?.ToString(),
+											  DisciplineId = find.DisciplineId,
+											  Discipline = find.Discipline?.ToString(),
+											  LecturerId = find.LecturerId,
+											  Lecturer = find.Lecturer?.ToString(),
+											  StudentGroupId = find.StudentGroupId,
+											  StudentGroup = find.StudentGroup?.ToString(),
+											  LessonClassroom = find.LessonClassroom,
+											  LessonDiscipline = find.LessonDiscipline,
+											  LessonLecturer = find.LessonLecturer,
+											  LessonStudentGroup = find.LessonStudentGroup,
+											  LessonType = find.LessonType,
+											  ScheduleRecordType = ScheduleRecordType.Semester,
+											  ScheduleDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, find.ScheduleDate.Hour, find.ScheduleDate.Minute, 0),
+											  TimeSpanMinutes = lessonTimeSpan
+										  });
+									  }
+								  }
+
+								  startDate = startDate.AddDays(1);
+							  }
+
+							  week = ++week % 2;
+						  }
+					  }
+				  }
+				*/
+
+				// Смотрим зачеты
+				var offRecords = GetOffsetRecords(new ScheduleGetBindingModel
                 {
                     ClassroomId = model.ClassroomId,
                     ClassroomNumber = model.ClassroomNumber,

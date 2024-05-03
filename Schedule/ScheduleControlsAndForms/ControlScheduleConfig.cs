@@ -57,7 +57,10 @@ namespace ScheduleControlsAndForms
             var result = await _process.Import(new ImportToSemesterRecordsBindingModel
             {
                 ScheduleDate = Convert.ToDateTime(comboBoxStartPeriodDate.Text),
-                ScheduleUrls = list
+                ScheduleUrls = list,
+                ScheduleAuthUrl = ConfigurationManager.AppSettings[$"ScheduleUrlAuth"],
+                Login = ConfigurationManager.AppSettings[$"ScheduleLogin"],
+                Password = ConfigurationManager.AppSettings[$"SchedulePassword"]
             });
 
             if (result.Succeeded)

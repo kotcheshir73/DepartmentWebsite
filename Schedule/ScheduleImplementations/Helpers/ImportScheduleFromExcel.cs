@@ -424,7 +424,7 @@ namespace ScheduleServiceImplementations.Helpers
                             var lessonsandclassroom = GetValue(workbookPart, sheetData, Symbols[gr.Key], curIndex + 2).Split(new char[] { '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
                             if (lessonsandclassroom.Length > 0)
                             {
-                                var match = Regex.Match(lessonsandclassroom[0], @"\dп");
+                                var match = Regex.Match(lessonsandclassroom[0], @"\d(\ )?п");
                                 if (lessonsandclassroom.Length < 2 && match.Success)
                                 {
                                     var other = lessonsandclassroom[0].Replace(match.Value, "").Trim();
@@ -433,7 +433,7 @@ namespace ScheduleServiceImplementations.Helpers
                             }
                             for (int i = 0; i < lessonsandclassroom.Length - 1; ++i)
                             {
-                                if (!Regex.IsMatch(lessonsandclassroom[i], @"\dп"))
+                                if (!Regex.IsMatch(lessonsandclassroom[i], @"\d(\ )?п"))
                                 {
                                     continue;
                                 }
@@ -596,6 +596,7 @@ namespace ScheduleServiceImplementations.Helpers
                                 else if (Regex.IsMatch(timeandclassroom, @"д(\.)?о(\.)?т(\.)?", RegexOptions.IgnoreCase))
                                 {
                                     record.LessonClassroom = "дот";
+                                    record.LessonConsultationClassroom = record.LessonClassroom;
                                 }
                                 //инфа по времени
                                 var timeMatch = Regex.Match(timeandclassroom, @"(\d\d.\d\d)|(\d\d-\d\d)|(\d\d:\d\d)");
@@ -898,7 +899,7 @@ namespace ScheduleServiceImplementations.Helpers
             var selectRecordsOnDate = _findExamRecords.Where(x => x.ScheduleDate == record.ScheduleDate);
 
             //ищем другие экзамены в этой аудитории (если потоковая пара, то дисциплина и преподаваетль должны совпадать)
-            var exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonClassroom == record.LessonClassroom);
+            var exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonClassroom == record.LessonClassroom && x.LessonClassroom != "дот");
             if (exsistRecord != null && !(exsistRecord.LessonDiscipline == record.LessonDiscipline && exsistRecord.LessonLecturer == record.LessonLecturer))
             {
                 return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0}\r\n{1} - {2}\r\n{3} {4} {5}\r\n",
@@ -929,7 +930,7 @@ namespace ScheduleServiceImplementations.Helpers
             selectRecordsOnDate = _findExamRecords.Where(x => x.DateConsultation == record.DateConsultation);
 
             //ищем другие консультации в этой аудитории (если потоковая пара, то дисциплина и преподаваетль должны совпадать)
-            exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonConsultationClassroom == record.LessonConsultationClassroom);
+            exsistRecord = selectRecordsOnDate.FirstOrDefault(x => x.LessonConsultationClassroom == record.LessonConsultationClassroom && x.LessonConsultationClassroom != "дот");
             if (exsistRecord != null && !(exsistRecord.LessonDiscipline == record.LessonDiscipline && exsistRecord.LessonLecturer == record.LessonLecturer))
             {
                 return ResultService.Error("Конфликт (аудитории):", string.Format("дата {0}\r\n{1} - {2}\r\n{3} {4} {5}\r\n",
@@ -957,7 +958,10 @@ namespace ScheduleServiceImplementations.Helpers
                 }
             }
 
-            _findExamRecords.Add(record);
+            if (record.LessonClassroom != null)
+            {
+                _findExamRecords.Add(record);
+            }
 
             return ResultService.Success();
         }

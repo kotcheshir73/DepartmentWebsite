@@ -387,9 +387,9 @@ namespace ScheduleImplementations.Helpers
             return date.Date.AddHours(ScheduleLessonTimes()[lesson].Hour).AddMinutes(ScheduleLessonTimes()[lesson].Minute);
         }
 
-        public static DateTime GetDateWithTime(DateTime date, int week, int day, int lesson)
+        public static DateTime GetDateWithTime(DateTime date, int day, int lesson)
         {
-            return date.Date.AddDays(week * 7 + day).AddHours(ScheduleLessonTimes()[lesson].Hour).AddMinutes(ScheduleLessonTimes()[lesson].Minute);
+            return date.Date.AddDays(day).AddHours(ScheduleLessonTimes()[lesson].Hour).AddMinutes(ScheduleLessonTimes()[lesson].Minute);
         }
 
         public static int GetWeek(DateTime date)
@@ -500,8 +500,8 @@ namespace ScheduleImplementations.Helpers
                 string firstName = spliters.Length > 1 ? spliters[1] : string.Empty;
                 string patronumic = spliters.Length > 2 ? spliters[2] : string.Empty;
                 var lecturer = context.Lecturers.FirstOrDefault(l => l.LastName == lastName &&
-                                        ((l.FirstName.Length > 0 && l.FirstName.Contains(firstName)) || l.FirstName.Length == 0) &&
-                                        ((l.Patronymic.Length > 0 && l.Patronymic.Contains(patronumic)) || l.Patronymic.Length == 0));
+                                        ((l.FirstName.Length > 0 && l.FirstName.StartsWith(firstName)) || l.FirstName.Length == 0) &&
+                                        ((l.Patronymic.Length > 0 && l.Patronymic.StartsWith(patronumic)) || l.Patronymic.Length == 0));
                 if (lecturer != null)
                 {
                     record.LecturerId = lecturer.Id;

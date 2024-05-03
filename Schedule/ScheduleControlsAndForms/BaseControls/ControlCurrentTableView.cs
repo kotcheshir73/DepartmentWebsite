@@ -422,25 +422,25 @@ namespace ScheduleControlsAndForms.BaseControls
                         case ScheduleRecordType.Consultation:
                             {
                                 var service = _process.GetConsultationRecordService();
-                                result = service.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                                result = service.DeleteConsultationRecord(new ScheduleGetBindingModel { Id = id });
                                 break;
                             }
                         case ScheduleRecordType.Examination:
                             {
                                 var service = _process.GetExaminationRecordService();
-                                result = service.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                                result = service.DeleteExaminationRecord(new ScheduleGetBindingModel { Id = id });
                             }
                             break;
                         case ScheduleRecordType.Offset:
                             {
                                 var service = _process.GetOffsetRecordService();
-                                result = service.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                                result = service.DeleteOffsetRecord(new ScheduleGetBindingModel { Id = id });
                             }
                             break;
                         case ScheduleRecordType.Semester:
                             {
                                 var service = _process.GetSemesterRecordService();
-                                result = service.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = new Guid(control.Tag.ToString()) });
+                                result = service.DeleteSemesterRecord(new ScheduleGetBindingModel { Id = id });
                             }
                             break;
                     }

@@ -1,11 +1,13 @@
 ﻿using DatabaseContext;
 using Enums;
+using Newtonsoft.Json;
 using ScheduleInterfaces.BindingModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -28,7 +30,7 @@ namespace ScheduleImplementations.Helpers
                 return ResultService.Error("Ошибка", "Не определен url адреса api-сервера", ResultServiceStatusCode.Error);
             }
 
-            GetClient(apiURL);
+            GetClient(apiURL, model.ScheduleAuthUrl, model.Login, model.Password);
             if (_client == null)
             {
                 return ResultService.Error("Ошибка", "Не удалось создать клиента http", ResultServiceStatusCode.Error);
@@ -44,34 +46,60 @@ namespace ScheduleImplementations.Helpers
                 lecturerNames = context.Lecturers.Select(x => $"{x.LastName} {x.FirstName[0]} {x.Patronymic[0]}").ToList();
                 classroomsNames = context.Classrooms.Select(x => x.Number).ToList();
             }
-            if (studentGroupsNames == null || studentGroupsNames.Count == 0)
+            if ((studentGroupsNames == null || studentGroupsNames.Count == 0) &&
+                (lecturerNames == null || lecturerNames.Count == 0) &&
+                (classroomsNames == null || classroomsNames.Count == 0))
             {
-                return ResultService.Error("Ошибка", "Список групп пуст", ResultServiceStatusCode.Error);
-            }
-            if (lecturerNames == null || lecturerNames.Count == 0)
-            {
-                return ResultService.Error("Ошибка", "Список преподавателей пуст", ResultServiceStatusCode.Error);
-            }
-            if (classroomsNames == null || classroomsNames.Count == 0)
-            {
-                return ResultService.Error("Ошибка", "Список аудиторий пуст", ResultServiceStatusCode.Error);
+                if (studentGroupsNames == null || studentGroupsNames.Count == 0)
+                {
+                    return ResultService.Error("Ошибка", "Список групп пуст", ResultServiceStatusCode.Error);
+                }
+                if (lecturerNames == null || lecturerNames.Count == 0)
+                {
+                    return ResultService.Error("Ошибка", "Список преподавателей пуст", ResultServiceStatusCode.Error);
+                }
+                if (classroomsNames == null || classroomsNames.Count == 0)
+                {
+                    return ResultService.Error("Ошибка", "Список аудиторий пуст", ResultServiceStatusCode.Error);
+                }
             }
 
             var resError = new ResultService();
             _findRecords = new List<SemesterRecordSetBindingModel>();
 
-            foreach (var studentGroup in studentGroupsNames)
+            var response = await _client.GetAsync($"{apiURL}groups/");
+            if (!response.IsSuccessStatusCode)
             {
-                await LoadLessons(apiURL, studentGroup, model.ScheduleDate);
+                return ResultService.Error("Ошибка получения данных", $"Не удалось получить ответ по расписанию по группам",
+                    ResultServiceStatusCode.Error);
             }
-            foreach (var lecturer in lecturerNames)
+            var res = await response.Content.ReadAsStringAsync();
+            var fullStudnetGroups = JsonConvert.DeserializeObject<TimeTableAPIScheduleAllGroupsAnswer>(res);
+            foreach (var studentGroup in fullStudnetGroups.response)
             {
-                await LoadLessons(apiURL, lecturer, model.ScheduleDate);
+                try
+                {
+                    await LoadLessons(apiURL, studentGroup, model.ScheduleDate);
+                }
+                catch (Exception ex)
+                {
+                    return ResultService.Error(ex, ResultServiceStatusCode.Error);
+                }
             }
-            foreach (var classroom in classroomsNames)
-            {
-                await LoadLessons(apiURL, classroom, model.ScheduleDate);
-            }
+
+
+            //foreach (var studentGroup in studentGroupsNames)
+            //{
+            //    await LoadLessons(apiURL, studentGroup, model.ScheduleDate);
+            //}
+            //foreach (var lecturer in lecturerNames)
+            //{
+            //    await LoadLessons(apiURL, lecturer, model.ScheduleDate);
+            //}
+            //foreach (var classroom in classroomsNames)
+            //{
+            //    await LoadLessons(apiURL, classroom, model.ScheduleDate);
+            //}
 
             var result = SaveRecords(model);
             if (!result.Succeeded)
@@ -85,14 +113,22 @@ namespace ScheduleImplementations.Helpers
             return resError;
         }
 
-        private static void GetClient(string url)
+        private static void GetClient(string baseUrl, string url, string login, string password)
         {
             _client = new HttpClient
             {
-                BaseAddress = new Uri(url)
+                BaseAddress = new Uri(baseUrl)
             };
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            // _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{login}:{password}")));
+            //var stringContent = new StringContent(JsonConvert.SerializeObject(new { login = login, password = password }), Encoding.UTF8, "application/json");
+            //var response = await _client.PostAsync($"{url}", stringContent);
+            //if (!response.IsSuccessStatusCode)
+            //{
+            //    return;
+            //}
+            //var res = await response.Content.ReadAsStringAsync();
         }
 
         private static async Task<ResultService> LoadLessons(string url, string filter, DateTime date)
@@ -102,27 +138,107 @@ namespace ScheduleImplementations.Helpers
                 return ResultService.Error("Ошибка", "Фильтр пуст", ResultServiceStatusCode.Error);
             }
 
-            var response = await _client.GetAsync($"{url}?filter={filter}");
+            var response = await _client.GetAsync($"{url}timetable/?filter={filter}");
             if (!response.IsSuccessStatusCode)
             {
                 return ResultService.Error("Ошибка получения данных", $"Не удалось получить ответ по расписанию по фильтру {filter}",
                     ResultServiceStatusCode.Error);
             }
             var res = await response.Content.ReadAsStringAsync();
-            var schedules = JsonSerializer.Deserialize<TimeTableAPIScheduleAnswer>(res);
+            var schedules = JsonConvert.DeserializeObject<TimeTableAPIScheduleAnswer>(res);
             if (schedules == null || schedules.response == null || schedules.response.weeks == null)
             {
                 return ResultService.Error("Ошибка получения данных", $"Не удалось получить данные расписания по фильтру {filter}",
                     ResultServiceStatusCode.Error);
             }
 
-            var resError = new ResultService();
-            int week = -1; // 0 - первая неделя, 1 - вторая неделя
-            foreach (var scheduleWeek in schedules.response.weeks)
+            var days = new Dictionary<int, TimeTableAPIScheduleWeekNumber>();
+            if (schedules.response.weeks._14 != null)
             {
-                week++;
+                days.Add(14, schedules.response.weeks._14);
+            }
+            else if (schedules.response.weeks._12 != null)
+            {
+                days.Add(12, schedules.response.weeks._12);
+            }
+            else if (schedules.response.weeks._10 != null)
+            {
+                days.Add(10, schedules.response.weeks._10);
+            }
+            else if (schedules.response.weeks._8 != null)
+            {
+                days.Add(8, schedules.response.weeks._8);
+            }
+            else if (schedules.response.weeks._6 != null)
+            {
+                days.Add(6, schedules.response.weeks._6);
+            }
+            else if (schedules.response.weeks._4 != null)
+            {
+                days.Add(4, schedules.response.weeks._4);
+            }
+            else if (schedules.response.weeks._2 != null)
+            {
+                days.Add(2, schedules.response.weeks._2);
+            }
+            else if (schedules.response.weeks._0 != null)
+            {
+                days.Add(0, schedules.response.weeks._0);
+            }
+            else
+            {
+                days.Add(-1, new TimeTableAPIScheduleWeekNumber());
+            }
+
+            if (schedules.response.weeks._15 != null)
+            {
+                days.Add(15, schedules.response.weeks._15);
+            }
+            else if (schedules.response.weeks._13 != null)
+            {
+                days.Add(13, schedules.response.weeks._13);
+            }
+            else if (schedules.response.weeks._11 != null)
+            {
+                days.Add(11, schedules.response.weeks._11);
+            }
+            else if (schedules.response.weeks._9 != null)
+            {
+                days.Add(9, schedules.response.weeks._9);
+            }
+            else if (schedules.response.weeks._7 != null)
+            {
+                days.Add(7, schedules.response.weeks._7);
+            }
+            else if (schedules.response.weeks._5 != null)
+            {
+                days.Add(5, schedules.response.weeks._5);
+            }
+            else if (schedules.response.weeks._3 != null)
+            {
+                days.Add(3, schedules.response.weeks._3);
+            }
+            else if (schedules.response.weeks._1 != null)
+            {
+                days.Add(1, schedules.response.weeks._1);
+            }
+            else
+            {
+                days.Add(-2, new TimeTableAPIScheduleWeekNumber());
+            }
+
+            var resError = new ResultService();
+            // int week = -1; // 0 - первая неделя, 1 - вторая неделя
+            foreach (var scheduleWeek in days)
+            {
+                if (scheduleWeek.Value.days == null)
+                {
+                    continue;
+                }
+                var datePeriod = date.AddDays(scheduleWeek.Key * 7);
+                // week++;
                 int day = -1;
-                foreach (var scheduleDay in scheduleWeek.days)
+                foreach (var scheduleDay in scheduleWeek.Value.days)
                 {
                     day++;
                     int lesson = -1;
@@ -135,12 +251,12 @@ namespace ScheduleImplementations.Helpers
                         }
                         foreach (var scheduleLesson in scheduleLes)
                         {
-                            var entity = GetRecord(scheduleLesson, date, week, day, lesson);
+                            var entity = GetRecord(scheduleLesson, datePeriod, scheduleWeek.Key % 2, day, lesson);
                             if (entity == null)
                             {
                                 continue;
                             }
-
+                            entity.Period = scheduleWeek.Key > 7 ? 2 : 1;
                             var result = CheckNewSemesterRecordForConflict(entity);
                             if (!result.Succeeded)
                             {
@@ -165,7 +281,7 @@ namespace ScheduleImplementations.Helpers
             var entity = new SemesterRecordSetBindingModel
             {
                 Id = Guid.Empty,
-                ScheduleDate = ScheduleHelper.GetDateWithTime(date, week, day, lesson),
+                ScheduleDate = ScheduleHelper.GetDateWithTime(date, day, lesson),
                 Week = week,
                 Day = day,
                 Lesson = lesson,
@@ -203,7 +319,7 @@ namespace ScheduleImplementations.Helpers
                 entity.LessonDiscipline = entity.LessonDiscipline.Remove(entity.LessonDiscipline.Length - subgroupMatch.Value.Length);
             }
             // может запись уже добавляли в рамках других поисков
-            var exsistRec = _findRecords.FirstOrDefault(x => x.Week == entity.Week && x.Day == entity.Day && x.Lesson == entity.Lesson &&
+            var exsistRec = _findRecords.FirstOrDefault(x => x.ScheduleDate == entity.ScheduleDate &&
                                 x.LessonStudentGroup == entity.LessonStudentGroup && x.LessonClassroom == entity.LessonClassroom &&
                                 x.LessonLecturer == entity.LessonLecturer && x.LessonDiscipline == entity.LessonDiscipline);
             if (exsistRec != null)
@@ -217,6 +333,11 @@ namespace ScheduleImplementations.Helpers
                 ScheduleHelper.GetClassroom(context, entity);
                 ScheduleHelper.GetLecturer(context, entity);
                 ScheduleHelper.GetDiscipline(context, entity);
+            }
+
+            if (entity.ClassroomId == null && entity.StudentGroupId == null && entity.LecturerId == null)
+            {
+                return null;
             }
             return entity;
         }
@@ -287,114 +408,127 @@ namespace ScheduleImplementations.Helpers
         /// <returns></returns>
         private static ResultService SaveRecords(ImportToSemesterRecordsBindingModel model)
         {
+            if (_findRecords.Count == 0)
+            {
+                return ResultService.Success();
+            }
+
+            _findRecords = _findRecords.OrderBy(x => x.ScheduleDate).ToList();
+
+            var startDate = _findRecords.First().ScheduleDate;
+            var endDate = _findRecords.Last().ScheduleDate;
+
             using (var context = DepartmentUserManager.GetContext)
             {
                 // получаем записи на требуемый период
-                var exsistRecords = context.SemesterRecords.Where(x => x.ScheduleDate >= model.ScheduleDate && x.ScheduleDate <= model.ScheduleDate.AddDays(13)).ToList();
+                var exsistRecords = context.SemesterRecords.Where(x => x.ScheduleDate >= startDate && x.ScheduleDate <= endDate).ToList();
 
-                #region для начала проходим по аудиториям
-                var classrooms = context.Classrooms.Where(x => !x.IsDeleted && !x.NotUseInSchedule).ToList();
-                foreach (var classroom in classrooms)
+                if (exsistRecords.Any())
                 {
-                    // вытаскиваем пары семестра, связанные с этой аудиторией
-                    var selectedRecords = exsistRecords.Where(x => x.ClassroomId == classroom.Id).ToList();
-                    foreach (var record in selectedRecords)
+                    #region для начала проходим по аудиториям
+                    var classrooms = context.Classrooms.Where(x => !x.IsDeleted && !x.NotUseInSchedule).ToList();
+                    foreach (var classroom in classrooms)
                     {
-                        // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
-                                                    (x.ClassroomId == record.ClassroomId || x.LessonClassroom == record.LessonClassroom) &&
-                                                    ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
-                                                    ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
-                                                    ((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
-
-                        if (searchRecord != null)
+                        // вытаскиваем пары семестра, связанные с этой аудиторией
+                        var selectedRecords = exsistRecords.Where(x => x.ClassroomId == classroom.Id);
+                        foreach (var record in selectedRecords)
                         {
-                            searchRecord.Id = record.Id;
-                            record.Checked = true;
+                            // ищем эту пару в списке загруженных
+                            var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                                                        (x.ClassroomId == record.ClassroomId || x.LessonClassroom == record.LessonClassroom) &&
+                                                        ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
+                                                        ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
+                                                        ((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
+
+                            if (searchRecord != null)
+                            {
+                                searchRecord.Id = record.Id;
+                                record.Checked = true;
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region проход по дисциплинам
-                var disciplines = context.Disciplines.Where(x => !x.IsDeleted).ToList();
-                foreach (var discipline in disciplines)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(x => x.DisciplineId == discipline.Id && !x.Checked).ToList();
-                    foreach (var record in selectedRecords)
+                    #region проход по дисциплинам
+                    var disciplines = context.Disciplines.Where(x => !x.IsDeleted).ToList();
+                    foreach (var discipline in disciplines)
                     {
-                        // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
-                                                    ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
-                                                    (x.DisciplineId == record.DisciplineId || x.LessonDiscipline == record.LessonDiscipline) &&
-                                                    ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
-                                                    ((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
-
-                        if (searchRecord != null)
+                        //отбираем еще не проверенные записи
+                        var selectedRecords = exsistRecords.Where(x => x.DisciplineId == discipline.Id && !x.Checked);
+                        foreach (var record in selectedRecords)
                         {
-                            searchRecord.Id = record.Id;
-                            record.Checked = true;
+                            // ищем эту пару в списке загруженных
+                            var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                                                        ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
+                                                        (x.DisciplineId == record.DisciplineId || x.LessonDiscipline == record.LessonDiscipline) &&
+                                                        ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
+                                                        ((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
+
+                            if (searchRecord != null)
+                            {
+                                searchRecord.Id = record.Id;
+                                record.Checked = true;
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region проход по преподавателям
-                var lecturers = context.Lecturers.Where(x => !x.IsDeleted).ToList();
-                foreach (var lecturer in lecturers)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(x => x.LecturerId == lecturer.Id && !x.Checked).ToList();
-                    foreach (var record in selectedRecords)
+                    #region проход по преподавателям
+                    var lecturers = context.Lecturers.Where(x => !x.IsDeleted).ToList();
+                    foreach (var lecturer in lecturers)
                     {
-                        // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
-                                                    ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
-                                                    ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
-                                                    (x.LecturerId == record.LecturerId || x.LessonLecturer == record.LessonLecturer) &&
-                                                    ((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
-
-                        if (searchRecord != null)
+                        //отбираем еще не проверенные записи
+                        var selectedRecords = exsistRecords.Where(x => x.LecturerId == lecturer.Id && !x.Checked);
+                        foreach (var record in selectedRecords)
                         {
-                            searchRecord.Id = record.Id;
-                            record.Checked = true;
+                            // ищем эту пару в списке загруженных
+                            var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                                                        ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
+                                                        ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
+                                                        (x.LecturerId == record.LecturerId || x.LessonLecturer == record.LessonLecturer) &&
+                                                        ((x.StudentGroupId == record.StudentGroupId && record.StudentGroupId != null) || x.LessonStudentGroup == record.LessonStudentGroup));
+
+                            if (searchRecord != null)
+                            {
+                                searchRecord.Id = record.Id;
+                                record.Checked = true;
+                            }
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region проход по группам
-                var groups = context.StudentGroups.Where(x => !x.IsDeleted).ToList();
-                foreach (var group in groups)
-                {
-                    //отбираем еще не проверенные записи
-                    var selectedRecords = exsistRecords.Where(x => x.StudentGroupId == group.Id && !x.Checked).ToList();
-                    foreach (var record in selectedRecords)
+                    #region проход по группам
+                    var groups = context.StudentGroups.Where(x => !x.IsDeleted).ToList();
+                    foreach (var group in groups)
                     {
-                        // ищем эту пару в списке загруженных
-                        var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
-                                                    ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
-                                                    ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
-                                                    ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
-                                                    (x.StudentGroupId == record.StudentGroupId || x.LessonStudentGroup == record.LessonStudentGroup));
-
-                        if (searchRecord != null)
+                        //отбираем еще не проверенные записи
+                        var selectedRecords = exsistRecords.Where(x => x.StudentGroupId == group.Id && !x.Checked);
+                        foreach (var record in selectedRecords)
                         {
-                            searchRecord.Id = record.Id;
-                            record.Checked = true;
+                            // ищем эту пару в списке загруженных
+                            var searchRecord = _findRecords.FirstOrDefault(x => x.ScheduleDate == record.ScheduleDate && x.Id == Guid.Empty &&
+                                                        ((x.ClassroomId == record.ClassroomId && record.ClassroomId != null) || x.LessonClassroom == record.LessonClassroom) &&
+                                                        ((x.DisciplineId == record.DisciplineId && record.DisciplineId != null) || x.LessonDiscipline == record.LessonDiscipline) &&
+                                                        ((x.LecturerId == record.LecturerId && record.LecturerId != null) || x.LessonLecturer == record.LessonLecturer) &&
+                                                        (x.StudentGroupId == record.StudentGroupId || x.LessonStudentGroup == record.LessonStudentGroup));
+
+                            if (searchRecord != null)
+                            {
+                                searchRecord.Id = record.Id;
+                                record.Checked = true;
+                            }
                         }
                     }
+                    #endregion
                 }
-                #endregion
 
-                var deletedRecords = exsistRecords.Where(x => !x.Checked).ToList();
+                var deletedRecords = exsistRecords.Where(x => !x.Checked);
 
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     try
                     {
-                        if (deletedRecords.Count > 0)
+                        if (deletedRecords.Any())
                         { // удаляем неопознанные
                             context.SemesterRecords.RemoveRange(deletedRecords);
                         }
@@ -409,7 +543,7 @@ namespace ScheduleImplementations.Helpers
                                 return ResultService.Error("Error:", "Entity not found", ResultServiceStatusCode.NotFound);
                             }
 
-                            record.ScheduleDate = model.ScheduleDate;
+                            record.ScheduleDate = record.Period == 1 ? model.ScheduleDate : model.ScheduleDate.AddDays(7 * 8);
                             entity = ScheduleModelFacotryFromBindingModel.CreateRecord(record, entity);
                         }
 
@@ -418,7 +552,7 @@ namespace ScheduleImplementations.Helpers
                         foreach (var record in unknowRecords)
                         {
                             record.Id = Guid.NewGuid();
-                            record.ScheduleDate = model.ScheduleDate;
+                            //  record.ScheduleDate = record.Period == 1 ? model.ScheduleDate : model.ScheduleDate.AddDays(7 * 8);
                             var entity = record.CreateRecord();
 
                             context.SemesterRecords.Add(entity);
