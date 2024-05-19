@@ -2,7 +2,7 @@
 
 public class StudentGroup
 {
-	public Guid Id { get; set; } = Guid.NewGuid();
+	public Guid Id { get; set; }
 
 	public required string GroupName { get; set; }
 

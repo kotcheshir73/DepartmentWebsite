@@ -10,4 +10,13 @@ public interface IImportSchedule
 		IEnumerable<Lecturer> lecturers,
 		IEnumerable<StudentGroup> studentGroups,
 		CancellationToken cancellationToken);
+
+	Task<IEnumerable<string>?> GetGroupsAsync(CancellationToken cancellationToken);
+
+	Task<IEnumerable<LessonScheduleModel>?> GetLessonsAsync(string groupName, 
+		DateTime startDate,
+		IEnumerable<Classroom> classrooms,
+		IEnumerable<Lecturer> lecturers,
+		IEnumerable<StudentGroup> studentGroups,
+		CancellationToken cancellationToken);
 }

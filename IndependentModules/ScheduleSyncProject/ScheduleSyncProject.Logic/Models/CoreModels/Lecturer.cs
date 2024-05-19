@@ -2,7 +2,7 @@
 
 public class Lecturer
 {
-	public Guid Id { get; set; } = Guid.NewGuid();
+	public Guid Id { get; set; }
 
 	public required string FirstName { get; set; }
 

@@ -22,14 +22,15 @@ namespace DatabaseContext
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                // TODO вынести в config
+				// TODO вынести в config
 #if RELEASE
 				optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
 #endif
 
 #if DEBUG
-                //@"Data Source=CHESHIR\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=admin;password=cheshirSA123;MultipleActiveResultSets=True;"
-                optionsBuilder.UseSqlServer(@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;");
+				//@"Data Source=DESKTOP-UO6OGFM\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=SSPI;MultipleActiveResultSets=True;"
+				//@"Data Source=10.3.1.13\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;persist security info=True;user id=sa;password=isadmin;MultipleActiveResultSets=True;"
+				optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-UO6OGFM\SQLEXPRESS;Initial Catalog=DepartmentDatabaseContext;Integrated Security=SSPI;MultipleActiveResultSets=True;");
 #endif
             }
             base.OnConfiguring(optionsBuilder);

@@ -24,9 +24,9 @@ internal class JsonParser
 		}
 
 		var weeks = JObject.Parse(jsonText)?["response"]?["weeks"];
-		if (weeks is null)
+		if (weeks is null || !weeks.Any())
 		{
-			return null;
+			return [];
 		}
 
 		var list = new List<WeekScheduleModel>();

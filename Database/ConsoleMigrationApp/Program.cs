@@ -18,6 +18,6 @@ namespace ConsoleMigrationApp
 }
 
 
-//Migration: Add-Migration InitialCreate -StartupProject ConsoleMigrationApp
+//Migration:Add-Migration InitialCreate -StartupProject ConsoleMigrationApp
 //To undo this action, use Remove-Migration
 

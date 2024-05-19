@@ -2,9 +2,11 @@
 
 namespace ScheduleSyncProject.Logic.Logic.Repository;
 
-public interface ICoreRepository
+public interface ICoreRepository : IAsyncDisposable, IDisposable
 {
-    Task<IEnumerable<Classroom>?> GetClassroomsAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<SeasonDates>?> GetSeasonDatesAsync(CancellationToken cancellationToken);
+
+	Task<IEnumerable<Classroom>?> GetClassroomsAsync(CancellationToken cancellationToken);
 
     Task<IEnumerable<Lecturer>?> GetLecturersAsync(CancellationToken cancellationToken);
 
@@ -14,5 +16,5 @@ public interface ICoreRepository
 
     Task SaveSemesterRecordAsync(SemesterRecord record, CancellationToken cancellationToken);
 
-    Task RemoveSemesterRecordsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken);
+    Task RemoveSemesterRecordAsync(Guid id, CancellationToken cancellationToken);
 }

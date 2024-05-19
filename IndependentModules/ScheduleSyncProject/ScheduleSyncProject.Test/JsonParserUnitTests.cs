@@ -78,6 +78,14 @@ public class Tests
 		});
 	}
 
+	[Test]
+	public void NoWeeks_test()
+	{
+		var date = DateTime.UtcNow.Date;
+		var result = JsonParser.ParseScheduleData("{\"response\":{\"weeks\":{}},\"error\":\"\"}", date);
+		Assert.That(result, Is.Null);
+	}
+
 	private string GetDataFromFile()
 	{
 		var filePath = $"{Directory.GetCurrentDirectory()}{_filePath}";

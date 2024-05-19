@@ -2,7 +2,7 @@
 
 public class Classroom
 {
-	public Guid Id { get; set; } = Guid.NewGuid();
+	public Guid Id { get; set; }
 
 	public required string Number { get; set; }
 
