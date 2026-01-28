@@ -390,9 +390,9 @@ namespace DepartmentWebCore.Services
 				disciplineName = GetDiscipline(disciplineId)?.DisciplineName;
 			}
 
-			string disciplineName = string.Empty;
 			if (missions == null || missions.Count == 0)
 			{
+			disciplineName = string.Empty;
 				var disc = GetDiscipline(disciplineId);
 				disciplineName = disc?.DisciplineName;
 			}

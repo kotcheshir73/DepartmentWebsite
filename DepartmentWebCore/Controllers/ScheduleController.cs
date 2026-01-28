@@ -1,6 +1,7 @@
 ﻿using BaseInterfaces.ViewModels;
 using DepartmentWebCore.Models;
 using DepartmentWebCore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScheduleInterfaces.BindingModels;
 using ScheduleInterfaces.Interfaces;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 
 namespace DepartmentWebCore.Controllers
 {
+	[Authorize]
 	public class ScheduleController : Controller
     {
         private static IScheduleProcess _process;
